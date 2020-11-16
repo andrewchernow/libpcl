@@ -38,10 +38,7 @@
 #include <pcl/limits.h>
 #include <pcl/tchar.h>
 #include <Shlwapi.h>
-
-#ifdef PCL_WINDOWS
-#	include <io.h>
-#endif
+#include <io.h>
 
 #define makedev(x, y)  ((dev_t)(((x) << 24) | (y)))
 

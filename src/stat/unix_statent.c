@@ -149,7 +149,9 @@ ipcl_statent(const tchar_t *path, int fd, pcl_stat_t *buf, int flags)
 	attr.bitmapcount = ATTR_BIT_MAP_COUNT;
 	attr.commonattr = ATTR_CMN_BKUPTIME | ATTR_CMN_FNDRINFO;
 
-	if(!fgetattrlist(fd, &attr, &info, sizeof(info), opts))
+	/* use 'fd' version if fd is valid, otherwise path version */
+	if((fd >= 0 && !fgetattrlist(fd, &attr, &info, sizeof(info), opts)) ||
+		(path && !getattrlist(path, &attr, &info, sizeof(info), opts)))
 	{
 		buf->btime.sec = info.bcktime.tv_sec;
 		buf->btime.nsec = info.bcktime.tv_nsec;
