@@ -39,6 +39,7 @@ add_subdirectory(farmhash)
 add_subdirectory(file)
 add_subdirectory(htable)
 add_subdirectory(log)
+add_subdirectory(net)
 add_subdirectory(process)
 add_subdirectory(socket)
 add_subdirectory(stat)
@@ -70,6 +71,7 @@ add_library(pcl STATIC
 	$<TARGET_OBJECTS:file>
 	$<TARGET_OBJECTS:htable>
 	$<TARGET_OBJECTS:log>
+	$<TARGET_OBJECTS:net>
 	$<TARGET_OBJECTS:process>
 	$<TARGET_OBJECTS:socket>
 	$<TARGET_OBJECTS:stat>
@@ -88,7 +90,7 @@ else()
 	target_sources(pcl PRIVATE $<TARGET_OBJECTS:unix>)
 endif()
 
-target_sources(pcl PRIVATE net.c init.c ssl.c)
+target_sources(pcl PRIVATE init.c ssl.c)
 
 #target_include_directories(pcl PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
