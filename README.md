@@ -9,14 +9,9 @@ which has been tested on the following platforms:
   * Mac OS X 10.4+ (Darwin)   (x86, x86_64, PowerPC)
 
 PCL may support other Operating Systems in the future, but at this point it
-is focused on the three listed above. For example, most of PCL will run on
-FreeBSD, due to similarities with Linux and Darwin, but no porting effort
-has commenced.
+is focused on the three listed above. 
 
-PCL offers many features, too many to list here, but the highlights are
-listed below. The below just scratches the surface. Keep in mind, PCL
-is 100% pure C, there is no C++. There are some pending features that
-require C++ APIs on MS Windows, but those will be exposed as C API wrappers.
+Some note worthy features are:
 
   * Logging System
     * log event severity levels: debug, info, warn, error, fatal, panic
@@ -33,7 +28,12 @@ require C++ APIs on MS Windows, but those will be exposed as C API wrappers.
     * Unified error codes, maps OS codes to PCL codes
     * Unified error strings
     * error contexts that can be saved, swapped in or out, etc...
-    * Full backtracing: print to buffer or stream, JSON output, full mgmt.
+    * Full stack traces: print to buffer or stream. Stack traces are built manually (opt-in). 
+      If a function fails and it is known to have set the PCL error, one simply calls
+      a PCL trace function/macro. `if(call() < 0) return TRC();` this is a typical 
+      use case. It means we know `call()` already set the PCL error and we opt-in to adding
+      a trace. All SETERR* and TRC* macros return -1 by default. There are also R_SETERR*
+      and R_TRC* macros for returning something other than -1: R_TRC(NULL) for example. 
 
   * Process Management
     * pcl_proc_exec: `execvp` or `CreateProcess*`, set process owner, STD
@@ -41,19 +41,20 @@ require C++ APIs on MS Windows, but those will be exposed as C API wrappers.
       linked object, etc...
     * pcl_popen: perl like syntax "< ls -l" which reads from STDOUT, "^ ls -l"
       which reads from STDERR or "> ls -l" which writes to STDIN. NOTE: MS
-      CRT popen doesn't work unless its a command line application: no
-      WinMain/Service/Daemon support. The pcl_popen works in any environment.
+      CRT popen doesn't work unless its a command line application, while PCL's
+      popen works in any environment.
 
   * Time Functions
-    * nanosecond times: pcl_time_t with a 'sec' and 'nsec' member.
-    * high-res timers
+    * nanosecond times: `pcl_time_t` with a 'sec' and 'nsec' member.
+    * high-res timers: `pcl_clock()`
 
   * Thread/Synchronization
     * notifications of thread start and exit
     * Full TLS support
+    * Mutex support
 
   * Collections
-    * vector, stack, hash table, etc...
+    * vector, hash table (dynamic rehash to shrink or grow), dynamic string buffer, etc.
 
   * System Information
     * CPU, Storage, Memory, Process, OS version, etc...
@@ -63,10 +64,12 @@ require C++ APIs on MS Windows, but those will be exposed as C API wrappers.
     * MS Windows ACL support (SECURITY_DESCRIPTOR)
     * uid_t and gid_t implemented as SID strings on MS Windows
     * Unified struct stat called 'pcl_stat_t'
+    * creation time (birth time) is included for stats 
 
   * Sockets & SSL/TLS
     * SSL/TLS backed by OpenSSL
     * supports 2-way certificate authentication
+    * Socket API supports AF_INET, AF_INET6 and AF_UNIX SOCK_STREAMs
 
   * Memory Management
     * allocation failure callback
@@ -76,7 +79,6 @@ require C++ APIs on MS Windows, but those will be exposed as C API wrappers.
 LICENSE:
 
 The Portable C Library (PCL) is released under the Modified BSD License.
-Please see the LICENSE file included within the root of this project.
 
 
 CONTACTS/CONTRIBUTORS:
