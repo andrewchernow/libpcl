@@ -103,7 +103,7 @@ ipcl_statent(const tchar_t *path, int fd, pcl_stat_t *buf, int flags)
 		return SETLASTERR();
 
 	if(!buf)
-		return 0;
+		return 0; // exists check only
 
 	buf->size    = (int64_t)os_buf.st_size;
 	buf->rdev    = os_buf.st_rdev;
@@ -131,7 +131,9 @@ ipcl_statent(const tchar_t *path, int fd, pcl_stat_t *buf, int flags)
 
 	convert_times(buf, &os_buf);
 
-	/* grab backup time (btime) and finder info */
+	/* grab backup time (btime) and finder info: The below uses fgetattrlist if 'fd' is
+	 * valid, otherwise getattrlist using 'path'
+	 */
 #ifdef PCL_DARWIN
 	buf->flags |= os_buf.st_flags;
 
@@ -149,12 +151,11 @@ ipcl_statent(const tchar_t *path, int fd, pcl_stat_t *buf, int flags)
 	attr.bitmapcount = ATTR_BIT_MAP_COUNT;
 	attr.commonattr = ATTR_CMN_BKUPTIME | ATTR_CMN_FNDRINFO;
 
-	/* use 'fd' version if fd is valid, otherwise path version */
 	if((fd >= 0 && !fgetattrlist(fd, &attr, &info, sizeof(info), opts)) ||
 		(path && !getattrlist(path, &attr, &info, sizeof(info), opts)))
 	{
 		buf->btime.sec = info.bcktime.tv_sec;
-		buf->btime.nsec = info.bcktime.tv_nsec;
+		buf->btime.nsec = (int) info.bcktime.tv_nsec;
 		memcpy(buf->finder_info, info.finder_info, 32);
 	}
 #endif
