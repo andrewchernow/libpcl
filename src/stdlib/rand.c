@@ -1,0 +1,92 @@
+/*
+  Portable C Library (PCL)
+  Copyright (c) 1999-2003, 2005-2014, 2017-2020 Andrew Chernow
+  All rights reserved.
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are met:
+
+  * Redistributions of source code must retain the above copyright notice, this
+    list of conditions and the following disclaimer.
+
+  * Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+
+  * Neither the name of the copyright holder nor the names of its
+    contributors may be used to endorse or promote products derived from
+    this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+#include <pcl/atomic.h>
+#include <openssl/rand.h>
+
+#ifdef PCL_UNIX
+	#include <unistd.h>
+	#include <fcntl.h>
+#else
+	#include <windows.h>
+	#include <wincrypt.h>
+#endif
+
+static void
+seedprng(void)
+{
+	int count = 0;
+	char seed[16 * 1024];
+	int seed_len = (int) sizeof(seed);
+
+#ifdef PCL_WINDOWS
+	HCRYPTPROV h;
+	bool ok = CryptAcquireContext(&h, NULL, NULL,
+		PROV_RSA_FULL, CRYPT_VERIFYCONTEXT);
+
+	if(ok)
+	{
+		if(CryptGenRandom(h, seed_len, (BYTE *)seed))
+			count = seed_len;
+		CryptReleaseContext(h, 0);
+	}
+
+#else
+	int fd = open("/dev/urandom", O_RDONLY);
+
+	if(fd != -1)
+	{
+		int tot, n;
+
+		for(tot = 0; tot < seed_len; tot += n)
+			if((n = (int) read(fd, seed + tot, seed_len - tot)) < 1)
+				break;
+
+		close(fd);
+		count = tot;
+	}
+#endif
+
+	RAND_seed(seed, count);
+}
+
+int
+pcl_rand(void *buf, int num)
+{
+	static int64_t seed_when_one = 0;
+
+	if(pcl_atomic_add_fetch(&seed_when_one, 1) == 1)
+		seedprng();
+
+	RAND_bytes((unsigned char *) buf, num);
+	return num;
+}
+
