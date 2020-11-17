@@ -29,75 +29,79 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "_net.h"
+#include "_ssl.h"
 #include <pcl/vector.h>
 #include <pcl/string.h>
 
-#ifdef PCL_UNIX
-#	ifdef PCL_DARWIN
-		/* force arpa/nameser.h to include arpa/nameser_compat.h */
-#		define BIND_8_COMPAT
-#	endif
-#	include <netdb.h>
-#	include <arpa/nameser.h>
-#	include <resolv.h>
-#else
-#	include <pcl/stdlib.h>
-#	include <Windns.h>
-#endif
-
 pcl_vector_t *
-pcl_net_dnstxtrec(const char *host)
+pcl_ssl_certentry(pcl_ssl_t *ssl, int entry_type)
 {
-	pcl_vector_t *vec = NULL;
+	X509 *cert;
+	X509_NAME *name;
+	int nid;
+	int pos = -1;
+	pcl_vector_t *ents = NULL;
 
-#ifdef PCL_WINDOWS
-	DNS_RECORD *rlist = NULL;
-	DNS_STATUS status = DnsQuery_A(host, DNS_TYPE_TEXT, 0, NULL, &rlist, NULL);
-
-	if(status)
-		return R_SETOSERRMSG(NULL, status, "Cannot resolve: '%s'", host);
-
-	DNS_TXT_DATA *data = &rlist->Data.Txt;
-	vec = pcl_vector_create(data->dwStringCount, sizeof(char **), pcl_vector_cleanup_dblptr);
-
-	for(DWORD i=0; i < data->dwStringCount; i++)
+	if(ssl == NULL)
 	{
-		char *s = pcl_tcstoutf8(data->pStringArray[i], 0, NULL);
-		pcl_vector_append(vec, &s);
+		BADARG();
+		return NULL;
 	}
 
-	DnsRecordListFree(rlist, DnsFreeRecordList);
+	cert = SSL_get_peer_certificate(ssl->ssl);
+	name = X509_get_subject_name(cert);
 
-#else
-	ns_rr rr;
-	ns_msg handle;
-	uint8_t answer[65535];
-	const uint8_t *data;
-	int len = res_query(host, C_IN, T_TXT, answer, (int) sizeof(answer));
-
-	if(len == -1)
-		return R_SETERRMSG(NULL, pcl_net_dns2pcl(h_errno), "Cannot resolve: '%s'", host);
-
-	if(ns_initparse(answer, len, &handle) < 0)
-		return R_SETLASTERR(NULL);
-
-	if(ns_parserr(&handle, ns_s_an, 0, &rr))
-		return R_SETLASTERR(NULL);
-
-	vec = pcl_vector_create(4, sizeof(char **), pcl_vector_cleanup_dblptr);
-	len = ns_rr_rdlen(rr);
-	data = ns_rr_rdata(rr);
-
-	for(int n = 0; n < len;)
+	switch(entry_type)
 	{
-		int q = data[n++]; /* first byte is txt length */
-		char *txt = pcl_strndup((const char *) (data + n), q);
+		case PCL_SSL_CERT_COUNTRY_NAME:
+			nid = NID_countryName;
+			break;
 
-		pcl_vector_append(vec, &txt);
-		n += q;
+		case PCL_SSL_CERT_LOCALITY_NAME:
+			nid = NID_localityName;
+			break;
+
+		case PCL_SSL_CERT_STATE:
+			nid = NID_stateOrProvinceName;
+			break;
+
+		case PCL_SSL_CERT_ORG_NAME:
+			nid = NID_organizationName;
+			break;
+
+		case PCL_SSL_CERT_ORG_UNIT:
+			nid = NID_organizationalUnitName;
+			break;
+
+		case PCL_SSL_CERT_COMMON_NAME:
+			nid = NID_commonName;
+			break;
+
+		default:
+			SETERRMSG(PCL_ETYPE, "Unknown certificate field: %d", entry_type);
+			return NULL;
 	}
-#endif
 
-	return vec;
+	while(true)
+	{
+		ASN1_STRING *str;
+		char *value;
+
+		pos = X509_NAME_get_index_by_NID(name, nid, pos);
+		if(pos < 0)
+			break; /* end of list */
+
+		if(!ents)
+			ents = pcl_vector_create(X509_NAME_entry_count(name),
+				sizeof(char**), pcl_vector_cleanup_dblptr);
+
+		str = X509_NAME_ENTRY_get_data(X509_NAME_get_entry(name, pos));
+		value = pcl_strndup((const char *)str->data, str->length);
+		pcl_vector_append(ents, &value);
+	}
+
+	if(!ents)
+		SETERR(PCL_ENOTFOUND);
+
+	return ents;
 }

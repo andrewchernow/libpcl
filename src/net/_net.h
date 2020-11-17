@@ -42,13 +42,4 @@
 #	include <netdb.h>
 #endif
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-
-#ifdef __cplusplus
-}
-#endif
-
 #endif // LIBPCL__NET_H

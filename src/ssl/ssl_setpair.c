@@ -29,65 +29,35 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "_file.h"
-#include <pcl/error.h>
+#include "_ssl.h"
+#include <openssl/err.h>
 
 int
-ipcl_file_open(pcl_file_t *file, const tchar_t *path, int pcl_oflags, mode_t mode)
+pcl_ssl_setpair(pcl_ssl_t *ssl, const char *cert, const char *key)
 {
-	if(pcl_oflags & PCL_O_DIRECTORY)
-	{
-#ifndef O_DIRECTORY
-		sys_stat_t st;
+	if(!ssl || !ssl->ctx || strempty(cert) || strempty(key))
+		return SETERR(PCL_EINVAL);
 
-		if(stat(path, &st))
-			return SETLASTERR();
+	ERR_clear_error();
 
-		if(!S_ISDIR(st.st_mode))
-			return SETERR(PCL_ENOTDIR);
-#endif
-	}
+	if(!SSL_CTX_use_certificate_file(ssl->ctx, cert, SSL_FILETYPE_PEM))
+		return SETERRMSG(PCL_ESSL,"Failed to load certificate: '%s', %s",
+			cert, sslerror(ssl));
 
-	if(pcl_oflags & PCL_O_NOFOLLOW)
-	{
-#ifndef O_NOFOLLOW
-		sys_stat_t st;
+	if(!SSL_CTX_use_PrivateKey_file(ssl->ctx, key, SSL_FILETYPE_PEM))
+		return SETERRMSG(PCL_ESSL,"Failed to load private key: '%s', %s",
+			key, sslerror(ssl));
 
-		if(!sys_lstat(path, &st) && S_ISLNK(st.st_mode))
-			return SETERRMSG(PCL_ETYPE, "%ts is a symbolic link", path);
-#endif
-	}
+	if(!SSL_CTX_check_private_key(ssl->ctx))
+		return SETERRMSG(PCL_ESSL, "Invalid cert:key pair: '%s:%s', %s",
+			cert, key, sslerror(ssl));
 
-	if((file->fd = open(path, ipcl_sysoflags(pcl_oflags), mode)) == -1)
-		return SETLASTERR();
-
-	/* this should overwrite SHLOCK */
-	if(pcl_oflags & PCL_O_EXLOCK)
-	{
-#ifdef O_EXLOCK
-		file->flags |= PCL_FF_OLOCK; /* obtained lock through open()...OLOCK */
-#else
-		int r = pcl_flock(file, PCL_WRLOCK);
-
-		if(r)
-			return TRCMSG("file open cannot aquire lock on '%ts'", path);
-
-		file->flags |= PCL_FF_FLOCK;
-#endif
-	}
-	else if(pcl_oflags & PCL_O_SHLOCK)
-	{
-#ifdef O_SHLOCK
-		file->flags |= PCL_FF_OLOCK; /* obtained lock through open()...OLOCK */
-#else
-		int r = pcl_flock(file, PCL_RDLOCK);
-
-		if(r)
-			return TRCMSG("file open cannot aquire lock on '%ts'", path);
-
-		file->flags |= PCL_FF_FLOCK;
-#endif
-	}
+	/* only do this for clients, servers already send their certs with
+	 * SSL_VERIFY_NONE.  On clients, this forces cert requests to be sent
+	 * by server.
+	 */
+	if(!(ssl->flags & (PCL_SSL_PASSIVE | PCL_SSL_SERVER)))
+		SSL_CTX_set_verify(ssl->ctx, SSL_VERIFY_PEER, NULL);
 
 	return 0;
 }

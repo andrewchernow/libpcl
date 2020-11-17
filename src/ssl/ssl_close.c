@@ -29,65 +29,27 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "_file.h"
-#include <pcl/error.h>
+#include "_ssl.h"
+#include <pcl/socket.h>
+#include <openssl/err.h>
 
-int
-ipcl_file_open(pcl_file_t *file, const tchar_t *path, int pcl_oflags, mode_t mode)
+void
+pcl_ssl_close(pcl_ssl_t *ssl)
 {
-	if(pcl_oflags & PCL_O_DIRECTORY)
+	if(!ssl)
+		return;
+
+	if(ssl->ssl)
 	{
-#ifndef O_DIRECTORY
-		sys_stat_t st;
-
-		if(stat(path, &st))
-			return SETLASTERR();
-
-		if(!S_ISDIR(st.st_mode))
-			return SETERR(PCL_ENOTDIR);
-#endif
+		SSL_shutdown(ssl->ssl);
+		SSL_free(ssl->ssl);
+		ssl->ssl = NULL;
 	}
 
-	if(pcl_oflags & PCL_O_NOFOLLOW)
-	{
-#ifndef O_NOFOLLOW
-		sys_stat_t st;
+	if(ssl->err.msg)
+		*ssl->err.msg = 0;
 
-		if(!sys_lstat(path, &st) && S_ISLNK(st.st_mode))
-			return SETERRMSG(PCL_ETYPE, "%ts is a symbolic link", path);
-#endif
-	}
-
-	if((file->fd = open(path, ipcl_sysoflags(pcl_oflags), mode)) == -1)
-		return SETLASTERR();
-
-	/* this should overwrite SHLOCK */
-	if(pcl_oflags & PCL_O_EXLOCK)
-	{
-#ifdef O_EXLOCK
-		file->flags |= PCL_FF_OLOCK; /* obtained lock through open()...OLOCK */
-#else
-		int r = pcl_flock(file, PCL_WRLOCK);
-
-		if(r)
-			return TRCMSG("file open cannot aquire lock on '%ts'", path);
-
-		file->flags |= PCL_FF_FLOCK;
-#endif
-	}
-	else if(pcl_oflags & PCL_O_SHLOCK)
-	{
-#ifdef O_SHLOCK
-		file->flags |= PCL_FF_OLOCK; /* obtained lock through open()...OLOCK */
-#else
-		int r = pcl_flock(file, PCL_RDLOCK);
-
-		if(r)
-			return TRCMSG("file open cannot aquire lock on '%ts'", path);
-
-		file->flags |= PCL_FF_FLOCK;
-#endif
-	}
-
-	return 0;
+	pcl_socket_close(ssl->sock);
+	ssl->sock = NULL;
+	ERR_clear_error();
 }

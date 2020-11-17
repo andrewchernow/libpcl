@@ -29,65 +29,29 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "_file.h"
-#include <pcl/error.h>
+#include "_ssl.h"
+#include <pcl/socket.h>
+#include <pcl/stdlib.h>
 
-int
-ipcl_file_open(pcl_file_t *file, const tchar_t *path, int pcl_oflags, mode_t mode)
+pcl_ssl_t *
+pcl_ssl_accept(pcl_ssl_t *server)
 {
-	if(pcl_oflags & PCL_O_DIRECTORY)
-	{
-#ifndef O_DIRECTORY
-		sys_stat_t st;
+	pcl_ssl_t *client;
+	pcl_socket_t *sock;
 
-		if(stat(path, &st))
-			return SETLASTERR();
+	if(!server || !(server->flags & PCL_SSL_PASSIVE))
+		return R_SETERRMSG(NULL, PCL_EINVAL, "Not a passive SSL socket", 0);
 
-		if(!S_ISDIR(st.st_mode))
-			return SETERR(PCL_ENOTDIR);
-#endif
-	}
+	if(!(sock = pcl_accept(server->sock)))
+		return R_TRC(NULL);
 
-	if(pcl_oflags & PCL_O_NOFOLLOW)
-	{
-#ifndef O_NOFOLLOW
-		sys_stat_t st;
+	client = pcl_zalloc(sizeof(pcl_ssl_t));
+	client->flags = PCL_SSL_SERVER | (server->flags & PCL_SOCK_NONBLOCK);
+	client->sock = sock;
+	ipcl_ssl_configure_socket(client, NULL, 0);
 
-		if(!sys_lstat(path, &st) && S_ISLNK(st.st_mode))
-			return SETERRMSG(PCL_ETYPE, "%ts is a symbolic link", path);
-#endif
-	}
+	client->ssl = SSL_new(server->ctx);
+	SSL_set_fd(client->ssl, (int) pcl_socket_fd(client->sock));
 
-	if((file->fd = open(path, ipcl_sysoflags(pcl_oflags), mode)) == -1)
-		return SETLASTERR();
-
-	/* this should overwrite SHLOCK */
-	if(pcl_oflags & PCL_O_EXLOCK)
-	{
-#ifdef O_EXLOCK
-		file->flags |= PCL_FF_OLOCK; /* obtained lock through open()...OLOCK */
-#else
-		int r = pcl_flock(file, PCL_WRLOCK);
-
-		if(r)
-			return TRCMSG("file open cannot aquire lock on '%ts'", path);
-
-		file->flags |= PCL_FF_FLOCK;
-#endif
-	}
-	else if(pcl_oflags & PCL_O_SHLOCK)
-	{
-#ifdef O_SHLOCK
-		file->flags |= PCL_FF_OLOCK; /* obtained lock through open()...OLOCK */
-#else
-		int r = pcl_flock(file, PCL_RDLOCK);
-
-		if(r)
-			return TRCMSG("file open cannot aquire lock on '%ts'", path);
-
-		file->flags |= PCL_FF_FLOCK;
-#endif
-	}
-
-	return 0;
+	return client;
 }

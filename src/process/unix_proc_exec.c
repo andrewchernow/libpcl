@@ -45,28 +45,28 @@
 #endif
 
 #define CLOSE_FILES do{ \
-	if(exec->f_stdin) \
-		pcl_close(exec->f_stdin); \
-	if(exec->f_stdout) \
-		pcl_close(exec->f_stdout); \
-	if(exec->f_stderr) \
-		pcl_close(exec->f_stderr); \
-	exec->f_stdin = exec->f_stdout = exec->f_stderr = NULL;\
+  if(exec->f_stdin) \
+    pcl_close(exec->f_stdin); \
+  if(exec->f_stdout) \
+    pcl_close(exec->f_stdout); \
+  if(exec->f_stderr) \
+    pcl_close(exec->f_stderr); \
+  exec->f_stdin = exec->f_stdout = exec->f_stderr = NULL;\
 }while(0)
 
 #define CLOSE_FDS do{ \
-	if(child_stdin_fd != -1) \
-		close(child_stdin_fd); \
-	if(child_stdout_fd != -1) \
-		close(child_stdout_fd); \
-	if(child_stderr_fd != -1) \
-		close(child_stderr_fd); \
-	child_stdin_fd = child_stderr_fd = child_stdout_fd = -1; \
+  if(child_stdin_fd != -1) \
+    close(child_stdin_fd); \
+  if(child_stdout_fd != -1) \
+    close(child_stdout_fd); \
+  if(child_stderr_fd != -1) \
+    close(child_stderr_fd); \
+  child_stdin_fd = child_stderr_fd = child_stdout_fd = -1; \
 }while(0)
 
 #define CLOSE_ALL do{ \
-	CLOSE_FDS; \
-	CLOSE_FILES; \
+  CLOSE_FDS; \
+  CLOSE_FILES; \
 }while(0)
 
 static int
@@ -79,16 +79,16 @@ create_stdio_pipes(int flags, int *rd, int *wr)
 
 	if(flags & PCL_PREX_NONBLOCK)
 	{
-		(void)fcntl(fds[0], F_SETFL, fcntl(fds[0], F_GETFL, 0) | O_NONBLOCK);
-		(void)fcntl(fds[1], F_SETFL, fcntl(fds[1], F_GETFL, 0) | O_APPEND | O_NONBLOCK);
+		(void) fcntl(fds[0], F_SETFL, fcntl(fds[0], F_GETFL, 0) | O_NONBLOCK);
+		(void) fcntl(fds[1], F_SETFL, fcntl(fds[1], F_GETFL, 0) | O_APPEND | O_NONBLOCK);
 	}
 	else
 	{
-		(void)fcntl(fds[1], F_SETFL, fcntl(fds[1], F_GETFL, 0) | O_APPEND);
+		(void) fcntl(fds[1], F_SETFL, fcntl(fds[1], F_GETFL, 0) | O_APPEND);
 	}
 
 	if(flags & PCL_PREX_CLOEXEC)
-		(void)fcntl(fds[1], F_SETFD, FD_CLOEXEC);
+		(void) fcntl(fds[1], F_SETFD, FD_CLOEXEC);
 
 	*rd = fds[0];
 	*wr = fds[1];
@@ -149,17 +149,17 @@ pcl_proc_exec(pcl_proc_exec_t *exec, int flags)
 		 * is how pcl_proc_exec() would send this to the shell for builtin `printf`.
 		 */
 		tmp_argv[tmp_argc++] = "-c";
-		tmp_argv[tmp_argc++] = (tchar_t*)exec->command;
+		tmp_argv[tmp_argc++] = (tchar_t *) exec->command;
 
 		/* free old argv */
 		pcl_proc_freeargv(argc, argv);
 
 		/* allocate a new argv */
 		argc = tmp_argc;
-		argv = (tchar_t **)pcl_malloc((argc + 1) * sizeof(tchar_t *));
+		argv = (tchar_t **) pcl_malloc((argc + 1) * sizeof(tchar_t *));
 
 		/* allocate each argv element */
-		for(int i=0; i < argc; i++)
+		for(int i = 0; i < argc; i++)
 			argv[i] = pcl_tcsdup(tmp_argv[i]);
 
 		/* must NULL terminate for execvp */
@@ -234,7 +234,7 @@ pcl_proc_exec(pcl_proc_exec_t *exec, int flags)
 		/* read err code written when execvp fails.  Otherwise, this will
 		 * return zero (EOF/broken-pipe) since child sets FD_CLOEXEC.
 		 */
-		if(read(fds[0], &err, sizeof(err)) == (ssize_t)sizeof(err))
+		if(read(fds[0], &err, sizeof(err)) == (ssize_t) sizeof(err))
 			CLOSE_FILES;
 		else
 			exec->start = pcl_time(); /* real start time, not when forked */
@@ -252,7 +252,7 @@ pcl_proc_exec(pcl_proc_exec_t *exec, int flags)
 	/* If execvp works, fds[1] should be closed, causing parent's
 	 * read to return 0 (broken pipe)
 	 */
-	(void)fcntl(fds[1], F_SETFD, FD_CLOEXEC);
+	(void) fcntl(fds[1], F_SETFD, FD_CLOEXEC);
 
 	/* parent using this, child doesn't need it */
 	close(fds[0]);
@@ -294,7 +294,7 @@ pcl_proc_exec(pcl_proc_exec_t *exec, int flags)
 			_exit(1);
 		}
 
-		if(initgroups(exec->user, (gid_t)uid))
+		if(initgroups(exec->user, (gid_t) uid))
 		{
 			TRC();
 			pcl_err_fprintf(stderr, 0, "Cannot init group access list for command: "
@@ -324,7 +324,7 @@ pcl_proc_exec(pcl_proc_exec_t *exec, int flags)
 		}
 	}
 
-	if(uid != (uid_t)-1 && setuid(uid))
+	if(uid != (uid_t) -1 && setuid(uid))
 	{
 		TRC();
 		pcl_err_fprintf(stderr, 0, "Invalid username for command: "
@@ -363,7 +363,7 @@ pcl_proc_exec(pcl_proc_exec_t *exec, int flags)
 	/* NOTE: execvp will search system PATH if command doesn't contain a '/'.
 	 * Thus, callee should avoid paths with '/' for a shell PATH search.
 	 */
-	if(err == 0 && execvp(argv[0], (char *const *)argv))
+	if(err == 0 && execvp(argv[0], (char *const *) argv))
 		err = pcl_err_os2pcl(errno);
 
 	/* NEVER GETS HERE IF `execvp` SUCCEEDED !!!
@@ -371,7 +371,7 @@ pcl_proc_exec(pcl_proc_exec_t *exec, int flags)
 	 * tell parent there is an error, its waiting on read end of pipe
 	 */
 	if(write(fds[1], &err, sizeof(err)) < 0)
-		(void)0;//do what exactly? this just quiets GCC, who cares since execvp failed
+		(void) 0;//do what exactly? this just quiets GCC, who cares since execvp failed
 
 	close(fds[1]);
 	_exit(1);

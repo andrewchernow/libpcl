@@ -29,65 +29,49 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "_file.h"
-#include <pcl/error.h>
+#include "_ssl.h"
+#include <openssl/err.h>
+#include <pcl/stdlib.h>
+#include <pcl/stdio.h>
+#include <string.h>
+
+static int
+sslerror_cb(const char *str, size_t _len, void *ssl_err)
+{
+	pcl_openssl_error_t *err = ssl_err;
+	int len = (int)_len, msg_len = err->msg ? (int)strlen(err->msg) : 0;
+
+	/* remove *annoying* LF */
+	char *p = strrchr(str, '\n');
+	if(p) len = (int)(p - str);
+
+	/* grow when needed, add 5 for " .. \0". NOTE: err->msg is reused for life
+	 * of pcl_ssl_t object, so cache msg and size; avoiding future reallocs.
+	 */
+	size_t size = msg_len + len + 5;
+	if(size > err->size)
+		err->msg = pcl_realloc(err->msg, err->size = size);
+
+	/* append 'str' to err->msg, separate using " .. " */
+	(void)pcl_sprintf(err->msg + msg_len, err->size - msg_len, "%s%.*s",
+		msg_len > 0 ? " .. " : "", len, str);
+
+	return 1; /* 1 to continue error iteration, 0 to stop (from OpenSSL docs) */
+}
 
 int
-ipcl_file_open(pcl_file_t *file, const tchar_t *path, int pcl_oflags, mode_t mode)
+pcl_openssl_error(pcl_openssl_error_t *err)
 {
-	if(pcl_oflags & PCL_O_DIRECTORY)
-	{
-#ifndef O_DIRECTORY
-		sys_stat_t st;
+	if(!err)
+		return BADARG();
 
-		if(stat(path, &st))
-			return SETLASTERR();
+	err->code = ERR_peek_error();
 
-		if(!S_ISDIR(st.st_mode))
-			return SETERR(PCL_ENOTDIR);
-#endif
-	}
+	if(err->msg)
+		*err->msg = 0;
+	else
+		err->size = 0;
 
-	if(pcl_oflags & PCL_O_NOFOLLOW)
-	{
-#ifndef O_NOFOLLOW
-		sys_stat_t st;
-
-		if(!sys_lstat(path, &st) && S_ISLNK(st.st_mode))
-			return SETERRMSG(PCL_ETYPE, "%ts is a symbolic link", path);
-#endif
-	}
-
-	if((file->fd = open(path, ipcl_sysoflags(pcl_oflags), mode)) == -1)
-		return SETLASTERR();
-
-	/* this should overwrite SHLOCK */
-	if(pcl_oflags & PCL_O_EXLOCK)
-	{
-#ifdef O_EXLOCK
-		file->flags |= PCL_FF_OLOCK; /* obtained lock through open()...OLOCK */
-#else
-		int r = pcl_flock(file, PCL_WRLOCK);
-
-		if(r)
-			return TRCMSG("file open cannot aquire lock on '%ts'", path);
-
-		file->flags |= PCL_FF_FLOCK;
-#endif
-	}
-	else if(pcl_oflags & PCL_O_SHLOCK)
-	{
-#ifdef O_SHLOCK
-		file->flags |= PCL_FF_OLOCK; /* obtained lock through open()...OLOCK */
-#else
-		int r = pcl_flock(file, PCL_RDLOCK);
-
-		if(r)
-			return TRCMSG("file open cannot aquire lock on '%ts'", path);
-
-		file->flags |= PCL_FF_FLOCK;
-#endif
-	}
-
+	ERR_print_errors_cb(sslerror_cb, err);
 	return 0;
 }

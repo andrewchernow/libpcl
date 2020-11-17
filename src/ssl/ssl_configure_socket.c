@@ -29,64 +29,33 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "_file.h"
-#include <pcl/error.h>
+#include "_ssl.h"
+#include <pcl/socket.h>
 
 int
-ipcl_file_open(pcl_file_t *file, const tchar_t *path, int pcl_oflags, mode_t mode)
+ipcl_ssl_configure_socket(pcl_ssl_t *ssl, const char *host, int port)
 {
-	if(pcl_oflags & PCL_O_DIRECTORY)
+	int n = 65535;
+
+	if(host)
 	{
-#ifndef O_DIRECTORY
-		sys_stat_t st;
-
-		if(stat(path, &st))
-			return SETLASTERR();
-
-		if(!S_ISDIR(st.st_mode))
-			return SETERR(PCL_ENOTDIR);
-#endif
+		ssl->sock = pcl_socket(host, port);
+		if(!ssl->sock)
+			return TRCMSG("Failed to create socket: host=%s port=%d", host, port);
 	}
 
-	if(pcl_oflags & PCL_O_NOFOLLOW)
+	if(ssl->flags & PCL_SOCK_NONBLOCK)
+		pcl_socket_setnonblocking(ssl->sock, true);
+
+	pcl_socketfd_t fd = pcl_socket_fd(ssl->sock);
+
+	(void)setsockopt(fd, SOL_SOCKET, SO_RCVBUF, (const char *)&n, sizeof(int));
+	(void)setsockopt(fd, SOL_SOCKET, SO_SNDBUF, (const char *)&n, sizeof(int));
+
+	if(ssl->flags & PCL_SSL_PASSIVE)
 	{
-#ifndef O_NOFOLLOW
-		sys_stat_t st;
-
-		if(!sys_lstat(path, &st) && S_ISLNK(st.st_mode))
-			return SETERRMSG(PCL_ETYPE, "%ts is a symbolic link", path);
-#endif
-	}
-
-	if((file->fd = open(path, ipcl_sysoflags(pcl_oflags), mode)) == -1)
-		return SETLASTERR();
-
-	/* this should overwrite SHLOCK */
-	if(pcl_oflags & PCL_O_EXLOCK)
-	{
-#ifdef O_EXLOCK
-		file->flags |= PCL_FF_OLOCK; /* obtained lock through open()...OLOCK */
-#else
-		int r = pcl_flock(file, PCL_WRLOCK);
-
-		if(r)
-			return TRCMSG("file open cannot aquire lock on '%ts'", path);
-
-		file->flags |= PCL_FF_FLOCK;
-#endif
-	}
-	else if(pcl_oflags & PCL_O_SHLOCK)
-	{
-#ifdef O_SHLOCK
-		file->flags |= PCL_FF_OLOCK; /* obtained lock through open()...OLOCK */
-#else
-		int r = pcl_flock(file, PCL_RDLOCK);
-
-		if(r)
-			return TRCMSG("file open cannot aquire lock on '%ts'", path);
-
-		file->flags |= PCL_FF_FLOCK;
-#endif
+		n=1;
+		(void)setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, (const char *)&n, sizeof(int));
 	}
 
 	return 0;

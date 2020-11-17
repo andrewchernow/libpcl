@@ -29,64 +29,65 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "_file.h"
-#include <pcl/error.h>
+#include "_ssl.h"
+#include <openssl/err.h>
 
 int
-ipcl_file_open(pcl_file_t *file, const tchar_t *path, int pcl_oflags, mode_t mode)
+pcl_ssl_handshake(pcl_ssl_t *ssl, int *want_io)
 {
-	if(pcl_oflags & PCL_O_DIRECTORY)
+	int x;
+
+	if(!want_io)
+		want_io = &x;
+	*want_io = 0;
+
+	if(!(ssl->flags & PCL_SSL_SERVER))
+		return SETERR(PCL_EINVAL);
+
+	ERR_clear_error();
+	switch(SSL_get_error(ssl->ssl, SSL_accept(ssl->ssl)))
 	{
-#ifndef O_DIRECTORY
-		sys_stat_t st;
+		case SSL_ERROR_NONE:
+			break;
 
-		if(stat(path, &st))
-			return SETLASTERR();
+		case SSL_ERROR_ZERO_RETURN:
+			SETERRMSG(PCL_ECONNRESET, "%s", sslerror(ssl));
+			pcl_ssl_close(ssl);
+			return -1;
 
-		if(!S_ISDIR(st.st_mode))
-			return SETERR(PCL_ENOTDIR);
-#endif
-	}
+		case SSL_ERROR_WANT_READ:
+			*want_io = PCL_SSL_WANTREAD;
+			return SETERR(PCL_EAGAIN);
 
-	if(pcl_oflags & PCL_O_NOFOLLOW)
-	{
-#ifndef O_NOFOLLOW
-		sys_stat_t st;
+		case SSL_ERROR_WANT_WRITE:
+			*want_io = PCL_SSL_WANTWRITE;
+			return SETERR(PCL_EAGAIN);
 
-		if(!sys_lstat(path, &st) && S_ISLNK(st.st_mode))
-			return SETERRMSG(PCL_ETYPE, "%ts is a symbolic link", path);
-#endif
-	}
+		case SSL_ERROR_SYSCALL:
+		{
+			const char *e = sslerror(ssl);
 
-	if((file->fd = open(path, ipcl_sysoflags(pcl_oflags), mode)) == -1)
-		return SETLASTERR();
+			if(e)
+				SETLASTERRMSG("%s", e);
+			else
+				SETLASTERR();
 
-	/* this should overwrite SHLOCK */
-	if(pcl_oflags & PCL_O_EXLOCK)
-	{
-#ifdef O_EXLOCK
-		file->flags |= PCL_FF_OLOCK; /* obtained lock through open()...OLOCK */
-#else
-		int r = pcl_flock(file, PCL_WRLOCK);
+			pcl_ssl_close(ssl);
+			return -1;
+		}
 
-		if(r)
-			return TRCMSG("file open cannot aquire lock on '%ts'", path);
+		default:
+		{
+			const char *e = sslerror(ssl);
 
-		file->flags |= PCL_FF_FLOCK;
-#endif
-	}
-	else if(pcl_oflags & PCL_O_SHLOCK)
-	{
-#ifdef O_SHLOCK
-		file->flags |= PCL_FF_OLOCK; /* obtained lock through open()...OLOCK */
-#else
-		int r = pcl_flock(file, PCL_RDLOCK);
+			if(e)
+				SETERRMSG(PCL_ESSL, "%s", e);
+			else
+				SETERR(PCL_ESSL);
 
-		if(r)
-			return TRCMSG("file open cannot aquire lock on '%ts'", path);
-
-		file->flags |= PCL_FF_FLOCK;
-#endif
+			pcl_ssl_close(ssl);
+			return -1;
+		}
 	}
 
 	return 0;

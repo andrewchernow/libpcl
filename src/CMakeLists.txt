@@ -42,6 +42,7 @@ add_subdirectory(log)
 add_subdirectory(net)
 add_subdirectory(process)
 add_subdirectory(socket)
+add_subdirectory(ssl)
 add_subdirectory(stat)
 add_subdirectory(stdio)
 add_subdirectory(stdlib)
@@ -74,6 +75,7 @@ add_library(pcl STATIC
 	$<TARGET_OBJECTS:net>
 	$<TARGET_OBJECTS:process>
 	$<TARGET_OBJECTS:socket>
+	$<TARGET_OBJECTS:ssl>
 	$<TARGET_OBJECTS:stat>
 	$<TARGET_OBJECTS:stdio>
 	$<TARGET_OBJECTS:stdlib>
@@ -90,7 +92,7 @@ else()
 	target_sources(pcl PRIVATE $<TARGET_OBJECTS:unix>)
 endif()
 
-target_sources(pcl PRIVATE init.c ssl.c)
+target_sources(pcl PRIVATE init.c)
 
 #target_include_directories(pcl PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
