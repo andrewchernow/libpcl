@@ -1,7 +1,8 @@
 
 # OVERVIEW
 
-The Portable C Library (PCL) is a library of cross-platform C code. 
+The Portable C Library (PCL) is a library of cross-platform C code. It is designed for use on 
+Microsoft Windows, Mac OS X and Linux x86/x86_64 platforms.
 
 To view the documentation, please visit the [PCL Wiki](https://github.com/andrewchernow/libpcl/wiki).
 
