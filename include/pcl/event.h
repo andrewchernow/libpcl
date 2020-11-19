@@ -78,7 +78,7 @@
 #define PCL_EVENT_POSTINT 2
 
 /** User-defined events should be greater than or equal to this value */
-#define PCL_EVENT_USERBASE 100
+#define PCL_EVENT_USERBASE 10
 
 #ifdef __cplusplus
 extern "C" {

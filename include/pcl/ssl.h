@@ -78,15 +78,6 @@ enum
  */
 PCL_EXPORT pcl_ssl_t *pcl_ssl_create(int flags, ...);
 
-/* closes the connection and does some reseting, but can be reused.
- * use pcl_ssl_free() to completely wipe out an pcl_ssl_t object.
- */
-PCL_EXPORT void pcl_ssl_close(pcl_ssl_t *ssl);
-
-PCL_EXPORT void pcl_ssl_free(pcl_ssl_t *ssl);
-
-
-
 /* Connects to the server's host and port.  If want_io is provided,
  * it will point to PCL_SSL_WANTREAD or PCL_SSL_WANTWRITE when the SSL socket
  * is non-blocking and the operation would block if continued.
@@ -112,6 +103,13 @@ PCL_EXPORT int pcl_ssl_recv(pcl_ssl_t *ssl, void *buf, size_t len);
  * make any progress.
  */
 PCL_EXPORT int pcl_ssl_send(pcl_ssl_t *ssl, const void *data, size_t len);
+
+/* closes the connection and does some reseting, but can be reused.
+ * use pcl_ssl_free() to completely wipe out an pcl_ssl_t object.
+ */
+PCL_EXPORT void pcl_ssl_close(pcl_ssl_t *ssl);
+
+PCL_EXPORT void pcl_ssl_free(pcl_ssl_t *ssl);
 
 PCL_EXPORT X509 *pcl_ssl_peercert(pcl_ssl_t *ssl);
 

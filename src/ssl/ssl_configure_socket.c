@@ -49,13 +49,13 @@ ipcl_ssl_configure_socket(pcl_ssl_t *ssl, const char *host, int port)
 
 	pcl_socketfd_t fd = pcl_socket_fd(ssl->sock);
 
-	(void)setsockopt(fd, SOL_SOCKET, SO_RCVBUF, (const char *)&n, sizeof(int));
-	(void)setsockopt(fd, SOL_SOCKET, SO_SNDBUF, (const char *)&n, sizeof(int));
+	(void) setsockopt(fd, SOL_SOCKET, SO_RCVBUF, (const char *) &n, sizeof(int));
+	(void) setsockopt(fd, SOL_SOCKET, SO_SNDBUF, (const char *) &n, sizeof(int));
 
 	if(ssl->flags & PCL_SSL_PASSIVE)
 	{
-		n=1;
-		(void)setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, (const char *)&n, sizeof(int));
+		n = 1;
+		(void) setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, (const char *) &n, sizeof(int));
 	}
 
 	return 0;
