@@ -33,12 +33,12 @@
 #ifndef LIBPCL_VECTOR_H
 #define LIBPCL_VECTOR_H
 
-/* NOTE: When storing pointers, you need to store a double pointer.
- * The most common use case is for a vector of strings.
+/* NOTE: When storing pointers, you need to store a double pointer. The most common use case is
+ * for a vector of strings.
  *
  * Example:
  * char *elem = pcl_strdup("something");
- * pcl_vector_insert(v, (const void *)&elem, v->elemcnt);// or pcl_vector_append(v, &elem)
+ * pcl_vector_insert(v, (const void *)&elem, v->count);// or pcl_vector_append(v, &elem)
  *
  * // Make sure to dereference when getting elements like these
  * char *elem = *(char **)pcl_vector_get(v, 0);
@@ -57,15 +57,24 @@ typedef void (*pcl_vector_cleanup_t)(pcl_vector_t *v, void *elem);
 
 struct tag_pcl_vector
 {
-	int count;      /* number of elements in vector */
-	int capacity;   /* allocation size, as number of elements */
-	size_t size;    /* size in bytes of an element */
+	/** number of elements in vector */
+	int count;
+
+	/** allocation size, as number of elements */
+	int capacity;
+
+	/** size in bytes of an element */
+	size_t size;
+
+	/** Element array. This is always (capacity * size) bytes */
 	char *elems;
 
-	/* element cleanup.  Optionally, one can set cleanup_ptr and access it
-	 * within the cleanup() callback: myobj *o = (myobj *)v->cleanup_ptr.
- 	 */
+	/** Optional user-defined pointer passed to the cleanup callback. */
 	void *cleanup_ptr;
+
+	/** Element cleanup callback. Optionally, one can set cleanup_ptr and access it
+	 * within the cleanup() callback: `myobj *o = (myobj *)v->cleanup_ptr;`.
+ 	 */
 	pcl_vector_cleanup_t cleanup;
 };
 

@@ -103,16 +103,14 @@ struct tag_pcl_htable
 	bool (*key_equals)(const char *key1, const char *key2, void *userp);
 
 	/** Compute a 32 or 64-bit hash code for the given key. Google's farmhash is used as the
-	 * default hashfunc for both 32 and 64-bit architectures. It is highly recommened to NOT
-	 * use a 64-bit code on 32-bit machines.
+	 * default hashfunc for both 32 and 64-bit architectures. Note that you cannot use a 64-bit
+	 * hash code on 32-bit machines, this is by design.
 	 */
 	uintptr_t (*hashcode)(const char *key, void *userp);
 };
 
-/** Creates a new hash table object. All hash table callbacks are set to NULL, using the
- * default implementations as documented. After creating a hash table, you can assign callbacks
- * and a user pointer as needed.
- *
+/** Creates a new hash table object. All hash table callbacks are set to the default
+ * implementations as documented. After creating a hash table, you can assign callbacks.
  * @param capacity initial capacity of hash table. This is rounded up to the nearest prime.
  * @return hash table pointer or NULL on error.
  */
@@ -165,9 +163,11 @@ PCL_EXPORT pcl_vector_t *pcl_htable_keys(pcl_htable_t *ht);
  */
 PCL_EXPORT void pcl_htable_clear(pcl_htable_t *ht, bool shrink);
 
-/* If remove_entry callback was supplied, it will be called for each entry
- * currently within the hash table. Always returns NULL, which makes a
- * free and set NULL operation one statement: `ht = pcl_htable_free(ht);`
+/** Release all resources used by the given hash table.
+ * If a remove_entry callback is set on the given hash table, it will be called for each entry.
+ * @param ht
+ * @return always returns NULL, which is useful as an assignment and free in a single line:
+ * `my_obj->ht = pcl_htable_free(ht)`
  */
 PCL_EXPORT void *pcl_htable_free(pcl_htable_t *ht);
 
