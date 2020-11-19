@@ -1,15 +1,29 @@
 
 # OVERVIEW
 
-The Portable C Library (PCL) is a library of cross-platform C code. To view the documentation, 
-please visit the [PCL Wiki](https://github.com/andrewchernow/libpcl/wiki).
+The Portable C Library (PCL) is a library of cross-platform C code. 
+
+To view the documentation, please visit the [PCL Wiki](https://github.com/andrewchernow/libpcl/wiki).
+
+### LICENSE
+The Portable C Library ("PCL") is released under the Modified BSD License. Please refer to the
+LICENSE file in the root of the PCL project. The license can also be found at the top of every 
+source file within the PCL project.
+
+
+### CONTRIBUTORS
+
+Andrew Chernow <achernow@gmail.com>
+
+
+### AUTHORS
+
+Andrew Chernow <achernow@gmail.com>
 
 
 
 
-
-
-
+<!--
 Some note worthy features are:
 
   * Logging System
@@ -75,16 +89,4 @@ Some note worthy features are:
     * safe allocate/free functions (suffixed with '_s')
 
 
-LICENSE:
-
-The Portable C Library (PCL) is released under the Modified BSD License.
-
-
-CONTACTS/CONTRIBUTORS:
-
-Andrew Chernow <achernow@gmail.com>
-
-
-AUTHORS:
-
-Andrew Chernow
+-->
