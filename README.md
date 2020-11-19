@@ -38,7 +38,8 @@ It is recommended to use PCL's pcl_tmain function which maps to `wmain` on Windo
 If an application wants to receive the `PCL_EVENT_INIT` event, it must populate a `pcl_init_t`
 structure and pass it to `pcl_init`. An application would want the `PCL_EVENT_INIT` event if
 it has to perform intialization before any other code is executed: like creating a mutex
-or some TLS storage.  Below is an example:
+or some TLS storage. See [PCL Events](/andrewchernow/libpcl/tree/master/src/event/README.md) 
+for more information.
 
 ```c
 // First Example: demonstrates utilizing pcl_init_t
