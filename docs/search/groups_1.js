@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['vector_1816',['Vector',['../a00099.html',1,'']]]
+  ['dynamic_20buffer_1811',['Dynamic Buffer',['../a00099.html',1,'']]],
+  ['directory_20management_1812',['Directory Management',['../a00100.html',1,'']]]
 ];

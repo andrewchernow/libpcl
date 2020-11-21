@@ -121,79 +121,93 @@ $(document).ready(function(){initNavTree('a00020_source.html',''); initResizable
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#ifndef LIBPCL_DIRENT_H</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#define LIBPCL_DIRENT_H</span></div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00086.html">pcl/types.h</a>&gt;</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#ifdef PCL_UNIX</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">  #include &lt;dirent.h&gt;</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="a00020.html#a293ce58a2d39f35c52f7f4516a857057">   41</a></span>&#160;<span class="preprocessor">  #define DT_UNKNOWN 0</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="a00020.html#a6fabe696c35bf34daa67931b4c245c7d">   42</a></span>&#160;<span class="preprocessor">  #define DT_FIFO    1</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="a00020.html#a7d0095c3caf2c334bf222608d02576d7">   43</a></span>&#160;<span class="preprocessor">  #define DT_CHR     2</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="a00020.html#a1dcee67486bc4238096ecb61e2d9ffd1">   44</a></span>&#160;<span class="preprocessor">  #define DT_DIR     4</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="a00020.html#a212cebbaad682bc6c3bf798c8749abc5">   45</a></span>&#160;<span class="preprocessor">  #define DT_BLK     6</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="a00020.html#a9973595cf6775b1b29d7274ab4c0d623">   46</a></span>&#160;<span class="preprocessor">  #define DT_REG     8</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="a00020.html#aa70b5cb1d9c30b1830cb6a5e835231c6">   47</a></span>&#160;<span class="preprocessor">  #define DT_LNK    10</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="a00020.html#aaa6ed2fc54836a2c7d9b698923705f5e">   48</a></span>&#160;<span class="preprocessor">  #define DT_SOCK   12</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="a00020.html#a9584ba1798d7454f4f63433418ba8798">   49</a></span>&#160;<span class="preprocessor">  #define DT_WHT    14</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#ifndef DIRBLKSIZ</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="a00020.html#ab53ea546c6bdeb0921a74544e8b6108d">   57</a></span>&#160;<span class="preprocessor">  #define DIRBLKSIZ 1024</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="a00103.html">   60</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;{</div>
-<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="a00103.html#a1d127017fb298b889f4ba24752d08b8e">   62</a></span>&#160;  uint8_t <a class="code" href="a00103.html#a1d127017fb298b889f4ba24752d08b8e">type</a>;</div>
-<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="a00103.html#a3c1a24d621dff9b9918019a25768f615">   63</a></span>&#160;  uint16_t <a class="code" href="a00103.html#a3c1a24d621dff9b9918019a25768f615">namlen</a>;</div>
-<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="a00103.html#a78817982903eeea4d48f40840690e1be">   64</a></span>&#160;  <a class="code" href="a00077.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> name[<a class="code" href="a00020.html#ab53ea546c6bdeb0921a74544e8b6108d">DIRBLKSIZ</a>];</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;} <a class="code" href="a00103.html">pcl_dirent_t</a>;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
-<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="a00020.html#a1ce6197ab99a5053659e4d72b19d5a9d">   67</a></span>&#160;PCL_EXPORT DIR *<a class="code" href="a00020.html#a1ce6197ab99a5053659e4d72b19d5a9d">pcl_opendir</a>(<span class="keyword">const</span> <a class="code" href="a00077.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *path);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="a00020.html#a170c4b172f92df9e2eb0b17413c3274a">   69</a></span>&#160;PCL_EXPORT <span class="keywordtype">bool</span> <a class="code" href="a00020.html#a170c4b172f92df9e2eb0b17413c3274a">pcl_readdir</a>(DIR *dp, <a class="code" href="a00103.html">pcl_dirent_t</a> *ent);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="a00020.html#a2519e389ef953bdf592917acca6dd767">   71</a></span>&#160;PCL_EXPORT <span class="keywordtype">void</span> <a class="code" href="a00020.html#a2519e389ef953bdf592917acca6dd767">pcl_closedir</a>(DIR *dp);</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="a00020.html#ad69addc53647b240ff1dabe0d07b3eb9">   78</a></span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00020.html#ad69addc53647b240ff1dabe0d07b3eb9">pcl_rmdir</a>(<span class="keyword">const</span> <a class="code" href="a00077.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *path);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
-<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="a00020.html#ad0b0beaa64e497b87c5079f6b8d8ec47">   84</a></span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00020.html#ad0b0beaa64e497b87c5079f6b8d8ec47">pcl_rmdir_r</a>(<span class="keyword">const</span> <a class="code" href="a00077.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *path);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00090"></a><span class="lineno"><a class="line" href="a00020.html#a794189788111930c3af711121c12c67e">   90</a></span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00020.html#a794189788111930c3af711121c12c67e">pcl_chdir</a>(<span class="keyword">const</span> <a class="code" href="a00077.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *path);</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
-<div class="line"><a name="l00097"></a><span class="lineno"><a class="line" href="a00020.html#aaaf11f44d616bb1ad9474a49623eff59">   97</a></span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00020.html#aaaf11f44d616bb1ad9474a49623eff59">pcl_mkdir</a>(<span class="keyword">const</span> <a class="code" href="a00077.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *path, mode_t mode);</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00086.html">pcl/types.h</a>&gt;</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="preprocessor">#ifdef PCL_UNIX</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="preprocessor"># include &lt;dirent.h&gt;</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="preprocessor">#else</span></div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
-<div class="line"><a name="l00104"></a><span class="lineno"><a class="line" href="a00020.html#a51a72b0f247201ae8f25a32b6c523384">  104</a></span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00020.html#a51a72b0f247201ae8f25a32b6c523384">pcl_mkdirs</a>(<span class="keyword">const</span> <a class="code" href="a00077.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *path, mode_t mode);</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;}</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="preprocessor">#endif //LIBPCL_DIRENT_H</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno"><a class="line" href="a00100.html#ga293ce58a2d39f35c52f7f4516a857057">   99</a></span>&#160;<span class="preprocessor"># define DT_UNKNOWN 0</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
+<div class="line"><a name="l00101"></a><span class="lineno"><a class="line" href="a00100.html#ga6fabe696c35bf34daa67931b4c245c7d">  101</a></span>&#160;<span class="preprocessor"># define DT_FIFO    1</span></div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
+<div class="line"><a name="l00103"></a><span class="lineno"><a class="line" href="a00100.html#ga7d0095c3caf2c334bf222608d02576d7">  103</a></span>&#160;<span class="preprocessor"># define DT_CHR     2</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
+<div class="line"><a name="l00105"></a><span class="lineno"><a class="line" href="a00100.html#ga1dcee67486bc4238096ecb61e2d9ffd1">  105</a></span>&#160;<span class="preprocessor"># define DT_DIR     4</span></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
+<div class="line"><a name="l00107"></a><span class="lineno"><a class="line" href="a00100.html#ga212cebbaad682bc6c3bf798c8749abc5">  107</a></span>&#160;<span class="preprocessor"># define DT_BLK     6</span></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
+<div class="line"><a name="l00109"></a><span class="lineno"><a class="line" href="a00100.html#ga9973595cf6775b1b29d7274ab4c0d623">  109</a></span>&#160;<span class="preprocessor"># define DT_REG     8</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
+<div class="line"><a name="l00111"></a><span class="lineno"><a class="line" href="a00100.html#gaa70b5cb1d9c30b1830cb6a5e835231c6">  111</a></span>&#160;<span class="preprocessor"># define DT_LNK    10</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
+<div class="line"><a name="l00113"></a><span class="lineno"><a class="line" href="a00100.html#gaaa6ed2fc54836a2c7d9b698923705f5e">  113</a></span>&#160;<span class="preprocessor"># define DT_SOCK   12</span></div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
+<div class="line"><a name="l00115"></a><span class="lineno"><a class="line" href="a00100.html#ga9584ba1798d7454f4f63433418ba8798">  115</a></span>&#160;<span class="preprocessor"># define DT_WHT    14</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; </div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="preprocessor">#ifndef DIRBLKSIZ</span></div>
+<div class="line"><a name="l00123"></a><span class="lineno"><a class="line" href="a00100.html#gab53ea546c6bdeb0921a74544e8b6108d">  123</a></span>&#160;<span class="preprocessor">  #define DIRBLKSIZ 1024</span></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160; </div>
+<div class="line"><a name="l00127"></a><span class="lineno"><a class="line" href="a00106.html">  127</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct</span></div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;{</div>
+<div class="line"><a name="l00130"></a><span class="lineno"><a class="line" href="a00106.html#a1d127017fb298b889f4ba24752d08b8e">  130</a></span>&#160;  uint8_t <a class="code" href="a00106.html#a1d127017fb298b889f4ba24752d08b8e">type</a>;</div>
+<div class="line"><a name="l00132"></a><span class="lineno"><a class="line" href="a00106.html#a3c1a24d621dff9b9918019a25768f615">  132</a></span>&#160;  uint16_t <a class="code" href="a00106.html#a3c1a24d621dff9b9918019a25768f615">namlen</a>;</div>
+<div class="line"><a name="l00134"></a><span class="lineno"><a class="line" href="a00106.html#a78817982903eeea4d48f40840690e1be">  134</a></span>&#160;  <a class="code" href="a00077.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> name[<a class="code" href="a00100.html#gab53ea546c6bdeb0921a74544e8b6108d">DIRBLKSIZ</a>];</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;} <a class="code" href="a00106.html">pcl_dirent_t</a>;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160; </div>
+<div class="line"><a name="l00142"></a><span class="lineno"><a class="line" href="a00100.html#ga0a76354190773bba4b5d049c695baec6">  142</a></span>&#160;PCL_EXPORT <a class="code" href="a00100.html#ga630bd7c310ec017b8880a1c328a2db9d">pcl_dir_t</a> *<a class="code" href="a00100.html#ga0a76354190773bba4b5d049c695baec6">pcl_opendir</a>(<span class="keyword">const</span> <a class="code" href="a00077.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *path);</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160; </div>
+<div class="line"><a name="l00150"></a><span class="lineno"><a class="line" href="a00100.html#ga508bd6828cbd742b98d83b4fc62ac0fb">  150</a></span>&#160;PCL_EXPORT <span class="keyword">const</span> <a class="code" href="a00077.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *<a class="code" href="a00100.html#ga508bd6828cbd742b98d83b4fc62ac0fb">pcl_dir_path</a>(<a class="code" href="a00100.html#ga630bd7c310ec017b8880a1c328a2db9d">pcl_dir_t</a> *dir, <span class="keywordtype">int</span> *lenp);</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160; </div>
+<div class="line"><a name="l00160"></a><span class="lineno"><a class="line" href="a00100.html#ga12c0f9a0e5f0d41bd409507abb0a6ac2">  160</a></span>&#160;PCL_EXPORT <span class="keywordtype">bool</span> <a class="code" href="a00100.html#ga12c0f9a0e5f0d41bd409507abb0a6ac2">pcl_readdir</a>(<a class="code" href="a00100.html#ga630bd7c310ec017b8880a1c328a2db9d">pcl_dir_t</a> *dir, <a class="code" href="a00106.html">pcl_dirent_t</a> *ent, <a class="code" href="a00146.html">pcl_stat_t</a> *st);</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160; </div>
+<div class="line"><a name="l00165"></a><span class="lineno"><a class="line" href="a00100.html#gaa484d019a2f4e64c27eaa7815d989742">  165</a></span>&#160;PCL_EXPORT <span class="keywordtype">void</span> <a class="code" href="a00100.html#gaa484d019a2f4e64c27eaa7815d989742">pcl_closedir</a>(<a class="code" href="a00100.html#ga630bd7c310ec017b8880a1c328a2db9d">pcl_dir_t</a> *dir);</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160; </div>
+<div class="line"><a name="l00172"></a><span class="lineno"><a class="line" href="a00100.html#gad69addc53647b240ff1dabe0d07b3eb9">  172</a></span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00100.html#gad69addc53647b240ff1dabe0d07b3eb9">pcl_rmdir</a>(<span class="keyword">const</span> <a class="code" href="a00077.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *path);</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160; </div>
+<div class="line"><a name="l00178"></a><span class="lineno"><a class="line" href="a00100.html#gad0b0beaa64e497b87c5079f6b8d8ec47">  178</a></span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00100.html#gad0b0beaa64e497b87c5079f6b8d8ec47">pcl_rmdir_r</a>(<span class="keyword">const</span> <a class="code" href="a00077.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *path);</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160; </div>
+<div class="line"><a name="l00184"></a><span class="lineno"><a class="line" href="a00100.html#ga794189788111930c3af711121c12c67e">  184</a></span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00100.html#ga794189788111930c3af711121c12c67e">pcl_chdir</a>(<span class="keyword">const</span> <a class="code" href="a00077.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *path);</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160; </div>
+<div class="line"><a name="l00191"></a><span class="lineno"><a class="line" href="a00100.html#gaaaf11f44d616bb1ad9474a49623eff59">  191</a></span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00100.html#gaaaf11f44d616bb1ad9474a49623eff59">pcl_mkdir</a>(<span class="keyword">const</span> <a class="code" href="a00077.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *path, mode_t mode);</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160; </div>
+<div class="line"><a name="l00198"></a><span class="lineno"><a class="line" href="a00100.html#ga51a72b0f247201ae8f25a32b6c523384">  198</a></span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00100.html#ga51a72b0f247201ae8f25a32b6c523384">pcl_mkdirs</a>(<span class="keyword">const</span> <a class="code" href="a00077.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *path, mode_t mode);</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160; </div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;}</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160; </div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;<span class="preprocessor">#endif //LIBPCL_DIRENT_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aa00103_html"><div class="ttname"><a href="a00103.html">pcl_dirent_t</a></div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00060">dir.h:61</a></div></div>
+<div class="ttc" id="aa00106_html_a3c1a24d621dff9b9918019a25768f615"><div class="ttname"><a href="a00106.html#a3c1a24d621dff9b9918019a25768f615">pcl_dirent_t::namlen</a></div><div class="ttdeci">uint16_t namlen</div><div class="ttdoc">character length (excluding NUL) of the entry's file name</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00132">dir.h:132</a></div></div>
 <div class="ttc" id="aa00086_html"><div class="ttname"><a href="a00086.html">types.h</a></div></div>
-<div class="ttc" id="aa00020_html_a51a72b0f247201ae8f25a32b6c523384"><div class="ttname"><a href="a00020.html#a51a72b0f247201ae8f25a32b6c523384">pcl_mkdirs</a></div><div class="ttdeci">PCL_EXPORT int pcl_mkdirs(const tchar_t *path, mode_t mode)</div><div class="ttdoc">Create a directory including any absent parents.</div></div>
-<div class="ttc" id="aa00020_html_ab53ea546c6bdeb0921a74544e8b6108d"><div class="ttname"><a href="a00020.html#ab53ea546c6bdeb0921a74544e8b6108d">DIRBLKSIZ</a></div><div class="ttdeci">#define DIRBLKSIZ</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00057">dir.h:57</a></div></div>
-<div class="ttc" id="aa00020_html_a1ce6197ab99a5053659e4d72b19d5a9d"><div class="ttname"><a href="a00020.html#a1ce6197ab99a5053659e4d72b19d5a9d">pcl_opendir</a></div><div class="ttdeci">PCL_EXPORT DIR * pcl_opendir(const tchar_t *path)</div></div>
-<div class="ttc" id="aa00103_html_a3c1a24d621dff9b9918019a25768f615"><div class="ttname"><a href="a00103.html#a3c1a24d621dff9b9918019a25768f615">pcl_dirent_t::namlen</a></div><div class="ttdeci">uint16_t namlen</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00063">dir.h:63</a></div></div>
-<div class="ttc" id="aa00020_html_a794189788111930c3af711121c12c67e"><div class="ttname"><a href="a00020.html#a794189788111930c3af711121c12c67e">pcl_chdir</a></div><div class="ttdeci">PCL_EXPORT int pcl_chdir(const tchar_t *path)</div><div class="ttdoc">Change the current working directory.</div></div>
-<div class="ttc" id="aa00020_html_a170c4b172f92df9e2eb0b17413c3274a"><div class="ttname"><a href="a00020.html#a170c4b172f92df9e2eb0b17413c3274a">pcl_readdir</a></div><div class="ttdeci">PCL_EXPORT bool pcl_readdir(DIR *dp, pcl_dirent_t *ent)</div></div>
-<div class="ttc" id="aa00020_html_ad69addc53647b240ff1dabe0d07b3eb9"><div class="ttname"><a href="a00020.html#ad69addc53647b240ff1dabe0d07b3eb9">pcl_rmdir</a></div><div class="ttdeci">PCL_EXPORT int pcl_rmdir(const tchar_t *path)</div><div class="ttdoc">Remove a directory, which must be empty.</div></div>
+<div class="ttc" id="aa00100_html_gaaaf11f44d616bb1ad9474a49623eff59"><div class="ttname"><a href="a00100.html#gaaaf11f44d616bb1ad9474a49623eff59">pcl_mkdir</a></div><div class="ttdeci">PCL_EXPORT int pcl_mkdir(const tchar_t *path, mode_t mode)</div></div>
+<div class="ttc" id="aa00100_html_ga0a76354190773bba4b5d049c695baec6"><div class="ttname"><a href="a00100.html#ga0a76354190773bba4b5d049c695baec6">pcl_opendir</a></div><div class="ttdeci">PCL_EXPORT pcl_dir_t * pcl_opendir(const tchar_t *path)</div><div class="ttdoc">Open a directory.</div></div>
+<div class="ttc" id="aa00100_html_ga51a72b0f247201ae8f25a32b6c523384"><div class="ttname"><a href="a00100.html#ga51a72b0f247201ae8f25a32b6c523384">pcl_mkdirs</a></div><div class="ttdeci">PCL_EXPORT int pcl_mkdirs(const tchar_t *path, mode_t mode)</div><div class="ttdoc">Create a directory including any absent parents.</div></div>
+<div class="ttc" id="aa00106_html_a1d127017fb298b889f4ba24752d08b8e"><div class="ttname"><a href="a00106.html#a1d127017fb298b889f4ba24752d08b8e">pcl_dirent_t::type</a></div><div class="ttdeci">uint8_t type</div><div class="ttdoc">type of entry: DT_REG, DT_DIR, etc</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00130">dir.h:130</a></div></div>
+<div class="ttc" id="aa00100_html_ga630bd7c310ec017b8880a1c328a2db9d"><div class="ttname"><a href="a00100.html#ga630bd7c310ec017b8880a1c328a2db9d">pcl_dir_t</a></div><div class="ttdeci">struct tag_pcl_dir pcl_dir_t</div><div class="ttdoc">Directory handle.</div><div class="ttdef"><b>Definition:</b> <a href="a00086_source.html#l00059">types.h:69</a></div></div>
+<div class="ttc" id="aa00100_html_gad69addc53647b240ff1dabe0d07b3eb9"><div class="ttname"><a href="a00100.html#gad69addc53647b240ff1dabe0d07b3eb9">pcl_rmdir</a></div><div class="ttdeci">PCL_EXPORT int pcl_rmdir(const tchar_t *path)</div><div class="ttdoc">Remove a directory.</div></div>
+<div class="ttc" id="aa00100_html_ga12c0f9a0e5f0d41bd409507abb0a6ac2"><div class="ttname"><a href="a00100.html#ga12c0f9a0e5f0d41bd409507abb0a6ac2">pcl_readdir</a></div><div class="ttdeci">PCL_EXPORT bool pcl_readdir(pcl_dir_t *dir, pcl_dirent_t *ent, pcl_stat_t *st)</div><div class="ttdoc">Read an entry from a directory handle.</div></div>
+<div class="ttc" id="aa00146_html"><div class="ttname"><a href="a00146.html">tag_pcl_stat</a></div><div class="ttdef"><b>Definition:</b> <a href="a00062_source.html#l00221">stat.h:222</a></div></div>
+<div class="ttc" id="aa00100_html_ga794189788111930c3af711121c12c67e"><div class="ttname"><a href="a00100.html#ga794189788111930c3af711121c12c67e">pcl_chdir</a></div><div class="ttdeci">PCL_EXPORT int pcl_chdir(const tchar_t *path)</div><div class="ttdoc">Change the current working directory.</div></div>
+<div class="ttc" id="aa00106_html"><div class="ttname"><a href="a00106.html">pcl_dirent_t</a></div><div class="ttdoc">Directory entry object.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00127">dir.h:128</a></div></div>
 <div class="ttc" id="aa00077_html_a7589c2eb4da44bc1c8e4d094798e7f0b"><div class="ttname"><a href="a00077.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a></div><div class="ttdeci">char tchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00077_source.html#l00090">tchar.h:90</a></div></div>
-<div class="ttc" id="aa00020_html_a2519e389ef953bdf592917acca6dd767"><div class="ttname"><a href="a00020.html#a2519e389ef953bdf592917acca6dd767">pcl_closedir</a></div><div class="ttdeci">PCL_EXPORT void pcl_closedir(DIR *dp)</div></div>
-<div class="ttc" id="aa00020_html_ad0b0beaa64e497b87c5079f6b8d8ec47"><div class="ttname"><a href="a00020.html#ad0b0beaa64e497b87c5079f6b8d8ec47">pcl_rmdir_r</a></div><div class="ttdeci">PCL_EXPORT int pcl_rmdir_r(const tchar_t *path)</div><div class="ttdoc">Recursively remove a directory.</div></div>
-<div class="ttc" id="aa00020_html_aaaf11f44d616bb1ad9474a49623eff59"><div class="ttname"><a href="a00020.html#aaaf11f44d616bb1ad9474a49623eff59">pcl_mkdir</a></div><div class="ttdeci">PCL_EXPORT int pcl_mkdir(const tchar_t *path, mode_t mode)</div></div>
-<div class="ttc" id="aa00103_html_a1d127017fb298b889f4ba24752d08b8e"><div class="ttname"><a href="a00103.html#a1d127017fb298b889f4ba24752d08b8e">pcl_dirent_t::type</a></div><div class="ttdeci">uint8_t type</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00062">dir.h:62</a></div></div>
+<div class="ttc" id="aa00100_html_ga508bd6828cbd742b98d83b4fc62ac0fb"><div class="ttname"><a href="a00100.html#ga508bd6828cbd742b98d83b4fc62ac0fb">pcl_dir_path</a></div><div class="ttdeci">PCL_EXPORT const tchar_t * pcl_dir_path(pcl_dir_t *dir, int *lenp)</div><div class="ttdoc">Get a directory handle's path.</div></div>
+<div class="ttc" id="aa00100_html_gad0b0beaa64e497b87c5079f6b8d8ec47"><div class="ttname"><a href="a00100.html#gad0b0beaa64e497b87c5079f6b8d8ec47">pcl_rmdir_r</a></div><div class="ttdeci">PCL_EXPORT int pcl_rmdir_r(const tchar_t *path)</div><div class="ttdoc">Recursively remove a directory.</div></div>
+<div class="ttc" id="aa00100_html_gaa484d019a2f4e64c27eaa7815d989742"><div class="ttname"><a href="a00100.html#gaa484d019a2f4e64c27eaa7815d989742">pcl_closedir</a></div><div class="ttdeci">PCL_EXPORT void pcl_closedir(pcl_dir_t *dir)</div><div class="ttdoc">Close a directory handle.</div></div>
+<div class="ttc" id="aa00100_html_gab53ea546c6bdeb0921a74544e8b6108d"><div class="ttname"><a href="a00100.html#gab53ea546c6bdeb0921a74544e8b6108d">DIRBLKSIZ</a></div><div class="ttdeci">#define DIRBLKSIZ</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00123">dir.h:123</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_e4fbad692486c3448e8889bf14d613e1.html">&#x202A;pcl</a></li><li class="navelem"><a class="el" href="a00020.html">&#x202A;dir.h</a></li>
-    <li class="footer">Generated on Fri Nov 20 2020 10:01:54 for &#x202A;libpcl by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
+    <li class="footer">Generated on Sat Nov 21 2020 15:10:34 for &#x202A;libpcl by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
   </ul>
 </div>
 </body>

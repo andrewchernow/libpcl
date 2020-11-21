@@ -1,11 +1,8 @@
 var a00098 =
 [
-    [ "\u202Atag_pcl_init", "a00123.html", [
-      [ "\u202Aargc", "a00123.html#ad1447518f4372828b8435ae82e48499e", null ],
-      [ "\u202Aargv", "a00123.html#ad4dfe535e2663b3152bbe4bdaa4671fd", null ],
-      [ "\u202Auserp", "a00123.html#a7b5ec388916c74aa0010ca29022c72d2", null ],
-      [ "\u202Aregister_handlers", "a00123.html#aaa454bf3d5702de620f830dd5f666601", null ]
-    ] ],
-    [ "\u202Apcl_init_t", "a00098.html#ga7a641e0257b3f3196a37027a469a717f", null ],
-    [ "\u202Apcl_init", "a00098.html#ga91610a8542428e422d2dcbdafcb02d1d", null ]
+    [ "\u202Apcl_atomic_exchange", "a00098.html#gadc542702390a36078c857f2de6aa18d4", null ],
+    [ "\u202Apcl_atomic_add_fetch", "a00098.html#ga291441b4ea0e2aa1948c7a5247b82954", null ],
+    [ "\u202Apcl_atomic_fetch_add", "a00098.html#ga8c165c06fb31d754be57b5f21388713b", null ],
+    [ "\u202Apcl_atomic_compare_exchange", "a00098.html#ga34af0613ba0410c12142d8b7f201f59c", null ],
+    [ "\u202Apcl_atomic_fetch", "a00098.html#ga9c63906173d6bfc73f9466cff3f64f8a", null ]
 ];

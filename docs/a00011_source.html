@@ -120,57 +120,47 @@ $(document).ready(function(){initNavTree('a00011_source.html',''); initResizable
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#ifndef LIBPCL_ATOMIC_H__</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#define LIBPCL_ATOMIC_H__</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00086.html">pcl/types.h</a>&gt;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;PCL_EXPORT <a class="code" href="a00086.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a></div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="a00011.html#adc542702390a36078c857f2de6aa18d4">   43</a></span>&#160;<a class="code" href="a00011.html#adc542702390a36078c857f2de6aa18d4">pcl_atomic_exchange</a>(<a class="code" href="a00086.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a> *dest, <a class="code" href="a00086.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a> val);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment">/* Adds &#39;add&#39; to *dest and returns the result of the operation.</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment"> * Set &#39;add&#39; to a negative number to subtract from *dest.</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;PCL_EXPORT <a class="code" href="a00086.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a></div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="a00011.html#a291441b4ea0e2aa1948c7a5247b82954">   49</a></span>&#160;<a class="code" href="a00011.html#a291441b4ea0e2aa1948c7a5247b82954">pcl_atomic_add_fetch</a>(<a class="code" href="a00086.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a> *dest, <a class="code" href="a00086.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a> add);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment">/* Adds &#39;add&#39; to *value and returns the initial value of *dest.</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment"> * Set &#39;add&#39; to a negative number to subtract from *dest: returns new &#39;value&#39;</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;PCL_EXPORT <a class="code" href="a00086.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a></div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="a00011.html#a8c165c06fb31d754be57b5f21388713b">   55</a></span>&#160;<a class="code" href="a00011.html#a8c165c06fb31d754be57b5f21388713b">pcl_atomic_fetch_add</a>(<a class="code" href="a00086.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a> *dest, <a class="code" href="a00086.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a> add);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment">/* Compares the value of &#39;*dest&#39; with &#39;expected&#39; and if equal, writes &#39;desired&#39;</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment"> * to &#39;*dest&#39;. If not equal, no operation/write is performed. Returns the</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment"> * contents of *dest in either case.</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;PCL_EXPORT <a class="code" href="a00086.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a></div>
-<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="a00011.html#a34af0613ba0410c12142d8b7f201f59c">   62</a></span>&#160;<a class="code" href="a00011.html#a34af0613ba0410c12142d8b7f201f59c">pcl_atomic_compare_exchange</a>(<a class="code" href="a00086.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a> *dest, <a class="code" href="a00086.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a> expected, <a class="code" href="a00086.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a> desired);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="comment">/* Reads and returns the current value of *dest */</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;PCL_EXPORT <a class="code" href="a00086.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a></div>
-<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="a00011.html#a9c63906173d6bfc73f9466cff3f64f8a">   66</a></span>&#160;<a class="code" href="a00011.html#a9c63906173d6bfc73f9466cff3f64f8a">pcl_atomic_fetch</a>(<a class="code" href="a00086.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a> *dest);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;}</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor">#endif //LIBPCL_ATOMIC_H__</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00086.html">pcl/types.h</a>&gt;</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="a00098.html#gadc542702390a36078c857f2de6aa18d4">   53</a></span>&#160;PCL_EXPORT <a class="code" href="a00086.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a> <a class="code" href="a00098.html#gadc542702390a36078c857f2de6aa18d4">pcl_atomic_exchange</a>(<a class="code" href="a00086.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a> *dest, <a class="code" href="a00086.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a> val);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="a00098.html#ga291441b4ea0e2aa1948c7a5247b82954">   60</a></span>&#160;PCL_EXPORT <a class="code" href="a00086.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a> <a class="code" href="a00098.html#ga291441b4ea0e2aa1948c7a5247b82954">pcl_atomic_add_fetch</a>(<a class="code" href="a00086.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a> *dest, <a class="code" href="a00086.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a> add);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="a00098.html#ga8c165c06fb31d754be57b5f21388713b">   67</a></span>&#160;PCL_EXPORT <a class="code" href="a00086.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a> <a class="code" href="a00098.html#ga8c165c06fb31d754be57b5f21388713b">pcl_atomic_fetch_add</a>(<a class="code" href="a00086.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a> *dest, <a class="code" href="a00086.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a> add);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment">/* Compares the value of &#39;*dest&#39; with &#39;expected&#39; and if equal, writes &#39;desired&#39;</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="comment"> * to &#39;*dest&#39;. If not equal, no operation/write is performed. Returns the</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment"> * contents of *dest in either case.</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="a00098.html#ga34af0613ba0410c12142d8b7f201f59c">   80</a></span>&#160;PCL_EXPORT <a class="code" href="a00086.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a> <a class="code" href="a00098.html#ga34af0613ba0410c12142d8b7f201f59c">pcl_atomic_compare_exchange</a>(<a class="code" href="a00086.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a> *dest, <a class="code" href="a00086.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a> expected,</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  <a class="code" href="a00086.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a> desired);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="a00098.html#ga9c63906173d6bfc73f9466cff3f64f8a">   87</a></span>&#160;PCL_EXPORT <a class="code" href="a00086.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a> <a class="code" href="a00098.html#ga9c63906173d6bfc73f9466cff3f64f8a">pcl_atomic_fetch</a>(<a class="code" href="a00086.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a> *dest);</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;}</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="preprocessor">#endif //LIBPCL_ATOMIC_H__</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aa00011_html_adc542702390a36078c857f2de6aa18d4"><div class="ttname"><a href="a00011.html#adc542702390a36078c857f2de6aa18d4">pcl_atomic_exchange</a></div><div class="ttdeci">PCL_EXPORT pcl_atomic_t pcl_atomic_exchange(pcl_atomic_t *dest, pcl_atomic_t val)</div><div class="ttdoc">Sets *dest to val and returns the initial contents of *dest.</div></div>
 <div class="ttc" id="aa00086_html"><div class="ttname"><a href="a00086.html">types.h</a></div></div>
-<div class="ttc" id="aa00011_html_a291441b4ea0e2aa1948c7a5247b82954"><div class="ttname"><a href="a00011.html#a291441b4ea0e2aa1948c7a5247b82954">pcl_atomic_add_fetch</a></div><div class="ttdeci">PCL_EXPORT pcl_atomic_t pcl_atomic_add_fetch(pcl_atomic_t *dest, pcl_atomic_t add)</div></div>
-<div class="ttc" id="aa00011_html_a8c165c06fb31d754be57b5f21388713b"><div class="ttname"><a href="a00011.html#a8c165c06fb31d754be57b5f21388713b">pcl_atomic_fetch_add</a></div><div class="ttdeci">PCL_EXPORT pcl_atomic_t pcl_atomic_fetch_add(pcl_atomic_t *dest, pcl_atomic_t add)</div></div>
-<div class="ttc" id="aa00011_html_a9c63906173d6bfc73f9466cff3f64f8a"><div class="ttname"><a href="a00011.html#a9c63906173d6bfc73f9466cff3f64f8a">pcl_atomic_fetch</a></div><div class="ttdeci">PCL_EXPORT pcl_atomic_t pcl_atomic_fetch(pcl_atomic_t *dest)</div></div>
+<div class="ttc" id="aa00098_html_ga291441b4ea0e2aa1948c7a5247b82954"><div class="ttname"><a href="a00098.html#ga291441b4ea0e2aa1948c7a5247b82954">pcl_atomic_add_fetch</a></div><div class="ttdeci">PCL_EXPORT pcl_atomic_t pcl_atomic_add_fetch(pcl_atomic_t *dest, pcl_atomic_t add)</div><div class="ttdoc">Performs an add and fetch operation.</div></div>
+<div class="ttc" id="aa00098_html_gadc542702390a36078c857f2de6aa18d4"><div class="ttname"><a href="a00098.html#gadc542702390a36078c857f2de6aa18d4">pcl_atomic_exchange</a></div><div class="ttdeci">PCL_EXPORT pcl_atomic_t pcl_atomic_exchange(pcl_atomic_t *dest, pcl_atomic_t val)</div><div class="ttdoc">Performs an atomic exchange operation.</div></div>
 <div class="ttc" id="aa00086_html_a74a9f3e3e5163485365adb35c5030f65"><div class="ttname"><a href="a00086.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a></div><div class="ttdeci">int64_t pcl_atomic_t</div><div class="ttdef"><b>Definition:</b> <a href="a00086_source.html#l00058">types.h:58</a></div></div>
-<div class="ttc" id="aa00011_html_a34af0613ba0410c12142d8b7f201f59c"><div class="ttname"><a href="a00011.html#a34af0613ba0410c12142d8b7f201f59c">pcl_atomic_compare_exchange</a></div><div class="ttdeci">PCL_EXPORT pcl_atomic_t pcl_atomic_compare_exchange(pcl_atomic_t *dest, pcl_atomic_t expected, pcl_atomic_t desired)</div></div>
+<div class="ttc" id="aa00098_html_ga8c165c06fb31d754be57b5f21388713b"><div class="ttname"><a href="a00098.html#ga8c165c06fb31d754be57b5f21388713b">pcl_atomic_fetch_add</a></div><div class="ttdeci">PCL_EXPORT pcl_atomic_t pcl_atomic_fetch_add(pcl_atomic_t *dest, pcl_atomic_t add)</div><div class="ttdoc">Performs a fetch and add.</div></div>
+<div class="ttc" id="aa00098_html_ga34af0613ba0410c12142d8b7f201f59c"><div class="ttname"><a href="a00098.html#ga34af0613ba0410c12142d8b7f201f59c">pcl_atomic_compare_exchange</a></div><div class="ttdeci">PCL_EXPORT pcl_atomic_t pcl_atomic_compare_exchange(pcl_atomic_t *dest, pcl_atomic_t expected, pcl_atomic_t desired)</div><div class="ttdoc">Performs a compare and exhange operation.</div></div>
+<div class="ttc" id="aa00098_html_ga9c63906173d6bfc73f9466cff3f64f8a"><div class="ttname"><a href="a00098.html#ga9c63906173d6bfc73f9466cff3f64f8a">pcl_atomic_fetch</a></div><div class="ttdeci">PCL_EXPORT pcl_atomic_t pcl_atomic_fetch(pcl_atomic_t *dest)</div><div class="ttdoc">Performs an atomic fetch (load) operation.</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_e4fbad692486c3448e8889bf14d613e1.html">&#x202A;pcl</a></li><li class="navelem"><a class="el" href="a00011.html">&#x202A;atomic.h</a></li>
-    <li class="footer">Generated on Fri Nov 20 2020 10:01:54 for &#x202A;libpcl by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
+    <li class="footer">Generated on Sat Nov 21 2020 15:10:34 for &#x202A;libpcl by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
   </ul>
 </div>
 </body>
