@@ -3,7 +3,6 @@ var globals_dup =
     [ "_", "globals.html", null ],
     [ "\u202Ab", "globals_b.html", null ],
     [ "\u202Ac", "globals_c.html", null ],
-    [ "\u202Ad", "globals_d.html", null ],
     [ "\u202Ai", "globals_i.html", null ],
     [ "\u202Al", "globals_l.html", null ],
     [ "\u202Am", "globals_m.html", null ],
