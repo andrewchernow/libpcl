@@ -186,16 +186,16 @@ Binary Mode</h3>
 <div class="fragment"><div class="line"><a class="code" href="a00099.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *buf = <a class="code" href="a00099.html#gac40c52e8ec6e2aecf2dc6688001a8897">pcl_buf_init</a>(NULL, 64, <span class="keyword">false</span>);</div>
 <div class="line"> </div>
 <div class="line"><a class="code" href="a00099.html#ga72adb6570d003454cbfcd0027b537491">pcl_buf_putstr</a>(buf, <span class="stringliteral">&quot;Hello&quot;</span>); <span class="comment">// buffer contents: &quot;Hello\0\0&quot;</span></div>
-<div class="line"><a class="code" href="a00099.html#ga72adb6570d003454cbfcd0027b537491">pcl_buf_putstr</a>(buf, <span class="stringliteral">&quot;World&quot;</span>); <span class="comment">// buffer contains: &quot;Hello\0World\0\0&quot;</span></div>
+<div class="line"><a class="code" href="a00099.html#ga72adb6570d003454cbfcd0027b537491">pcl_buf_putstr</a>(buf, <span class="stringliteral">&quot;World&quot;</span>); <span class="comment">// buffer contents: &quot;Hello\0World\0\0&quot;</span></div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// binary mode only, &quot;Hello\0World\0[32 bits in network-byte order]\0&quot;</span></div>
 <div class="line"><a class="code" href="a00099.html#ga9bf250160d7b553a52360f6f2cf380b8">pcl_buf_putint32</a>(buf, 3897463623);</div>
 <div class="line"> </div>
 <div class="line"><a class="code" href="a00099.html#ga24846b7d3984813e0d3755f6c0f1ea44">pcl_buf_free</a>(buf);</div>
-</div><!-- fragment --><p class="DocNodeLTR">Binary mode supports putting and getting integer types: 8-bit, 16-bit, 32-bit and 64-bit. In all case, integer types are written to the buffer in network-byte order.</p>
+</div><!-- fragment --><p class="DocNodeLTR">Binary mode supports putting and getting integer types: 8-bit, 16-bit, 32-bit and 64-bit. In all cases, integer types are written to the buffer in network-byte order.</p>
 <h3 class="DocNodeLTR"><a class="anchor" id="autotoc_md4"></a>
 Text Mode</h3>
-<p class="DocNodeLTR">In text mode, the buffer is an array of bytes: string buffer. In this mode, integer types cannot be used and those function will return an error. Strings are written without a trailing NUL byte. </p><div class="fragment"><div class="line"><a class="code" href="a00099.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> buf; <span class="comment">// use stack memory</span></div>
+<p class="DocNodeLTR">In text mode, the buffer is an array of bytes: string buffer. In this mode, integer types cannot be used and those functions will return an error. Strings are written without a trailing NUL byte. </p><div class="fragment"><div class="line"><a class="code" href="a00099.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> buf; <span class="comment">// use stack memory</span></div>
 <div class="line"> </div>
 <div class="line"><a class="code" href="a00099.html#gac40c52e8ec6e2aecf2dc6688001a8897">pcl_buf_init</a>(&amp;buf, 64, <span class="keyword">true</span>);</div>
 <div class="line"> </div>
@@ -205,7 +205,7 @@ Text Mode</h3>
 <div class="line"><span class="keywordtype">int</span> len;</div>
 <div class="line"><span class="keywordtype">char</span> *text = <a class="code" href="a00099.html#ga0954b131ac0063f22728f0a945ef7214">pcl_buf_data</a>(&amp;buf, &amp;len); <span class="comment">// len is optional</span></div>
 <div class="line"> </div>
-<div class="line">printf(<span class="stringliteral">&quot;%d] %s\n&quot;</span>, len, text);</div>
+<div class="line">printf(<span class="stringliteral">&quot;%d] %s\n&quot;</span>, len, text); <span class="comment">// 10] HelloWorld</span></div>
 <div class="line"> </div>
 <div class="line"><a class="code" href="a00099.html#ga60cc80b080cfda8e6f958fe23f44f634">pcl_buf_clear</a>(&amp;buf); <span class="comment">// &#39;text&#39; invalid</span></div>
 </div><!-- fragment --><p class="DocNodeLTR">Once all text data has been put, the data buffer can be retreived using <a class="el" href="a00099.html#ga0954b131ac0063f22728f0a945ef7214" title="&#x202A;Get the buffer&#39;s data.">pcl_buf_data</a>. The returned pointer is a NUL terminated string. It is very common to use the <code>printf</code> style buffer functions while in text mode but can also be used in binary. </p>
@@ -1227,7 +1227,7 @@ Text Mode</h3>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Nov 21 2020 15:21:15 for &#x202A;libpcl by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
+    <li class="footer">Generated on Sat Nov 21 2020 15:25:01 for &#x202A;libpcl by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
   </ul>
 </div>
 </body>
