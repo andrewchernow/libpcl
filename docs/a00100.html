@@ -16,6 +16,11 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -29,6 +34,21 @@
    </div>
    <div id="projectbrief">&#x202A;Portable C Library</div>
   </td>
+   <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.svg"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -40,16 +60,6 @@
 var searchBox = new SearchBox("searchBox", "search",false,'Search');
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-$(function() {
-  initMenu('',true,false,'search.php','Search');
-  $(document).ready(function() { init_search(); });
-});
-/* @license-end */</script>
-<div id="main-nav"></div>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -97,8 +107,8 @@ $(document).ready(function(){initNavTree('a00100.html',''); initResizable(); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Data Structures</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00106.html">pcl_dirent_t</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Directory entry object.  <a href="a00106.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00110.html">pcl_dirent_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Directory entry object.  <a href="a00110.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
@@ -111,14 +121,20 @@ Typedefs</h2></td></tr>
 Enumerations</h2></td></tr>
 <tr class="memitem:gae41b808539653bb51ff789a39595f03a"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00100.html#gae41b808539653bb51ff789a39595f03a">pcl_dirent_type_t</a> { <br />
 &#160;&#160;<a class="el" href="a00100.html#ggae41b808539653bb51ff789a39595f03aad39239acc789c49c45ee20485e426367">PclDirentUnknown</a>, 
-<a class="el" href="a00100.html#ggae41b808539653bb51ff789a39595f03aa2430d830d1abf82f3cb0ed0a4252214c">PclDirentFifo</a>, 
-<a class="el" href="a00100.html#ggae41b808539653bb51ff789a39595f03aa28c0a5c83c1a0a2c77d098ab22649b4e">PclDirentChar</a>, 
-<a class="el" href="a00100.html#ggae41b808539653bb51ff789a39595f03aae9ee7cbcfa44fe6d71c4be9cfb3d7aec">PclDirentDir</a>, 
+<br />
+&#160;&#160;<a class="el" href="a00100.html#ggae41b808539653bb51ff789a39595f03aa2430d830d1abf82f3cb0ed0a4252214c">PclDirentFifo</a>, 
+<br />
+&#160;&#160;<a class="el" href="a00100.html#ggae41b808539653bb51ff789a39595f03aa28c0a5c83c1a0a2c77d098ab22649b4e">PclDirentChar</a>, 
+<br />
+&#160;&#160;<a class="el" href="a00100.html#ggae41b808539653bb51ff789a39595f03aae9ee7cbcfa44fe6d71c4be9cfb3d7aec">PclDirentDir</a>, 
 <br />
 &#160;&#160;<a class="el" href="a00100.html#ggae41b808539653bb51ff789a39595f03aa032b28f47b23732ac986054a87f5d0d3">PclDirentBlock</a>, 
-<a class="el" href="a00100.html#ggae41b808539653bb51ff789a39595f03aaec8f5ed49cbfd6beef2f7226d10ea88c">PclDirentFile</a>, 
-<a class="el" href="a00100.html#ggae41b808539653bb51ff789a39595f03aad3570e8cb6acb6b733638232550200a0">PclDirentLink</a>, 
-<a class="el" href="a00100.html#ggae41b808539653bb51ff789a39595f03aa1d83fbbedbdf13d9400655be218b3bd1">PclDirentSocket</a>
+<br />
+&#160;&#160;<a class="el" href="a00100.html#ggae41b808539653bb51ff789a39595f03aaec8f5ed49cbfd6beef2f7226d10ea88c">PclDirentFile</a>, 
+<br />
+&#160;&#160;<a class="el" href="a00100.html#ggae41b808539653bb51ff789a39595f03aad3570e8cb6acb6b733638232550200a0">PclDirentLink</a>, 
+<br />
+&#160;&#160;<a class="el" href="a00100.html#ggae41b808539653bb51ff789a39595f03aa1d83fbbedbdf13d9400655be218b3bd1">PclDirentSocket</a>
 <br />
  }</td></tr>
 <tr class="memdesc:gae41b808539653bb51ff789a39595f03a"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Directory entry types.  <a href="a00100.html#gae41b808539653bb51ff789a39595f03a">More...</a><br /></td></tr>
@@ -132,7 +148,7 @@ Functions</h2></td></tr>
 <tr class="memitem:ga508bd6828cbd742b98d83b4fc62ac0fb"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT const <a class="el" href="a00077.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00100.html#ga508bd6828cbd742b98d83b4fc62ac0fb">pcl_dir_path</a> (<a class="el" href="a00100.html#ga630bd7c310ec017b8880a1c328a2db9d">pcl_dir_t</a> *dir, int *lenp)</td></tr>
 <tr class="memdesc:ga508bd6828cbd742b98d83b4fc62ac0fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Get a directory handle's path.  <a href="a00100.html#ga508bd6828cbd742b98d83b4fc62ac0fb">More...</a><br /></td></tr>
 <tr class="separator:ga508bd6828cbd742b98d83b4fc62ac0fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga12c0f9a0e5f0d41bd409507abb0a6ac2"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00100.html#ga12c0f9a0e5f0d41bd409507abb0a6ac2">pcl_readdir</a> (<a class="el" href="a00100.html#ga630bd7c310ec017b8880a1c328a2db9d">pcl_dir_t</a> *dir, <a class="el" href="a00106.html">pcl_dirent_t</a> *ent, <a class="el" href="a00086.html#ad70b25324f0a743c08589d18cf141dc8">pcl_stat_t</a> *st)</td></tr>
+<tr class="memitem:ga12c0f9a0e5f0d41bd409507abb0a6ac2"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00100.html#ga12c0f9a0e5f0d41bd409507abb0a6ac2">pcl_readdir</a> (<a class="el" href="a00100.html#ga630bd7c310ec017b8880a1c328a2db9d">pcl_dir_t</a> *dir, <a class="el" href="a00110.html">pcl_dirent_t</a> *ent, <a class="el" href="a00086.html#ad70b25324f0a743c08589d18cf141dc8">pcl_stat_t</a> *st)</td></tr>
 <tr class="memdesc:ga12c0f9a0e5f0d41bd409507abb0a6ac2"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Read an entry from a directory handle.  <a href="a00100.html#ga12c0f9a0e5f0d41bd409507abb0a6ac2">More...</a><br /></td></tr>
 <tr class="separator:ga12c0f9a0e5f0d41bd409507abb0a6ac2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaa484d019a2f4e64c27eaa7815d989742"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00100.html#gaa484d019a2f4e64c27eaa7815d989742">pcl_closedir</a> (<a class="el" href="a00100.html#ga630bd7c310ec017b8880a1c328a2db9d">pcl_dir_t</a> *dir)</td></tr>
@@ -167,24 +183,24 @@ Basic Usage</h4>
 <div class="line"><span class="keywordtype">int</span> <a class="code" href="a00077.html#a6cb9e05256271012792bc168e645fe47">pcl_tmain</a>(<span class="keywordtype">int</span> argc, <a class="code" href="a00077.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *targv)</div>
 <div class="line">{</div>
 <div class="line">  <span class="comment">// always first</span></div>
-<div class="line">  <a class="code" href="a00101.html#ga91610a8542428e422d2dcbdafcb02d1d">pcl_init</a>(NULL);</div>
+<div class="line">  <a class="code" href="a00104.html#ga91610a8542428e422d2dcbdafcb02d1d">pcl_init</a>(NULL);</div>
 <div class="line"> </div>
 <div class="line">  <span class="keywordflow">if</span>(argc &lt; 2)</div>
-<div class="line">    <a class="code" href="a00005.html#aaaa31d344c49095dfc3f6051ec2fbfca">PANIC</a>(<span class="stringliteral">&quot;Missing directory argument&quot;</span>, 0);</div>
+<div class="line">    <a class="code" href="a00103.html#gaaaa31d344c49095dfc3f6051ec2fbfca">PANIC</a>(<span class="stringliteral">&quot;Missing directory argument&quot;</span>, 0);</div>
 <div class="line"> </div>
 <div class="line">  <a class="code" href="a00100.html#ga630bd7c310ec017b8880a1c328a2db9d">pcl_dir_t</a> *dir = <a class="code" href="a00100.html#ga0a76354190773bba4b5d049c695baec6">pcl_opendir</a>(targv[1]);</div>
 <div class="line"> </div>
 <div class="line">  <span class="keywordflow">if</span>(!dir)</div>
-<div class="line">    <a class="code" href="a00005.html#aaaa31d344c49095dfc3f6051ec2fbfca">PANIC</a>(<span class="stringliteral">&quot;Failed to open directory: &#39;%ts&#39;&quot;</span>, targv[1]);</div>
+<div class="line">    <a class="code" href="a00103.html#gaaaa31d344c49095dfc3f6051ec2fbfca">PANIC</a>(<span class="stringliteral">&quot;Failed to open directory: &#39;%ts&#39;&quot;</span>, targv[1]);</div>
 <div class="line"> </div>
-<div class="line">  <a class="code" href="a00106.html">pcl_dirent_t</a> ent;</div>
+<div class="line">  <a class="code" href="a00110.html">pcl_dirent_t</a> ent;</div>
 <div class="line">  <span class="keyword">const</span> <a class="code" href="a00077.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *dirpath = <a class="code" href="a00100.html#ga508bd6828cbd742b98d83b4fc62ac0fb">pcl_dir_path</a>(dir, NULL);</div>
 <div class="line"> </div>
 <div class="line">  <span class="keywordflow">while</span>(<a class="code" href="a00100.html#ga12c0f9a0e5f0d41bd409507abb0a6ac2">pcl_readdir</a>(dir, &amp;ent, NULL))</div>
 <div class="line">  {</div>
 <div class="line">    <span class="keywordtype">char</span> *type;</div>
 <div class="line"> </div>
-<div class="line">    <span class="keywordflow">switch</span>(ent.<a class="code" href="a00106.html#af9d4ecbda0712e6f029c4fefbc54e226">type</a>)</div>
+<div class="line">    <span class="keywordflow">switch</span>(ent.<a class="code" href="a00110.html#af9d4ecbda0712e6f029c4fefbc54e226">type</a>)</div>
 <div class="line">    {</div>
 <div class="line">      <span class="keywordflow">case</span> <a class="code" href="a00100.html#ggae41b808539653bb51ff789a39595f03aaec8f5ed49cbfd6beef2f7226d10ea88c">PclDirentFile</a>:   type = <span class="stringliteral">&quot;file&quot;</span>; <span class="keywordflow">break</span>;</div>
 <div class="line">      <span class="keywordflow">case</span> <a class="code" href="a00100.html#ggae41b808539653bb51ff789a39595f03aae9ee7cbcfa44fe6d71c4be9cfb3d7aec">PclDirentDir</a>:    type = <span class="stringliteral">&quot;directory&quot;</span>; <span class="keywordflow">break</span>;</div>
@@ -197,14 +213,14 @@ Basic Usage</h4>
 <div class="line">    }</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// %/ is replaced with the platform-specific path separator</span></div>
-<div class="line">    <a class="code" href="a00065.html#a45ab34ad08cce3f205a3273cf4f3ce1f">pcl_printf</a>(<span class="stringliteral">&quot;%s] %ts%/%ts\n&quot;</span>, type, dirpath, ent.<a class="code" href="a00106.html#a9ee154695c285c3a14a70ce6f2ae0ef3">name</a>);</div>
+<div class="line">    <a class="code" href="a00105.html#ga45ab34ad08cce3f205a3273cf4f3ce1f">pcl_printf</a>(<span class="stringliteral">&quot;%s] %ts%/%ts\n&quot;</span>, type, dirpath, ent.<a class="code" href="a00110.html#a9ee154695c285c3a14a70ce6f2ae0ef3">name</a>);</div>
 <div class="line">  }</div>
 <div class="line"> </div>
 <div class="line">  <a class="code" href="a00100.html#gaa484d019a2f4e64c27eaa7815d989742">pcl_closedir</a>(dir);</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// when readdir is done, it returns false and pcl_errno is PCL_ENOMORE</span></div>
-<div class="line">  <span class="keywordflow">if</span>(<a class="code" href="a00029.html#a4fdb8ad5d33758ac2c7bcc1cc0ce6d41">pcl_errno</a> != <a class="code" href="a00008.html#ab49b19d4d3fbc59acae53c4a2de9a234">PCL_ENOMORE</a>)</div>
-<div class="line">    <a class="code" href="a00005.html#aaaa31d344c49095dfc3f6051ec2fbfca">PANIC</a>(<span class="stringliteral">&quot;readdir failed: &#39;%ts&#39;&quot;</span>, dirpath);</div>
+<div class="line">  <span class="keywordflow">if</span>(<a class="code" href="a00101.html#ga4fdb8ad5d33758ac2c7bcc1cc0ce6d41">pcl_errno</a> != <a class="code" href="a00102.html#gab49b19d4d3fbc59acae53c4a2de9a234">PCL_ENOMORE</a>)</div>
+<div class="line">    <a class="code" href="a00103.html#gaaaa31d344c49095dfc3f6051ec2fbfca">PANIC</a>(<span class="stringliteral">&quot;readdir failed: &#39;%ts&#39;&quot;</span>, dirpath);</div>
 <div class="line"> </div>
 <div class="line">  <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
@@ -354,7 +370,7 @@ Basic Usage</h4>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="a00106.html">pcl_dirent_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="a00110.html">pcl_dirent_t</a> *&#160;</td>
           <td class="paramname"><em>ent</em>, </td>
         </tr>
         <tr>
@@ -378,7 +394,7 @@ Basic Usage</h4>
   <table class="params">
     <tr><td class="paramname">dir</td><td>&#x202A;pointer to a directory handle as returned by <a class="el" href="a00100.html#ga0a76354190773bba4b5d049c695baec6" title="&#x202A;Open a directory.">pcl_opendir</a> </td></tr>
     <tr><td class="paramname">ent</td><td>&#x202A;pointer to an entry buffer to receive the results </td></tr>
-    <tr><td class="paramname">st</td><td>&#x202A;If not <code>NULL</code>, a <a class="el" href="a00062.html#aebaa91ead88db4bc8a0f3002dc7cf97d">pcl_lstat</a> will be executed for the entry. In most cases, the <a class="el" href="a00106.html#af9d4ecbda0712e6f029c4fefbc54e226" title="&#x202A;type of entry: PclDirentFile, PclDirentDir, etc">pcl_dirent_t.type</a> can be used to avoid an expensive <a class="el" href="a00062.html#aebaa91ead88db4bc8a0f3002dc7cf97d">pcl_lstat</a>. </td></tr>
+    <tr><td class="paramname">st</td><td>&#x202A;If not <code>NULL</code>, a <a class="el" href="a00062.html#aebaa91ead88db4bc8a0f3002dc7cf97d">pcl_lstat</a> will be executed for the entry. In most cases, the <a class="el" href="a00110.html#af9d4ecbda0712e6f029c4fefbc54e226" title="&#x202A;type of entry: PclDirentFile, PclDirentDir, etc">pcl_dirent_t.type</a> can be used to avoid an expensive <a class="el" href="a00062.html#aebaa91ead88db4bc8a0f3002dc7cf97d">pcl_lstat</a>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -586,37 +602,37 @@ Basic Usage</h4>
 </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="aa00105_html_ga45ab34ad08cce3f205a3273cf4f3ce1f"><div class="ttname"><a href="a00105.html#ga45ab34ad08cce3f205a3273cf4f3ce1f">pcl_printf</a></div><div class="ttdeci">PCL_EXPORT int pcl_printf(const char *format,...)</div><div class="ttdoc">Write a formatted character string to stdout.</div></div>
 <div class="ttc" id="aa00077_html_a6cb9e05256271012792bc168e645fe47"><div class="ttname"><a href="a00077.html#a6cb9e05256271012792bc168e645fe47">pcl_tmain</a></div><div class="ttdeci">#define pcl_tmain</div><div class="ttdef"><b>Definition:</b> <a href="a00077_source.html#l00133">tchar.h:133</a></div></div>
 <div class="ttc" id="aa00100_html_ggae41b808539653bb51ff789a39595f03aae9ee7cbcfa44fe6d71c4be9cfb3d7aec"><div class="ttname"><a href="a00100.html#ggae41b808539653bb51ff789a39595f03aae9ee7cbcfa44fe6d71c4be9cfb3d7aec">PclDirentDir</a></div><div class="ttdeci">@ PclDirentDir</div><div class="ttdoc">Directory.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00105">dir.h:105</a></div></div>
-<div class="ttc" id="aa00008_html_ab49b19d4d3fbc59acae53c4a2de9a234"><div class="ttname"><a href="a00008.html#ab49b19d4d3fbc59acae53c4a2de9a234">PCL_ENOMORE</a></div><div class="ttdeci">#define PCL_ENOMORE</div><div class="ttdoc">No more items.</div><div class="ttdef"><b>Definition:</b> <a href="a00008_source.html#l00140">_errno.h:140</a></div></div>
 <div class="ttc" id="aa00100_html_ga0a76354190773bba4b5d049c695baec6"><div class="ttname"><a href="a00100.html#ga0a76354190773bba4b5d049c695baec6">pcl_opendir</a></div><div class="ttdeci">PCL_EXPORT pcl_dir_t * pcl_opendir(const tchar_t *path)</div><div class="ttdoc">Open a directory.</div></div>
+<div class="ttc" id="aa00110_html"><div class="ttname"><a href="a00110.html">pcl_dirent_t</a></div><div class="ttdoc">Directory entry object.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00122">dir.h:123</a></div></div>
+<div class="ttc" id="aa00104_html_ga91610a8542428e422d2dcbdafcb02d1d"><div class="ttname"><a href="a00104.html#ga91610a8542428e422d2dcbdafcb02d1d">pcl_init</a></div><div class="ttdeci">PCL_EXPORT void pcl_init(pcl_init_t *init)</div><div class="ttdoc">Initializes the PCL library.</div></div>
 <div class="ttc" id="aa00029_html"><div class="ttname"><a href="a00029.html">error.h</a></div></div>
 <div class="ttc" id="aa00100_html_ggae41b808539653bb51ff789a39595f03aad3570e8cb6acb6b733638232550200a0"><div class="ttname"><a href="a00100.html#ggae41b808539653bb51ff789a39595f03aad3570e8cb6acb6b733638232550200a0">PclDirentLink</a></div><div class="ttdeci">@ PclDirentLink</div><div class="ttdoc">Symbolic link.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00111">dir.h:111</a></div></div>
-<div class="ttc" id="aa00106_html_af9d4ecbda0712e6f029c4fefbc54e226"><div class="ttname"><a href="a00106.html#af9d4ecbda0712e6f029c4fefbc54e226">pcl_dirent_t::type</a></div><div class="ttdeci">pcl_dirent_type_t type</div><div class="ttdoc">type of entry: PclDirentFile, PclDirentDir, etc</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00125">dir.h:125</a></div></div>
 <div class="ttc" id="aa00100_html_ga630bd7c310ec017b8880a1c328a2db9d"><div class="ttname"><a href="a00100.html#ga630bd7c310ec017b8880a1c328a2db9d">pcl_dir_t</a></div><div class="ttdeci">struct tag_pcl_dir pcl_dir_t</div><div class="ttdoc">Directory handle.</div><div class="ttdef"><b>Definition:</b> <a href="a00086_source.html#l00059">types.h:69</a></div></div>
 <div class="ttc" id="aa00100_html_ggae41b808539653bb51ff789a39595f03aa032b28f47b23732ac986054a87f5d0d3"><div class="ttname"><a href="a00100.html#ggae41b808539653bb51ff789a39595f03aa032b28f47b23732ac986054a87f5d0d3">PclDirentBlock</a></div><div class="ttdeci">@ PclDirentBlock</div><div class="ttdoc">Block device.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00107">dir.h:107</a></div></div>
+<div class="ttc" id="aa00102_html_gab49b19d4d3fbc59acae53c4a2de9a234"><div class="ttname"><a href="a00102.html#gab49b19d4d3fbc59acae53c4a2de9a234">PCL_ENOMORE</a></div><div class="ttdeci">#define PCL_ENOMORE</div><div class="ttdoc">No more items.</div><div class="ttdef"><b>Definition:</b> <a href="a00008_source.html#l00144">_errno.h:144</a></div></div>
 <div class="ttc" id="aa00100_html_ga12c0f9a0e5f0d41bd409507abb0a6ac2"><div class="ttname"><a href="a00100.html#ga12c0f9a0e5f0d41bd409507abb0a6ac2">pcl_readdir</a></div><div class="ttdeci">PCL_EXPORT bool pcl_readdir(pcl_dir_t *dir, pcl_dirent_t *ent, pcl_stat_t *st)</div><div class="ttdoc">Read an entry from a directory handle.</div></div>
 <div class="ttc" id="aa00100_html_ggae41b808539653bb51ff789a39595f03aa1d83fbbedbdf13d9400655be218b3bd1"><div class="ttname"><a href="a00100.html#ggae41b808539653bb51ff789a39595f03aa1d83fbbedbdf13d9400655be218b3bd1">PclDirentSocket</a></div><div class="ttdeci">@ PclDirentSocket</div><div class="ttdoc">Unix domain socket.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00114">dir.h:113</a></div></div>
-<div class="ttc" id="aa00106_html_a9ee154695c285c3a14a70ce6f2ae0ef3"><div class="ttname"><a href="a00106.html#a9ee154695c285c3a14a70ce6f2ae0ef3">pcl_dirent_t::name</a></div><div class="ttdeci">tchar_t name[512]</div><div class="ttdoc">entry's file name</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00129">dir.h:129</a></div></div>
-<div class="ttc" id="aa00106_html"><div class="ttname"><a href="a00106.html">pcl_dirent_t</a></div><div class="ttdoc">Directory entry object.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00122">dir.h:123</a></div></div>
+<div class="ttc" id="aa00110_html_a9ee154695c285c3a14a70ce6f2ae0ef3"><div class="ttname"><a href="a00110.html#a9ee154695c285c3a14a70ce6f2ae0ef3">pcl_dirent_t::name</a></div><div class="ttdeci">tchar_t name[512]</div><div class="ttdoc">entry's file name</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00129">dir.h:129</a></div></div>
 <div class="ttc" id="aa00077_html"><div class="ttname"><a href="a00077.html">tchar.h</a></div></div>
 <div class="ttc" id="aa00077_html_a7589c2eb4da44bc1c8e4d094798e7f0b"><div class="ttname"><a href="a00077.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a></div><div class="ttdeci">char tchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00077_source.html#l00090">tchar.h:90</a></div></div>
 <div class="ttc" id="aa00020_html"><div class="ttname"><a href="a00020.html">dir.h</a></div></div>
-<div class="ttc" id="aa00005_html_aaaa31d344c49095dfc3f6051ec2fbfca"><div class="ttname"><a href="a00005.html#aaaa31d344c49095dfc3f6051ec2fbfca">PANIC</a></div><div class="ttdeci">#define PANIC(_m,...)</div><div class="ttdef"><b>Definition:</b> <a href="a00005_source.html#l00298">_errdefs.h:298</a></div></div>
 <div class="ttc" id="aa00100_html_ggae41b808539653bb51ff789a39595f03aa2430d830d1abf82f3cb0ed0a4252214c"><div class="ttname"><a href="a00100.html#ggae41b808539653bb51ff789a39595f03aa2430d830d1abf82f3cb0ed0a4252214c">PclDirentFifo</a></div><div class="ttdeci">@ PclDirentFifo</div><div class="ttdoc">Named pipe (FIFO)</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00101">dir.h:101</a></div></div>
 <div class="ttc" id="aa00100_html_ga508bd6828cbd742b98d83b4fc62ac0fb"><div class="ttname"><a href="a00100.html#ga508bd6828cbd742b98d83b4fc62ac0fb">pcl_dir_path</a></div><div class="ttdeci">PCL_EXPORT const tchar_t * pcl_dir_path(pcl_dir_t *dir, int *lenp)</div><div class="ttdoc">Get a directory handle's path.</div></div>
-<div class="ttc" id="aa00029_html_a4fdb8ad5d33758ac2c7bcc1cc0ce6d41"><div class="ttname"><a href="a00029.html#a4fdb8ad5d33758ac2c7bcc1cc0ce6d41">pcl_errno</a></div><div class="ttdeci">#define pcl_errno</div><div class="ttdoc">Gets the last PCL error, mimics 'errno'.</div><div class="ttdef"><b>Definition:</b> <a href="a00029_source.html#l00057">error.h:57</a></div></div>
+<div class="ttc" id="aa00101_html_ga4fdb8ad5d33758ac2c7bcc1cc0ce6d41"><div class="ttname"><a href="a00101.html#ga4fdb8ad5d33758ac2c7bcc1cc0ce6d41">pcl_errno</a></div><div class="ttdeci">#define pcl_errno</div><div class="ttdoc">Gets the last PCL error, mimics 'errno'.</div><div class="ttdef"><b>Definition:</b> <a href="a00029_source.html#l00125">error.h:125</a></div></div>
+<div class="ttc" id="aa00103_html_gaaaa31d344c49095dfc3f6051ec2fbfca"><div class="ttname"><a href="a00103.html#gaaaa31d344c49095dfc3f6051ec2fbfca">PANIC</a></div><div class="ttdeci">#define PANIC(_m,...)</div><div class="ttdef"><b>Definition:</b> <a href="a00005_source.html#l00311">_errdefs.h:311</a></div></div>
 <div class="ttc" id="aa00100_html_ggae41b808539653bb51ff789a39595f03aaec8f5ed49cbfd6beef2f7226d10ea88c"><div class="ttname"><a href="a00100.html#ggae41b808539653bb51ff789a39595f03aaec8f5ed49cbfd6beef2f7226d10ea88c">PclDirentFile</a></div><div class="ttdeci">@ PclDirentFile</div><div class="ttdoc">Regular file.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00109">dir.h:109</a></div></div>
 <div class="ttc" id="aa00041_html"><div class="ttname"><a href="a00041.html">init.h</a></div></div>
-<div class="ttc" id="aa00101_html_ga91610a8542428e422d2dcbdafcb02d1d"><div class="ttname"><a href="a00101.html#ga91610a8542428e422d2dcbdafcb02d1d">pcl_init</a></div><div class="ttdeci">PCL_EXPORT void pcl_init(pcl_init_t *init)</div><div class="ttdoc">Initializes the PCL library.</div></div>
 <div class="ttc" id="aa00100_html_gaa484d019a2f4e64c27eaa7815d989742"><div class="ttname"><a href="a00100.html#gaa484d019a2f4e64c27eaa7815d989742">pcl_closedir</a></div><div class="ttdeci">PCL_EXPORT void pcl_closedir(pcl_dir_t *dir)</div><div class="ttdoc">Close a directory handle.</div></div>
+<div class="ttc" id="aa00110_html_af9d4ecbda0712e6f029c4fefbc54e226"><div class="ttname"><a href="a00110.html#af9d4ecbda0712e6f029c4fefbc54e226">pcl_dirent_t::type</a></div><div class="ttdeci">pcl_dirent_type_t type</div><div class="ttdoc">type of entry: PclDirentFile, PclDirentDir, etc</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00125">dir.h:125</a></div></div>
 <div class="ttc" id="aa00065_html"><div class="ttname"><a href="a00065.html">stdio.h</a></div></div>
-<div class="ttc" id="aa00065_html_a45ab34ad08cce3f205a3273cf4f3ce1f"><div class="ttname"><a href="a00065.html#a45ab34ad08cce3f205a3273cf4f3ce1f">pcl_printf</a></div><div class="ttdeci">PCL_EXPORT int pcl_printf(const char *format,...)</div><div class="ttdoc">Write a formatted character string to stdout.</div></div>
 <div class="ttc" id="aa00100_html_ggae41b808539653bb51ff789a39595f03aa28c0a5c83c1a0a2c77d098ab22649b4e"><div class="ttname"><a href="a00100.html#ggae41b808539653bb51ff789a39595f03aa28c0a5c83c1a0a2c77d098ab22649b4e">PclDirentChar</a></div><div class="ttdeci">@ PclDirentChar</div><div class="ttdoc">Character device.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00103">dir.h:103</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Nov 21 2020 17:46:10 for &#x202A;libpcl by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
+    <li class="footer">Generated on Sun Nov 22 2020 21:04:39 for &#x202A;libpcl by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
   </ul>
 </div>
 </body>

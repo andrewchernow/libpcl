@@ -3,6 +3,7 @@ var globals_defs =
     [ "_", "globals_defs.html", null ],
     [ "\u202Ab", "globals_defs_b.html", null ],
     [ "\u202Ac", "globals_defs_c.html", null ],
+    [ "\u202Af", "globals_defs_f.html", null ],
     [ "\u202Ai", "globals_defs_i.html", null ],
     [ "\u202Al", "globals_defs_l.html", null ],
     [ "\u202Am", "globals_defs_m.html", null ],

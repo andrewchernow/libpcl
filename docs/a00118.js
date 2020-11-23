@@ -1,7 +1,8 @@
 var a00118 =
 [
-    [ "\u202Anext", "a00118.html#a24db4f5d81913feb7c4c07aaadc61e1b", null ],
-    [ "\u202Acode", "a00118.html#abede96ae68047d0d7dca084c0ded2f1d", null ],
-    [ "\u202Akey", "a00118.html#acd3d88da3c0e0313c3645ff34f62f542", null ],
-    [ "\u202Avalue", "a00118.html#a0f61d63b009d0880a89c843bd50d8d76", null ]
+    [ "\u202Afrozen", "a00118.html#a64ffed31e9ccd488d6b98f5d2dce6f64", null ],
+    [ "\u202Aerr", "a00118.html#a6ce68847c12434f60d1b2654a3dc3409", null ],
+    [ "\u202Aoserr", "a00118.html#a99097cbbdd873a91579ae1e543195926", null ],
+    [ "\u202Astrace", "a00118.html#af22b89a25236c26e197118ca1652019a", null ],
+    [ "\u202Abuffer", "a00118.html#a95f7673f875fad2b88002d7a10f00eb1", null ]
 ];

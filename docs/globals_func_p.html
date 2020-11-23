@@ -16,6 +16,11 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -29,6 +34,21 @@
    </div>
    <div id="projectbrief">&#x202A;Portable C Library</div>
   </td>
+   <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.svg"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -40,16 +60,6 @@
 var searchBox = new SearchBox("searchBox", "search",false,'Search');
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-$(function() {
-  initMenu('',true,false,'search.php','Search');
-  $(document).ready(function() { init_search(); });
-});
-/* @license-end */</script>
-<div id="main-nav"></div>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -89,7 +99,7 @@ $(document).ready(function(){initNavTree('globals_func_p.html',''); initResizabl
 : <a class="el" href="a00056.html#ac35fe5869e3a8c1898e04d165b9ee14f">socket.h</a>
 </li>
 <li>pcl_asprintf()
-: <a class="el" href="a00065.html#a35c70f23bfbefc79939a31bd1410c5bc">stdio.h</a>
+: <a class="el" href="a00105.html#ga35c70f23bfbefc79939a31bd1410c5bc">stdio.h</a>
 </li>
 <li>pcl_astrcatf()
 : <a class="el" href="a00071.html#a5a010356a3e78074d7266e57a9598181">string.h</a>
@@ -98,7 +108,7 @@ $(document).ready(function(){initNavTree('globals_func_p.html',''); initResizabl
 : <a class="el" href="a00071.html#a3e06d342082f8dc3de7dbfaa91591de1">string.h</a>
 </li>
 <li>pcl_aswprintf()
-: <a class="el" href="a00065.html#a8891323ae63091a455b7ceb71f73ca6c">stdio.h</a>
+: <a class="el" href="a00105.html#ga8891323ae63091a455b7ceb71f73ca6c">stdio.h</a>
 </li>
 <li>pcl_atomic_add_fetch()
 : <a class="el" href="a00098.html#ga291441b4ea0e2aa1948c7a5247b82954">atomic.h</a>
@@ -120,6 +130,12 @@ $(document).ready(function(){initNavTree('globals_func_p.html',''); initResizabl
 </li>
 <li>pcl_awcsrep()
 : <a class="el" href="a00071.html#a96118b43cb6206ee29cc2127eb2442f3">string.h</a>
+</li>
+<li>pcl_base64_decode()
+: <a class="el" href="a00071.html#a49106be7804ab8a59a14abe046d452ed">string.h</a>
+</li>
+<li>pcl_base64_encode()
+: <a class="el" href="a00071.html#a2e8e48fc453d9b714f72711e39185314">string.h</a>
 </li>
 <li>pcl_bind()
 : <a class="el" href="a00056.html#a0ae58536d08116844455ea582cf629f0">socket.h</a>
@@ -218,13 +234,13 @@ $(document).ready(function(){initNavTree('globals_func_p.html',''); initResizabl
 : <a class="el" href="a00023.html#a2bdb8ee7d315b131d4e842ca4887d8f5">dl.h</a>
 </li>
 <li>pcl_err_clear()
-: <a class="el" href="a00029.html#ac8691a6cb0b78f419bce11402af34356">error.h</a>
+: <a class="el" href="a00101.html#gac8691a6cb0b78f419bce11402af34356">error.h</a>
 </li>
 <li>pcl_err_code()
-: <a class="el" href="a00029.html#a6e488225c64979a7196c2b257c3c1fb0">error.h</a>
+: <a class="el" href="a00101.html#ga6e488225c64979a7196c2b257c3c1fb0">error.h</a>
 </li>
 <li>pcl_err_ctx()
-: <a class="el" href="a00029.html#acba4bcf84db2e3237d7274aa57a30253">error.h</a>
+: <a class="el" href="a00101.html#gacba4bcf84db2e3237d7274aa57a30253">error.h</a>
 </li>
 <li>pcl_err_ctx_clear()
 : <a class="el" href="a00026.html#a7d4252eb5cb4cf406f85d5021ec26864">errctx.h</a>
@@ -251,52 +267,55 @@ $(document).ready(function(){initNavTree('globals_func_p.html',''); initResizabl
 : <a class="el" href="a00026.html#af3bc462b7e275d0b2a2be2202b22f709">errctx.h</a>
 </li>
 <li>pcl_err_fprintf()
-: <a class="el" href="a00029.html#ac9db573a481c66387f100e67ed9f1e5a">error.h</a>
+: <a class="el" href="a00101.html#gac9db573a481c66387f100e67ed9f1e5a">error.h</a>
+</li>
+<li>pcl_err_freeze()
+: <a class="el" href="a00101.html#ga2628c5da9608c57b7a196a6834a1d4bb">error.h</a>
 </li>
 <li>pcl_err_isnet()
-: <a class="el" href="a00008.html#a23bfb4c5ef4386a51de9bb224b23c09f">_errno.h</a>
+: <a class="el" href="a00102.html#ga23bfb4c5ef4386a51de9bb224b23c09f">_errno.h</a>
 </li>
 <li>pcl_err_last()
-: <a class="el" href="a00029.html#af94439668882484a21c517ed2d855615">error.h</a>
+: <a class="el" href="a00101.html#gaf94439668882484a21c517ed2d855615">error.h</a>
 </li>
 <li>pcl_err_lastmsg()
-: <a class="el" href="a00029.html#a84bacea2f9a9e0defe3f8c8bf75db011">error.h</a>
+: <a class="el" href="a00101.html#ga84bacea2f9a9e0defe3f8c8bf75db011">error.h</a>
 </li>
 <li>pcl_err_msg()
-: <a class="el" href="a00029.html#ab532e2f49c5ec111bfc7e51575fa1b2d">error.h</a>
+: <a class="el" href="a00101.html#gab532e2f49c5ec111bfc7e51575fa1b2d">error.h</a>
 </li>
 <li>pcl_err_name()
-: <a class="el" href="a00029.html#ad0fee080b336ed7ff879b61e72e0b8a9">error.h</a>
+: <a class="el" href="a00101.html#gad0fee080b336ed7ff879b61e72e0b8a9">error.h</a>
 </li>
 <li>pcl_err_os2pcl()
-: <a class="el" href="a00029.html#a3ff5c98b765df74bd305d2e56e9b4f31">error.h</a>
+: <a class="el" href="a00101.html#ga3ff5c98b765df74bd305d2e56e9b4f31">error.h</a>
 </li>
 <li>pcl_err_osmsg()
-: <a class="el" href="a00029.html#ac570ccdd8657267d758ed671b307bffd">error.h</a>
+: <a class="el" href="a00101.html#gac570ccdd8657267d758ed671b307bffd">error.h</a>
 </li>
 <li>pcl_err_osname()
-: <a class="el" href="a00029.html#a95d80f184621efe0108ec35ca590cd84">error.h</a>
+: <a class="el" href="a00101.html#ga95d80f184621efe0108ec35ca590cd84">error.h</a>
 </li>
 <li>pcl_err_set()
-: <a class="el" href="a00029.html#a1fae5bebcb3cd7fc3fe889689f0c86a7">error.h</a>
+: <a class="el" href="a00101.html#ga1fae5bebcb3cd7fc3fe889689f0c86a7">error.h</a>
 </li>
 <li>pcl_err_sprintf()
-: <a class="el" href="a00029.html#a1d7837205ac9632ff7f63034f901d85c">error.h</a>
+: <a class="el" href="a00101.html#ga1d7837205ac9632ff7f63034f901d85c">error.h</a>
 </li>
 <li>pcl_err_trace()
-: <a class="el" href="a00029.html#a30a9020e52ca985edcbd86e5b0676191">error.h</a>
+: <a class="el" href="a00101.html#ga30a9020e52ca985edcbd86e5b0676191">error.h</a>
 </li>
 <li>pcl_err_vfprintf()
-: <a class="el" href="a00029.html#ae5822fbf0ae8754ffb680d04146d1f8a">error.h</a>
+: <a class="el" href="a00101.html#gae5822fbf0ae8754ffb680d04146d1f8a">error.h</a>
 </li>
 <li>pcl_err_vset()
-: <a class="el" href="a00029.html#a02bbc67e4c31e51f3f3b6ad389ba11a8">error.h</a>
+: <a class="el" href="a00101.html#ga02bbc67e4c31e51f3f3b6ad389ba11a8">error.h</a>
 </li>
 <li>pcl_err_vsprintf()
-: <a class="el" href="a00029.html#a831abab4c892fe6f99eb8a39174119c8">error.h</a>
+: <a class="el" href="a00101.html#ga831abab4c892fe6f99eb8a39174119c8">error.h</a>
 </li>
 <li>pcl_err_vtrace()
-: <a class="el" href="a00029.html#a86913f06e1be53427513e88d829651ad">error.h</a>
+: <a class="el" href="a00101.html#ga86913f06e1be53427513e88d829651ad">error.h</a>
 </li>
 <li>pcl_event_dispatch()
 : <a class="el" href="a00032.html#ab1bac8e0eaa04a8ca90a0ce4e03d5f26">event.h</a>
@@ -326,28 +345,31 @@ $(document).ready(function(){initNavTree('globals_func_p.html',''); initResizabl
 : <a class="el" href="a00068.html#ac57afe978f740ba65dcf85064b31ebba">stdlib.h</a>
 </li>
 <li>pcl_fdopen()
-: <a class="el" href="a00065.html#a41052c5894a0beed897fd999c69262a9">stdio.h</a>
+: <a class="el" href="a00105.html#ga41052c5894a0beed897fd999c69262a9">stdio.h</a>
 </li>
 <li>pcl_fdpath()
 : <a class="el" href="a00035.html#a7a6d0c81382e8adca09d159bc4b5a78f">file.h</a>
 </li>
 <li>pcl_fileno()
-: <a class="el" href="a00065.html#a8b3b1772d423162bee16477c015fa6e3">stdio.h</a>
+: <a class="el" href="a00105.html#ga8b3b1772d423162bee16477c015fa6e3">stdio.h</a>
 </li>
 <li>pcl_flock()
 : <a class="el" href="a00035.html#a49c5c3ae142042c89bf167717b4faf51">file.h</a>
 </li>
 <li>pcl_fopen()
-: <a class="el" href="a00065.html#a2ab15085f50407dbd8059e492bf3deef">stdio.h</a>
+: <a class="el" href="a00105.html#ga2ab15085f50407dbd8059e492bf3deef">stdio.h</a>
 </li>
 <li>pcl_fprintf()
-: <a class="el" href="a00065.html#af555eb6af0250d848fe0077b58303a93">stdio.h</a>
+: <a class="el" href="a00105.html#gaf555eb6af0250d848fe0077b58303a93">stdio.h</a>
 </li>
 <li>pcl_free_trace()
 : <a class="el" href="a00068.html#a8460cb975e4a9114a2a1ff19908d51db">stdlib.h</a>
 </li>
 <li>pcl_fwprintf()
-: <a class="el" href="a00065.html#a0031446561f409e224d805a6c2c4150e">stdio.h</a>
+: <a class="el" href="a00105.html#ga0031446561f409e224d805a6c2c4150e">stdio.h</a>
+</li>
+<li>pcl_getenv()
+: <a class="el" href="a00053.html#ae7297f13ac166878879ec07901b93ef3">process.h</a>
 </li>
 <li>pcl_getgid()
 : <a class="el" href="a00092.html#af2b406d95344fbe093b6caf4d9320075">usrgrp.h</a>
@@ -363,6 +385,12 @@ $(document).ready(function(){initNavTree('globals_func_p.html',''); initResizabl
 </li>
 <li>pcl_gmtime()
 : <a class="el" href="a00083.html#abcb474f2cc9fcb5de89f3392b18dabe0">time.h</a>
+</li>
+<li>pcl_hex_decode()
+: <a class="el" href="a00071.html#a9eb1d038c714d635eaa401d54bb85342">string.h</a>
+</li>
+<li>pcl_hex_encode()
+: <a class="el" href="a00071.html#aa60261fab691c39d4b2c3af603a0eb6e">string.h</a>
 </li>
 <li>pcl_htable_clear()
 : <a class="el" href="a00038.html#a8b25b5955d6abd1ef508a4106df9cfe2">htable.h</a>
@@ -389,7 +417,7 @@ $(document).ready(function(){initNavTree('globals_func_p.html',''); initResizabl
 : <a class="el" href="a00038.html#aa2e2447e2c51fe41541c0eaef6252553">htable.h</a>
 </li>
 <li>pcl_init()
-: <a class="el" href="a00101.html#ga91610a8542428e422d2dcbdafcb02d1d">init.h</a>
+: <a class="el" href="a00104.html#ga91610a8542428e422d2dcbdafcb02d1d">init.h</a>
 </li>
 <li>pcl_ispassive()
 : <a class="el" href="a00056.html#a121d7e9be6d00679c8b251b3b21e8b54">socket.h</a>
@@ -485,10 +513,10 @@ $(document).ready(function(){initNavTree('globals_func_p.html',''); initResizabl
 : <a class="el" href="a00059.html#a2e31953f320eafb508ab38a37393c36d">ssl.h</a>
 </li>
 <li>pcl_popen()
-: <a class="el" href="a00065.html#a8179ef61ccea2a2174628c5e9b38b6f8">stdio.h</a>
+: <a class="el" href="a00105.html#ga8179ef61ccea2a2174628c5e9b38b6f8">stdio.h</a>
 </li>
 <li>pcl_printf()
-: <a class="el" href="a00065.html#a45ab34ad08cce3f205a3273cf4f3ce1f">stdio.h</a>
+: <a class="el" href="a00105.html#ga45ab34ad08cce3f205a3273cf4f3ce1f">stdio.h</a>
 </li>
 <li>pcl_proc_close()
 : <a class="el" href="a00053.html#abedb79800f25896ebfbc4c987ae08513">process.h</a>
@@ -503,7 +531,7 @@ $(document).ready(function(){initNavTree('globals_func_p.html',''); initResizabl
 : <a class="el" href="a00053.html#a9d79d384ab55a360c65e99458bb4e75f">process.h</a>
 </li>
 <li>pcl_proc_path()
-: <a class="el" href="a00053.html#acfe920ce25c885ca0fa118c13431c315">process.h</a>
+: <a class="el" href="a00053.html#a79f7a158eae1f6b60fdf8eba6b965023">process.h</a>
 </li>
 <li>pcl_proc_pipe()
 : <a class="el" href="a00053.html#ab04a347eacf073a5008359f37f1cdad3">process.h</a>
@@ -536,10 +564,10 @@ $(document).ready(function(){initNavTree('globals_func_p.html',''); initResizabl
 : <a class="el" href="a00056.html#ab3d4e36501e13b4335b52bb0a00bf579">socket.h</a>
 </li>
 <li>pcl_remove()
-: <a class="el" href="a00065.html#af819791a4f64000b54455780814645b8">stdio.h</a>
+: <a class="el" href="a00105.html#gaf819791a4f64000b54455780814645b8">stdio.h</a>
 </li>
 <li>pcl_rename()
-: <a class="el" href="a00065.html#a4d486fad1c0396d8b915e6cb21679997">stdio.h</a>
+: <a class="el" href="a00105.html#ga4d486fad1c0396d8b915e6cb21679997">stdio.h</a>
 </li>
 <li>pcl_rmdir()
 : <a class="el" href="a00100.html#gad69addc53647b240ff1dabe0d07b3eb9">dir.h</a>
@@ -564,6 +592,9 @@ $(document).ready(function(){initNavTree('globals_func_p.html',''); initResizabl
 </li>
 <li>pcl_set_memory_handler()
 : <a class="el" href="a00068.html#a7f170c7c626362f78b57f7dd7dabb9e9">stdlib.h</a>
+</li>
+<li>pcl_setenv()
+: <a class="el" href="a00053.html#a627c8fb98f100a3ac35e55059155336f">process.h</a>
 </li>
 <li>pcl_shutdown()
 : <a class="el" href="a00056.html#a7348fe71ddaa16c2ca9d14113a8b9e34">socket.h</a>
@@ -605,7 +636,7 @@ $(document).ready(function(){initNavTree('globals_func_p.html',''); initResizabl
 : <a class="el" href="a00056.html#a88ad179436d8841ed952832ca88fe620">socket.h</a>
 </li>
 <li>pcl_sprintf()
-: <a class="el" href="a00065.html#abe08d5fe6cacaf69148f35e0c73fc4c5">stdio.h</a>
+: <a class="el" href="a00105.html#gabe08d5fe6cacaf69148f35e0c73fc4c5">stdio.h</a>
 </li>
 <li>pcl_ssl_accept()
 : <a class="el" href="a00059.html#a50ccb1b720aa3613d8150f0748ed7f55">ssl.h</a>
@@ -670,12 +701,6 @@ $(document).ready(function(){initNavTree('globals_func_p.html',''); initResizabl
 <li>pcl_strftime()
 : <a class="el" href="a00083.html#ac55fda19007832a2b90996ffee0cd752">time.h</a>
 </li>
-<li>pcl_strhexdec()
-: <a class="el" href="a00071.html#a2027b34e978edce60d919c836d392ae5">string.h</a>
-</li>
-<li>pcl_strhexenc()
-: <a class="el" href="a00071.html#a59f206d4ab5f740916996b7c2f7c4e66">string.h</a>
-</li>
 <li>pcl_strisplit()
 : <a class="el" href="a00071.html#a3bd67870a38c8130ea42df5d39d95a77">string.h</a>
 </li>
@@ -737,13 +762,13 @@ $(document).ready(function(){initNavTree('globals_func_p.html',''); initResizabl
 : <a class="el" href="a00071.html#a6a8a0948436808edfc44b838794422a1">string.h</a>
 </li>
 <li>pcl_swprintf()
-: <a class="el" href="a00065.html#a11468d1662fdd3ce2afc45698fe4cbde">stdio.h</a>
+: <a class="el" href="a00105.html#ga11468d1662fdd3ce2afc45698fe4cbde">stdio.h</a>
 </li>
 <li>pcl_sysinfo()
 : <a class="el" href="a00074.html#af572c16765015dcd63ccf3768b8ffe6e">sysinfo.h</a>
 </li>
-<li>pcl_tcstoutf8()
-: <a class="el" href="a00068.html#a138b2b15b3c71c9d678b4eac5cf8d481">stdlib.h</a>
+<li>pcl_tcs_to_utf8()
+: <a class="el" href="a00068.html#a773744732a7f19095395b0a71cd290ac">stdlib.h</a>
 </li>
 <li>pcl_thread_create()
 : <a class="el" href="a00080.html#a52e5767a93bc765d02769155f549deaf">thread.h</a>
@@ -766,6 +791,9 @@ $(document).ready(function(){initNavTree('globals_func_p.html',''); initResizabl
 <li>pcl_tls_set()
 : <a class="el" href="a00080.html#aeed18624e9e341d06c760db3bc240330">thread.h</a>
 </li>
+<li>pcl_tmpfile()
+: <a class="el" href="a00105.html#gaf0c672352de43925ec58e2c142cc91b5">stdio.h</a>
+</li>
 <li>pcl_tryread()
 : <a class="el" href="a00035.html#aa7878d89ff44caf4b3efff5e4e05927c">file.h</a>
 </li>
@@ -779,103 +807,100 @@ $(document).ready(function(){initNavTree('globals_func_p.html',''); initResizabl
 : <a class="el" href="a00089.html#a8f597a146300a5b5e3c7646881215f4b">unix.h</a>
 </li>
 <li>pcl_unlink()
-: <a class="el" href="a00065.html#a0664813129e19b3567260769e52fba81">stdio.h</a>
+: <a class="el" href="a00105.html#ga0664813129e19b3567260769e52fba81">stdio.h</a>
+</li>
+<li>pcl_unsetenv()
+: <a class="el" href="a00053.html#abef703dc2d2a9c4f99f4c1662fd63e2a">process.h</a>
 </li>
 <li>pcl_usecdiff()
 : <a class="el" href="a00083.html#ae544805a2554b9ff227f9aa0621c991a">time.h</a>
 </li>
-<li>pcl_utf8totcs()
-: <a class="el" href="a00068.html#a9b2285b0017c0730983301e39ff60136">stdlib.h</a>
+<li>pcl_utf8_to_tcs()
+: <a class="el" href="a00068.html#abfc20f49a490736ecd78cccc06f67de3">stdlib.h</a>
 </li>
 <li>pcl_utimes()
 : <a class="el" href="a00083.html#a4254aba6d377b7f2ab74deeaef554c45">time.h</a>
 </li>
 <li>pcl_vasprintf()
-: <a class="el" href="a00065.html#abd252f8aab48f550e7018f8b0378b798">stdio.h</a>
+: <a class="el" href="a00105.html#gabd252f8aab48f550e7018f8b0378b798">stdio.h</a>
 </li>
 <li>pcl_vastrcatf()
 : <a class="el" href="a00071.html#a40d932f448914f07020a341b9082067f">string.h</a>
 </li>
 <li>pcl_vaswprintf()
-: <a class="el" href="a00065.html#aa284ded3151aa0fecef73d9e96a9c0f8">stdio.h</a>
+: <a class="el" href="a00105.html#gaa284ded3151aa0fecef73d9e96a9c0f8">stdio.h</a>
 </li>
 <li>pcl_vawcscatf()
 : <a class="el" href="a00071.html#ab27f7c46507868a1268c38b149704124">string.h</a>
 </li>
 <li>pcl_vector_append_str()
-: <a class="el" href="a00102.html#ga8187d2e621f85fac545931bcf490a47d">vector.h</a>
+: <a class="el" href="a00106.html#ga8187d2e621f85fac545931bcf490a47d">vector.h</a>
 </li>
 <li>pcl_vector_cleanup_dblptr()
-: <a class="el" href="a00102.html#gae588078a95bbdc08f858b9b2778b54e2">vector.h</a>
+: <a class="el" href="a00106.html#gae588078a95bbdc08f858b9b2778b54e2">vector.h</a>
 </li>
 <li>pcl_vector_clear()
-: <a class="el" href="a00102.html#ga7ee744f6d4d0f6db5ce022988e9275a6">vector.h</a>
+: <a class="el" href="a00106.html#ga7ee744f6d4d0f6db5ce022988e9275a6">vector.h</a>
 </li>
 <li>pcl_vector_compact()
-: <a class="el" href="a00102.html#gaf6b8f2bafa23f1b631eb32671a6641e9">vector.h</a>
+: <a class="el" href="a00106.html#gaf6b8f2bafa23f1b631eb32671a6641e9">vector.h</a>
 </li>
 <li>pcl_vector_create()
-: <a class="el" href="a00102.html#ga516a4fa37d3facd5e0d86e1eb1bbee84">vector.h</a>
+: <a class="el" href="a00106.html#ga516a4fa37d3facd5e0d86e1eb1bbee84">vector.h</a>
 </li>
 <li>pcl_vector_free()
-: <a class="el" href="a00102.html#gaab2be8ec6279861c6ba6bb0f20e73ccb">vector.h</a>
+: <a class="el" href="a00106.html#gaab2be8ec6279861c6ba6bb0f20e73ccb">vector.h</a>
 </li>
 <li>pcl_vector_get_s()
-: <a class="el" href="a00102.html#ga99ddfb197d3bd72390cb70b28ef1c78c">vector.h</a>
+: <a class="el" href="a00106.html#ga99ddfb197d3bd72390cb70b28ef1c78c">vector.h</a>
 </li>
 <li>pcl_vector_getptr_s()
-: <a class="el" href="a00102.html#ga36fb645d388cf7a950a2406350b097dc">vector.h</a>
+: <a class="el" href="a00106.html#ga36fb645d388cf7a950a2406350b097dc">vector.h</a>
 </li>
 <li>pcl_vector_init()
-: <a class="el" href="a00102.html#gafc6b9f242b8965850d48a5233d7d23ed">vector.h</a>
+: <a class="el" href="a00106.html#gafc6b9f242b8965850d48a5233d7d23ed">vector.h</a>
 </li>
 <li>pcl_vector_insert()
-: <a class="el" href="a00102.html#ga6f091d8d2a9c1060630f9d5ed071e9f8">vector.h</a>
+: <a class="el" href="a00106.html#ga6f091d8d2a9c1060630f9d5ed071e9f8">vector.h</a>
 </li>
 <li>pcl_vector_remove()
-: <a class="el" href="a00102.html#ga9ea1447b36364e086845852e1868b282">vector.h</a>
+: <a class="el" href="a00106.html#ga9ea1447b36364e086845852e1868b282">vector.h</a>
 </li>
 <li>pcl_vector_sort()
-: <a class="el" href="a00102.html#gad92337c015e78779ec762315b25866a2">vector.h</a>
+: <a class="el" href="a00106.html#gad92337c015e78779ec762315b25866a2">vector.h</a>
 </li>
 <li>pcl_vector_uninit()
-: <a class="el" href="a00102.html#ga5eed3421d6a45258915b1868c402d356">vector.h</a>
+: <a class="el" href="a00106.html#ga5eed3421d6a45258915b1868c402d356">vector.h</a>
 </li>
 <li>pcl_vfprintf()
-: <a class="el" href="a00065.html#a453ce8bf2de8dbe33dd280350729f236">stdio.h</a>
+: <a class="el" href="a00105.html#ga453ce8bf2de8dbe33dd280350729f236">stdio.h</a>
 </li>
 <li>pcl_vfwprintf()
-: <a class="el" href="a00065.html#a031300848f84b6a4316ab65b20c1a3d8">stdio.h</a>
+: <a class="el" href="a00105.html#ga031300848f84b6a4316ab65b20c1a3d8">stdio.h</a>
 </li>
 <li>pcl_vprintf()
-: <a class="el" href="a00065.html#ad30172b6de8277080511581d52dfa597">stdio.h</a>
+: <a class="el" href="a00105.html#gad30172b6de8277080511581d52dfa597">stdio.h</a>
 </li>
 <li>pcl_vsprintf()
-: <a class="el" href="a00065.html#acabe8fd13aa180b4c36b1d55d9e3605f">stdio.h</a>
+: <a class="el" href="a00105.html#gacabe8fd13aa180b4c36b1d55d9e3605f">stdio.h</a>
 </li>
 <li>pcl_vstrcatf()
 : <a class="el" href="a00071.html#afe8be6af6de07805863b996c38a58536">string.h</a>
 </li>
 <li>pcl_vswprintf()
-: <a class="el" href="a00065.html#a46ccfd259e51f2c7f0daf21eb337e111">stdio.h</a>
+: <a class="el" href="a00105.html#ga46ccfd259e51f2c7f0daf21eb337e111">stdio.h</a>
 </li>
 <li>pcl_vwcscatf()
 : <a class="el" href="a00071.html#ab19dcb8d8949ab3f519a383292eece63">string.h</a>
 </li>
 <li>pcl_vwprintf()
-: <a class="el" href="a00065.html#afc260971c05eabfdfe59a90e4505aef5">stdio.h</a>
+: <a class="el" href="a00105.html#gafc260971c05eabfdfe59a90e4505aef5">stdio.h</a>
 </li>
 <li>pcl_wcscatf()
 : <a class="el" href="a00071.html#ac20cbdfd4d8724040fd04c0ab9bf6fef">string.h</a>
 </li>
 <li>pcl_wcsfbytes()
 : <a class="el" href="a00071.html#aa32003dd4e24ac714d9b213039337a22">string.h</a>
-</li>
-<li>pcl_wcshexdec()
-: <a class="el" href="a00071.html#adf1399fc84167d7e59db2df104f5447e">string.h</a>
-</li>
-<li>pcl_wcshexenc()
-: <a class="el" href="a00071.html#a05beeae82d38d21a1e361bca3867df14">string.h</a>
 </li>
 <li>pcl_wcsisplit()
 : <a class="el" href="a00071.html#abbe437e0404ba39e00d50ee2606c34ce">string.h</a>
@@ -932,7 +957,7 @@ $(document).ready(function(){initNavTree('globals_func_p.html',''); initResizabl
 : <a class="el" href="a00071.html#af004a68271160135af5fa0e6d0470ebb">string.h</a>
 </li>
 <li>pcl_wprintf()
-: <a class="el" href="a00065.html#a9dddd60a9749bfb424e56ecc899d503b">stdio.h</a>
+: <a class="el" href="a00105.html#ga9dddd60a9749bfb424e56ecc899d503b">stdio.h</a>
 </li>
 <li>pcl_write()
 : <a class="el" href="a00035.html#a4616295500f7c52cfc87aa04a602b87b">file.h</a>
@@ -946,7 +971,7 @@ $(document).ready(function(){initNavTree('globals_func_p.html',''); initResizabl
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Nov 21 2020 17:46:10 for &#x202A;libpcl by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
+    <li class="footer">Generated on Sun Nov 22 2020 21:04:40 for &#x202A;libpcl by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
   </ul>
 </div>
 </body>

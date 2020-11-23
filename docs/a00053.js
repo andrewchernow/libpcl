@@ -1,6 +1,6 @@
 var a00053 =
 [
-    [ "\u202Apcl_proc_exec_t", "a00134.html", "a00134" ],
+    [ "\u202Apcl_proc_exec_t", "a00138.html", "a00138" ],
     [ "\u202APCL_PREX_STDIN", "a00053.html#a3fbdace0b017bd967ac17273d88791cb", null ],
     [ "\u202APCL_PREX_STDOUT", "a00053.html#a74f9b6972c69a4ee185f1d5677195ce7", null ],
     [ "\u202APCL_PREX_STDERR", "a00053.html#a1626da5d12354de5fffecea8763d43eb", null ],
@@ -16,9 +16,12 @@ var a00053 =
     [ "\u202Apcl_proc_exec", "a00053.html#a6340023fde71cb0e45005c881eec5323", null ],
     [ "\u202Apcl_proc_pipe", "a00053.html#ab04a347eacf073a5008359f37f1cdad3", null ],
     [ "\u202Apcl_proc_self", "a00053.html#a403317a17754c52687615448d3752786", null ],
-    [ "\u202Apcl_proc_path", "a00053.html#acfe920ce25c885ca0fa118c13431c315", null ],
+    [ "\u202Apcl_proc_path", "a00053.html#a79f7a158eae1f6b60fdf8eba6b965023", null ],
     [ "\u202Apcl_proc_setpriv", "a00053.html#a7b458fdedacd585e3565bf37c44a1ccb", null ],
     [ "\u202Apcl_proc_close", "a00053.html#abedb79800f25896ebfbc4c987ae08513", null ],
     [ "\u202Apcl_proc_parsecmd", "a00053.html#a9d79d384ab55a360c65e99458bb4e75f", null ],
-    [ "\u202Apcl_proc_freeargv", "a00053.html#a217015309f8b5e772a0fa6ea5321e54d", null ]
+    [ "\u202Apcl_proc_freeargv", "a00053.html#a217015309f8b5e772a0fa6ea5321e54d", null ],
+    [ "\u202Apcl_getenv", "a00053.html#ae7297f13ac166878879ec07901b93ef3", null ],
+    [ "\u202Apcl_setenv", "a00053.html#a627c8fb98f100a3ac35e55059155336f", null ],
+    [ "\u202Apcl_unsetenv", "a00053.html#abef703dc2d2a9c4f99f4c1662fd63e2a", null ]
 ];

@@ -8,8 +8,8 @@ var indexSectionsWithContent =
   5: "pst",
   6: "p",
   7: "p",
-  8: "_bcilmprstuz",
-  9: "adiv",
+  8: "_cilmprsuz",
+  9: "adeisv",
   10: "o"
 };
 

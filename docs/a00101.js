@@ -1,11 +1,33 @@
 var a00101 =
 [
-    [ "\u202Atag_pcl_init", "a00126.html", [
-      [ "\u202Aargc", "a00126.html#ad1447518f4372828b8435ae82e48499e", null ],
-      [ "\u202Aargv", "a00126.html#ad4dfe535e2663b3152bbe4bdaa4671fd", null ],
-      [ "\u202Auserp", "a00126.html#a7b5ec388916c74aa0010ca29022c72d2", null ],
-      [ "\u202Aregister_handlers", "a00126.html#aaa454bf3d5702de620f830dd5f666601", null ]
-    ] ],
-    [ "\u202Apcl_init_t", "a00101.html#ga7a641e0257b3f3196a37027a469a717f", null ],
-    [ "\u202Apcl_init", "a00101.html#ga91610a8542428e422d2dcbdafcb02d1d", null ]
+    [ "\u202AError Codes", "a00102.html", "a00102" ],
+    [ "\u202AError Macros", "a00103.html", "a00103" ],
+    [ "\u202Apcl_errno", "a00101.html#ga4fdb8ad5d33758ac2c7bcc1cc0ce6d41", null ],
+    [ "\u202Apcl_oserrno", "a00101.html#ga3646b2825d51326a06f25e597f883555", null ],
+    [ "\u202Apcl_crterrno", "a00101.html#ga6e2d0baa0ca77d87fa51660a494a3cbe", null ],
+    [ "\u202Apcl_sockerrno", "a00101.html#ga4926f863ec8fe31588c707f0b69bbe9a", null ],
+    [ "\u202Apcl_setoserrno", "a00101.html#gaaf0676e4689e759582950cc9ec15359e", null ],
+    [ "\u202Apcl_setcrterrno", "a00101.html#ga072e9b165ae6004aa61ef8151a5212c6", null ],
+    [ "\u202Apcl_err_osclear", "a00101.html#gad0d37471eadcb33fa2238273a6c5cf9f", null ],
+    [ "\u202Apcl_err_crt2pcl", "a00101.html#ga3f3b9ad587c9b9160b1baaf06d5ffa12", null ],
+    [ "\u202Apcl_err_crt2os", "a00101.html#ga65136e5d6e16546f25500fa16e5e44d6", null ],
+    [ "\u202Apcl_err_ctx", "a00101.html#gacba4bcf84db2e3237d7274aa57a30253", null ],
+    [ "\u202Apcl_err_freeze", "a00101.html#ga2628c5da9608c57b7a196a6834a1d4bb", null ],
+    [ "\u202Apcl_err_last", "a00101.html#gaf94439668882484a21c517ed2d855615", null ],
+    [ "\u202Apcl_err_lastmsg", "a00101.html#ga84bacea2f9a9e0defe3f8c8bf75db011", null ],
+    [ "\u202Apcl_err_fprintf", "a00101.html#gac9db573a481c66387f100e67ed9f1e5a", null ],
+    [ "\u202Apcl_err_vfprintf", "a00101.html#gae5822fbf0ae8754ffb680d04146d1f8a", null ],
+    [ "\u202Apcl_err_sprintf", "a00101.html#ga1d7837205ac9632ff7f63034f901d85c", null ],
+    [ "\u202Apcl_err_vsprintf", "a00101.html#ga831abab4c892fe6f99eb8a39174119c8", null ],
+    [ "\u202Apcl_err_clear", "a00101.html#gac8691a6cb0b78f419bce11402af34356", null ],
+    [ "\u202Apcl_err_vset", "a00101.html#ga02bbc67e4c31e51f3f3b6ad389ba11a8", null ],
+    [ "\u202Apcl_err_set", "a00101.html#ga1fae5bebcb3cd7fc3fe889689f0c86a7", null ],
+    [ "\u202Apcl_err_trace", "a00101.html#ga30a9020e52ca985edcbd86e5b0676191", null ],
+    [ "\u202Apcl_err_vtrace", "a00101.html#ga86913f06e1be53427513e88d829651ad", null ],
+    [ "\u202Apcl_err_msg", "a00101.html#gab532e2f49c5ec111bfc7e51575fa1b2d", null ],
+    [ "\u202Apcl_err_name", "a00101.html#gad0fee080b336ed7ff879b61e72e0b8a9", null ],
+    [ "\u202Apcl_err_code", "a00101.html#ga6e488225c64979a7196c2b257c3c1fb0", null ],
+    [ "\u202Apcl_err_os2pcl", "a00101.html#ga3ff5c98b765df74bd305d2e56e9b4f31", null ],
+    [ "\u202Apcl_err_osname", "a00101.html#ga95d80f184621efe0108ec35ca590cd84", null ],
+    [ "\u202Apcl_err_osmsg", "a00101.html#gac570ccdd8657267d758ed671b307bffd", null ]
 ];

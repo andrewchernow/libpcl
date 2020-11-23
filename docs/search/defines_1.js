@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['badarg_1396',['BADARG',['../a00005.html#ab052d4faa8fd25e1a13e86ecd4aafa38',1,'_errdefs.h']]]
+  ['countof_1409',['countof',['../a00017.html#a9941e62482da843b972636008fd80e56',1,'defs.h']]]
 ];

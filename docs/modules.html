@@ -16,6 +16,11 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -29,6 +34,21 @@
    </div>
    <div id="projectbrief">&#x202A;Portable C Library</div>
   </td>
+   <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.svg"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -40,16 +60,6 @@
 var searchBox = new SearchBox("searchBox", "search",false,'Search');
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-$(function() {
-  initMenu('',true,false,'search.php','Search');
-  $(document).ready(function() { init_search(); });
-});
-/* @license-end */</script>
-<div id="main-nav"></div>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -87,12 +97,16 @@ $(document).ready(function(){initNavTree('modules.html',''); initResizable(); })
 </div><!--header-->
 <div class="contents">
 <div class="textblock">Here is a list of all modules:</div><div class="directory">
-<table class="directory">
+<div class="levels">[detail level <span onclick="javascript:toggleLevel(1);">1</span><span onclick="javascript:toggleLevel(2);">2</span>]</div><table class="directory">
 <tr id="row_0_" class="even"><td class="entry"><span style="width:16px;display:inline-block;">&#160;</span><a class="el" href="a00098.html" target="_self">&#x202A;Atomic Operations</a></td><td class="desc">&#x202A;Perform atomic operations </td></tr>
 <tr id="row_1_"><td class="entry"><span style="width:16px;display:inline-block;">&#160;</span><a class="el" href="a00099.html" target="_self">&#x202A;Dynamic Buffer</a></td><td class="desc">&#x202A;The buffer API provides a dynamically sized buffer for putting text and/or binary data </td></tr>
 <tr id="row_2_" class="even"><td class="entry"><span style="width:16px;display:inline-block;">&#160;</span><a class="el" href="a00100.html" target="_self">&#x202A;Directory Management</a></td><td class="desc">&#x202A;The directory API provides a suite of function for managing and traversing directories </td></tr>
-<tr id="row_3_"><td class="entry"><span style="width:16px;display:inline-block;">&#160;</span><a class="el" href="a00101.html" target="_self">&#x202A;Initialize</a></td><td class="desc">&#x202A;Responisble for intializing the PCL library </td></tr>
-<tr id="row_4_" class="even"><td class="entry"><span style="width:16px;display:inline-block;">&#160;</span><a class="el" href="a00102.html" target="_self">&#x202A;Vector</a></td><td class="desc">&#x202A;A PCL Vector is a dynamic and contiguous block of memory for an array of same-sized elements </td></tr>
+<tr id="row_3_"><td class="entry"><span style="width:0px;display:inline-block;">&#160;</span><span id="arr_3_" class="arrow" onclick="toggleFolder('3_')">&#9660;</span><a class="el" href="a00101.html" target="_self">&#x202A;Error Management</a></td><td class="desc">&#x202A;Provides detailed error management functions </td></tr>
+<tr id="row_3_0_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a class="el" href="a00102.html" target="_self">&#x202A;Error Codes</a></td><td class="desc">&#x202A;A list of all PCL error codes </td></tr>
+<tr id="row_3_1_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a class="el" href="a00103.html" target="_self">&#x202A;Error Macros</a></td><td class="desc">&#x202A;Error macros allow for easily settting errors and adding traces to the per-thread stack trace </td></tr>
+<tr id="row_4_" class="even"><td class="entry"><span style="width:16px;display:inline-block;">&#160;</span><a class="el" href="a00104.html" target="_self">&#x202A;Initialize</a></td><td class="desc">&#x202A;Responisble for intializing the PCL library </td></tr>
+<tr id="row_5_"><td class="entry"><span style="width:16px;display:inline-block;">&#160;</span><a class="el" href="a00105.html" target="_self">&#x202A;Standard Input/Output</a></td><td class="desc">&#x202A;The <code>stdio</code> module defines some basic IO functions as well as a suite of printf-style formatting functions </td></tr>
+<tr id="row_6_" class="even"><td class="entry"><span style="width:16px;display:inline-block;">&#160;</span><a class="el" href="a00106.html" target="_self">&#x202A;Vector</a></td><td class="desc">&#x202A;A PCL Vector is a dynamic and contiguous block of memory for an array of same-sized elements </td></tr>
 </table>
 </div><!-- directory -->
 </div><!-- contents -->
@@ -100,7 +114,7 @@ $(document).ready(function(){initNavTree('modules.html',''); initResizable(); })
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Nov 21 2020 17:46:10 for &#x202A;libpcl by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
+    <li class="footer">Generated on Sun Nov 22 2020 21:04:39 for &#x202A;libpcl by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
   </ul>
 </div>
 </body>

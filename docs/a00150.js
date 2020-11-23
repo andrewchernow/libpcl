@@ -1,15 +1,21 @@
 var a00150 =
 [
-    [ "\u202Acpu_sockets", "a00150.html#ae740ecfb3d34fc5546aee269d5c43f6b", null ],
-    [ "\u202Acpu_cores", "a00150.html#a38a317e9cd87f29fa901bd60026af69c", null ],
-    [ "\u202Acpu_model", "a00150.html#a75fa1f9483472083a12d06e3390366f1", null ],
-    [ "\u202Agmtoff", "a00150.html#a978213d79d565fc56353d7b978e567e3", null ],
-    [ "\u202Atzabbr", "a00150.html#a65a4933e6e60e50bdd1edc13dca8466f", null ],
-    [ "\u202Ahostname", "a00150.html#a14df49bcd517f9ceacecaeedc5ebcdd4", null ],
-    [ "\u202Aname", "a00150.html#a81081bce99601d1afcedcc0f66238a2f", null ],
-    [ "\u202Amemory", "a00150.html#a57199ee30addf3b4191347c80005d0f6", null ],
-    [ "\u202Aversion", "a00150.html#ab0daf203e56ca096f3f01c8f9b08f67b", null ],
-    [ "\u202Avendor", "a00150.html#a9f6cafa32efcf6f92a066966d34a032c", null ],
-    [ "\u202Alangrp", "a00150.html#a518ea8c5bf79c22629adbe032fa339d8", null ],
-    [ "\u202Alangrp_type", "a00150.html#aebc63d1610ea9df47b135adc6b96f20b", null ]
+    [ "\u202Adev", "a00150.html#a8910285a0352a5c710e65ec9ecbe32a1", null ],
+    [ "\u202Aino", "a00150.html#aa9c25ec6cb415e0c2d201fc9205e73d0", null ],
+    [ "\u202Amode", "a00150.html#adc8d3cf511ceb277aea0cfa1cd027c59", null ],
+    [ "\u202Anlink", "a00150.html#a865318c04add1efed27d5b0a248a3163", null ],
+    [ "\u202Auid", "a00150.html#a1163f413982fef86f5c8313564d8589c", null ],
+    [ "\u202Agid", "a00150.html#accbf90b0b518578acff258d328c5575d", null ],
+    [ "\u202Ardev", "a00150.html#a1b4fb3994ca9f3ad9ec0f5c9dbea77a9", null ],
+    [ "\u202Asize", "a00150.html#a54d2158f6808e2cc402feddc76d6240b", null ],
+    [ "\u202Adsize", "a00150.html#aab06eed5bd7a0f98649fa5abde3dbbf7", null ],
+    [ "\u202Ablksize", "a00150.html#a5db008489406de834c7b5598d3b90f40", null ],
+    [ "\u202Ablocks", "a00150.html#af4120042303b49a109ff13f67e4bea97", null ],
+    [ "\u202Aatime", "a00150.html#a223cbb76e5359c53e73a190015080beb", null ],
+    [ "\u202Amtime", "a00150.html#a63eae24810a9fe13ffba70752f8286f1", null ],
+    [ "\u202Actime", "a00150.html#a57bb9545ed5536635ca1bba0ac418cde", null ],
+    [ "\u202Acrtime", "a00150.html#a9dada9e32b7ccb261547952a8376dce7", null ],
+    [ "\u202Aflags", "a00150.html#a773b39d480759f67926cb18ae2219281", null ],
+    [ "\u202Afinder_info", "a00150.html#a4f788396277d2346e2a9e8afec9d867e", null ],
+    [ "\u202Abtime", "a00150.html#aaf0912f2a2832873f91fbff57ffbda87", null ]
 ];

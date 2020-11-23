@@ -1,6 +1,6 @@
 var a00086 =
 [
-    [ "\u202Auint128_t", "a00162.html", "a00162" ],
+    [ "\u202Auint128_t", "a00166.html", "a00166" ],
     [ "\u202Atchar_t", "a00086.html#a7589c2eb4da44bc1c8e4d094798e7f0b", null ],
     [ "\u202Apcl_fd_t", "a00086.html#a38181b2081934a85dad92145b8f4d774", null ],
     [ "\u202Apcl_socketfd_t", "a00086.html#a35d4d11068f60efd5365b31e315c18eb", null ],
@@ -14,7 +14,7 @@ var a00086 =
     [ "\u202Apcl_dir_t", "a00100.html#ga630bd7c310ec017b8880a1c328a2db9d", null ],
     [ "\u202Apcl_socket_t", "a00086.html#a281dab68eedba9982a54c3bf45d47d91", null ],
     [ "\u202Apcl_ssl_t", "a00086.html#a975758072468e41b0896e8b5f2ff0987", null ],
-    [ "\u202Apcl_vector_t", "a00102.html#gad02d203d34a7f8b5cc8516219411ec06", null ],
+    [ "\u202Apcl_vector_t", "a00106.html#gad02d203d34a7f8b5cc8516219411ec06", null ],
     [ "\u202Apcl_stat_t", "a00086.html#ad70b25324f0a743c08589d18cf141dc8", null ],
     [ "\u202Apcl_buf_t", "a00099.html#gaeaa2d03b07aa775cfd1986f0f303151b", null ],
     [ "\u202Apcl_htable_t", "a00086.html#a837674424510bcf55b9b1eaa8acf639f", null ]
