@@ -1,8 +1,7 @@
 var a00098 =
 [
-    [ "\u202Apcl_atomic_exchange", "a00098.html#gadc542702390a36078c857f2de6aa18d4", null ],
-    [ "\u202Apcl_atomic_add_fetch", "a00098.html#ga291441b4ea0e2aa1948c7a5247b82954", null ],
-    [ "\u202Apcl_atomic_fetch_add", "a00098.html#ga8c165c06fb31d754be57b5f21388713b", null ],
-    [ "\u202Apcl_atomic_compare_exchange", "a00098.html#ga34af0613ba0410c12142d8b7f201f59c", null ],
-    [ "\u202Apcl_atomic_fetch", "a00098.html#ga9c63906173d6bfc73f9466cff3f64f8a", null ]
+    [ "\u202Apcl_getuser", "a00098.html#a1bbe18f3124dea8b3f8729576d8daff4", null ],
+    [ "\u202Apcl_getgroup", "a00098.html#a284392eaef7de830bf62ecf3bd0667f2", null ],
+    [ "\u202Apcl_getuid", "a00098.html#aac8365f342de13aec9d6011dec9e0d90", null ],
+    [ "\u202Apcl_getgid", "a00098.html#af2b406d95344fbe093b6caf4d9320075", null ]
 ];

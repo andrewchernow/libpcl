@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;pcl/file.h Source File</title>
+<title>&#x202A;libpcl: &#x202A;pcl/event.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -93,7 +93,7 @@ $(document).ready(function(){initNavTree('a00035_source.html',''); initResizable
 
 <div class="header">
   <div class="headertitle">
-<div class="title">file.h</div>  </div>
+<div class="title">event.h</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00035.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -127,115 +127,47 @@ $(document).ready(function(){initNavTree('a00035_source.html',''); initResizable
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#ifndef LIBPCL_UNISTD_H__</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#define LIBPCL_UNISTD_H__</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#ifndef LIBPCL_EVENT_H__</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#define LIBPCL_EVENT_H__</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00086.html">pcl/types.h</a>&gt;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">  #define PCL_RDLOCK 1 </span><span class="comment">/* shared or read lock */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">  #define PCL_UNLOCK 2 </span><span class="comment">/* unlock */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">  #define PCL_WRLOCK 3 </span><span class="comment">/* exclusive or write lock */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="a00035.html#acf40741bdbb235de60577c9b811f9564">   42</a></span>&#160;<span class="preprocessor">  #define PCL_RDLOCK F_RDLCK</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="a00035.html#a85f3d91287ae23f356fbbb67a34222ec">   43</a></span>&#160;<span class="preprocessor">  #define PCL_UNLOCK F_UNLCK</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="a00035.html#a740a5530c8042e415f4d45e1865617e3">   44</a></span>&#160;<span class="preprocessor">  #define PCL_WRLOCK F_WRLCK</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment">/* STDIO fixed FD values */</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#ifndef STDIN_FILENO</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="a00035.html#afcf80a6d91178952d107ad00b165752b">   49</a></span>&#160;<span class="preprocessor">  #define STDIN_FILENO 0</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">#ifndef STDOUT_FILENO</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="a00035.html#abd165ee6474b5b75bf075842fff13a04">   52</a></span>&#160;<span class="preprocessor">  #define STDOUT_FILENO 1</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#ifndef STDERR_FILENO</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="a00035.html#ae2fe1725bb5e9823d089c46b9ed5266e">   55</a></span>&#160;<span class="preprocessor">  #define STDERR_FILENO 2</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="a00035.html#a1bf90fe45d00542a56b403e456ee4769">   58</a></span>&#160;<span class="preprocessor">#define PCL_O_RDONLY     0x00000000     </span><span class="comment">/* open for reading only */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="a00035.html#a82e58361b57c3faf5eb9058810b5efc2">   59</a></span>&#160;<span class="preprocessor">#define PCL_O_WRONLY     0x00000001     </span><span class="comment">/* open for writing only */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="a00035.html#ac6de4717201889c8d02dcfdff992cbdc">   60</a></span>&#160;<span class="preprocessor">#define PCL_O_RDWR       0x00000002     </span><span class="comment">/* open for reading and writing */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="a00035.html#a593450f6c5d18bc9f9cbb3952f147c9b">   61</a></span>&#160;<span class="preprocessor">#define PCL_O_ACCMODE    0x00000003     </span><span class="comment">/* mask for above modes */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="a00035.html#a4d7dbf97e732ce21c92f1f833aeae005">   62</a></span>&#160;<span class="preprocessor">#define PCL_O_CREAT      0x00000008     </span><span class="comment">/* create and open file */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="a00035.html#a1e1c094ddc6b5841a783c36c752c4612">   63</a></span>&#160;<span class="preprocessor">#define PCL_O_APPEND     0x00000010     </span><span class="comment">/* set the append mode (all writes at EOF */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="a00035.html#abe3198789c5ffe1c29f33e14b67c77b1">   64</a></span>&#160;<span class="preprocessor">#define PCL_O_TRUNC      0x00000020     </span><span class="comment">/* truncate to zero length */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="a00035.html#a0a066971ccd5cca8b667dd7333c0bbbb">   65</a></span>&#160;<span class="preprocessor">#define PCL_O_EXCL       0x00000040     </span><span class="comment">/* open only if file doesn&#39;t already exist */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="a00035.html#a499da1bff319be4bc726d1853839c210">   66</a></span>&#160;<span class="preprocessor">#define PCL_O_NONBLOCK   0x00000080     </span><span class="comment">/* do not block on open or for data to become available */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="a00035.html#a84f916c85005e21fd7c1c76c1f931c72">   67</a></span>&#160;<span class="preprocessor">#define PCL_O_CLOEXEC    0x00000100     </span><span class="comment">/* close fd when exec() is invoked */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="a00035.html#a85c9c0689fda35fb78d531dbaf7a40aa">   68</a></span>&#160;<span class="preprocessor">#define PCL_O_DIRECTORY  0x00000200     </span><span class="comment">/* If not a directory, the open will fail */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="a00035.html#aa2b7795dd84d5d50f41da086ee8d891a">   69</a></span>&#160;<span class="preprocessor">#define PCL_O_NOFOLLOW   0x00000400     </span><span class="comment">/* Do not follow symlinks, the open will fail */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="a00035.html#acf2ad405933ebec8d43e8f6201bf5a13">   70</a></span>&#160;<span class="preprocessor">#define PCL_O_SYNC       0x00000800     </span><span class="comment">/* file is opened for synchronous I/O */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="a00035.html#a5dddce8ec3738fcf1216bc76f050f2ea">   71</a></span>&#160;<span class="preprocessor">#define PCL_O_SHLOCK     0x00001000     </span><span class="comment">/* share lock file, read lock */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="a00035.html#a17eb8bc31a7d785787c9b865e0a3c16b">   72</a></span>&#160;<span class="preprocessor">#define PCL_O_EXLOCK     0x00002000     </span><span class="comment">/* exclusive lock the file, read/write lock */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="a00035.html#af42b9ead2f95720ebfa86a3249bbe21b">   73</a></span>&#160;<span class="preprocessor">#define PCL_O_BACKUP     0x00004000     </span><span class="comment">/* win32 only, sets FILE_FLAG_BACKUP_SEMANTICS</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="a00035.html#aad0f1c072750e5dcada58f9d9606b986">   74</a></span>&#160;<span class="comment">                                           and possibly other things in future */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="a00035.html#a69f41cd04e4af9637176e1a0fdd618b6">   75</a></span>&#160;<span class="preprocessor">#define PCL_O_NOATIME    0x00008000     </span><span class="comment">/* linux only */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="a00035.html#a0b8fc5af7394cd71b7ca086ae8ae2814">   76</a></span>&#160;<span class="preprocessor">#define PCL_O_TEMP       0x00010000     </span><span class="comment">/* temp file: deleted after pcl_file_t is closed */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="a00035.html#acb8f3ddea498a9f7b1a4ceb5262ab3f3">   77</a></span>&#160;<span class="preprocessor">#define PCL_O_NDELAY     PCL_O_NONBLOCK</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor">#define PCL_O_NOINHERIT  PCL_O_CLOEXEC</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="a00035.html#a60d1bf6bac043a65b2188b0c13a1b9d3">   41</a></span>&#160;<span class="preprocessor">#define PCL_EVENT_INIT 0</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="a00035.html#a3146683f8619c24b5aa15044b635b380">   48</a></span>&#160;<span class="preprocessor">#define PCL_EVENT_THREADINIT 1</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="a00035.html#af2839b70c0fed98525a385fa31dcbaaf">   78</a></span>&#160;<span class="preprocessor">#define PCL_EVENT_POSTINT 2</span></div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
-<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="a00035.html#a863aaab3b54f16ba02dbcf788fe88a0e">   80</a></span>&#160;<span class="comment">/* pcl_file_t.flags */</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="a00035.html#a6b5fee67dabf0b3f8ea60ae34357a517">   81</a></span>&#160;<span class="preprocessor">#define PCL_FF_FLOCK     0x0001 </span><span class="comment">/* locked explicitly via pcl_flock */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="a00035.html#a2472759bb7300c60bb17950ee1362b7b">   82</a></span>&#160;<span class="preprocessor">#define PCL_FF_NONBLOCK  0x0002</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="a00035.html#a8c530c746ff24a63cbe3071dab306d3a">   83</a></span>&#160;<span class="preprocessor">#define PCL_FF_APPEND    0x0004</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="a00035.html#a6a07e4d4ac7139bd3ce0c0d99486438d">   84</a></span>&#160;<span class="preprocessor">#define PCL_FF_READ      0x0008</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno"><a class="line" href="a00035.html#a6202a38336d5c8fbcffccc3011a756d1">   85</a></span>&#160;<span class="preprocessor">#define PCL_FF_WRITE     0x0010</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="a00035.html#adb74d22cf7d668ffbb5336e4a4da66ec">   86</a></span>&#160;<span class="preprocessor">#define PCL_FF_OLOCK     0x0020 </span><span class="comment">/* locked implicitly by pcl_open O_SHLOCK|O_EXLOCK */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="preprocessor">#define PCL_FF_RDWR      (PCL_FF_READ | PCL_FF_WRITE)</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="a00035.html#a99b6baf34fba0ff454244de2b7db0eca">   81</a></span>&#160;<span class="preprocessor">#define PCL_EVENT_USERBASE 10</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="a00035.html#a04ab8867aacede25175c89e51a3e206d">   87</a></span>&#160;<span class="keyword">typedef</span> void (*<a class="code" href="a00035.html#a04ab8867aacede25175c89e51a3e206d">pcl_event_handler_t</a>)(uint32_t event, <span class="keywordtype">void</span> *data);</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno"><a class="line" href="a00035.html#acf33f1484e93344e8f44398af3b1bc9c">   92</a></span>&#160; </div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;PCL_EXPORT <a class="code" href="a00086.html#ad9cada4fd6c46abc8fbf45fea3416a66">pcl_file_t</a> *<a class="code" href="a00035.html#acf33f1484e93344e8f44398af3b1bc9c">pcl_open</a>(<span class="keyword">const</span> <a class="code" href="a00077.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *path, <span class="keywordtype">int</span> oflags, ...);</div>
-<div class="line"><a name="l00094"></a><span class="lineno"><a class="line" href="a00035.html#a3ff25cf17e0b2e2d6f8541574ab4314b">   94</a></span>&#160; </div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00035.html#a3ff25cf17e0b2e2d6f8541574ab4314b">pcl_read</a>(<a class="code" href="a00086.html#ad9cada4fd6c46abc8fbf45fea3416a66">pcl_file_t</a> *file, <span class="keywordtype">void</span> *buf, <span class="keywordtype">size_t</span> count);</div>
-<div class="line"><a name="l00096"></a><span class="lineno"><a class="line" href="a00035.html#a4616295500f7c52cfc87aa04a602b87b">   96</a></span>&#160; </div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00035.html#a4616295500f7c52cfc87aa04a602b87b">pcl_write</a>(<a class="code" href="a00086.html#ad9cada4fd6c46abc8fbf45fea3416a66">pcl_file_t</a> *file, <span class="keyword">const</span> <span class="keywordtype">void</span> *data, <span class="keywordtype">size_t</span> count);</div>
-<div class="line"><a name="l00098"></a><span class="lineno"><a class="line" href="a00035.html#aa7878d89ff44caf4b3efff5e4e05927c">   98</a></span>&#160; </div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00035.html#aa7878d89ff44caf4b3efff5e4e05927c">pcl_tryread</a>(<a class="code" href="a00086.html#ad9cada4fd6c46abc8fbf45fea3416a66">pcl_file_t</a> *file, <span class="keywordtype">void</span> *buf, <span class="keywordtype">size_t</span> count, <span class="keywordtype">int</span> ms_timeout);</div>
-<div class="line"><a name="l00100"></a><span class="lineno"><a class="line" href="a00035.html#ae6aabb5965a70ae1e17ae573f243376f">  100</a></span>&#160; </div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00035.html#ae6aabb5965a70ae1e17ae573f243376f">pcl_trywrite</a>(<a class="code" href="a00086.html#ad9cada4fd6c46abc8fbf45fea3416a66">pcl_file_t</a> *file, <span class="keyword">const</span> <span class="keywordtype">void</span> *data, <span class="keywordtype">size_t</span> count, <span class="keywordtype">int</span> ms_timeout);</div>
-<div class="line"><a name="l00102"></a><span class="lineno"><a class="line" href="a00035.html#a8e104d94f943f560fef120a4a0bc0151">  102</a></span>&#160; </div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;PCL_EXPORT off_t <a class="code" href="a00035.html#a8e104d94f943f560fef120a4a0bc0151">pcl_seek</a>(<a class="code" href="a00086.html#ad9cada4fd6c46abc8fbf45fea3416a66">pcl_file_t</a> *file, off_t offset, <span class="keywordtype">int</span> whence);</div>
-<div class="line"><a name="l00104"></a><span class="lineno"><a class="line" href="a00035.html#afc43efb71ab852b5335a16332a6fa52d">  104</a></span>&#160; </div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;PCL_EXPORT <span class="keywordtype">void</span> <a class="code" href="a00035.html#afc43efb71ab852b5335a16332a6fa52d">pcl_close</a>(<a class="code" href="a00086.html#ad9cada4fd6c46abc8fbf45fea3416a66">pcl_file_t</a> *file);</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00035.html#a49c5c3ae142042c89bf167717b4faf51">pcl_flock</a>(<a class="code" href="a00086.html#ad9cada4fd6c46abc8fbf45fea3416a66">pcl_file_t</a> *file, <span class="keywordtype">int</span> operation);</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="comment">/* Get the absolute path for a file descriptor.</span></div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="comment"> * @param fd file descriptor. For windows, this is a CRT fd, not a HANDLE.</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="comment"> * @param out pointer to a tchar_t pointer to receive the result which must be freed</span></div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="comment"> * by caller.</span></div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="comment"> * @return -1 on error number of characters written to out on success</span></div>
-<div class="line"><a name="l00119"></a><span class="lineno"><a class="line" href="a00035.html#a7a6d0c81382e8adca09d159bc4b5a78f">  119</a></span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00035.html#a7a6d0c81382e8adca09d159bc4b5a78f">pcl_fdpath</a>(<span class="keywordtype">int</span> fd, <a class="code" href="a00077.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> **out);</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; </div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;}</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160; </div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="preprocessor">#endif //LIBPCL_UNISTD_H__</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno"><a class="line" href="a00035.html#ab1bac8e0eaa04a8ca90a0ce4e03d5f26">   97</a></span>&#160;PCL_EXPORT <span class="keywordtype">void</span> <a class="code" href="a00035.html#ab1bac8e0eaa04a8ca90a0ce4e03d5f26">pcl_event_dispatch</a>(uint32_t event, <span class="keywordtype">void</span> *data);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
+<div class="line"><a name="l00102"></a><span class="lineno"><a class="line" href="a00035.html#abcb84af3f1e27f35e9b8cf93abd09ee8">  102</a></span>&#160;PCL_EXPORT <span class="keywordtype">void</span> <a class="code" href="a00035.html#abcb84af3f1e27f35e9b8cf93abd09ee8">pcl_event_register</a>(<a class="code" href="a00035.html#a04ab8867aacede25175c89e51a3e206d">pcl_event_handler_t</a> handler);</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
+<div class="line"><a name="l00107"></a><span class="lineno"><a class="line" href="a00035.html#a5e48475a04701c77022079a13e4c98ce">  107</a></span>&#160;PCL_EXPORT <span class="keywordtype">void</span> <a class="code" href="a00035.html#a5e48475a04701c77022079a13e4c98ce">pcl_event_unregister</a>(<a class="code" href="a00035.html#a04ab8867aacede25175c89e51a3e206d">pcl_event_handler_t</a> handler);</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;}</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="preprocessor">#endif //LIBPCL_EVENT_H__</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aa00086_html"><div class="ttname"><a href="a00086.html">types.h</a></div></div>
-<div class="ttc" id="aa00035_html_a8e104d94f943f560fef120a4a0bc0151"><div class="ttname"><a href="a00035.html#a8e104d94f943f560fef120a4a0bc0151">pcl_seek</a></div><div class="ttdeci">PCL_EXPORT off_t pcl_seek(pcl_file_t *file, off_t offset, int whence)</div></div>
-<div class="ttc" id="aa00035_html_afc43efb71ab852b5335a16332a6fa52d"><div class="ttname"><a href="a00035.html#afc43efb71ab852b5335a16332a6fa52d">pcl_close</a></div><div class="ttdeci">PCL_EXPORT void pcl_close(pcl_file_t *file)</div></div>
-<div class="ttc" id="aa00035_html_acf33f1484e93344e8f44398af3b1bc9c"><div class="ttname"><a href="a00035.html#acf33f1484e93344e8f44398af3b1bc9c">pcl_open</a></div><div class="ttdeci">PCL_EXPORT pcl_file_t * pcl_open(const tchar_t *path, int oflags,...)</div></div>
-<div class="ttc" id="aa00035_html_aa7878d89ff44caf4b3efff5e4e05927c"><div class="ttname"><a href="a00035.html#aa7878d89ff44caf4b3efff5e4e05927c">pcl_tryread</a></div><div class="ttdeci">PCL_EXPORT int pcl_tryread(pcl_file_t *file, void *buf, size_t count, int ms_timeout)</div></div>
-<div class="ttc" id="aa00035_html_a4616295500f7c52cfc87aa04a602b87b"><div class="ttname"><a href="a00035.html#a4616295500f7c52cfc87aa04a602b87b">pcl_write</a></div><div class="ttdeci">PCL_EXPORT int pcl_write(pcl_file_t *file, const void *data, size_t count)</div></div>
-<div class="ttc" id="aa00086_html_ad9cada4fd6c46abc8fbf45fea3416a66"><div class="ttname"><a href="a00086.html#ad9cada4fd6c46abc8fbf45fea3416a66">pcl_file_t</a></div><div class="ttdeci">struct tag_pcl_file pcl_file_t</div><div class="ttdef"><b>Definition:</b> <a href="a00086_source.html#l00059">types.h:65</a></div></div>
-<div class="ttc" id="aa00035_html_a7a6d0c81382e8adca09d159bc4b5a78f"><div class="ttname"><a href="a00035.html#a7a6d0c81382e8adca09d159bc4b5a78f">pcl_fdpath</a></div><div class="ttdeci">PCL_EXPORT int pcl_fdpath(int fd, tchar_t **out)</div></div>
-<div class="ttc" id="aa00035_html_a3ff25cf17e0b2e2d6f8541574ab4314b"><div class="ttname"><a href="a00035.html#a3ff25cf17e0b2e2d6f8541574ab4314b">pcl_read</a></div><div class="ttdeci">PCL_EXPORT int pcl_read(pcl_file_t *file, void *buf, size_t count)</div></div>
-<div class="ttc" id="aa00077_html_a7589c2eb4da44bc1c8e4d094798e7f0b"><div class="ttname"><a href="a00077.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a></div><div class="ttdeci">char tchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00077_source.html#l00090">tchar.h:90</a></div></div>
-<div class="ttc" id="aa00035_html_a49c5c3ae142042c89bf167717b4faf51"><div class="ttname"><a href="a00035.html#a49c5c3ae142042c89bf167717b4faf51">pcl_flock</a></div><div class="ttdeci">PCL_EXPORT int pcl_flock(pcl_file_t *file, int operation)</div><div class="ttdoc">Lock a file with exclusive or shared access or unlock a file.</div></div>
-<div class="ttc" id="aa00035_html_ae6aabb5965a70ae1e17ae573f243376f"><div class="ttname"><a href="a00035.html#ae6aabb5965a70ae1e17ae573f243376f">pcl_trywrite</a></div><div class="ttdeci">PCL_EXPORT int pcl_trywrite(pcl_file_t *file, const void *data, size_t count, int ms_timeout)</div></div>
+<div class="ttc" id="aa00035_html_ab1bac8e0eaa04a8ca90a0ce4e03d5f26"><div class="ttname"><a href="a00035.html#ab1bac8e0eaa04a8ca90a0ce4e03d5f26">pcl_event_dispatch</a></div><div class="ttdeci">PCL_EXPORT void pcl_event_dispatch(uint32_t event, void *data)</div><div class="ttdoc">Dispatches an event to the calling thread.</div></div>
+<div class="ttc" id="aa00035_html_a5e48475a04701c77022079a13e4c98ce"><div class="ttname"><a href="a00035.html#a5e48475a04701c77022079a13e4c98ce">pcl_event_unregister</a></div><div class="ttdeci">PCL_EXPORT void pcl_event_unregister(pcl_event_handler_t handler)</div><div class="ttdoc">Unregisters a previously registered event handler.</div></div>
+<div class="ttc" id="aa00035_html_a04ab8867aacede25175c89e51a3e206d"><div class="ttname"><a href="a00035.html#a04ab8867aacede25175c89e51a3e206d">pcl_event_handler_t</a></div><div class="ttdeci">void(* pcl_event_handler_t)(uint32_t event, void *data)</div><div class="ttdef"><b>Definition:</b> <a href="a00035_source.html#l00087">event.h:87</a></div></div>
+<div class="ttc" id="aa00035_html_abcb84af3f1e27f35e9b8cf93abd09ee8"><div class="ttname"><a href="a00035.html#abcb84af3f1e27f35e9b8cf93abd09ee8">pcl_event_register</a></div><div class="ttdeci">PCL_EXPORT void pcl_event_register(pcl_event_handler_t handler)</div><div class="ttdoc">Registers a new event handler.</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_e4fbad692486c3448e8889bf14d613e1.html">&#x202A;pcl</a></li><li class="navelem"><a class="el" href="a00035.html">&#x202A;file.h</a></li>
-    <li class="footer">Generated on Sun Nov 22 2020 21:04:39 for &#x202A;libpcl by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
+    <li class="navelem"><a class="el" href="dir_e4fbad692486c3448e8889bf14d613e1.html">&#x202A;pcl</a></li><li class="navelem"><a class="el" href="a00035.html">&#x202A;event.h</a></li>
+    <li class="footer">Generated on Tue Nov 24 2020 21:54:04 for &#x202A;libpcl by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
   </ul>
 </div>
 </body>

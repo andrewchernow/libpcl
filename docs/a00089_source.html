@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;pcl/unix.h Source File</title>
+<title>&#x202A;libpcl: &#x202A;pcl/time.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -93,7 +93,7 @@ $(document).ready(function(){initNavTree('a00089_source.html',''); initResizable
 
 <div class="header">
   <div class="headertitle">
-<div class="title">unix.h</div>  </div>
+<div class="title">time.h</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00089.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
@@ -128,29 +128,146 @@ $(document).ready(function(){initNavTree('a00089_source.html',''); initResizable
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#ifndef LIBPCL_UNIX_H</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#define LIBPCL_UNIX_H</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#ifndef LIBPCL_TIME_H</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#define LIBPCL_TIME_H</span></div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;signal.h&gt;</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="a00089.html#a8f597a146300a5b5e3c7646881215f4b">   42</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="a00089.html#a8f597a146300a5b5e3c7646881215f4b">pcl_unix_siginfo</a>(<span class="keywordtype">char</span> *buf, <span class="keywordtype">size_t</span> bufl, siginfo_t *info);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;}</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00092.html">pcl/types.h</a>&gt;</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00089.html">time.h</a>&gt;</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">  #include &lt;sys/timeb.h&gt;</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">  #undef tzset</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">  #define tzset _tzset</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">  #include &lt;sys/time.h&gt;</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="a00089.html#a44fad6f0051928cde82c0515fc783e3d">   47</a></span>&#160;<span class="preprocessor">#define PCL_USECS 1000000</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="a00089.html#a86b7875cd6dfe1745c07e12ac648542b">   48</a></span>&#160;<span class="preprocessor">#define PCL_NSECS 1000000000</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="a00089.html#a838fab28c90f6514b1fabb309e5839ee">   49</a></span>&#160;<span class="preprocessor">#define PCL_CLOCK_SEC  PCL_NSECS</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="a00089.html#a8a12d866ae7ed8d0acaf75ab8664bed1">   50</a></span>&#160;<span class="preprocessor">#define PCL_CLOCK_MSEC PCL_USECS</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="a00089.html#a5cb89bfaafb39ad78f5a8b038d871a27">   51</a></span>&#160;<span class="preprocessor">#define PCL_CLOCK_USEC 1000</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment">/* nanosecond time_t */</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="a00169.html">   58</a></span>&#160;<span class="keyword">struct </span><a class="code" href="a00169.html">tag_pcl_time</a></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;{</div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="a00169.html#a4c17f3941fd29561d689e4e03f18db46">   60</a></span>&#160;  <span class="keywordtype">long</span> <span class="keywordtype">long</span> <a class="code" href="a00169.html#a4c17f3941fd29561d689e4e03f18db46">sec</a>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="a00169.html#a67abf16c44712c2f6eacfce2da5aa5b4">   61</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="a00169.html#a67abf16c44712c2f6eacfce2da5aa5b4">nsec</a>;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;};</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
+<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="a00173.html">   64</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;{</div>
+<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="a00173.html#a18df301c1a10c8d493da86ce5c2aea78">   66</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="a00173.html#a18df301c1a10c8d493da86ce5c2aea78">tm_sec</a>;         <span class="comment">/* seconds */</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="a00173.html#a987fa9280fe4cd6c6b8f77409f1c1504">   67</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="a00173.html#a987fa9280fe4cd6c6b8f77409f1c1504">tm_min</a>;         <span class="comment">/* minutes */</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="a00173.html#a4d171061df9e012fcfbd1172b8440d5f">   68</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="a00173.html#a4d171061df9e012fcfbd1172b8440d5f">tm_hour</a>;        <span class="comment">/* hours */</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="a00173.html#a02048604d30b880033311cf542d63f92">   69</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="a00173.html#a02048604d30b880033311cf542d63f92">tm_mday</a>;        <span class="comment">/* day of the month */</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="a00173.html#ada983deda100b604bee5716512453658">   70</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="a00173.html#ada983deda100b604bee5716512453658">tm_mon</a>;         <span class="comment">/* month */</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="a00173.html#a994c4f4519ba57e186580d21cc86f9e5">   71</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="a00173.html#a994c4f4519ba57e186580d21cc86f9e5">tm_year</a>;        <span class="comment">/* year */</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="a00173.html#a4412571b90746a85cae9b8841c44c59c">   72</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="a00173.html#a4412571b90746a85cae9b8841c44c59c">tm_wday</a>;        <span class="comment">/* day of the week */</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="a00173.html#a74938de584345413d1bf87c4d78d697c">   73</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="a00173.html#a74938de584345413d1bf87c4d78d697c">tm_yday</a>;        <span class="comment">/* day in the year */</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="a00173.html#a7d102a87f898878ebf37ebd87504e099">   74</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="a00173.html#a7d102a87f898878ebf37ebd87504e099">tm_isdst</a>;       <span class="comment">/* daylight saving time */</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  <span class="comment">/* 3-4 character zone abbrev: Ex. EST. Windows uses long names */</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  <span class="keywordtype">char</span> tm_zone[65];</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="a00173.html#a15d27611abcf49f13cfa3784cdf999c3">   80</a></span>&#160;  <span class="keywordtype">char</span> *<a class="code" href="a00173.html#a15d27611abcf49f13cfa3784cdf999c3">tm_zone</a>;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  <span class="comment">/* seconds east of UTC, EST = -18000. GNU systems have this. For windows, this is internally</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="comment">   * calculated using some CRT functions.</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="comment">   */</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="a00173.html#a91674f2fd0599cdb65aae6828593bd8c">   86</a></span>&#160;  <span class="keywordtype">long</span> <a class="code" href="a00173.html#a91674f2fd0599cdb65aae6828593bd8c">tm_gmtoff</a>;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;  <span class="comment">/* nanoseconds, PUL extension. */</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="a00173.html#ace9d15b139822be8f2990e3b05871059">   89</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="a00173.html#ace9d15b139822be8f2990e3b05871059">tm_nsec</a>;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;} <a class="code" href="a00173.html">pcl_tm_t</a>;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="comment">/* Gets the current UTC time in epoch nanoseconds. */</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno"><a class="line" href="a00089.html#a202860ee480207e7dcc481029f4f466f">   93</a></span>&#160;PCL_EXPORT <a class="code" href="a00169.html">pcl_time_t</a> <a class="code" href="a00089.html#a202860ee480207e7dcc481029f4f466f">pcl_time</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
+<div class="line"><a name="l00095"></a><span class="lineno"><a class="line" href="a00089.html#abcb474f2cc9fcb5de89f3392b18dabe0">   95</a></span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00089.html#abcb474f2cc9fcb5de89f3392b18dabe0">pcl_gmtime</a>(<span class="keyword">const</span> <a class="code" href="a00169.html">pcl_time_t</a> *t, <a class="code" href="a00173.html">pcl_tm_t</a> *result);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
+<div class="line"><a name="l00097"></a><span class="lineno"><a class="line" href="a00089.html#acf907b5af7aefec4ad0198ca5af8a502">   97</a></span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00089.html#acf907b5af7aefec4ad0198ca5af8a502">pcl_localtime</a>(<span class="keyword">const</span> <a class="code" href="a00169.html">pcl_time_t</a> *t, <a class="code" href="a00173.html">pcl_tm_t</a> *result);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
+<div class="line"><a name="l00107"></a><span class="lineno"><a class="line" href="a00089.html#ac55fda19007832a2b90996ffee0cd752">  107</a></span>&#160;PCL_EXPORT <span class="keywordtype">size_t</span> <a class="code" href="a00089.html#ac55fda19007832a2b90996ffee0cd752">pcl_strftime</a>(<span class="keywordtype">char</span> *out, <span class="keywordtype">size_t</span> len, <span class="keyword">const</span> <span class="keywordtype">char</span> *format, <span class="keyword">const</span> <a class="code" href="a00173.html">pcl_tm_t</a> *tm);</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
+<div class="line"><a name="l00109"></a><span class="lineno"><a class="line" href="a00089.html#a4254aba6d377b7f2ab74deeaef554c45">  109</a></span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00089.html#a4254aba6d377b7f2ab74deeaef554c45">pcl_utimes</a>(<span class="keyword">const</span> <a class="code" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *path, <a class="code" href="a00169.html">pcl_time_t</a> *atime, <a class="code" href="a00169.html">pcl_time_t</a> *ctime,</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;  <a class="code" href="a00169.html">pcl_time_t</a> *mtime, <a class="code" href="a00169.html">pcl_time_t</a> *crtime, <a class="code" href="a00169.html">pcl_time_t</a> *btime);</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
+<div class="line"><a name="l00116"></a><span class="lineno"><a class="line" href="a00089.html#a4509a246502a89112c0ae632b587974c">  116</a></span>&#160;PCL_EXPORT <a class="code" href="a00169.html">pcl_time_t</a> <a class="code" href="a00089.html#a4509a246502a89112c0ae632b587974c">pcl_mktime</a>(<a class="code" href="a00173.html">pcl_tm_t</a> *tu);</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
+<div class="line"><a name="l00130"></a><span class="lineno"><a class="line" href="a00089.html#ab7f4840a120511d64e7eb382be518f74">  130</a></span>&#160;PCL_EXPORT <span class="keywordtype">bool</span> <a class="code" href="a00089.html#ab7f4840a120511d64e7eb382be518f74">pcl_sleep</a>(uint64_t nsecs, <span class="keywordtype">bool</span> (*cond)(<span class="keywordtype">void</span>), uint32_t cond_interval);</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
+<div class="line"><a name="l00132"></a><span class="lineno"><a class="line" href="a00089.html#a830f82e1c662586f44299fc0979713c9">  132</a></span>&#160;PCL_EXPORT <a class="code" href="a00092.html#a05032dd43160d7b24f8ded03431fc748">pcl_clock_t</a> <a class="code" href="a00089.html#a830f82e1c662586f44299fc0979713c9">pcl_clock</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160; </div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;PCL_INLINE <a class="code" href="a00092.html#a05032dd43160d7b24f8ded03431fc748">pcl_clock_t</a></div>
+<div class="line"><a name="l00135"></a><span class="lineno"><a class="line" href="a00089.html#a4a98d194e423df18269041a0251d01b8">  135</a></span>&#160;<a class="code" href="a00089.html#a4a98d194e423df18269041a0251d01b8">pcl_secdiff</a>(<a class="code" href="a00092.html#a05032dd43160d7b24f8ded03431fc748">pcl_clock_t</a> start, <a class="code" href="a00092.html#a05032dd43160d7b24f8ded03431fc748">pcl_clock_t</a> end)</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;{</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;  <span class="keywordflow">return</span> (end - start) / <a class="code" href="a00089.html#a838fab28c90f6514b1fabb309e5839ee">PCL_CLOCK_SEC</a>;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;}</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160; </div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;PCL_INLINE <a class="code" href="a00092.html#a05032dd43160d7b24f8ded03431fc748">pcl_clock_t</a></div>
+<div class="line"><a name="l00141"></a><span class="lineno"><a class="line" href="a00089.html#a37529227dce94c7c7cf9424507209e6f">  141</a></span>&#160;<a class="code" href="a00089.html#a37529227dce94c7c7cf9424507209e6f">pcl_msecdiff</a>(<a class="code" href="a00092.html#a05032dd43160d7b24f8ded03431fc748">pcl_clock_t</a> start, <a class="code" href="a00092.html#a05032dd43160d7b24f8ded03431fc748">pcl_clock_t</a> end)</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;{</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;  <span class="keywordflow">return</span> (end - start) / <a class="code" href="a00089.html#a8a12d866ae7ed8d0acaf75ab8664bed1">PCL_CLOCK_MSEC</a>;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;}</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160; </div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;PCL_INLINE <a class="code" href="a00092.html#a05032dd43160d7b24f8ded03431fc748">pcl_clock_t</a></div>
+<div class="line"><a name="l00147"></a><span class="lineno"><a class="line" href="a00089.html#ae544805a2554b9ff227f9aa0621c991a">  147</a></span>&#160;<a class="code" href="a00089.html#ae544805a2554b9ff227f9aa0621c991a">pcl_usecdiff</a>(<a class="code" href="a00092.html#a05032dd43160d7b24f8ded03431fc748">pcl_clock_t</a> start, <a class="code" href="a00092.html#a05032dd43160d7b24f8ded03431fc748">pcl_clock_t</a> end)</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;{</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;  <span class="keywordflow">return</span> (end - start) / <a class="code" href="a00089.html#a5cb89bfaafb39ad78f5a8b038d871a27">PCL_CLOCK_USEC</a>;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;}</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160; </div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;}</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aa00089_html_a8f597a146300a5b5e3c7646881215f4b"><div class="ttname"><a href="a00089.html#a8f597a146300a5b5e3c7646881215f4b">pcl_unix_siginfo</a></div><div class="ttdeci">void pcl_unix_siginfo(char *buf, size_t bufl, siginfo_t *info)</div></div>
+<div class="ttc" id="aa00089_html_ab7f4840a120511d64e7eb382be518f74"><div class="ttname"><a href="a00089.html#ab7f4840a120511d64e7eb382be518f74">pcl_sleep</a></div><div class="ttdeci">PCL_EXPORT bool pcl_sleep(uint64_t nsecs, bool(*cond)(void), uint32_t cond_interval)</div><div class="ttdoc">Pause execution of the current thread for the given number of nanoseconds.</div></div>
+<div class="ttc" id="aa00173_html_a74938de584345413d1bf87c4d78d697c"><div class="ttname"><a href="a00173.html#a74938de584345413d1bf87c4d78d697c">pcl_tm_t::tm_yday</a></div><div class="ttdeci">int tm_yday</div><div class="ttdef"><b>Definition:</b> <a href="a00089_source.html#l00073">time.h:73</a></div></div>
+<div class="ttc" id="aa00169_html_a67abf16c44712c2f6eacfce2da5aa5b4"><div class="ttname"><a href="a00169.html#a67abf16c44712c2f6eacfce2da5aa5b4">tag_pcl_time::nsec</a></div><div class="ttdeci">int nsec</div><div class="ttdef"><b>Definition:</b> <a href="a00089_source.html#l00061">time.h:61</a></div></div>
+<div class="ttc" id="aa00089_html_abcb474f2cc9fcb5de89f3392b18dabe0"><div class="ttname"><a href="a00089.html#abcb474f2cc9fcb5de89f3392b18dabe0">pcl_gmtime</a></div><div class="ttdeci">PCL_EXPORT int pcl_gmtime(const pcl_time_t *t, pcl_tm_t *result)</div></div>
+<div class="ttc" id="aa00092_html_a7589c2eb4da44bc1c8e4d094798e7f0b"><div class="ttname"><a href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a></div><div class="ttdeci">char tchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00092_source.html#l00052">types.h:52</a></div></div>
+<div class="ttc" id="aa00173_html_ace9d15b139822be8f2990e3b05871059"><div class="ttname"><a href="a00173.html#ace9d15b139822be8f2990e3b05871059">pcl_tm_t::tm_nsec</a></div><div class="ttdeci">int tm_nsec</div><div class="ttdef"><b>Definition:</b> <a href="a00089_source.html#l00089">time.h:89</a></div></div>
+<div class="ttc" id="aa00089_html_a8a12d866ae7ed8d0acaf75ab8664bed1"><div class="ttname"><a href="a00089.html#a8a12d866ae7ed8d0acaf75ab8664bed1">PCL_CLOCK_MSEC</a></div><div class="ttdeci">#define PCL_CLOCK_MSEC</div><div class="ttdef"><b>Definition:</b> <a href="a00089_source.html#l00050">time.h:50</a></div></div>
+<div class="ttc" id="aa00089_html_a5cb89bfaafb39ad78f5a8b038d871a27"><div class="ttname"><a href="a00089.html#a5cb89bfaafb39ad78f5a8b038d871a27">PCL_CLOCK_USEC</a></div><div class="ttdeci">#define PCL_CLOCK_USEC</div><div class="ttdef"><b>Definition:</b> <a href="a00089_source.html#l00051">time.h:51</a></div></div>
+<div class="ttc" id="aa00173_html_a02048604d30b880033311cf542d63f92"><div class="ttname"><a href="a00173.html#a02048604d30b880033311cf542d63f92">pcl_tm_t::tm_mday</a></div><div class="ttdeci">int tm_mday</div><div class="ttdef"><b>Definition:</b> <a href="a00089_source.html#l00069">time.h:69</a></div></div>
+<div class="ttc" id="aa00089_html_acf907b5af7aefec4ad0198ca5af8a502"><div class="ttname"><a href="a00089.html#acf907b5af7aefec4ad0198ca5af8a502">pcl_localtime</a></div><div class="ttdeci">PCL_EXPORT int pcl_localtime(const pcl_time_t *t, pcl_tm_t *result)</div></div>
+<div class="ttc" id="aa00089_html_ae544805a2554b9ff227f9aa0621c991a"><div class="ttname"><a href="a00089.html#ae544805a2554b9ff227f9aa0621c991a">pcl_usecdiff</a></div><div class="ttdeci">PCL_INLINE pcl_clock_t pcl_usecdiff(pcl_clock_t start, pcl_clock_t end)</div><div class="ttdef"><b>Definition:</b> <a href="a00089_source.html#l00147">time.h:147</a></div></div>
+<div class="ttc" id="aa00089_html_a4254aba6d377b7f2ab74deeaef554c45"><div class="ttname"><a href="a00089.html#a4254aba6d377b7f2ab74deeaef554c45">pcl_utimes</a></div><div class="ttdeci">PCL_EXPORT int pcl_utimes(const tchar_t *path, pcl_time_t *atime, pcl_time_t *ctime, pcl_time_t *mtime, pcl_time_t *crtime, pcl_time_t *btime)</div></div>
+<div class="ttc" id="aa00173_html_a994c4f4519ba57e186580d21cc86f9e5"><div class="ttname"><a href="a00173.html#a994c4f4519ba57e186580d21cc86f9e5">pcl_tm_t::tm_year</a></div><div class="ttdeci">int tm_year</div><div class="ttdef"><b>Definition:</b> <a href="a00089_source.html#l00071">time.h:71</a></div></div>
+<div class="ttc" id="aa00089_html_a4509a246502a89112c0ae632b587974c"><div class="ttname"><a href="a00089.html#a4509a246502a89112c0ae632b587974c">pcl_mktime</a></div><div class="ttdeci">PCL_EXPORT pcl_time_t pcl_mktime(pcl_tm_t *tu)</div><div class="ttdoc">Converts broken-down time to epoch nanoseconds.</div></div>
+<div class="ttc" id="aa00089_html_ac55fda19007832a2b90996ffee0cd752"><div class="ttname"><a href="a00089.html#ac55fda19007832a2b90996ffee0cd752">pcl_strftime</a></div><div class="ttdeci">PCL_EXPORT size_t pcl_strftime(char *out, size_t len, const char *format, const pcl_tm_t *tm)</div></div>
+<div class="ttc" id="aa00173_html_a987fa9280fe4cd6c6b8f77409f1c1504"><div class="ttname"><a href="a00173.html#a987fa9280fe4cd6c6b8f77409f1c1504">pcl_tm_t::tm_min</a></div><div class="ttdeci">int tm_min</div><div class="ttdef"><b>Definition:</b> <a href="a00089_source.html#l00067">time.h:67</a></div></div>
+<div class="ttc" id="aa00173_html_a15d27611abcf49f13cfa3784cdf999c3"><div class="ttname"><a href="a00173.html#a15d27611abcf49f13cfa3784cdf999c3">pcl_tm_t::tm_zone</a></div><div class="ttdeci">char * tm_zone</div><div class="ttdef"><b>Definition:</b> <a href="a00089_source.html#l00080">time.h:80</a></div></div>
+<div class="ttc" id="aa00089_html_a838fab28c90f6514b1fabb309e5839ee"><div class="ttname"><a href="a00089.html#a838fab28c90f6514b1fabb309e5839ee">PCL_CLOCK_SEC</a></div><div class="ttdeci">#define PCL_CLOCK_SEC</div><div class="ttdef"><b>Definition:</b> <a href="a00089_source.html#l00049">time.h:49</a></div></div>
+<div class="ttc" id="aa00173_html_ada983deda100b604bee5716512453658"><div class="ttname"><a href="a00173.html#ada983deda100b604bee5716512453658">pcl_tm_t::tm_mon</a></div><div class="ttdeci">int tm_mon</div><div class="ttdef"><b>Definition:</b> <a href="a00089_source.html#l00070">time.h:70</a></div></div>
+<div class="ttc" id="aa00173_html_a91674f2fd0599cdb65aae6828593bd8c"><div class="ttname"><a href="a00173.html#a91674f2fd0599cdb65aae6828593bd8c">pcl_tm_t::tm_gmtoff</a></div><div class="ttdeci">long tm_gmtoff</div><div class="ttdef"><b>Definition:</b> <a href="a00089_source.html#l00086">time.h:86</a></div></div>
+<div class="ttc" id="aa00173_html_a4412571b90746a85cae9b8841c44c59c"><div class="ttname"><a href="a00173.html#a4412571b90746a85cae9b8841c44c59c">pcl_tm_t::tm_wday</a></div><div class="ttdeci">int tm_wday</div><div class="ttdef"><b>Definition:</b> <a href="a00089_source.html#l00072">time.h:72</a></div></div>
+<div class="ttc" id="aa00089_html_a4a98d194e423df18269041a0251d01b8"><div class="ttname"><a href="a00089.html#a4a98d194e423df18269041a0251d01b8">pcl_secdiff</a></div><div class="ttdeci">PCL_INLINE pcl_clock_t pcl_secdiff(pcl_clock_t start, pcl_clock_t end)</div><div class="ttdef"><b>Definition:</b> <a href="a00089_source.html#l00135">time.h:135</a></div></div>
+<div class="ttc" id="aa00089_html_a202860ee480207e7dcc481029f4f466f"><div class="ttname"><a href="a00089.html#a202860ee480207e7dcc481029f4f466f">pcl_time</a></div><div class="ttdeci">PCL_EXPORT pcl_time_t pcl_time(void)</div></div>
+<div class="ttc" id="aa00089_html"><div class="ttname"><a href="a00089.html">time.h</a></div></div>
+<div class="ttc" id="aa00173_html_a4d171061df9e012fcfbd1172b8440d5f"><div class="ttname"><a href="a00173.html#a4d171061df9e012fcfbd1172b8440d5f">pcl_tm_t::tm_hour</a></div><div class="ttdeci">int tm_hour</div><div class="ttdef"><b>Definition:</b> <a href="a00089_source.html#l00068">time.h:68</a></div></div>
+<div class="ttc" id="aa00169_html_a4c17f3941fd29561d689e4e03f18db46"><div class="ttname"><a href="a00169.html#a4c17f3941fd29561d689e4e03f18db46">tag_pcl_time::sec</a></div><div class="ttdeci">long long sec</div><div class="ttdef"><b>Definition:</b> <a href="a00089_source.html#l00060">time.h:60</a></div></div>
+<div class="ttc" id="aa00089_html_a830f82e1c662586f44299fc0979713c9"><div class="ttname"><a href="a00089.html#a830f82e1c662586f44299fc0979713c9">pcl_clock</a></div><div class="ttdeci">PCL_EXPORT pcl_clock_t pcl_clock(void)</div></div>
+<div class="ttc" id="aa00092_html_a05032dd43160d7b24f8ded03431fc748"><div class="ttname"><a href="a00092.html#a05032dd43160d7b24f8ded03431fc748">pcl_clock_t</a></div><div class="ttdeci">long double pcl_clock_t</div><div class="ttdef"><b>Definition:</b> <a href="a00092_source.html#l00059">types.h:59</a></div></div>
+<div class="ttc" id="aa00169_html"><div class="ttname"><a href="a00169.html">tag_pcl_time</a></div><div class="ttdef"><b>Definition:</b> <a href="a00089_source.html#l00058">time.h:59</a></div></div>
+<div class="ttc" id="aa00173_html"><div class="ttname"><a href="a00173.html">pcl_tm_t</a></div><div class="ttdef"><b>Definition:</b> <a href="a00089_source.html#l00064">time.h:65</a></div></div>
+<div class="ttc" id="aa00173_html_a18df301c1a10c8d493da86ce5c2aea78"><div class="ttname"><a href="a00173.html#a18df301c1a10c8d493da86ce5c2aea78">pcl_tm_t::tm_sec</a></div><div class="ttdeci">int tm_sec</div><div class="ttdef"><b>Definition:</b> <a href="a00089_source.html#l00066">time.h:66</a></div></div>
+<div class="ttc" id="aa00173_html_a7d102a87f898878ebf37ebd87504e099"><div class="ttname"><a href="a00173.html#a7d102a87f898878ebf37ebd87504e099">pcl_tm_t::tm_isdst</a></div><div class="ttdeci">int tm_isdst</div><div class="ttdef"><b>Definition:</b> <a href="a00089_source.html#l00074">time.h:74</a></div></div>
+<div class="ttc" id="aa00089_html_a37529227dce94c7c7cf9424507209e6f"><div class="ttname"><a href="a00089.html#a37529227dce94c7c7cf9424507209e6f">pcl_msecdiff</a></div><div class="ttdeci">PCL_INLINE pcl_clock_t pcl_msecdiff(pcl_clock_t start, pcl_clock_t end)</div><div class="ttdef"><b>Definition:</b> <a href="a00089_source.html#l00141">time.h:141</a></div></div>
+<div class="ttc" id="aa00092_html"><div class="ttname"><a href="a00092.html">types.h</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_e4fbad692486c3448e8889bf14d613e1.html">&#x202A;pcl</a></li><li class="navelem"><a class="el" href="a00089.html">&#x202A;unix.h</a></li>
-    <li class="footer">Generated on Sun Nov 22 2020 21:04:39 for &#x202A;libpcl by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
+    <li class="navelem"><a class="el" href="dir_e4fbad692486c3448e8889bf14d613e1.html">&#x202A;pcl</a></li><li class="navelem"><a class="el" href="a00089.html">&#x202A;time.h</a></li>
+    <li class="footer">Generated on Tue Nov 24 2020 21:54:04 for &#x202A;libpcl by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
   </ul>
 </div>
 </body>

@@ -1,13 +1,9 @@
 var a00050 =
 [
-    [ "\u202Apcl_net_ip2inet", "a00050.html#a8594e0c91bf6918fbdaf685e387dbf75", null ],
-    [ "\u202Apcl_net_inet2ip", "a00050.html#ac2e07d0f0d1a97a6ffb799741ccb09d3", null ],
-    [ "\u202Apcl_net_host2addr", "a00050.html#a0db0633eb9d33e95c85b6e77082e5977", null ],
-    [ "\u202Apcl_net_addr2ip", "a00050.html#a3a89fff841a4a80f3463d4e0c5a01d34", null ],
-    [ "\u202Apcl_net_ai2pcl", "a00050.html#a50b8574eff9768351e9d99282d65dda3", null ],
-    [ "\u202Apcl_net_dns2pcl", "a00050.html#ab1d75e16b7dbd947318dffbcc27a6022", null ],
-    [ "\u202Apcl_net_reverse", "a00050.html#a4888f86383ed6c71364fab38dfb3c151", null ],
-    [ "\u202Aipcl_net_resolve", "a00050.html#a658e741b7671368eddb06e170a49d066", null ],
-    [ "\u202Apcl_net_dnstxtrec", "a00050.html#aa06b75987aa53e5dc52b322cb737461f", null ],
-    [ "\u202Apcl_net_addrlen", "a00050.html#a4cc1493e1d445d006db62cae4904979f", null ]
+    [ "\u202APCL_MAXUNIXSOCKPATH", "a00050.html#ae9a60291f69030d6b06def8aebc312f0", null ],
+    [ "\u202APCL_MAXIPLEN", "a00050.html#a243aa45cd231fcd482188b9be39f0592", null ],
+    [ "\u202APCL_MAXDOMAINLEN", "a00050.html#a4b5688138cb772f78c3f93bc2b405914", null ],
+    [ "\u202APCL_MAXPATH", "a00050.html#a115fcb961c6ded0f9404aa5ff161b39e", null ],
+    [ "\u202APCL_MAXLONGPATH", "a00050.html#add6b6e80b41ca7cf7104ac005e354298", null ],
+    [ "\u202APCL_MAXNAME", "a00050.html#ac557951b2eee929e20bd4d725507a9c9", null ]
 ];

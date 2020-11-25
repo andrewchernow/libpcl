@@ -1,22 +1,20 @@
 var a00020 =
 [
-    [ "\u202Apcl_dirent_type_t", "a00100.html#gae41b808539653bb51ff789a39595f03a", [
-      [ "\u202APclDirentUnknown", "a00100.html#ggae41b808539653bb51ff789a39595f03aad39239acc789c49c45ee20485e426367", null ],
-      [ "\u202APclDirentFifo", "a00100.html#ggae41b808539653bb51ff789a39595f03aa2430d830d1abf82f3cb0ed0a4252214c", null ],
-      [ "\u202APclDirentChar", "a00100.html#ggae41b808539653bb51ff789a39595f03aa28c0a5c83c1a0a2c77d098ab22649b4e", null ],
-      [ "\u202APclDirentDir", "a00100.html#ggae41b808539653bb51ff789a39595f03aae9ee7cbcfa44fe6d71c4be9cfb3d7aec", null ],
-      [ "\u202APclDirentBlock", "a00100.html#ggae41b808539653bb51ff789a39595f03aa032b28f47b23732ac986054a87f5d0d3", null ],
-      [ "\u202APclDirentFile", "a00100.html#ggae41b808539653bb51ff789a39595f03aaec8f5ed49cbfd6beef2f7226d10ea88c", null ],
-      [ "\u202APclDirentLink", "a00100.html#ggae41b808539653bb51ff789a39595f03aad3570e8cb6acb6b733638232550200a0", null ],
-      [ "\u202APclDirentSocket", "a00100.html#ggae41b808539653bb51ff789a39595f03aa1d83fbbedbdf13d9400655be218b3bd1", null ]
-    ] ],
-    [ "\u202Apcl_opendir", "a00100.html#ga0a76354190773bba4b5d049c695baec6", null ],
-    [ "\u202Apcl_dir_path", "a00100.html#ga508bd6828cbd742b98d83b4fc62ac0fb", null ],
-    [ "\u202Apcl_readdir", "a00100.html#ga12c0f9a0e5f0d41bd409507abb0a6ac2", null ],
-    [ "\u202Apcl_closedir", "a00100.html#gaa484d019a2f4e64c27eaa7815d989742", null ],
-    [ "\u202Apcl_rmdir", "a00100.html#gad69addc53647b240ff1dabe0d07b3eb9", null ],
-    [ "\u202Apcl_rmdir_r", "a00100.html#gad0b0beaa64e497b87c5079f6b8d8ec47", null ],
-    [ "\u202Apcl_chdir", "a00100.html#ga794189788111930c3af711121c12c67e", null ],
-    [ "\u202Apcl_mkdir", "a00100.html#gaaaf11f44d616bb1ad9474a49623eff59", null ],
-    [ "\u202Apcl_mkdirs", "a00100.html#ga51a72b0f247201ae8f25a32b6c523384", null ]
+    [ "\u202APCL_WPATHSEP", "a00020.html#a2f181fcdcf2996fbb4f924ea6439d9b9", null ],
+    [ "\u202APCL_WPATHSEPCHR", "a00020.html#abe72e93a1f38caee81f60619fbac83b2", null ],
+    [ "\u202APCL_PATHSEP", "a00020.html#a03401d0da15938c08069f088c17399fb", null ],
+    [ "\u202APCL_PATHSEPCHR", "a00020.html#a0e692c6b73a1ad87c8a6aa38de57d510", null ],
+    [ "\u202Apcl_ftell", "a00020.html#a3f9a6d4ca60a411c01c15964f4fb9f63", null ],
+    [ "\u202A_T", "a00020.html#a76f4425a2027b15c08530794be52f2f1", null ],
+    [ "\u202APCL_LOCATION_ARGS", "a00020.html#ac26653ff3959b17bc17e9d32b036493d", null ],
+    [ "\u202APCL_LOCATION_PARAMS", "a00020.html#acaae4a70e5707a94c3ea8e9da14fcab6", null ],
+    [ "\u202APCL_LOCATION_VALS", "a00020.html#abd6d80b4c77b949a990416b0ff19ae75", null ],
+    [ "\u202AUNUSED", "a00020.html#a9b58a1294d89c976dfbe4dc480e9dfb8", null ],
+    [ "\u202Aroundup", "a00020.html#a96e664bb4e98b2c771f9cfa7d45a92d3", null ],
+    [ "\u202Amax", "a00020.html#affe776513b24d84b39af8ab0930fef7f", null ],
+    [ "\u202Amin", "a00020.html#ac6afabdc09a49a433ee19d8a9486056d", null ],
+    [ "\u202Astrempty", "a00020.html#a8278668d120afdd0e47def881845559d", null ],
+    [ "\u202Acountof", "a00020.html#a9941e62482da843b972636008fd80e56", null ],
+    [ "\u202Azero", "a00020.html#ac641df42841b1cf112b9accaf23806b4", null ],
+    [ "\u202APCL_BADFD", "a00020.html#a68a5c06e5c119af1fbb32970a866cb2c", null ]
 ];

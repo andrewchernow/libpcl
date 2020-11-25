@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;pcl/types.h Source File</title>
+<title>&#x202A;libpcl: &#x202A;pcl/thread.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -93,117 +93,93 @@ $(document).ready(function(){initNavTree('a00086_source.html',''); initResizable
 
 <div class="header">
   <div class="headertitle">
-<div class="title">types.h</div>  </div>
+<div class="title">thread.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="a00086.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">  modification, are permitted provided that the following conditions are met:</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">  * Redistributions of source code must retain the above copyright notice, this</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">    list of conditions and the following disclaimer.</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">  * Redistributions in binary form must reproduce the above copyright notice,</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">    this list of conditions and the following disclaimer in the documentation</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">    and/or other materials provided with the distribution.</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">  * Neither the name of the copyright holder nor the names of its</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">    contributors may be used to endorse or promote products derived from</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">    this software without specific prior written permission.</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#ifndef LIBPCL_TYPES_H</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#define LIBPCL_TYPES_H</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;sys/types.h&gt;</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &lt;wchar.h&gt;</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#include &lt;stdbool.h&gt;</span></div>
+<a href="a00086.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">  All rights reserved.</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">  modification, are permitted provided that the following conditions are met:</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">  * Redistributions of source code must retain the above copyright notice, this</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">    list of conditions and the following disclaimer.</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">  * Redistributions in binary form must reproduce the above copyright notice,</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">    this list of conditions and the following disclaimer in the documentation</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">    and/or other materials provided with the distribution.</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">  * Neither the name of the copyright holder nor the names of its</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">    contributors may be used to endorse or promote products derived from</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">    this software without specific prior written permission.</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">*/</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#ifndef LIBPCL_THREAD_H</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#define LIBPCL_THREAD_H</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="a00086.html#a60786f3d097f22d55e9c364ec3d019a8">   37</a></span>&#160;<span class="preprocessor">#define _TIMESPEC_DEFINED</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#include &lt;pthread.h&gt;</span></div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">wchar_t</span> <a class="code" href="a00086.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a>;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">int</span> mode_t;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">int</span> nlink_t;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">int</span> pid_t;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">typedef</span> intptr_t ssize_t;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">void</span> *<a class="code" href="a00086.html#a38181b2081934a85dad92145b8f4d774">pcl_fd_t</a>;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keyword">typedef</span> uintptr_t <a class="code" href="a00086.html#a35d4d11068f60efd5365b31e315c18eb">pcl_socketfd_t</a>;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">void</span> *<a class="code" href="a00086.html#aebcc95bdc886e05c6e79044367ebc127">pcl_prochandle_t</a>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">char</span> uid_t[68 + 1]; <span class="comment">/* max SID string length */</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">char</span> gid_t[68 + 1]; <span class="comment">/* max SID string length */</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="a00086.html#a7589c2eb4da44bc1c8e4d094798e7f0b">   52</a></span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">char</span> <a class="code" href="a00086.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a>;</div>
-<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="a00086.html#a38181b2081934a85dad92145b8f4d774">   53</a></span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">int</span> <a class="code" href="a00086.html#a38181b2081934a85dad92145b8f4d774">pcl_fd_t</a>;</div>
-<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="a00086.html#a35d4d11068f60efd5365b31e315c18eb">   54</a></span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">int</span> <a class="code" href="a00086.html#a35d4d11068f60efd5365b31e315c18eb">pcl_socketfd_t</a>;</div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="a00086.html#aebcc95bdc886e05c6e79044367ebc127">   55</a></span>&#160;<span class="keyword">typedef</span> pid_t <a class="code" href="a00086.html#aebcc95bdc886e05c6e79044367ebc127">pcl_prochandle_t</a>;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="a00086.html#a74a9f3e3e5163485365adb35c5030f65">   58</a></span>&#160;<span class="keyword">typedef</span> int64_t <a class="code" href="a00086.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a>;</div>
-<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="a00106.html#gad02d203d34a7f8b5cc8516219411ec06">   59</a></span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">long</span> <span class="keywordtype">double</span> <a class="code" href="a00086.html#a05032dd43160d7b24f8ded03431fc748">pcl_clock_t</a>; <span class="comment">/* high-res performance counter (nanosecs) */</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment">/* forward declarations */</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="a00158.html">tag_pcl_time</a> <a class="code" href="a00158.html">pcl_time_t</a>;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="a00114.html">tag_pcl_err_trace</a> <a class="code" href="a00114.html">pcl_err_trace_t</a>;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="a00118.html">tag_pcl_err_ctx</a> <a class="code" href="a00118.html">pcl_err_ctx_t</a>;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>tag_pcl_file <a class="code" href="a00086.html#ad9cada4fd6c46abc8fbf45fea3416a66">pcl_file_t</a>;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>tag_pcl_dir <a class="code" href="a00100.html#ga630bd7c310ec017b8880a1c328a2db9d">pcl_dir_t</a>;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>tag_pcl_socket <a class="code" href="a00086.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a>;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>tag_pcl_ssl <a class="code" href="a00086.html#a975758072468e41b0896e8b5f2ff0987">pcl_ssl_t</a>;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="a00170.html">tag_pcl_vector</a> <a class="code" href="a00170.html">pcl_vector_t</a>;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="a00150.html">tag_pcl_stat</a> <a class="code" href="a00150.html">pcl_stat_t</a>;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>tag_pcl_buf <a class="code" href="a00099.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a>;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="a00126.html">tag_pcl_htable</a> <a class="code" href="a00126.html">pcl_htable_t</a>;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
-<div class="line"><a name="l00097"></a><span class="lineno"><a class="line" href="a00166.html">   97</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;{</div>
-<div class="line"><a name="l00099"></a><span class="lineno"><a class="line" href="a00166.html#a8325b33af041490126f231fdfd194797">   99</a></span>&#160;  uint64_t <a class="code" href="a00166.html#a8325b33af041490126f231fdfd194797">low</a>;</div>
-<div class="line"><a name="l00100"></a><span class="lineno"><a class="line" href="a00166.html#a9997109464efa7a7fc24efcaca7a9fb3">  100</a></span>&#160;  uint64_t <a class="code" href="a00166.html#a9997109464efa7a7fc24efcaca7a9fb3">high</a>;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;} <a class="code" href="a00166.html">uint128_t</a>;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="preprocessor">#endif // LIBPCL_TYPES_H</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="a00086.html#ab9ebced28d001ec2f9736e28d3aeafbe">   44</a></span>&#160;<span class="keyword">typedef</span> void (*<a class="code" href="a00086.html#ab9ebced28d001ec2f9736e28d3aeafbe">pcl_thread_start_t</a>)(<span class="keywordtype">void</span> *);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="a00086.html#a52e5767a93bc765d02769155f549deaf">   46</a></span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00086.html#a52e5767a93bc765d02769155f549deaf">pcl_thread_create</a>(pthread_t *t, <a class="code" href="a00086.html#ab9ebced28d001ec2f9736e28d3aeafbe">pcl_thread_start_t</a> routine, <span class="keywordtype">void</span> *a);</div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="a00086.html#ad143023a74403f3e72412377aa804e97">   47</a></span>&#160;PCL_EXPORT uint64_t <a class="code" href="a00086.html#ad143023a74403f3e72412377aa804e97">pcl_thread_id</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment">/* mutex support */</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="a00086.html#a1b8ccddcfc0b295192808c446a544e4d">   50</a></span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00086.html#a1b8ccddcfc0b295192808c446a544e4d">pcl_mutex_init</a>(pthread_mutex_t *m);</div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="a00086.html#a6ae027ed507b26c94d659e0e8ecf6805">   51</a></span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00086.html#a6ae027ed507b26c94d659e0e8ecf6805">pcl_mutex_lock</a>(pthread_mutex_t *m);</div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="a00086.html#a898488ad19dc71c2a867e563811328f7">   52</a></span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00086.html#a898488ad19dc71c2a867e563811328f7">pcl_mutex_trylock</a>(pthread_mutex_t *m);</div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="a00086.html#a28100f964ac6a4a0d9c5548d9ebbf3b0">   53</a></span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00086.html#a28100f964ac6a4a0d9c5548d9ebbf3b0">pcl_mutex_unlock</a>(pthread_mutex_t *m);</div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="a00086.html#a997b7ae2931662a8a547fd07b6d70648">   54</a></span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00086.html#a997b7ae2931662a8a547fd07b6d70648">pcl_mutex_destroy</a>(pthread_mutex_t *m);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="comment">/* TLS support */</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="a00086.html#ad411aca9ab5b05ef8287863a08cf2d3b">   57</a></span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00086.html#ad411aca9ab5b05ef8287863a08cf2d3b">pcl_tls_alloc</a>(pthread_key_t *key, <span class="keywordtype">void</span> (*destructor)(<span class="keywordtype">void</span>*));</div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="a00086.html#aeed18624e9e341d06c760db3bc240330">   58</a></span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00086.html#aeed18624e9e341d06c760db3bc240330">pcl_tls_set</a>(pthread_key_t key, <span class="keywordtype">void</span> *value);</div>
+<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="a00086.html#af682f722d388060857e9c5b6f974b31c">   59</a></span>&#160;PCL_EXPORT <span class="keywordtype">void</span> *<a class="code" href="a00086.html#af682f722d388060857e9c5b6f974b31c">pcl_tls_get</a>(pthread_key_t key);</div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="a00086.html#adf60f49a92bdbcc332652009bd819cac">   60</a></span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00086.html#adf60f49a92bdbcc332652009bd819cac">pcl_tls_free</a>(pthread_key_t key);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;}</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aa00086_html_a975758072468e41b0896e8b5f2ff0987"><div class="ttname"><a href="a00086.html#a975758072468e41b0896e8b5f2ff0987">pcl_ssl_t</a></div><div class="ttdeci">struct tag_pcl_ssl pcl_ssl_t</div><div class="ttdef"><b>Definition:</b> <a href="a00086_source.html#l00059">types.h:71</a></div></div>
-<div class="ttc" id="aa00158_html"><div class="ttname"><a href="a00158.html">tag_pcl_time</a></div><div class="ttdef"><b>Definition:</b> <a href="a00083_source.html#l00058">time.h:59</a></div></div>
-<div class="ttc" id="aa00166_html"><div class="ttname"><a href="a00166.html">uint128_t</a></div><div class="ttdef"><b>Definition:</b> <a href="a00086_source.html#l00097">types.h:98</a></div></div>
-<div class="ttc" id="aa00100_html_ga630bd7c310ec017b8880a1c328a2db9d"><div class="ttname"><a href="a00100.html#ga630bd7c310ec017b8880a1c328a2db9d">pcl_dir_t</a></div><div class="ttdeci">struct tag_pcl_dir pcl_dir_t</div><div class="ttdoc">Directory handle.</div><div class="ttdef"><b>Definition:</b> <a href="a00086_source.html#l00059">types.h:69</a></div></div>
-<div class="ttc" id="aa00099_html_gaeaa2d03b07aa775cfd1986f0f303151b"><div class="ttname"><a href="a00099.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a></div><div class="ttdeci">struct tag_pcl_buf pcl_buf_t</div><div class="ttdef"><b>Definition:</b> <a href="a00086_source.html#l00059">types.h:78</a></div></div>
-<div class="ttc" id="aa00086_html_a281dab68eedba9982a54c3bf45d47d91"><div class="ttname"><a href="a00086.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a></div><div class="ttdeci">struct tag_pcl_socket pcl_socket_t</div><div class="ttdef"><b>Definition:</b> <a href="a00086_source.html#l00059">types.h:70</a></div></div>
-<div class="ttc" id="aa00118_html"><div class="ttname"><a href="a00118.html">tag_pcl_err_ctx</a></div><div class="ttdoc">Represents a PCL error context, with optional stack trace.</div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00062">errctx.h:63</a></div></div>
-<div class="ttc" id="aa00086_html_a74a9f3e3e5163485365adb35c5030f65"><div class="ttname"><a href="a00086.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a></div><div class="ttdeci">int64_t pcl_atomic_t</div><div class="ttdef"><b>Definition:</b> <a href="a00086_source.html#l00058">types.h:58</a></div></div>
-<div class="ttc" id="aa00086_html_a7589c2eb4da44bc1c8e4d094798e7f0b"><div class="ttname"><a href="a00086.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a></div><div class="ttdeci">char tchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00086_source.html#l00052">types.h:52</a></div></div>
-<div class="ttc" id="aa00086_html_ad9cada4fd6c46abc8fbf45fea3416a66"><div class="ttname"><a href="a00086.html#ad9cada4fd6c46abc8fbf45fea3416a66">pcl_file_t</a></div><div class="ttdeci">struct tag_pcl_file pcl_file_t</div><div class="ttdef"><b>Definition:</b> <a href="a00086_source.html#l00059">types.h:65</a></div></div>
-<div class="ttc" id="aa00126_html"><div class="ttname"><a href="a00126.html">tag_pcl_htable</a></div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00060">htable.h:61</a></div></div>
-<div class="ttc" id="aa00114_html"><div class="ttname"><a href="a00114.html">tag_pcl_err_trace</a></div><div class="ttdoc">Stack trace object implemented as a linked list.</div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00042">errctx.h:43</a></div></div>
-<div class="ttc" id="aa00170_html"><div class="ttname"><a href="a00170.html">tag_pcl_vector</a></div><div class="ttdoc">Vector object.</div><div class="ttdef"><b>Definition:</b> <a href="a00095_source.html#l00090">vector.h:91</a></div></div>
-<div class="ttc" id="aa00086_html_a05032dd43160d7b24f8ded03431fc748"><div class="ttname"><a href="a00086.html#a05032dd43160d7b24f8ded03431fc748">pcl_clock_t</a></div><div class="ttdeci">long double pcl_clock_t</div><div class="ttdef"><b>Definition:</b> <a href="a00086_source.html#l00059">types.h:59</a></div></div>
-<div class="ttc" id="aa00086_html_a35d4d11068f60efd5365b31e315c18eb"><div class="ttname"><a href="a00086.html#a35d4d11068f60efd5365b31e315c18eb">pcl_socketfd_t</a></div><div class="ttdeci">int pcl_socketfd_t</div><div class="ttdef"><b>Definition:</b> <a href="a00086_source.html#l00054">types.h:54</a></div></div>
-<div class="ttc" id="aa00086_html_aebcc95bdc886e05c6e79044367ebc127"><div class="ttname"><a href="a00086.html#aebcc95bdc886e05c6e79044367ebc127">pcl_prochandle_t</a></div><div class="ttdeci">pid_t pcl_prochandle_t</div><div class="ttdef"><b>Definition:</b> <a href="a00086_source.html#l00055">types.h:55</a></div></div>
-<div class="ttc" id="aa00150_html"><div class="ttname"><a href="a00150.html">tag_pcl_stat</a></div><div class="ttdef"><b>Definition:</b> <a href="a00062_source.html#l00221">stat.h:222</a></div></div>
-<div class="ttc" id="aa00086_html_a38181b2081934a85dad92145b8f4d774"><div class="ttname"><a href="a00086.html#a38181b2081934a85dad92145b8f4d774">pcl_fd_t</a></div><div class="ttdeci">int pcl_fd_t</div><div class="ttdef"><b>Definition:</b> <a href="a00086_source.html#l00053">types.h:53</a></div></div>
-<div class="ttc" id="aa00166_html_a9997109464efa7a7fc24efcaca7a9fb3"><div class="ttname"><a href="a00166.html#a9997109464efa7a7fc24efcaca7a9fb3">uint128_t::high</a></div><div class="ttdeci">uint64_t high</div><div class="ttdef"><b>Definition:</b> <a href="a00086_source.html#l00100">types.h:100</a></div></div>
-<div class="ttc" id="aa00166_html_a8325b33af041490126f231fdfd194797"><div class="ttname"><a href="a00166.html#a8325b33af041490126f231fdfd194797">uint128_t::low</a></div><div class="ttdeci">uint64_t low</div><div class="ttdef"><b>Definition:</b> <a href="a00086_source.html#l00099">types.h:99</a></div></div>
+<div class="ttc" id="aa00086_html_ad411aca9ab5b05ef8287863a08cf2d3b"><div class="ttname"><a href="a00086.html#ad411aca9ab5b05ef8287863a08cf2d3b">pcl_tls_alloc</a></div><div class="ttdeci">PCL_EXPORT int pcl_tls_alloc(pthread_key_t *key, void(*destructor)(void *))</div></div>
+<div class="ttc" id="aa00086_html_ad143023a74403f3e72412377aa804e97"><div class="ttname"><a href="a00086.html#ad143023a74403f3e72412377aa804e97">pcl_thread_id</a></div><div class="ttdeci">PCL_EXPORT uint64_t pcl_thread_id(void)</div></div>
+<div class="ttc" id="aa00086_html_aeed18624e9e341d06c760db3bc240330"><div class="ttname"><a href="a00086.html#aeed18624e9e341d06c760db3bc240330">pcl_tls_set</a></div><div class="ttdeci">PCL_EXPORT int pcl_tls_set(pthread_key_t key, void *value)</div></div>
+<div class="ttc" id="aa00086_html_a52e5767a93bc765d02769155f549deaf"><div class="ttname"><a href="a00086.html#a52e5767a93bc765d02769155f549deaf">pcl_thread_create</a></div><div class="ttdeci">PCL_EXPORT int pcl_thread_create(pthread_t *t, pcl_thread_start_t routine, void *a)</div></div>
+<div class="ttc" id="aa00086_html_a28100f964ac6a4a0d9c5548d9ebbf3b0"><div class="ttname"><a href="a00086.html#a28100f964ac6a4a0d9c5548d9ebbf3b0">pcl_mutex_unlock</a></div><div class="ttdeci">PCL_EXPORT int pcl_mutex_unlock(pthread_mutex_t *m)</div></div>
+<div class="ttc" id="aa00086_html_adf60f49a92bdbcc332652009bd819cac"><div class="ttname"><a href="a00086.html#adf60f49a92bdbcc332652009bd819cac">pcl_tls_free</a></div><div class="ttdeci">PCL_EXPORT int pcl_tls_free(pthread_key_t key)</div></div>
+<div class="ttc" id="aa00086_html_a997b7ae2931662a8a547fd07b6d70648"><div class="ttname"><a href="a00086.html#a997b7ae2931662a8a547fd07b6d70648">pcl_mutex_destroy</a></div><div class="ttdeci">PCL_EXPORT int pcl_mutex_destroy(pthread_mutex_t *m)</div></div>
+<div class="ttc" id="aa00086_html_a1b8ccddcfc0b295192808c446a544e4d"><div class="ttname"><a href="a00086.html#a1b8ccddcfc0b295192808c446a544e4d">pcl_mutex_init</a></div><div class="ttdeci">PCL_EXPORT int pcl_mutex_init(pthread_mutex_t *m)</div></div>
+<div class="ttc" id="aa00086_html_a898488ad19dc71c2a867e563811328f7"><div class="ttname"><a href="a00086.html#a898488ad19dc71c2a867e563811328f7">pcl_mutex_trylock</a></div><div class="ttdeci">PCL_EXPORT int pcl_mutex_trylock(pthread_mutex_t *m)</div></div>
+<div class="ttc" id="aa00086_html_a6ae027ed507b26c94d659e0e8ecf6805"><div class="ttname"><a href="a00086.html#a6ae027ed507b26c94d659e0e8ecf6805">pcl_mutex_lock</a></div><div class="ttdeci">PCL_EXPORT int pcl_mutex_lock(pthread_mutex_t *m)</div></div>
+<div class="ttc" id="aa00086_html_af682f722d388060857e9c5b6f974b31c"><div class="ttname"><a href="a00086.html#af682f722d388060857e9c5b6f974b31c">pcl_tls_get</a></div><div class="ttdeci">PCL_EXPORT void * pcl_tls_get(pthread_key_t key)</div></div>
+<div class="ttc" id="aa00086_html_ab9ebced28d001ec2f9736e28d3aeafbe"><div class="ttname"><a href="a00086.html#ab9ebced28d001ec2f9736e28d3aeafbe">pcl_thread_start_t</a></div><div class="ttdeci">void(* pcl_thread_start_t)(void *)</div><div class="ttdef"><b>Definition:</b> <a href="a00086_source.html#l00044">thread.h:44</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_e4fbad692486c3448e8889bf14d613e1.html">&#x202A;pcl</a></li><li class="navelem"><a class="el" href="a00086.html">&#x202A;types.h</a></li>
-    <li class="footer">Generated on Sun Nov 22 2020 21:04:39 for &#x202A;libpcl by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
+    <li class="navelem"><a class="el" href="dir_e4fbad692486c3448e8889bf14d613e1.html">&#x202A;pcl</a></li><li class="navelem"><a class="el" href="a00086.html">&#x202A;thread.h</a></li>
+    <li class="footer">Generated on Tue Nov 24 2020 21:54:04 for &#x202A;libpcl by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
   </ul>
 </div>
 </body>
