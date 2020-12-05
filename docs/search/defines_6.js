@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['roundup_1639',['roundup',['../a00020.html#a96e664bb4e98b2c771f9cfa7d45a92d3',1,'defs.h']]]
+  ['gib_2552',['GiB',['../a00836.html#af2e7183354747a6e72ceadd57162d22f',1,'strfbytes.c']]]
 ];

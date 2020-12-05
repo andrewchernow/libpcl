@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['max_1519',['max',['../a00020.html#affe776513b24d84b39af8ab0930fef7f',1,'defs.h']]],
-  ['min_1520',['min',['../a00020.html#ac6afabdc09a49a433ee19d8a9486056d',1,'defs.h']]]
+  ['eib_2548',['EiB',['../a00836.html#a33bd4f17b339a752aed1770638f58a37',1,'strfbytes.c']]],
+  ['error_5finterrupt_2549',['ERROR_INTERRUPT',['../a00401.html#ada1361f52ebdf37fe64af68ea294e0cd',1,'win32_err_crt2os.c']]]
 ];

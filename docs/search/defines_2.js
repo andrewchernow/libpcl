@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['invalid_5fsocket_1494',['INVALID_SOCKET',['../a00062.html#a26769957ec1a2beaf223f33b66ee64ab',1,'socket.h']]]
+  ['buildver_2540',['BUILDVER',['../a00902.html#a3d38c31854c6ba9bbe621091a85e9072',1,'darwin_sysinfo.c']]]
 ];
