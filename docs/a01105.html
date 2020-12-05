@@ -147,7 +147,7 @@ Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p class="DocNodeLTR">A PCL Vector is a dynamic and contiguous block of memory for an array of same-sized elements. </p>
 <p class="DocNodeLTR">The vector automatically expands this block of memory if an insertion would exceed the vector's current capacity. The vector never automatically shrinks itself during an element removal, but a vector can be shrunk using <a class="el" href="a01105.html#gaf6b8f2bafa23f1b631eb32671a6641e9" title="&#x202A;Compact a vector such that its element capacity matches its element count.">pcl_vector_compact</a>. </p>
-<h4 class="DocNodeLTR"><a class="anchor" id="autotoc_md9"></a>
+<h4 class="DocNodeLTR"><a class="anchor" id="autotoc_md12"></a>
 Basic Usage</h4>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="a00050.html">pcl/init.h</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="a00101.html">pcl/vector.h</a>&gt;</span></div>
@@ -552,7 +552,7 @@ Basic Usage</h4>
 
 <p>&#x202A;Allocate and append a string. </p>
 <p class="DocNodeLTR">This function should only be used with string vectors, where the element size was set to the size of a pointer. Elements added with this function will require a pcl_vector_cleanup_t handler. </p>
-<h4 class="DocNodeLTR"><a class="anchor" id="autotoc_md10"></a>
+<h4 class="DocNodeLTR"><a class="anchor" id="autotoc_md13"></a>
 Example</h4>
 <div class="fragment"><div class="line"><span class="comment">// identical to: pcl_vector_append_str(vec, &quot;hello&quot;)</span></div>
 <div class="line"><span class="keywordtype">char</span> *s = <a class="code" href="a01102.html#ga046608776c880d7d3bf39943e692f064">pcl_strdup</a>(<span class="stringliteral">&quot;hello&quot;</span>);</div>
@@ -874,7 +874,7 @@ Example</h4>
 
 <p>&#x202A;Built-in element cleanup handler for double pointer elements. </p>
 <p class="DocNodeLTR">This is typically used for pointer tables: like a vector of strings. It will internally dereference an element and pass it to <a class="el" href="a01088.html#gab88b901c82e1010555b08ff6d39490f2" title="&#x202A;Free memory space.">pcl_free</a> </p>
-<h4 class="DocNodeLTR"><a class="anchor" id="autotoc_md11"></a>
+<h4 class="DocNodeLTR"><a class="anchor" id="autotoc_md14"></a>
 Example</h4>
 <div class="fragment"><div class="line"><a class="code" href="a01173.html">pcl_vector_t</a> *vec = <a class="code" href="a01105.html#ga516a4fa37d3facd5e0d86e1eb1bbee84">pcl_vector_create</a>(16, <span class="keyword">sizeof</span>(<span class="keywordtype">char</span> **), <a class="code" href="a01105.html#gae588078a95bbdc08f858b9b2778b54e2">pcl_vector_cleanup_dblptr</a>);</div>
 <div class="line"><a class="code" href="a01105.html#ga8187d2e621f85fac545931bcf490a47d">pcl_vector_append_str</a>(vec, <span class="stringliteral">&quot;Hello World&quot;</span>);</div>

@@ -119,10 +119,11 @@ Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p class="DocNodeLTR">Responisble for intializing the PCL library. </p>
 <p class="DocNodeLTR"><a class="el" href="a01099.html#ga14907e41025b0abbdc02ef1f892bd9a2" title="&#x202A;Initializes the PCL library.">pcl_init</a> must be called before any other PCL function. This is typically accomplished by calling it from within the application's <code>main</code> function. This module also includes a <code>getopt</code> implementation since calling <a class="el" href="a01099.html#ga14907e41025b0abbdc02ef1f892bd9a2" title="&#x202A;Initializes the PCL library.">pcl_init</a> and argument parsing are typically both done in <code>main</code>. </p>
-<h4 class="DocNodeLTR"><a class="anchor" id="autotoc_md8"></a>
+<h4 class="DocNodeLTR"><a class="anchor" id="autotoc_md11"></a>
 Basic Usage</h4>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="a00050.html">pcl/init.h</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="a00035.html">pcl/error.h</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="a00053.html">pcl/io.h</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;stdlib.h&gt;</span></div>
 <div class="line"> </div>
 <div class="line"><span class="keywordtype">int</span> <a class="code" href="a01099.html#ga6cb9e05256271012792bc168e645fe47">pcl_tmain</a>(<span class="keywordtype">int</span> argc, <a class="code" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> **argv)</div>
@@ -159,20 +160,20 @@ Basic Usage</h4>
 <div class="line">    <span class="keywordflow">switch</span>(opt)</div>
 <div class="line">    {</div>
 <div class="line">      <span class="keywordflow">case</span> <a class="code" href="a00023.html#a76f4425a2027b15c08530794be52f2f1">_T</a>(<span class="charliteral">&#39;a&#39;</span>):</div>
-<div class="line">        printf(<span class="stringliteral">&quot;a:%ts] %ts\n&quot;</span>, longname, value);</div>
+<div class="line">        <a class="code" href="a01100.html#ga45ab34ad08cce3f205a3273cf4f3ce1f">pcl_printf</a>(<span class="stringliteral">&quot;a:%ts] %ts\n&quot;</span>, longname, value);</div>
 <div class="line">        <span class="keywordflow">break</span>;</div>
 <div class="line"> </div>
 <div class="line">      <span class="keywordflow">case</span> <a class="code" href="a00023.html#a76f4425a2027b15c08530794be52f2f1">_T</a>(<span class="charliteral">&#39;b&#39;</span>):</div>
-<div class="line">         printf(<span class="stringliteral">&quot;b:%ts] %s\n&quot;</span>, longname, value ? value : <a class="code" href="a00023.html#a76f4425a2027b15c08530794be52f2f1">_T</a>(<span class="stringliteral">&quot;&lt;no-value&gt;&quot;</span>));</div>
+<div class="line">         <a class="code" href="a01100.html#ga45ab34ad08cce3f205a3273cf4f3ce1f">pcl_printf</a>(<span class="stringliteral">&quot;b:%ts] %s\n&quot;</span>, longname, value ? value : <a class="code" href="a00023.html#a76f4425a2027b15c08530794be52f2f1">_T</a>(<span class="stringliteral">&quot;&lt;no-value&gt;&quot;</span>));</div>
 <div class="line">         <span class="keywordflow">break</span>;</div>
 <div class="line"> </div>
 <div class="line">      <span class="keywordflow">case</span> <a class="code" href="a00023.html#a76f4425a2027b15c08530794be52f2f1">_T</a>(<span class="charliteral">&#39;c&#39;</span>):</div>
-<div class="line">         printf(<span class="stringliteral">&quot;c:%ts] set\n&quot;</span>, longname);</div>
+<div class="line">         <a class="code" href="a01100.html#ga45ab34ad08cce3f205a3273cf4f3ce1f">pcl_printf</a>(<span class="stringliteral">&quot;c:%ts] set\n&quot;</span>, longname);</div>
 <div class="line">         <span class="keywordflow">break</span>;</div>
 <div class="line"> </div>
 <div class="line">      <span class="keywordflow">case</span> <a class="code" href="a00023.html#a76f4425a2027b15c08530794be52f2f1">_T</a>(<span class="charliteral">&#39;d&#39;</span>):</div>
 <div class="line">      default:</div>
-<div class="line">        printf(<span class="stringliteral">&quot;d:%ts] set\n&quot;</span>, longname); <span class="comment">// prints &quot;d:&lt;short-only&gt;] set\n&quot;</span></div>
+<div class="line">        <a class="code" href="a01100.html#ga45ab34ad08cce3f205a3273cf4f3ce1f">pcl_printf</a>(<span class="stringliteral">&quot;d:%ts] set\n&quot;</span>, longname); <span class="comment">// prints &quot;d:&lt;short-only&gt;] set\n&quot;</span></div>
 <div class="line">    }</div>
 <div class="line">  }</div>
 <div class="line"> </div>
@@ -198,7 +199,7 @@ Basic Usage</h4>
 
 <p><code>#include &lt;<a class="el" href="a00050.html">pcl/init.h</a>&gt;</code></p>
 
-<p class="definition">Definition at line <a class="el" href="a00050_source.html#l00114">114</a> of file <a class="el" href="a00050_source.html">init.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00050_source.html#l00115">115</a> of file <a class="el" href="a00050_source.html">init.h</a>.</p>
 
 </div>
 </div>
@@ -247,7 +248,7 @@ Basic Usage</h4>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="a00050_source.html#l00121">121</a> of file <a class="el" href="a00050_source.html">init.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00050_source.html#l00122">122</a> of file <a class="el" href="a00050_source.html">init.h</a>.</p>
 
 </div>
 </div>
@@ -400,27 +401,29 @@ Basic Usage</h4>
 
 <p class="definition">Definition at line <a class="el" href="a00530_source.html#l00038">38</a> of file <a class="el" href="a00530_source.html">getopt.c</a>.</p>
 
-<p class="reference">References <a class="el" href="a00023_source.html#l00080">_T</a>, <a class="el" href="a00527_source.html#l00046">tag_pcl_optstate::argc</a>, <a class="el" href="a00527_source.html#l00043">tag_pcl_optstate::argidx</a>, <a class="el" href="a00527_source.html#l00047">tag_pcl_optstate::argv</a>, <a class="el" href="a00005_source.html#l00306">BADARG</a>, <a class="el" href="a00527_source.html#l00044">tag_pcl_optstate::next_optstr</a>, <a class="el" href="a00527_source.html#l00050">tag_pcl_optstate::num_options</a>, <a class="el" href="a00527_source.html#l00049">tag_pcl_optstate::options</a>, <a class="el" href="a00527_source.html#l00048">tag_pcl_optstate::optstr</a>, <a class="el" href="a00008_source.html#l00078">PCL_EINVAL</a>, <a class="el" href="a01103.html#ga3dd4f493184d4d0d2c3f2f62820f7811">pcl_tcschr()</a>, <a class="el" href="a01103.html#ga2f0dcee280d506d66e55d5499c2f8361">pcl_tcscmp()</a>, <a class="el" href="a01103.html#ga180fcce21dd94eaf8e5949a8e2f7272c">pcl_tcslen()</a>, <a class="el" href="a01103.html#gabaa8d7aad8b450c90e0d57f18c9180db">pcl_tmemcmp()</a>, <a class="el" href="a00050_source.html#l00124">PclNoArg</a>, <a class="el" href="a00050_source.html#l00128">PclOptArg</a>, <a class="el" href="a00050_source.html#l00126">PclReqArg</a>, <a class="el" href="a00005_source.html#l00087">SETERRMSG</a>, and <a class="el" href="a00050_source.html#l00147">pcl_option_t::val</a>.</p>
+<p class="reference">References <a class="el" href="a00023_source.html#l00080">_T</a>, <a class="el" href="a00527_source.html#l00046">tag_pcl_optstate::argc</a>, <a class="el" href="a00527_source.html#l00043">tag_pcl_optstate::argidx</a>, <a class="el" href="a00527_source.html#l00047">tag_pcl_optstate::argv</a>, <a class="el" href="a00005_source.html#l00306">BADARG</a>, <a class="el" href="a00527_source.html#l00044">tag_pcl_optstate::next_optstr</a>, <a class="el" href="a00527_source.html#l00050">tag_pcl_optstate::num_options</a>, <a class="el" href="a00527_source.html#l00049">tag_pcl_optstate::options</a>, <a class="el" href="a00527_source.html#l00048">tag_pcl_optstate::optstr</a>, <a class="el" href="a00008_source.html#l00078">PCL_EINVAL</a>, <a class="el" href="a01103.html#ga3dd4f493184d4d0d2c3f2f62820f7811">pcl_tcschr()</a>, <a class="el" href="a01103.html#ga2f0dcee280d506d66e55d5499c2f8361">pcl_tcscmp()</a>, <a class="el" href="a01103.html#ga180fcce21dd94eaf8e5949a8e2f7272c">pcl_tcslen()</a>, <a class="el" href="a01103.html#gabaa8d7aad8b450c90e0d57f18c9180db">pcl_tmemcmp()</a>, <a class="el" href="a00050_source.html#l00125">PclNoArg</a>, <a class="el" href="a00050_source.html#l00129">PclOptArg</a>, <a class="el" href="a00050_source.html#l00127">PclReqArg</a>, <a class="el" href="a00005_source.html#l00087">SETERRMSG</a>, and <a class="el" href="a00050_source.html#l00148">pcl_option_t::val</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
-<div class="ttc" id="aa01099_html_ga6cb9e05256271012792bc168e645fe47"><div class="ttname"><a href="a01099.html#ga6cb9e05256271012792bc168e645fe47">pcl_tmain</a></div><div class="ttdeci">#define pcl_tmain</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00114">init.h:114</a></div></div>
+<div class="ttc" id="aa01099_html_ga6cb9e05256271012792bc168e645fe47"><div class="ttname"><a href="a01099.html#ga6cb9e05256271012792bc168e645fe47">pcl_tmain</a></div><div class="ttdeci">#define pcl_tmain</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00115">init.h:115</a></div></div>
 <div class="ttc" id="aa01099_html_gaa2882afd52801436bdb3913609907015"><div class="ttname"><a href="a01099.html#gaa2882afd52801436bdb3913609907015">pcl_getopt</a></div><div class="ttdeci">PCL_EXPORT int pcl_getopt(pcl_optstate_t *state, tchar_t **value, pcl_option_t **longopt)</div><div class="ttdoc">Parse command-line arguments.</div><div class="ttdef"><b>Definition:</b> <a href="a00530_source.html#l00038">getopt.c:38</a></div></div>
 <div class="ttc" id="aa00092_html_a7589c2eb4da44bc1c8e4d094798e7f0b"><div class="ttname"><a href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a></div><div class="ttdeci">char tchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00092_source.html#l00053">types.h:53</a></div></div>
 <div class="ttc" id="aa01099_html_ga2518ba0aea4cfbf9144fa7e2a2b3b225"><div class="ttname"><a href="a01099.html#ga2518ba0aea4cfbf9144fa7e2a2b3b225">pcl_initopt</a></div><div class="ttdeci">PCL_EXPORT pcl_optstate_t * pcl_initopt(int argc, tchar_t **argv, const tchar_t *optstr, pcl_option_t *options, int num_options)</div><div class="ttdoc">Intialize command-line argument parser.</div><div class="ttdef"><b>Definition:</b> <a href="a00536_source.html#l00037">initopt.c:37</a></div></div>
-<div class="ttc" id="aa01133_html_ad2992198664f7d3c4244c30ad7d6bded"><div class="ttname"><a href="a01133.html#ad2992198664f7d3c4244c30ad7d6bded">pcl_option_t::name</a></div><div class="ttdeci">tchar_t * name</div><div class="ttdoc">Option name without the dashes.</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00134">init.h:134</a></div></div>
+<div class="ttc" id="aa01133_html_ad2992198664f7d3c4244c30ad7d6bded"><div class="ttname"><a href="a01133.html#ad2992198664f7d3c4244c30ad7d6bded">pcl_option_t::name</a></div><div class="ttdeci">tchar_t * name</div><div class="ttdoc">Option name without the dashes.</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00135">init.h:135</a></div></div>
 <div class="ttc" id="aa00023_html_a9941e62482da843b972636008fd80e56"><div class="ttname"><a href="a00023.html#a9941e62482da843b972636008fd80e56">countof</a></div><div class="ttdeci">#define countof(buffer)</div><div class="ttdef"><b>Definition:</b> <a href="a00023_source.html#l00129">defs.h:129</a></div></div>
-<div class="ttc" id="aa01099_html_gga806c053b3bfec31bfceef3c83a3db92fad13f00190a15b7606cd4ad10b0961f07"><div class="ttname"><a href="a01099.html#gga806c053b3bfec31bfceef3c83a3db92fad13f00190a15b7606cd4ad10b0961f07">PclOptArg</a></div><div class="ttdeci">@ PclOptArg</div><div class="ttdoc">Option takes an optional argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00129">init.h:128</a></div></div>
+<div class="ttc" id="aa01099_html_gga806c053b3bfec31bfceef3c83a3db92fad13f00190a15b7606cd4ad10b0961f07"><div class="ttname"><a href="a01099.html#gga806c053b3bfec31bfceef3c83a3db92fad13f00190a15b7606cd4ad10b0961f07">PclOptArg</a></div><div class="ttdeci">@ PclOptArg</div><div class="ttdoc">Option takes an optional argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00130">init.h:129</a></div></div>
 <div class="ttc" id="aa00023_html_a76f4425a2027b15c08530794be52f2f1"><div class="ttname"><a href="a00023.html#a76f4425a2027b15c08530794be52f2f1">_T</a></div><div class="ttdeci">#define _T(quote)</div><div class="ttdef"><b>Definition:</b> <a href="a00023_source.html#l00080">defs.h:80</a></div></div>
 <div class="ttc" id="aa01095_html_gaaaa31d344c49095dfc3f6051ec2fbfca"><div class="ttname"><a href="a01095.html#gaaaa31d344c49095dfc3f6051ec2fbfca">PANIC</a></div><div class="ttdeci">#define PANIC(_m,...)</div><div class="ttdef"><b>Definition:</b> <a href="a00005_source.html#l00313">_errdefs.h:313</a></div></div>
-<div class="ttc" id="aa01133_html"><div class="ttname"><a href="a01133.html">pcl_option_t</a></div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00131">init.h:132</a></div></div>
-<div class="ttc" id="aa01099_html_gga806c053b3bfec31bfceef3c83a3db92fa1e703d178f894e31a992400b6ad71e65"><div class="ttname"><a href="a01099.html#gga806c053b3bfec31bfceef3c83a3db92fa1e703d178f894e31a992400b6ad71e65">PclNoArg</a></div><div class="ttdeci">@ PclNoArg</div><div class="ttdoc">Option does not take any arguments.</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00124">init.h:124</a></div></div>
-<div class="ttc" id="aa01099_html_gga806c053b3bfec31bfceef3c83a3db92fa3131202ae7746972323b64254ad67961"><div class="ttname"><a href="a01099.html#gga806c053b3bfec31bfceef3c83a3db92fa3131202ae7746972323b64254ad67961">PclReqArg</a></div><div class="ttdeci">@ PclReqArg</div><div class="ttdoc">Option requires an argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00126">init.h:126</a></div></div>
+<div class="ttc" id="aa01133_html"><div class="ttname"><a href="a01133.html">pcl_option_t</a></div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00132">init.h:133</a></div></div>
+<div class="ttc" id="aa01099_html_gga806c053b3bfec31bfceef3c83a3db92fa1e703d178f894e31a992400b6ad71e65"><div class="ttname"><a href="a01099.html#gga806c053b3bfec31bfceef3c83a3db92fa1e703d178f894e31a992400b6ad71e65">PclNoArg</a></div><div class="ttdeci">@ PclNoArg</div><div class="ttdoc">Option does not take any arguments.</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00125">init.h:125</a></div></div>
+<div class="ttc" id="aa01099_html_gga806c053b3bfec31bfceef3c83a3db92fa3131202ae7746972323b64254ad67961"><div class="ttname"><a href="a01099.html#gga806c053b3bfec31bfceef3c83a3db92fa3131202ae7746972323b64254ad67961">PclReqArg</a></div><div class="ttdeci">@ PclReqArg</div><div class="ttdoc">Option requires an argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00127">init.h:127</a></div></div>
 <div class="ttc" id="aa01088_html_gab88b901c82e1010555b08ff6d39490f2"><div class="ttname"><a href="a01088.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a></div><div class="ttdeci">void * pcl_free(void *p)</div><div class="ttdoc">Free memory space.</div></div>
 <div class="ttc" id="aa01205_html"><div class="ttname"><a href="a01205.html">tag_pcl_optstate</a></div><div class="ttdef"><b>Definition:</b> <a href="a00527_source.html#l00041">_init.h:42</a></div></div>
 <div class="ttc" id="aa00035_html"><div class="ttname"><a href="a00035.html">error.h</a></div></div>
 <div class="ttc" id="aa00050_html"><div class="ttname"><a href="a00050.html">init.h</a></div></div>
+<div class="ttc" id="aa01100_html_ga45ab34ad08cce3f205a3273cf4f3ce1f"><div class="ttname"><a href="a01100.html#ga45ab34ad08cce3f205a3273cf4f3ce1f">pcl_printf</a></div><div class="ttdeci">PCL_EXPORT int pcl_printf(const char *format,...)</div><div class="ttdoc">Write a formatted character string to stdout.</div></div>
+<div class="ttc" id="aa00053_html"><div class="ttname"><a href="a00053.html">io.h</a></div></div>
 <div class="ttc" id="aa01099_html_ga14907e41025b0abbdc02ef1f892bd9a2"><div class="ttname"><a href="a01099.html#ga14907e41025b0abbdc02ef1f892bd9a2">pcl_init</a></div><div class="ttdeci">PCL_EXPORT void pcl_init(void)</div><div class="ttdoc">Initializes the PCL library.</div><div class="ttdef"><b>Definition:</b> <a href="a00533_source.html#l00062">init.c:62</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->

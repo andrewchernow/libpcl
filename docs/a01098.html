@@ -90,9 +90,9 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga7a6fe40976dcaedb2dead754fbc08b49"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a00092.html#a837674424510bcf55b9b1eaa8acf639f">pcl_htable_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01098.html#ga7a6fe40976dcaedb2dead754fbc08b49">pcl_htable_create</a> (int capacity, size_t key_len)</td></tr>
-<tr class="memdesc:ga7a6fe40976dcaedb2dead754fbc08b49"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Creates a new hash table object.  <a href="a01098.html#ga7a6fe40976dcaedb2dead754fbc08b49">More...</a><br /></td></tr>
-<tr class="separator:ga7a6fe40976dcaedb2dead754fbc08b49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae469981bef26363606b65a93189234ce"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a00092.html#a837674424510bcf55b9b1eaa8acf639f">pcl_htable_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01098.html#gae469981bef26363606b65a93189234ce">pcl_htable_create</a> (int capacity)</td></tr>
+<tr class="memdesc:gae469981bef26363606b65a93189234ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Creates a new hash table object.  <a href="a01098.html#gae469981bef26363606b65a93189234ce">More...</a><br /></td></tr>
+<tr class="separator:gae469981bef26363606b65a93189234ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga3888f186c326a0f1c8ee363a11d21f5b"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a01098.html#gaa535f1a16a04b2ad53bde938fa7511a4">pcl_htable_entry_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01098.html#ga3888f186c326a0f1c8ee363a11d21f5b">pcl_htable_lookup</a> (<a class="el" href="a00092.html#a837674424510bcf55b9b1eaa8acf639f">pcl_htable_t</a> *ht, const void *key)</td></tr>
 <tr class="memdesc:ga3888f186c326a0f1c8ee363a11d21f5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Lookup and return an entry.  <a href="a01098.html#ga3888f186c326a0f1c8ee363a11d21f5b">More...</a><br /></td></tr>
 <tr class="separator:ga3888f186c326a0f1c8ee363a11d21f5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -117,36 +117,35 @@ Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p class="DocNodeLTR">This defines a hash table object and associated management functions. </p>
-<p class="DocNodeLTR">The table can grow to ~50 million on 32-bit machines and ~1.6 billion on 64-bit machines. This table expands and contracts based on a max (default is 0.75) and min (default is 0.20) load factor. When expanding, the table size is doubled and rounded up to the nearest prime. When contracting, the table size is cut in half and rounded up to the nearest prime. There are three callbacks to customize a hash table: <code>remove_entry</code>, <code>hashcode</code> and <code>key_equals</code>. All three can be assigned after table creation.</p>
+<p class="DocNodeLTR">This is implemented as an array of linked lists, with the ability to set a minimum and maximum load factor. There are three callbacks to customize a hash table: <a class="el" href="a01129.html#a671a5819f733f2c3de67d78b2f118ac1" title="&#x202A;Called when an entry is being removed from the table.">pcl_htable_t.remove_entry</a>, <a class="el" href="a01129.html#a7e9adab84c43d9a11a7a2ca0ff70b81e" title="&#x202A;Compute a hash code for the given key.">pcl_htable_t.hashcode</a> and <a class="el" href="a01129.html#a57cdb09719a1350e1f053c01139eb363" title="&#x202A;Determine if two keys are equal.">pcl_htable_t.key_equals</a>. All three can be assigned after table creation.</p>
 <h3 class="DocNodeLTR"><a class="anchor" id="autotoc_md6"></a>
-Keys</h3>
-<p class="DocNodeLTR">The PCL hash table supports binary keys, which are fixed-length and do not change for the life of the hash table. When creating a hash table, one can specify the key length in bytes or provide zero for variable-length keys (strings). For example, using a UUID as a key would cost 36 bytes per key encoded as a string. However, only 16 bytes per key if binary. In this case, you would set the key_len to 16. The default <code>key_equals</code> will use <code>memcmp</code> when key_len is not zero and <code>strcmp</code> otherwise.</p>
-<p class="DocNodeLTR">On step further, is taking a 32 or 64-bit sequence value, like a <code>user_id</code>, and storing it's value as the key pointer address: <code>key = (const void *)(uintptr_t) user_id</code>. This would require a custom key_equals (where key1 == key2 could be the implementation) and a custom hashcode callback (where return (uintptr_t) key; could be the implementation). This method is very efficient both in memory and performance, but only works if the numeric bit length is <code>&lt;=</code> the number of bits used by pointers. An example of this is below.</p>
-<h4 class="DocNodeLTR"><a class="anchor" id="autotoc_md7"></a>
-Basic Usage</h4>
+Rehashing</h3>
+<p class="DocNodeLTR">Rehashing is implemented by allocating a new table (buckets of entry lists) that is either double the current size rounded up to the nearest prime or half the current size rounded up to the nearest prime. In either case, the entries are shallow copied to the new table after computing their bucket indexes. When the copy is complete, the old table is freed. No hash codes are recomputed, since each entry caches its own hash code.</p>
+<h3 class="DocNodeLTR"><a class="anchor" id="autotoc_md7"></a>
+Table Size Limitations</h3>
+<p class="DocNodeLTR">The table can grow to ~50 million on 32-bit machines and ~1.6 billion on 64-bit machines. This table expands and contracts based on a max and min load factor &ndash; 0.75 and 0.20 respectively.</p>
+<h3 class="DocNodeLTR"><a class="anchor" id="autotoc_md8"></a>
+String and Binary Keys</h3>
+<p class="DocNodeLTR">The PCL hash table supports binary keys, which are fixed-length and normally do not change for the life of the hash table. After creating a hash table, one can specify the key length in bytes or provide zero (the default) for variable-length keys (strings). For example, when using a UUID string as a key, each key would require 36 bytes. However, only 16 bytes per key if binary. In this case, you would set the key_len to 16. The default <code>key_equals</code> will use <code>memcmp</code> when <em>key_len</em> is not zero and <code>strcmp</code> otherwise.</p>
+<h4 class="DocNodeLTR"><a class="anchor" id="autotoc_md9"></a>
+UUID Key Example</h4>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/htable.h</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="a00050.html">pcl/init.h</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="a00011.html">pcl/alloc.h</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="a00077.html">pcl/string.h</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &quot;app/user.h&quot;</span></div>
 <div class="line"> </div>
-<div class="line"><span class="preprocessor">#define IDTOKEY(id) (const void *) ((uintptr_t) (id))</span></div>
-<div class="line"> </div>
-<div class="line"><span class="keyword">static</span> <span class="keywordtype">bool</span> key_equals(<span class="keyword">const</span> <span class="keywordtype">void</span> *a, <span class="keyword">const</span> <span class="keywordtype">void</span> *b, <span class="keywordtype">size_t</span> key_len, <span class="keywordtype">void</span> *u)</div>
+<div class="line"><span class="keyword">static</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> *uuidtokey(<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> *out, <span class="keyword">const</span> <span class="keywordtype">char</span> *uuid)</div>
 <div class="line">{</div>
-<div class="line">  <span class="comment">// since the pointer addresses are the numeric user_id values,</span></div>
-<div class="line">  <span class="comment">// we can just compare them directly.</span></div>
-<div class="line">  <span class="keywordflow">return</span> a == b;</div>
-<div class="line">}</div>
-<div class="line"> </div>
-<div class="line"><span class="keyword">static</span> uintptr_t hashcode(<span class="keyword">const</span> <span class="keywordtype">void</span> *key, <span class="keywordtype">size_t</span> key_len, <span class="keywordtype">void</span> *userp)</div>
-<div class="line">{</div>
-<div class="line">  <span class="comment">// no need to hash keys, they are already unique user_id values</span></div>
-<div class="line">  <span class="keywordflow">return</span> (uintptr_t) key;</div>
+<div class="line">  <span class="keywordtype">char</span> *hex = <a class="code" href="a01102.html#ga1af4eb72cec27108e92a470640def1cc">pcl_strreplace</a>(uuid, <span class="stringliteral">&quot;-&quot;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">  <a class="code" href="a01102.html#gafd8a5e2efd41dabad7002955280b004b">pcl_hex_decode</a>(out, 16, hex);</div>
+<div class="line">  <a class="code" href="a01088.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(hex);</div>
+<div class="line">  <span class="keywordflow">return</span> out;</div>
 <div class="line">}</div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">static</span> <span class="keywordtype">void</span> remove_entry(<span class="keyword">const</span> <span class="keywordtype">void</span> *key, <span class="keywordtype">void</span> *value, <span class="keywordtype">void</span> *userp)</div>
 <div class="line">{</div>
-<div class="line">  <span class="comment">// nothing to free for key.</span></div>
+<div class="line">  <a class="code" href="a00023.html#a9b58a1294d89c976dfbe4dc480e9dfb8">UNUSED</a>(userp);</div>
+<div class="line">  <a class="code" href="a01088.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(key);</div>
 <div class="line">  app_user_free((app_user_t *) value);</div>
 <div class="line">}</div>
 <div class="line"> </div>
@@ -154,28 +153,92 @@ Basic Usage</h4>
 <div class="line">{</div>
 <div class="line">  <a class="code" href="a01099.html#ga14907e41025b0abbdc02ef1f892bd9a2">pcl_init</a>();</div>
 <div class="line"> </div>
-<div class="line">  <span class="comment">// a table mapping int64_t user_id =&gt; user. The value of key_len,</span></div>
-<div class="line">  <span class="comment">// 2nd arg, is meaningless here since we implement both key_equals and</span></div>
-<div class="line">  <span class="comment">// hashcode. Only the default versions of these use key_len within htable.</span></div>
-<div class="line">  <a class="code" href="a01129.html">pcl_htable_t</a> *ht = <a class="code" href="a01098.html#ga7a6fe40976dcaedb2dead754fbc08b49">pcl_htable_create</a>(1024, 0);</div>
+<div class="line">  <span class="keywordtype">int</span> num;</div>
+<div class="line">  app_user_t **users = app_user_fetchall(&amp;num);</div>
+<div class="line"> </div>
+<div class="line">  <a class="code" href="a01129.html">pcl_htable_t</a> *ht = <a class="code" href="a01098.html#gae469981bef26363606b65a93189234ce">pcl_htable_create</a>(num);</div>
+<div class="line"> </div>
+<div class="line">  <span class="comment">// let htable know key length</span></div>
+<div class="line">  ht-&gt;<a class="code" href="a01129.html#aaa2dc552577da2bba064c4d36d971c26">key_len</a> = 16;</div>
+<div class="line">  ht-&gt;<a class="code" href="a01129.html#a671a5819f733f2c3de67d78b2f118ac1">remove_entry</a> = remove_entry;</div>
+<div class="line"> </div>
+<div class="line">  <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> uuid[16];</div>
+<div class="line"> </div>
+<div class="line">  <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; num; i++)</div>
+<div class="line">  {</div>
+<div class="line">    <span class="keywordtype">void</span> *key = memcmp(<a class="code" href="a01088.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a>(16), uuidtokey(uuid, users[i]-&gt;uuid), 16);</div>
+<div class="line">    <a class="code" href="a01098.html#gad1264b974c59d4df60f955234778a5e6">pcl_htable_put</a>(ht, key, users[i], <span class="keyword">true</span>);</div>
+<div class="line">  }</div>
+<div class="line"> </div>
+<div class="line">  <span class="keyword">const</span> <span class="keywordtype">char</span> *john = <span class="stringliteral">&quot;37462d98-371b-11eb-adc1-0242ac120002&quot;</span>;</div>
+<div class="line">  pcl_user_t *user = <a class="code" href="a01098.html#gaa01eda6232c789880d665e343ec299e3">pcl_htable_get</a>(ht, uuidtokey(uuid, john));</div>
+<div class="line"> </div>
+<div class="line">  printf(<span class="stringliteral">&quot;%s\n&quot;</span>, user-&gt;surname);</div>
+<div class="line"> </div>
+<div class="line">  <a class="code" href="a01098.html#ga8b9f6df4376aac1c35a5d87ebcff93dc">pcl_htable_free</a>(ht);</div>
+<div class="line"> </div>
+<div class="line">  <span class="keywordflow">return</span> 0;</div>
+<div class="line">}</div>
+</div><!-- fragment --><p class="DocNodeLTR">One step further, is taking a 32 or 64-bit sequence value, like a <code>user_id</code>, and storing its value as the key pointer address: <code>key = (const void *)(uintptr_t) user_id</code>. This would require a custom key_equals (where key1 == key2 could be the implementation) and a custom hashcode callback (where return (uintptr_t) key; could be the implementation). This method is very efficient both in memory and performance, but only works if the numeric bit length is <code>&lt;=</code> the number of bits used by pointers. An example of this is below.</p>
+<h4 class="DocNodeLTR"><a class="anchor" id="autotoc_md10"></a>
+UserId Key Example</h4>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/htable.h</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="a00050.html">pcl/init.h</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &quot;app/user.h&quot;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#define IDTOKEY(id) (const void *) ((uintptr_t) (id))</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">static</span> <span class="keywordtype">bool</span> key_equals(<span class="keyword">const</span> <span class="keywordtype">void</span> *a, <span class="keyword">const</span> <span class="keywordtype">void</span> *b, <span class="keywordtype">size_t</span> key_len, <span class="keywordtype">void</span> *userp)</div>
+<div class="line">{</div>
+<div class="line">  <a class="code" href="a00023.html#a9b58a1294d89c976dfbe4dc480e9dfb8">UNUSED</a>(key_len || userp);</div>
+<div class="line">  <span class="keywordflow">return</span> a == b; <span class="comment">// key addresses are user_ids, compare them directly.</span></div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">static</span> uintptr_t hashcode(<span class="keyword">const</span> <span class="keywordtype">void</span> *key, <span class="keywordtype">size_t</span> key_len, <span class="keywordtype">void</span> *userp)</div>
+<div class="line">{</div>
+<div class="line">  <a class="code" href="a00023.html#a9b58a1294d89c976dfbe4dc480e9dfb8">UNUSED</a>(key_len || userp);</div>
+<div class="line">  <span class="keywordflow">return</span> (uintptr_t) key; <span class="comment">// no need to hash keys, user_id is unique</span></div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">static</span> <span class="keywordtype">void</span> remove_entry(<span class="keyword">const</span> <span class="keywordtype">void</span> *key, <span class="keywordtype">void</span> *value, <span class="keywordtype">void</span> *userp)</div>
+<div class="line">{</div>
+<div class="line">  <a class="code" href="a00023.html#a9b58a1294d89c976dfbe4dc480e9dfb8">UNUSED</a>(key || userp);</div>
+<div class="line">  app_user_free((app_user_t *) value); <span class="comment">// key doesn&#39;t need to be freed</span></div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">void</span>)</div>
+<div class="line">{</div>
+<div class="line">  <a class="code" href="a01099.html#ga14907e41025b0abbdc02ef1f892bd9a2">pcl_init</a>();</div>
+<div class="line"> </div>
+<div class="line">  <span class="keywordtype">int</span> num_users;</div>
+<div class="line">  app_user_t **users = app_user_fetchall(&amp;num_users);</div>
+<div class="line"> </div>
+<div class="line">  <span class="comment">// a table mapping a user_id =&gt; user.</span></div>
+<div class="line">  <a class="code" href="a01129.html">pcl_htable_t</a> *ht = <a class="code" href="a01098.html#gae469981bef26363606b65a93189234ce">pcl_htable_create</a>(num_users);</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// configuring a pcl_htable_t</span></div>
 <div class="line">  ht-&gt;<a class="code" href="a01129.html#a671a5819f733f2c3de67d78b2f118ac1">remove_entry</a> = remove_entry;</div>
 <div class="line">  ht-&gt;<a class="code" href="a01129.html#a7e9adab84c43d9a11a7a2ca0ff70b81e">hashcode</a> = hashcode;</div>
 <div class="line">  ht-&gt;<a class="code" href="a01129.html#a57cdb09719a1350e1f053c01139eb363">key_equals</a> = key_equals;</div>
+<div class="line"> </div>
+<div class="line">  <span class="comment">// ignored since example sets hashcode and key_equals. Set if your callbacks need it.</span></div>
+<div class="line">  <span class="comment">//ht-&gt;key_len = 0;</span></div>
+<div class="line"> </div>
 <div class="line">  <span class="comment">//ht-&gt;min_loadfac = 0.13f;</span></div>
 <div class="line">  <span class="comment">//ht-&gt;max_loadfac = 0.85f;</span></div>
-<div class="line">  <span class="comment">//ht-&gt;userp = used_by_callabcks;</span></div>
+<div class="line">  <span class="comment">//ht-&gt;userp = used_by_callbacks;</span></div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// set key address to user_id</span></div>
-<div class="line">  <span class="keywordflow">for</span>(app_user_t *u = app_user_fetchall(); u; u = u-&gt;next)</div>
-<div class="line">    <a class="code" href="a01098.html#gad1264b974c59d4df60f955234778a5e6">pcl_htable_put</a>(ht, IDTOKEY(u-&gt;id), u, <span class="keyword">true</span>);</div>
+<div class="line">  <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; num_users; i++)</div>
+<div class="line">    <a class="code" href="a01098.html#gad1264b974c59d4df60f955234778a5e6">pcl_htable_put</a>(ht, IDTOKEY(users[i]-&gt;<span class="keywordtype">id</span>), users[i]-&gt;<span class="keywordtype">id</span>, <span class="keyword">true</span>);</div>
+<div class="line"> </div>
+<div class="line">  <a class="code" href="a01088.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(users);</div>
 <div class="line"> </div>
 <div class="line">  app_user_t *user = <a class="code" href="a01098.html#gaa01eda6232c789880d665e343ec299e3">pcl_htable_get</a>(ht, IDTOKEY(1982734));</div>
 <div class="line"> </div>
 <div class="line">  printf(<span class="stringliteral">&quot;%s\n&quot;</span>, user-&gt;name);</div>
 <div class="line"> </div>
-<div class="line">  <a class="code" href="a01098.html#ga8b9f6df4376aac1c35a5d87ebcff93dc">pcl_htable_free</a>(ht);</div>
+<div class="line">  <a class="code" href="a01098.html#ga8b9f6df4376aac1c35a5d87ebcff93dc">pcl_htable_free</a>(ht); <span class="comment">// calls remove_entry foreach entry in table</span></div>
 <div class="line"> </div>
 <div class="line">  <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
@@ -200,8 +263,8 @@ Basic Usage</h4>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="ga7a6fe40976dcaedb2dead754fbc08b49"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga7a6fe40976dcaedb2dead754fbc08b49">&#9670;&nbsp;</a></span>pcl_htable_create()</h2>
+<a id="gae469981bef26363606b65a93189234ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae469981bef26363606b65a93189234ce">&#9670;&nbsp;</a></span>pcl_htable_create()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -210,18 +273,8 @@ Basic Usage</h4>
           <td class="memname">PCL_EXPORT <a class="el" href="a00092.html#a837674424510bcf55b9b1eaa8acf639f">pcl_htable_t</a>* pcl_htable_create </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>capacity</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><em>capacity</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>key_len</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -232,7 +285,6 @@ Basic Usage</h4>
 <p class="DocNodeLTR">All hash table callbacks are set to the default implementations as documented. After creating a hash table, you can assign callbacks. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">capacity</td><td>&#x202A;initial capacity of hash table. This is rounded up to the nearest prime. </td></tr>
-    <tr><td class="paramname">key_len</td><td>&#x202A;key byte length. Set to 0 for variable-length keys (strings). </td></tr>
   </table>
   </dd>
 </dl>
@@ -240,7 +292,7 @@ Basic Usage</h4>
 
 <p class="definition">Definition at line <a class="el" href="a00500_source.html#l00062">62</a> of file <a class="el" href="a00500_source.html">htable_create.c</a>.</p>
 
-<p class="reference">References <a class="el" href="a00047_source.html#l00152">tag_pcl_htable::capacity</a>, <a class="el" href="a00494_source.html#l00036">ipcl_htable_capacity()</a>, <a class="el" href="a00047_source.html#l00190">tag_pcl_htable::key_equals</a>, <a class="el" href="a00047_source.html#l00155">tag_pcl_htable::key_len</a>, <a class="el" href="a00023_source.html#l00114">max</a>, <a class="el" href="a00047_source.html#l00174">tag_pcl_htable::max_loadfac</a>, <a class="el" href="a00491_source.html#l00037">MAX_LOADFAC</a>, <a class="el" href="a00047_source.html#l00167">tag_pcl_htable::min_loadfac</a>, <a class="el" href="a00491_source.html#l00038">MIN_LOADFAC</a>, <a class="el" href="a01088.html#ga8f4cbae7a9d6191bceec2d2d1f04eb5d">pcl_zalloc()</a>, and <a class="el" href="a00005_source.html#l00287">R_TRC</a>.</p>
+<p class="reference">References <a class="el" href="a00047_source.html#l00225">tag_pcl_htable::capacity</a>, <a class="el" href="a00494_source.html#l00036">ipcl_htable_capacity()</a>, <a class="el" href="a00047_source.html#l00283">tag_pcl_htable::key_equals</a>, <a class="el" href="a00047_source.html#l00243">tag_pcl_htable::key_len</a>, <a class="el" href="a00023_source.html#l00114">max</a>, <a class="el" href="a00047_source.html#l00261">tag_pcl_htable::max_loadfac</a>, <a class="el" href="a00491_source.html#l00037">MAX_LOADFAC</a>, <a class="el" href="a00047_source.html#l00252">tag_pcl_htable::min_loadfac</a>, <a class="el" href="a00491_source.html#l00038">MIN_LOADFAC</a>, <a class="el" href="a01088.html#ga8f4cbae7a9d6191bceec2d2d1f04eb5d">pcl_zalloc()</a>, and <a class="el" href="a00005_source.html#l00287">R_TRC</a>.</p>
 
 </div>
 </div>
@@ -330,7 +382,7 @@ Basic Usage</h4>
 
 <p class="definition">Definition at line <a class="el" href="a00506_source.html#l00036">36</a> of file <a class="el" href="a00506_source.html">htable_get.c</a>.</p>
 
-<p class="reference">References <a class="el" href="a00335_source.html#l00035">pcl_err_clear()</a>, <a class="el" href="a00512_source.html#l00036">pcl_htable_lookup()</a>, <a class="el" href="a00005_source.html#l00287">R_TRC</a>, and <a class="el" href="a00047_source.html#l00141">tag_pcl_htable_entry::value</a>.</p>
+<p class="reference">References <a class="el" href="a00335_source.html#l00035">pcl_err_clear()</a>, <a class="el" href="a00512_source.html#l00036">pcl_htable_lookup()</a>, <a class="el" href="a00005_source.html#l00287">R_TRC</a>, and <a class="el" href="a00047_source.html#l00210">tag_pcl_htable_entry::value</a>.</p>
 
 </div>
 </div>
@@ -388,7 +440,7 @@ Basic Usage</h4>
 
 <p class="definition">Definition at line <a class="el" href="a00515_source.html#l00037">37</a> of file <a class="el" href="a00515_source.html">htable_put.c</a>.</p>
 
-<p class="reference">References <a class="el" href="a00005_source.html#l00306">BADARG</a>, <a class="el" href="a00047_source.html#l00152">tag_pcl_htable::capacity</a>, <a class="el" href="a00047_source.html#l00135">tag_pcl_htable_entry::code</a>, <a class="el" href="a00047_source.html#l00149">tag_pcl_htable::count</a>, <a class="el" href="a00047_source.html#l00158">tag_pcl_htable::entries</a>, <a class="el" href="a00512_source.html#l00047">ipcl_htable_lookup()</a>, <a class="el" href="a00518_source.html#l00037">ipcl_htable_rehash()</a>, <a class="el" href="a00047_source.html#l00138">tag_pcl_htable_entry::key</a>, <a class="el" href="a00047_source.html#l00174">tag_pcl_htable::max_loadfac</a>, <a class="el" href="a00047_source.html#l00132">tag_pcl_htable_entry::next</a>, <a class="el" href="a00008_source.html#l00068">PCL_EEXIST</a>, <a class="el" href="a01088.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc()</a>, <a class="el" href="a00047_source.html#l00184">tag_pcl_htable::remove_entry</a>, <a class="el" href="a00005_source.html#l00065">SETERR</a>, <a class="el" href="a00005_source.html#l00262">TRC</a>, <a class="el" href="a00047_source.html#l00177">tag_pcl_htable::userp</a>, and <a class="el" href="a00047_source.html#l00141">tag_pcl_htable_entry::value</a>.</p>
+<p class="reference">References <a class="el" href="a00005_source.html#l00306">BADARG</a>, <a class="el" href="a00047_source.html#l00225">tag_pcl_htable::capacity</a>, <a class="el" href="a00047_source.html#l00204">tag_pcl_htable_entry::code</a>, <a class="el" href="a00047_source.html#l00220">tag_pcl_htable::count</a>, <a class="el" href="a00047_source.html#l00230">tag_pcl_htable::entries</a>, <a class="el" href="a00512_source.html#l00047">ipcl_htable_lookup()</a>, <a class="el" href="a00518_source.html#l00037">ipcl_htable_rehash()</a>, <a class="el" href="a00047_source.html#l00207">tag_pcl_htable_entry::key</a>, <a class="el" href="a00047_source.html#l00261">tag_pcl_htable::max_loadfac</a>, <a class="el" href="a00047_source.html#l00201">tag_pcl_htable_entry::next</a>, <a class="el" href="a00008_source.html#l00068">PCL_EEXIST</a>, <a class="el" href="a01088.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc()</a>, <a class="el" href="a00047_source.html#l00273">tag_pcl_htable::remove_entry</a>, <a class="el" href="a00005_source.html#l00065">SETERR</a>, <a class="el" href="a00005_source.html#l00262">TRC</a>, <a class="el" href="a00047_source.html#l00264">tag_pcl_htable::userp</a>, and <a class="el" href="a00047_source.html#l00210">tag_pcl_htable_entry::value</a>.</p>
 
 </div>
 </div>
@@ -431,7 +483,7 @@ Basic Usage</h4>
 
 <p class="definition">Definition at line <a class="el" href="a00521_source.html#l00035">35</a> of file <a class="el" href="a00521_source.html">htable_remove.c</a>.</p>
 
-<p class="reference">References <a class="el" href="a00047_source.html#l00152">tag_pcl_htable::capacity</a>, <a class="el" href="a00047_source.html#l00158">tag_pcl_htable::entries</a>, <a class="el" href="a00047_source.html#l00196">tag_pcl_htable::hashcode</a>, <a class="el" href="a00524_source.html#l00036">ipcl_htable_remove_entry()</a>, <a class="el" href="a00047_source.html#l00138">tag_pcl_htable_entry::key</a>, <a class="el" href="a00047_source.html#l00190">tag_pcl_htable::key_equals</a>, <a class="el" href="a00047_source.html#l00155">tag_pcl_htable::key_len</a>, <a class="el" href="a00047_source.html#l00132">tag_pcl_htable_entry::next</a>, and <a class="el" href="a00047_source.html#l00177">tag_pcl_htable::userp</a>.</p>
+<p class="reference">References <a class="el" href="a00047_source.html#l00225">tag_pcl_htable::capacity</a>, <a class="el" href="a00047_source.html#l00230">tag_pcl_htable::entries</a>, <a class="el" href="a00047_source.html#l00296">tag_pcl_htable::hashcode</a>, <a class="el" href="a00524_source.html#l00036">ipcl_htable_remove_entry()</a>, <a class="el" href="a00047_source.html#l00207">tag_pcl_htable_entry::key</a>, <a class="el" href="a00047_source.html#l00283">tag_pcl_htable::key_equals</a>, <a class="el" href="a00047_source.html#l00243">tag_pcl_htable::key_len</a>, <a class="el" href="a00047_source.html#l00201">tag_pcl_htable_entry::next</a>, and <a class="el" href="a00047_source.html#l00264">tag_pcl_htable::userp</a>.</p>
 
 </div>
 </div>
@@ -464,7 +516,7 @@ Basic Usage</h4>
 
 <p class="definition">Definition at line <a class="el" href="a00509_source.html#l00036">36</a> of file <a class="el" href="a00509_source.html">htable_keys.c</a>.</p>
 
-<p class="reference">References <a class="el" href="a00047_source.html#l00152">tag_pcl_htable::capacity</a>, <a class="el" href="a00047_source.html#l00149">tag_pcl_htable::count</a>, <a class="el" href="a00047_source.html#l00158">tag_pcl_htable::entries</a>, <a class="el" href="a00047_source.html#l00132">tag_pcl_htable_entry::next</a>, <a class="el" href="a00101_source.html#l00156">pcl_vector_append</a>, and <a class="el" href="a01013_source.html#l00036">pcl_vector_create()</a>.</p>
+<p class="reference">References <a class="el" href="a00047_source.html#l00225">tag_pcl_htable::capacity</a>, <a class="el" href="a00047_source.html#l00220">tag_pcl_htable::count</a>, <a class="el" href="a00047_source.html#l00230">tag_pcl_htable::entries</a>, <a class="el" href="a00047_source.html#l00201">tag_pcl_htable_entry::next</a>, <a class="el" href="a00101_source.html#l00156">pcl_vector_append</a>, and <a class="el" href="a01013_source.html#l00036">pcl_vector_create()</a>.</p>
 
 </div>
 </div>
@@ -507,7 +559,7 @@ Basic Usage</h4>
 
 <p class="definition">Definition at line <a class="el" href="a00497_source.html#l00037">37</a> of file <a class="el" href="a00497_source.html">htable_clear.c</a>.</p>
 
-<p class="reference">References <a class="el" href="a00047_source.html#l00152">tag_pcl_htable::capacity</a>, <a class="el" href="a00047_source.html#l00158">tag_pcl_htable::entries</a>, <a class="el" href="a00524_source.html#l00036">ipcl_htable_remove_entry()</a>, <a class="el" href="a00491_source.html#l00039">MIN_TABLE_SIZE</a>, <a class="el" href="a00047_source.html#l00132">tag_pcl_htable_entry::next</a>, and <a class="el" href="a01088.html#ga8ed2d8a28dde302fa8eac0d2e9ce8ea4">pcl_realloc()</a>.</p>
+<p class="reference">References <a class="el" href="a00047_source.html#l00225">tag_pcl_htable::capacity</a>, <a class="el" href="a00047_source.html#l00230">tag_pcl_htable::entries</a>, <a class="el" href="a00524_source.html#l00036">ipcl_htable_remove_entry()</a>, <a class="el" href="a00491_source.html#l00039">MIN_TABLE_SIZE</a>, <a class="el" href="a00047_source.html#l00201">tag_pcl_htable_entry::next</a>, and <a class="el" href="a01088.html#ga8ed2d8a28dde302fa8eac0d2e9ce8ea4">pcl_realloc()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="a00503_source.html#l00036">pcl_htable_free()</a>.</p>
 
@@ -542,23 +594,29 @@ Basic Usage</h4>
 
 <p class="definition">Definition at line <a class="el" href="a00503_source.html#l00036">36</a> of file <a class="el" href="a00503_source.html">htable_free.c</a>.</p>
 
-<p class="reference">References <a class="el" href="a00047_source.html#l00158">tag_pcl_htable::entries</a>, <a class="el" href="a01088.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free()</a>, <a class="el" href="a01088.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe()</a>, and <a class="el" href="a00497_source.html#l00037">pcl_htable_clear()</a>.</p>
+<p class="reference">References <a class="el" href="a00047_source.html#l00230">tag_pcl_htable::entries</a>, <a class="el" href="a01088.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free()</a>, <a class="el" href="a01088.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe()</a>, and <a class="el" href="a00497_source.html#l00037">pcl_htable_clear()</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
-<div class="ttc" id="aa01098_html_ga7a6fe40976dcaedb2dead754fbc08b49"><div class="ttname"><a href="a01098.html#ga7a6fe40976dcaedb2dead754fbc08b49">pcl_htable_create</a></div><div class="ttdeci">PCL_EXPORT pcl_htable_t * pcl_htable_create(int capacity, size_t key_len)</div><div class="ttdoc">Creates a new hash table object.</div><div class="ttdef"><b>Definition:</b> <a href="a00500_source.html#l00062">htable_create.c:62</a></div></div>
-<div class="ttc" id="aa01129_html"><div class="ttname"><a href="a01129.html">tag_pcl_htable</a></div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00144">htable.h:145</a></div></div>
-<div class="ttc" id="aa00011_html"><div class="ttname"><a href="a00011.html">alloc.h</a></div></div>
-<div class="ttc" id="aa01129_html_a57cdb09719a1350e1f053c01139eb363"><div class="ttname"><a href="a01129.html#a57cdb09719a1350e1f053c01139eb363">tag_pcl_htable::key_equals</a></div><div class="ttdeci">bool(* key_equals)(const void *key1, const void *key2, size_t key_len, void *userp)</div><div class="ttdoc">Determine if two keys are equal.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00190">htable.h:190</a></div></div>
+<div class="ttc" id="aa01129_html_aaa2dc552577da2bba064c4d36d971c26"><div class="ttname"><a href="a01129.html#aaa2dc552577da2bba064c4d36d971c26">tag_pcl_htable::key_len</a></div><div class="ttdeci">size_t key_len</div><div class="ttdoc">Key length in bytes.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00243">htable.h:243</a></div></div>
+<div class="ttc" id="aa01102_html_ga1af4eb72cec27108e92a470640def1cc"><div class="ttname"><a href="a01102.html#ga1af4eb72cec27108e92a470640def1cc">pcl_strreplace</a></div><div class="ttdeci">PCL_EXPORT char * pcl_strreplace(const char *subject, const char *from, const char *to)</div><div class="ttdoc">Replace all occurances of a search string with a replacement string.</div></div>
+<div class="ttc" id="aa01098_html_gae469981bef26363606b65a93189234ce"><div class="ttname"><a href="a01098.html#gae469981bef26363606b65a93189234ce">pcl_htable_create</a></div><div class="ttdeci">PCL_EXPORT pcl_htable_t * pcl_htable_create(int capacity)</div><div class="ttdoc">Creates a new hash table object.</div><div class="ttdef"><b>Definition:</b> <a href="a00500_source.html#l00062">htable_create.c:62</a></div></div>
+<div class="ttc" id="aa01129_html"><div class="ttname"><a href="a01129.html">tag_pcl_htable</a></div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00213">htable.h:214</a></div></div>
+<div class="ttc" id="aa01102_html_gafd8a5e2efd41dabad7002955280b004b"><div class="ttname"><a href="a01102.html#gafd8a5e2efd41dabad7002955280b004b">pcl_hex_decode</a></div><div class="ttdeci">PCL_EXPORT int pcl_hex_decode(void *buf, size_t size, const char *hex)</div><div class="ttdoc">Decode a hexadecimal string.</div><div class="ttdef"><b>Definition:</b> <a href="a00827_source.html#l00054">hex_decode.c:54</a></div></div>
+<div class="ttc" id="aa01088_html_gab88b901c82e1010555b08ff6d39490f2"><div class="ttname"><a href="a01088.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a></div><div class="ttdeci">void * pcl_free(void *p)</div><div class="ttdoc">Free memory space.</div></div>
+<div class="ttc" id="aa01129_html_a57cdb09719a1350e1f053c01139eb363"><div class="ttname"><a href="a01129.html#a57cdb09719a1350e1f053c01139eb363">tag_pcl_htable::key_equals</a></div><div class="ttdeci">bool(* key_equals)(const void *key1, const void *key2, size_t key_len, void *userp)</div><div class="ttdoc">Determine if two keys are equal.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00283">htable.h:283</a></div></div>
+<div class="ttc" id="aa00023_html_a9b58a1294d89c976dfbe4dc480e9dfb8"><div class="ttname"><a href="a00023.html#a9b58a1294d89c976dfbe4dc480e9dfb8">UNUSED</a></div><div class="ttdeci">#define UNUSED(...)</div><div class="ttdef"><b>Definition:</b> <a href="a00023_source.html#l00104">defs.h:104</a></div></div>
 <div class="ttc" id="aa01098_html_ga8b9f6df4376aac1c35a5d87ebcff93dc"><div class="ttname"><a href="a01098.html#ga8b9f6df4376aac1c35a5d87ebcff93dc">pcl_htable_free</a></div><div class="ttdeci">PCL_EXPORT void * pcl_htable_free(pcl_htable_t *ht)</div><div class="ttdoc">Release all resources used by the given hash table.</div><div class="ttdef"><b>Definition:</b> <a href="a00503_source.html#l00036">htable_free.c:36</a></div></div>
 <div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">htable.h</a></div></div>
 <div class="ttc" id="aa01098_html_gad1264b974c59d4df60f955234778a5e6"><div class="ttname"><a href="a01098.html#gad1264b974c59d4df60f955234778a5e6">pcl_htable_put</a></div><div class="ttdeci">PCL_EXPORT int pcl_htable_put(pcl_htable_t *ht, const void *key, void *value, bool unique)</div><div class="ttdoc">Puts a key/value pair into the table.</div><div class="ttdef"><b>Definition:</b> <a href="a00515_source.html#l00037">htable_put.c:37</a></div></div>
+<div class="ttc" id="aa00077_html"><div class="ttname"><a href="a00077.html">string.h</a></div></div>
 <div class="ttc" id="aa00050_html"><div class="ttname"><a href="a00050.html">init.h</a></div></div>
 <div class="ttc" id="aa01098_html_gaa01eda6232c789880d665e343ec299e3"><div class="ttname"><a href="a01098.html#gaa01eda6232c789880d665e343ec299e3">pcl_htable_get</a></div><div class="ttdeci">PCL_EXPORT void * pcl_htable_get(pcl_htable_t *ht, const void *key)</div><div class="ttdoc">Lookup an entry and return its value.</div><div class="ttdef"><b>Definition:</b> <a href="a00506_source.html#l00036">htable_get.c:36</a></div></div>
-<div class="ttc" id="aa01129_html_a7e9adab84c43d9a11a7a2ca0ff70b81e"><div class="ttname"><a href="a01129.html#a7e9adab84c43d9a11a7a2ca0ff70b81e">tag_pcl_htable::hashcode</a></div><div class="ttdeci">uintptr_t(* hashcode)(const void *key, size_t key_len, void *userp)</div><div class="ttdoc">Compute a 32 or 64-bit hash code for the given key.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00196">htable.h:196</a></div></div>
+<div class="ttc" id="aa01088_html_ga1df8575b9ae906470c782db9c26201e8"><div class="ttname"><a href="a01088.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a></div><div class="ttdeci">void * pcl_malloc(size_t n)</div><div class="ttdoc">Allocate dynamic memory.</div></div>
+<div class="ttc" id="aa01129_html_a7e9adab84c43d9a11a7a2ca0ff70b81e"><div class="ttname"><a href="a01129.html#a7e9adab84c43d9a11a7a2ca0ff70b81e">tag_pcl_htable::hashcode</a></div><div class="ttdeci">uintptr_t(* hashcode)(const void *key, size_t key_len, void *userp)</div><div class="ttdoc">Compute a hash code for the given key.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00296">htable.h:296</a></div></div>
 <div class="ttc" id="aa01099_html_ga14907e41025b0abbdc02ef1f892bd9a2"><div class="ttname"><a href="a01099.html#ga14907e41025b0abbdc02ef1f892bd9a2">pcl_init</a></div><div class="ttdeci">PCL_EXPORT void pcl_init(void)</div><div class="ttdoc">Initializes the PCL library.</div><div class="ttdef"><b>Definition:</b> <a href="a00533_source.html#l00062">init.c:62</a></div></div>
-<div class="ttc" id="aa01129_html_a671a5819f733f2c3de67d78b2f118ac1"><div class="ttname"><a href="a01129.html#a671a5819f733f2c3de67d78b2f118ac1">tag_pcl_htable::remove_entry</a></div><div class="ttdeci">void(* remove_entry)(const void *key, void *value, void *userp)</div><div class="ttdoc">Called whenever an entry is being removed from the table.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00184">htable.h:184</a></div></div>
+<div class="ttc" id="aa01129_html_a671a5819f733f2c3de67d78b2f118ac1"><div class="ttname"><a href="a01129.html#a671a5819f733f2c3de67d78b2f118ac1">tag_pcl_htable::remove_entry</a></div><div class="ttdeci">void(* remove_entry)(const void *key, void *value, void *userp)</div><div class="ttdoc">Called when an entry is being removed from the table.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00273">htable.h:273</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

@@ -287,189 +287,205 @@ $(function() {
 <div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    <a class="code" href="a01103.html#gae27afeea6e21c91c6aec626c7efac944">pcl_tmemcpy</a>(path, exec-&gt;<a class="code" href="a01141.html#ab4e9c8ce72d7ae5752f3e622ce534b08">ldpath</a>, path_len);</div>
 <div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    path[path_len] = 0;</div>
 <div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160; </div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    <span class="comment">/* swap &#39;:&#39; for &#39;;&#39; */</span></div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    <a class="code" href="a01103.html#ga5ce889a44cb9007cbb404052cec3bd32">pcl_tcsrepchr</a>(path, <a class="code" href="a00023.html#a76f4425a2027b15c08530794be52f2f1">_T</a>(<span class="charliteral">&#39;:&#39;</span>), <a class="code" href="a00023.html#a76f4425a2027b15c08530794be52f2f1">_T</a>(<span class="charliteral">&#39;;&#39;</span>));</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160; </div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    <span class="keywordflow">if</span>(env_len &gt; 0)</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    <span class="comment">/* swap &#39;:&#39; for &#39;;&#39;. Since windows uses : for drives &quot;C:\&quot;, we have to manually</span></div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;<span class="comment">     * go through path and exclude drive colons.</span></div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;<span class="comment">     */</span></div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    <span class="keywordflow">for</span>(<a class="code" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *p = path; *p; p++)</div>
 <div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    {</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;      <span class="comment">/* append &quot;;%PATH%&quot; to get &quot;LIBPATH;%PATH%&quot; */</span></div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;      path[path_len] = <a class="code" href="a00023.html#a76f4425a2027b15c08530794be52f2f1">_T</a>(<span class="charliteral">&#39;;&#39;</span>);</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;      <span class="keywordflow">if</span>(!GetEnvironmentVariable(<a class="code" href="a00023.html#a76f4425a2027b15c08530794be52f2f1">_T</a>(<span class="stringliteral">&quot;PATH&quot;</span>), path + path_len + 1, (DWORD)env_len))</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;      {</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;        path[path_len] = 0; <span class="comment">/* failed, terminate at &#39;;&#39; */</span></div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;        env_len = 0;</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;      <span class="keywordflow">if</span>(*p == <a class="code" href="a00023.html#a76f4425a2027b15c08530794be52f2f1">_T</a>(<span class="charliteral">&#39;:&#39;</span>))</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;      {</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;        <span class="keywordflow">if</span>(p[1] == PCL_TPATHSEPCHAR)</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;          p++; <span class="comment">// skip it</span></div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;        <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;          *p = <a class="code" href="a00023.html#a76f4425a2027b15c08530794be52f2f1">_T</a>(<span class="charliteral">&#39;;&#39;</span>);</div>
 <div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;      }</div>
 <div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    }</div>
 <div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160; </div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    SetEnvironmentVariable(<a class="code" href="a00023.html#a76f4425a2027b15c08530794be52f2f1">_T</a>(<span class="stringliteral">&quot;PATH&quot;</span>), path);</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;  }</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160; </div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;  success = createprocess(exec, comspec, command, &amp;si, &amp;pi);</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;  <a class="code" href="a01088.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(command);</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160; </div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;  <span class="comment">/* reset PATH to what it was prior to changing it (+1 to skip &#39;;&#39;) */</span></div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;  <span class="keywordflow">if</span>(env_len &gt; 0)</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    SetEnvironmentVariable(<a class="code" href="a00023.html#a76f4425a2027b15c08530794be52f2f1">_T</a>(<span class="stringliteral">&quot;PATH&quot;</span>), path + path_len + 1);</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;  <a class="code" href="a01088.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe</a>(path);</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    <span class="keywordflow">if</span>(env_len &gt; 0)</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    {</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;      <span class="comment">/* append &quot;;%PATH%&quot; to get &quot;LIBPATH;%PATH%&quot; */</span></div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;      path[path_len] = <a class="code" href="a00023.html#a76f4425a2027b15c08530794be52f2f1">_T</a>(<span class="charliteral">&#39;;&#39;</span>);</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;      <span class="keywordflow">if</span>(!GetEnvironmentVariable(<a class="code" href="a00023.html#a76f4425a2027b15c08530794be52f2f1">_T</a>(<span class="stringliteral">&quot;PATH&quot;</span>), path + path_len + 1, (DWORD)env_len))</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;      {</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;        path[path_len] = 0; <span class="comment">/* failed, terminate at &#39;;&#39; */</span></div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;        env_len = 0;</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;      }</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;    }</div>
 <div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160; </div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;  <span class="comment">/* Close our end of child pipes or forever leak! */</span></div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;  <span class="keywordflow">if</span>(flags &amp; (<a class="code" href="a01101.html#ga87d008e6f434301f4b517e0cdf5a320c">PCL_EXEC_STDIN</a> | <a class="code" href="a01101.html#ga8c1fc48ff39c94e8d3dcf53255fae7a8">PCL_EXEC_STDIN_NB</a>))</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    CloseHandle(si.hStdInput);</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;  <span class="keywordflow">if</span>(flags &amp; (<a class="code" href="a01101.html#gaf0b0f1ec2dcdb568a1826a04c0cf46d0">PCL_EXEC_STDOUT</a> | <a class="code" href="a01101.html#ga5a4c32c851a5d9bda967d6393aaafba2">PCL_EXEC_STDOUT_NB</a>))</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    CloseHandle(si.hStdOutput);</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;  <span class="keywordflow">if</span>(flags &amp; (<a class="code" href="a01101.html#ga6f5de5f5bd36c584904dabcc987eee5f">PCL_EXEC_STDERR</a> | <a class="code" href="a01101.html#gad6167eaf15543bcb6c790fae1a32b64c">PCL_EXEC_STDERR_NB</a>))</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    CloseHandle(si.hStdError);</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160; </div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;  <span class="keywordflow">if</span>(!success)</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;  {</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;    <a class="code" href="a00044.html#a4e888a5a186ccc8fff3176665d01720a">pcl_file_close</a>(exec-&gt;<a class="code" href="a01141.html#ab71f56b16803f8bcee33ae4adce50810">f_stdin</a>);</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    <a class="code" href="a00044.html#a4e888a5a186ccc8fff3176665d01720a">pcl_file_close</a>(exec-&gt;<a class="code" href="a01141.html#a3d368a0bf5425e0ca958b0beee200277">f_stdout</a>);</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;    <a class="code" href="a00044.html#a4e888a5a186ccc8fff3176665d01720a">pcl_file_close</a>(exec-&gt;<a class="code" href="a01141.html#a58a969e094efba78b7ee68457df0b44a">f_stderr</a>);</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01095.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a>();</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;  }</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160; </div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;  exec-&gt;<a class="code" href="a01141.html#a07ce4945edf1b015a644297edf63ba7a">start</a> = <a class="code" href="a00089.html#a202860ee480207e7dcc481029f4f466f">pcl_time</a>();</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;  exec-&gt;<a class="code" href="a01141.html#ae0d46a978d5cd6707411f276ad869b9c">pid</a> = (pid_t)pi.dwProcessId;</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    SetEnvironmentVariable(<a class="code" href="a00023.html#a76f4425a2027b15c08530794be52f2f1">_T</a>(<span class="stringliteral">&quot;PATH&quot;</span>), path);</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;  }</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160; </div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;  success = createprocess(exec, comspec, command, &amp;si, &amp;pi);</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;  <a class="code" href="a01088.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(command);</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160; </div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;  <span class="comment">/* reset PATH to what it was prior to changing it (+1 to skip &#39;;&#39;) */</span></div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;  <span class="keywordflow">if</span>(env_len &gt; 0)</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;    SetEnvironmentVariable(<a class="code" href="a00023.html#a76f4425a2027b15c08530794be52f2f1">_T</a>(<span class="stringliteral">&quot;PATH&quot;</span>), path + path_len + 1);</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;  <a class="code" href="a01088.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe</a>(path);</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160; </div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;  <span class="comment">/* Close our end of child pipes or forever leak! */</span></div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;  <span class="keywordflow">if</span>(flags &amp; (<a class="code" href="a01101.html#ga87d008e6f434301f4b517e0cdf5a320c">PCL_EXEC_STDIN</a> | <a class="code" href="a01101.html#ga8c1fc48ff39c94e8d3dcf53255fae7a8">PCL_EXEC_STDIN_NB</a>))</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;    CloseHandle(si.hStdInput);</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;  <span class="keywordflow">if</span>(flags &amp; (<a class="code" href="a01101.html#gaf0b0f1ec2dcdb568a1826a04c0cf46d0">PCL_EXEC_STDOUT</a> | <a class="code" href="a01101.html#ga5a4c32c851a5d9bda967d6393aaafba2">PCL_EXEC_STDOUT_NB</a>))</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    CloseHandle(si.hStdOutput);</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;  <span class="keywordflow">if</span>(flags &amp; (<a class="code" href="a01101.html#ga6f5de5f5bd36c584904dabcc987eee5f">PCL_EXEC_STDERR</a> | <a class="code" href="a01101.html#gad6167eaf15543bcb6c790fae1a32b64c">PCL_EXEC_STDERR_NB</a>))</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    CloseHandle(si.hStdError);</div>
 <div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160; </div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;  <span class="keywordflow">if</span>(flags &amp; <a class="code" href="a01101.html#ga8b71b5aea5f40fa9e7624d5120b9122e">PCL_EXEC_HANDLE</a>)</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;    exec-&gt;<a class="code" href="a01141.html#a7d161ee740cf713596125892ab3870ad">handle</a> = pi.hProcess;</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;  <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    CloseHandle(pi.hProcess);</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160; </div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;  CloseHandle(pi.hThread);</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;  <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;}</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160; </div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;<span class="keyword">static</span> <span class="keywordtype">bool</span></div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;createprocess(<a class="code" href="a01141.html">pcl_proc_exec_t</a> *exec, <span class="keyword">const</span> <a class="code" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *comspec, <a class="code" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *command,</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;  STARTUPINFO *si, PROCESS_INFORMATION *pi)</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;{</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;  <span class="keywordtype">bool</span> success;</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;  SECURITY_ATTRIBUTES secattrs;</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;  <span class="keyword">const</span> <a class="code" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *langrp = exec-&gt;<a class="code" href="a01141.html#aa88e4b8826ad478c43d71186c64b7686">group</a> ? exec-&gt;<a class="code" href="a01141.html#aa88e4b8826ad478c43d71186c64b7686">group</a> : <a class="code" href="a00023.html#a76f4425a2027b15c08530794be52f2f1">_T</a>(<span class="stringliteral">&quot;.&quot;</span>);</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;  DWORD crflags = CREATE_UNICODE_ENVIRONMENT;</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160; </div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;  <a class="code" href="a00023.html#ac641df42841b1cf112b9accaf23806b4">zero</a>(secattrs);</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;  secattrs.nLength = <span class="keyword">sizeof</span>(secattrs);</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;  secattrs.bInheritHandle = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160; </div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a00023.html#a8278668d120afdd0e47def881845559d">strempty</a>(exec-&gt;<a class="code" href="a01141.html#a85dbde259a0dd421d1af7336ee6cb346">user</a>))</div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;  {</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;    <span class="keywordflow">if</span>(!CreateProcess(comspec, command, &amp;secattrs, &amp;secattrs, <span class="keyword">true</span>, crflags,</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;      NULL, exec-&gt;<a class="code" href="a01141.html#a671c4e5dbbded76f0f516c1fc3138beb">cwd</a>, si, pi))</div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;    {</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01095.html#gad08a56aa55af3716a251ced9f780686d">R_SETLASTERR</a>(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;    }</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160; </div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;  }</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;  <span class="keywordflow">if</span>(!success)</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;  {</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    <a class="code" href="a00044.html#a4e888a5a186ccc8fff3176665d01720a">pcl_file_close</a>(exec-&gt;<a class="code" href="a01141.html#ab71f56b16803f8bcee33ae4adce50810">f_stdin</a>);</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    <a class="code" href="a00044.html#a4e888a5a186ccc8fff3176665d01720a">pcl_file_close</a>(exec-&gt;<a class="code" href="a01141.html#a3d368a0bf5425e0ca958b0beee200277">f_stdout</a>);</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;    <a class="code" href="a00044.html#a4e888a5a186ccc8fff3176665d01720a">pcl_file_close</a>(exec-&gt;<a class="code" href="a01141.html#a58a969e094efba78b7ee68457df0b44a">f_stderr</a>);</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01095.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a>();</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;  }</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160; </div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;  exec-&gt;<a class="code" href="a01141.html#a07ce4945edf1b015a644297edf63ba7a">start</a> = <a class="code" href="a00089.html#a202860ee480207e7dcc481029f4f466f">pcl_time</a>();</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;  exec-&gt;<a class="code" href="a01141.html#ae0d46a978d5cd6707411f276ad869b9c">pid</a> = (pid_t)pi.dwProcessId;</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160; </div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;  <span class="keywordflow">if</span>(flags &amp; <a class="code" href="a01101.html#ga8b71b5aea5f40fa9e7624d5120b9122e">PCL_EXEC_HANDLE</a>)</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;    exec-&gt;<a class="code" href="a01141.html#a7d161ee740cf713596125892ab3870ad">handle</a> = pi.hProcess;</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;  <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;    CloseHandle(pi.hProcess);</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160; </div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;  CloseHandle(pi.hThread);</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;  <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;}</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160; </div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;<span class="keyword">static</span> <span class="keywordtype">bool</span></div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;createprocess(<a class="code" href="a01141.html">pcl_proc_exec_t</a> *exec, <span class="keyword">const</span> <a class="code" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *comspec, <a class="code" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *command,</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;  STARTUPINFO *si, PROCESS_INFORMATION *pi)</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;{</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;  <span class="keywordtype">bool</span> success;</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;  SECURITY_ATTRIBUTES secattrs;</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;  <span class="keyword">const</span> <a class="code" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *langrp = exec-&gt;<a class="code" href="a01141.html#aa88e4b8826ad478c43d71186c64b7686">group</a> ? exec-&gt;<a class="code" href="a01141.html#aa88e4b8826ad478c43d71186c64b7686">group</a> : <a class="code" href="a00023.html#a76f4425a2027b15c08530794be52f2f1">_T</a>(<span class="stringliteral">&quot;.&quot;</span>);</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;  DWORD crflags = CREATE_UNICODE_ENVIRONMENT;</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160; </div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;  <a class="code" href="a00023.html#ac641df42841b1cf112b9accaf23806b4">zero</a>(secattrs);</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;  secattrs.nLength = <span class="keyword">sizeof</span>(secattrs);</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;  secattrs.bInheritHandle = <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160; </div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;  HANDLE token;</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a01040.html#a2634de7b35a9a3b747815a8f6bf051d5">ipcl_win32_logon</a>(exec-&gt;<a class="code" href="a01141.html#a85dbde259a0dd421d1af7336ee6cb346">user</a>, langrp, exec-&gt;<a class="code" href="a01141.html#a0ed81d05604ddbd3c8d1cf87e4fbf676">pass</a>, &amp;token))</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;  {</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;    <a class="code" href="a01095.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a>();</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;  }</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160; </div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;  USER_INFO_4 *userinfo;</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;  <a class="code" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> profdir[512];</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;  <span class="keywordflow">if</span>(!NetUserGetInfo(exec-&gt;<a class="code" href="a01141.html#aa88e4b8826ad478c43d71186c64b7686">group</a>, exec-&gt;<a class="code" href="a01141.html#a85dbde259a0dd421d1af7336ee6cb346">user</a>, 4, (LPBYTE *)&amp;userinfo))</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;  {</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;    <a class="code" href="a01103.html#ga4017f560d02c5ad8f995b28dfcef1a78">pcl_tcscpy</a>(profdir, <a class="code" href="a00023.html#a9941e62482da843b972636008fd80e56">countof</a>(profdir), userinfo-&gt;usri4_profile);</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;    NetApiBufferFree(userinfo);</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;  }</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;  <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;  {</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;    DWORD dw = <a class="code" href="a00023.html#a9941e62482da843b972636008fd80e56">countof</a>(profdir);</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;    <span class="keywordflow">if</span>(!GetUserProfileDirectory(token, profdir, &amp;dw))</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;      *profdir = 0;</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;  }</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160; </div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;  <span class="comment">/* Load user profile since it wasn&#39;t done automatically by interactive logon */</span></div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;  HANDLE hprof = NULL;</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;  PROFILEINFO profinfo;</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;  <a class="code" href="a00023.html#ac641df42841b1cf112b9accaf23806b4">zero</a>(profinfo);</div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;  profinfo.dwSize = <span class="keyword">sizeof</span>(profinfo);</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;  profinfo.dwFlags = PI_NOUI;</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;  profinfo.lpUserName = <a class="code" href="a01103.html#ga141698edd84320693509624eb7e6f6af">pcl_tcsdup</a>(exec-&gt;<a class="code" href="a01141.html#a85dbde259a0dd421d1af7336ee6cb346">user</a>); <span class="comment">/* must allocate, IDK, ask M$ */</span></div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;  profinfo.lpProfilePath = profdir;</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;  <span class="keywordflow">if</span>(LoadUserProfile(token, &amp;profinfo))</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;    hprof = profinfo.hProfile; <span class="comment">/* keep around until ready to unload profile */</span></div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a00023.html#a8278668d120afdd0e47def881845559d">strempty</a>(exec-&gt;<a class="code" href="a01141.html#a85dbde259a0dd421d1af7336ee6cb346">user</a>))</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;  {</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;    <span class="keywordflow">if</span>(!CreateProcess(comspec, command, &amp;secattrs, &amp;secattrs, <span class="keyword">true</span>, crflags,</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;      NULL, exec-&gt;<a class="code" href="a01141.html#a671c4e5dbbded76f0f516c1fc3138beb">cwd</a>, si, pi))</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;    {</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01095.html#gad08a56aa55af3716a251ced9f780686d">R_SETLASTERR</a>(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;    }</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160; </div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;  }</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160; </div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;  HANDLE token;</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a01040.html#a2634de7b35a9a3b747815a8f6bf051d5">ipcl_win32_logon</a>(exec-&gt;<a class="code" href="a01141.html#a85dbde259a0dd421d1af7336ee6cb346">user</a>, langrp, exec-&gt;<a class="code" href="a01141.html#a0ed81d05604ddbd3c8d1cf87e4fbf676">pass</a>, &amp;token))</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;  {</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;    <a class="code" href="a01095.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a>();</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;  }</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160; </div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;  USER_INFO_4 *userinfo;</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;  <a class="code" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> profdir[512];</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;  <span class="keywordflow">if</span>(!NetUserGetInfo(exec-&gt;<a class="code" href="a01141.html#aa88e4b8826ad478c43d71186c64b7686">group</a>, exec-&gt;<a class="code" href="a01141.html#a85dbde259a0dd421d1af7336ee6cb346">user</a>, 4, (LPBYTE *)&amp;userinfo))</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;  {</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;    <a class="code" href="a01103.html#ga4017f560d02c5ad8f995b28dfcef1a78">pcl_tcscpy</a>(profdir, <a class="code" href="a00023.html#a9941e62482da843b972636008fd80e56">countof</a>(profdir), userinfo-&gt;usri4_profile);</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;    NetApiBufferFree(userinfo);</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;  }</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;  <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;  {</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;    DWORD dw = <a class="code" href="a00023.html#a9941e62482da843b972636008fd80e56">countof</a>(profdir);</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;    <span class="keywordflow">if</span>(!GetUserProfileDirectory(token, profdir, &amp;dw))</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;      *profdir = 0;</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;  }</div>
 <div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160; </div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;  <a class="code" href="a01088.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(profinfo.lpUserName);</div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160; </div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;  <span class="comment">/* access the directory and executable image in the security context</span></div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;<span class="comment">   * of the target user, not the caller (us).</span></div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;<span class="comment">   */</span></div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;  <span class="keywordflow">if</span>(!ImpersonateLoggedOnUser(token))</div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;  {</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;    <a class="code" href="a01095.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;    <span class="keywordflow">if</span>(hprof)</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;      UnloadUserProfile(token, hprof);</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;    CloseHandle(token);</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;  }</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;  <span class="comment">/* Load user profile since it wasn&#39;t done automatically by interactive logon */</span></div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;  HANDLE hprof = NULL;</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;  PROFILEINFO profinfo;</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;  <a class="code" href="a00023.html#ac641df42841b1cf112b9accaf23806b4">zero</a>(profinfo);</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;  profinfo.dwSize = <span class="keyword">sizeof</span>(profinfo);</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;  profinfo.dwFlags = PI_NOUI;</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;  profinfo.lpUserName = <a class="code" href="a01103.html#ga141698edd84320693509624eb7e6f6af">pcl_tcsdup</a>(exec-&gt;<a class="code" href="a01141.html#a85dbde259a0dd421d1af7336ee6cb346">user</a>); <span class="comment">/* must allocate, IDK, ask M$ */</span></div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;  profinfo.lpProfilePath = profdir;</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160; </div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;  <span class="keywordflow">if</span>(LoadUserProfile(token, &amp;profinfo))</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;    hprof = profinfo.hProfile; <span class="comment">/* keep around until ready to unload profile */</span></div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160; </div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;  <a class="code" href="a01088.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(profinfo.lpUserName);</div>
 <div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160; </div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;  <span class="comment">/* Try CreateProcessAsUser, requiring LoadUserProfile and CreateEnvBlock */</span></div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;  <span class="keywordtype">void</span> *env_block = NULL;</div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;  (void)CreateEnvironmentBlock(&amp;env_block, token, <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160; </div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;  <span class="comment">/* CreateEnvironmentBlock can fail, which means process owner won&#39;t have</span></div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;<span class="comment">   * their profile env vars loaded.</span></div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;<span class="comment">   */</span></div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;  success = CreateProcessAsUser(token, comspec, command, &amp;secattrs, &amp;secattrs,</div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;    <span class="keyword">true</span>, crflags | CREATE_NO_WINDOW, env_block, exec-&gt;<a class="code" href="a01141.html#a671c4e5dbbded76f0f516c1fc3138beb">cwd</a>, si, pi);</div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;  <span class="comment">/* access the directory and executable image in the security context</span></div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;<span class="comment">   * of the target user, not the caller (us).</span></div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;<span class="comment">   */</span></div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;  <span class="keywordflow">if</span>(!ImpersonateLoggedOnUser(token))</div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;  {</div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;    <a class="code" href="a01095.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160; </div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;    <span class="keywordflow">if</span>(hprof)</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;      UnloadUserProfile(token, hprof);</div>
 <div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160; </div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;  <span class="keywordflow">if</span>(!success)</div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;    <a class="code" href="a01095.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160; </div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;  RevertToSelf();</div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;  <span class="keywordflow">if</span>(env_block)</div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;    DestroyEnvironmentBlock(env_block);</div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160; </div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;  <span class="keywordflow">if</span>(hprof)</div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;    UnloadUserProfile(token, hprof);</div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;  CloseHandle(token);</div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160; </div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;  <span class="keywordflow">if</span>(success)</div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160; </div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;  <span class="comment">/* save exception that CreateProcessAsUser threw. */</span></div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;  <a class="code" href="a01121.html">pcl_err_ctx_t</a> *ctx = <a class="code" href="a01093.html#gacba4bcf84db2e3237d7274aa57a30253">pcl_err_ctx</a>();</div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160; </div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;  ctx-&gt;<a class="code" href="a01121.html#a9ec42de702ac1fcf2d7307c5a2415b94">frozen</a> = 1;</div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160; </div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;  <span class="comment">/* Is the current process running as LocalSystem user? */</span></div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;  <span class="keywordtype">char</span> sidbuf[SECURITY_MAX_SID_SIZE];</div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;  DWORD sidsize = SECURITY_MAX_SID_SIZE;</div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;  PSID process_sid, localsystem_sid = sidbuf;</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;  CreateWellKnownSid(WinLocalSystemSid, NULL, localsystem_sid, &amp;sidsize);</div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;  <span class="keywordflow">if</span>(!(process_sid = <a class="code" href="a01040.html#aa3b15ac99dce2f5d07ec5751379f9a43">ipcl_win32_process_sid</a>()))</div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;  {</div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;    ctx-&gt;<a class="code" href="a01121.html#a9ec42de702ac1fcf2d7307c5a2415b94">frozen</a> = 0;</div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;  }</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;    CloseHandle(token);</div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160; </div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;  }</div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160; </div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;  <span class="comment">/* Try CreateProcessAsUser, requiring LoadUserProfile and CreateEnvBlock */</span></div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;  <span class="keywordtype">void</span> *env_block = NULL;</div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;  (void)CreateEnvironmentBlock(&amp;env_block, token, <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160; </div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;  <span class="comment">/* CreateEnvironmentBlock can fail, which means process owner won&#39;t have</span></div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;<span class="comment">   * their profile env vars loaded.</span></div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;<span class="comment">   */</span></div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;  success = CreateProcessAsUser(token, comspec, command, &amp;secattrs, &amp;secattrs,</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;    <span class="keyword">true</span>, crflags | CREATE_NO_WINDOW, env_block, exec-&gt;<a class="code" href="a01141.html#a671c4e5dbbded76f0f516c1fc3138beb">cwd</a>, si, pi);</div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160; </div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;  <span class="keywordflow">if</span>(!success)</div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;    <a class="code" href="a01095.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>(); <span class="comment">// use this error up until CreateProcessWithLogonW attempt</span></div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160; </div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;  RevertToSelf();</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160; </div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;  <span class="keywordflow">if</span>(env_block)</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;    DestroyEnvironmentBlock(env_block);</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160; </div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;  <span class="keywordflow">if</span>(hprof)</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;    UnloadUserProfile(token, hprof);</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;  CloseHandle(token);</div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160; </div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;  <span class="keywordflow">if</span>(success)</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160; </div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;  <span class="comment">/* CreateProcessWithLogonW cannot be used if user is LocalSystem. */</span></div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;  success = EqualSid(localsystem_sid, process_sid);</div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;  <a class="code" href="a01088.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(process_sid);</div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;  <span class="keywordflow">if</span>(success)</div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;  {</div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;    ctx-&gt;<a class="code" href="a01121.html#a9ec42de702ac1fcf2d7307c5a2415b94">frozen</a> = 0;</div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;  }</div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160; </div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;  ctx-&gt;<a class="code" href="a01121.html#a9ec42de702ac1fcf2d7307c5a2415b94">frozen</a> = 0;</div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160; </div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;  success = CreateProcessWithLogonW(exec-&gt;<a class="code" href="a01141.html#a85dbde259a0dd421d1af7336ee6cb346">user</a>, langrp, exec-&gt;<a class="code" href="a01141.html#a0ed81d05604ddbd3c8d1cf87e4fbf676">pass</a>,</div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;    LOGON_WITH_PROFILE, comspec, command, crflags, NULL, exec-&gt;<a class="code" href="a01141.html#a671c4e5dbbded76f0f516c1fc3138beb">cwd</a>, si, pi);</div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160; </div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;  <span class="keywordflow">if</span>(!success)</div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;    <a class="code" href="a01095.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160; </div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;  <span class="keywordflow">return</span> success;</div>
-<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;}</div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160; </div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;  <span class="comment">/* save exception that CreateProcessAsUser threw. */</span></div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;  <a class="code" href="a01121.html">pcl_err_ctx_t</a> *ctx = <a class="code" href="a01093.html#gacba4bcf84db2e3237d7274aa57a30253">pcl_err_ctx</a>();</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160; </div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;  ctx-&gt;<a class="code" href="a01121.html#a9ec42de702ac1fcf2d7307c5a2415b94">frozen</a> = 1;</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160; </div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;  <span class="comment">/* Is the current process running as LocalSystem user? */</span></div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;  <span class="keywordtype">char</span> sidbuf[SECURITY_MAX_SID_SIZE];</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;  DWORD sidsize = SECURITY_MAX_SID_SIZE;</div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;  PSID process_sid, localsystem_sid = sidbuf;</div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;  CreateWellKnownSid(WinLocalSystemSid, NULL, localsystem_sid, &amp;sidsize);</div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;  <span class="keywordflow">if</span>(!(process_sid = <a class="code" href="a01040.html#aa3b15ac99dce2f5d07ec5751379f9a43">ipcl_win32_process_sid</a>()))</div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;  {</div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;    ctx-&gt;<a class="code" href="a01121.html#a9ec42de702ac1fcf2d7307c5a2415b94">frozen</a> = 0;</div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;  }</div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160; </div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;  <span class="comment">/* CreateProcessWithLogonW cannot be used if user is LocalSystem. */</span></div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;  success = EqualSid(localsystem_sid, process_sid);</div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;  <a class="code" href="a01088.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(process_sid);</div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;  <span class="keywordflow">if</span>(success)</div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;  {</div>
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;    ctx-&gt;<a class="code" href="a01121.html#a9ec42de702ac1fcf2d7307c5a2415b94">frozen</a> = 0;</div>
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;  }</div>
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160; </div>
+<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;  ctx-&gt;<a class="code" href="a01121.html#a9ec42de702ac1fcf2d7307c5a2415b94">frozen</a> = 0;</div>
+<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160; </div>
+<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;  success = CreateProcessWithLogonW(exec-&gt;<a class="code" href="a01141.html#a85dbde259a0dd421d1af7336ee6cb346">user</a>, langrp, exec-&gt;<a class="code" href="a01141.html#a0ed81d05604ddbd3c8d1cf87e4fbf676">pass</a>,</div>
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;    LOGON_WITH_PROFILE, comspec, command, crflags, NULL, exec-&gt;<a class="code" href="a01141.html#a671c4e5dbbded76f0f516c1fc3138beb">cwd</a>, si, pi);</div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160; </div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;  <span class="keywordflow">if</span>(!success)</div>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;    <a class="code" href="a01095.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
+<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160; </div>
+<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;  <span class="keywordflow">return</span> success;</div>
+<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;}</div>
+<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160; </div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aa00023_html_a68a5c06e5c119af1fbb32970a866cb2c"><div class="ttname"><a href="a00023.html#a68a5c06e5c119af1fbb32970a866cb2c">PCL_BADFD</a></div><div class="ttdeci">#define PCL_BADFD</div><div class="ttdef"><b>Definition:</b> <a href="a00023_source.html#l00135">defs.h:135</a></div></div>
 <div class="ttc" id="aa01095_html_gad08a56aa55af3716a251ced9f780686d"><div class="ttname"><a href="a01095.html#gad08a56aa55af3716a251ced9f780686d">R_SETLASTERR</a></div><div class="ttdeci">#define R_SETLASTERR(_retval)</div><div class="ttdoc">Sets the return value and the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00005_source.html#l00235">_errdefs.h:235</a></div></div>
@@ -479,7 +495,6 @@ $(function() {
 <div class="ttc" id="aa01121_html"><div class="ttname"><a href="a01121.html">tag_pcl_err_ctx</a></div><div class="ttdoc">Represents a PCL error context, with optional stack trace.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00062">errctx.h:63</a></div></div>
 <div class="ttc" id="aa01095_html_ga89b8bfbe17595305872551a1caaa5702"><div class="ttname"><a href="a01095.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a></div><div class="ttdeci">#define SETLASTERR()</div><div class="ttdoc">Sets the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00005_source.html#l00125">_errdefs.h:125</a></div></div>
 <div class="ttc" id="aa00092_html_a7589c2eb4da44bc1c8e4d094798e7f0b"><div class="ttname"><a href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a></div><div class="ttdeci">char tchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00092_source.html#l00053">types.h:53</a></div></div>
-<div class="ttc" id="aa01103_html_ga5ce889a44cb9007cbb404052cec3bd32"><div class="ttname"><a href="a01103.html#ga5ce889a44cb9007cbb404052cec3bd32">pcl_tcsrepchr</a></div><div class="ttdeci">tchar_t * pcl_tcsrepchr(tchar_t *s, tchar_t oldch, tchar_t newch)</div><div class="ttdoc">Replace all occurance of a character in a string.</div></div>
 <div class="ttc" id="aa01201_html"><div class="ttname"><a href="a01201.html">tag_pcl_file</a></div><div class="ttdef"><b>Definition:</b> <a href="a00425_source.html#l00061">_file.h:62</a></div></div>
 <div class="ttc" id="aa01141_html_a58a969e094efba78b7ee68457df0b44a"><div class="ttname"><a href="a01141.html#a58a969e094efba78b7ee68457df0b44a">pcl_proc_exec_t::f_stderr</a></div><div class="ttdeci">pcl_file_t * f_stderr</div><div class="ttdoc">Set to the read end of the child process's stderr when PCL_EXEC_STDERR or PCL_EXEC_STDERR_NB.</div><div class="ttdef"><b>Definition:</b> <a href="a00065_source.html#l00213">process.h:213</a></div></div>
 <div class="ttc" id="aa01141_html_a7d161ee740cf713596125892ab3870ad"><div class="ttname"><a href="a01141.html#a7d161ee740cf713596125892ab3870ad">pcl_proc_exec_t::handle</a></div><div class="ttdeci">pcl_prochandle_t handle</div><div class="ttdoc">set to the process handle (windows HANDLE and unix pid).</div><div class="ttdef"><b>Definition:</b> <a href="a00065_source.html#l00195">process.h:195</a></div></div>
