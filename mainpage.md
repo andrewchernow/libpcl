@@ -15,7 +15,7 @@ following platforms:
 PCL began in ~2000 as a small utility library. Over the years, more functionality has been added
 and the project continued to mature. Below are some of the features of PCL:
 
-* Unified character handling via tchar_t: UTF-16 on windows and UTF-8 on Unixes
+* Unified character handling via pchar_t: UTF-16 on windows and UTF-8 on Unixes
 * Suite of safe string functions: unlike strcpy or sprintf
 * Robust error management: stack trace, PCL error code, per thread error context
 * Process management: exec, popen, process path, etc.
