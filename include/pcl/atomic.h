@@ -66,11 +66,6 @@ PCL_EXPORT pcl_atomic_t pcl_atomic_add_fetch(pcl_atomic_t *dest, pcl_atomic_t ad
  */
 PCL_EXPORT pcl_atomic_t pcl_atomic_fetch_add(pcl_atomic_t *dest, pcl_atomic_t add);
 
-/* Compares the value of '*dest' with 'expected' and if equal, writes 'desired'
- * to '*dest'. If not equal, no operation/write is performed. Returns the
- * contents of *dest in either case.
- */
-
 /** Performs a compare and exhange operation.
  * @param dest pointer to an atomic value
  * @param expected a value to compare with \a dest

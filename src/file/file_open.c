@@ -33,7 +33,7 @@
 #include <pcl/error.h>
 
 pcl_file_t *
-pcl_file_open(const tchar_t *path, int oflags, ...)
+pcl_file_open(const pchar_t *path, int oflags, ...)
 {
 	if(strempty(path))
 		return R_SETERR(NULL, PCL_EINVAL);
@@ -53,7 +53,7 @@ pcl_file_open(const tchar_t *path, int oflags, ...)
 	if(ipcl_file_open(file, path, oflags, mode))
 	{
 		pcl_file_close(file);
-		return R_TRCMSG(NULL, "%ts", path);
+		return R_TRCMSG(NULL, "%Ps", path);
 	}
 
 	return ipcl_file_init(file, oflags);

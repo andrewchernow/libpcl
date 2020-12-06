@@ -37,7 +37,7 @@
 #	include <libproc.h> // proc_pidpath
 #endif
 
-tchar_t *
+pchar_t *
 pcl_proc_path(pid_t pid)
 {
 	if(pid < 0)
@@ -63,6 +63,6 @@ pcl_proc_path(pid_t pid)
 	if(len < 0)
 		return R_SETLASTERR(NULL);
 
-	return pcl_tcsndup(path, len);
+	return pcl_pcsndup(path, len);
 }
 

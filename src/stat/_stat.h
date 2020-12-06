@@ -38,7 +38,7 @@
 extern "C" {
 #endif
 
-int ipcl_statent(const tchar_t *path, int fd, pcl_stat_t *buf, int flags);
+int ipcl_statent(const pchar_t *path, int fd, pcl_stat_t *buf, int flags);
 
 #ifdef PCL_WINDOWS
 void ipcl_win32_stat_handler(uint32_t which, void *data);

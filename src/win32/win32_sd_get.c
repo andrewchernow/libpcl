@@ -33,7 +33,7 @@
 #include <pcl/alloc.h>
 
 SECURITY_DESCRIPTOR *
-sd_get(const tchar_t *path, DWORD *len, int sec_info)
+sd_get(const pchar_t *path, DWORD *len, int sec_info)
 {
 	DWORD size;
 	SECURITY_DESCRIPTOR *sd;
@@ -71,7 +71,7 @@ sd_get(const tchar_t *path, DWORD *len, int sec_info)
 }
 
 int
-ipcl_win32_sd_get(const tchar_t *path, SECURITY_DESCRIPTOR **sd, DWORD *sdlen,
+ipcl_win32_sd_get(const pchar_t *path, SECURITY_DESCRIPTOR **sd, DWORD *sdlen,
 	PSID *world_sid, PSID *owner_sid, PSID *group_sid, BOOL *have_dacl, PACL *dacl,
 	SECURITY_INFORMATION secinfo)
 {

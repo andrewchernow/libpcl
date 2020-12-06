@@ -70,10 +70,13 @@ Some note worthy features are:
     * specify which events are ignored or display stack trace at runtime
 
   * Full Unicode Support
-    * tchar_t: 'wchar_t' UTF-16 on Microsoft Windows and 'char' UTF-8 on Unixes.
-    * extensive tchar_t API (using 'tcs' prefix): pcl_tcscmp, pcl_tcstrim, etc...
-    * printf specifier %ts, %Ts, %tc, %Tc for printing tchar_t characters
-      or strings: via `pcl_printf` and friends.
+    * Portable Character - \c pchar_t maps to a \c wchar_t UTF-16 on Windows and 
+      a \c char UTF-8 on Unix
+    * Extensive pchar_t API (using 'pcs' prefix): pcl_pcscmp, pcl_pcstrim, etc...
+    * printf format specifier %Ps, %Pc for printing pchar_t characters or strings. The 'P' is the 
+      length modifier (portable) and the 's' or 'c' is the conversion. Any PCL function that 
+      takes a format specifier string, supports %Ps and %Pc.
+    
 
   * Error Management
     * Unified error codes, maps OS codes to PCL codes

@@ -39,7 +39,7 @@
 #endif
 
 int
-pcl_dlopen(const tchar_t *filename, void * *out)
+pcl_dlopen(const pchar_t *filename, void * *out)
 {
 	if(!out)
 		return BADARG();

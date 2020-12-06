@@ -45,19 +45,19 @@
  * #include <pcl/io.h>
  * #include <stdlib.h>
  *
- * int pcl_tmain(int argc, tchar_t **argv)
+ * int pcl_tmain(int argc, pchar_t **argv)
  * {
  *   // always call first
  *   pcl_init();
  *
  *   // a requires argument, b has optional argument and c & d have no arguments
- *   const tchar_t *optstr = _T("a:b::cd");
+ *   const pchar_t *optstr = _P("a:b::cd");
  *
  *   // match the 'val' member of pcl_option_t to the 'optstr' short options (not required)
  *   pcl_option_t options[] = {
- *     {_T("apple"), PclReqArg, _T('a')},
- *     {_T("banana"), PclOptArg, _T('b')},
- *     {_T("cherry"), PclNoArg, _T('c')}
+ *     {_P("apple"), PclReqArg, _P('a')},
+ *     {_P("banana"), PclOptArg, _P('b')},
+ *     {_P("cherry"), PclNoArg, _P('c')}
  *     // 'd' is not mapped to a long option
  *   };
  *
@@ -68,31 +68,31 @@
  *     PANIC("failed to initialize option state", 0);
  *
  *   int opt;
- *   tchar_t *value;
+ *   pchar_t *value;
  *   pcl_option_t *longopt;
  *
  *   // 3rd argument longopt can be NULL, which is common
  *   while((opt = pcl_getopt(state, &value, &longopt)) > 0)
  *   {
- *     tchar_t *longname = longopt ? longopt->name : _T("<short-only>");
+ *     pchar_t *longname = longopt ? longopt->name : _P("<short-only>");
  *
  *     switch(opt)
  *     {
- *       case _T('a'):
- *         pcl_printf("a:%ts] %ts\n", longname, value);
+ *       case _P('a'):
+ *         pcl_printf("a:%Ps] %Ps\n", longname, value);
  *         break;
  *
- *       case _T('b'):
- *       	 pcl_printf("b:%ts] %s\n", longname, value ? value : _T("<no-value>"));
+ *       case _P('b'):
+ *       	 pcl_printf("b:%Ps] %Ps\n", longname, value ? value : _P("<no-value>"));
  *       	 break;
  *
- *       case _T('c'):
- *       	 pcl_printf("c:%ts] set\n", longname);
+ *       case _P('c'):
+ *       	 pcl_printf("c:%Ps] set\n", longname);
  *       	 break;
  *
- *       case _T('d'):
+ *       case _P('d'):
  *       default:
- *       	pcl_printf("d:%ts] set\n", longname); // prints "d:<short-only>] set\n"
+ *       	pcl_printf("d:%Ps] set\n", longname); // prints "d:<short-only>] set\n"
  *     }
  *   }
  *
@@ -132,7 +132,7 @@ enum pcl_optpolicy
 typedef struct
 {
 	/** Option name without the dashes. */
-	tchar_t *name;
+	pchar_t *name;
 
 	/** Indicates if the option has no value, optional value or required value.
 	 * @see PclNoArg, PclOptArg, PclReqArg
@@ -188,7 +188,7 @@ PCL_EXPORT void pcl_init(void);
  * @return pointer to an option state structure, that must be freed by caller, or \c NULL on error.
  * An error only occurs if there is an invalid argument.
  */
-PCL_EXPORT pcl_optstate_t *pcl_initopt(int argc, tchar_t **argv, const tchar_t *optstr,
+PCL_EXPORT pcl_optstate_t *pcl_initopt(int argc, pchar_t **argv, const pchar_t *optstr,
 	pcl_option_t *options, int num_options);
 
 /** Parse command-line arguments.
@@ -206,7 +206,7 @@ PCL_EXPORT pcl_optstate_t *pcl_initopt(int argc, tchar_t **argv, const tchar_t *
  * @return The short option character or long option pcl_option_t.val. When all arguments
  * have been parsed, this returns 0. On error, -1 is returned.
  */
-PCL_EXPORT int pcl_getopt(pcl_optstate_t *state, tchar_t **value, pcl_option_t **longopt);
+PCL_EXPORT int pcl_getopt(pcl_optstate_t *state, pchar_t **value, pcl_option_t **longopt);
 
 #ifdef __cplusplus
 }

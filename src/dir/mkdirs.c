@@ -34,50 +34,50 @@
 #include <pcl/string.h>
 
 int
-pcl_mkdirs(const tchar_t *_path, mode_t mode)
+pcl_mkdirs(const pchar_t *_path, mode_t mode)
 {
-	tchar_t path[16 * 1024];
-	tchar_t *path_pos;
+	pchar_t path[16 * 1024];
+	pchar_t *path_pos;
 	uint32_t save_err = pcl_oserrno;
 
-	path_pos = pcl_tcscpy(path, countof(path), _path);
+	path_pos = pcl_pcscpy(path, countof(path), _path);
 
 #ifdef PCL_WINDOWS
 	/* Skip C:\, drive roots */
-	if(path_pos[1] == _T(':'))
+	if(path_pos[1] == _P(':'))
 	{
 		path_pos += 3;
 	}
 	/* \drive_root syntax */
-	else if(path_pos[0] == PCL_TPATHSEPCHAR)
+	else if(path_pos[0] == PCL_PPATHSEPCHAR)
 	{
 		path_pos++;
 
 		/* UNC \\server */
-		if(path_pos[0] == PCL_TPATHSEPCHAR)
+		if(path_pos[0] == PCL_PPATHSEPCHAR)
 			path_pos++;
 	}
 
 #else
 	/* Skip '/' root */
-	if(path_pos[0] == PCL_TPATHSEPCHAR)
+	if(path_pos[0] == PCL_PPATHSEPCHAR)
 		path_pos++;
 #endif
 
 	while(true)
 	{
-		tchar_t *sep = pcl_tcschr(path_pos, PCL_TPATHSEPCHAR);
+		pchar_t *sep = pcl_pcschr(path_pos, PCL_PPATHSEPCHAR);
 
 		if(sep)
 			*sep = 0;
 
 		if(pcl_mkdir(path, mode) && pcl_errno != PCL_EEXIST)
-			return TRCMSG("failed to create directories: '%ts'", _path);
+			return TRCMSG("failed to create directories: '%Ps'", _path);
 
 		if(!sep)
 			break;
 
-		*sep = PCL_TPATHSEPCHAR;
+		*sep = PCL_PPATHSEPCHAR;
 		path_pos = ++sep;
 	}
 

@@ -33,7 +33,7 @@
 #include <pcl/error.h>
 
 int
-pcl_rmdir(const tchar_t *path)
+pcl_rmdir(const pchar_t *path)
 {
 	if(strempty(path))
 		return BADARG();

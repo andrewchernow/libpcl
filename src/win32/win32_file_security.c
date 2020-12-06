@@ -34,7 +34,7 @@
 #include <pcl/alloc.h>
 
 int
-ipcl_win32_file_security(const tchar_t *path, mode_t *mode, uid_t *uidp, gid_t *gidp)
+ipcl_win32_file_security(const pchar_t *path, mode_t *mode, uid_t *uidp, gid_t *gidp)
 {
 	ACL *dacl;
 	BOOL have_dacl;

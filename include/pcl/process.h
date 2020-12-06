@@ -131,24 +131,24 @@
  * backup operations.
  * @see pcl_proc_setpriv
  */
-#define PRIV_RDFILE    _T("SeBackupPrivilege")
+#define PRIV_RDFILE    _P("SeBackupPrivilege")
 
 /** Grant all write access to files, bypassing access checks.  Great for
  * restore operations.
  * @see pcl_proc_setpriv
  */
-#define PRIV_WRFILE   _T("SeRestorePrivilege")
+#define PRIV_WRFILE   _P("SeRestorePrivilege")
 
 /** Grant all access to processes owned by other accounts.
  * This is required to use PCL's process list/stat API.
  * @see pcl_proc_setpriv
  */
-#define PRIV_PROCESS   _T("SeDebugPrivilege")
+#define PRIV_PROCESS   _P("SeDebugPrivilege")
 
 /** Grant the ability to make (create) symbolic links.
  * @see pcl_proc_setpriv
  */
-#define PRIV_MKSYMLINK _T("SeCreateSymbolicLinkPrivilege")
+#define PRIV_MKSYMLINK _P("SeCreateSymbolicLinkPrivilege")
 
 #ifdef __cplusplus
 extern "C" {
@@ -160,25 +160,25 @@ typedef struct
 	/* input parameters */
 
 	/** command and arguments: "ls -la /home/username" */
-	const tchar_t *command;
+	const pchar_t *command;
 
 	/** run as user name */
-	const tchar_t *user;
+	const pchar_t *user;
 
 	/** runs as Windows LAN group (domain/workgroup) or Unix group */
-	const tchar_t *group;
+	const pchar_t *group;
 
 	/** Windows only...account password */
-	const tchar_t *pass;
+	const pchar_t *pass;
 
 	/** set current working directory of new process. */
-	const tchar_t *cwd;
+	const pchar_t *cwd;
 
 	/** library search path to use for exec'd process, requires PCL_EXEC_LDPATH. For more info,
 	 * see PCL_EXEC_LDPATH. Set this to an empty string "" to clear the search path for new
 	 * process and only use the system defaults.
 	 */
-	const tchar_t *ldpath;
+	const pchar_t *ldpath;
 
 	/* output parameters */
 
@@ -245,7 +245,7 @@ PCL_EXPORT pid_t pcl_proc_self(void);
  * @return pointer to the allocated process image path or \c NULL on error. This value must
  * be freed.
  */
-PCL_EXPORT tchar_t *pcl_proc_path(pid_t pid);
+PCL_EXPORT pchar_t *pcl_proc_path(pid_t pid);
 
 /** Enables or disables a process privilege.  'priv' can be any privilege
  * defined in winnt.h and supported by LookupPrivilegeValue on windows.
@@ -256,7 +256,7 @@ PCL_EXPORT tchar_t *pcl_proc_path(pid_t pid);
  * @return 0 on success and -1 on error.  Unix system always return zero
  * and currently provides no functionality.
  */
-PCL_EXPORT int pcl_proc_setpriv(const tchar_t *priv, bool enable);
+PCL_EXPORT int pcl_proc_setpriv(const pchar_t *priv, bool enable);
 
 /** Close a process handle.
  * @note this does nothing on unixes.
@@ -272,7 +272,7 @@ PCL_EXPORT void pcl_proc_close(pcl_prochandle_t handle);
  * done with this value.
  * @return the number of arguments, exlcuding terminating NULL element, or -1 on error
  */
-PCL_EXPORT int pcl_proc_parsecmd(const tchar_t *shell_cmd, tchar_t ***out);
+PCL_EXPORT int pcl_proc_parsecmd(const pchar_t *shell_cmd, pchar_t ***out);
 
 /** Free an argv array.
  * @param targc number of arguments (exlcuding trailing \c NULL element)
@@ -280,14 +280,14 @@ PCL_EXPORT int pcl_proc_parsecmd(const tchar_t *shell_cmd, tchar_t ***out);
  * @return always returns \c NULL
  * @see pcl_proc_parsecmd
  */
-PCL_EXPORT void *pcl_proc_freeargv(int targc, tchar_t **targv);
+PCL_EXPORT void *pcl_proc_freeargv(int targc, pchar_t **targv);
 
 /** Get the value of an environment variable.
  * @param name name of the environment variable
  * @return pointer to the environment variable's value. This is an allocated value that
  * must be freed. If \a name was not found, \c NULL is returned.
  */
-PCL_EXPORT tchar_t *pcl_getenv(const tchar_t *name);
+PCL_EXPORT pchar_t *pcl_getenv(const pchar_t *name);
 
 /** Set the value of an environment variable.
  * @param name name of the environment variable
@@ -296,13 +296,13 @@ PCL_EXPORT tchar_t *pcl_getenv(const tchar_t *name);
  * false, the value will not be set. If \a name doesn't exist, this argument is ignored.
  * @return o on success and -1 on error
  */
-PCL_EXPORT int pcl_setenv(const tchar_t *name, const tchar_t *value, bool overwrite);
+PCL_EXPORT int pcl_setenv(const pchar_t *name, const pchar_t *value, bool overwrite);
 
 /** Unset an environment variable.
  * @param name name of the environment variable
  * @return o on success and -1 on error
  */
-PCL_EXPORT int pcl_unsetenv(const tchar_t *name);
+PCL_EXPORT int pcl_unsetenv(const pchar_t *name);
 
 #ifdef __cplusplus
 }

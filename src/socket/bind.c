@@ -47,7 +47,7 @@ pcl_bind(pcl_socket_t *sock)
 	if(sock->addr->sa_family == AF_UNIX)
 	{
 		struct sockaddr_un *u = (struct sockaddr_un *) sock->addr;
-		tchar_t *path = pcl_utf8_to_tcs(u->sun_path, 0, NULL);
+		pchar_t *path = pcl_utf8_to_pcs(u->sun_path, 0, NULL);
 		(void) pcl_unlink(path);
 		pcl_free(path);
 	}

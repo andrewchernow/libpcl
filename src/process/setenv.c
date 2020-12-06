@@ -33,7 +33,7 @@
 #include <pcl/error.h>
 
 int
-pcl_setenv(const tchar_t *name, const tchar_t *value, bool overwrite)
+pcl_setenv(const pchar_t *name, const pchar_t *value, bool overwrite)
 {
 	int r;
 

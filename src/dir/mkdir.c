@@ -38,7 +38,7 @@
 #endif
 
 int
-pcl_mkdir(const tchar_t *path, mode_t mode)
+pcl_mkdir(const pchar_t *path, mode_t mode)
 {
 	int r;
 
@@ -54,7 +54,7 @@ pcl_mkdir(const tchar_t *path, mode_t mode)
 	sa.lpSecurityDescriptor = &sd;
 
 	if(ipcl_win32_sd_create(&sd, NULL, NULL, mode))
-		return TRCMSG("failed to create directory: '%ts'", path);
+		return TRCMSG("failed to create directory: '%Ps'", path);
 
 	r = CreateDirectory(path, &sa) ? 0 : -1;
 	ipcl_win32_sd_clear(&sd);
@@ -62,5 +62,5 @@ pcl_mkdir(const tchar_t *path, mode_t mode)
 	r = mkdir(path, mode);
 #endif
 
-	return r ? SETLASTERRMSG("failed to create directory: '%ts'", path) : 0;
+	return r ? SETLASTERRMSG("failed to create directory: '%Ps'", path) : 0;
 }

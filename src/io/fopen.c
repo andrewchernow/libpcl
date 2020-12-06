@@ -34,7 +34,7 @@
 #include <pcl/defs.h>
 
 FILE *
-pcl_fopen(const tchar_t *path, const tchar_t *mode)
+pcl_fopen(const pchar_t *path, const pchar_t *mode)
 {
 	FILE *fp = NULL;
 	uint32_t crt_errno = 0;
@@ -50,7 +50,7 @@ pcl_fopen(const tchar_t *path, const tchar_t *mode)
 #endif
 
 	if(crt_errno)
-		SETOSERRMSG(pcl_err_crt2os(crt_errno), "failed to open '%ts'", path);
+		SETOSERRMSG(pcl_err_crt2os(crt_errno), "failed to open '%Ps'", path);
 
 	return fp;
 }

@@ -33,12 +33,12 @@
 #include <pcl/alloc.h>
 
 PSID
-ipcl_win32_name_to_sid(const tchar_t *name, int *type)
+ipcl_win32_name_to_sid(const pchar_t *name, int *type)
 {
 	PSID sid;
 	DWORD sidlen = 0;
 	SID_NAME_USE sid_type;
-	tchar_t domain[512];
+	pchar_t domain[512];
 	DWORD domain_size = countof(domain);
 
 	if(strempty(name))

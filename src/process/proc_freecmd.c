@@ -33,7 +33,7 @@
 #include <pcl/alloc.h>
 
 void *
-pcl_proc_freeargv(int targc, tchar_t **targv)
+pcl_proc_freeargv(int targc, pchar_t **targv)
 {
 	int i;
 

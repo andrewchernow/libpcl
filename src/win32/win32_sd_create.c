@@ -42,8 +42,8 @@
 }while(0)
 
 int
-ipcl_win32_sd_create(SECURITY_DESCRIPTOR *sd, const tchar_t *owner,
-	const tchar_t *group, mode_t mode)
+ipcl_win32_sd_create(SECURITY_DESCRIPTOR *sd, const pchar_t *owner,
+	const pchar_t *group, mode_t mode)
 {
 	DWORD acl_len;
 	PACL dacl = NULL;

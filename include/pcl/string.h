@@ -38,15 +38,15 @@
  * that have no counterpart in the standard C library, but are a common need.
  *
  * Almost all PCL string functions come in two flavors: UTF-8 (char)
- * and UTF-16 (wchar_t). These two version exists to support PCL's concept of a ::tchar_t: a
+ * and UTF-16 (wchar_t). These two version exists to support PCL's concept of a ::pchar_t: a
  * \c char on Unixes and \c wchar_t on Windows. For example, the below shows some basic mappings:
  * @code
- * pcl_tcscpy   => Unix pcl_strcpy, Windows pcl_wcscpy
- * pcl_tcsdup   => Unix pcl_strdup, Windows pcl_wcsdup
- * pcl_tcscatf  => Unix pcl_strcatf, Windows pcl_wcscatf
+ * pcl_pcscpy   => Unix pcl_strcpy, Windows pcl_wcscpy
+ * pcl_pcsdup   => Unix pcl_strdup, Windows pcl_wcsdup
+ * pcl_pcscatf  => Unix pcl_strcatf, Windows pcl_wcscatf
  * @endcode
  * It is actually uncommon to use \c str or \c wcs versions directly in a cross-platform
- * application. It is much more common to use the \c tcs versions.
+ * application. It is much more common to use the \c pcs versions.
  * @{
  */
 #include <pcl/types.h>
@@ -491,32 +491,32 @@ pcl_wcsskipws(const wchar_t *s)
 	return (wchar_t *) s;
 }
 
-/** Convert a tchar_t string to UTF-8. Internally, this is just a strdup on Unix
- * machines since a Unix tchar_t represents UTF-8.
- * @param src pointer to a tchar_t string
+/** Convert a pchar_t string to UTF-8. Internally, this is just a strdup on Unix
+ * machines since a Unix pchar_t represents UTF-8.
+ * @param src pointer to a pchar_t string
  * @param src_len byte length of the \a src argument. If this is zero, \c strlen is used
  * @param lenp If not \c NULL, character length will be written here
  * @return pointer to the result of conversion. This must be freed.
  */
-PCL_EXPORT char *pcl_tcs_to_utf8(const tchar_t *src, size_t src_len, size_t *lenp);
+PCL_EXPORT char *pcl_pcs_to_utf8(const pchar_t *src, size_t src_len, size_t *lenp);
 
-/** Convert a UTF-8 string to a tchar_t string. Internally, this is just a strdup on Unix
- * machines since a Unix tchar_t represents UTF-8.
+/** Convert a UTF-8 string to a pchar_t string. Internally, this is just a strdup on Unix
+ * machines since a Unix pchar_t represents UTF-8.
  * @param src pointer to a UTF-8 string
  * @param src_len byte length of the \a src argument. If this is zero, \c strlen is used
  * @param[out] lenp If not \c NULL, character length will be written here
  * @return pointer to the result of conversion. This must be freed.
  */
-PCL_EXPORT tchar_t *pcl_utf8_to_tcs(const char *src, size_t src_len, size_t *lenp);
+PCL_EXPORT pchar_t *pcl_utf8_to_pcs(const char *src, size_t src_len, size_t *lenp);
 
 #ifdef __doxygen__
 /** @defgroup tstring TCHAR Functions
- * The ::tchar_t functions map \c char or \c wchar_t string functions. They are all implemented as
+ * The ::pchar_t functions map \c char or \c wchar_t string functions. They are all implemented as
  * macros but documented as functions. This makes the docs as clear as possible in regards to
  * return values, parameters, etc. These functions (macros) will map \c wchar_t versions on
  * Windows and \c char versions on Unixes. The \c wchar_t versions are UTF-16 while the \c char
- * versions are expected to be UTF-8. The ::tchar_t versions are prefixed with \c tcs or include
- * a \c t in the name (like ::pcl_totupper). The \c tcs prefix extends the \c wcs naming.
+ * versions are expected to be UTF-8. The ::pchar_t versions are prefixed with \c pcs or include
+ * a \c t in the name (like ::pcl_topupper). The \c pcs prefix extends the \c wcs naming.
  * @{
  */
 
@@ -525,7 +525,7 @@ PCL_EXPORT tchar_t *pcl_utf8_to_tcs(const char *src, size_t src_len, size_t *len
 	 * @return character length of string
 	 * @note implemented as a macro
 	 */
-	size_t pcl_tcslen(const tchar_t *s);
+	size_t pcl_pcslen(const pchar_t *s);
 
 	/** Find the first occurance of a character within a string.
 	 * @param s pointer to a string
@@ -533,7 +533,7 @@ PCL_EXPORT tchar_t *pcl_utf8_to_tcs(const char *src, size_t src_len, size_t *len
 	 * @return first occurance of \a c within \a s or \c NULL if not found
 	 * @note implemented as a macro
 	 */
-	tchar *pcl_tcschr(const tchar_t *s, tchar_t c);
+	pchar_t *pcl_pcschr(const pchar_t *s, pchar_t c);
 
 	/** Find the last occurance of a character within a string.
 	 * @param s pointer to a string
@@ -541,26 +541,26 @@ PCL_EXPORT tchar_t *pcl_utf8_to_tcs(const char *src, size_t src_len, size_t *len
 	 * @return last occurance of \a c within \a s or \c NULL if not found
 	 * @note implemented as a macro
 	 */
-	tchar *pcl_tcsrchr(const tchar_t *s, tchar_t c);
+	pchar_t *pcl_pcsrchr(const pchar_t *s, pchar_t c);
 
 	/** Uppercase a character.
 	 * @param c character
 	 * @return uppercase character
 	 * @note implemented as a macro
 	 */
-	tchar_t pcl_totupper(tchar_t c);
+	pchar_t pcl_topupper(pchar_t c);
 
 	/** Lowercase a character.
 	 * @param c character
 	 * @return lowercase character
 	 * @note implemented as a macro
 	 */
-	tchar_t pcl_totlower(tchar_t c);
+	pchar_t pcl_toplower(pchar_t c);
 
 	/** @copydoc pcl_strfbytes
 	 * @note implemented as a macro
 	 */
-	int pcl_tcsfbytes(tchar_t *buf, size_t bufl, uint64_t nbytes, int decimal);
+	int pcl_pcsfbytes(pchar_t *buf, size_t bufl, uint64_t nbytes, int decimal);
 
 	/** Compare two strings.
 	 * @param a pointer to a string
@@ -569,7 +569,7 @@ PCL_EXPORT tchar_t *pcl_utf8_to_tcs(const char *src, size_t src_len, size_t *len
 	 * to be less than, to match or be greater than \a b
 	 * @note implemented as a macro
 	 */
-	int pcl_tcscmp(const char *a, const char *b);
+	int pcl_pcscmp(const char *a, const char *b);
 
 	/** Compare two strings.
 	 * @param a pointer to a string
@@ -579,21 +579,21 @@ PCL_EXPORT tchar_t *pcl_utf8_to_tcs(const char *src, size_t src_len, size_t *len
 	 * to be less than, to match or be greater than \a b
 	 * @note implemented as a macro
 	 */
-	int pcl_tcsncmp(const char *a, const char *b, size_t len);
+	int pcl_pcsncmp(const char *a, const char *b, size_t len);
 
 	/** @copydoc pcl_stricmp */
-	int pcl_tcsicmp(const tchar_t *a, const tchar_t *b);
+	int pcl_pcsicmp(const pchar_t *a, const pchar_t *b);
 
 	/** @copydoc pcl_strnicmp */
-	int pcl_tcsnicmp(const tchar_t *a, const tchar_t *b, size_t n);
+	int pcl_pcsnicmp(const pchar_t *a, const pchar_t *b, size_t n);
 
 	/** @copydoc pcl_strcpy */
-	tchar_t *pcl_tcscpy(tchar_t *dest, size_t size, const tchar_t *src);
+	pchar_t *pcl_pcscpy(pchar_t *dest, size_t size, const pchar_t *src);
 
 	/** @copydoc pcl_strncpy
 	 * @note implemented as a macro
 	 */
-	tchar_t *pcl_tcsncpy(tchar_t *dest, size_t size, const tchar_t *src, size_t len);
+	pchar_t *pcl_pcsncpy(pchar_t *dest, size_t size, const pchar_t *src, size_t len);
 
 	/** Find the first occurance of a string within another string.
 	 * @param haystack pointer to the source string
@@ -601,7 +601,7 @@ PCL_EXPORT tchar_t *pcl_utf8_to_tcs(const char *src, size_t src_len, size_t *len
 	 * @return pointer to the first occurance of \a needle within \a haystack
 	 * @note implemented as a macro
 	 */
-	tchar_t *pcl_tcsstr(const tchar_t *haystack, const tchar_t *needle);
+	pchar_t *pcl_pcsstr(const pchar_t *haystack, const pchar_t *needle);
 
 	/** Find the first occurance of a string within another string ignoring case.
 	 * @param haystack pointer to the source string
@@ -609,220 +609,220 @@ PCL_EXPORT tchar_t *pcl_utf8_to_tcs(const char *src, size_t src_len, size_t *len
 	 * @return pointer to the first occurance of \a needle within \a haystack
 	 * @note implemented as a macro
 	 */
-	tchar_t *pcl_tcsistr(const tchar_t *haystack, const tchar_t *needle);
+	pchar_t *pcl_pcsistr(const pchar_t *haystack, const pchar_t *needle);
 
 	/** @copydoc pcl_strdup */
-	tchar_t *pcl_tcsdup(const tchar_t *s);
+	pchar_t *pcl_pcsdup(const pchar_t *s);
 
 	/** @copydoc pcl_strndup
 	 * @note implemented as a macro
 	 */
-	tchar_t *pcl_tcsndup(const tchar_t *s, size_t len);
+	pchar_t *pcl_pcsndup(const pchar_t *s, size_t len);
 
 	/** @copydoc pcl_strcat */
-	tchar_t *pcl_tcscat(tchar_t *dest, size_t size, const tchar_t *src);
+	pchar_t *pcl_pcscat(pchar_t *dest, size_t size, const pchar_t *src);
 
 	/** @copydoc pcl_strncat
 	 * @note implemented as a macro
 	 */
-	tchar_t *pcl_tcsncat(tchar_t *dest, size_t size, const tchar_t *src, size_t len);
+	pchar_t *pcl_pcsncat(pchar_t *dest, size_t size, const pchar_t *src, size_t len);
 
 	/** @copydoc pcl_strcatf
 	 * @note implemented as a macro
 	 */
-	tchar_t *pcl_tcscatf(tchar_t *dest, size_t size, const tchar_t *format, ...);
+	pchar_t *pcl_pcscatf(pchar_t *dest, size_t size, const pchar_t *format, ...);
 
 	/** @copydoc pcl_vstrcatf
 	 * @note implemented as a macro
 	 */
-	tchar_t *pcl_vtcscatf(tchar_t *dest, size_t size, const tchar_t *format, va_list ap);
+	pchar_t *pcl_vpcscatf(pchar_t *dest, size_t size, const pchar_t *format, va_list ap);
 
 	/** @copydoc pcl_astrcatf
 	 * @note implemented as a macro
 	 */
-	tchar_t *pcl_atcscatf(const tchar_t *src, const tchar_t *format, ...);
+	pchar_t *pcl_apcscatf(const pchar_t *src, const pchar_t *format, ...);
 
 	/** @copydoc pcl_vastrcatf
 	 * @note implemented as a macro
 	 */
-	tchar_t *pcl_vatcscatf(const tchar_t *src, const tchar_t *format, va_list ap);
+	pchar_t *pcl_vapcscatf(const pchar_t *src, const pchar_t *format, va_list ap);
 
 	/** @copydoc pcl_strtrim */
-	tchar_t *pcl_tcstrim(tchar_t *s);
+	pchar_t *pcl_pcstrim(pchar_t *s);
 
 	/** @copydoc pcl_strltrim */
-	tchar_t *pcl_tcsltrim(tchar_t *s);
+	pchar_t *pcl_pcsltrim(pchar_t *s);
 
 	/** @copydoc pcl_strrtrim */
-	tchar_t *pcl_tcsrtrim(tchar_t *s);
+	pchar_t *pcl_pcsrtrim(pchar_t *s);
 
 	/** @copydoc pcl_strtrimset
 	 * @note implemented as a macro
 	 */
-	tchar_t *pcl_tcstrimset(tchar_t *s, const tchar_t *set, bool left, bool right);
+	pchar_t *pcl_pcstrimset(pchar_t *s, const pchar_t *set, bool left, bool right);
 
 	/** @copydoc pcl_strreplace
 	 * @note implemented as a macro
 	 */
-	tchar_t *pcl_tcsreplace(const tchar_t *subject, const tchar_t *from, const tchar_t *to);
+	pchar_t *pcl_pcsreplace(const pchar_t *subject, const pchar_t *from, const pchar_t *to);
 
 	/** @copydoc pcl_strireplace
 	 * @note implemented as a macro
 	 */
-	tchar_t *pcl_tcsireplace(const tchar_t *subject, const tchar_t *from, const tchar_t *to);
+	pchar_t *pcl_pcsireplace(const pchar_t *subject, const pchar_t *from, const pchar_t *to);
 
 	/** @copydoc pcl_strsplit
 	 * @note implemented as a macro
 	 */
-	pcl_vector_t *pcl_tcssplit(const tchar_t *s, const tchar_t *delim);
+	pcl_vector_t *pcl_pcssplit(const pchar_t *s, const pchar_t *delim);
 
 	/** @copydoc pcl_strisplit
 	 * @note implemented as a macro
 	 */
-	pcl_vector_t *pcl_tcsisplit(const tchar_t *s, const tchar_t *delim);
+	pcl_vector_t *pcl_pcsisplit(const pchar_t *s, const pchar_t *delim);
 
 	/** @copydoc pcl_strlower
 	 * @note implemented as a macro
 	 */
-	tchar_t *pcl_tcslower(tchar_t *s);
+	pchar_t *pcl_pcslower(pchar_t *s);
 
 	/** @copydoc pcl_strupper
 	 * @note implemented as a macro
 	 */
-	tchar_t *pcl_tcsupper(tchar_t *s);
+	pchar_t *pcl_pcsupper(pchar_t *s);
 
 	/** @copydoc pcl_strtrunc
 	 * @note implemented as a macro
 	 */
-	tchar_t *pcl_tcstrunc(tchar_t *dest, size_t size, const tchar_t *src);
+	pchar_t *pcl_pcstrunc(pchar_t *dest, size_t size, const pchar_t *src);
 
 	/** @copydoc pcl_strslice
 	 * @note implemented as a macro
 	 */
-	tchar_t *pcl_tcsslice(const tchar_t *s, size_t pos, size_t len);
+	pchar_t *pcl_pcsslice(const pchar_t *s, size_t pos, size_t len);
 
 	/** @copydoc pcl_strrepchr
 	 * @note implemented as a macro
 	 */
-	tchar_t *pcl_tcsrepchr(tchar_t *s, tchar_t oldch, tchar_t newch);
+	pchar_t *pcl_pcsrepchr(pchar_t *s, pchar_t oldch, pchar_t newch);
 
 	/** @copydoc pcl_strskipws
 	 * @note implemented as a macro
 	 */
-	tchar_t *pcl_tcsskipws(const tchar_t *s);
+	pchar_t *pcl_pcsskipws(const pchar_t *s);
 
 	/** Copy memory area.
 	 * @param dest pointer to the copy destination
 	 * @param src pointer to the source data
-	 * @param n number of tchar_t characters to copy
+	 * @param n number of pchar_t characters to copy
 	 * @return pointer to \a dest
 	 * @note implemented as a macro
 	 */
-	tchar_t *pcl_tmemcpy(void *dest, const void *src, size_t n);
+	pchar_t *pcl_pmemcpy(void *dest, const void *src, size_t n);
 
 	/** Copy memory area that can overlap.
 	 * @param dest pointer to the copy destination
 	 * @param src pointer to the source data
-	 * @param n number of tchar_t characters to copy
+	 * @param n number of pchar_t characters to copy
 	 * @return pointer to \a dest
 	 * @note implemented as a macro
 	 */
-	tchar_t *pcl_tmemmove(void *dest, const void *src, size_t n);
+	pchar_t *pcl_pmemmove(void *dest, const void *src, size_t n);
 
 	/** Comare memory blocks.
 	 * @param a pointer to memory block
 	 * @param b pointer to memory block
-	 * @param n number of tchar_t characters to compare
+	 * @param n number of pchar_t characters to compare
 	 * @return an integer less than, equal to or greater than zero if \a a is found, respectively,
 	 * to be less than, to match or be greater than \a b
 	 */
-	int pcl_tmemcmp(void *a, void *b, size_t n);
+	int pcl_pmemcmp(void *a, void *b, size_t n);
 /** @} */
 #elif defined(PCL_WINDOWS)
-#	define PCL_TPATHSEP                   PCL_WPATHSEP
-#	define PCL_TPATHSEPCHAR               PCL_WPATHSEPCHR
-#	define pcl_tcslen                     wcslen
-#	define pcl_tcschr                     wcschr
-#	define pcl_tcsrchr                    wcsrchr
-#	define pcl_totupper(c)                (wchar_t) towupper((wchar_t) (c))
-#	define pcl_totlower(c)                (wchar_t) towlower((wchar_t) (c))
-#	define pcl_tcsfbytes                  pcl_wcsfbytes
-#	define pcl_tcscmp                     wcscmp
-#	define pcl_tcsncmp                    wcsncmp
-#	define pcl_tcsicmp                    pcl_wcsicmp
-#	define pcl_tcsnicmp                   pcl_wcsnicmp
-#	define pcl_tcsncpy                    pcl_wcsncpy
-#	define pcl_tcsstr                     wcsstr
-#	define pcl_tcsistr                    pcl_wcsistr
-#	define pcl_tcsdup                     pcl_wcsdup
-#	define pcl_tcsndup                    pcl_wcsndup
-#	define pcl_tcsncat                    pcl_wcsncat
-#	define pcl_tcscatf                    pcl_wcscatf
-#	define pcl_vtcscatf                   pcl_vwcscatf
-#	define pcl_atcscatf                   pcl_awcscatf
-#	define pcl_vatcscatf                  pcl_vawcscatf
-#	define pcl_tcstrim                    pcl_wcstrim
-#	define pcl_tcsltrim                   pcl_wcsltrim
-#	define pcl_tcsrtrim                   pcl_wcsrtrim
-#	define pcl_tcstrimset                 pcl_wcstrimset
-#	define pcl_tcsreplace                 pcl_wcsreplace
-#	define pcl_tcsireplace                pcl_wcsireplace
-#	define pcl_tcssplit                   pcl_wcssplit
-#	define pcl_tcsisplit                  pcl_wcsisplit
-#	define pcl_tcslower                   pcl_wcslower
-#	define pcl_tcsupper                   pcl_wcsupper
-#	define pcl_tcstrunc                   pcl_wcstrunc
-#	define pcl_tcsslice                   pcl_wcsslice
-#	define pcl_tcsrepchr                  pcl_wcsrepchr
-#	define pcl_tcsskipws                  pcl_wcsskipws
-#	define pcl_tmemcpy                    (tchar_t *) wmemcpy
-#	define pcl_tmemmove                   (tchar_t *) wmemmove
-#	define pcl_tmemcmp                    wmemcmp
+#	define PCL_PPATHSEP                   PCL_WPATHSEP
+#	define PCL_PPATHSEPCHAR               PCL_WPATHSEPCHR
+#	define pcl_pcslen                     wcslen
+#	define pcl_pcschr                     wcschr
+#	define pcl_pcsrchr                    wcsrchr
+#	define pcl_topupper(c)                (wchar_t) towupper((wchar_t) (c))
+#	define pcl_toplower(c)                (wchar_t) towlower((wchar_t) (c))
+#	define pcl_pcsfbytes                  pcl_wcsfbytes
+#	define pcl_pcscmp                     wcscmp
+#	define pcl_pcsncmp                    wcsncmp
+#	define pcl_pcsicmp                    pcl_wcsicmp
+#	define pcl_pcsnicmp                   pcl_wcsnicmp
+#	define pcl_pcsncpy                    pcl_wcsncpy
+#	define pcl_pcsstr                     wcsstr
+#	define pcl_pcsistr                    pcl_wcsistr
+#	define pcl_pcsdup                     pcl_wcsdup
+#	define pcl_pcsndup                    pcl_wcsndup
+#	define pcl_pcsncat                    pcl_wcsncat
+#	define pcl_pcscatf                    pcl_wcscatf
+#	define pcl_vpcscatf                   pcl_vwcscatf
+#	define pcl_apcscatf                   pcl_awcscatf
+#	define pcl_vapcscatf                  pcl_vawcscatf
+#	define pcl_pcstrim                    pcl_wcstrim
+#	define pcl_pcsltrim                   pcl_wcsltrim
+#	define pcl_pcsrtrim                   pcl_wcsrtrim
+#	define pcl_pcstrimset                 pcl_wcstrimset
+#	define pcl_pcsreplace                 pcl_wcsreplace
+#	define pcl_pcsireplace                pcl_wcsireplace
+#	define pcl_pcssplit                   pcl_wcssplit
+#	define pcl_pcsisplit                  pcl_wcsisplit
+#	define pcl_pcslower                   pcl_wcslower
+#	define pcl_pcsupper                   pcl_wcsupper
+#	define pcl_pcstrunc                   pcl_wcstrunc
+#	define pcl_pcsslice                   pcl_wcsslice
+#	define pcl_pcsrepchr                  pcl_wcsrepchr
+#	define pcl_pcsskipws                  pcl_wcsskipws
+#	define pcl_pmemcpy                    (pchar_t *) wmemcpy
+#	define pcl_pmemmove                   (pchar_t *) wmemmove
+#	define pcl_pmemcmp                    wmemcmp
 #else
-#	define PCL_TPATHSEP                   PCL_PATHSEP
-#	define PCL_TPATHSEPCHAR               PCL_PATHSEPCHR
-#	define pcl_tcslen                     strlen
-#	define pcl_tcschr                     strchr
-#	define pcl_tcsrchr                    strrchr
-#	define pcl_totupper(c)                (char) toupper((int) (c))
-#	define pcl_totlower(c)                (char) tolower((int) (c))
-#	define pcl_tcsfbytes                  pcl_strfbytes
-#	define pcl_tcscmp                     strcmp
-#	define pcl_tcsncmp                    strncmp
-#	define pcl_tcsicmp                    pcl_stricmp
-#	define pcl_tcsnicmp                   pcl_strnicmp
-#	define pcl_tcsncpy                    pcl_strncpy
-#	define pcl_tcsstr                     strstr
-#	define pcl_tcsistr                    pcl_stristr
-#	define pcl_tcsdup                     pcl_strdup
-#	define pcl_tcsndup                    pcl_strndup
-#	define pcl_tcsncat                    pcl_strncat
-#	define pcl_tcscatf                    pcl_strcatf
-#	define pcl_vtcscatf                   pcl_vstrcatf
-#	define pcl_atcscatf                   pcl_astrcatf
-#	define pcl_vatcscatf                  pcl_vastrcatf
-#	define pcl_tcstrim                    pcl_strtrim
-#	define pcl_tcsltrim                   pcl_strltrim
-#	define pcl_tcsrtrim                   pcl_strrtrim
-#	define pcl_tcstrimset                 pcl_strtrimset
-#	define pcl_tcsreplace                 pcl_strreplace
-#	define pcl_tcsireplace                pcl_strireplace
-#	define pcl_tcssplit                   pcl_strsplit
-#	define pcl_tcsisplit                  pcl_strisplit
-#	define pcl_tcslower                   pcl_wcslower
-#	define pcl_tcsupper                   pcl_wcsupper
-#	define pcl_tcstrunc                   pcl_strtrunc
-#	define pcl_tcsslice                   pcl_strslice
-#	define pcl_tcsrepchr(s, oldc, newc)   pcl_strrepchr(s, (int) (oldc), (int) (newc))
-#	define pcl_tcsskipws                  pcl_strskipws
-#	define pcl_tmemcpy                    (tchar_t *) memcpy
-#	define pcl_tmemmove                   (tchar_t *) memmove
-#	define pcl_tmemcmp                    memcmp
+#	define PCL_PPATHSEP                   PCL_PATHSEP
+#	define PCL_PPATHSEPCHAR               PCL_PATHSEPCHR
+#	define pcl_pcslen                     strlen
+#	define pcl_pcschr                     strchr
+#	define pcl_pcsrchr                    strrchr
+#	define pcl_topupper(c)                (char) toupper((int) (c))
+#	define pcl_toplower(c)                (char) tolower((int) (c))
+#	define pcl_pcsfbytes                  pcl_strfbytes
+#	define pcl_pcscmp                     strcmp
+#	define pcl_pcsncmp                    strncmp
+#	define pcl_pcsicmp                    pcl_stricmp
+#	define pcl_pcsnicmp                   pcl_strnicmp
+#	define pcl_pcsncpy                    pcl_strncpy
+#	define pcl_pcsstr                     strstr
+#	define pcl_pcsistr                    pcl_stristr
+#	define pcl_pcsdup                     pcl_strdup
+#	define pcl_pcsndup                    pcl_strndup
+#	define pcl_pcsncat                    pcl_strncat
+#	define pcl_pcscatf                    pcl_strcatf
+#	define pcl_vpcscatf                   pcl_vstrcatf
+#	define pcl_apcscatf                   pcl_astrcatf
+#	define pcl_vapcscatf                  pcl_vastrcatf
+#	define pcl_pcstrim                    pcl_strtrim
+#	define pcl_pcsltrim                   pcl_strltrim
+#	define pcl_pcsrtrim                   pcl_strrtrim
+#	define pcl_pcstrimset                 pcl_strtrimset
+#	define pcl_pcsreplace                 pcl_strreplace
+#	define pcl_pcsireplace                pcl_strireplace
+#	define pcl_pcssplit                   pcl_strsplit
+#	define pcl_pcsisplit                  pcl_strisplit
+#	define pcl_pcslower                   pcl_wcslower
+#	define pcl_pcsupper                   pcl_wcsupper
+#	define pcl_pcstrunc                   pcl_strtrunc
+#	define pcl_pcsslice                   pcl_strslice
+#	define pcl_pcsrepchr(s, oldc, newc)   pcl_strrepchr(s, (int) (oldc), (int) (newc))
+#	define pcl_pcsskipws                  pcl_strskipws
+#	define pcl_pmemcpy                    (pchar_t *) memcpy
+#	define pcl_pmemmove                   (pchar_t *) memmove
+#	define pcl_pmemcmp                    memcmp
 #endif
 
 #ifndef __doxygen__
-#	define pcl_tcscpy(dest, size, src) pcl_tcsncpy(dest,size,src,0)
-#	define pcl_tcscat(dest, size, src) pcl_tcsncat(dest,size,src,0)
+#	define pcl_pcscpy(dest, size, src) pcl_pcsncpy(dest,size,src,0)
+#	define pcl_pcscat(dest, size, src) pcl_pcsncat(dest,size,src,0)
 #endif
 
 #ifdef __cplusplus

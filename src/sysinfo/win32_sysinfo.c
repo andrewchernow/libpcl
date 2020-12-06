@@ -132,7 +132,7 @@ windows_version(char *buf, int len)
 }
 
 static int
-windows_langrp_type(const tchar_t *computer_name)
+windows_langrp_type(const pchar_t *computer_name)
 {
 	LSA_HANDLE hPolicy = NULL;
 	LSA_OBJECT_ATTRIBUTES attrs;
@@ -145,8 +145,8 @@ windows_langrp_type(const tchar_t *computer_name)
 	zero(attrs);
 
 	str.Buffer = (PWSTR)computer_name;
-	str.Length = (USHORT)(pcl_tcslen(computer_name) * sizeof(tchar_t));
-	str.MaximumLength = str.Length + (1 * sizeof(tchar_t));
+	str.Length = (USHORT)(pcl_pcslen(computer_name) * sizeof(pchar_t));
+	str.MaximumLength = str.Length + (1 * sizeof(pchar_t));
 
 	if(!LsaOpenPolicy(&str, &attrs, mask, &hPolicy) &&
 		 !LsaQueryInformationPolicy(hPolicy, infocls, &info))
@@ -158,13 +158,13 @@ windows_langrp_type(const tchar_t *computer_name)
 		}
 		else
 		{
-			tchar_t domain[4096];
+			pchar_t domain[4096];
 
-			pcl_tmemcpy(domain, info->Name.Buffer, info->Name.Length);
+			pcl_pmemcpy(domain, info->Name.Buffer, info->Name.Length);
 			domain[info->Name.Length] = 0;
 
 			/* If domain doesn't match computer name, this is a workgroup. */
-			if(pcl_tcsnicmp(domain, computer_name, pcl_tcslen(computer_name)))
+			if(pcl_pcsnicmp(domain, computer_name, pcl_pcslen(computer_name)))
 				langrp_type = PclLanGrpWorkgroup;
 		}
 	}
@@ -180,11 +180,11 @@ windows_langrp_type(const tchar_t *computer_name)
 
 /* Gets the langrp (workgroup/domain) name and the NetBIOS name. */
 static int
-windows_computer_name(tchar_t *langrp, size_t langrp_size,
-	tchar_t *name, size_t name_size, pcl_langrp_t *langrp_type)
+windows_computer_name(pchar_t *langrp, size_t langrp_size,
+	pchar_t *name, size_t name_size, pcl_langrp_t *langrp_type)
 {
 	LPWKSTA_INFO_100 info100 = NULL;
-	tchar_t namebuf[512];
+	pchar_t namebuf[512];
 
 	if(!name)
 	{
@@ -200,9 +200,9 @@ windows_computer_name(tchar_t *langrp, size_t langrp_size,
 	if(NetWkstaGetInfo(NULL, 100, (LPBYTE *)&info100) == NERR_Success)
 	{
 		if(langrp)
-			pcl_tcscpy(langrp, langrp_size, info100->wki100_langroup);
+			pcl_pcscpy(langrp, langrp_size, info100->wki100_langroup);
 
-		pcl_tcscpy(name, name_size, info100->wki100_computername);
+		pcl_pcscpy(name, name_size, info100->wki100_computername);
 		NetApiBufferFree(info100);
 	}
 		/* Try a different method, langrp not provided if workgroup. */

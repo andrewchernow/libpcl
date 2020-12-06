@@ -86,8 +86,8 @@ pcl_proc_exec(pcl_proc_exec_t *exec, int flags)
 	fflush(stdout);
 	fflush(stderr);
 
-	tchar_t **argv = NULL;
-	int argc = pcl_proc_parsecmd(pcl_tcsskipws(exec->command), &argv);
+	pchar_t **argv = NULL;
+	int argc = pcl_proc_parsecmd(pcl_pcsskipws(exec->command), &argv);
 
 	if(argc == 0)
 	{
@@ -96,18 +96,18 @@ pcl_proc_exec(pcl_proc_exec_t *exec, int flags)
 	}
 
 	if(argc < 0)
-		return TRCMSG("error parsing command: '%ts'", exec->command);
+		return TRCMSG("error parsing command: '%Ps'", exec->command);
 
 	/* use SHELL to execute command */
 	if(flags & PCL_EXEC_SHELL)
 	{
-		tchar_t *shell = getenv("SHELL");
+		pchar_t *shell = getenv("SHELL");
 
 		if(!shell)
 			shell = "/bin/sh";
 
 		int tmp_argc = 1;
-		tchar_t *tmp_argv[5] = {shell, NULL, NULL, NULL, NULL};
+		pchar_t *tmp_argv[5] = {shell, NULL, NULL, NULL, NULL};
 
 		/* set -m for tcsh/csh: loads ~/.tcshrc */
 		if(pcl_stristr(shell, "/tcsh") || pcl_stristr(shell, "/csh"))
@@ -121,18 +121,18 @@ pcl_proc_exec(pcl_proc_exec_t *exec, int flags)
 		 * is how pcl_proc_exec() would send this to the shell for builtin `printf`.
 		 */
 		tmp_argv[tmp_argc++] = "-c";
-		tmp_argv[tmp_argc++] = (tchar_t *) exec->command;
+		tmp_argv[tmp_argc++] = (pchar_t *) exec->command;
 
 		/* free old argv */
 		pcl_proc_freeargv(argc, argv);
 
 		/* allocate a new argv */
 		argc = tmp_argc;
-		argv = (tchar_t **) pcl_malloc((argc + 1) * sizeof(tchar_t *));
+		argv = (pchar_t **) pcl_malloc((argc + 1) * sizeof(pchar_t *));
 
 		/* allocate each argv element */
 		for(int i = 0; i < argc; i++)
-			argv[i] = pcl_tcsdup(tmp_argv[i]);
+			argv[i] = pcl_pcsdup(tmp_argv[i]);
 
 		/* must NULL terminate for execvp */
 		argv[argc] = NULL;
@@ -242,7 +242,7 @@ pcl_proc_exec(pcl_proc_exec_t *exec, int flags)
 		close(err_fds[0]);
 
 		if(err)
-			return SETERRMSG(err, "Failed to execute '%ts'", exec->command);
+			return SETERRMSG(err, "Failed to execute '%Ps'", exec->command);
 
 		if(flags & PCL_EXEC_HANDLE)
 			exec->handle = exec->pid;

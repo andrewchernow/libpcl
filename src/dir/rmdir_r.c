@@ -35,7 +35,7 @@
 #include <pcl/file.h>
 
 static int
-rmdir_r(tchar_t *path, size_t size)
+rmdir_r(pchar_t *path, size_t size)
 {
 	int path_len;
 	pcl_dirent_t ent;
@@ -44,13 +44,13 @@ rmdir_r(tchar_t *path, size_t size)
 	if(!dir)
 		return TRC();
 
-	path_len = (int) pcl_tcslen(path);
-	path[path_len] = PCL_TPATHSEPCHAR;
+	path_len = (int) pcl_pcslen(path);
+	path[path_len] = PCL_PPATHSEPCHAR;
 
 	while(pcl_readdir(dir, &ent, NULL))
 	{
 		/* append entry name */
-		pcl_tcscpy(path + path_len + 1, size - path_len - 1, ent.name);
+		pcl_pcscpy(path + path_len + 1, size - path_len - 1, ent.name);
 
 		/* recurse */
 		if(ent.type == PclDirentDir)
@@ -84,11 +84,11 @@ rmdir_r(tchar_t *path, size_t size)
 }
 
 int
-pcl_rmdir_r(const tchar_t *path)
+pcl_rmdir_r(const pchar_t *path)
 {
-	tchar_t pbuf[32 * 1024];
+	pchar_t pbuf[32 * 1024];
 
-	pcl_tcscpy(pbuf, countof(pbuf), path);
+	pcl_pcscpy(pbuf, countof(pbuf), path);
 
 	if(rmdir_r(pbuf, countof(pbuf)))
 		return TRC();

@@ -90,7 +90,7 @@
 extern "C" {
 #endif
 
-PCL_EXPORT pcl_file_t *pcl_file_open(const tchar_t *path, int oflags, ...);
+PCL_EXPORT pcl_file_t *pcl_file_open(const pchar_t *path, int oflags, ...);
 
 PCL_EXPORT int pcl_file_read(pcl_file_t *file, void *buf, size_t count);
 
@@ -113,39 +113,39 @@ PCL_EXPORT int pcl_file_lock(pcl_file_t *file, int operation);
 
 /* Get the absolute path for a file descriptor.
  * @param fd file descriptor. For windows, this is a CRT fd, not a HANDLE.
- * @param out pointer to a tchar_t pointer to receive the result which must be freed
+ * @param out pointer to a pchar_t pointer to receive the result which must be freed
  * by caller.
  * @return -1 on error number of characters written to out on success
  */
-PCL_EXPORT int pcl_fdpath(int fd, tchar_t **out);
+PCL_EXPORT int pcl_fdpath(int fd, pchar_t **out);
 
 /** Gets the canonicalized absolute pathname.
  * @param path path to convert
  * @param[out] lenp If not \c NULL, character length (excluding NUL) is written here
  * @return an allocated absolute path or NULL on error
  */
-PCL_EXPORT tchar_t *pcl_realpath(const tchar_t *path, int *lenp);
+PCL_EXPORT pchar_t *pcl_realpath(const pchar_t *path, int *lenp);
 
 /** Change the name or location of a file
  * @param oldname The old name/path of the file
  * @param newname if this exists, it will be replaced
  * @return 0 on success and -1 on error
  */
-PCL_EXPORT int pcl_rename(const tchar_t *oldname, const tchar_t *newname);
+PCL_EXPORT int pcl_rename(const pchar_t *oldname, const pchar_t *newname);
 
 /** Delete a file or directory. The directory must be empty. File can be a link, socket, FIFO
  * or device.
  * @param pathname
  * @return 0 on success or -1 on error
  */
-PCL_EXPORT int pcl_remove(const tchar_t *pathname);
+PCL_EXPORT int pcl_remove(const pchar_t *pathname);
 
 /** Delete a file.
  * @param path file to delete
  * @return 0 on success and -1 on error
  * @see pcl_remove
  */
-PCL_EXPORT int pcl_unlink(const tchar_t *path);
+PCL_EXPORT int pcl_unlink(const pchar_t *path);
 
 #ifdef __cplusplus
 }

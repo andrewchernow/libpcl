@@ -38,7 +38,7 @@
 #include <pcl/error.h>
 
 int
-pcl_unlink(const tchar_t *path)
+pcl_unlink(const pchar_t *path)
 {
 	pcl_err_osclear();
 

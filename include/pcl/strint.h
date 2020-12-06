@@ -82,46 +82,46 @@ PCL_EXPORT int pcl_wcstoull(const wchar_t *nptr, wchar_t **end, int base, unsign
 /** @copydoc pcl_strtoi
 	 * @note implemented as a macro
 	 */
-	int pcl_tcstoi(const tchar_t *nptr, tchar_t **end, int base, int *r);
+	int pcl_pcstoi(const pchar_t *nptr, pchar_t **end, int base, int *r);
 
 	/** @copydoc pcl_strtoi
 	 * @note implemented as a macro
 	 */
-	int pcl_tcstoui(const tchar_t *nptr, tchar_t **end, int base, unsigned int *r);
+	int pcl_pcstoui(const pchar_t *nptr, pchar_t **end, int base, unsigned int *r);
 
 	/** @copydoc pcl_strtoi
 	 * @note implemented as a macro
 	 */
-	int pcl_tcstol(const tchar_t *nptr, tchar_t **end, int base, long *r);
+	int pcl_pcstol(const pchar_t *nptr, pchar_t **end, int base, long *r);
 
 	/** @copydoc pcl_strtoi
 	 * @note implemented as a macro
 	 */
-	int pcl_tcstoul(const tchar_t *nptr, tchar_t **end, int base, unsigned long *r);
+	int pcl_pcstoul(const pchar_t *nptr, pchar_t **end, int base, unsigned long *r);
 
 	/** @copydoc pcl_strtoi
 	 * @note implemented as a macro
 	 */
-	int pcl_tcstoll(const tchar_t *nptr, tchar_t **end, int base, long long *r);
+	int pcl_pcstoll(const pchar_t *nptr, pchar_t **end, int base, long long *r);
 
 	/** @copydoc pcl_strtoi
 	 * @note implemented as a macro
 	 */
-	int pcl_tcstoull(const tchar_t *nptr, tchar_t **end, int base, unsigned long long *r);
+	int pcl_pcstoull(const pchar_t *nptr, pchar_t **end, int base, unsigned long long *r);
 #elif defined(PCL_WINDOWS)
-#	define pcl_tcstoi                     pcl_wcstoi
-#	define pcl_tcstoui                    pcl_wcstoui
-#	define pcl_tcstol                     pcl_wcstol
-#	define pcl_tcstoul                    pcl_wcstoul
-#	define pcl_tcstoll                    pcl_wcstoll
-#	define pcl_tcstoull                   pcl_wcstoull
+#	define pcl_pcstoi                     pcl_wcstoi
+#	define pcl_pcstoui                    pcl_wcstoui
+#	define pcl_pcstol                     pcl_wcstol
+#	define pcl_pcstoul                    pcl_wcstoul
+#	define pcl_pcstoll                    pcl_wcstoll
+#	define pcl_pcstoull                   pcl_wcstoull
 #else
-#	define pcl_tcstoi                     pcl_strtoi
-#	define pcl_tcstoui                    pcl_strtoui
-#	define pcl_tcstol                     pcl_strtol
-#	define pcl_tcstoul                    pcl_strtoul
-#	define pcl_tcstoll                    pcl_strtoll
-#	define pcl_tcstoull                   pcl_strtoull
+#	define pcl_pcstoi                     pcl_strtoi
+#	define pcl_pcstoui                    pcl_strtoui
+#	define pcl_pcstol                     pcl_strtol
+#	define pcl_pcstoul                    pcl_strtoul
+#	define pcl_pcstoll                    pcl_strtoll
+#	define pcl_pcstoull                   pcl_strtoull
 #endif
 
 #ifdef __cplusplus

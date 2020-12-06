@@ -63,8 +63,8 @@ extern "C" {
 
 void ipcl_win32_sd_init(SECURITY_DESCRIPTOR *sd);
 
-int ipcl_win32_sd_create(SECURITY_DESCRIPTOR *sd, const tchar_t *owner,
-	const tchar_t *group, mode_t mode);
+int ipcl_win32_sd_create(SECURITY_DESCRIPTOR *sd, const pchar_t *owner,
+	const pchar_t *group, mode_t mode);
 
 /** Get the SECURITY_DESCRIPTOR for the given path.
  *
@@ -85,7 +85,7 @@ int ipcl_win32_sd_create(SECURITY_DESCRIPTOR *sd, const tchar_t *owner,
  * GetKernelObjectSecurity function.
  * @return 0 for success and -1 on error. If this fails, no output arguments are valid.
  */
-int ipcl_win32_sd_get(const tchar_t *path, SECURITY_DESCRIPTOR **sd, DWORD *sdlen,
+int ipcl_win32_sd_get(const pchar_t *path, SECURITY_DESCRIPTOR **sd, DWORD *sdlen,
 	PSID *world_sid, PSID *owner_sid, PSID *group_sid, BOOL *have_dacl, PACL *dacl,
 	SECURITY_INFORMATION secinfo);
 
@@ -110,7 +110,7 @@ int ipcl_win32_token_into(HANDLE htok, TOKEN_INFORMATION_CLASS type, void **data
  */
 PSID ipcl_win32_sid_dup(PSID sid);
 
-PSID ipcl_win32_name_to_sid(const tchar_t *name, int *type);
+PSID ipcl_win32_name_to_sid(const pchar_t *name, int *type);
 
 int ipcl_win32_sid_to_name(PSID sid, char *out, size_t len);
 
@@ -133,8 +133,8 @@ DWORD ipcl_win32_mode_to_rights(mode_t mode, int type);
  */
 mode_t ipcl_win32_rights_to_mode(DWORD rights, int type);
 
-int ipcl_win32_logon(const tchar_t *username, const tchar_t *domain,
-	const tchar_t *password, HANDLE *htok);
+int ipcl_win32_logon(const pchar_t *username, const pchar_t *domain,
+	const pchar_t *password, HANDLE *htok);
 
 /** Get TokenUser SID of process.
  * @return application must free this
@@ -142,7 +142,7 @@ int ipcl_win32_logon(const tchar_t *username, const tchar_t *domain,
 PSID ipcl_win32_process_sid(void);
 
 /* free uid/gid when they are provided and are non-NULL on return */
-int ipcl_win32_file_security(const tchar_t *path, mode_t *mode, uid_t *uidp, gid_t *gidp);
+int ipcl_win32_file_security(const pchar_t *path, mode_t *mode, uid_t *uidp, gid_t *gidp);
 
 #ifdef __cplusplus
 }

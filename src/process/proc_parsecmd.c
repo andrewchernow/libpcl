@@ -35,18 +35,18 @@
 #include <pcl/string.h>
 
 int
-pcl_proc_parsecmd(const tchar_t *shell_cmd, tchar_t ***out)
+pcl_proc_parsecmd(const pchar_t *shell_cmd, pchar_t ***out)
 {
-	const tchar_t *start;
+	const pchar_t *start;
 	bool in_quote = false;
-	tchar_t **targv;
+	pchar_t **targv;
 	size_t size = 4;
 	int count = 0;
 
 	if(!shell_cmd)
 		return BADARG();
 
-	shell_cmd = pcl_tcsskipws(shell_cmd);
+	shell_cmd = pcl_pcsskipws(shell_cmd);
 	if(*shell_cmd == '"')
 	{
 		in_quote = true;
@@ -54,7 +54,7 @@ pcl_proc_parsecmd(const tchar_t *shell_cmd, tchar_t ***out)
 	}
 
 	start = shell_cmd;
-	targv = (tchar_t **)pcl_malloc((size + 1) * sizeof(tchar_t *));
+	targv = (pchar_t **)pcl_malloc((size + 1) * sizeof(pchar_t *));
 
 	while(true)
 	{
@@ -100,16 +100,16 @@ pcl_proc_parsecmd(const tchar_t *shell_cmd, tchar_t ***out)
 					if(count == (int)size)
 					{
 						size = (size * 3) / 2;
-						targv = (tchar_t **)pcl_realloc(targv, (size + 1) * sizeof(tchar_t *));
+						targv = (pchar_t **)pcl_realloc(targv, (size + 1) * sizeof(pchar_t *));
 					}
 
-					targv[count++] = pcl_tcsndup(start, shell_cmd - start);
+					targv[count++] = pcl_pcsndup(start, shell_cmd - start);
 				}
 
 				if(*shell_cmd == '\0')
 					goto finish;
 
-				shell_cmd = pcl_tcsskipws(++shell_cmd);
+				shell_cmd = pcl_pcsskipws(++shell_cmd);
 
 				if(*shell_cmd == '"')
 				{

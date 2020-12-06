@@ -56,13 +56,13 @@ typedef struct
 	long gmtoff;
 	char tzabbr[80];
 	char hostname[PCL_MAXDOMAINLEN];
-	tchar_t name[64];     // computer name
+	pchar_t name[64];     // computer name
 	uint64_t memory;      // bytes
 	char version[100];    /* Mac OS X Catalina 10.15.7/19.6.0 (Build 19H2) */
 	char vendor[64];      /* Apple, Microsoft, Ubuntu 18.04 LTS (Bionic Beaver) */
 
 	/* windows only */
-	tchar_t langrp[64];
+	pchar_t langrp[64];
 	pcl_langrp_t langrp_type;
 } pcl_sysinfo_t;
 

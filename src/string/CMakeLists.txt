@@ -5,6 +5,7 @@ add_library(string OBJECT
 	base64_encode.c
 	hex_decode.c
 	hex_encode.c
+	pcs_to_utf8.c
 	strcatf.c
 	strfbytes.c
 	stristr.c
@@ -19,6 +20,5 @@ add_library(string OBJECT
 	strtrimset.c
 	strtrunc.c
 	strupper.c
-	tcs_to_utf8.c
-	utf8_to_tcs.c)
+	utf8_to_pcs.c)
 

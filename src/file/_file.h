@@ -74,7 +74,7 @@ struct tag_pcl_file
 */
 pcl_file_t *ipcl_file_alloc(pcl_fd_t fd, int fflags);
 
-int ipcl_file_open(pcl_file_t *file, const tchar_t *path, int flags, mode_t mode);
+int ipcl_file_open(pcl_file_t *file, const pchar_t *path, int flags, mode_t mode);
 
 /** Initialize a preallocated file using a set of file-flags.
  * @param file

@@ -46,12 +46,12 @@
 
 static void validate_cipher(const char *algo, const char *aad, int aad_len);
 
-int pcl_tmain(int argc, tchar_t **argv)
+int pcl_tmain(int argc, pchar_t **argv)
 {
 	pcl_init();
 
 	size_t aad_len = 0;
-	char *aad = argc > 1 ? pcl_tcs_to_utf8(argv[1], 0, &aad_len) : NULL;
+	char *aad = argc > 1 ? pcl_pcs_to_utf8(argv[1], 0, &aad_len) : NULL;
 	const char *alorithms[] = {
 		"aes-128-gcm", "aes-256-gcm", "aes-128-ocb", "aes-256-ocb",
 		"aes-128-cbc", "aes-256-cbc", "chacha20-poly1305"

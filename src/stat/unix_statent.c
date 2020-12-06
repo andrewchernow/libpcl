@@ -84,7 +84,7 @@ convert_times(pcl_stat_t *buf, sys_stat_t *os_buf)
 }
 
 int
-ipcl_statent(const tchar_t *path, int fd, pcl_stat_t *buf, int flags)
+ipcl_statent(const pchar_t *path, int fd, pcl_stat_t *buf, int flags)
 {
 	int n;
 	sys_stat_t os_buf;
@@ -118,7 +118,7 @@ ipcl_statent(const tchar_t *path, int fd, pcl_stat_t *buf, int flags)
 
 	if(path)
 	{
-		const tchar_t *name = pcl_tcsrchr(path, PCL_TPATHSEPCHAR);
+		const pchar_t *name = pcl_pcsrchr(path, PCL_PPATHSEPCHAR);
 
 		if(name)
 			name++;

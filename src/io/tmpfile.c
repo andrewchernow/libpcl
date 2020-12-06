@@ -44,35 +44,35 @@
 
 // combo of tmpfile and tempnam
 FILE *
-pcl_tmpfile(const tchar_t *dir, const tchar_t *prefix, const tchar_t *suffix,
-	tchar_t **pathp, bool keep)
+pcl_tmpfile(const pchar_t *dir, const pchar_t *prefix, const pchar_t *suffix,
+	pchar_t **pathp, bool keep)
 {
-	tchar_t *tmpdirs[4];
-	size_t prefix_len = prefix ? pcl_tcslen(prefix) : 0;
-	size_t suffix_len = suffix ? pcl_tcslen(suffix) : 0;
+	pchar_t *tmpdirs[4];
+	size_t prefix_len = prefix ? pcl_pcslen(prefix) : 0;
+	size_t suffix_len = suffix ? pcl_pcslen(suffix) : 0;
 
 	if(prefix_len + suffix_len > PCL_MAXNAME)
 		return R_SETERRMSG(NULL, PCL_EINVAL, "prefix and suffix cannot exceed maximum "
 																				 "file name length '%d'", PCL_MAXNAME);
 
 	if(!prefix)
-		prefix = _T("");
+		prefix = _P("");
 	if(!suffix)
-		suffix = _T("");
+		suffix = _P("");
 
-	tmpdirs[0] = (tchar_t *) dir;
+	tmpdirs[0] = (pchar_t *) dir;
 
 #ifdef PCL_WINDOWS
-	tmpdirs[1] = pcl_getenv(_T("TMP"));
-	tmpdirs[2] = pcl_getenv(_T("TEMP"));
+	tmpdirs[1] = pcl_getenv(_P("TMP"));
+	tmpdirs[2] = pcl_getenv(_P("TEMP"));
 #else
-	tmpdirs[1] = pcl_getenv(_T("TMPDIR"));
+	tmpdirs[1] = pcl_getenv(_P("TMPDIR"));
 	tmpdirs[2] = P_tmpdir;
 #endif
 
-	tmpdirs[3] = _T(".");
+	tmpdirs[3] = _P(".");
 
-	tchar_t *path = NULL;
+	pchar_t *path = NULL;
 	pcl_file_t *file = NULL;
 	size_t rand_len = PCL_MAXNAME - (prefix_len + suffix_len);
 	int oflags = PCL_O_CREAT | PCL_O_EXCL | PCL_O_RDWR;
@@ -83,7 +83,7 @@ pcl_tmpfile(const tchar_t *dir, const tchar_t *prefix, const tchar_t *suffix,
 
 	for(int i = 0; i < countof(tmpdirs); i++)
 	{
-		tchar_t *tmpdir = tmpdirs[i];
+		pchar_t *tmpdir = tmpdirs[i];
 
 		if(!tmpdir)
 			continue;
@@ -97,9 +97,9 @@ pcl_tmpfile(const tchar_t *dir, const tchar_t *prefix, const tchar_t *suffix,
 			continue;
 
 		/* first +1 is path separator and 2nd +1 is NUL */
-		size_t path_len = pcl_tcslen(tmpdir) + 1 + prefix_len + rand_len + suffix_len + 1;
+		size_t path_len = pcl_pcslen(tmpdir) + 1 + prefix_len + rand_len + suffix_len + 1;
 
-		path = pcl_malloc(path_len * sizeof(tchar_t));
+		path = pcl_malloc(path_len * sizeof(pchar_t));
 
 		do
 		{
@@ -108,7 +108,7 @@ pcl_tmpfile(const tchar_t *dir, const tchar_t *prefix, const tchar_t *suffix,
 			pcl_hex_encode(randhex, sizeof(randhex), rand, rand_len);
 
 			/* create tmp path */
-			pcl_stprintf(path, path_len, _T("%ts%/%ts%s%ts"), tmpdir, prefix, randhex, suffix);
+			pcl_spprintf(path, path_len, _P("%Ps%/%Ps%s%Ps"), tmpdir, prefix, randhex, suffix);
 
 			/* create tmp file */
 			file = pcl_file_open(path, oflags, S_IRUSR | S_IWUSR);

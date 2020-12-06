@@ -44,13 +44,13 @@
 
 typedef struct
 {
-	tchar_t *root;
+	pchar_t *root;
 	int blksize;
 } bsize_cache_t;
 
 static pthread_key_t bsize_key;
 
-static void convstat(tchar_t *path, pcl_stat_t *st, WIN32_FIND_DATA *wfd, int flags, bool is_root);
+static void convstat(pchar_t *path, pcl_stat_t *st, WIN32_FIND_DATA *wfd, int flags, bool is_root);
 
 static void
 bsize_veccleanup(pcl_vector_t *v, void *elem)
@@ -79,7 +79,7 @@ ipcl_win32_stat_handler(uint32_t which, void *data)
 }
 
 int
-ipcl_statent(const tchar_t *_path, int fd, pcl_stat_t *buf, int flags)
+ipcl_statent(const pchar_t *_path, int fd, pcl_stat_t *buf, int flags)
 {
 	HANDLE hfind;
 	WIN32_FIND_DATA wfd;
@@ -112,7 +112,7 @@ ipcl_statent(const tchar_t *_path, int fd, pcl_stat_t *buf, int flags)
 		return 0;
 	}
 
-	tchar_t *path = pcl_realpath(_path, NULL);
+	pchar_t *path = pcl_realpath(_path, NULL);
 
 	if(!path)
 		return TRC();
@@ -124,7 +124,7 @@ ipcl_statent(const tchar_t *_path, int fd, pcl_stat_t *buf, int flags)
 
 		if(wfd.dwFileAttributes == INVALID_FILE_ATTRIBUTES)
 		{
-			SETLASTERRMSG("cannot get information about '%ts'", path);
+			SETLASTERRMSG("cannot get information about '%Ps'", path);
 			pcl_free(path);
 			return -1;
 		}
@@ -143,7 +143,7 @@ ipcl_statent(const tchar_t *_path, int fd, pcl_stat_t *buf, int flags)
 
 		if(!GetFileAttributesEx(path, GetFileExInfoStandard, &attr))
 		{
-			SETLASTERRMSG("cannot get information about '%ts'", path);
+			SETLASTERRMSG("cannot get information about '%Ps'", path);
 			pcl_free(path);
 			return -1;
 		}
@@ -168,7 +168,7 @@ ipcl_statent(const tchar_t *_path, int fd, pcl_stat_t *buf, int flags)
 
 	if(hfind == INVALID_HANDLE_VALUE)
 	{
-		SETLASTERRMSG("cannot get information about '%ts'", path);
+		SETLASTERRMSG("cannot get information about '%Ps'", path);
 		pcl_free(path);
 		return -1;
 	}
@@ -183,7 +183,7 @@ ipcl_statent(const tchar_t *_path, int fd, pcl_stat_t *buf, int flags)
 }
 
 static void
-convstat(tchar_t *path, pcl_stat_t *st, WIN32_FIND_DATA *wfd, int flags, bool is_root)
+convstat(pchar_t *path, pcl_stat_t *st, WIN32_FIND_DATA *wfd, int flags, bool is_root)
 {
 	st->nlink = 1;
 
@@ -205,9 +205,9 @@ convstat(tchar_t *path, pcl_stat_t *st, WIN32_FIND_DATA *wfd, int flags, bool is
 	}
 
 	/* Use drive letter as device id */
-	if(!strempty(path) && path[1] == _T(':'))
+	if(!strempty(path) && path[1] == _P(':'))
 	{
-		int drive = pcl_totupper(path[0]);
+		int drive = pcl_topupper(path[0]);
 
 		st->dev = makedev(FILE_TYPE_DISK, drive);
 
@@ -271,9 +271,9 @@ convstat(tchar_t *path, pcl_stat_t *st, WIN32_FIND_DATA *wfd, int flags, bool is
 	if(!PathIsRelative(path) && PathStripToRoot(path))
 	{
 		/* GetDiskFreeSpace needs a trailing slash */
-		size_t path_len = pcl_tcslen(path);
+		size_t path_len = pcl_pcslen(path);
 
-		if(path[path_len - 1] != PCL_TPATHSEPCHAR)
+		if(path[path_len - 1] != PCL_PPATHSEPCHAR)
 		{
 			path[path_len++] = L'\\';
 			path[path_len] = 0;
@@ -287,7 +287,7 @@ convstat(tchar_t *path, pcl_stat_t *st, WIN32_FIND_DATA *wfd, int flags, bool is
 		{
 			bsize_cache_t *bs = pcl_vector_get(bsize_cache, i);
 
-			if(!pcl_tcsicmp(bs->root, path))
+			if(!pcl_pcsicmp(bs->root, path))
 			{
 				st->blksize = bs->blksize;
 				break;
@@ -303,7 +303,7 @@ convstat(tchar_t *path, pcl_stat_t *st, WIN32_FIND_DATA *wfd, int flags, bool is
 			{
 				bsize_cache_t elem;
 
-				elem.root = pcl_tcsdup(path);
+				elem.root = pcl_pcsdup(path);
 				st->blksize = elem.blksize = (int) (sectors_per_cluster * bytes_per_sec);
 				pcl_vector_append(bsize_cache, &elem);
 			}

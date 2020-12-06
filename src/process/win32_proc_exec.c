@@ -39,8 +39,8 @@
 #include <userenv.h>
 #include <lm.h>
 
-static bool createprocess(pcl_proc_exec_t *exec, const tchar_t *comspec,
-	tchar_t *command, STARTUPINFO *si, PROCESS_INFORMATION *pi);
+static bool createprocess(pcl_proc_exec_t *exec, const pchar_t *comspec,
+	pchar_t *command, STARTUPINFO *si, PROCESS_INFORMATION *pi);
 
 int
 pcl_proc_exec(pcl_proc_exec_t *exec, int flags)
@@ -153,42 +153,42 @@ pcl_proc_exec(pcl_proc_exec_t *exec, int flags)
 	}
 
 	/* parse the command */
-	tchar_t **argv = NULL;
+	pchar_t **argv = NULL;
 	int argc = pcl_proc_parsecmd(exec->command, &argv);
 	bool shell = (flags & PCL_EXEC_SHELL) != 0;
 
 	/* (argc*3) = double quotes for each arg + a space. The added 32 is for
 	 * any misc stuff like the "/C"...basically a safety net
 	 */
-	size_t cmd_size = pcl_tcslen(exec->command) + (argc * 3) + 32;
-	tchar_t *command = pcl_tmalloc(cmd_size);
+	size_t cmd_size = pcl_pcslen(exec->command) + (argc * 3) + 32;
+	pchar_t *command = pcl_pmalloc(cmd_size);
 
 	/* If internal command, prepend a cmd.exe "/C" switch */
-	pcl_stprintf(command, cmd_size, shell ? _T("/C \"%ts ") : _T("\"%ts\" "), argv[0]);
+	pcl_spprintf(command, cmd_size, shell ? _P("/C \"%Ps ") : _P("\"%Ps\" "), argv[0]);
 
 	/* layout the args ... space separated */
 	for(int i=1; i < argc; i++)
 	{
-		pcl_tcscatf(command, cmd_size, _T("%ts"), argv[i]);
+		pcl_pcscatf(command, cmd_size, _P("%Ps"), argv[i]);
 		if(i+1 < argc)
-			pcl_tcscatf(command, cmd_size, _T(" "));
+			pcl_pcscatf(command, cmd_size, _P(" "));
 	}
 
 	(void) pcl_proc_freeargv(argc, argv);
 
 	/* close double quotes around arg list */
 	if(shell)
-		pcl_tcscatf(command, cmd_size, _T("\""));
+		pcl_pcscatf(command, cmd_size, _P("\""));
 
 	/* need comspec is shell*/
-	tchar_t comspecbuf[512], *comspec = NULL;
+	pchar_t comspecbuf[512], *comspec = NULL;
 
 	if(shell)
 	{
-		if(GetEnvironmentVariable(_T("COMSPEC"), comspecbuf, countof(comspecbuf)))
+		if(GetEnvironmentVariable(_P("COMSPEC"), comspecbuf, countof(comspecbuf)))
 			comspec = comspecbuf;
 		if(strempty(comspec))
-			comspec = pcl_tcscpy(comspecbuf, countof(comspecbuf), _T("cmd.exe"));
+			comspec = pcl_pcscpy(comspecbuf, countof(comspecbuf), _P("cmd.exe"));
 	}
 
 	/* -------------------------------------------------------------------------
@@ -198,49 +198,49 @@ pcl_proc_exec(pcl_proc_exec_t *exec, int flags)
 	 * the token of exec.user and we must manually adjust the block..arggg.
 	 */
 
-	tchar_t *path = NULL;
+	pchar_t *path = NULL;
 	size_t env_len = 0, path_len = 0;
 
 	if(flags & PCL_EXEC_LDPATH && !strempty(exec->ldpath))
 	{
-		env_len = GetEnvironmentVariable(_T("PATH"), NULL, 0);
+		env_len = GetEnvironmentVariable(_P("PATH"), NULL, 0);
 
 		/* allocate enough room for libpath + 1 (';' or '\0') + %PATH%. env_len
 		 * includes the NUL already from GetEnvironmentVariable.
 		 */
-		path_len = pcl_tcslen(exec->ldpath);
-		path = pcl_tmalloc(path_len + 1 + env_len);
+		path_len = pcl_pcslen(exec->ldpath);
+		path = pcl_pmalloc(path_len + 1 + env_len);
 
 		/* prepend libpath */
-		pcl_tmemcpy(path, exec->ldpath, path_len);
+		pcl_pmemcpy(path, exec->ldpath, path_len);
 		path[path_len] = 0;
 
 		/* swap ':' for ';'. Since windows uses : for drives "C:\", we have to manually
 		 * go through path and exclude drive colons.
 		 */
-		for(tchar_t *p = path; *p; p++)
+		for(pchar_t *p = path; *p; p++)
 		{
-			if(*p == _T(':'))
+			if(*p == _P(':'))
 			{
-				if(p[1] == PCL_TPATHSEPCHAR)
+				if(p[1] == PCL_PPATHSEPCHAR)
 					p++; // skip it
 				else
-					*p = _T(';');
+					*p = _P(';');
 			}
 		}
 
 		if(env_len > 0)
 		{
 			/* append ";%PATH%" to get "LIBPATH;%PATH%" */
-			path[path_len] = _T(';');
-			if(!GetEnvironmentVariable(_T("PATH"), path + path_len + 1, (DWORD)env_len))
+			path[path_len] = _P(';');
+			if(!GetEnvironmentVariable(_P("PATH"), path + path_len + 1, (DWORD)env_len))
 			{
 				path[path_len] = 0; /* failed, terminate at ';' */
 				env_len = 0;
 			}
 		}
 
-		SetEnvironmentVariable(_T("PATH"), path);
+		SetEnvironmentVariable(_P("PATH"), path);
 	}
 
 	success = createprocess(exec, comspec, command, &si, &pi);
@@ -248,7 +248,7 @@ pcl_proc_exec(pcl_proc_exec_t *exec, int flags)
 
 	/* reset PATH to what it was prior to changing it (+1 to skip ';') */
 	if(env_len > 0)
-		SetEnvironmentVariable(_T("PATH"), path + path_len + 1);
+		SetEnvironmentVariable(_P("PATH"), path + path_len + 1);
 	pcl_free_safe(path);
 
 	/* Close our end of child pipes or forever leak! */
@@ -280,12 +280,12 @@ pcl_proc_exec(pcl_proc_exec_t *exec, int flags)
 }
 
 static bool
-createprocess(pcl_proc_exec_t *exec, const tchar_t *comspec, tchar_t *command,
+createprocess(pcl_proc_exec_t *exec, const pchar_t *comspec, pchar_t *command,
 	STARTUPINFO *si, PROCESS_INFORMATION *pi)
 {
 	bool success;
 	SECURITY_ATTRIBUTES secattrs;
-	const tchar_t *langrp = exec->group ? exec->group : _T(".");
+	const pchar_t *langrp = exec->group ? exec->group : _P(".");
 	DWORD crflags = CREATE_UNICODE_ENVIRONMENT;
 
 	zero(secattrs);
@@ -311,10 +311,10 @@ createprocess(pcl_proc_exec_t *exec, const tchar_t *comspec, tchar_t *command,
 	}
 
 	USER_INFO_4 *userinfo;
-	tchar_t profdir[512];
+	pchar_t profdir[512];
 	if(!NetUserGetInfo(exec->group, exec->user, 4, (LPBYTE *)&userinfo))
 	{
-		pcl_tcscpy(profdir, countof(profdir), userinfo->usri4_profile);
+		pcl_pcscpy(profdir, countof(profdir), userinfo->usri4_profile);
 		NetApiBufferFree(userinfo);
 	}
 	else
@@ -330,7 +330,7 @@ createprocess(pcl_proc_exec_t *exec, const tchar_t *comspec, tchar_t *command,
 	zero(profinfo);
 	profinfo.dwSize = sizeof(profinfo);
 	profinfo.dwFlags = PI_NOUI;
-	profinfo.lpUserName = pcl_tcsdup(exec->user); /* must allocate, IDK, ask M$ */
+	profinfo.lpUserName = pcl_pcsdup(exec->user); /* must allocate, IDK, ask M$ */
 	profinfo.lpProfilePath = profdir;
 
 	if(LoadUserProfile(token, &profinfo))

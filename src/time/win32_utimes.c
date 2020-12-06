@@ -34,7 +34,7 @@
 #include <pcl/error.h>
 
 int
-pcl_utimes(const tchar_t *path, pcl_time_t *atime, pcl_time_t *ctime,
+pcl_utimes(const pchar_t *path, pcl_time_t *atime, pcl_time_t *ctime,
 	pcl_time_t *mtime, pcl_time_t *crtime, pcl_time_t *btime)
 {
 	FILETIME filetimes[3];

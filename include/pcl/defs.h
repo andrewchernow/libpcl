@@ -68,16 +68,14 @@
 #	undef alloca
 #	define alloca _malloca
 #	define pcl_ftell _ftelli64
-#	ifndef _T
-#		define _T(quote) L##quote
-#	endif
+#	define _P(quote) L##quote
 #else
 #	define PCL_WPATHSEP L"/"
 #	define PCL_WPATHSEPCHR L'/'
 #	define PCL_PATHSEP "/"
 #	define PCL_PATHSEPCHR '/'
 #	define pcl_ftell ftello
-#	define _T(quote) quote
+#	define _P(quote) quote
 #endif
 
 /** A PCL location is the file, func and line where a call occurred.

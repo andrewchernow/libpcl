@@ -34,7 +34,7 @@
 #include <pcl/error.h>
 
 int
-ipcl_file_open(pcl_file_t *file, const tchar_t *path, int pcl_oflags, mode_t mode)
+ipcl_file_open(pcl_file_t *file, const pchar_t *path, int pcl_oflags, mode_t mode)
 {
 	DWORD a = INVALID_FILE_ATTRIBUTES;
 
@@ -53,7 +53,7 @@ ipcl_file_open(pcl_file_t *file, const tchar_t *path, int pcl_oflags, mode_t mod
 			a = wfd.dwFileAttributes;
 
 			if((a & FILE_ATTRIBUTE_REPARSE_POINT) && (wfd.dwReserved0 & IO_REPARSE_TAG_SYMLINK))
-				return SETERRMSG(PCL_ETYPE, "%ts is a symbolic link", path);
+				return SETERRMSG(PCL_ETYPE, "%Ps is a symbolic link", path);
 		}
 	}
 
@@ -209,7 +209,7 @@ ipcl_file_open(pcl_file_t *file, const tchar_t *path, int pcl_oflags, mode_t mod
 			if(sa.lpSecurityDescriptor)
 				ipcl_win32_sd_clear(sa.lpSecurityDescriptor);
 
-			return SETLASTERRMSG("%ts", path);
+			return SETLASTERRMSG("%Ps", path);
 		}
 	}
 

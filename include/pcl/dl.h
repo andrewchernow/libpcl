@@ -39,7 +39,7 @@
 extern "C" {
 #endif
 
-PCL_EXPORT int pcl_dlopen(const tchar_t *filename, void * *out);
+PCL_EXPORT int pcl_dlopen(const pchar_t *filename, void * *out);
 PCL_EXPORT uintptr_t pcl_dlsym(void * mod, const char *name);
 PCL_EXPORT void pcl_dlclose(void * mod);
 

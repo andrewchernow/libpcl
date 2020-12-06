@@ -34,7 +34,6 @@
 #include <pcl/io.h>
 #include <pcl/defs.h>
 #include <pcl/string.h>
-#include <math.h>
 
 int main(int argc, char **argv)
 {
@@ -55,7 +54,7 @@ int main(int argc, char **argv)
 		"gmtoff:      %ld\n"
 		"tzabbr:      %s\n"
 		"hostname:    %s\n"
-		"name:        %ts\n"
+		"name:        %Ps\n"
 		"memory:      %s (%llu)\n"
 		"version:     %s\n"
 		"vendor:      %s\n",

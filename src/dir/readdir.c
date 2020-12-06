@@ -61,7 +61,7 @@ pcl_readdir(pcl_dir_t *dir, pcl_dirent_t *ent, pcl_stat_t *stbuf)
 		dir->findnextfile = true;
 
 		/* always skip "." and ".." */
-		if(pcl_tcscmp(dir->wfd.cFileName, _T(".")) && pcl_tcscmp(dir->wfd.cFileName, _T("..")))
+		if(pcl_pcscmp(dir->wfd.cFileName, _P(".")) && pcl_pcscmp(dir->wfd.cFileName, _P("..")))
 			goto FOUND_ENTRY;
 	}
 
@@ -70,7 +70,7 @@ pcl_readdir(pcl_dir_t *dir, pcl_dirent_t *ent, pcl_stat_t *stbuf)
 		if(FindNextFile(dir->handle, &dir->wfd))
 		{
 			/* always skip "." and ".." */
-			if(!pcl_tcscmp(dir->wfd.cFileName, _T(".")) || !pcl_tcscmp(dir->wfd.cFileName, _T("..")))
+			if(!pcl_pcscmp(dir->wfd.cFileName, _P(".")) || !pcl_pcscmp(dir->wfd.cFileName, _P("..")))
 				continue;
 
 			/* have an entry */
@@ -89,12 +89,12 @@ pcl_readdir(pcl_dir_t *dir, pcl_dirent_t *ent, pcl_stat_t *stbuf)
 
 	FOUND_ENTRY:;
 	ent->type = PclDirentUnknown;
-	ent->namlen = (uint16_t) pcl_tcslen(ent->name);
-	pcl_tcsncpy(ent->name, countof(ent->name), dir->wfd.cFileName, ent->namlen);
+	ent->namlen = (uint16_t) pcl_pcslen(ent->name);
+	pcl_pcsncpy(ent->name, countof(ent->name), dir->wfd.cFileName, ent->namlen);
 
 	/* get path to entry */
-	tchar_t *entpath;
-	pcl_astprintf(&entpath, _T("%ts%/%ts"), dir->path, ent->name);
+	pchar_t *entpath;
+	pcl_aspprintf(&entpath, _P("%Ps%/%Ps"), dir->path, ent->name);
 
 	/* use GetFileType for fifo and chr types, need a win32 file HANDLE */
 	pcl_file_t *file = pcl_file_open(entpath, PCL_O_RDONLY);
@@ -145,7 +145,7 @@ pcl_readdir(pcl_dir_t *dir, pcl_dirent_t *ent, pcl_stat_t *stbuf)
 			return R_SETERR(false, PCL_ENOMORE);
 
 		/* do not report these */
-		if(!pcl_tcscmp(e->d_name, _T(".")) || !pcl_tcscmp(e->d_name, _T("..")))
+		if(!pcl_pcscmp(e->d_name, _P(".")) || !pcl_pcscmp(e->d_name, _P("..")))
 			continue;
 
 		/* got an entry */
@@ -184,7 +184,7 @@ pcl_readdir(pcl_dir_t *dir, pcl_dirent_t *ent, pcl_stat_t *stbuf)
 		}
 
 		ent->namlen = (uint16_t) strlen(e->d_name);
-		pcl_tcsncpy(ent->name, countof(ent->name), e->d_name, ent->namlen);
+		pcl_pcsncpy(ent->name, countof(ent->name), e->d_name, ent->namlen);
 
 		break;
 	}
@@ -193,8 +193,8 @@ pcl_readdir(pcl_dir_t *dir, pcl_dirent_t *ent, pcl_stat_t *stbuf)
 	/* caller requested an lstat on entry */
 	if(stbuf)
 	{
-		tchar_t *path;
-		int r = pcl_astprintf(&path, _T("%ts%/%ts"), dir->path, ent->name);
+		pchar_t *path;
+		int r = pcl_aspprintf(&path, _P("%Ps%/%Ps"), dir->path, ent->name);
 
 		if(r < 0)
 			return R_SETERR(false, -r);

@@ -79,8 +79,8 @@ pcl_sysinfo(pcl_sysinfo_t *info)
 		if((p = strchr(info->hostname, '.')))
 			*p = 0;
 
-		tchar_t *name = pcl_utf8_to_tcs(info->hostname, 0, NULL);
-		pcl_tcscpy(info->name, countof(info->name), name);
+		pchar_t *name = pcl_utf8_to_pcs(info->hostname, 0, NULL);
+		pcl_pcscpy(info->name, countof(info->name), name);
 		pcl_free(name);
 
 		if(p)

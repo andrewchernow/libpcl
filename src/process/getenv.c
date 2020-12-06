@@ -36,10 +36,10 @@
 #	include <pcl/alloc.h>
 #endif
 
-tchar_t *
-pcl_getenv(const tchar_t *name)
+pchar_t *
+pcl_getenv(const pchar_t *name)
 {
-	tchar_t *value = NULL;
+	pchar_t *value = NULL;
 
 	if(!name)
 		return NULL;
@@ -49,7 +49,7 @@ pcl_getenv(const tchar_t *name)
 
 	if(len)
 	{
-		value = pcl_malloc(len * sizeof(tchar_t));
+		value = pcl_malloc(len * sizeof(pchar_t));
 
 		if(GetEnvironmentVariable(name, value, len) == 0)
 			value = pcl_free(value);
@@ -59,7 +59,7 @@ pcl_getenv(const tchar_t *name)
 	value = getenv(name);
 
 	if(value)
-		value = pcl_tcsdup(value);
+		value = pcl_pcsdup(value);
 #endif
 
 	return value;

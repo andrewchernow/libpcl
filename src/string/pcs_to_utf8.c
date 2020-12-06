@@ -29,51 +29,59 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#include <pcl/types.h>
 #include <pcl/error.h>
 #include <pcl/string.h>
-#include <pcl/io.h>
 
 #ifdef PCL_WINDOWS
 #	include <windows.h>
 #	include <pcl/alloc.h>
 
-static wchar_t *
-win32_utf8towide(const char *src, size_t len, size_t *lenp)
+static char *
+win32_wcstoutf8(const wchar_t *src, size_t len, size_t *lenp)
 {
 	if(!*src)
-		return pcl_wcsdup(L"");
+		return pcl_strdup("");
 
-	int out_len = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, src, (int) len, NULL, 0);
+	int utf8_len = WideCharToMultiByte(CP_UTF8, WC_ERR_INVALID_CHARS, src, (int) len,
+		NULL, 0, NULL, NULL);
 
-	if(out_len == 0 || out_len == 0xFFFD)
+	if(utf8_len == 0 || utf8_len == 0xfffd)
 		return NULL;
 
-	wchar_t *out = pcl_tmalloc(out_len + 1);
-	out_len = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, src, (int) len, out, out_len);
+	char *utf8 = (char *) pcl_malloc(utf8_len + 1);
+	utf8_len = WideCharToMultiByte(CP_UTF8, WC_ERR_INVALID_CHARS, src, (int) len, utf8,
+		utf8_len, NULL, NULL);
 
-	out[out_len] = 0;
+	if(utf8_len == 0)
+	{
+		pcl_free(utf8);
+		return NULL;
+	}
+
+	utf8[utf8_len] = 0;
 	if(lenp)
-		*lenp = out_len;
+		*lenp = utf8_len;
 
-	return out;
+	return utf8;
 }
 #endif
 
-tchar_t *
-pcl_utf8_to_tcs(const char *src, size_t src_len, size_t *lenp)
+char *
+pcl_pcs_to_utf8(const pchar_t *src, size_t src_len, size_t *lenp)
 {
-	tchar_t * s;
+	char *s;
 
 	if(!src)
 		return R_SETERR(NULL, PCL_EINVAL);
 
 	if(src_len == 0)
-		src_len = strlen(src);
+		src_len = pcl_pcslen(src);
 
 #ifdef PCL_WINDOWS
-	s = win32_utf8towide(src, src_len, lenp);
+	s = win32_wcstoutf8(src, src_len, lenp);
 #else
-	s = pcl_strndup(src, src_len);
+	s = pcl_pcsndup(src, src_len);
 	if(lenp)
 		*lenp = src_len;
 #endif

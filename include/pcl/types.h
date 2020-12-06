@@ -39,7 +39,7 @@
 #include <stdarg.h>
 
 #ifdef PCL_WINDOWS
-typedef wchar_t tchar_t;
+typedef wchar_t pchar_t;
 typedef int mode_t;
 typedef int nlink_t;
 typedef int pid_t;
@@ -50,7 +50,7 @@ typedef void *pcl_prochandle_t;
 typedef char uid_t[68 + 1]; /* max SID string length */
 typedef char gid_t[68 + 1]; /* max SID string length */
 #else
-typedef char tchar_t;
+typedef char pchar_t;
 typedef int pcl_fd_t;
 typedef int pcl_socketfd_t;
 typedef pid_t pcl_prochandle_t;

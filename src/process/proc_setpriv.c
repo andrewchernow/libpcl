@@ -33,7 +33,7 @@
 #include <pcl/error.h>
 
 int
-pcl_proc_setpriv(const tchar_t *priv, bool enable)
+pcl_proc_setpriv(const pchar_t *priv, bool enable)
 {
 #ifdef PCL_WINDOWS
 	LUID luid;

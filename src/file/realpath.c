@@ -40,10 +40,10 @@
 #	include <stdlib.h>
 #endif
 
-tchar_t *
-pcl_realpath(const tchar_t *path, int *lenp)
+pchar_t *
+pcl_realpath(const pchar_t *path, int *lenp)
 {
-	tchar_t *fullpath;
+	pchar_t *fullpath;
 
 	if(lenp)
 		*lenp = 0;
@@ -58,7 +58,7 @@ pcl_realpath(const tchar_t *path, int *lenp)
 	if(len == 0)
 		return R_SETLASTERR(NULL);
 
-	fullpath = pcl_malloc(len * sizeof(tchar_t));
+	fullpath = pcl_malloc(len * sizeof(pchar_t));
 
 	/* call again with allocated buffer */
 	len = GetFullPathName(path, len, fullpath, NULL);

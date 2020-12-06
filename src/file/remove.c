@@ -38,7 +38,7 @@
 #	include <pcl/file.h>
 #endif
 
-int pcl_remove(const tchar_t *pathname)
+int pcl_remove(const pchar_t *pathname)
 {
 	if(strempty(pathname))
 		return BADARG();

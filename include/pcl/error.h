@@ -60,11 +60,11 @@
  * 	SETLASTERRMSG("cannot open '%s'", path);
  *
  * // when a PCL function fails, or any function known to utilize PCL error
- * FILE *fp = pcl_fopen(path, _T("r")); // pcl_fopen uses tchar_t
+ * FILE *fp = pcl_fopen(path, _P("r")); // pcl_fopen uses pchar_t
  *
  * // instead of setting an error, we add a trace and include a message.
  * if(fp == NULL)
- *   TRCMSG("cannot open '%ts'", path);
+ *   TRCMSG("cannot open '%Ps'", path);
  *
  * // or, add a trace and return. In the PCL library, as well as
  * // most unix libraries, -1 indicates an error while 0 is for success.

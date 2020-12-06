@@ -140,14 +140,12 @@ XFUNC(fmtconv)(xchar *buf, size_t bufsz, const xchar *pcl_format)
 					break;
 				}
 
-					/* "%ts|%tc" tchar_t: PCL extension (supports upper/lower 'T') */
-				case X('t'):
-				case X('T'):
+					/* "%Ps | %Pc" pchar_t: Portable Character String or Portable Character */
+				case X('P'):
 				{
-					xchar save_c = *pcl_format++;
-					xchar c = *pcl_format;
+					xchar c = *++pcl_format;
 
-					/* %ts always wide on Windows, always single byte on unixes */
+					/* %Ps always wide on Windows, always single byte on unixes */
 					if(c == X('s') || c == X('c'))
 					{
 #ifdef PCL_WINDOWS
@@ -160,14 +158,14 @@ XFUNC(fmtconv)(xchar *buf, size_t bufsz, const xchar *pcl_format)
 						*out++ = c; /* lower s,c always single byte */
 #endif //PCL_WINDOWS
 
-						pcl_format++; /* skip out or c */
+						pcl_format++; /* skip s or c */
 					}
 					else
 					{
-						*out++ = save_c; /* consume t|T, invalid spec char */
+						*out++ = X('P'); /* consume P, invalid spec char */
 					}
 
-					/* either had %ts or %Tc or invalid spec char */
+					/* either had %Ps, %Pc or invalid spec char */
 					finished = 1;
 					break;
 				}

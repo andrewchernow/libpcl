@@ -35,43 +35,43 @@
 #include <pcl/io.h>
 #include <stdlib.h>
 
-int pcl_tmain(int argc, tchar_t **argv)
+int pcl_tmain(int argc, pchar_t **argv)
 {
 	pcl_init();
 
 	pcl_option_t options[] = {
-		{_T("apple"), PclReqArg, _T('a')},
-		{_T("board"), PclOptArg, _T('b')},
-		{_T("create"), PclNoArg, _T('c')},
-		{_T("delete"), PclNoArg, _T('d')},
-		{_T("empty"), PclNoArg, _T('e')}
+		{_P("apple"), PclReqArg, _P('a')},
+		{_P("board"), PclOptArg, _P('b')},
+		{_P("create"), PclNoArg, _P('c')},
+		{_P("delete"), PclNoArg, _P('d')},
+		{_P("empty"), PclNoArg, _P('e')}
 	};
 
-	pcl_optstate_t *state = pcl_initopt(argc, argv, _T("a:b::cde"), options, countof(options));
+	pcl_optstate_t *state = pcl_initopt(argc, argv, _P("a:b::cde"), options, countof(options));
 
 	int opt;
-	tchar_t *value;
+	pchar_t *value;
 	pcl_option_t *longopt;
 
 	while((opt = pcl_getopt(state, &value, &longopt)) > 0)
 	{
-		tchar_t *longname = longopt ? longopt->name : _T("<short-only>");
+		pchar_t *longname = longopt ? longopt->name : _P("<short-only>");
 
 		switch(opt)
 		{
-			case _T('a'):
-				pcl_printf("a:%ts] %ts\n", longname, value);
+			case _P('a'):
+				pcl_printf("a:%Ps] %Ps\n", longname, value);
 				break;
 
-			case _T('b'):
-				pcl_printf("b:%ts] %ts\n", longname, value ? value : _T("<no-value>"));
+			case _P('b'):
+				pcl_printf("b:%Ps] %Ps\n", longname, value ? value : _P("<no-value>"));
 				break;
 
-			case _T('c'):
-			case _T('d'):
-			case _T('e'):
+			case _P('c'):
+			case _P('d'):
+			case _P('e'):
 			default:
-				pcl_printf("%tc:%ts]\n", (char) opt, longname);
+				pcl_printf("%Pc:%Ps]\n", (char) opt, longname);
 				break;
 		}
 	}

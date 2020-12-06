@@ -38,7 +38,7 @@
 #include <pcl/usrgrp.h>
 #include <stdlib.h>
 
-int pcl_tmain(int argc, tchar_t **argv)
+int pcl_tmain(int argc, pchar_t **argv)
 {
 	pcl_init();
 
@@ -69,7 +69,7 @@ int pcl_tmain(int argc, tchar_t **argv)
 		pcl_localtime(&st.mtime, &tm);
 		pcl_strftime(time, sizeof(time), "%b %d %H:%M", &tm);
 
-		pcl_printf("%s %3d %s  %s %8s %s %ts\n", mode, st.nlink, user, group, fsize, time, ent.name);
+		pcl_printf("%s %3d %s  %s %8s %s %Ps\n", mode, st.nlink, user, group, fsize, time, ent.name);
 	}
 
 	pcl_closedir(dp);

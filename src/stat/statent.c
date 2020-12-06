@@ -36,9 +36,9 @@
 #include <pcl/string.h>
 
 int
-pcl_statent(const tchar_t *path, int fd, pcl_stat_t *buf, int flags)
+pcl_statent(const pchar_t *path, int fd, pcl_stat_t *buf, int flags)
 {
-	tchar_t *fdpath = NULL;
+	pchar_t *fdpath = NULL;
 
 	if(strempty(path) && fd < 0)
 		return BADARG();

@@ -34,7 +34,7 @@
 #include <pcl/alloc.h>
 
 pcl_optstate_t *
-pcl_initopt(int argc, tchar_t **argv, const tchar_t *optstr, pcl_option_t *options, int num_options)
+pcl_initopt(int argc, pchar_t **argv, const pchar_t *optstr, pcl_option_t *options, int num_options)
 {
 	if(!argc || !argv || !(optstr || options))
 		return R_SETERR(NULL, PCL_EINVAL);

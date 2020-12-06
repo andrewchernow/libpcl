@@ -40,10 +40,10 @@
  * process's image path is some kind of top secret operation.
  */
 
-static tchar_t *
+static pchar_t *
 remote_proc_path(pid_t pid)
 {
-	tchar_t *path = NULL;
+	pchar_t *path = NULL;
 
 	/* ignore error. Setting this allows access to local system processes. However, if we
 	 * can't enable it, we can still open many other remote processes.
@@ -61,7 +61,7 @@ remote_proc_path(pid_t pid)
 
 	for(DWORD size = 64; size <= PCL_MAXLONGPATH + 1; size *= 2)
 	{
-		path = pcl_trealloc(path, size);
+		path = pcl_prealloc(path, size);
 
 		DWORD len = size;
 		BOOL ok = QueryFullProcessImageName(hproc, 0, path, &len);
@@ -87,14 +87,14 @@ CLEANUP:
 	return path;
 }
 
-static tchar_t *
+static pchar_t *
 current_proc_path()
 {
-	tchar_t *path = NULL;
+	pchar_t *path = NULL;
 
 	for(DWORD size = 64; size <= PCL_MAXLONGPATH + 1; size *= 2)
 	{
-		path = pcl_trealloc(path, size);
+		path = pcl_prealloc(path, size);
 
 		DWORD len = GetModuleFileName(NULL, path, size);
 
@@ -121,10 +121,10 @@ current_proc_path()
 	return R_SETLASTERR(NULL);
 }
 
-tchar_t *
+pchar_t *
 pcl_proc_path(pid_t pid)
 {
-	tchar_t *path = pid < 0 ? current_proc_path() : remote_proc_path(pid);
+	pchar_t *path = pid < 0 ? current_proc_path() : remote_proc_path(pid);
 
 	if(!path)
 		TRC();

@@ -48,7 +48,7 @@ typedef DWORD (* GetFinalPathNameByHandle_t)(HANDLE,LPTSTR,DWORD,DWORD);
 #endif
 
 int
-pcl_fdpath(int fd, tchar_t **out)
+pcl_fdpath(int fd, pchar_t **out)
 {
 	int out_len = 0;
 
@@ -62,14 +62,14 @@ pcl_fdpath(int fd, tchar_t **out)
 
 	if(getpath)
 	{
-		tchar_t tmp[1], *result = NULL;
+		pchar_t tmp[1], *result = NULL;
 		DWORD dw = getpath(hfile, tmp, countof(tmp), FILE_NAME_NORMALIZED);
 
 		/* function failed */
 		if(dw == 0)
 			return SETLASTERR();
 
-		result = pcl_tmalloc(dw);
+		result = pcl_pmalloc(dw);
 		dw = getpath(hfile, result, dw-1, FILE_NAME_NORMALIZED);
 
 		if(dw == 0)
@@ -79,9 +79,9 @@ pcl_fdpath(int fd, tchar_t **out)
 		}
 
 		/* Remove the longpath "\\?\" prefix */
-		if(!pcl_tcsnicmp(result, _T("\\\\?\\"), 4))
+		if(!pcl_pcsnicmp(result, _P("\\\\?\\"), 4))
 		{
-			memmove(result, result + 4, ((dw - 4) + 1) * sizeof(tchar_t));
+			memmove(result, result + 4, ((dw - 4) + 1) * sizeof(pchar_t));
 			dw -= 4;
 		}
 
@@ -94,10 +94,10 @@ pcl_fdpath(int fd, tchar_t **out)
 		HANDLE hmap;
 		void *addr;
 		DWORD szhi = 0;
-		tchar_t devpath[512 + PCL_MAXPATH];
+		pchar_t devpath[512 + PCL_MAXPATH];
 		bool found = false;
-		tchar_t drivebuf[1024];
-		tchar_t *drive = drivebuf;
+		pchar_t drivebuf[1024];
+		pchar_t *drive = drivebuf;
 		DWORD szlow = GetFileSize(hfile, &szhi);
 
 		/* Can't map zero byte file */
@@ -136,16 +136,16 @@ pcl_fdpath(int fd, tchar_t **out)
 
 		do
 		{
-			tchar_t name[1024];
+			pchar_t name[1024];
 
 			if(QueryDosDevice(drive, name, countof(name)))
 			{
-				size_t nlen = pcl_tcslen(name);
+				size_t nlen = pcl_pcslen(name);
 
-				if(nlen < countof(name) && !pcl_tcsnicmp(devpath, name, nlen) &&
-					devpath[nlen] == _T('\\'))
+				if(nlen < countof(name) && !pcl_pcsnicmp(devpath, name, nlen) &&
+					devpath[nlen] == _P('\\'))
 				{
-					out_len = pcl_astprintf(out, _T("%ts%ts"), drive, devpath + nlen);
+					out_len = pcl_aspprintf(out, _P("%Ps%Ps"), drive, devpath + nlen);
 					if(out_len < 0)
 						return TRC();
 
@@ -154,15 +154,15 @@ pcl_fdpath(int fd, tchar_t **out)
 				}
 			}
 
-			drive += (pcl_tcslen(drive) + 1);
+			drive += (pcl_pcslen(drive) + 1);
 		}
 		while(*drive);
 
 		/* use device path if no drive letter mapping was found */
 		if(!found)
 		{
-			*out = pcl_tcsdup(devpath);
-			out_len = (int)pcl_tcslen(*out);
+			*out = pcl_pcsdup(devpath);
+			out_len = (int)pcl_pcslen(*out);
 		}
 	}
 
@@ -172,8 +172,8 @@ pcl_fdpath(int fd, tchar_t **out)
 	if(fcntl(fd, F_GETPATH, pbuf) == -1)
 		return SETLASTERR();
 
-	*out = pcl_tcsdup(pbuf);
-	out_len = (int) pcl_tcslen(*out);
+	*out = pcl_pcsdup(pbuf);
+	out_len = (int) pcl_pcslen(*out);
 
 #else
 	char fdpath[128];

@@ -42,7 +42,7 @@
  * #include <pcl/dir.h>
  * #include <pcl/io.h>
  *
- * int pcl_tmain(int argc, tchar_t *targv)
+ * int pcl_tmain(int argc, pchar_t *targv)
  * {
  *   // always first
  *   pcl_init();
@@ -53,10 +53,10 @@
  *   pcl_dir_t *dir = pcl_opendir(targv[1]);
  *
  *   if(!dir)
- *     PANIC("Failed to open directory: '%ts'", targv[1]);
+ *     PANIC("Failed to open directory: '%Ps'", targv[1]);
  *
  *   pcl_dirent_t ent;
- *   const tchar_t *dirpath = pcl_dir_path(dir, NULL);
+ *   const pchar_t *dirpath = pcl_dir_path(dir, NULL);
  *
  *   while(pcl_readdir(dir, &ent, NULL))
  *   {
@@ -75,14 +75,14 @@
  *     }
  *
  *     // %/ is replaced with the platform-specific path separator
- *     pcl_printf("%s] %ts%/%ts\n", type, dirpath, ent.name);
+ *     pcl_printf("%s] %Ps%/%Ps\n", type, dirpath, ent.name);
  *   }
  *
  *   pcl_closedir(dir);
  *
  *   // when readdir is done, it returns false and pcl_errno is PCL_ENOMORE
  *   if(pcl_errno != PCL_ENOMORE)
- *     PANIC("readdir failed: '%ts'", dirpath);
+ *     PANIC("readdir failed: '%Ps'", dirpath);
  *
  *   return 0;
  * }
@@ -125,7 +125,7 @@ typedef struct
 	/** character length (excluding NUL) of the entry's file name */
 	uint16_t namlen;
 	/** entry's file name */
-	tchar_t name[512];
+	pchar_t name[512];
 } pcl_dirent_t;
 
 /** Open a directory.
@@ -133,7 +133,7 @@ typedef struct
  * retreived using ::pcl_dir_path
  * @return pointer to a directory handle or \c NULL on error
  */
-PCL_EXPORT pcl_dir_t *pcl_opendir(const tchar_t *path);
+PCL_EXPORT pcl_dir_t *pcl_opendir(const pchar_t *path);
 
 /** Get a directory handle's path.
  * @note the returned path is always absolute.
@@ -141,7 +141,7 @@ PCL_EXPORT pcl_dir_t *pcl_opendir(const tchar_t *path);
  * @param lenp If not \c NULL, the path character length will be written here (excluding NUL)
  * @return directory handle's path or \c NULL on error
  */
-PCL_EXPORT const tchar_t *pcl_dir_path(pcl_dir_t *dir, int *lenp);
+PCL_EXPORT const pchar_t *pcl_dir_path(pcl_dir_t *dir, int *lenp);
 
 /** Read an entry from a directory handle.
  * @param dir pointer to a directory handle as returned by ::pcl_opendir
@@ -164,34 +164,34 @@ PCL_EXPORT void pcl_closedir(pcl_dir_t *dir);
  * @return 0 for success and -1 on error
  * @see pcl_rmdir_r
  */
-PCL_EXPORT int pcl_rmdir(const tchar_t *path);
+PCL_EXPORT int pcl_rmdir(const pchar_t *path);
 
 /** Recursively remove a directory
  * @param path directory to remove
  * @return 0 for success and -1 on error
  * @see pcl_rmdir
  */
-PCL_EXPORT int pcl_rmdir_r(const tchar_t *path);
+PCL_EXPORT int pcl_rmdir_r(const pchar_t *path);
 
 /** Change the current working directory.
  * @param path new working directory
  * @return 0 for success and -1 on error
  */
-PCL_EXPORT int pcl_chdir(const tchar_t *path);
+PCL_EXPORT int pcl_chdir(const pchar_t *path);
 
 /** Create a directory.
  * @param path directory path
  * @param mode permission bits
  * @return 0 on success and -1 on error
  */
-PCL_EXPORT int pcl_mkdir(const tchar_t *path, mode_t mode);
+PCL_EXPORT int pcl_mkdir(const pchar_t *path, mode_t mode);
 
 /** Create a directory including any absent parents. Same as unix `mkdir -p /path/to/dir`
  * @param path directory path
  * @param mode permission bits, which are also applied to any parent created
  * @return 0 on success and -1 on error
  */
-PCL_EXPORT int pcl_mkdirs(const tchar_t *path, mode_t mode);
+PCL_EXPORT int pcl_mkdirs(const pchar_t *path, mode_t mode);
 
 #ifdef __cplusplus
 }

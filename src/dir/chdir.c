@@ -33,7 +33,7 @@
 #include <pcl/error.h>
 
 int
-pcl_chdir(const tchar_t *path)
+pcl_chdir(const pchar_t *path)
 {
 #ifdef PCL_WINDOWS
 	int r = SetCurrentDirectory(path) ? 0 : -1;

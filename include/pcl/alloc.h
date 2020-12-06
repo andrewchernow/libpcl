@@ -124,30 +124,30 @@ PCL_EXPORT void pcl_memory_error(const char *type, void *ptr, size_t siz, PCL_LO
 
 #ifdef __doxygen__
 	/** Allocate dynamic memory.
-	 * @param n size in ::tchar_t characters
+	 * @param n size in ::pchar_t characters
 	 * @return address of allocate memory
 	 * @note implemented as a macro
 	 */
-	tchar_t *pcl_tmalloc(size_t n);
+	pchar_t *pcl_pmalloc(size_t n);
 
 	/** Allocate and zero dynamic memory.
-	 * @param n size in ::tchar_t characters
+	 * @param n size in ::pchar_t characters
 	 * @return address of allocate memory
 	 * @note implemented as a macro
 	 */
-	tchar_t *pcl_tzalloc(size_t n);
+	pchar_t *pcl_pzalloc(size_t n);
 
 	/** Re-allocate dynamic memory.
 	 * @param p address of allocated memory
-	 * @param n new size in ::tchar_t characters
+	 * @param n new size in ::pchar_t characters
 	 * @return address of allocated memory
 	 * @note implemented as a macro
 	 */
-	tchar_t *pcl_trealloc(void *p, size_t n);
+	pchar_t *pcl_prealloc(void *p, size_t n);
 #else
-#	define pcl_tmalloc(len) (tchar_t *) pcl_malloc((len) * sizeof(tchar_t))
-#	define pcl_tzalloc(len) (tchar_t *) pcl_zalloc((len) * sizeof(tchar_t))
-#	define pcl_trealloc(ptr, len) (tchar_t *) pcl_realloc(ptr, (len) * sizeof(tchar_t))
+#	define pcl_pmalloc(len) (pchar_t *) pcl_malloc((len) * sizeof(pchar_t))
+#	define pcl_pzalloc(len) (pchar_t *) pcl_zalloc((len) * sizeof(pchar_t))
+#	define pcl_prealloc(ptr, len) (pchar_t *) pcl_realloc(ptr, (len) * sizeof(pchar_t))
 #endif
 
 #ifdef __cplusplus

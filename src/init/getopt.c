@@ -35,12 +35,12 @@
 #include <pcl/alloc.h>
 
 int
-pcl_getopt(pcl_optstate_t *state, tchar_t **value, pcl_option_t **longopt)
+pcl_getopt(pcl_optstate_t *state, pchar_t **value, pcl_option_t **longopt)
 {
 	if(!state)
 		return BADARG();
 
-	tchar_t *valuebuf;
+	pchar_t *valuebuf;
 	if(!value)
 		value = &valuebuf;
 	*value = NULL;
@@ -52,24 +52,24 @@ pcl_getopt(pcl_optstate_t *state, tchar_t **value, pcl_option_t **longopt)
 	if(state->argc == state->argidx)
 		return 0;
 
-	tchar_t *arg = state->argv[state->argidx];
+	pchar_t *arg = state->argv[state->argidx];
 
 	/* --------------------------------------------------------------
 	 * long option
 	 */
 
-	if(pcl_tmemcmp(arg, _T("--"), 2) == 0)
+	if(pcl_pmemcmp(arg, _P("--"), 2) == 0)
 	{
 		if(!state->options)
-			return SETERRMSG(PCL_EINVAL, "opt[%d] missing options[] for long options '%ts'",
+			return SETERRMSG(PCL_EINVAL, "opt[%d] missing options[] for long options '%Ps'",
 				state->argidx, arg);
 
 		if(!arg[3])
-			return SETERRMSG(PCL_EINVAL, "opt[%d] stray dash found '%ts'", state->argidx, arg);
+			return SETERRMSG(PCL_EINVAL, "opt[%d] stray dash found '%Ps'", state->argidx, arg);
 
 		arg += 2;
 
-		tchar_t *eq = pcl_tcschr(arg, _T('='));
+		pchar_t *eq = pcl_pcschr(arg, _P('='));
 
 		if(eq)
 			*eq = 0;
@@ -79,15 +79,15 @@ pcl_getopt(pcl_optstate_t *state, tchar_t **value, pcl_option_t **longopt)
 		for(int i = 0; i < state->num_options; i++, lopt = NULL)
 		{
 			lopt = &state->options[i];
-			if(!pcl_tcscmp(lopt->name, arg))
+			if(!pcl_pcscmp(lopt->name, arg))
 				break;
 		}
 
 		if(eq)
-			*eq = _T('=');
+			*eq = _P('=');
 
 		if(!lopt)
-			return SETERRMSG(PCL_EINVAL, "opt[%d] unknown option '%ts'", state->argidx, arg);
+			return SETERRMSG(PCL_EINVAL, "opt[%d] unknown option '%Ps'", state->argidx, arg);
 
 		if(lopt->policy == PclReqArg)
 		{
@@ -95,14 +95,14 @@ pcl_getopt(pcl_optstate_t *state, tchar_t **value, pcl_option_t **longopt)
 			if(eq)
 			{
 				if(!eq[1])
-					return SETERRMSG(PCL_EINVAL, "opt[%d] missing required argument '%ts'", state->argidx,
+					return SETERRMSG(PCL_EINVAL, "opt[%d] missing required argument '%Ps'", state->argidx,
 						arg);
 
 				*value = ++eq;
 			}
 			else if(state->argidx + 1 >= state->argc)
 			{
-				return SETERRMSG(PCL_EINVAL, "opt[%d] missing required argument '%ts'", state->argidx, arg);
+				return SETERRMSG(PCL_EINVAL, "opt[%d] missing required argument '%Ps'", state->argidx, arg);
 			}
 				/* Form "--path /home" */
 			else
@@ -120,7 +120,7 @@ pcl_getopt(pcl_optstate_t *state, tchar_t **value, pcl_option_t **longopt)
 					*value = eq + 1;
 			}
 				/* Form "--path /home" */
-			else if(state->argidx + 1 < state->argc && *state->argv[state->argidx + 1] != _T('-'))
+			else if(state->argidx + 1 < state->argc && *state->argv[state->argidx + 1] != _P('-'))
 			{
 				*value = state->argv[++state->argidx];
 			}
@@ -134,38 +134,38 @@ pcl_getopt(pcl_optstate_t *state, tchar_t **value, pcl_option_t **longopt)
 		return lopt->val;
 	}
 
-	if(*arg != _T('-'))
-		return SETERRMSG(PCL_EINVAL, "opt[%d] stray characters found '%ts'", state->argidx, arg);
+	if(*arg != _P('-'))
+		return SETERRMSG(PCL_EINVAL, "opt[%d] stray characters found '%Ps'", state->argidx, arg);
 
 	/* --------------------------------------------------------------
 	 * short option
 	 */
 
 	if(!state->optstr)
-		return SETERRMSG(PCL_EINVAL, "opt[%d] missing optstr for short options '%ts'", state->argidx,
+		return SETERRMSG(PCL_EINVAL, "opt[%d] missing optstr for short options '%Ps'", state->argidx,
 			arg);
 
 	if(!arg[1])
-		return SETERRMSG(PCL_EINVAL, "opt[%d] stray dash found '%ts'", state->argidx, arg);
+		return SETERRMSG(PCL_EINVAL, "opt[%d] stray dash found '%Ps'", state->argidx, arg);
 
 	/* point to short option list: "-l" or "-lpR" w/o dashes */
 	state->next_optstr = arg + 1;
 
 ParseShortOption:;
 
-	tchar_t opt = *state->next_optstr++;
-	tchar_t *optstr = pcl_tcschr(state->optstr, opt);
+	pchar_t opt = *state->next_optstr++;
+	pchar_t *optstr = pcl_pcschr(state->optstr, opt);
 
 	if(!optstr)
-		return SETERRMSG(PCL_EINVAL, "opt[%d] unknown option '%tc'", state->argidx, opt);
+		return SETERRMSG(PCL_EINVAL, "opt[%d] unknown option '%Pc'", state->argidx, opt);
 
 	int policy = PclNoArg;
-	tchar_t *eq = NULL;
+	pchar_t *eq = NULL;
 
-	if(optstr[1] == _T(':'))
+	if(optstr[1] == _P(':'))
 	{
-		eq = pcl_tcschr(state->next_optstr, _T('='));
-		policy = optstr[2] == _T(':') ? PclOptArg : PclReqArg;
+		eq = pcl_pcschr(state->next_optstr, _P('='));
+		policy = optstr[2] == _P(':') ? PclOptArg : PclReqArg;
 	}
 
 	if(policy == PclReqArg)
@@ -174,16 +174,16 @@ ParseShortOption:;
 		if(eq)
 		{
 			if(!eq[1])
-				return SETERRMSG(PCL_EINVAL, "opt[%d] missing required argument '%tc'", state->argidx, opt);
+				return SETERRMSG(PCL_EINVAL, "opt[%d] missing required argument '%Pc'", state->argidx, opt);
 
 			*value = ++eq;
-			state->next_optstr = eq + pcl_tcslen(eq); // point to NUL
+			state->next_optstr = eq + pcl_pcslen(eq); // point to NUL
 		}
 			/* Form: "-O value" -- look at next element for value */
 		else if(!*state->next_optstr)
 		{
 			if(state->argidx + 1 >= state->argc)
-				return SETERRMSG(PCL_EINVAL, "opt[%d] missing required argument '%tc'", state->argidx, opt);
+				return SETERRMSG(PCL_EINVAL, "opt[%d] missing required argument '%Pc'", state->argidx, opt);
 
 			*value = state->argv[++state->argidx];
 		}
@@ -191,7 +191,7 @@ ParseShortOption:;
 		else
 		{
 			*value = state->next_optstr;
-			state->next_optstr += pcl_tcslen(state->next_optstr); // point to NUL
+			state->next_optstr += pcl_pcslen(state->next_optstr); // point to NUL
 		}
 	}
 	else if(policy == PclOptArg)
@@ -203,16 +203,16 @@ ParseShortOption:;
 			if(eq[1])
 				*value = ++eq;
 
-			state->next_optstr = eq + pcl_tcslen(eq); // point to NUL
+			state->next_optstr = eq + pcl_pcslen(eq); // point to NUL
 		}
 			/* Form: "-Ovalue" */
 		else if(*state->next_optstr)
 		{
 			*value = state->next_optstr;
-			state->next_optstr += pcl_tcslen(state->next_optstr); // point to NUL
+			state->next_optstr += pcl_pcslen(state->next_optstr); // point to NUL
 		}
 			/* Form "-O value" -- In this case, only allow value if it doesn't start with a '-' */
-		else if(state->argidx + 1 < state->argc && *state->argv[state->argidx + 1] != _T('-'))
+		else if(state->argidx + 1 < state->argc && *state->argv[state->argidx + 1] != _P('-'))
 		{
 			*value = state->argv[++state->argidx];
 		}

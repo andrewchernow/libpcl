@@ -37,7 +37,7 @@
 #endif
 
 int
-pcl_rename(const tchar_t *oldname, const tchar_t *newname)
+pcl_rename(const pchar_t *oldname, const pchar_t *newname)
 {
 	pcl_err_osclear();
 

@@ -33,7 +33,7 @@
 #include <pcl/error.h>
 
 int
-pcl_unsetenv(const tchar_t *name)
+pcl_unsetenv(const pchar_t *name)
 {
 	int r;
 

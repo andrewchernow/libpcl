@@ -62,7 +62,7 @@ pcl_net_dnstxtrec(const char *host)
 
 	for(DWORD i=0; i < data->dwStringCount; i++)
 	{
-		char *s = pcl_tcs_to_utf8(data->pStringArray[i], 0, NULL);
+		char *s = pcl_pcs_to_utf8(data->pStringArray[i], 0, NULL);
 		pcl_vector_append(vec, &s);
 	}
 

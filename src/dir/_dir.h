@@ -47,7 +47,7 @@ extern "C" {
 
 struct tag_pcl_dir
 {
-	tchar_t *path;
+	pchar_t *path;
 	int pathlen;
 
 #ifdef PCL_WINDOWS

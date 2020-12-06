@@ -32,7 +32,7 @@
 #include "_dir.h"
 #include <pcl/error.h>
 
-const tchar_t *
+const pchar_t *
 pcl_dir_path(pcl_dir_t *dir, int *lenp)
 {
 	if(!dir)
@@ -41,5 +41,5 @@ pcl_dir_path(pcl_dir_t *dir, int *lenp)
 	if(lenp)
 		*lenp = dir->pathlen;
 
-	return (const tchar_t *) dir->path;
+	return (const pchar_t *) dir->path;
 }

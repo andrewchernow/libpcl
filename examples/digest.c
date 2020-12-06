@@ -37,9 +37,9 @@
 #include <pcl/alloc.h>
 #include <stdlib.h>
 
-int pcl_tmain(int argc, tchar_t **argv)
+int pcl_tmain(int argc, pchar_t **argv)
 {
-	tchar_t *file = argc > 1 ? argv[1] : NULL;
+	pchar_t *file = argc > 1 ? argv[1] : NULL;
 
 	pcl_init();
 
@@ -50,10 +50,10 @@ int pcl_tmain(int argc, tchar_t **argv)
 		return 1;
 	}
 
-	FILE *fp = pcl_fopen(file, _T("rb"));
+	FILE *fp = pcl_fopen(file, _P("rb"));
 
 	if(!fp)
-		PANIC("cannot open file '%ts'", file);
+		PANIC("cannot open file '%Ps'", file);
 
 	size_t r;
 	char text[4096];

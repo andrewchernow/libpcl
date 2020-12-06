@@ -41,11 +41,11 @@ extern "C" {
 struct tag_pcl_optstate
 {
 	int argidx;
-	tchar_t *next_optstr;
+	pchar_t *next_optstr;
 
 	int argc;
-	tchar_t **argv;
-	const tchar_t *optstr;
+	pchar_t **argv;
+	const pchar_t *optstr;
 	pcl_option_t *options;
 	int num_options;
 };

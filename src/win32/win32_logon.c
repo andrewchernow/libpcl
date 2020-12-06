@@ -33,8 +33,8 @@
 #include <pcl/string.h>
 
 int
-ipcl_win32_logon(const tchar_t *username, const tchar_t *domain,
-	const tchar_t *password, HANDLE *htok)
+ipcl_win32_logon(const pchar_t *username, const pchar_t *domain,
+	const pchar_t *password, HANDLE *htok)
 {
 	if(!htok)
 		return SETERR(PCL_EINVAL);
@@ -57,8 +57,8 @@ ipcl_win32_logon(const tchar_t *username, const tchar_t *domain,
 		if(!LogonUser(username, domain, password, LOGON32_LOGON_NEW_CREDENTIALS,
 			LOGON32_PROVIDER_WINNT50, htok))
 		{
-			return SETLASTERRMSG("Cannot logon account '%ts\\%ts'",
-				domain ? domain : _T(""), username);
+			return SETLASTERRMSG("Cannot logon account '%Ps\\%Ps'",
+				domain ? domain : _P(""), username);
 		}
 	}
 

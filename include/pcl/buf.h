@@ -35,7 +35,7 @@
 /** @defgroup buf Dynamic Buffer
  * The buffer API provides a dynamically sized buffer for putting text and/or binary data.
  * When a buffer is created, a buffer mode must be provided: one of ::PclBufBinary, ::PclBufText,
- * ::PclBufTextW or ::PclBufTextT. Regardless of a buffer's mode, a trailing NUL is added on
+ * ::PclBufTextW or ::PclBufTextP. Regardless of a buffer's mode, a trailing NUL is added on
  * every put. The space is reserved internally and it not represented in the buffer's
  * current position or length. The buffer thinks in "characters", not bytes. When in binary
  * mode, it still performs character calculations but based on a one byte character.
@@ -80,7 +80,7 @@
  * Text mode buffers are limited to put, putstr, putchar, putf and putvf. Get functions
  * aren't needed in text mode since one can simply access pcl_buf_t.data, which will be a
  * NUL-terminated string. Directly accessing pcl_buf_t.data, means you must properly cast it if
- * using ::PclBufTextW or ::PclBufTextT.
+ * using ::PclBufTextW or ::PclBufTextP.
  *
  * @code
  * pcl_buf_t buf; // use stack memory
@@ -91,7 +91,7 @@
  * printf("%d] %s\n", buf.len, buf.data); // 10] HelloWorld
  * pcl_buf_clear(&buf); // not pcl_buf_free!
  *
- * // For PclBufTextW (PclBufTextT is identical but use _T("") and tchar_t)
+ * // For PclBufTextW (PclBufTextP is identical but use _P("") and pchar_t)
  * pcl_buf_init(&buf, 64, PclBufTextW);
  * pcl_buf_putstr(&buf, L"Hello");
  * printf("%ls\n", (wchar_t *)buf.data);
@@ -117,10 +117,10 @@ enum pcl_buf_mode
 	PclBufTextW,
 
 #ifdef PCL_WINDOWS
-	PclBufTextT=PclBufTextW
+	PclBufTextP=PclBufTextW
 #else
-	/** Type-text buffer mode. This is a \c tchar_t buffer with limited acccess to functions. */
-	PclBufTextT=PclBufText
+	/** portable-text buffer mode. This is a \c pchar_t buffer with limited acccess to functions. */
+	PclBufTextP=PclBufText
 #endif
 };
 
@@ -248,7 +248,7 @@ PCL_EXPORT int pcl_buf_putint64(pcl_buf_t *b, uint64_t i);
 /** Put a formatted string into a buffer.
  * @param b pointer to a buffer
  * @param format PCL format string. The string must match the buffer mode. PclBufText uses
- * \c char*, PclBufTextW uses \c wchar_t* and PclBufTextT uses \c tchar_t* .
+ * \c char*, PclBufTextW uses \c wchar_t* and PclBufTextP uses \c pchar_t* .
  * @param ... variable arguments
  * @return number of characters written (including NUL if in binary mode) or -1 on error
  */
@@ -257,7 +257,7 @@ PCL_EXPORT int pcl_buf_putf(pcl_buf_t *b, const void *format, ...);
 /** Put a formatted string into a buffer.
  * @param b pointer to a buffer
  * @param format PCL format string. The string must match the buffer mode. PclBufText uses
- * \c char*, PclBufTextW uses \c wchar_t* and PclBufTextT uses \c tchar_t* .
+ * \c char*, PclBufTextW uses \c wchar_t* and PclBufTextP uses \c pchar_t* .
  * @param ap variable arguments
  * @return number of characters written (including NUL if in binary mode) or -1 on error
  */

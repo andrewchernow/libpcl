@@ -37,10 +37,10 @@
 #include <ctype.h>
 
 FILE *
-pcl_popen(const tchar_t *command, ...)
+pcl_popen(const pchar_t *command, ...)
 {
 	va_list ap;
-	tchar_t *cmd;
+	pchar_t *cmd;
 	int flags = 0;
 	FILE *stream = NULL;
 
@@ -58,7 +58,7 @@ pcl_popen(const tchar_t *command, ...)
 	else if(*command == '^') /* like the FISH shell */
 		flags |= PCL_EXEC_STDERR;
 	else
-		return R_SETERRMSG(NULL, PCL_EINVAL, "invalid command mode '%tc'", *command);
+		return R_SETERRMSG(NULL, PCL_EINVAL, "invalid command mode '%Pc'", *command);
 
 	/* optional flags, no spaces between mode and flags! */
 	command++;
@@ -80,7 +80,7 @@ pcl_popen(const tchar_t *command, ...)
 
 	/* format command */
 	va_start(ap, command);
-	int r = pcl_vastprintf(&cmd, command, ap);
+	int r = pcl_vaspprintf(&cmd, command, ap);
 	va_end(ap);
 
 	if(r < 0)

@@ -105,7 +105,7 @@ PCL_EXPORT int pcl_localtime(const pcl_time_t *t, pcl_tm_t *result);
  */
 PCL_EXPORT size_t pcl_strftime(char *out, size_t len, const char *format, const pcl_tm_t *tm);
 
-PCL_EXPORT int pcl_utimes(const tchar_t *path, pcl_time_t *atime, pcl_time_t *ctime,
+PCL_EXPORT int pcl_utimes(const pchar_t *path, pcl_time_t *atime, pcl_time_t *ctime,
 	pcl_time_t *mtime, pcl_time_t *crtime, pcl_time_t *btime);
 
 /** Converts broken-down time to epoch nanoseconds.

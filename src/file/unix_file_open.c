@@ -34,7 +34,7 @@
 #include <pcl/io.h>
 
 int
-ipcl_file_open(pcl_file_t *file, const tchar_t *path, int pcl_oflags, mode_t mode)
+ipcl_file_open(pcl_file_t *file, const pchar_t *path, int pcl_oflags, mode_t mode)
 {
 	if(pcl_oflags & PCL_O_DIRECTORY)
 	{
@@ -55,7 +55,7 @@ ipcl_file_open(pcl_file_t *file, const tchar_t *path, int pcl_oflags, mode_t mod
 		sys_stat_t st;
 
 		if(!sys_lstat(path, &st) && S_ISLNK(st.st_mode))
-			return SETERRMSG(PCL_ETYPE, "%ts is a symbolic link", path);
+			return SETERRMSG(PCL_ETYPE, "%Ps is a symbolic link", path);
 #endif
 	}
 
@@ -70,7 +70,7 @@ ipcl_file_open(pcl_file_t *file, const tchar_t *path, int pcl_oflags, mode_t mod
 #else
 		/* need to manually lock the file */
 		if(pcl_file_lock(file, PCL_WRLOCK))
-			return TRCMSG("file open cannot aquire lock on '%ts'", path);
+			return TRCMSG("file open cannot aquire lock on '%Ps'", path);
 
 		file->flags |= PCL_FF_FLOCK; /* obtained lock through flock */
 #endif
@@ -82,7 +82,7 @@ ipcl_file_open(pcl_file_t *file, const tchar_t *path, int pcl_oflags, mode_t mod
 #else
 		/* need to manually lock the file */
 		if(pcl_file_lock(file, PCL_RDLOCK))
-			return TRCMSG("file open cannot aquire lock on '%ts'", path);
+			return TRCMSG("file open cannot aquire lock on '%Ps'", path);
 
 		file->flags |= PCL_FF_FLOCK; /* obtained lock through flock */
 #endif

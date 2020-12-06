@@ -82,7 +82,7 @@ extern "C" {
 #endif
 
 /* suggested fopen mode to use when opening a PCL log file */
-#define PCL_LOG_OPEN_MODE _T("a+b")
+#define PCL_LOG_OPEN_MODE _P("a+b")
 
 /* This structure represents a PCL log event. It must be filled out and passed
  * to either call pcl_log_event or pcl_log_vevent.

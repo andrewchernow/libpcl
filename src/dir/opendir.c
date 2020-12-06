@@ -39,13 +39,13 @@
 #endif
 
 pcl_dir_t *
-pcl_opendir(const tchar_t *path)
+pcl_opendir(const pchar_t *path)
 {
 	if(strempty(path))
 		return R_SETERR(NULL, PCL_EINVAL);
 
 	int len;
-	tchar_t *fullpath = pcl_realpath(path, &len);
+	pchar_t *fullpath = pcl_realpath(path, &len);
 
 	if(!fullpath)
 		return R_TRC(NULL);
@@ -55,13 +55,13 @@ pcl_opendir(const tchar_t *path)
 	dir->pathlen = len;
 
 #ifdef PCL_WINDOWS
-	dir->path = pcl_realloc(dir->path, (dir->pathlen + 3) * sizeof(tchar_t));
+	dir->path = pcl_realloc(dir->path, (dir->pathlen + 3) * sizeof(pchar_t));
 
 	/* windows requires a "\*" at the end of path */
-	if(dir->path[len - 1] != PCL_TPATHSEPCHAR)
-		dir->path[len++] = PCL_TPATHSEPCHAR;
+	if(dir->path[len - 1] != PCL_PPATHSEPCHAR)
+		dir->path[len++] = PCL_PPATHSEPCHAR;
 
-	dir->path[len++] = _T('*');
+	dir->path[len++] = _P('*');
 	dir->path[len] = 0;
 
 	/* FindExInfoBasic excludes short file names increasing performance. Also,
@@ -75,7 +75,7 @@ pcl_opendir(const tchar_t *path)
 
 	if(dir->handle == INVALID_HANDLE_VALUE)
 	{
-		SETLASTERRMSG("Cannot open directory: %ts", path);
+		SETLASTERRMSG("Cannot open directory: %Ps", path);
 		pcl_closedir(dir);
 		return NULL;
 	}
@@ -87,7 +87,7 @@ pcl_opendir(const tchar_t *path)
 
 	if(!dir->handle)
 	{
-		SETLASTERRMSG("Cannot open directory: %ts", path);
+		SETLASTERRMSG("Cannot open directory: %Ps", path);
 		pcl_closedir(dir);
 		return NULL;
 	}

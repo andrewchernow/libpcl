@@ -56,7 +56,7 @@ extern "C" {
  * @param mode Can be 'r', 'r+', 'w', 'w+', 'a', 'a+', see any unix man page. Supports 'b'.
  * @return a valid stream or NULL on error
  */
-PCL_EXPORT FILE *pcl_fopen(const tchar_t *path, const tchar_t *mode);
+PCL_EXPORT FILE *pcl_fopen(const pchar_t *path, const pchar_t *mode);
 
 /** Pipe a stream to or from a process. This differs from the POSIX popen in that there is
  * no type argument. Instead, this using symbols (like Perl open) to indicate redirection
@@ -75,8 +75,8 @@ PCL_EXPORT FILE *pcl_fopen(const tchar_t *path, const tchar_t *mode);
  *
  * // read from the process's stdout without blocking. Process created with
  * // the following command: `ls -l /home/username`
- * tchar_t *homedir = pcl_getenv("HOME");
- * FILE *stream = pcl_popen(_T("<! ls -l %ts"), homedir);
+ * pchar_t *homedir = pcl_getenv("HOME");
+ * FILE *stream = pcl_popen(_P("<! ls -l %Ps"), homedir);
  * pcl_free(homedir);
  * @endcode
  *
@@ -84,7 +84,7 @@ PCL_EXPORT FILE *pcl_fopen(const tchar_t *path, const tchar_t *mode);
  * @param ... variable arguments
  * @return stream pointer or \c NULL on error
  */
-PCL_EXPORT FILE *pcl_popen(const tchar_t *command, ...);
+PCL_EXPORT FILE *pcl_popen(const pchar_t *command, ...);
 
 /** Get a file descriptor from a stream
  * @param stream pointer to a \c FILE stream
@@ -97,7 +97,7 @@ PCL_EXPORT int pcl_fileno(FILE *stream);
  * handle is released and cannot be used again. However, if this function fails, the caller
  * is still repsonsible for closing the given file handle.
  * @code
- * pcl_file_t *file = get_the_file();
+ * pcl_file_t *file = open_a_file();
  * FILE *fp = pcl_fdopen(file);
  *
  * if(fp) // success
@@ -108,7 +108,7 @@ PCL_EXPORT int pcl_fileno(FILE *stream);
  * else // failure
  * {
  *   printf("'file' is valid here. 'fp' is not.\n");
- *   pcl_file_close(file); // callee still responsible for this...
+ *   pcl_file_close(file); // callee's responsibility
  * }
  * @endcode
  * @param file pointer to a file handle
@@ -126,18 +126,19 @@ PCL_EXPORT FILE *pcl_fdopen(pcl_file_t *file);
  * @param dir Optional directory path to create temp file within, can be \c NULL.
  * @param prefix Optional prefix for the generated pathname. Can be \c NULL
  * @param suffix Optional suffix for the generated pathname. Can be \c NULL
- * @param pathp pointer to a ::tchar_t string that will receive the temp pathname. This
+ * @param pathp pointer to a ::pchar_t string that will receive the temp pathname. This
  * can be \c NULL. When not \c NULL, this must be freed by the caller.
  * @param keep If false, returned temp file will be automatically deleted once closed.
  * When true, the file will persist after file close.
  * @return
  */
-PCL_EXPORT FILE *pcl_tmpfile(const tchar_t *dir, const tchar_t *prefix,
-	const tchar_t *suffix, tchar_t **pathp, bool keep);
+PCL_EXPORT FILE *pcl_tmpfile(const pchar_t *dir, const pchar_t *prefix,
+	const pchar_t *suffix, pchar_t **pathp, bool keep);
 
 /** Write a formatted character string to \c stdout.
  * @param format format specifier string. PCL includes extensions: \c "%/" is the platform-specific
- * path separater character, \c "%ts" \c "%Ts" is a tchar_t string, \c "%tc" \c "%Tc" is a tchar_t.
+ * path separater character, \c "%Ps" is a portable character string and \c "%Pc" is a portable
+ * character.
  * @param ... variable arguments matching format
  * @return number of characters written to \c stdout or a negative PCL error code.
  */
@@ -147,7 +148,8 @@ PCL_EXPORT int pcl_wprintf(const wchar_t *format, ...);
 
 /** Write a formatted character string to \c stdout.
  * @param format format specifier string. PCL includes extensions: \c "%/" is the platform-specific
- * path separater character, \c "%ts" \c "%Ts" is a tchar_t string, \c "%tc" \c "%Tc" is a tchar_t.
+ * path separater character, \c "%Ps" is a portable character string and \c "%Pc" is a portable
+ * character.
  * @param ap variable argument list
  * @return number of characters written to \c stdout or a negative PCL error code.
  */
@@ -158,7 +160,8 @@ PCL_EXPORT int pcl_vwprintf(const wchar_t *format, va_list ap);
 /** Write a formatted character string to a stream.
  * @param stream file stream to write to
  * @param format format specifier string. PCL includes extensions: \c "%/" is the platform-specific
- * path separater character, \c "%ts" \c "%Ts" is a tchar_t string, \c "%tc" \c "%Tc" is a tchar_t.
+ * path separater character, \c "%Ps" is a portable character string and \c "%Pc" is a portable
+ * character.
  * @param ... variable arguments matching format
  * @return number of characters written to the stream or a negative PCL error code.
  */
@@ -169,7 +172,8 @@ PCL_EXPORT int pcl_fwprintf(FILE *stream, const wchar_t *format, ...);
 /** Write a formatted character string to the given stream.
  * @param stream file stream to write to
  * @param format format specifier string. PCL includes extensions: \c "%/" is the platform-specific
- * path separater character, \c "%ts" \c "%Ts" is a tchar_t string, \c "%tc" \c "%Tc" is a tchar_t.
+ * path separater character, \c "%Ps" is a portable character string and \c "%Pc" is a portable
+ * character.
  * @param ap variable argument list
  * @return number of characters written to the stream or a negative PCL error code.
  */
@@ -181,7 +185,8 @@ PCL_EXPORT int pcl_vfwprintf(FILE *stream, const wchar_t *format, va_list ap);
  * @param buf pointer to a buffer, set to \c NULL to query output length (excluding NUL)
  * @param size character length of \a buf, ignored if \a buf is \c NULL
  * @param format format specifier string. PCL includes extensions: \c "%/" is the platform-specific
- * path separater character, \c "%ts" \c "%Ts" is a tchar_t string, \c "%tc" \c "%Tc" is a tchar_t.
+ * path separater character, \c "%Ps" is a portable character string and \c "%Pc" is a portable
+ * character.
  * @param ... variable arguments matching format
  * @return number of characters written to \a buf or if \a buf is \c NULL, the number of
  * characters that would have been written to \a buf. On error, a negative PCL error code is
@@ -195,7 +200,8 @@ PCL_EXPORT int pcl_swprintf(wchar_t *buf, size_t size, const wchar_t *format, ..
  * @param buf pointer to a buffer, set to \c NULL to query output length (excluding NUL)
  * @param size character length of \a buf, ignored if \a buf is \c NULL
  * @param format format specifier string. PCL includes extensions: \c "%/" is the platform-specific
- * path separater character, \c "%ts" \c "%Ts" is a tchar_t string, \c "%tc" \c "%Tc" is a tchar_t.
+ * path separater character, \c "%Ps" is a portable character string and \c "%Pc" is a portable
+ * character.
  * @param ap variable argument list
  * @return number of characters written to \a buf or if buf is \c NULL, the number of
  * characters that would have been written to \a buf. On error, a negative PCL error code is
@@ -209,7 +215,8 @@ PCL_EXPORT int pcl_vswprintf(wchar_t *buf, size_t size, const wchar_t *format, v
  * @param[out] out pointer to an output pointer, this must be freed by caller. set to \c NULL
  * to query output length (excluding NUL)
  * @param format format specifier string. PCL includes extensions: \c "%/" is the platform-specific
- * path separater character, \c "%ts" \c "%Ts" is a tchar_t string, \c "%tc" \c "%Tc" is a tchar_t.
+ * path separater character, \c "%Ps" is a portable character string and \c "%Pc" is a portable
+ * character.
  * @param ... variable arguments matching format
  * @return number of characters written to \a out or if \a out is \c NULL, the number of
  * characters that would have been written to \a out. On error, a negative PCL error code is
@@ -223,7 +230,8 @@ PCL_EXPORT int pcl_aswprintf(wchar_t **out, const wchar_t *format, ...);
  * @param[out] out pointer to an output pointer, this must be freed by caller. set to \c NULL to
  * query output length (excluding NUL)
  * @param format format specifier string. PCL includes extensions: \c "%/" is the platform-specific
- * path separater character, \c "%ts" \c "%Ts" is a tchar_t string, \c "%tc" \c "%Tc" is a tchar_t.
+ * path separater character, \c "%Ps" is a portable character string and \c "%Pc" is a portable
+ * character.
  * @param ap variable argument list
  * @return number of characters written to \a out or if \a out is \c NULL, the number of
  * characters that would have been written to \a out. On error, a negative PCL error code is
@@ -237,60 +245,60 @@ PCL_EXPORT int pcl_vaswprintf(wchar_t **out, const wchar_t *format, va_list ap);
 	/** @copydoc pcl_printf
 	 * @note implemented as a macro
 	 */
-	int pcl_tprintf(const tchar_t *format, ...);
+	int pcl_pprintf(const pchar_t *format, ...);
 
 	/** @copydoc pcl_vprintf
 	 * @note implemented as a macro
 	 */
-	int pcl_vtprintf(const tchar_t *format, va_list ap);
+	int pcl_vpprintf(const pchar_t *format, va_list ap);
 
 	/** @copydoc pcl_fprintf
 	 * @note implemented as a macro
 	 */
-	int pcl_ftprintf(FILE *stream, const tchar_t *format, ...);
+	int pcl_fpprintf(FILE *stream, const pchar_t *format, ...);
 
 	/** @copydoc pcl_vfprintf
 	 * @note implemented as a macro
 	 */
-	int pcl_vftprintf(FILE *stream, const tchar_t *format, va_list ap);
+	int pcl_vfpprintf(FILE *stream, const pchar_t *format, va_list ap);
 
 	/** @copydoc pcl_sprintf
 	 * @note implemented as a macro
 	 */
-	int pcl_stprintf(tchar_t *buf, size_t size, const tchar_t *format, ...);
+	int pcl_spprintf(pchar_t *buf, size_t size, const pchar_t *format, ...);
 
 	/** @copydoc pcl_vsprintf
 	 * @note implemented as a macro
 	 */
-	int pcl_vstprintf(tchar_t *buf, size_t size, const tchar_t *format, va_list ap);
+	int pcl_vspprintf(pchar_t *buf, size_t size, const pchar_t *format, va_list ap);
 
 	/** @copydoc pcl_asprintf
 	 * @note implemented as a macro
 	 */
-	int pcl_astprintf(tchar_t **out, const tchar_t *format, ...);
+	int pcl_aspprintf(pchar_t **out, const pchar_t *format, ...);
 
 	/** @copydoc pcl_vasprintf
 	 * @note implemented as a macro
 	 */
-	int pcl_vastprintf(tchar_t **out, const tchar_t *format, va_list ap);
+	int pcl_vaspprintf(pchar_t **out, const pchar_t *format, va_list ap);
 #elif defined(PCL_WINDOWS)
-#	define pcl_tprintf                    pcl_wprintf
-#	define pcl_vtprintf                   pcl_vwprintf
-#	define pcl_ftprintf                   pcl_fwprintf
-#	define pcl_vftprintf                  pcl_vfwprintf
-#	define pcl_stprintf                   pcl_swprintf
-#	define pcl_vstprintf                  pcl_vswprintf
-#	define pcl_astprintf                  pcl_aswprintf
-#	define pcl_vastprintf                 pcl_vaswprintf
+#	define pcl_pprintf                    pcl_wprintf
+#	define pcl_vpprintf                   pcl_vwprintf
+#	define pcl_fpprintf                   pcl_fwprintf
+#	define pcl_vfpprintf                  pcl_vfwprintf
+#	define pcl_spprintf                   pcl_swprintf
+#	define pcl_vspprintf                  pcl_vswprintf
+#	define pcl_aspprintf                  pcl_aswprintf
+#	define pcl_vaspprintf                 pcl_vaswprintf
 #else
-#	define pcl_tprintf                    pcl_printf
-#	define pcl_vtprintf                   pcl_vprintf
-#	define pcl_ftprintf                   pcl_fprintf
-#	define pcl_vftprintf                  pcl_vfprintf
-#	define pcl_stprintf                   pcl_sprintf
-#	define pcl_vstprintf                  pcl_vsprintf
-#	define pcl_astprintf                  pcl_asprintf
-#	define pcl_vastprintf                 pcl_vasprintf
+#	define pcl_pprintf                    pcl_printf
+#	define pcl_vpprintf                   pcl_vprintf
+#	define pcl_fpprintf                   pcl_fprintf
+#	define pcl_vfpprintf                  pcl_vfprintf
+#	define pcl_spprintf                   pcl_sprintf
+#	define pcl_vspprintf                  pcl_vsprintf
+#	define pcl_aspprintf                  pcl_asprintf
+#	define pcl_vaspprintf                 pcl_vasprintf
 #endif
 
 #ifdef __cplusplus
