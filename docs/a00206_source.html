@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/crypto/cipher_create.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/buf/buf_vputf.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,17 +62,17 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_4261af1259721e3e39e0d2dd7354b511.html">&#x202A;crypto</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_c75ab398b767e7b486366c424da2e3a8.html">&#x202A;buf</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">cipher_create.c</div>  </div>
+<div class="title">buf_vputf.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00206.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (PCL)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2003, 2005-2014, 2017-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,63 +101,64 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00203.html">_crypto.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<a class="code" href="a01177.html">pcl_cipher_t</a> *</div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01091.html#gab0f424990f0e2cb4f59e6f69ed29f969">   35</a></span>&#160;<a class="code" href="a01091.html#gab0f424990f0e2cb4f59e6f69ed29f969">pcl_cipher_create</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *algo, <span class="keyword">const</span> <span class="keywordtype">void</span> *key, <span class="keyword">const</span> <span class="keywordtype">void</span> *iv,</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">void</span> *aad, uint32_t aad_len, <span class="keywordtype">bool</span> enc)</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">if</span>(!key || !iv)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01095.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a>(NULL, <a class="code" href="a01094.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00140.html">_buf.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00059.html">pcl/io.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00083.html">string.h</a>&gt;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="a01096.html#ga83ed6123d3f2421baca12357736191aa">   37</a></span>&#160;<a class="code" href="a01096.html#ga83ed6123d3f2421baca12357736191aa">pcl_buf_vputf</a>(<a class="code" href="a01115.html">pcl_buf_t</a> *b, <span class="keyword">const</span> <span class="keywordtype">void</span> *format, va_list ap)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordtype">int</span> len;</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keyword">const</span> EVP_CIPHER *cipher = EVP_get_cipherbyname(algo);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordflow">if</span>(!cipher)</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01095.html#ga275b0cc5367d35bf8d2873fe5e15878b">R_SETERRMSG</a>(NULL, <a class="code" href="a01094.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>,</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;      <span class="stringliteral">&quot;no such cipher algorithm &#39;%s&#39;: see enum pcl_cipher_algo&quot;</span>, algo);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="comment">/* query for formatted length */</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  va_list ap2;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  va_copy(ap2, ap);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  len = b-&gt;<a class="code" href="a01115.html#aa80bf9a72b65769a4c5c70c0c2d65700">chrsize</a> == 1 ? <a class="code" href="a01106.html#gacabe8fd13aa180b4c36b1d55d9e3605f">pcl_vsprintf</a>(NULL, 0, format, ap2) : <a class="code" href="a01106.html#ga46ccfd259e51f2c7f0daf21eb337e111">pcl_vswprintf</a>(NULL, 0, format, ap2);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  va_end(ap2);</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">char</span> *name = OBJ_nid2ln(EVP_CIPHER_nid(cipher));</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordflow">if</span>(len &lt; 0)</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01101.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a>(-len);</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="keywordflow">if</span>(!EVP_CipherInit_ex(ctx, cipher, NULL, key, iv, enc))</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  {</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    EVP_CIPHER_CTX_free(ctx);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01095.html#ga275b0cc5367d35bf8d2873fe5e15878b">R_SETERRMSG</a>(NULL, <a class="code" href="a01094.html#gaff9e807ddf8cadf26cd1c7218f8f24d6">PCL_ECRYPT</a>, <span class="stringliteral">&quot;Failed to create %s context: %s&quot;</span>,</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      enc ? <span class="stringliteral">&quot;encryption&quot;</span> : <span class="stringliteral">&quot;decryption&quot;</span>, name);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  }</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <a class="code" href="a01177.html">pcl_cipher_t</a> *c = <a class="code" href="a01088.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a>(<span class="keyword">sizeof</span>(<a class="code" href="a01177.html">pcl_cipher_t</a>));</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="comment">/* binary adds a NUL to every string */</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <a class="code" href="a01096.html#gaa7cd1d50ccaa35388606b43d73973366">pcl_buf_grow</a>(b, b-&gt;<a class="code" href="a01115.html#aa3c645ba44135114a8900bfa8a0b9407">mode</a> == <a class="code" href="a01096.html#ggafcd56f00f1c963d6f6f844f1df84f0f9aabe00de48aebc854e4ff2254b21988dc">PclBufBinary</a> ? len + 1 : len);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <span class="comment">/* do a vsprintf buffer put */</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="keywordflow">if</span>(b-&gt;<a class="code" href="a01115.html#aa80bf9a72b65769a4c5c70c0c2d65700">chrsize</a> == 1)</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    len = <a class="code" href="a01106.html#gacabe8fd13aa180b4c36b1d55d9e3605f">pcl_vsprintf</a>(b-&gt;<a class="code" href="a01115.html#a91a70b77df95bd8b0830b49a094c2acb">data</a> + b-&gt;<a class="code" href="a01115.html#a1910d262855b71da353ed0d07a6c7823">pos</a>, b-&gt;<a class="code" href="a01115.html#a854352f53b148adc24983a58a1866d66">size</a> - b-&gt;<a class="code" href="a01115.html#a1910d262855b71da353ed0d07a6c7823">pos</a>, format, ap);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    len = <a class="code" href="a01106.html#ga46ccfd259e51f2c7f0daf21eb337e111">pcl_vswprintf</a>(((<span class="keywordtype">wchar_t</span> *) b-&gt;<a class="code" href="a01115.html#a91a70b77df95bd8b0830b49a094c2acb">data</a>) + b-&gt;<a class="code" href="a01115.html#a1910d262855b71da353ed0d07a6c7823">pos</a>, b-&gt;<a class="code" href="a01115.html#a854352f53b148adc24983a58a1866d66">size</a> - b-&gt;<a class="code" href="a01115.html#a1910d262855b71da353ed0d07a6c7823">pos</a>, format, ap);</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  c-&gt;<a class="code" href="a01177.html#a8b0e08a9c8eb05578c35571f2f2767ab">ctx</a> = ctx;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  c-&gt;<a class="code" href="a01177.html#a47b93ea34665686e1ff9a7256106f85e">algo</a> = name;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  <span class="comment">/* no NUL included yet */</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  b-&gt;<a class="code" href="a01115.html#a1910d262855b71da353ed0d07a6c7823">pos</a> += len;</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  <span class="keywordflow">if</span>(aad &amp;&amp; aad_len &amp;&amp; <a class="code" href="a01091.html#gaf700e3bca6f3926a52d44950ec37373a">pcl_cipher_isaead</a>(c))</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  <span class="keywordflow">if</span>(b-&gt;<a class="code" href="a01115.html#aa3c645ba44135114a8900bfa8a0b9407">mode</a> == <a class="code" href="a01096.html#ggafcd56f00f1c963d6f6f844f1df84f0f9aabe00de48aebc854e4ff2254b21988dc">PclBufBinary</a>)</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  {</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">int</span> n;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="comment">/* AAD is set by specifying NULL for output buffer */</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordflow">if</span>(!EVP_CipherUpdate(ctx, NULL, &amp;n, aad, aad_len))</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    {</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      <a class="code" href="a01091.html#ga797e2d34e0ed272c3c74c580e1891747">pcl_cipher_free</a>(c);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01095.html#ga275b0cc5367d35bf8d2873fe5e15878b">R_SETERRMSG</a>(NULL, <a class="code" href="a01094.html#gaff9e807ddf8cadf26cd1c7218f8f24d6">PCL_ECRYPT</a>, <span class="stringliteral">&quot;Failed to set AAD: %s&quot;</span>, name);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    }</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  }</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  <span class="keywordflow">return</span> c;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;}</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    memset(b-&gt;<a class="code" href="a01115.html#a91a70b77df95bd8b0830b49a094c2acb">data</a> + b-&gt;<a class="code" href="a01115.html#a1910d262855b71da353ed0d07a6c7823">pos</a> * b-&gt;<a class="code" href="a01115.html#aa80bf9a72b65769a4c5c70c0c2d65700">chrsize</a>, 0, b-&gt;<a class="code" href="a01115.html#aa80bf9a72b65769a4c5c70c0c2d65700">chrsize</a>); <span class="comment">// NUL</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    b-&gt;<a class="code" href="a01115.html#a1910d262855b71da353ed0d07a6c7823">pos</a>++;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  }</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <span class="keywordflow">if</span>(b-&gt;<a class="code" href="a01115.html#afed088663f8704004425cdae2120b9b3">len</a> &lt; b-&gt;<a class="code" href="a01115.html#a1910d262855b71da353ed0d07a6c7823">pos</a>)</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    b-&gt;<a class="code" href="a01115.html#afed088663f8704004425cdae2120b9b3">len</a> = b-&gt;<a class="code" href="a01115.html#a1910d262855b71da353ed0d07a6c7823">pos</a>;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  <span class="keywordflow">return</span> len;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00203_html"><div class="ttname"><a href="a00203.html">_crypto.h</a></div></div>
-<div class="ttc" id="aa01094_html_gae0cd5c5a7fae36cd480176bda17e77ca"><div class="ttname"><a href="a01094.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a></div><div class="ttdeci">#define PCL_EINVAL</div><div class="ttdoc">Invalid argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00008_source.html#l00078">_errno.h:78</a></div></div>
-<div class="ttc" id="aa01091_html_gab0f424990f0e2cb4f59e6f69ed29f969"><div class="ttname"><a href="a01091.html#gab0f424990f0e2cb4f59e6f69ed29f969">pcl_cipher_create</a></div><div class="ttdeci">pcl_cipher_t * pcl_cipher_create(const char *algo, const void *key, const void *iv, const void *aad, uint32_t aad_len, bool enc)</div><div class="ttdoc">Create a cipher object.</div><div class="ttdef"><b>Definition:</b> <a href="a00206_source.html#l00035">cipher_create.c:35</a></div></div>
-<div class="ttc" id="aa01095_html_ga275b0cc5367d35bf8d2873fe5e15878b"><div class="ttname"><a href="a01095.html#ga275b0cc5367d35bf8d2873fe5e15878b">R_SETERRMSG</a></div><div class="ttdeci">#define R_SETERRMSG(_retval, _pclerr, _msgfmt,...)</div><div class="ttdoc">Sets the return value and the current thread's PCL error code and error message.</div><div class="ttdef"><b>Definition:</b> <a href="a00005_source.html#l00174">_errdefs.h:174</a></div></div>
-<div class="ttc" id="aa01177_html_a8b0e08a9c8eb05578c35571f2f2767ab"><div class="ttname"><a href="a01177.html#a8b0e08a9c8eb05578c35571f2f2767ab">tag_pcl_cipher::ctx</a></div><div class="ttdeci">EVP_CIPHER_CTX * ctx</div><div class="ttdef"><b>Definition:</b> <a href="a00203_source.html#l00046">_crypto.h:46</a></div></div>
-<div class="ttc" id="aa01091_html_gaf700e3bca6f3926a52d44950ec37373a"><div class="ttname"><a href="a01091.html#gaf700e3bca6f3926a52d44950ec37373a">pcl_cipher_isaead</a></div><div class="ttdeci">PCL_EXPORT bool pcl_cipher_isaead(pcl_cipher_t *ciph)</div><div class="ttdoc">I this an AEAD cipher.</div><div class="ttdef"><b>Definition:</b> <a href="a00215_source.html#l00036">cipher_isaead.c:36</a></div></div>
-<div class="ttc" id="aa01177_html_a47b93ea34665686e1ff9a7256106f85e"><div class="ttname"><a href="a01177.html#a47b93ea34665686e1ff9a7256106f85e">tag_pcl_cipher::algo</a></div><div class="ttdeci">const char * algo</div><div class="ttdef"><b>Definition:</b> <a href="a00203_source.html#l00047">_crypto.h:47</a></div></div>
-<div class="ttc" id="aa01091_html_ga797e2d34e0ed272c3c74c580e1891747"><div class="ttname"><a href="a01091.html#ga797e2d34e0ed272c3c74c580e1891747">pcl_cipher_free</a></div><div class="ttdeci">PCL_EXPORT void pcl_cipher_free(pcl_cipher_t *ciph)</div><div class="ttdoc">Release all resources used by a cipher object.</div><div class="ttdef"><b>Definition:</b> <a href="a00212_source.html#l00035">cipher_free.c:35</a></div></div>
-<div class="ttc" id="aa01177_html"><div class="ttname"><a href="a01177.html">tag_pcl_cipher</a></div><div class="ttdef"><b>Definition:</b> <a href="a00203_source.html#l00044">_crypto.h:45</a></div></div>
-<div class="ttc" id="aa01095_html_gae8eaed12aa57a2870ad8e45cc2306318"><div class="ttname"><a href="a01095.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a></div><div class="ttdeci">#define R_SETERR(_retval, _pclerr)</div><div class="ttdoc">Sets the return value and the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00005_source.html#l00145">_errdefs.h:145</a></div></div>
-<div class="ttc" id="aa01088_html_ga1df8575b9ae906470c782db9c26201e8"><div class="ttname"><a href="a01088.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a></div><div class="ttdeci">void * pcl_malloc(size_t n)</div><div class="ttdoc">Allocate dynamic memory.</div></div>
-<div class="ttc" id="aa01094_html_gaff9e807ddf8cadf26cd1c7218f8f24d6"><div class="ttname"><a href="a01094.html#gaff9e807ddf8cadf26cd1c7218f8f24d6">PCL_ECRYPT</a></div><div class="ttdeci">#define PCL_ECRYPT</div><div class="ttdoc">Encryption or decryption failed.</div><div class="ttdef"><b>Definition:</b> <a href="a00008_source.html#l00156">_errno.h:156</a></div></div>
+<div class="ttc" id="aa01096_html_gaa7cd1d50ccaa35388606b43d73973366"><div class="ttname"><a href="a01096.html#gaa7cd1d50ccaa35388606b43d73973366">pcl_buf_grow</a></div><div class="ttdeci">PCL_EXPORT pcl_buf_t * pcl_buf_grow(pcl_buf_t *b, int len)</div><div class="ttdoc">Grow a buffer.</div><div class="ttdef"><b>Definition:</b> <a href="a00173_source.html#l00036">buf_grow.c:36</a></div></div>
+<div class="ttc" id="aa01115_html_a1910d262855b71da353ed0d07a6c7823"><div class="ttname"><a href="a01115.html#a1910d262855b71da353ed0d07a6c7823">tag_pcl_buf::pos</a></div><div class="ttdeci">int pos</div><div class="ttdoc">current character position</div><div class="ttdef"><b>Definition:</b> <a href="a00023_source.html#l00138">buf.h:138</a></div></div>
+<div class="ttc" id="aa01106_html_gacabe8fd13aa180b4c36b1d55d9e3605f"><div class="ttname"><a href="a01106.html#gacabe8fd13aa180b4c36b1d55d9e3605f">pcl_vsprintf</a></div><div class="ttdeci">PCL_EXPORT int pcl_vsprintf(char *buf, size_t size, const char *format, va_list ap)</div><div class="ttdoc">Write a formatted character string to a buffer.</div></div>
+<div class="ttc" id="aa00059_html"><div class="ttname"><a href="a00059.html">io.h</a></div></div>
+<div class="ttc" id="aa01115_html_afed088663f8704004425cdae2120b9b3"><div class="ttname"><a href="a01115.html#afed088663f8704004425cdae2120b9b3">tag_pcl_buf::len</a></div><div class="ttdeci">int len</div><div class="ttdoc">number of characters in the buffer</div><div class="ttdef"><b>Definition:</b> <a href="a00023_source.html#l00141">buf.h:141</a></div></div>
+<div class="ttc" id="aa01096_html_ggafcd56f00f1c963d6f6f844f1df84f0f9aabe00de48aebc854e4ff2254b21988dc"><div class="ttname"><a href="a01096.html#ggafcd56f00f1c963d6f6f844f1df84f0f9aabe00de48aebc854e4ff2254b21988dc">PclBufBinary</a></div><div class="ttdeci">@ PclBufBinary</div><div class="ttdoc">Binary buffer mode.</div><div class="ttdef"><b>Definition:</b> <a href="a00023_source.html#l00111">buf.h:111</a></div></div>
+<div class="ttc" id="aa00083_html"><div class="ttname"><a href="a00083.html">string.h</a></div></div>
+<div class="ttc" id="aa01101_html_ga82adf6365b61d9a32021e559d9c31497"><div class="ttname"><a href="a01101.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a></div><div class="ttdeci">#define SETERR(_pclerr)</div><div class="ttdoc">Sets the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00011_source.html#l00065">_errdefs.h:65</a></div></div>
+<div class="ttc" id="aa01115_html_aa80bf9a72b65769a4c5c70c0c2d65700"><div class="ttname"><a href="a01115.html#aa80bf9a72b65769a4c5c70c0c2d65700">tag_pcl_buf::chrsize</a></div><div class="ttdeci">int chrsize</div><div class="ttdoc">Size of a character for this buffer in bytes.</div><div class="ttdef"><b>Definition:</b> <a href="a00023_source.html#l00135">buf.h:135</a></div></div>
+<div class="ttc" id="aa00140_html"><div class="ttname"><a href="a00140.html">_buf.h</a></div></div>
+<div class="ttc" id="aa01115_html_a91a70b77df95bd8b0830b49a094c2acb"><div class="ttname"><a href="a01115.html#a91a70b77df95bd8b0830b49a094c2acb">tag_pcl_buf::data</a></div><div class="ttdeci">char * data</div><div class="ttdoc">buffer bytes, always chrsize * size wide.</div><div class="ttdef"><b>Definition:</b> <a href="a00023_source.html#l00147">buf.h:147</a></div></div>
+<div class="ttc" id="aa01115_html_aa3c645ba44135114a8900bfa8a0b9407"><div class="ttname"><a href="a01115.html#aa3c645ba44135114a8900bfa8a0b9407">tag_pcl_buf::mode</a></div><div class="ttdeci">enum pcl_buf_mode mode</div><div class="ttdoc">buffer mode, see pcl_buf_mode</div><div class="ttdef"><b>Definition:</b> <a href="a00023_source.html#l00322">buf.h:130</a></div></div>
+<div class="ttc" id="aa01115_html"><div class="ttname"><a href="a01115.html">tag_pcl_buf</a></div><div class="ttdef"><b>Definition:</b> <a href="a00023_source.html#l00127">buf.h:128</a></div></div>
+<div class="ttc" id="aa01106_html_ga46ccfd259e51f2c7f0daf21eb337e111"><div class="ttname"><a href="a01106.html#ga46ccfd259e51f2c7f0daf21eb337e111">pcl_vswprintf</a></div><div class="ttdeci">PCL_EXPORT int pcl_vswprintf(wchar_t *buf, size_t size, const wchar_t *format, va_list ap)</div><div class="ttdoc">Write a formatted character string to a buffer.</div></div>
+<div class="ttc" id="aa01115_html_a854352f53b148adc24983a58a1866d66"><div class="ttname"><a href="a01115.html#a854352f53b148adc24983a58a1866d66">tag_pcl_buf::size</a></div><div class="ttdeci">size_t size</div><div class="ttdoc">number of allocated characters (capacity)</div><div class="ttdef"><b>Definition:</b> <a href="a00023_source.html#l00144">buf.h:144</a></div></div>
+<div class="ttc" id="aa01096_html_ga83ed6123d3f2421baca12357736191aa"><div class="ttname"><a href="a01096.html#ga83ed6123d3f2421baca12357736191aa">pcl_buf_vputf</a></div><div class="ttdeci">int pcl_buf_vputf(pcl_buf_t *b, const void *format, va_list ap)</div><div class="ttdoc">Put a formatted string into a buffer.</div><div class="ttdef"><b>Definition:</b> <a href="a00206_source.html#l00037">buf_vputf.c:37</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

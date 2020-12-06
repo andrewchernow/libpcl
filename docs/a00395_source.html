@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/error/errmap.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/error/err_vsprintf.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">errmap.c</div>  </div>
+<div class="title">err_vsprintf.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00395.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,39 +101,21 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00326.html">_error.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor"># include &lt;winerror.h&gt;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor"># include &lt;winsock2.h&gt;</span> <span class="comment">// stupid, need this JUST for WSANO_ADDRESS</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="comment">/* used by included errmap files */</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="a00395.html#aa1884e85009d9b89d82ee9fad3c2d454">   40</a></span>&#160;<span class="preprocessor">#define _errmap(oserr, errnum) {(uint32_t)oserr, errnum, #oserr},</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment">/* map windows/unix errors to pcl errors */</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">static</span> <a class="code" href="a01193.html">ipcl_err_map_t</a> error_map[] = {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  {0, 0, <span class="stringliteral">&quot;PCL_EOKAY&quot;</span>},</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor"># include &quot;<a class="code" href="a00332.html">_win32_errmap.h</a>&quot;</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor"># include &quot;<a class="code" href="a00329.html">_unix_errmap.h</a>&quot;</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;};</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<a class="code" href="a01193.html">ipcl_err_map_t</a> *</div>
-<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="a00395.html#a8cc175fee492e877753d94a4ede7afc3">   53</a></span>&#160;<a class="code" href="a00395.html#a8cc175fee492e877753d94a4ede7afc3">ipcl_err_map</a>(<span class="keywordtype">int</span> *count)</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;{</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  *count = <a class="code" href="a00023.html#a9941e62482da843b972636008fd80e56">countof</a>(error_map);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordflow">return</span> error_map;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00332.html">_error.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00038.html">pcl/errctx.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01099.html#ga831abab4c892fe6f99eb8a39174119c8">   36</a></span>&#160;<a class="code" href="a01099.html#ga831abab4c892fe6f99eb8a39174119c8">pcl_err_vsprintf</a>(<span class="keywordtype">char</span> *buf, <span class="keywordtype">size_t</span> size, <span class="keywordtype">int</span> indent,</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">char</span> *format, va_list args)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a00038.html#af3bc462b7e275d0b2a2be2202b22f709">pcl_err_ctx_vsprintf</a>(<a class="code" href="a01099.html#gacba4bcf84db2e3237d7274aa57a30253">pcl_err_ctx</a>(), buf, size, indent, format, args);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00329_html"><div class="ttname"><a href="a00329.html">_unix_errmap.h</a></div></div>
-<div class="ttc" id="aa00023_html_a9941e62482da843b972636008fd80e56"><div class="ttname"><a href="a00023.html#a9941e62482da843b972636008fd80e56">countof</a></div><div class="ttdeci">#define countof(buffer)</div><div class="ttdef"><b>Definition:</b> <a href="a00023_source.html#l00129">defs.h:129</a></div></div>
-<div class="ttc" id="aa00395_html_a8cc175fee492e877753d94a4ede7afc3"><div class="ttname"><a href="a00395.html#a8cc175fee492e877753d94a4ede7afc3">ipcl_err_map</a></div><div class="ttdeci">ipcl_err_map_t * ipcl_err_map(int *count)</div><div class="ttdef"><b>Definition:</b> <a href="a00395_source.html#l00053">errmap.c:53</a></div></div>
-<div class="ttc" id="aa00332_html"><div class="ttname"><a href="a00332.html">_win32_errmap.h</a></div></div>
-<div class="ttc" id="aa00326_html"><div class="ttname"><a href="a00326.html">_error.h</a></div></div>
-<div class="ttc" id="aa01193_html"><div class="ttname"><a href="a01193.html">ipcl_err_map_t</a></div><div class="ttdef"><b>Definition:</b> <a href="a00326_source.html#l00048">_error.h:49</a></div></div>
+<div class="ttc" id="aa00038_html_af3bc462b7e275d0b2a2be2202b22f709"><div class="ttname"><a href="a00038.html#af3bc462b7e275d0b2a2be2202b22f709">pcl_err_ctx_vsprintf</a></div><div class="ttdeci">PCL_EXPORT int pcl_err_ctx_vsprintf(pcl_err_ctx_t *ctx, char *buf, size_t size, int indent, const char *message, va_list ap)</div><div class="ttdef"><b>Definition:</b> <a href="a00326_source.html#l00037">err_ctx_vsprintf.c:37</a></div></div>
+<div class="ttc" id="aa00038_html"><div class="ttname"><a href="a00038.html">errctx.h</a></div></div>
+<div class="ttc" id="aa00332_html"><div class="ttname"><a href="a00332.html">_error.h</a></div></div>
+<div class="ttc" id="aa01099_html_gacba4bcf84db2e3237d7274aa57a30253"><div class="ttname"><a href="a01099.html#gacba4bcf84db2e3237d7274aa57a30253">pcl_err_ctx</a></div><div class="ttdeci">PCL_EXPORT pcl_err_ctx_t * pcl_err_ctx(void)</div><div class="ttdoc">Gets the calling thread's error context.</div><div class="ttdef"><b>Definition:</b> <a href="a00347_source.html#l00045">err_ctx.c:45</a></div></div>
+<div class="ttc" id="aa01099_html_ga831abab4c892fe6f99eb8a39174119c8"><div class="ttname"><a href="a01099.html#ga831abab4c892fe6f99eb8a39174119c8">pcl_err_vsprintf</a></div><div class="ttdeci">int pcl_err_vsprintf(char *buf, size_t size, int indent, const char *format, va_list args)</div><div class="ttdef"><b>Definition:</b> <a href="a00395_source.html#l00036">err_vsprintf.c:36</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

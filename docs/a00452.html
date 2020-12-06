@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/file/realpath.c File Reference</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/file/file_seek.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -69,40 +69,43 @@ $(function() {
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">realpath.c File Reference</div>  </div>
+<div class="title">file_seek.c File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;<a class="el" href="a00035_source.html">pcl/error.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="a00077_source.html">pcl/string.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="a00056_source.html">limits.h</a>&gt;</code><br />
-<code>#include &lt;stdlib.h&gt;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00431_source.html">_file.h</a>&quot;</code><br />
+<code>#include &lt;<a class="el" href="a00041_source.html">pcl/error.h</a>&gt;</code><br />
 </div>
 <p><a href="a00452_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a77e74bf364d446f9ec91f1434582a88a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00452.html#a77e74bf364d446f9ec91f1434582a88a">pcl_realpath</a> (const <a class="el" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *path, int *lenp)</td></tr>
-<tr class="memdesc:a77e74bf364d446f9ec91f1434582a88a"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Gets the canonicalized absolute pathname.  <a href="a00452.html#a77e74bf364d446f9ec91f1434582a88a">More...</a><br /></td></tr>
-<tr class="separator:a77e74bf364d446f9ec91f1434582a88a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5a79d9682ff9b82e31dda9b042ace30"><td class="memItemLeft" align="right" valign="top">off_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00452.html#ab5a79d9682ff9b82e31dda9b042ace30">pcl_file_seek</a> (<a class="el" href="a00098.html#ad9cada4fd6c46abc8fbf45fea3416a66">pcl_file_t</a> *file, off_t offset, int whence)</td></tr>
+<tr class="separator:ab5a79d9682ff9b82e31dda9b042ace30"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a77e74bf364d446f9ec91f1434582a88a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a77e74bf364d446f9ec91f1434582a88a">&#9670;&nbsp;</a></span>pcl_realpath()</h2>
+<a id="ab5a79d9682ff9b82e31dda9b042ace30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5a79d9682ff9b82e31dda9b042ace30">&#9670;&nbsp;</a></span>pcl_file_seek()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a>* pcl_realpath </td>
+          <td class="memname">off_t pcl_file_seek </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *&#160;</td>
-          <td class="paramname"><em>path</em>, </td>
+          <td class="paramtype"><a class="el" href="a00098.html#ad9cada4fd6c46abc8fbf45fea3416a66">pcl_file_t</a> *&#160;</td>
+          <td class="paramname"><em>file</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int *&#160;</td>
-          <td class="paramname"><em>lenp</em>&#160;</td>
+          <td class="paramtype">off_t&#160;</td>
+          <td class="paramname"><em>offset</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>whence</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -112,21 +115,9 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>&#x202A;Gets the canonicalized absolute pathname. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir"></td><td class="paramname">path</td><td>&#x202A;path to convert </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">lenp</td><td>&#x202A;If not <code>NULL</code>, character length (excluding NUL) is written here </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;an allocated absolute path or NULL on error </dd></dl>
+<p class="definition">Definition at line <a class="el" href="a00452_source.html#l00036">36</a> of file <a class="el" href="a00452_source.html">file_seek.c</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="a00452_source.html#l00044">44</a> of file <a class="el" href="a00452_source.html">realpath.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a00008_source.html#l00078">PCL_EINVAL</a>, <a class="el" href="a01088.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc()</a>, <a class="el" href="a01102.html#ga76ffbaececfd9e912d39e6e69bfa4b7d">pcl_strndup()</a>, <a class="el" href="a00005_source.html#l00145">R_SETERR</a>, <a class="el" href="a00005_source.html#l00235">R_SETLASTERR</a>, and <a class="el" href="a00023_source.html#l00126">strempty</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="a00269_source.html#l00042">pcl_opendir()</a>.</p>
+<p class="reference">References <a class="el" href="a00011_source.html#l00306">BADARG</a>, <a class="el" href="a00431_source.html#l00064">tag_pcl_file::fd</a>, and <a class="el" href="a00011_source.html#l00125">SETLASTERR</a>.</p>
 
 </div>
 </div>

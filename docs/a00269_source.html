@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/dir/opendir.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/dir/mkdir.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">opendir.c</div>  </div>
+<div class="title">mkdir.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00269.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,94 +101,52 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00251.html">_dir.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00035.html">pcl/error.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00011.html">pcl/alloc.h</a>&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00044.html">pcl/file.h</a>&gt;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor"># include &lt;<a class="code" href="a00077.html">pcl/string.h</a>&gt;</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<a class="code" href="a01185.html">pcl_dir_t</a> *</div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="a01092.html#ga0a76354190773bba4b5d049c695baec6">   42</a></span>&#160;<a class="code" href="a01092.html#ga0a76354190773bba4b5d049c695baec6">pcl_opendir</a>(<span class="keyword">const</span> <a class="code" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *path)</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;{</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a00023.html#a8278668d120afdd0e47def881845559d">strempty</a>(path))</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01095.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a>(NULL, <a class="code" href="a01094.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00257.html">_dir.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00080.html">pcl/stat.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00041.html">pcl/error.h</a>&gt;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor"># include &quot;../win32/_win32.h&quot;</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="a01098.html#gaac838842f82869a4606daf5935b3ff42">   41</a></span>&#160;<a class="code" href="a01098.html#gaac838842f82869a4606daf5935b3ff42">pcl_mkdir</a>(<span class="keyword">const</span> <a class="code" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *path, mode_t mode)</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordtype">int</span> r;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <a class="code" href="a01099.html#gad0d37471eadcb33fa2238273a6c5cf9f">pcl_err_osclear</a>();</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordtype">int</span> len;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <a class="code" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *fullpath = <a class="code" href="a00044.html#a49cb3c7c315abaafce4c915479165d99">pcl_realpath</a>(path, &amp;len);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="keywordflow">if</span>(!fullpath)</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01095.html#gaa978c8c7faa5fc2f69a6641e054e519d">R_TRC</a>(NULL);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <a class="code" href="a01185.html">pcl_dir_t</a> *dir = <a class="code" href="a01088.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a>(<span class="keyword">sizeof</span>(<a class="code" href="a01185.html">pcl_dir_t</a>));</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  dir-&gt;<a class="code" href="a01185.html#a34adf956eddbefad5f3205e1937dc696">path</a> = fullpath;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  dir-&gt;<a class="code" href="a01185.html#afea5b40f9ee84337323ee7ad71ff0369">pathlen</a> = len;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  dir-&gt;<a class="code" href="a01185.html#a34adf956eddbefad5f3205e1937dc696">path</a> = <a class="code" href="a01088.html#ga8ed2d8a28dde302fa8eac0d2e9ce8ea4">pcl_realloc</a>(dir-&gt;<a class="code" href="a01185.html#a34adf956eddbefad5f3205e1937dc696">path</a>, (dir-&gt;<a class="code" href="a01185.html#afea5b40f9ee84337323ee7ad71ff0369">pathlen</a> + 3) * <span class="keyword">sizeof</span>(<a class="code" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a>));</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  <span class="comment">/* windows requires a &quot;\*&quot; at the end of path */</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  <span class="keywordflow">if</span>(dir-&gt;<a class="code" href="a01185.html#a34adf956eddbefad5f3205e1937dc696">path</a>[len - 1] != PCL_TPATHSEPCHAR)</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    dir-&gt;<a class="code" href="a01185.html#a34adf956eddbefad5f3205e1937dc696">path</a>[len++] = PCL_TPATHSEPCHAR;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  dir-&gt;<a class="code" href="a01185.html#a34adf956eddbefad5f3205e1937dc696">path</a>[len++] = <a class="code" href="a00023.html#a76f4425a2027b15c08530794be52f2f1">_T</a>(<span class="charliteral">&#39;*&#39;</span>);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  dir-&gt;<a class="code" href="a01185.html#a34adf956eddbefad5f3205e1937dc696">path</a>[len] = 0;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  <span class="comment">/* FindExInfoBasic excludes short file names increasing performance. Also,</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment">   * FIND_FIRST_EX_LARGE_FETCH uses larger buffers increasing performance.</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment">   */</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  dir-&gt;<a class="code" href="a01185.html#a385771b25507fe02661e5d51e536647e">handle</a> = FindFirstFileEx(dir-&gt;<a class="code" href="a01185.html#a34adf956eddbefad5f3205e1937dc696">path</a>, FindExInfoBasic, &amp;dir-&gt;wfd,</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    FindExSearchNameMatch, NULL, FIND_FIRST_EX_LARGE_FETCH);</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  <span class="comment">/* remove the trailing &quot;\*&quot; appended above */</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  dir-&gt;<a class="code" href="a01185.html#a34adf956eddbefad5f3205e1937dc696">path</a>[dir-&gt;<a class="code" href="a01185.html#afea5b40f9ee84337323ee7ad71ff0369">pathlen</a>] = 0;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  <span class="keywordflow">if</span>(dir-&gt;<a class="code" href="a01185.html#a385771b25507fe02661e5d51e536647e">handle</a> == INVALID_HANDLE_VALUE)</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  {</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <a class="code" href="a01095.html#ga405f0945f1e605ded867422c553c78cf">SETLASTERRMSG</a>(<span class="stringliteral">&quot;Cannot open directory: %ts&quot;</span>, path);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <a class="code" href="a01092.html#gaa484d019a2f4e64c27eaa7815d989742">pcl_closedir</a>(dir);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  }</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  dir-&gt;findnextfile = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  dir-&gt;<a class="code" href="a01185.html#a385771b25507fe02661e5d51e536647e">handle</a> = opendir(dir-&gt;<a class="code" href="a01185.html#a34adf956eddbefad5f3205e1937dc696">path</a>);</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;  <span class="keywordflow">if</span>(!dir-&gt;<a class="code" href="a01185.html#a385771b25507fe02661e5d51e536647e">handle</a>)</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  {</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <a class="code" href="a01095.html#ga405f0945f1e605ded867422c553c78cf">SETLASTERRMSG</a>(<span class="stringliteral">&quot;Cannot open directory: %ts&quot;</span>, path);</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <a class="code" href="a01092.html#gaa484d019a2f4e64c27eaa7815d989742">pcl_closedir</a>(dir);</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;  }</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;  <span class="keywordflow">return</span> dir;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;}</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="comment">/* convert &#39;mode&#39; into a security descriptor (Windows ACL) */</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  SECURITY_DESCRIPTOR sd;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  SECURITY_ATTRIBUTES sa;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  memset(&amp;sa, 0, <span class="keyword">sizeof</span>(sa));</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  sa.nLength = <span class="keyword">sizeof</span>(sa);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  sa.lpSecurityDescriptor = &amp;sd;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a01046.html#a44ab90e27a8598bcd51f8151200fa8a9">ipcl_win32_sd_create</a>(&amp;sd, NULL, NULL, mode))</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01101.html#gac647173422caf7372229621b0aab81cd">TRCMSG</a>(<span class="stringliteral">&quot;failed to create directory: &#39;%Ps&#39;&quot;</span>, path);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  r = CreateDirectory(path, &amp;sa) ? 0 : -1;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  <a class="code" href="a01046.html#ab7ee3b3d747b91b15084c05d8a9bb505">ipcl_win32_sd_clear</a>(&amp;sd);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  r = mkdir(path, mode);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  <span class="keywordflow">return</span> r ? <a class="code" href="a01101.html#ga405f0945f1e605ded867422c553c78cf">SETLASTERRMSG</a>(<span class="stringliteral">&quot;failed to create directory: &#39;%Ps&#39;&quot;</span>, path) : 0;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00044_html"><div class="ttname"><a href="a00044.html">file.h</a></div></div>
-<div class="ttc" id="aa01185_html_a385771b25507fe02661e5d51e536647e"><div class="ttname"><a href="a01185.html#a385771b25507fe02661e5d51e536647e">tag_pcl_dir::handle</a></div><div class="ttdeci">DIR * handle</div><div class="ttdef"><b>Definition:</b> <a href="a00251_source.html#l00058">_dir.h:58</a></div></div>
-<div class="ttc" id="aa00092_html_a7589c2eb4da44bc1c8e4d094798e7f0b"><div class="ttname"><a href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a></div><div class="ttdeci">char tchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00092_source.html#l00053">types.h:53</a></div></div>
-<div class="ttc" id="aa00044_html_a49cb3c7c315abaafce4c915479165d99"><div class="ttname"><a href="a00044.html#a49cb3c7c315abaafce4c915479165d99">pcl_realpath</a></div><div class="ttdeci">PCL_EXPORT tchar_t * pcl_realpath(const tchar_t *path, int *lenp)</div><div class="ttdoc">Gets the canonicalized absolute pathname.</div><div class="ttdef"><b>Definition:</b> <a href="a00452_source.html#l00044">realpath.c:44</a></div></div>
-<div class="ttc" id="aa01095_html_ga405f0945f1e605ded867422c553c78cf"><div class="ttname"><a href="a01095.html#ga405f0945f1e605ded867422c553c78cf">SETLASTERRMSG</a></div><div class="ttdeci">#define SETLASTERRMSG(_msgfmt,...)</div><div class="ttdoc">Sets the current thread's last OS error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00005_source.html#l00132">_errdefs.h:132</a></div></div>
-<div class="ttc" id="aa01088_html_ga8ed2d8a28dde302fa8eac0d2e9ce8ea4"><div class="ttname"><a href="a01088.html#ga8ed2d8a28dde302fa8eac0d2e9ce8ea4">pcl_realloc</a></div><div class="ttdeci">void * pcl_realloc(void *p, size_t n)</div><div class="ttdoc">Re-allocate dynamic memory.</div></div>
-<div class="ttc" id="aa01185_html_afea5b40f9ee84337323ee7ad71ff0369"><div class="ttname"><a href="a01185.html#afea5b40f9ee84337323ee7ad71ff0369">tag_pcl_dir::pathlen</a></div><div class="ttdeci">int pathlen</div><div class="ttdef"><b>Definition:</b> <a href="a00251_source.html#l00051">_dir.h:51</a></div></div>
-<div class="ttc" id="aa01094_html_gae0cd5c5a7fae36cd480176bda17e77ca"><div class="ttname"><a href="a01094.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a></div><div class="ttdeci">#define PCL_EINVAL</div><div class="ttdoc">Invalid argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00008_source.html#l00078">_errno.h:78</a></div></div>
-<div class="ttc" id="aa01092_html_gaa484d019a2f4e64c27eaa7815d989742"><div class="ttname"><a href="a01092.html#gaa484d019a2f4e64c27eaa7815d989742">pcl_closedir</a></div><div class="ttdeci">PCL_EXPORT void pcl_closedir(pcl_dir_t *dir)</div><div class="ttdoc">Close a directory handle.</div><div class="ttdef"><b>Definition:</b> <a href="a00257_source.html#l00036">closedir.c:36</a></div></div>
-<div class="ttc" id="aa00011_html"><div class="ttname"><a href="a00011.html">alloc.h</a></div></div>
-<div class="ttc" id="aa00023_html_a76f4425a2027b15c08530794be52f2f1"><div class="ttname"><a href="a00023.html#a76f4425a2027b15c08530794be52f2f1">_T</a></div><div class="ttdeci">#define _T(quote)</div><div class="ttdef"><b>Definition:</b> <a href="a00023_source.html#l00080">defs.h:80</a></div></div>
-<div class="ttc" id="aa01095_html_gaa978c8c7faa5fc2f69a6641e054e519d"><div class="ttname"><a href="a01095.html#gaa978c8c7faa5fc2f69a6641e054e519d">R_TRC</a></div><div class="ttdeci">#define R_TRC(_retval)</div><div class="ttdoc">Sets the return value and adds a stack trace to the current thread's error context.</div><div class="ttdef"><b>Definition:</b> <a href="a00005_source.html#l00287">_errdefs.h:287</a></div></div>
-<div class="ttc" id="aa01092_html_ga0a76354190773bba4b5d049c695baec6"><div class="ttname"><a href="a01092.html#ga0a76354190773bba4b5d049c695baec6">pcl_opendir</a></div><div class="ttdeci">pcl_dir_t * pcl_opendir(const tchar_t *path)</div><div class="ttdoc">Open a directory.</div><div class="ttdef"><b>Definition:</b> <a href="a00269_source.html#l00042">opendir.c:42</a></div></div>
-<div class="ttc" id="aa00035_html"><div class="ttname"><a href="a00035.html">error.h</a></div></div>
-<div class="ttc" id="aa00077_html"><div class="ttname"><a href="a00077.html">string.h</a></div></div>
-<div class="ttc" id="aa00023_html_a8278668d120afdd0e47def881845559d"><div class="ttname"><a href="a00023.html#a8278668d120afdd0e47def881845559d">strempty</a></div><div class="ttdeci">#define strempty(str)</div><div class="ttdef"><b>Definition:</b> <a href="a00023_source.html#l00126">defs.h:126</a></div></div>
-<div class="ttc" id="aa01095_html_gae8eaed12aa57a2870ad8e45cc2306318"><div class="ttname"><a href="a01095.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a></div><div class="ttdeci">#define R_SETERR(_retval, _pclerr)</div><div class="ttdoc">Sets the return value and the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00005_source.html#l00145">_errdefs.h:145</a></div></div>
-<div class="ttc" id="aa01088_html_ga1df8575b9ae906470c782db9c26201e8"><div class="ttname"><a href="a01088.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a></div><div class="ttdeci">void * pcl_malloc(size_t n)</div><div class="ttdoc">Allocate dynamic memory.</div></div>
-<div class="ttc" id="aa01185_html"><div class="ttname"><a href="a01185.html">tag_pcl_dir</a></div><div class="ttdef"><b>Definition:</b> <a href="a00251_source.html#l00048">_dir.h:49</a></div></div>
-<div class="ttc" id="aa00251_html"><div class="ttname"><a href="a00251.html">_dir.h</a></div></div>
-<div class="ttc" id="aa01185_html_a34adf956eddbefad5f3205e1937dc696"><div class="ttname"><a href="a01185.html#a34adf956eddbefad5f3205e1937dc696">tag_pcl_dir::path</a></div><div class="ttdeci">tchar_t * path</div><div class="ttdef"><b>Definition:</b> <a href="a00251_source.html#l00050">_dir.h:50</a></div></div>
+<div class="ttc" id="aa00098_html_ac114b2b1527c8ae241d37cc15ca7d122"><div class="ttname"><a href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a></div><div class="ttdeci">char pchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00098_source.html#l00053">types.h:53</a></div></div>
+<div class="ttc" id="aa01101_html_ga405f0945f1e605ded867422c553c78cf"><div class="ttname"><a href="a01101.html#ga405f0945f1e605ded867422c553c78cf">SETLASTERRMSG</a></div><div class="ttdeci">#define SETLASTERRMSG(_msgfmt,...)</div><div class="ttdoc">Sets the current thread's last OS error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00011_source.html#l00132">_errdefs.h:132</a></div></div>
+<div class="ttc" id="aa01101_html_gac647173422caf7372229621b0aab81cd"><div class="ttname"><a href="a01101.html#gac647173422caf7372229621b0aab81cd">TRCMSG</a></div><div class="ttdeci">#define TRCMSG(_msgfmt,...)</div><div class="ttdoc">Adds a stack trace to the current thread's error context with an error message.</div><div class="ttdef"><b>Definition:</b> <a href="a00011_source.html#l00275">_errdefs.h:275</a></div></div>
+<div class="ttc" id="aa00080_html"><div class="ttname"><a href="a00080.html">stat.h</a></div></div>
+<div class="ttc" id="aa01098_html_gaac838842f82869a4606daf5935b3ff42"><div class="ttname"><a href="a01098.html#gaac838842f82869a4606daf5935b3ff42">pcl_mkdir</a></div><div class="ttdeci">int pcl_mkdir(const pchar_t *path, mode_t mode)</div><div class="ttdoc">Create a directory.</div><div class="ttdef"><b>Definition:</b> <a href="a00269_source.html#l00041">mkdir.c:41</a></div></div>
+<div class="ttc" id="aa01046_html_a44ab90e27a8598bcd51f8151200fa8a9"><div class="ttname"><a href="a01046.html#a44ab90e27a8598bcd51f8151200fa8a9">ipcl_win32_sd_create</a></div><div class="ttdeci">int ipcl_win32_sd_create(SECURITY_DESCRIPTOR *sd, const pchar_t *owner, const pchar_t *group, mode_t mode)</div><div class="ttdef"><b>Definition:</b> <a href="a01073_source.html#l00045">win32_sd_create.c:45</a></div></div>
+<div class="ttc" id="aa00257_html"><div class="ttname"><a href="a00257.html">_dir.h</a></div></div>
+<div class="ttc" id="aa01099_html_gad0d37471eadcb33fa2238273a6c5cf9f"><div class="ttname"><a href="a01099.html#gad0d37471eadcb33fa2238273a6c5cf9f">pcl_err_osclear</a></div><div class="ttdeci">#define pcl_err_osclear()</div><div class="ttdef"><b>Definition:</b> <a href="a00041_source.html#l00182">error.h:182</a></div></div>
+<div class="ttc" id="aa00041_html"><div class="ttname"><a href="a00041.html">error.h</a></div></div>
+<div class="ttc" id="aa01046_html_ab7ee3b3d747b91b15084c05d8a9bb505"><div class="ttname"><a href="a01046.html#ab7ee3b3d747b91b15084c05d8a9bb505">ipcl_win32_sd_clear</a></div><div class="ttdeci">int ipcl_win32_sd_clear(SECURITY_DESCRIPTOR *sd)</div><div class="ttdoc">Clears an &quot;absolute&quot; SECURITY_DESCRIPTOR.</div><div class="ttdef"><b>Definition:</b> <a href="a01070_source.html#l00036">win32_sd_clear.c:36</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

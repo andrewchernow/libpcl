@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/alloc/free_trace.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;pcl/usrgrp.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,17 +62,17 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_2e53991d0abfe4d26476f40debcf47e2.html">&#x202A;alloc</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_7b45ecc044e46f0fa297ac6fa05ad811.html">&#x202A;pcl</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">free_trace.c</div>  </div>
+<div class="title">usrgrp.h</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00104.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (PCL)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2003, 2005-2014, 2017-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,25 +101,48 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00011.html">pcl/alloc.h</a>&gt;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;stdlib.h&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#ifndef LIBPCL_USRGRP_H</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#define LIBPCL_USRGRP_H</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">void</span> *</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01088.html#ga3d0d55b4807be0c1b19aade0866c72fc">   36</a></span>&#160;<a class="code" href="a01088.html#ga3d0d55b4807be0c1b19aade0866c72fc">pcl_free_trace</a>(<span class="keywordtype">void</span> *ptr, <a class="code" href="a00023.html#acaae4a70e5707a94c3ea8e9da14fcab6">PCL_LOCATION_PARAMS</a>)</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">if</span>(!ptr)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="a01088.html#ga423e5e1aba1eac6bc6ce929385059a49">pcl_memory_error</a>(<span class="stringliteral">&quot;pcl_free&quot;</span>, ptr, 0, <a class="code" href="a00023.html#abd6d80b4c77b949a990416b0ff19ae75">PCL_LOCATION_VALS</a>);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00098.html">pcl/types.h</a>&gt;</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  free(ptr);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00104.html#a1bbe18f3124dea8b3f8729576d8daff4">pcl_getuser</a>(<span class="keyword">const</span> uid_t uid, <span class="keywordtype">char</span> *out, <span class="keywordtype">size_t</span> len);</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;}</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00104.html#a284392eaef7de830bf62ecf3bd0667f2">pcl_getgroup</a>(<span class="keyword">const</span> gid_t gid, <span class="keywordtype">char</span> *out, <span class="keywordtype">size_t</span> len);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment">/** Gets the user identifier for the given account user name.</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment"> * @param name account user name</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment"> * @param uidp pointer to a uid_t to receive the user identifier. This can be NULL, in which</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment"> * case this function becomes an &quot;exists&quot; check.</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment"> * @return 0 on success and -1 on failure. If the user referenced by name does not exist, the</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment"> * pcl_errno is set to PCL_ENOTFOUND (not PCL_ENOENT, which the OS may set for other reasons).</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00104.html#aac8365f342de13aec9d6011dec9e0d90">pcl_getuid</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *name, uid_t *uidp);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment">/** Gets the group identifier for the given group name.</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment"> * @param name group name</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="comment"> * @param gidp pointer to a gid_t to receive the group identifier. This can be NULL, in which</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment"> * case this function becomes an &quot;exists&quot; check.</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment"> * @return 0 on success and -1 on failure. If the group referenced by name does not exist, the</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment"> * pcl_errno is set to PCL_ENOTFOUND (not PCL_ENOENT, which the OS may set for other reasons).</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keywordtype">int</span> <a class="code" href="a00104.html#af2b406d95344fbe093b6caf4d9320075">pcl_getgid</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *name, gid_t *gidp);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;}</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="preprocessor">#endif //__LIBPCL_USRGRP_H__</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00011_html"><div class="ttname"><a href="a00011.html">alloc.h</a></div></div>
-<div class="ttc" id="aa00023_html_acaae4a70e5707a94c3ea8e9da14fcab6"><div class="ttname"><a href="a00023.html#acaae4a70e5707a94c3ea8e9da14fcab6">PCL_LOCATION_PARAMS</a></div><div class="ttdeci">#define PCL_LOCATION_PARAMS</div><div class="ttdoc">PCL_LOCATION_PARAMS expands to a function/macro declaration's parameter list: ie.</div><div class="ttdef"><b>Definition:</b> <a href="a00023_source.html#l00099">defs.h:99</a></div></div>
-<div class="ttc" id="aa01088_html_ga3d0d55b4807be0c1b19aade0866c72fc"><div class="ttname"><a href="a01088.html#ga3d0d55b4807be0c1b19aade0866c72fc">pcl_free_trace</a></div><div class="ttdeci">void * pcl_free_trace(void *ptr, PCL_LOCATION_PARAMS)</div><div class="ttdoc">Free memory space.</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00036">free_trace.c:36</a></div></div>
-<div class="ttc" id="aa01088_html_ga423e5e1aba1eac6bc6ce929385059a49"><div class="ttname"><a href="a01088.html#ga423e5e1aba1eac6bc6ce929385059a49">pcl_memory_error</a></div><div class="ttdeci">PCL_EXPORT void pcl_memory_error(const char *type, void *ptr, size_t siz, PCL_LOCATION_PARAMS)</div><div class="ttdoc">Execute process memory error handler.</div><div class="ttdef"><b>Definition:</b> <a href="a00110_source.html#l00057">memory_handler.c:57</a></div></div>
-<div class="ttc" id="aa00023_html_abd6d80b4c77b949a990416b0ff19ae75"><div class="ttname"><a href="a00023.html#abd6d80b4c77b949a990416b0ff19ae75">PCL_LOCATION_VALS</a></div><div class="ttdeci">#define PCL_LOCATION_VALS</div><div class="ttdef"><b>Definition:</b> <a href="a00023_source.html#l00101">defs.h:101</a></div></div>
+<div class="ttc" id="aa00104_html_a284392eaef7de830bf62ecf3bd0667f2"><div class="ttname"><a href="a00104.html#a284392eaef7de830bf62ecf3bd0667f2">pcl_getgroup</a></div><div class="ttdeci">PCL_EXPORT int pcl_getgroup(const gid_t gid, char *out, size_t len)</div><div class="ttdef"><b>Definition:</b> <a href="a00998_source.html#l00037">getgroup.c:37</a></div></div>
+<div class="ttc" id="aa00104_html_a1bbe18f3124dea8b3f8729576d8daff4"><div class="ttname"><a href="a00104.html#a1bbe18f3124dea8b3f8729576d8daff4">pcl_getuser</a></div><div class="ttdeci">PCL_EXPORT int pcl_getuser(const uid_t uid, char *out, size_t len)</div><div class="ttdef"><b>Definition:</b> <a href="a01004_source.html#l00037">getuser.c:37</a></div></div>
+<div class="ttc" id="aa00098_html"><div class="ttname"><a href="a00098.html">types.h</a></div></div>
+<div class="ttc" id="aa00104_html_aac8365f342de13aec9d6011dec9e0d90"><div class="ttname"><a href="a00104.html#aac8365f342de13aec9d6011dec9e0d90">pcl_getuid</a></div><div class="ttdeci">PCL_EXPORT int pcl_getuid(const char *name, uid_t *uidp)</div><div class="ttdoc">Gets the user identifier for the given account user name.</div><div class="ttdef"><b>Definition:</b> <a href="a01001_source.html#l00038">getuid.c:38</a></div></div>
+<div class="ttc" id="aa00104_html_af2b406d95344fbe093b6caf4d9320075"><div class="ttname"><a href="a00104.html#af2b406d95344fbe093b6caf4d9320075">pcl_getgid</a></div><div class="ttdeci">int pcl_getgid(const char *name, gid_t *gidp)</div><div class="ttdoc">Gets the group identifier for the given group name.</div><div class="ttdef"><b>Definition:</b> <a href="a00995_source.html#l00037">getgid.c:37</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

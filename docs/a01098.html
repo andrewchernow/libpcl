@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;Hash Table</title>
+<title>&#x202A;libpcl: &#x202A;Directory Management</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -65,300 +65,245 @@ $(function() {
   <div class="summary">
 <a href="#nested-classes">Data Structures</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">Hash Table</div>  </div>
+<div class="title">Directory Management</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>&#x202A;This defines a hash table object and associated management functions.  
+<p>&#x202A;The directory API provides a suite of function for managing and traversing directories.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Data Structures</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01125.html">tag_pcl_htable_entry</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Hash table entry object.  <a href="a01125.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01129.html">tag_pcl_htable</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01119.html">pcl_dirent_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Directory entry object.  <a href="a01119.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:gaa535f1a16a04b2ad53bde938fa7511a4"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="a01125.html">tag_pcl_htable_entry</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01098.html#gaa535f1a16a04b2ad53bde938fa7511a4">pcl_htable_entry_t</a></td></tr>
-<tr class="memdesc:gaa535f1a16a04b2ad53bde938fa7511a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Hash table entry object.  <a href="a01098.html#gaa535f1a16a04b2ad53bde938fa7511a4">More...</a><br /></td></tr>
-<tr class="separator:gaa535f1a16a04b2ad53bde938fa7511a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga630bd7c310ec017b8880a1c328a2db9d"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="a01191.html">tag_pcl_dir</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01098.html#ga630bd7c310ec017b8880a1c328a2db9d">pcl_dir_t</a></td></tr>
+<tr class="memdesc:ga630bd7c310ec017b8880a1c328a2db9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Directory handle.  <a href="a01098.html#ga630bd7c310ec017b8880a1c328a2db9d">More...</a><br /></td></tr>
+<tr class="separator:ga630bd7c310ec017b8880a1c328a2db9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:gae41b808539653bb51ff789a39595f03a"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01098.html#gae41b808539653bb51ff789a39595f03a">pcl_dirent_type_t</a> { <br />
+&#160;&#160;<a class="el" href="a01098.html#ggae41b808539653bb51ff789a39595f03aad39239acc789c49c45ee20485e426367">PclDirentUnknown</a>, 
+<br />
+&#160;&#160;<a class="el" href="a01098.html#ggae41b808539653bb51ff789a39595f03aa2430d830d1abf82f3cb0ed0a4252214c">PclDirentFifo</a>, 
+<br />
+&#160;&#160;<a class="el" href="a01098.html#ggae41b808539653bb51ff789a39595f03aa28c0a5c83c1a0a2c77d098ab22649b4e">PclDirentChar</a>, 
+<br />
+&#160;&#160;<a class="el" href="a01098.html#ggae41b808539653bb51ff789a39595f03aae9ee7cbcfa44fe6d71c4be9cfb3d7aec">PclDirentDir</a>, 
+<br />
+&#160;&#160;<a class="el" href="a01098.html#ggae41b808539653bb51ff789a39595f03aa032b28f47b23732ac986054a87f5d0d3">PclDirentBlock</a>, 
+<br />
+&#160;&#160;<a class="el" href="a01098.html#ggae41b808539653bb51ff789a39595f03aaec8f5ed49cbfd6beef2f7226d10ea88c">PclDirentFile</a>, 
+<br />
+&#160;&#160;<a class="el" href="a01098.html#ggae41b808539653bb51ff789a39595f03aad3570e8cb6acb6b733638232550200a0">PclDirentLink</a>, 
+<br />
+&#160;&#160;<a class="el" href="a01098.html#ggae41b808539653bb51ff789a39595f03aa1d83fbbedbdf13d9400655be218b3bd1">PclDirentSocket</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:gae41b808539653bb51ff789a39595f03a"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Directory entry types.  <a href="a01098.html#gae41b808539653bb51ff789a39595f03a">More...</a><br /></td></tr>
+<tr class="separator:gae41b808539653bb51ff789a39595f03a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:gae469981bef26363606b65a93189234ce"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a00092.html#a837674424510bcf55b9b1eaa8acf639f">pcl_htable_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01098.html#gae469981bef26363606b65a93189234ce">pcl_htable_create</a> (int capacity)</td></tr>
-<tr class="memdesc:gae469981bef26363606b65a93189234ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Creates a new hash table object.  <a href="a01098.html#gae469981bef26363606b65a93189234ce">More...</a><br /></td></tr>
-<tr class="separator:gae469981bef26363606b65a93189234ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3888f186c326a0f1c8ee363a11d21f5b"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a01098.html#gaa535f1a16a04b2ad53bde938fa7511a4">pcl_htable_entry_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01098.html#ga3888f186c326a0f1c8ee363a11d21f5b">pcl_htable_lookup</a> (<a class="el" href="a00092.html#a837674424510bcf55b9b1eaa8acf639f">pcl_htable_t</a> *ht, const void *key)</td></tr>
-<tr class="memdesc:ga3888f186c326a0f1c8ee363a11d21f5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Lookup and return an entry.  <a href="a01098.html#ga3888f186c326a0f1c8ee363a11d21f5b">More...</a><br /></td></tr>
-<tr class="separator:ga3888f186c326a0f1c8ee363a11d21f5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa01eda6232c789880d665e343ec299e3"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01098.html#gaa01eda6232c789880d665e343ec299e3">pcl_htable_get</a> (<a class="el" href="a00092.html#a837674424510bcf55b9b1eaa8acf639f">pcl_htable_t</a> *ht, const void *key)</td></tr>
-<tr class="memdesc:gaa01eda6232c789880d665e343ec299e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Lookup an entry and return its value.  <a href="a01098.html#gaa01eda6232c789880d665e343ec299e3">More...</a><br /></td></tr>
-<tr class="separator:gaa01eda6232c789880d665e343ec299e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad1264b974c59d4df60f955234778a5e6"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01098.html#gad1264b974c59d4df60f955234778a5e6">pcl_htable_put</a> (<a class="el" href="a00092.html#a837674424510bcf55b9b1eaa8acf639f">pcl_htable_t</a> *ht, const void *key, void *value, bool unique)</td></tr>
-<tr class="memdesc:gad1264b974c59d4df60f955234778a5e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Puts a key/value pair into the table.  <a href="a01098.html#gad1264b974c59d4df60f955234778a5e6">More...</a><br /></td></tr>
-<tr class="separator:gad1264b974c59d4df60f955234778a5e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga68c69681ce29a21e3dd823479f8c5f98"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01098.html#ga68c69681ce29a21e3dd823479f8c5f98">pcl_htable_remove</a> (<a class="el" href="a00092.html#a837674424510bcf55b9b1eaa8acf639f">pcl_htable_t</a> *ht, const void *key)</td></tr>
-<tr class="memdesc:ga68c69681ce29a21e3dd823479f8c5f98"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Remove an entry from the table.  <a href="a01098.html#ga68c69681ce29a21e3dd823479f8c5f98">More...</a><br /></td></tr>
-<tr class="separator:ga68c69681ce29a21e3dd823479f8c5f98"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac138522216ff35c0bb148723cce328ed"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a01105.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01098.html#gac138522216ff35c0bb148723cce328ed">pcl_htable_keys</a> (<a class="el" href="a00092.html#a837674424510bcf55b9b1eaa8acf639f">pcl_htable_t</a> *ht)</td></tr>
-<tr class="memdesc:gac138522216ff35c0bb148723cce328ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Get hash table keys as a vector.  <a href="a01098.html#gac138522216ff35c0bb148723cce328ed">More...</a><br /></td></tr>
-<tr class="separator:gac138522216ff35c0bb148723cce328ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8b25b5955d6abd1ef508a4106df9cfe2"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01098.html#ga8b25b5955d6abd1ef508a4106df9cfe2">pcl_htable_clear</a> (<a class="el" href="a00092.html#a837674424510bcf55b9b1eaa8acf639f">pcl_htable_t</a> *ht, bool shrink)</td></tr>
-<tr class="memdesc:ga8b25b5955d6abd1ef508a4106df9cfe2"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Clear all entries from the table.  <a href="a01098.html#ga8b25b5955d6abd1ef508a4106df9cfe2">More...</a><br /></td></tr>
-<tr class="separator:ga8b25b5955d6abd1ef508a4106df9cfe2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8b9f6df4376aac1c35a5d87ebcff93dc"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01098.html#ga8b9f6df4376aac1c35a5d87ebcff93dc">pcl_htable_free</a> (<a class="el" href="a00092.html#a837674424510bcf55b9b1eaa8acf639f">pcl_htable_t</a> *ht)</td></tr>
-<tr class="memdesc:ga8b9f6df4376aac1c35a5d87ebcff93dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Release all resources used by the given hash table.  <a href="a01098.html#ga8b9f6df4376aac1c35a5d87ebcff93dc">More...</a><br /></td></tr>
-<tr class="separator:ga8b9f6df4376aac1c35a5d87ebcff93dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga13533f63ec03a1abb3f72c93695e0746"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a01098.html#ga630bd7c310ec017b8880a1c328a2db9d">pcl_dir_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01098.html#ga13533f63ec03a1abb3f72c93695e0746">pcl_opendir</a> (const <a class="el" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *path)</td></tr>
+<tr class="memdesc:ga13533f63ec03a1abb3f72c93695e0746"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Open a directory.  <a href="a01098.html#ga13533f63ec03a1abb3f72c93695e0746">More...</a><br /></td></tr>
+<tr class="separator:ga13533f63ec03a1abb3f72c93695e0746"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga07cef549518b08252f6d4c33c91aad09"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT const <a class="el" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01098.html#ga07cef549518b08252f6d4c33c91aad09">pcl_dir_path</a> (<a class="el" href="a01098.html#ga630bd7c310ec017b8880a1c328a2db9d">pcl_dir_t</a> *dir, int *lenp)</td></tr>
+<tr class="memdesc:ga07cef549518b08252f6d4c33c91aad09"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Get a directory handle's path.  <a href="a01098.html#ga07cef549518b08252f6d4c33c91aad09">More...</a><br /></td></tr>
+<tr class="separator:ga07cef549518b08252f6d4c33c91aad09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga12c0f9a0e5f0d41bd409507abb0a6ac2"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01098.html#ga12c0f9a0e5f0d41bd409507abb0a6ac2">pcl_readdir</a> (<a class="el" href="a01098.html#ga630bd7c310ec017b8880a1c328a2db9d">pcl_dir_t</a> *dir, <a class="el" href="a01119.html">pcl_dirent_t</a> *ent, <a class="el" href="a00098.html#ad70b25324f0a743c08589d18cf141dc8">pcl_stat_t</a> *st)</td></tr>
+<tr class="memdesc:ga12c0f9a0e5f0d41bd409507abb0a6ac2"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Read an entry from a directory handle.  <a href="a01098.html#ga12c0f9a0e5f0d41bd409507abb0a6ac2">More...</a><br /></td></tr>
+<tr class="separator:ga12c0f9a0e5f0d41bd409507abb0a6ac2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa484d019a2f4e64c27eaa7815d989742"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01098.html#gaa484d019a2f4e64c27eaa7815d989742">pcl_closedir</a> (<a class="el" href="a01098.html#ga630bd7c310ec017b8880a1c328a2db9d">pcl_dir_t</a> *dir)</td></tr>
+<tr class="memdesc:gaa484d019a2f4e64c27eaa7815d989742"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Close a directory handle.  <a href="a01098.html#gaa484d019a2f4e64c27eaa7815d989742">More...</a><br /></td></tr>
+<tr class="separator:gaa484d019a2f4e64c27eaa7815d989742"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga37bac368d1d355d369acc0184aa480e6"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01098.html#ga37bac368d1d355d369acc0184aa480e6">pcl_rmdir</a> (const <a class="el" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *path)</td></tr>
+<tr class="memdesc:ga37bac368d1d355d369acc0184aa480e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Remove a directory.  <a href="a01098.html#ga37bac368d1d355d369acc0184aa480e6">More...</a><br /></td></tr>
+<tr class="separator:ga37bac368d1d355d369acc0184aa480e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4e50851b69498827be4f968bf32f1801"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01098.html#ga4e50851b69498827be4f968bf32f1801">pcl_rmdir_r</a> (const <a class="el" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *path)</td></tr>
+<tr class="memdesc:ga4e50851b69498827be4f968bf32f1801"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Recursively remove a directory.  <a href="a01098.html#ga4e50851b69498827be4f968bf32f1801">More...</a><br /></td></tr>
+<tr class="separator:ga4e50851b69498827be4f968bf32f1801"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga62bf2c19d6773b0529e0e8f4fae5ea45"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01098.html#ga62bf2c19d6773b0529e0e8f4fae5ea45">pcl_chdir</a> (const <a class="el" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *path)</td></tr>
+<tr class="memdesc:ga62bf2c19d6773b0529e0e8f4fae5ea45"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Change the current working directory.  <a href="a01098.html#ga62bf2c19d6773b0529e0e8f4fae5ea45">More...</a><br /></td></tr>
+<tr class="separator:ga62bf2c19d6773b0529e0e8f4fae5ea45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaac838842f82869a4606daf5935b3ff42"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01098.html#gaac838842f82869a4606daf5935b3ff42">pcl_mkdir</a> (const <a class="el" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *path, mode_t mode)</td></tr>
+<tr class="memdesc:gaac838842f82869a4606daf5935b3ff42"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Create a directory.  <a href="a01098.html#gaac838842f82869a4606daf5935b3ff42">More...</a><br /></td></tr>
+<tr class="separator:gaac838842f82869a4606daf5935b3ff42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga44d1b0ffef615047c21f382722c17c82"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01098.html#ga44d1b0ffef615047c21f382722c17c82">pcl_mkdirs</a> (const <a class="el" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *path, mode_t mode)</td></tr>
+<tr class="memdesc:ga44d1b0ffef615047c21f382722c17c82"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Create a directory including any absent parents.  <a href="a01098.html#ga44d1b0ffef615047c21f382722c17c82">More...</a><br /></td></tr>
+<tr class="separator:ga44d1b0ffef615047c21f382722c17c82"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p class="DocNodeLTR">This defines a hash table object and associated management functions. </p>
-<p class="DocNodeLTR">This is implemented as an array of linked lists, with the ability to set a minimum and maximum load factor. There are three callbacks to customize a hash table: <a class="el" href="a01129.html#a671a5819f733f2c3de67d78b2f118ac1" title="&#x202A;Called when an entry is being removed from the table.">pcl_htable_t.remove_entry</a>, <a class="el" href="a01129.html#a7e9adab84c43d9a11a7a2ca0ff70b81e" title="&#x202A;Compute a hash code for the given key.">pcl_htable_t.hashcode</a> and <a class="el" href="a01129.html#a57cdb09719a1350e1f053c01139eb363" title="&#x202A;Determine if two keys are equal.">pcl_htable_t.key_equals</a>. All three can be assigned after table creation.</p>
-<h3 class="DocNodeLTR"><a class="anchor" id="autotoc_md6"></a>
-Rehashing</h3>
-<p class="DocNodeLTR">Rehashing is implemented by allocating a new table (buckets of entry lists) that is either double the current size rounded up to the nearest prime or half the current size rounded up to the nearest prime. In either case, the entries are shallow copied to the new table after computing their bucket indexes. When the copy is complete, the old table is freed. No hash codes are recomputed, since each entry caches its own hash code.</p>
-<h3 class="DocNodeLTR"><a class="anchor" id="autotoc_md7"></a>
-Table Size Limitations</h3>
-<p class="DocNodeLTR">The table can grow to ~50 million on 32-bit machines and ~1.6 billion on 64-bit machines. This table expands and contracts based on a max and min load factor &ndash; 0.75 and 0.20 respectively.</p>
-<h3 class="DocNodeLTR"><a class="anchor" id="autotoc_md8"></a>
-String and Binary Keys</h3>
-<p class="DocNodeLTR">The PCL hash table supports binary keys, which are fixed-length and normally do not change for the life of the hash table. After creating a hash table, one can specify the key length in bytes or provide zero (the default) for variable-length keys (strings). For example, when using a UUID string as a key, each key would require 36 bytes. However, only 16 bytes per key if binary. In this case, you would set the key_len to 16. The default <code>key_equals</code> will use <code>memcmp</code> when <em>key_len</em> is not zero and <code>strcmp</code> otherwise.</p>
-<h4 class="DocNodeLTR"><a class="anchor" id="autotoc_md9"></a>
-UUID Key Example</h4>
-<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/htable.h</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="a00050.html">pcl/init.h</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="a00077.html">pcl/string.h</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &quot;app/user.h&quot;</span></div>
+<p class="DocNodeLTR">The directory API provides a suite of function for managing and traversing directories. </p>
+<h4 class="DocNodeLTR"><a class="anchor" id="autotoc_md10"></a>
+Basic Usage</h4>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="a00056.html">pcl/init.h</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="a00041.html">pcl/error.h</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="a00032.html">pcl/dir.h</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="a00059.html">pcl/io.h</a>&gt;</span></div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">static</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> *uuidtokey(<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> *out, <span class="keyword">const</span> <span class="keywordtype">char</span> *uuid)</div>
+<div class="line"><span class="keywordtype">int</span> <a class="code" href="a01105.html#gab046e59b4feaefe578285704ec0c905b">pcl_main</a>(<span class="keywordtype">int</span> argc, <a class="code" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *targv)</div>
 <div class="line">{</div>
-<div class="line">  <span class="keywordtype">char</span> *hex = <a class="code" href="a01102.html#ga1af4eb72cec27108e92a470640def1cc">pcl_strreplace</a>(uuid, <span class="stringliteral">&quot;-&quot;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">  <a class="code" href="a01102.html#gafd8a5e2efd41dabad7002955280b004b">pcl_hex_decode</a>(out, 16, hex);</div>
-<div class="line">  <a class="code" href="a01088.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(hex);</div>
-<div class="line">  <span class="keywordflow">return</span> out;</div>
-<div class="line">}</div>
+<div class="line">  <span class="comment">// always first</span></div>
+<div class="line">  <a class="code" href="a01105.html#ga14907e41025b0abbdc02ef1f892bd9a2">pcl_init</a>();</div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">static</span> <span class="keywordtype">void</span> remove_entry(<span class="keyword">const</span> <span class="keywordtype">void</span> *key, <span class="keywordtype">void</span> *value, <span class="keywordtype">void</span> *userp)</div>
-<div class="line">{</div>
-<div class="line">  <a class="code" href="a00023.html#a9b58a1294d89c976dfbe4dc480e9dfb8">UNUSED</a>(userp);</div>
-<div class="line">  <a class="code" href="a01088.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(key);</div>
-<div class="line">  app_user_free((app_user_t *) value);</div>
-<div class="line">}</div>
+<div class="line">  <span class="keywordflow">if</span>(argc &lt; 2)</div>
+<div class="line">    <a class="code" href="a01101.html#gaaaa31d344c49095dfc3f6051ec2fbfca">PANIC</a>(<span class="stringliteral">&quot;Missing directory argument&quot;</span>, 0);</div>
 <div class="line"> </div>
-<div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">void</span>)</div>
-<div class="line">{</div>
-<div class="line">  <a class="code" href="a01099.html#ga14907e41025b0abbdc02ef1f892bd9a2">pcl_init</a>();</div>
+<div class="line">  <a class="code" href="a01191.html">pcl_dir_t</a> *dir = <a class="code" href="a01098.html#ga13533f63ec03a1abb3f72c93695e0746">pcl_opendir</a>(targv[1]);</div>
 <div class="line"> </div>
-<div class="line">  <span class="keywordtype">int</span> num;</div>
-<div class="line">  app_user_t **users = app_user_fetchall(&amp;num);</div>
+<div class="line">  <span class="keywordflow">if</span>(!dir)</div>
+<div class="line">    <a class="code" href="a01101.html#gaaaa31d344c49095dfc3f6051ec2fbfca">PANIC</a>(<span class="stringliteral">&quot;Failed to open directory: &#39;%Ps&#39;&quot;</span>, targv[1]);</div>
 <div class="line"> </div>
-<div class="line">  <a class="code" href="a01129.html">pcl_htable_t</a> *ht = <a class="code" href="a01098.html#gae469981bef26363606b65a93189234ce">pcl_htable_create</a>(num);</div>
+<div class="line">  <a class="code" href="a01119.html">pcl_dirent_t</a> ent;</div>
+<div class="line">  <span class="keyword">const</span> <a class="code" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *dirpath = <a class="code" href="a01098.html#ga07cef549518b08252f6d4c33c91aad09">pcl_dir_path</a>(dir, NULL);</div>
 <div class="line"> </div>
-<div class="line">  <span class="comment">// let htable know key length</span></div>
-<div class="line">  ht-&gt;<a class="code" href="a01129.html#aaa2dc552577da2bba064c4d36d971c26">key_len</a> = 16;</div>
-<div class="line">  ht-&gt;<a class="code" href="a01129.html#a671a5819f733f2c3de67d78b2f118ac1">remove_entry</a> = remove_entry;</div>
-<div class="line"> </div>
-<div class="line">  <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> uuid[16];</div>
-<div class="line"> </div>
-<div class="line">  <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; num; i++)</div>
+<div class="line">  <span class="keywordflow">while</span>(<a class="code" href="a01098.html#ga12c0f9a0e5f0d41bd409507abb0a6ac2">pcl_readdir</a>(dir, &amp;ent, NULL))</div>
 <div class="line">  {</div>
-<div class="line">    <span class="keywordtype">void</span> *key = memcmp(<a class="code" href="a01088.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a>(16), uuidtokey(uuid, users[i]-&gt;uuid), 16);</div>
-<div class="line">    <a class="code" href="a01098.html#gad1264b974c59d4df60f955234778a5e6">pcl_htable_put</a>(ht, key, users[i], <span class="keyword">true</span>);</div>
+<div class="line">    <span class="keywordtype">char</span> *type;</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordflow">switch</span>(ent.<a class="code" href="a01119.html#af9d4ecbda0712e6f029c4fefbc54e226">type</a>)</div>
+<div class="line">    {</div>
+<div class="line">      <span class="keywordflow">case</span> <a class="code" href="a01098.html#ggae41b808539653bb51ff789a39595f03aaec8f5ed49cbfd6beef2f7226d10ea88c">PclDirentFile</a>:   type = <span class="stringliteral">&quot;file&quot;</span>; <span class="keywordflow">break</span>;</div>
+<div class="line">      <span class="keywordflow">case</span> <a class="code" href="a01098.html#ggae41b808539653bb51ff789a39595f03aae9ee7cbcfa44fe6d71c4be9cfb3d7aec">PclDirentDir</a>:    type = <span class="stringliteral">&quot;directory&quot;</span>; <span class="keywordflow">break</span>;</div>
+<div class="line">      <span class="keywordflow">case</span> <a class="code" href="a01098.html#ggae41b808539653bb51ff789a39595f03aa2430d830d1abf82f3cb0ed0a4252214c">PclDirentFifo</a>:   type = <span class="stringliteral">&quot;named pipe&quot;</span>; <span class="keywordflow">break</span>;</div>
+<div class="line">      <span class="keywordflow">case</span> <a class="code" href="a01098.html#ggae41b808539653bb51ff789a39595f03aad3570e8cb6acb6b733638232550200a0">PclDirentLink</a>:   type = <span class="stringliteral">&quot;symbolic link&quot;</span>; <span class="keywordflow">break</span>;</div>
+<div class="line">      <span class="keywordflow">case</span> <a class="code" href="a01098.html#ggae41b808539653bb51ff789a39595f03aa28c0a5c83c1a0a2c77d098ab22649b4e">PclDirentChar</a>:   type = <span class="stringliteral">&quot;character device&quot;</span>; <span class="keywordflow">break</span>;</div>
+<div class="line">      <span class="keywordflow">case</span> <a class="code" href="a01098.html#ggae41b808539653bb51ff789a39595f03aa032b28f47b23732ac986054a87f5d0d3">PclDirentBlock</a>:  type = <span class="stringliteral">&quot;block device&quot;</span>; <span class="keywordflow">break</span>;</div>
+<div class="line">      <span class="keywordflow">case</span> <a class="code" href="a01098.html#ggae41b808539653bb51ff789a39595f03aa1d83fbbedbdf13d9400655be218b3bd1">PclDirentSocket</a>: type = <span class="stringliteral">&quot;unix domain socket&quot;</span>; <span class="keywordflow">break</span>;</div>
+<div class="line">      <span class="keywordflow">default</span>:              type = <span class="stringliteral">&quot;unknown&quot;</span>;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// %/ is replaced with the platform-specific path separator</span></div>
+<div class="line">    <a class="code" href="a01106.html#ga45ab34ad08cce3f205a3273cf4f3ce1f">pcl_printf</a>(<span class="stringliteral">&quot;%s] %Ps%/%Ps\n&quot;</span>, type, dirpath, ent.<a class="code" href="a01119.html#a92609b700992b7b2986e524a75ab61b2">name</a>);</div>
 <div class="line">  }</div>
 <div class="line"> </div>
-<div class="line">  <span class="keyword">const</span> <span class="keywordtype">char</span> *john = <span class="stringliteral">&quot;37462d98-371b-11eb-adc1-0242ac120002&quot;</span>;</div>
-<div class="line">  pcl_user_t *user = <a class="code" href="a01098.html#gaa01eda6232c789880d665e343ec299e3">pcl_htable_get</a>(ht, uuidtokey(uuid, john));</div>
+<div class="line">  <a class="code" href="a01098.html#gaa484d019a2f4e64c27eaa7815d989742">pcl_closedir</a>(dir);</div>
 <div class="line"> </div>
-<div class="line">  printf(<span class="stringliteral">&quot;%s\n&quot;</span>, user-&gt;surname);</div>
-<div class="line"> </div>
-<div class="line">  <a class="code" href="a01098.html#ga8b9f6df4376aac1c35a5d87ebcff93dc">pcl_htable_free</a>(ht);</div>
-<div class="line"> </div>
-<div class="line">  <span class="keywordflow">return</span> 0;</div>
-<div class="line">}</div>
-</div><!-- fragment --><p class="DocNodeLTR">One step further, is taking a 32 or 64-bit sequence value, like a <code>user_id</code>, and storing its value as the key pointer address: <code>key = (const void *)(uintptr_t) user_id</code>. This would require a custom key_equals (where key1 == key2 could be the implementation) and a custom hashcode callback (where return (uintptr_t) key; could be the implementation). This method is very efficient both in memory and performance, but only works if the numeric bit length is <code>&lt;=</code> the number of bits used by pointers. An example of this is below.</p>
-<h4 class="DocNodeLTR"><a class="anchor" id="autotoc_md10"></a>
-UserId Key Example</h4>
-<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/htable.h</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="a00050.html">pcl/init.h</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &quot;app/user.h&quot;</span></div>
-<div class="line"> </div>
-<div class="line"><span class="preprocessor">#define IDTOKEY(id) (const void *) ((uintptr_t) (id))</span></div>
-<div class="line"> </div>
-<div class="line"><span class="keyword">static</span> <span class="keywordtype">bool</span> key_equals(<span class="keyword">const</span> <span class="keywordtype">void</span> *a, <span class="keyword">const</span> <span class="keywordtype">void</span> *b, <span class="keywordtype">size_t</span> key_len, <span class="keywordtype">void</span> *userp)</div>
-<div class="line">{</div>
-<div class="line">  <a class="code" href="a00023.html#a9b58a1294d89c976dfbe4dc480e9dfb8">UNUSED</a>(key_len || userp);</div>
-<div class="line">  <span class="keywordflow">return</span> a == b; <span class="comment">// key addresses are user_ids, compare them directly.</span></div>
-<div class="line">}</div>
-<div class="line"> </div>
-<div class="line"><span class="keyword">static</span> uintptr_t hashcode(<span class="keyword">const</span> <span class="keywordtype">void</span> *key, <span class="keywordtype">size_t</span> key_len, <span class="keywordtype">void</span> *userp)</div>
-<div class="line">{</div>
-<div class="line">  <a class="code" href="a00023.html#a9b58a1294d89c976dfbe4dc480e9dfb8">UNUSED</a>(key_len || userp);</div>
-<div class="line">  <span class="keywordflow">return</span> (uintptr_t) key; <span class="comment">// no need to hash keys, user_id is unique</span></div>
-<div class="line">}</div>
-<div class="line"> </div>
-<div class="line"><span class="keyword">static</span> <span class="keywordtype">void</span> remove_entry(<span class="keyword">const</span> <span class="keywordtype">void</span> *key, <span class="keywordtype">void</span> *value, <span class="keywordtype">void</span> *userp)</div>
-<div class="line">{</div>
-<div class="line">  <a class="code" href="a00023.html#a9b58a1294d89c976dfbe4dc480e9dfb8">UNUSED</a>(key || userp);</div>
-<div class="line">  app_user_free((app_user_t *) value); <span class="comment">// key doesn&#39;t need to be freed</span></div>
-<div class="line">}</div>
-<div class="line"> </div>
-<div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">void</span>)</div>
-<div class="line">{</div>
-<div class="line">  <a class="code" href="a01099.html#ga14907e41025b0abbdc02ef1f892bd9a2">pcl_init</a>();</div>
-<div class="line"> </div>
-<div class="line">  <span class="keywordtype">int</span> num_users;</div>
-<div class="line">  app_user_t **users = app_user_fetchall(&amp;num_users);</div>
-<div class="line"> </div>
-<div class="line">  <span class="comment">// a table mapping a user_id =&gt; user.</span></div>
-<div class="line">  <a class="code" href="a01129.html">pcl_htable_t</a> *ht = <a class="code" href="a01098.html#gae469981bef26363606b65a93189234ce">pcl_htable_create</a>(num_users);</div>
-<div class="line"> </div>
-<div class="line">  <span class="comment">// configuring a pcl_htable_t</span></div>
-<div class="line">  ht-&gt;<a class="code" href="a01129.html#a671a5819f733f2c3de67d78b2f118ac1">remove_entry</a> = remove_entry;</div>
-<div class="line">  ht-&gt;<a class="code" href="a01129.html#a7e9adab84c43d9a11a7a2ca0ff70b81e">hashcode</a> = hashcode;</div>
-<div class="line">  ht-&gt;<a class="code" href="a01129.html#a57cdb09719a1350e1f053c01139eb363">key_equals</a> = key_equals;</div>
-<div class="line"> </div>
-<div class="line">  <span class="comment">// ignored since example sets hashcode and key_equals. Set if your callbacks need it.</span></div>
-<div class="line">  <span class="comment">//ht-&gt;key_len = 0;</span></div>
-<div class="line"> </div>
-<div class="line">  <span class="comment">//ht-&gt;min_loadfac = 0.13f;</span></div>
-<div class="line">  <span class="comment">//ht-&gt;max_loadfac = 0.85f;</span></div>
-<div class="line">  <span class="comment">//ht-&gt;userp = used_by_callbacks;</span></div>
-<div class="line"> </div>
-<div class="line">  <span class="comment">// set key address to user_id</span></div>
-<div class="line">  <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; num_users; i++)</div>
-<div class="line">    <a class="code" href="a01098.html#gad1264b974c59d4df60f955234778a5e6">pcl_htable_put</a>(ht, IDTOKEY(users[i]-&gt;<span class="keywordtype">id</span>), users[i]-&gt;<span class="keywordtype">id</span>, <span class="keyword">true</span>);</div>
-<div class="line"> </div>
-<div class="line">  <a class="code" href="a01088.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(users);</div>
-<div class="line"> </div>
-<div class="line">  app_user_t *user = <a class="code" href="a01098.html#gaa01eda6232c789880d665e343ec299e3">pcl_htable_get</a>(ht, IDTOKEY(1982734));</div>
-<div class="line"> </div>
-<div class="line">  printf(<span class="stringliteral">&quot;%s\n&quot;</span>, user-&gt;name);</div>
-<div class="line"> </div>
-<div class="line">  <a class="code" href="a01098.html#ga8b9f6df4376aac1c35a5d87ebcff93dc">pcl_htable_free</a>(ht); <span class="comment">// calls remove_entry foreach entry in table</span></div>
+<div class="line">  <span class="comment">// when readdir is done, it returns false and pcl_errno is PCL_ENOMORE</span></div>
+<div class="line">  <span class="keywordflow">if</span>(<a class="code" href="a01099.html#ga4fdb8ad5d33758ac2c7bcc1cc0ce6d41">pcl_errno</a> != <a class="code" href="a01100.html#gab49b19d4d3fbc59acae53c4a2de9a234">PCL_ENOMORE</a>)</div>
+<div class="line">    <a class="code" href="a01101.html#gaaaa31d344c49095dfc3f6051ec2fbfca">PANIC</a>(<span class="stringliteral">&quot;readdir failed: &#39;%Ps&#39;&quot;</span>, dirpath);</div>
 <div class="line"> </div>
 <div class="line">  <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
 </div><!-- fragment --> <h2 class="groupheader">Typedef Documentation</h2>
-<a id="gaa535f1a16a04b2ad53bde938fa7511a4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaa535f1a16a04b2ad53bde938fa7511a4">&#9670;&nbsp;</a></span>pcl_htable_entry_t</h2>
+<a id="ga630bd7c310ec017b8880a1c328a2db9d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga630bd7c310ec017b8880a1c328a2db9d">&#9670;&nbsp;</a></span>pcl_dir_t</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef struct <a class="el" href="a01125.html">tag_pcl_htable_entry</a> <a class="el" href="a01098.html#gaa535f1a16a04b2ad53bde938fa7511a4">pcl_htable_entry_t</a></td>
+          <td class="memname">typedef struct <a class="el" href="a01191.html">tag_pcl_dir</a> <a class="el" href="a01098.html#ga630bd7c310ec017b8880a1c328a2db9d">pcl_dir_t</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00047.html">pcl/htable.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="a00098.html">pcl/types.h</a>&gt;</code></p>
 
-<p>&#x202A;Hash table entry object. </p>
-<p class="DocNodeLTR">The overhead of each entry is 16 bytes on 32-bit machines and 32 bytes on 64-bit machines. </p>
+<p>&#x202A;Directory handle. </p>
+
+<p class="definition">Definition at line <a class="el" href="a00098_source.html#l00060">60</a> of file <a class="el" href="a00098_source.html">types.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="gae41b808539653bb51ff789a39595f03a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae41b808539653bb51ff789a39595f03a">&#9670;&nbsp;</a></span>pcl_dirent_type_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="a01098.html#gae41b808539653bb51ff789a39595f03a">pcl_dirent_type_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00032.html">pcl/dir.h</a>&gt;</code></p>
+
+<p>&#x202A;Directory entry types. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ggae41b808539653bb51ff789a39595f03aad39239acc789c49c45ee20485e426367"></a>PclDirentUnknown&#160;</td><td class="fielddoc"><p class="DocNodeLTR">Entry type could not be determined. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggae41b808539653bb51ff789a39595f03aa2430d830d1abf82f3cb0ed0a4252214c"></a>PclDirentFifo&#160;</td><td class="fielddoc"><p class="DocNodeLTR">Named pipe (FIFO) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggae41b808539653bb51ff789a39595f03aa28c0a5c83c1a0a2c77d098ab22649b4e"></a>PclDirentChar&#160;</td><td class="fielddoc"><p class="DocNodeLTR">Character device. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggae41b808539653bb51ff789a39595f03aae9ee7cbcfa44fe6d71c4be9cfb3d7aec"></a>PclDirentDir&#160;</td><td class="fielddoc"><p class="DocNodeLTR">Directory. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggae41b808539653bb51ff789a39595f03aa032b28f47b23732ac986054a87f5d0d3"></a>PclDirentBlock&#160;</td><td class="fielddoc"><p class="DocNodeLTR">Block device. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggae41b808539653bb51ff789a39595f03aaec8f5ed49cbfd6beef2f7226d10ea88c"></a>PclDirentFile&#160;</td><td class="fielddoc"><p class="DocNodeLTR">Regular file. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggae41b808539653bb51ff789a39595f03aad3570e8cb6acb6b733638232550200a0"></a>PclDirentLink&#160;</td><td class="fielddoc"><p class="DocNodeLTR">Symbolic link. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggae41b808539653bb51ff789a39595f03aa1d83fbbedbdf13d9400655be218b3bd1"></a>PclDirentSocket&#160;</td><td class="fielddoc"><p class="DocNodeLTR">Unix domain socket. </p>
+</td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="a00032_source.html#l00095">95</a> of file <a class="el" href="a00032_source.html">dir.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="gae469981bef26363606b65a93189234ce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gae469981bef26363606b65a93189234ce">&#9670;&nbsp;</a></span>pcl_htable_create()</h2>
+<a id="ga13533f63ec03a1abb3f72c93695e0746"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga13533f63ec03a1abb3f72c93695e0746">&#9670;&nbsp;</a></span>pcl_opendir()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">PCL_EXPORT <a class="el" href="a00092.html#a837674424510bcf55b9b1eaa8acf639f">pcl_htable_t</a>* pcl_htable_create </td>
+          <td class="memname">PCL_EXPORT <a class="el" href="a01098.html#ga630bd7c310ec017b8880a1c328a2db9d">pcl_dir_t</a>* pcl_opendir </td>
           <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>capacity</em></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00047.html">pcl/htable.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="a00032.html">pcl/dir.h</a>&gt;</code></p>
 
-<p>&#x202A;Creates a new hash table object. </p>
-<p class="DocNodeLTR">All hash table callbacks are set to the default implementations as documented. After creating a hash table, you can assign callbacks. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">capacity</td><td>&#x202A;initial capacity of hash table. This is rounded up to the nearest prime. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;hash table pointer or NULL on error. </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="a00500_source.html#l00062">62</a> of file <a class="el" href="a00500_source.html">htable_create.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a00047_source.html#l00225">tag_pcl_htable::capacity</a>, <a class="el" href="a00494_source.html#l00036">ipcl_htable_capacity()</a>, <a class="el" href="a00047_source.html#l00283">tag_pcl_htable::key_equals</a>, <a class="el" href="a00047_source.html#l00243">tag_pcl_htable::key_len</a>, <a class="el" href="a00023_source.html#l00114">max</a>, <a class="el" href="a00047_source.html#l00261">tag_pcl_htable::max_loadfac</a>, <a class="el" href="a00491_source.html#l00037">MAX_LOADFAC</a>, <a class="el" href="a00047_source.html#l00252">tag_pcl_htable::min_loadfac</a>, <a class="el" href="a00491_source.html#l00038">MIN_LOADFAC</a>, <a class="el" href="a01088.html#ga8f4cbae7a9d6191bceec2d2d1f04eb5d">pcl_zalloc()</a>, and <a class="el" href="a00005_source.html#l00287">R_TRC</a>.</p>
-
-</div>
-</div>
-<a id="ga3888f186c326a0f1c8ee363a11d21f5b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga3888f186c326a0f1c8ee363a11d21f5b">&#9670;&nbsp;</a></span>pcl_htable_lookup()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">PCL_EXPORT <a class="el" href="a01098.html#gaa535f1a16a04b2ad53bde938fa7511a4">pcl_htable_entry_t</a>* pcl_htable_lookup </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00092.html#a837674424510bcf55b9b1eaa8acf639f">pcl_htable_t</a> *&#160;</td>
-          <td class="paramname"><em>ht</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const void *&#160;</td>
-          <td class="paramname"><em>key</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00047.html">pcl/htable.h</a>&gt;</code></p>
-
-<p>&#x202A;Lookup and return an entry. </p>
+<p>&#x202A;Open a directory. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ht</td><td>&#x202A;pointer to hash table object </td></tr>
-    <tr><td class="paramname">key</td><td>&#x202A;pointer to the key to lookup </td></tr>
+    <tr><td class="paramname">path</td><td>&#x202A;directory path. Internally, this is converted to an absolute path and can be retreived using <a class="el" href="a01098.html#ga07cef549518b08252f6d4c33c91aad09" title="&#x202A;Get a directory handle&#39;s path.">pcl_dir_path</a> </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to the key's entry or NULL if not found or an error occurs. If not found, the last PCL error (pcl_errno) is set to PCL_ENOTFOUND. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to a directory handle or <code>NULL</code> on error </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="a00512_source.html#l00036">36</a> of file <a class="el" href="a00512_source.html">htable_lookup.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00275_source.html#l00042">42</a> of file <a class="el" href="a00275_source.html">opendir.c</a>.</p>
 
-<p class="reference">References <a class="el" href="a00512_source.html#l00047">ipcl_htable_lookup()</a>, <a class="el" href="a00008_source.html#l00078">PCL_EINVAL</a>, <a class="el" href="a00005_source.html#l00145">R_SETERR</a>, and <a class="el" href="a00005_source.html#l00287">R_TRC</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="a00506_source.html#l00036">pcl_htable_get()</a>.</p>
+<p class="reference">References <a class="el" href="a00029_source.html#l00078">_P</a>, <a class="el" href="a00257_source.html#l00058">tag_pcl_dir::handle</a>, <a class="el" href="a00257_source.html#l00050">tag_pcl_dir::path</a>, <a class="el" href="a00257_source.html#l00051">tag_pcl_dir::pathlen</a>, <a class="el" href="a00263_source.html#l00036">pcl_closedir()</a>, <a class="el" href="a00014_source.html#l00078">PCL_EINVAL</a>, <a class="el" href="a01094.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc()</a>, <a class="el" href="a01094.html#ga8ed2d8a28dde302fa8eac0d2e9ce8ea4">pcl_realloc()</a>, <a class="el" href="a00458_source.html#l00044">pcl_realpath()</a>, <a class="el" href="a00011_source.html#l00145">R_SETERR</a>, <a class="el" href="a00011_source.html#l00287">R_TRC</a>, <a class="el" href="a00011_source.html#l00132">SETLASTERRMSG</a>, and <a class="el" href="a00029_source.html#l00124">strempty</a>.</p>
 
 </div>
 </div>
-<a id="gaa01eda6232c789880d665e343ec299e3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaa01eda6232c789880d665e343ec299e3">&#9670;&nbsp;</a></span>pcl_htable_get()</h2>
+<a id="ga07cef549518b08252f6d4c33c91aad09"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga07cef549518b08252f6d4c33c91aad09">&#9670;&nbsp;</a></span>pcl_dir_path()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">PCL_EXPORT void* pcl_htable_get </td>
+          <td class="memname">PCL_EXPORT const <a class="el" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>* pcl_dir_path </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="a00092.html#a837674424510bcf55b9b1eaa8acf639f">pcl_htable_t</a> *&#160;</td>
-          <td class="paramname"><em>ht</em>, </td>
+          <td class="paramtype"><a class="el" href="a01098.html#ga630bd7c310ec017b8880a1c328a2db9d">pcl_dir_t</a> *&#160;</td>
+          <td class="paramname"><em>dir</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const void *&#160;</td>
-          <td class="paramname"><em>key</em>&#160;</td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>lenp</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -368,53 +313,48 @@ UserId Key Example</h4>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00047.html">pcl/htable.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="a00032.html">pcl/dir.h</a>&gt;</code></p>
 
-<p>&#x202A;Lookup an entry and return its value. </p>
+<p>&#x202A;Get a directory handle's path. </p>
+<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;the returned path is always absolute. </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ht</td><td>&#x202A;pointer to hash table object </td></tr>
-    <tr><td class="paramname">key</td><td>&#x202A;pointer to a key </td></tr>
+    <tr><td class="paramname">dir</td><td>&#x202A;pointer to a directory handle as returned by <a class="el" href="a01098.html#ga13533f63ec03a1abb3f72c93695e0746" title="&#x202A;Open a directory.">pcl_opendir</a> </td></tr>
+    <tr><td class="paramname">lenp</td><td>&#x202A;If not <code>NULL</code>, the path character length will be written here (excluding NUL) </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;value pointer or NULL if not found. values can be NULL. To detect an error verse a NULL value, check pcl_errno: if(value == NULL &amp;&amp; pcl_errno == PCL_EOKAY) success; </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;directory handle's path or <code>NULL</code> on error </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="a00506_source.html#l00036">36</a> of file <a class="el" href="a00506_source.html">htable_get.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00266_source.html#l00036">36</a> of file <a class="el" href="a00266_source.html">dir_path.c</a>.</p>
 
-<p class="reference">References <a class="el" href="a00335_source.html#l00035">pcl_err_clear()</a>, <a class="el" href="a00512_source.html#l00036">pcl_htable_lookup()</a>, <a class="el" href="a00005_source.html#l00287">R_TRC</a>, and <a class="el" href="a00047_source.html#l00210">tag_pcl_htable_entry::value</a>.</p>
+<p class="reference">References <a class="el" href="a00257_source.html#l00050">tag_pcl_dir::path</a>, <a class="el" href="a00257_source.html#l00051">tag_pcl_dir::pathlen</a>, <a class="el" href="a00014_source.html#l00078">PCL_EINVAL</a>, and <a class="el" href="a00011_source.html#l00145">R_SETERR</a>.</p>
 
 </div>
 </div>
-<a id="gad1264b974c59d4df60f955234778a5e6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gad1264b974c59d4df60f955234778a5e6">&#9670;&nbsp;</a></span>pcl_htable_put()</h2>
+<a id="ga12c0f9a0e5f0d41bd409507abb0a6ac2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga12c0f9a0e5f0d41bd409507abb0a6ac2">&#9670;&nbsp;</a></span>pcl_readdir()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">PCL_EXPORT int pcl_htable_put </td>
+          <td class="memname">PCL_EXPORT bool pcl_readdir </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="a00092.html#a837674424510bcf55b9b1eaa8acf639f">pcl_htable_t</a> *&#160;</td>
-          <td class="paramname"><em>ht</em>, </td>
+          <td class="paramtype"><a class="el" href="a01098.html#ga630bd7c310ec017b8880a1c328a2db9d">pcl_dir_t</a> *&#160;</td>
+          <td class="paramname"><em>dir</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const void *&#160;</td>
-          <td class="paramname"><em>key</em>, </td>
+          <td class="paramtype"><a class="el" href="a01119.html">pcl_dirent_t</a> *&#160;</td>
+          <td class="paramname"><em>ent</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>value</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>unique</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="a00098.html#ad70b25324f0a743c08589d18cf141dc8">pcl_stat_t</a> *&#160;</td>
+          <td class="paramname"><em>st</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -424,199 +364,282 @@ UserId Key Example</h4>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00047.html">pcl/htable.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="a00032.html">pcl/dir.h</a>&gt;</code></p>
 
-<p>&#x202A;Puts a key/value pair into the table. </p>
+<p>&#x202A;Read an entry from a directory handle. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ht</td><td>&#x202A;pointer to hash table object </td></tr>
-    <tr><td class="paramname">key</td><td>&#x202A;pointer to the key. This is shallow assignment. </td></tr>
-    <tr><td class="paramname">value</td><td>&#x202A;pointer to the entry's value. This is shallow assignment. </td></tr>
-    <tr><td class="paramname">unique</td><td>&#x202A;indicates if the put operation should enforce unique keys. When true, if a key exists the operation fails. When false, a matching entry's key and value are replaced with the given key and value; remove_entry called with old key and value. </td></tr>
+    <tr><td class="paramname">dir</td><td>&#x202A;pointer to a directory handle as returned by <a class="el" href="a01098.html#ga13533f63ec03a1abb3f72c93695e0746" title="&#x202A;Open a directory.">pcl_opendir</a> </td></tr>
+    <tr><td class="paramname">ent</td><td>&#x202A;pointer to an entry buffer to receive the results </td></tr>
+    <tr><td class="paramname">st</td><td>&#x202A;If not <code>NULL</code>, a <a class="el" href="a00080.html#aebaa91ead88db4bc8a0f3002dc7cf97d">pcl_lstat</a> will be executed for the entry. In most cases, the <a class="el" href="a01119.html#af9d4ecbda0712e6f029c4fefbc54e226" title="&#x202A;type of entry: PclDirentFile, PclDirentDir, etc">pcl_dirent_t.type</a> can be used to avoid an expensive <a class="el" href="a00080.html#aebaa91ead88db4bc8a0f3002dc7cf97d">pcl_lstat</a>. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;0 on success and -1 on error. For unique puts, pcl_errno is set to PCL_EEXISTS. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;true on success and false on error. When there are no more entries, this returns false and sets the pcl_errno to PCL_ENOMORE. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="a00515_source.html#l00037">37</a> of file <a class="el" href="a00515_source.html">htable_put.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00278_source.html#l00046">46</a> of file <a class="el" href="a00278_source.html">readdir.c</a>.</p>
 
-<p class="reference">References <a class="el" href="a00005_source.html#l00306">BADARG</a>, <a class="el" href="a00047_source.html#l00225">tag_pcl_htable::capacity</a>, <a class="el" href="a00047_source.html#l00204">tag_pcl_htable_entry::code</a>, <a class="el" href="a00047_source.html#l00220">tag_pcl_htable::count</a>, <a class="el" href="a00047_source.html#l00230">tag_pcl_htable::entries</a>, <a class="el" href="a00512_source.html#l00047">ipcl_htable_lookup()</a>, <a class="el" href="a00518_source.html#l00037">ipcl_htable_rehash()</a>, <a class="el" href="a00047_source.html#l00207">tag_pcl_htable_entry::key</a>, <a class="el" href="a00047_source.html#l00261">tag_pcl_htable::max_loadfac</a>, <a class="el" href="a00047_source.html#l00201">tag_pcl_htable_entry::next</a>, <a class="el" href="a00008_source.html#l00068">PCL_EEXIST</a>, <a class="el" href="a01088.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc()</a>, <a class="el" href="a00047_source.html#l00273">tag_pcl_htable::remove_entry</a>, <a class="el" href="a00005_source.html#l00065">SETERR</a>, <a class="el" href="a00005_source.html#l00262">TRC</a>, <a class="el" href="a00047_source.html#l00264">tag_pcl_htable::userp</a>, and <a class="el" href="a00047_source.html#l00210">tag_pcl_htable_entry::value</a>.</p>
+<p class="reference">References <a class="el" href="a00029_source.html#l00078">_P</a>, <a class="el" href="a00029_source.html#l00127">countof</a>, <a class="el" href="a00431_source.html#l00064">tag_pcl_file::fd</a>, <a class="el" href="a00257_source.html#l00058">tag_pcl_dir::handle</a>, <a class="el" href="a00032_source.html#l00128">pcl_dirent_t::name</a>, <a class="el" href="a00032_source.html#l00126">pcl_dirent_t::namlen</a>, <a class="el" href="a00257_source.html#l00050">tag_pcl_dir::path</a>, <a class="el" href="a01106.html#ga6ad218226a71fde1337f4fbfc2d7fb3b">pcl_aspprintf()</a>, <a class="el" href="a00014_source.html#l00078">PCL_EINVAL</a>, <a class="el" href="a00014_source.html#l00144">PCL_ENOMORE</a>, <a class="el" href="a00041_source.html#l00182">pcl_err_osclear</a>, <a class="el" href="a00440_source.html#l00039">pcl_file_close()</a>, <a class="el" href="a00449_source.html#l00036">pcl_file_open()</a>, <a class="el" href="a01094.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free()</a>, <a class="el" href="a00080_source.html#l00063">pcl_lstat</a>, <a class="el" href="a00050_source.html#l00058">PCL_O_RDONLY</a>, <a class="el" href="a00041_source.html#l00133">pcl_oserrno</a>, <a class="el" href="a01109.html#ga6608a43435d87285c8c7468f99c70fdf">pcl_pcscmp()</a>, <a class="el" href="a01109.html#ga51b9a7b503726400268da5fd3a11186d">pcl_pcslen()</a>, <a class="el" href="a01109.html#ga89090bb1f6afc70411e4849ea04aa8ed">pcl_pcsncpy()</a>, <a class="el" href="a00032_source.html#l00106">PclDirentBlock</a>, <a class="el" href="a00032_source.html#l00102">PclDirentChar</a>, <a class="el" href="a00032_source.html#l00104">PclDirentDir</a>, <a class="el" href="a00032_source.html#l00100">PclDirentFifo</a>, <a class="el" href="a00032_source.html#l00108">PclDirentFile</a>, <a class="el" href="a00032_source.html#l00110">PclDirentLink</a>, <a class="el" href="a00032_source.html#l00112">PclDirentSocket</a>, <a class="el" href="a00032_source.html#l00098">PclDirentUnknown</a>, <a class="el" href="a00011_source.html#l00145">R_SETERR</a>, <a class="el" href="a00011_source.html#l00205">R_SETOSERR</a>, <a class="el" href="a00011_source.html#l00287">R_TRC</a>, <a class="el" href="a00011_source.html#l00125">SETLASTERR</a>, and <a class="el" href="a00032_source.html#l00124">pcl_dirent_t::type</a>.</p>
 
 </div>
 </div>
-<a id="ga68c69681ce29a21e3dd823479f8c5f98"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga68c69681ce29a21e3dd823479f8c5f98">&#9670;&nbsp;</a></span>pcl_htable_remove()</h2>
+<a id="gaa484d019a2f4e64c27eaa7815d989742"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa484d019a2f4e64c27eaa7815d989742">&#9670;&nbsp;</a></span>pcl_closedir()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">PCL_EXPORT void pcl_htable_remove </td>
+          <td class="memname">PCL_EXPORT void pcl_closedir </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="a00092.html#a837674424510bcf55b9b1eaa8acf639f">pcl_htable_t</a> *&#160;</td>
-          <td class="paramname"><em>ht</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const void *&#160;</td>
-          <td class="paramname"><em>key</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00047.html">pcl/htable.h</a>&gt;</code></p>
-
-<p>&#x202A;Remove an entry from the table. </p>
-<p class="DocNodeLTR">If the key does not exist, this call is silently ignored. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">ht</td><td>&#x202A;pointer to hash table object </td></tr>
-    <tr><td class="paramname">key</td><td>&#x202A;pointer to the entry's key to remove </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p class="definition">Definition at line <a class="el" href="a00521_source.html#l00035">35</a> of file <a class="el" href="a00521_source.html">htable_remove.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a00047_source.html#l00225">tag_pcl_htable::capacity</a>, <a class="el" href="a00047_source.html#l00230">tag_pcl_htable::entries</a>, <a class="el" href="a00047_source.html#l00296">tag_pcl_htable::hashcode</a>, <a class="el" href="a00524_source.html#l00036">ipcl_htable_remove_entry()</a>, <a class="el" href="a00047_source.html#l00207">tag_pcl_htable_entry::key</a>, <a class="el" href="a00047_source.html#l00283">tag_pcl_htable::key_equals</a>, <a class="el" href="a00047_source.html#l00243">tag_pcl_htable::key_len</a>, <a class="el" href="a00047_source.html#l00201">tag_pcl_htable_entry::next</a>, and <a class="el" href="a00047_source.html#l00264">tag_pcl_htable::userp</a>.</p>
-
-</div>
-</div>
-<a id="gac138522216ff35c0bb148723cce328ed"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gac138522216ff35c0bb148723cce328ed">&#9670;&nbsp;</a></span>pcl_htable_keys()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">PCL_EXPORT <a class="el" href="a01105.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a>* pcl_htable_keys </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00092.html#a837674424510bcf55b9b1eaa8acf639f">pcl_htable_t</a> *&#160;</td>
-          <td class="paramname"><em>ht</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="a01098.html#ga630bd7c310ec017b8880a1c328a2db9d">pcl_dir_t</a> *&#160;</td>
+          <td class="paramname"><em>dir</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00047.html">pcl/htable.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="a00032.html">pcl/dir.h</a>&gt;</code></p>
 
-<p>&#x202A;Get hash table keys as a vector. </p>
-<p class="DocNodeLTR">Note, each element is a <code>void**</code> so ensure to use pcl_vector_getptr or _getptr_s to retreive the keys from the vector. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">ht</td><td>&#x202A;pointer to hash table object </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;vector on success and NULL on error. An empty table produces an empty vector. This vector must be freed by caller. </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="a00509_source.html#l00036">36</a> of file <a class="el" href="a00509_source.html">htable_keys.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a00047_source.html#l00225">tag_pcl_htable::capacity</a>, <a class="el" href="a00047_source.html#l00220">tag_pcl_htable::count</a>, <a class="el" href="a00047_source.html#l00230">tag_pcl_htable::entries</a>, <a class="el" href="a00047_source.html#l00201">tag_pcl_htable_entry::next</a>, <a class="el" href="a00101_source.html#l00156">pcl_vector_append</a>, and <a class="el" href="a01013_source.html#l00036">pcl_vector_create()</a>.</p>
-
-</div>
-</div>
-<a id="ga8b25b5955d6abd1ef508a4106df9cfe2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga8b25b5955d6abd1ef508a4106df9cfe2">&#9670;&nbsp;</a></span>pcl_htable_clear()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">PCL_EXPORT void pcl_htable_clear </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00092.html#a837674424510bcf55b9b1eaa8acf639f">pcl_htable_t</a> *&#160;</td>
-          <td class="paramname"><em>ht</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>shrink</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00047.html">pcl/htable.h</a>&gt;</code></p>
-
-<p>&#x202A;Clear all entries from the table. </p>
+<p>&#x202A;Close a directory handle. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ht</td><td>&#x202A;pointer to hash table object </td></tr>
-    <tr><td class="paramname">shrink</td><td>&#x202A;when true, the table will be shrunk down to the smallest table size; 17. </td></tr>
+    <tr><td class="paramname">dir</td><td>&#x202A;pointer to a directory handle as returned by <a class="el" href="a01098.html#ga13533f63ec03a1abb3f72c93695e0746" title="&#x202A;Open a directory.">pcl_opendir</a> </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="a00497_source.html#l00037">37</a> of file <a class="el" href="a00497_source.html">htable_clear.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00263_source.html#l00036">36</a> of file <a class="el" href="a00263_source.html">closedir.c</a>.</p>
 
-<p class="reference">References <a class="el" href="a00047_source.html#l00225">tag_pcl_htable::capacity</a>, <a class="el" href="a00047_source.html#l00230">tag_pcl_htable::entries</a>, <a class="el" href="a00524_source.html#l00036">ipcl_htable_remove_entry()</a>, <a class="el" href="a00491_source.html#l00039">MIN_TABLE_SIZE</a>, <a class="el" href="a00047_source.html#l00201">tag_pcl_htable_entry::next</a>, and <a class="el" href="a01088.html#ga8ed2d8a28dde302fa8eac0d2e9ce8ea4">pcl_realloc()</a>.</p>
+<p class="reference">References <a class="el" href="a00257_source.html#l00058">tag_pcl_dir::handle</a>, <a class="el" href="a00257_source.html#l00050">tag_pcl_dir::path</a>, <a class="el" href="a01094.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free()</a>, and <a class="el" href="a01094.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="a00503_source.html#l00036">pcl_htable_free()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="a00275_source.html#l00042">pcl_opendir()</a>.</p>
 
 </div>
 </div>
-<a id="ga8b9f6df4376aac1c35a5d87ebcff93dc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga8b9f6df4376aac1c35a5d87ebcff93dc">&#9670;&nbsp;</a></span>pcl_htable_free()</h2>
+<a id="ga37bac368d1d355d369acc0184aa480e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga37bac368d1d355d369acc0184aa480e6">&#9670;&nbsp;</a></span>pcl_rmdir()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">PCL_EXPORT void* pcl_htable_free </td>
+          <td class="memname">PCL_EXPORT int pcl_rmdir </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="a00092.html#a837674424510bcf55b9b1eaa8acf639f">pcl_htable_t</a> *&#160;</td>
-          <td class="paramname"><em>ht</em></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00047.html">pcl/htable.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="a00032.html">pcl/dir.h</a>&gt;</code></p>
 
-<p>&#x202A;Release all resources used by the given hash table. </p>
-<p class="DocNodeLTR">If a remove_entry callback is set on the given hash table, it will be called for each entry. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>&#x202A;Remove a directory. </p>
+<dl class="section warning DocNodeLTR"><dt>Warning</dt><dd>&#x202A;The directory must be empty. </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ht</td><td>&#x202A;pointer to hash table object </td></tr>
+    <tr><td class="paramname">path</td><td>&#x202A;directory to remove </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;always returns NULL, which is useful as an assignment and free in a single line: <code>my_obj-&gt;ht = pcl_htable_free(my_obj-&gt;ht)</code> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;0 for success and -1 on error </dd></dl>
+<dl class="section see DocNodeLTR"><dt>See also</dt><dd>&#x202A;<a class="el" href="a01098.html#ga4e50851b69498827be4f968bf32f1801" title="&#x202A;Recursively remove a directory.">pcl_rmdir_r</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="a00503_source.html#l00036">36</a> of file <a class="el" href="a00503_source.html">htable_free.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00281_source.html#l00036">36</a> of file <a class="el" href="a00281_source.html">rmdir.c</a>.</p>
 
-<p class="reference">References <a class="el" href="a00047_source.html#l00230">tag_pcl_htable::entries</a>, <a class="el" href="a01088.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free()</a>, <a class="el" href="a01088.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe()</a>, and <a class="el" href="a00497_source.html#l00037">pcl_htable_clear()</a>.</p>
+<p class="reference">References <a class="el" href="a00011_source.html#l00306">BADARG</a>, <a class="el" href="a00041_source.html#l00133">pcl_oserrno</a>, <a class="el" href="a00011_source.html#l00125">SETLASTERR</a>, and <a class="el" href="a00029_source.html#l00124">strempty</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00461_source.html#l00041">pcl_remove()</a>.</p>
+
+</div>
+</div>
+<a id="ga4e50851b69498827be4f968bf32f1801"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4e50851b69498827be4f968bf32f1801">&#9670;&nbsp;</a></span>pcl_rmdir_r()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PCL_EXPORT int pcl_rmdir_r </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00032.html">pcl/dir.h</a>&gt;</code></p>
+
+<p>&#x202A;Recursively remove a directory. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>&#x202A;directory to remove </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;0 for success and -1 on error </dd></dl>
+<dl class="section see DocNodeLTR"><dt>See also</dt><dd>&#x202A;<a class="el" href="a01098.html#ga37bac368d1d355d369acc0184aa480e6" title="&#x202A;Remove a directory.">pcl_rmdir</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00284_source.html#l00087">87</a> of file <a class="el" href="a00284_source.html">rmdir_r.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00029_source.html#l00127">countof</a>, and <a class="el" href="a01109.html#gab041bc00f3c2fe16fcb717caa9733fbc">pcl_pcscpy()</a>.</p>
+
+</div>
+</div>
+<a id="ga62bf2c19d6773b0529e0e8f4fae5ea45"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga62bf2c19d6773b0529e0e8f4fae5ea45">&#9670;&nbsp;</a></span>pcl_chdir()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PCL_EXPORT int pcl_chdir </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00032.html">pcl/dir.h</a>&gt;</code></p>
+
+<p>&#x202A;Change the current working directory. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>&#x202A;new working directory </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;0 for success and -1 on error </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00260_source.html#l00036">36</a> of file <a class="el" href="a00260_source.html">chdir.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00011_source.html#l00125">SETLASTERR</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00653_source.html#l00072">pcl_proc_exec()</a>.</p>
+
+</div>
+</div>
+<a id="gaac838842f82869a4606daf5935b3ff42"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaac838842f82869a4606daf5935b3ff42">&#9670;&nbsp;</a></span>pcl_mkdir()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PCL_EXPORT int pcl_mkdir </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">mode_t&#160;</td>
+          <td class="paramname"><em>mode</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00032.html">pcl/dir.h</a>&gt;</code></p>
+
+<p>&#x202A;Create a directory. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>&#x202A;directory path </td></tr>
+    <tr><td class="paramname">mode</td><td>&#x202A;permission bits </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;0 on success and -1 on error </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00269_source.html#l00041">41</a> of file <a class="el" href="a00269_source.html">mkdir.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a01070_source.html#l00036">ipcl_win32_sd_clear()</a>, <a class="el" href="a01073_source.html#l00045">ipcl_win32_sd_create()</a>, <a class="el" href="a00041_source.html#l00182">pcl_err_osclear</a>, <a class="el" href="a00011_source.html#l00132">SETLASTERRMSG</a>, and <a class="el" href="a00011_source.html#l00275">TRCMSG</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00272_source.html#l00037">pcl_mkdirs()</a>.</p>
+
+</div>
+</div>
+<a id="ga44d1b0ffef615047c21f382722c17c82"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga44d1b0ffef615047c21f382722c17c82">&#9670;&nbsp;</a></span>pcl_mkdirs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PCL_EXPORT int pcl_mkdirs </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">mode_t&#160;</td>
+          <td class="paramname"><em>mode</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00032.html">pcl/dir.h</a>&gt;</code></p>
+
+<p>&#x202A;Create a directory including any absent parents. </p>
+<p class="DocNodeLTR">Same as unix <code>mkdir -p /path/to/dir</code> </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>&#x202A;directory path </td></tr>
+    <tr><td class="paramname">mode</td><td>&#x202A;permission bits, which are also applied to any parent created </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;0 on success and -1 on error </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00272_source.html#l00037">37</a> of file <a class="el" href="a00272_source.html">mkdirs.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00029_source.html#l00078">_P</a>, <a class="el" href="a00029_source.html#l00127">countof</a>, <a class="el" href="a00014_source.html#l00068">PCL_EEXIST</a>, <a class="el" href="a00041_source.html#l00125">pcl_errno</a>, <a class="el" href="a00269_source.html#l00041">pcl_mkdir()</a>, <a class="el" href="a00041_source.html#l00133">pcl_oserrno</a>, <a class="el" href="a01109.html#gabb655a5ab0f637e7749f9d416af4b1c9">pcl_pcschr()</a>, <a class="el" href="a01109.html#gab041bc00f3c2fe16fcb717caa9733fbc">pcl_pcscpy()</a>, <a class="el" href="a00041_source.html#l00176">pcl_setoserrno</a>, and <a class="el" href="a00011_source.html#l00275">TRCMSG</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
-<div class="ttc" id="aa01129_html_aaa2dc552577da2bba064c4d36d971c26"><div class="ttname"><a href="a01129.html#aaa2dc552577da2bba064c4d36d971c26">tag_pcl_htable::key_len</a></div><div class="ttdeci">size_t key_len</div><div class="ttdoc">Key length in bytes.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00243">htable.h:243</a></div></div>
-<div class="ttc" id="aa01102_html_ga1af4eb72cec27108e92a470640def1cc"><div class="ttname"><a href="a01102.html#ga1af4eb72cec27108e92a470640def1cc">pcl_strreplace</a></div><div class="ttdeci">PCL_EXPORT char * pcl_strreplace(const char *subject, const char *from, const char *to)</div><div class="ttdoc">Replace all occurances of a search string with a replacement string.</div></div>
-<div class="ttc" id="aa01098_html_gae469981bef26363606b65a93189234ce"><div class="ttname"><a href="a01098.html#gae469981bef26363606b65a93189234ce">pcl_htable_create</a></div><div class="ttdeci">PCL_EXPORT pcl_htable_t * pcl_htable_create(int capacity)</div><div class="ttdoc">Creates a new hash table object.</div><div class="ttdef"><b>Definition:</b> <a href="a00500_source.html#l00062">htable_create.c:62</a></div></div>
-<div class="ttc" id="aa01129_html"><div class="ttname"><a href="a01129.html">tag_pcl_htable</a></div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00213">htable.h:214</a></div></div>
-<div class="ttc" id="aa01102_html_gafd8a5e2efd41dabad7002955280b004b"><div class="ttname"><a href="a01102.html#gafd8a5e2efd41dabad7002955280b004b">pcl_hex_decode</a></div><div class="ttdeci">PCL_EXPORT int pcl_hex_decode(void *buf, size_t size, const char *hex)</div><div class="ttdoc">Decode a hexadecimal string.</div><div class="ttdef"><b>Definition:</b> <a href="a00827_source.html#l00054">hex_decode.c:54</a></div></div>
-<div class="ttc" id="aa01088_html_gab88b901c82e1010555b08ff6d39490f2"><div class="ttname"><a href="a01088.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a></div><div class="ttdeci">void * pcl_free(void *p)</div><div class="ttdoc">Free memory space.</div></div>
-<div class="ttc" id="aa01129_html_a57cdb09719a1350e1f053c01139eb363"><div class="ttname"><a href="a01129.html#a57cdb09719a1350e1f053c01139eb363">tag_pcl_htable::key_equals</a></div><div class="ttdeci">bool(* key_equals)(const void *key1, const void *key2, size_t key_len, void *userp)</div><div class="ttdoc">Determine if two keys are equal.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00283">htable.h:283</a></div></div>
-<div class="ttc" id="aa00023_html_a9b58a1294d89c976dfbe4dc480e9dfb8"><div class="ttname"><a href="a00023.html#a9b58a1294d89c976dfbe4dc480e9dfb8">UNUSED</a></div><div class="ttdeci">#define UNUSED(...)</div><div class="ttdef"><b>Definition:</b> <a href="a00023_source.html#l00104">defs.h:104</a></div></div>
-<div class="ttc" id="aa01098_html_ga8b9f6df4376aac1c35a5d87ebcff93dc"><div class="ttname"><a href="a01098.html#ga8b9f6df4376aac1c35a5d87ebcff93dc">pcl_htable_free</a></div><div class="ttdeci">PCL_EXPORT void * pcl_htable_free(pcl_htable_t *ht)</div><div class="ttdoc">Release all resources used by the given hash table.</div><div class="ttdef"><b>Definition:</b> <a href="a00503_source.html#l00036">htable_free.c:36</a></div></div>
-<div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">htable.h</a></div></div>
-<div class="ttc" id="aa01098_html_gad1264b974c59d4df60f955234778a5e6"><div class="ttname"><a href="a01098.html#gad1264b974c59d4df60f955234778a5e6">pcl_htable_put</a></div><div class="ttdeci">PCL_EXPORT int pcl_htable_put(pcl_htable_t *ht, const void *key, void *value, bool unique)</div><div class="ttdoc">Puts a key/value pair into the table.</div><div class="ttdef"><b>Definition:</b> <a href="a00515_source.html#l00037">htable_put.c:37</a></div></div>
-<div class="ttc" id="aa00077_html"><div class="ttname"><a href="a00077.html">string.h</a></div></div>
-<div class="ttc" id="aa00050_html"><div class="ttname"><a href="a00050.html">init.h</a></div></div>
-<div class="ttc" id="aa01098_html_gaa01eda6232c789880d665e343ec299e3"><div class="ttname"><a href="a01098.html#gaa01eda6232c789880d665e343ec299e3">pcl_htable_get</a></div><div class="ttdeci">PCL_EXPORT void * pcl_htable_get(pcl_htable_t *ht, const void *key)</div><div class="ttdoc">Lookup an entry and return its value.</div><div class="ttdef"><b>Definition:</b> <a href="a00506_source.html#l00036">htable_get.c:36</a></div></div>
-<div class="ttc" id="aa01088_html_ga1df8575b9ae906470c782db9c26201e8"><div class="ttname"><a href="a01088.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a></div><div class="ttdeci">void * pcl_malloc(size_t n)</div><div class="ttdoc">Allocate dynamic memory.</div></div>
-<div class="ttc" id="aa01129_html_a7e9adab84c43d9a11a7a2ca0ff70b81e"><div class="ttname"><a href="a01129.html#a7e9adab84c43d9a11a7a2ca0ff70b81e">tag_pcl_htable::hashcode</a></div><div class="ttdeci">uintptr_t(* hashcode)(const void *key, size_t key_len, void *userp)</div><div class="ttdoc">Compute a hash code for the given key.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00296">htable.h:296</a></div></div>
-<div class="ttc" id="aa01099_html_ga14907e41025b0abbdc02ef1f892bd9a2"><div class="ttname"><a href="a01099.html#ga14907e41025b0abbdc02ef1f892bd9a2">pcl_init</a></div><div class="ttdeci">PCL_EXPORT void pcl_init(void)</div><div class="ttdoc">Initializes the PCL library.</div><div class="ttdef"><b>Definition:</b> <a href="a00533_source.html#l00062">init.c:62</a></div></div>
-<div class="ttc" id="aa01129_html_a671a5819f733f2c3de67d78b2f118ac1"><div class="ttname"><a href="a01129.html#a671a5819f733f2c3de67d78b2f118ac1">tag_pcl_htable::remove_entry</a></div><div class="ttdeci">void(* remove_entry)(const void *key, void *value, void *userp)</div><div class="ttdoc">Called when an entry is being removed from the table.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00273">htable.h:273</a></div></div>
+<div class="ttc" id="aa00098_html_ac114b2b1527c8ae241d37cc15ca7d122"><div class="ttname"><a href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a></div><div class="ttdeci">char pchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00098_source.html#l00053">types.h:53</a></div></div>
+<div class="ttc" id="aa01098_html_ga12c0f9a0e5f0d41bd409507abb0a6ac2"><div class="ttname"><a href="a01098.html#ga12c0f9a0e5f0d41bd409507abb0a6ac2">pcl_readdir</a></div><div class="ttdeci">PCL_EXPORT bool pcl_readdir(pcl_dir_t *dir, pcl_dirent_t *ent, pcl_stat_t *st)</div><div class="ttdoc">Read an entry from a directory handle.</div><div class="ttdef"><b>Definition:</b> <a href="a00278_source.html#l00046">readdir.c:46</a></div></div>
+<div class="ttc" id="aa01119_html_af9d4ecbda0712e6f029c4fefbc54e226"><div class="ttname"><a href="a01119.html#af9d4ecbda0712e6f029c4fefbc54e226">pcl_dirent_t::type</a></div><div class="ttdeci">pcl_dirent_type_t type</div><div class="ttdoc">type of entry: PclDirentFile, PclDirentDir, etc</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00124">dir.h:124</a></div></div>
+<div class="ttc" id="aa01119_html_a92609b700992b7b2986e524a75ab61b2"><div class="ttname"><a href="a01119.html#a92609b700992b7b2986e524a75ab61b2">pcl_dirent_t::name</a></div><div class="ttdeci">pchar_t name[512]</div><div class="ttdoc">entry's file name</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00128">dir.h:128</a></div></div>
+<div class="ttc" id="aa01098_html_ga07cef549518b08252f6d4c33c91aad09"><div class="ttname"><a href="a01098.html#ga07cef549518b08252f6d4c33c91aad09">pcl_dir_path</a></div><div class="ttdeci">PCL_EXPORT const pchar_t * pcl_dir_path(pcl_dir_t *dir, int *lenp)</div><div class="ttdoc">Get a directory handle's path.</div><div class="ttdef"><b>Definition:</b> <a href="a00266_source.html#l00036">dir_path.c:36</a></div></div>
+<div class="ttc" id="aa00059_html"><div class="ttname"><a href="a00059.html">io.h</a></div></div>
+<div class="ttc" id="aa01101_html_gaaaa31d344c49095dfc3f6051ec2fbfca"><div class="ttname"><a href="a01101.html#gaaaa31d344c49095dfc3f6051ec2fbfca">PANIC</a></div><div class="ttdeci">#define PANIC(_m,...)</div><div class="ttdef"><b>Definition:</b> <a href="a00011_source.html#l00313">_errdefs.h:313</a></div></div>
+<div class="ttc" id="aa01100_html_gab49b19d4d3fbc59acae53c4a2de9a234"><div class="ttname"><a href="a01100.html#gab49b19d4d3fbc59acae53c4a2de9a234">PCL_ENOMORE</a></div><div class="ttdeci">#define PCL_ENOMORE</div><div class="ttdoc">No more items.</div><div class="ttdef"><b>Definition:</b> <a href="a00014_source.html#l00144">_errno.h:144</a></div></div>
+<div class="ttc" id="aa01098_html_ggae41b808539653bb51ff789a39595f03aad3570e8cb6acb6b733638232550200a0"><div class="ttname"><a href="a01098.html#ggae41b808539653bb51ff789a39595f03aad3570e8cb6acb6b733638232550200a0">PclDirentLink</a></div><div class="ttdeci">@ PclDirentLink</div><div class="ttdoc">Symbolic link.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00110">dir.h:110</a></div></div>
+<div class="ttc" id="aa01099_html_ga4fdb8ad5d33758ac2c7bcc1cc0ce6d41"><div class="ttname"><a href="a01099.html#ga4fdb8ad5d33758ac2c7bcc1cc0ce6d41">pcl_errno</a></div><div class="ttdeci">#define pcl_errno</div><div class="ttdoc">Gets the last PCL error, mimics 'errno'.</div><div class="ttdef"><b>Definition:</b> <a href="a00041_source.html#l00125">error.h:125</a></div></div>
+<div class="ttc" id="aa01106_html_ga45ab34ad08cce3f205a3273cf4f3ce1f"><div class="ttname"><a href="a01106.html#ga45ab34ad08cce3f205a3273cf4f3ce1f">pcl_printf</a></div><div class="ttdeci">PCL_EXPORT int pcl_printf(const char *format,...)</div><div class="ttdoc">Write a formatted character string to stdout.</div></div>
+<div class="ttc" id="aa01098_html_ga13533f63ec03a1abb3f72c93695e0746"><div class="ttname"><a href="a01098.html#ga13533f63ec03a1abb3f72c93695e0746">pcl_opendir</a></div><div class="ttdeci">PCL_EXPORT pcl_dir_t * pcl_opendir(const pchar_t *path)</div><div class="ttdoc">Open a directory.</div><div class="ttdef"><b>Definition:</b> <a href="a00275_source.html#l00042">opendir.c:42</a></div></div>
+<div class="ttc" id="aa00032_html"><div class="ttname"><a href="a00032.html">dir.h</a></div></div>
+<div class="ttc" id="aa01105_html_ga14907e41025b0abbdc02ef1f892bd9a2"><div class="ttname"><a href="a01105.html#ga14907e41025b0abbdc02ef1f892bd9a2">pcl_init</a></div><div class="ttdeci">PCL_EXPORT void pcl_init(void)</div><div class="ttdoc">Initializes the PCL library.</div><div class="ttdef"><b>Definition:</b> <a href="a00539_source.html#l00062">init.c:62</a></div></div>
+<div class="ttc" id="aa00056_html"><div class="ttname"><a href="a00056.html">init.h</a></div></div>
+<div class="ttc" id="aa01098_html_ggae41b808539653bb51ff789a39595f03aa1d83fbbedbdf13d9400655be218b3bd1"><div class="ttname"><a href="a01098.html#ggae41b808539653bb51ff789a39595f03aa1d83fbbedbdf13d9400655be218b3bd1">PclDirentSocket</a></div><div class="ttdeci">@ PclDirentSocket</div><div class="ttdoc">Unix domain socket.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00113">dir.h:112</a></div></div>
+<div class="ttc" id="aa01105_html_gab046e59b4feaefe578285704ec0c905b"><div class="ttname"><a href="a01105.html#gab046e59b4feaefe578285704ec0c905b">pcl_main</a></div><div class="ttdeci">#define pcl_main</div><div class="ttdef"><b>Definition:</b> <a href="a00056_source.html#l00115">init.h:115</a></div></div>
+<div class="ttc" id="aa01098_html_ggae41b808539653bb51ff789a39595f03aaec8f5ed49cbfd6beef2f7226d10ea88c"><div class="ttname"><a href="a01098.html#ggae41b808539653bb51ff789a39595f03aaec8f5ed49cbfd6beef2f7226d10ea88c">PclDirentFile</a></div><div class="ttdeci">@ PclDirentFile</div><div class="ttdoc">Regular file.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00108">dir.h:108</a></div></div>
+<div class="ttc" id="aa01098_html_ggae41b808539653bb51ff789a39595f03aa28c0a5c83c1a0a2c77d098ab22649b4e"><div class="ttname"><a href="a01098.html#ggae41b808539653bb51ff789a39595f03aa28c0a5c83c1a0a2c77d098ab22649b4e">PclDirentChar</a></div><div class="ttdeci">@ PclDirentChar</div><div class="ttdoc">Character device.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00102">dir.h:102</a></div></div>
+<div class="ttc" id="aa01098_html_ggae41b808539653bb51ff789a39595f03aa032b28f47b23732ac986054a87f5d0d3"><div class="ttname"><a href="a01098.html#ggae41b808539653bb51ff789a39595f03aa032b28f47b23732ac986054a87f5d0d3">PclDirentBlock</a></div><div class="ttdeci">@ PclDirentBlock</div><div class="ttdoc">Block device.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00106">dir.h:106</a></div></div>
+<div class="ttc" id="aa01119_html"><div class="ttname"><a href="a01119.html">pcl_dirent_t</a></div><div class="ttdoc">Directory entry object.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00121">dir.h:122</a></div></div>
+<div class="ttc" id="aa00041_html"><div class="ttname"><a href="a00041.html">error.h</a></div></div>
+<div class="ttc" id="aa01098_html_gaa484d019a2f4e64c27eaa7815d989742"><div class="ttname"><a href="a01098.html#gaa484d019a2f4e64c27eaa7815d989742">pcl_closedir</a></div><div class="ttdeci">PCL_EXPORT void pcl_closedir(pcl_dir_t *dir)</div><div class="ttdoc">Close a directory handle.</div><div class="ttdef"><b>Definition:</b> <a href="a00263_source.html#l00036">closedir.c:36</a></div></div>
+<div class="ttc" id="aa01098_html_ggae41b808539653bb51ff789a39595f03aa2430d830d1abf82f3cb0ed0a4252214c"><div class="ttname"><a href="a01098.html#ggae41b808539653bb51ff789a39595f03aa2430d830d1abf82f3cb0ed0a4252214c">PclDirentFifo</a></div><div class="ttdeci">@ PclDirentFifo</div><div class="ttdoc">Named pipe (FIFO)</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00100">dir.h:100</a></div></div>
+<div class="ttc" id="aa01191_html"><div class="ttname"><a href="a01191.html">tag_pcl_dir</a></div><div class="ttdef"><b>Definition:</b> <a href="a00257_source.html#l00048">_dir.h:49</a></div></div>
+<div class="ttc" id="aa01098_html_ggae41b808539653bb51ff789a39595f03aae9ee7cbcfa44fe6d71c4be9cfb3d7aec"><div class="ttname"><a href="a01098.html#ggae41b808539653bb51ff789a39595f03aae9ee7cbcfa44fe6d71c4be9cfb3d7aec">PclDirentDir</a></div><div class="ttdeci">@ PclDirentDir</div><div class="ttdoc">Directory.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00104">dir.h:104</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

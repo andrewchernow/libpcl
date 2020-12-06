@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;pcl/errctx.h Source File</title>
+<title>&#x202A;libpcl: &#x202A;pcl/dir.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,195 +67,236 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">errctx.h</div>  </div>
+<div class="title">dir.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="a00032.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">  modification, are permitted provided that the following conditions are met:</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">  * Redistributions of source code must retain the above copyright notice, this</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">    list of conditions and the following disclaimer.</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">  * Redistributions in binary form must reproduce the above copyright notice,</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">    this list of conditions and the following disclaimer in the documentation</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">    and/or other materials provided with the distribution.</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">  * Neither the name of the copyright holder nor the names of its</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">    contributors may be used to endorse or promote products derived from</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">    this software without specific prior written permission.</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#ifndef LIBPCL_ERRCTX_H</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#define LIBPCL_ERRCTX_H</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00092.html">pcl/types.h</a>&gt;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="comment">/** Stack trace object implemented as a linked list. */</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="a01117.html">   42</a></span>&#160;<span class="keyword">struct </span><a class="code" href="a01117.html">tag_pcl_err_trace</a></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;{<span class="comment"></span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="comment">  /** next trace in stack trace or NULL to indicate the end. */</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="a01117.html#a365f8bd3193b20fc56c910edb668a93b">   45</a></span>&#160;  <a class="code" href="a01117.html">pcl_err_trace_t</a> *<a class="code" href="a01117.html#a365f8bd3193b20fc56c910edb668a93b">next</a>;</div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="a01117.html#adf16cd437526a5c5e0e0af87745acbb8">   46</a></span>&#160;  <span class="keywordtype">char</span> *<a class="code" href="a01117.html#adf16cd437526a5c5e0e0af87745acbb8">file</a>;</div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="a01117.html#adf9a36a42a9dc6f127512f5ff82b01e3">   47</a></span>&#160;  <span class="keywordtype">char</span> *<a class="code" href="a01117.html#adf9a36a42a9dc6f127512f5ff82b01e3">func</a>;</div>
-<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="a01117.html#a41ebd28ef1d7c6ade45642cb6acc1039">   48</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="a01117.html#a41ebd28ef1d7c6ade45642cb6acc1039">line</a>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment">  /** optional user-defined message */</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="a01117.html#a32d2f5216cddb59c7cc8fb2806a7e727">   51</a></span>&#160;  <span class="keywordtype">char</span> *<a class="code" href="a01117.html#a32d2f5216cddb59c7cc8fb2806a7e727">msg</a>;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment">  /** allocation size of trace structure. The trace object is a single allocation and</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment">   * all string members are self-relative pointers</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment">   */</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="a01117.html#a854352f53b148adc24983a58a1866d66">   56</a></span>&#160;  <span class="keywordtype">size_t</span> <a class="code" href="a01117.html#a854352f53b148adc24983a58a1866d66">size</a>;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;};</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment">/** Represents a PCL error context, with optional stack trace. This can be thought of</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment"> * as Unix `errno` on steroids.</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="a01121.html">   62</a></span>&#160;<span class="keyword">struct </span><a class="code" href="a01121.html">tag_pcl_err_ctx</a></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;{<span class="comment"></span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="comment">  /** Freezes context, making it immutable. It should be noted that a frozen context object</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment">   * cannot be cleared or freed. The only exception is the per-thread context, which can and</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment">   * will be freed if the thread exits.</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment">   *</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment">   * Typically, freezing an object is only useful when used with the PCL error API. For example:</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment">   * freezing the per-thread context before performing cleanup after an error, where the</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="comment">   * cleanup could overwrite the &quot;real&quot; error: ie. `freeze=true; cleanup_code; freeze=false;`.</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment">   *</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="comment">   * Internally, all printf-style context functions freeze the object before performing output</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="comment">   * and thaw before returning.</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="comment">   *</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="comment">   * @see FREEZE_ERR</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment">   */</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="a01121.html#a9ec42de702ac1fcf2d7307c5a2415b94">   77</a></span>&#160;  <span class="keywordtype">bool</span> <a class="code" href="a01121.html#a9ec42de702ac1fcf2d7307c5a2415b94">frozen</a>;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="comment">  /** PCL error code: PCL_EXXX */</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="a01121.html#a6ce68847c12434f60d1b2654a3dc3409">   80</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="a01121.html#a6ce68847c12434f60d1b2654a3dc3409">err</a>;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="comment">  /** Platform-specific error code: Unix errno, Windows Error (ie: GetLastError, _dos_errno),</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="comment">   * etc. This can be zero even when &#39;err&#39; is not. However, if this is non-zero &#39;err&#39; will</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="comment">   * also be non-zero.</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="comment">   */</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="a01121.html#a99097cbbdd873a91579ae1e543195926">   86</a></span>&#160;  uint32_t <a class="code" href="a01121.html#a99097cbbdd873a91579ae1e543195926">oserr</a>;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="comment">  /** Stack trace implemented as a linked list. This is NULL if there is no stack trace. */</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="a01121.html#af22b89a25236c26e197118ca1652019a">   89</a></span>&#160;  <a class="code" href="a01117.html">pcl_err_trace_t</a> *<a class="code" href="a01121.html#af22b89a25236c26e197118ca1652019a">strace</a>;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="comment">  /** An output buffer used by output formatting functions like pcl_err_ctx_fprintf. This is</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="comment">   * lazily-created so can be NULL. This is really just for internal use and provides for</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="comment">   * a cached/allocated buffer to use for multiple output calls. This provides no context</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="comment">   * functionality, implementation detail.</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="comment">   */</span></div>
-<div class="line"><a name="l00096"></a><span class="lineno"><a class="line" href="a01121.html#a95f7673f875fad2b88002d7a10f00eb1">   96</a></span>&#160;  <a class="code" href="a01109.html">pcl_buf_t</a> *<a class="code" href="a01121.html#a95f7673f875fad2b88002d7a10f00eb1">buffer</a>;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;};</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="comment">/** Allocates a new error context. Error codes are zero, messages are all</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="comment"> * NULL and the stack trace is empty.</span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;PCL_EXPORT <a class="code" href="a01121.html">pcl_err_ctx_t</a> *<a class="code" href="a00032.html#a541f93c44bc3164b5dd789af74224d0c">pcl_err_ctx_create</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="comment">/** Clone one context to another. This performs a deep copy, no shared pointers.</span></div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="comment"> * @param src context to clone</span></div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="comment"> * @return cloned version of given context or \c NULL if \a src is \c NULL</span></div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;PCL_EXPORT <a class="code" href="a01121.html">pcl_err_ctx_t</a> *<a class="code" href="a00032.html#a60f674f50dbae6a6a8df23dcd08457b9">pcl_err_ctx_clone</a>(<span class="keyword">const</span> <a class="code" href="a01121.html">pcl_err_ctx_t</a> *src);</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="comment">/** Clears the given context. A clear wipes out the stack trace and error codes.</span></div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="comment"> * However, &#39;ctx&#39; is completely valid after this call.</span></div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="comment"> * @param ctx</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="comment"> * @return pointer to the \a ctx argument</span></div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;PCL_EXPORT <a class="code" href="a01121.html">pcl_err_ctx_t</a> *<a class="code" href="a00032.html#a7d4252eb5cb4cf406f85d5021ec26864">pcl_err_ctx_clear</a>(<a class="code" href="a01121.html">pcl_err_ctx_t</a> *ctx);</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="comment">/** Release all resources held by the given context including the context itself.</span></div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="comment"> * @warning this will call ::pcl_memory_error if you try to free the per-thread context. The</span></div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="comment"> * \a type parameter of \c pcl_memory_error is set to \c &quot;err_ctx_free&quot;.</span></div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="comment"> * @param ctx</span></div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;PCL_EXPORT <span class="keywordtype">void</span> <a class="code" href="a00032.html#a857b8cc46214dbc79a5f7751620ccc5f">pcl_err_ctx_free</a>(<a class="code" href="a01121.html">pcl_err_ctx_t</a> *ctx);</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="comment">/**</span></div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="comment"> * @param ctx</span></div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="comment"> * @param fp</span></div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="comment"> * @param indent</span></div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="comment"> * @param message</span></div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="comment"> * @param ...</span></div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="comment"> * @return number of characters written to the given stream, which can be zero if the current</span></div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="comment"> * error is set to PCL_EOKAY. On failure, this returns -1 but DOES NOT set pcl_errno. It</span></div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="comment"> * means there was an error writing the data to the \a fp argument.</span></div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00032.html#ae1df9bde547d8a3c39d30353eb8eab61">pcl_err_ctx_fprintf</a>(<a class="code" href="a01121.html">pcl_err_ctx_t</a> *ctx, FILE *fp, <span class="keywordtype">int</span> indent,</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">char</span> *message, ...);</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160; </div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00032.html#a805efd9866e583aef994285cbadc3adc">pcl_err_ctx_vfprintf</a>(<a class="code" href="a01121.html">pcl_err_ctx_t</a> *ctx, FILE *fp, <span class="keywordtype">int</span> indent,</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">char</span> *message, va_list ap);</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;<span class="comment">/**</span></div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;<span class="comment"> * @param ctx</span></div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="comment"> * @param buf</span></div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<span class="comment"> * @param size</span></div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<span class="comment"> * @param indent</span></div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="comment"> * @param message</span></div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="comment"> * @param ...</span></div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;<span class="comment"> * @return number of characters written to the given buffer or -1 on error. pcl_errno is NOT set.</span></div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;<span class="comment"> * This will return -1 when \a buf is too small.</span></div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00032.html#aeae1348b2e2516a3f0bc0dc763c3ec26">pcl_err_ctx_sprintf</a>(<a class="code" href="a01121.html">pcl_err_ctx_t</a> *ctx, <span class="keywordtype">char</span> *buf, <span class="keywordtype">size_t</span> size, <span class="keywordtype">int</span> indent,</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">char</span> *message, ...);</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160; </div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00032.html#af3bc462b7e275d0b2a2be2202b22f709">pcl_err_ctx_vsprintf</a>(<a class="code" href="a01121.html">pcl_err_ctx_t</a> *ctx, <span class="keywordtype">char</span> *buf, <span class="keywordtype">size_t</span> size, <span class="keywordtype">int</span> indent,</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">char</span> *message, va_list ap);</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160; </div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;}</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160; </div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;<span class="preprocessor">#endif // LIBPCL_ERRCTX_H</span></div>
+<a href="a00032.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">  All rights reserved.</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">  modification, are permitted provided that the following conditions are met:</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">  * Redistributions of source code must retain the above copyright notice, this</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">    list of conditions and the following disclaimer.</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">  * Redistributions in binary form must reproduce the above copyright notice,</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">    this list of conditions and the following disclaimer in the documentation</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">    and/or other materials provided with the distribution.</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">  * Neither the name of the copyright holder nor the names of its</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">    contributors may be used to endorse or promote products derived from</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">    this software without specific prior written permission.</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">*/</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#ifndef LIBPCL_DIRENT_H</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#define LIBPCL_DIRENT_H</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment">/** @defgroup dir Directory Management</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="comment"> * The directory API provides a suite of function for managing and traversing  directories.</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment"> * #### Basic Usage</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="comment"> * @code</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="comment"> * #include &lt;pcl/init.h&gt;</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="comment"> * #include &lt;pcl/error.h&gt;</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment"> * #include &lt;pcl/dir.h&gt;</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="comment"> * #include &lt;pcl/io.h&gt;</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment"> * int pcl_main(int argc, pchar_t *targv)</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment"> * {</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment"> *   // always first</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment"> *   pcl_init();</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment"> *   if(argc &lt; 2)</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment"> *     PANIC(&quot;Missing directory argument&quot;, 0);</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment"> *   pcl_dir_t *dir = pcl_opendir(targv[1]);</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment"> *   if(!dir)</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="comment"> *     PANIC(&quot;Failed to open directory: &#39;%Ps&#39;&quot;, targv[1]);</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment"> *   pcl_dirent_t ent;</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment"> *   const pchar_t *dirpath = pcl_dir_path(dir, NULL);</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment"> *   while(pcl_readdir(dir, &amp;ent, NULL))</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment"> *   {</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment"> *     char *type;</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment"> *     switch(ent.type)</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment"> *     {</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment"> *       case PclDirentFile:   type = &quot;file&quot;; break;</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment"> *       case PclDirentDir:    type = &quot;directory&quot;; break;</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment"> *       case PclDirentFifo:   type = &quot;named pipe&quot;; break;</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="comment"> *       case PclDirentLink:   type = &quot;symbolic link&quot;; break;</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment"> *       case PclDirentChar:   type = &quot;character device&quot;; break;</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="comment"> *       case PclDirentBlock:  type = &quot;block device&quot;; break;</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="comment"> *       case PclDirentSocket: type = &quot;unix domain socket&quot;; break;</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="comment"> *       default:              type = &quot;unknown&quot;;</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="comment"> *     }</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="comment"> *     // %/ is replaced with the platform-specific path separator</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="comment"> *     pcl_printf(&quot;%s] %Ps%/%Ps\n&quot;, type, dirpath, ent.name);</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="comment"> *   }</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="comment"> *   pcl_closedir(dir);</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="comment"> *   // when readdir is done, it returns false and pcl_errno is PCL_ENOMORE</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="comment"> *   if(pcl_errno != PCL_ENOMORE)</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="comment"> *     PANIC(&quot;readdir failed: &#39;%Ps&#39;&quot;, dirpath);</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="comment"> *   return 0;</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="comment"> * }</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="comment"> * @endcode</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="comment"> * @{</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00098.html">pcl/types.h</a>&gt;</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="comment">/** Directory entry types */</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno"><a class="line" href="a01098.html#gae41b808539653bb51ff789a39595f03a">   95</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">enum</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;{<span class="comment"></span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="comment">  /** Entry type could not be determined */</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno"><a class="line" href="a01098.html#ggae41b808539653bb51ff789a39595f03aad39239acc789c49c45ee20485e426367">   98</a></span>&#160;  <a class="code" href="a01098.html#ggae41b808539653bb51ff789a39595f03aad39239acc789c49c45ee20485e426367">PclDirentUnknown</a>,<span class="comment"></span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="comment">  /** Named pipe (FIFO) */</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno"><a class="line" href="a01098.html#ggae41b808539653bb51ff789a39595f03aa2430d830d1abf82f3cb0ed0a4252214c">  100</a></span>&#160;  <a class="code" href="a01098.html#ggae41b808539653bb51ff789a39595f03aa2430d830d1abf82f3cb0ed0a4252214c">PclDirentFifo</a>,<span class="comment"></span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="comment">  /** Character device */</span></div>
+<div class="line"><a name="l00102"></a><span class="lineno"><a class="line" href="a01098.html#ggae41b808539653bb51ff789a39595f03aa28c0a5c83c1a0a2c77d098ab22649b4e">  102</a></span>&#160;  <a class="code" href="a01098.html#ggae41b808539653bb51ff789a39595f03aa28c0a5c83c1a0a2c77d098ab22649b4e">PclDirentChar</a>,<span class="comment"></span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="comment">  /** Directory */</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno"><a class="line" href="a01098.html#ggae41b808539653bb51ff789a39595f03aae9ee7cbcfa44fe6d71c4be9cfb3d7aec">  104</a></span>&#160;  <a class="code" href="a01098.html#ggae41b808539653bb51ff789a39595f03aae9ee7cbcfa44fe6d71c4be9cfb3d7aec">PclDirentDir</a>,<span class="comment"></span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="comment">  /** Block device */</span></div>
+<div class="line"><a name="l00106"></a><span class="lineno"><a class="line" href="a01098.html#ggae41b808539653bb51ff789a39595f03aa032b28f47b23732ac986054a87f5d0d3">  106</a></span>&#160;  <a class="code" href="a01098.html#ggae41b808539653bb51ff789a39595f03aa032b28f47b23732ac986054a87f5d0d3">PclDirentBlock</a>,<span class="comment"></span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="comment">  /** Regular file */</span></div>
+<div class="line"><a name="l00108"></a><span class="lineno"><a class="line" href="a01098.html#ggae41b808539653bb51ff789a39595f03aaec8f5ed49cbfd6beef2f7226d10ea88c">  108</a></span>&#160;  <a class="code" href="a01098.html#ggae41b808539653bb51ff789a39595f03aaec8f5ed49cbfd6beef2f7226d10ea88c">PclDirentFile</a>,<span class="comment"></span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="comment">  /** Symbolic link */</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno"><a class="line" href="a01098.html#ggae41b808539653bb51ff789a39595f03aad3570e8cb6acb6b733638232550200a0">  110</a></span>&#160;  <a class="code" href="a01098.html#ggae41b808539653bb51ff789a39595f03aad3570e8cb6acb6b733638232550200a0">PclDirentLink</a>,<span class="comment"></span></div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="comment">  /** Unix domain socket */</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;  <a class="code" href="a01098.html#ggae41b808539653bb51ff789a39595f03aa1d83fbbedbdf13d9400655be218b3bd1">PclDirentSocket</a></div>
+<div class="line"><a name="l00113"></a><span class="lineno"><a class="line" href="a01098.html#ggae41b808539653bb51ff789a39595f03aa1d83fbbedbdf13d9400655be218b3bd1">  113</a></span>&#160;} <a class="code" href="a01098.html#gae41b808539653bb51ff789a39595f03a">pcl_dirent_type_t</a>;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="comment">/** Directory entry object. */</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno"><a class="line" href="a01119.html">  121</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct</span></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;{<span class="comment"></span></div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="comment">  /** type of entry: PclDirentFile, PclDirentDir, etc */</span></div>
+<div class="line"><a name="l00124"></a><span class="lineno"><a class="line" href="a01119.html#af9d4ecbda0712e6f029c4fefbc54e226">  124</a></span>&#160;  <a class="code" href="a01098.html#gae41b808539653bb51ff789a39595f03a">pcl_dirent_type_t</a> <a class="code" href="a01119.html#af9d4ecbda0712e6f029c4fefbc54e226">type</a>;<span class="comment"></span></div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="comment">  /** character length (excluding NUL) of the entry&#39;s file name */</span></div>
+<div class="line"><a name="l00126"></a><span class="lineno"><a class="line" href="a01119.html#a3c1a24d621dff9b9918019a25768f615">  126</a></span>&#160;  uint16_t <a class="code" href="a01119.html#a3c1a24d621dff9b9918019a25768f615">namlen</a>;<span class="comment"></span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="comment">  /** entry&#39;s file name */</span></div>
+<div class="line"><a name="l00128"></a><span class="lineno"><a class="line" href="a01119.html#a92609b700992b7b2986e524a75ab61b2">  128</a></span>&#160;  <a class="code" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> name[512];</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;} <a class="code" href="a01119.html">pcl_dirent_t</a>;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="comment">/** Open a directory.</span></div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="comment"> * @param path directory path. Internally, this is converted to an absolute path and can be</span></div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="comment"> * retreived using ::pcl_dir_path</span></div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="comment"> * @return pointer to a directory handle or \c NULL on error</span></div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;PCL_EXPORT <a class="code" href="a01191.html">pcl_dir_t</a> *<a class="code" href="a01098.html#ga13533f63ec03a1abb3f72c93695e0746">pcl_opendir</a>(<span class="keyword">const</span> <a class="code" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *path);</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;<span class="comment">/** Get a directory handle&#39;s path.</span></div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;<span class="comment"> * @note the returned path is always absolute.</span></div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;<span class="comment"> * @param dir pointer to a directory handle as returned by ::pcl_opendir</span></div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;<span class="comment"> * @param lenp If not \c NULL, the path character length will be written here (excluding NUL)</span></div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;<span class="comment"> * @return directory handle&#39;s path or \c NULL on error</span></div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;PCL_EXPORT <span class="keyword">const</span> <a class="code" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *<a class="code" href="a01098.html#ga07cef549518b08252f6d4c33c91aad09">pcl_dir_path</a>(<a class="code" href="a01191.html">pcl_dir_t</a> *dir, <span class="keywordtype">int</span> *lenp);</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<span class="comment">/** Read an entry from a directory handle.</span></div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="comment"> * @param dir pointer to a directory handle as returned by ::pcl_opendir</span></div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="comment"> * @param ent pointer to an entry buffer to receive the results</span></div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;<span class="comment"> * @param st If not \c NULL, a ::pcl_lstat will be executed for the entry. In most cases,</span></div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;<span class="comment"> * the pcl_dirent_t.type can be used to avoid an expensive ::pcl_lstat.</span></div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;<span class="comment"> * @return true on success and false on error. When there are no more entries, this returns</span></div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;<span class="comment"> * false and sets the pcl_errno to PCL_ENOMORE.</span></div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;PCL_EXPORT <span class="keywordtype">bool</span> <a class="code" href="a01098.html#ga12c0f9a0e5f0d41bd409507abb0a6ac2">pcl_readdir</a>(<a class="code" href="a01191.html">pcl_dir_t</a> *dir, <a class="code" href="a01119.html">pcl_dirent_t</a> *ent, <a class="code" href="a01159.html">pcl_stat_t</a> *st);</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;<span class="comment">/** Close a directory handle.</span></div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;<span class="comment"> * @param dir pointer to a directory handle as returned by ::pcl_opendir</span></div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;PCL_EXPORT <span class="keywordtype">void</span> <a class="code" href="a01098.html#gaa484d019a2f4e64c27eaa7815d989742">pcl_closedir</a>(<a class="code" href="a01191.html">pcl_dir_t</a> *dir);</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;<span class="comment">/** Remove a directory.</span></div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;<span class="comment"> * @warning The directory must be empty.</span></div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;<span class="comment"> * @param path directory to remove</span></div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;<span class="comment"> * @return 0 for success and -1 on error</span></div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;<span class="comment"> * @see pcl_rmdir_r</span></div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a01098.html#ga37bac368d1d355d369acc0184aa480e6">pcl_rmdir</a>(<span class="keyword">const</span> <a class="code" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *path);</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;<span class="comment">/** Recursively remove a directory</span></div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;<span class="comment"> * @param path directory to remove</span></div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;<span class="comment"> * @return 0 for success and -1 on error</span></div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="comment"> * @see pcl_rmdir</span></div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a01098.html#ga4e50851b69498827be4f968bf32f1801">pcl_rmdir_r</a>(<span class="keyword">const</span> <a class="code" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *path);</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;<span class="comment">/** Change the current working directory.</span></div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;<span class="comment"> * @param path new working directory</span></div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;<span class="comment"> * @return 0 for success and -1 on error</span></div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a01098.html#ga62bf2c19d6773b0529e0e8f4fae5ea45">pcl_chdir</a>(<span class="keyword">const</span> <a class="code" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *path);</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;<span class="comment">/** Create a directory.</span></div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;<span class="comment"> * @param path directory path</span></div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;<span class="comment"> * @param mode permission bits</span></div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;<span class="comment"> * @return 0 on success and -1 on error</span></div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a01098.html#gaac838842f82869a4606daf5935b3ff42">pcl_mkdir</a>(<span class="keyword">const</span> <a class="code" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *path, mode_t mode);</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<span class="comment">/** Create a directory including any absent parents. Same as unix `mkdir -p /path/to/dir`</span></div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;<span class="comment"> * @param path directory path</span></div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;<span class="comment"> * @param mode permission bits, which are also applied to any parent created</span></div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;<span class="comment"> * @return 0 on success and -1 on error</span></div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a01098.html#ga44d1b0ffef615047c21f382722c17c82">pcl_mkdirs</a>(<span class="keyword">const</span> <a class="code" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *path, mode_t mode);</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160; </div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;}</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;<span class="comment">/** @} */</span></div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;<span class="preprocessor">#endif //LIBPCL_DIRENT_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01121_html_a6ce68847c12434f60d1b2654a3dc3409"><div class="ttname"><a href="a01121.html#a6ce68847c12434f60d1b2654a3dc3409">tag_pcl_err_ctx::err</a></div><div class="ttdeci">int err</div><div class="ttdoc">PCL error code: PCL_EXXX.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00080">errctx.h:80</a></div></div>
-<div class="ttc" id="aa01117_html_adf16cd437526a5c5e0e0af87745acbb8"><div class="ttname"><a href="a01117.html#adf16cd437526a5c5e0e0af87745acbb8">tag_pcl_err_trace::file</a></div><div class="ttdeci">char * file</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00046">errctx.h:46</a></div></div>
-<div class="ttc" id="aa00032_html_a805efd9866e583aef994285cbadc3adc"><div class="ttname"><a href="a00032.html#a805efd9866e583aef994285cbadc3adc">pcl_err_ctx_vfprintf</a></div><div class="ttdeci">PCL_EXPORT int pcl_err_ctx_vfprintf(pcl_err_ctx_t *ctx, FILE *fp, int indent, const char *message, va_list ap)</div><div class="ttdef"><b>Definition:</b> <a href="a00317_source.html#l00036">err_ctx_vfprintf.c:36</a></div></div>
-<div class="ttc" id="aa01121_html"><div class="ttname"><a href="a01121.html">tag_pcl_err_ctx</a></div><div class="ttdoc">Represents a PCL error context, with optional stack trace.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00062">errctx.h:63</a></div></div>
-<div class="ttc" id="aa01117_html_a854352f53b148adc24983a58a1866d66"><div class="ttname"><a href="a01117.html#a854352f53b148adc24983a58a1866d66">tag_pcl_err_trace::size</a></div><div class="ttdeci">size_t size</div><div class="ttdoc">allocation size of trace structure.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00056">errctx.h:56</a></div></div>
-<div class="ttc" id="aa00032_html_a541f93c44bc3164b5dd789af74224d0c"><div class="ttname"><a href="a00032.html#a541f93c44bc3164b5dd789af74224d0c">pcl_err_ctx_create</a></div><div class="ttdeci">PCL_EXPORT pcl_err_ctx_t * pcl_err_ctx_create(void)</div><div class="ttdoc">Allocates a new error context.</div><div class="ttdef"><b>Definition:</b> <a href="a00299_source.html#l00036">err_ctx_create.c:36</a></div></div>
-<div class="ttc" id="aa01121_html_a99097cbbdd873a91579ae1e543195926"><div class="ttname"><a href="a01121.html#a99097cbbdd873a91579ae1e543195926">tag_pcl_err_ctx::oserr</a></div><div class="ttdeci">uint32_t oserr</div><div class="ttdoc">Platform-specific error code: Unix errno, Windows Error (ie: GetLastError, _dos_errno),...</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00086">errctx.h:86</a></div></div>
-<div class="ttc" id="aa01117_html_a365f8bd3193b20fc56c910edb668a93b"><div class="ttname"><a href="a01117.html#a365f8bd3193b20fc56c910edb668a93b">tag_pcl_err_trace::next</a></div><div class="ttdeci">pcl_err_trace_t * next</div><div class="ttdoc">next trace in stack trace or NULL to indicate the end.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00045">errctx.h:45</a></div></div>
-<div class="ttc" id="aa00032_html_a7d4252eb5cb4cf406f85d5021ec26864"><div class="ttname"><a href="a00032.html#a7d4252eb5cb4cf406f85d5021ec26864">pcl_err_ctx_clear</a></div><div class="ttdeci">PCL_EXPORT pcl_err_ctx_t * pcl_err_ctx_clear(pcl_err_ctx_t *ctx)</div><div class="ttdoc">Clears the given context.</div><div class="ttdef"><b>Definition:</b> <a href="a00293_source.html#l00035">err_ctx_clear.c:35</a></div></div>
-<div class="ttc" id="aa00032_html_a857b8cc46214dbc79a5f7751620ccc5f"><div class="ttname"><a href="a00032.html#a857b8cc46214dbc79a5f7751620ccc5f">pcl_err_ctx_free</a></div><div class="ttdeci">PCL_EXPORT void pcl_err_ctx_free(pcl_err_ctx_t *ctx)</div><div class="ttdoc">Release all resources held by the given context including the context itself.</div><div class="ttdef"><b>Definition:</b> <a href="a00305_source.html#l00047">err_ctx_free.c:47</a></div></div>
-<div class="ttc" id="aa01117_html_a41ebd28ef1d7c6ade45642cb6acc1039"><div class="ttname"><a href="a01117.html#a41ebd28ef1d7c6ade45642cb6acc1039">tag_pcl_err_trace::line</a></div><div class="ttdeci">int line</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00048">errctx.h:48</a></div></div>
-<div class="ttc" id="aa01117_html"><div class="ttname"><a href="a01117.html">tag_pcl_err_trace</a></div><div class="ttdoc">Stack trace object implemented as a linked list.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00042">errctx.h:43</a></div></div>
-<div class="ttc" id="aa01109_html"><div class="ttname"><a href="a01109.html">tag_pcl_buf</a></div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00127">buf.h:128</a></div></div>
-<div class="ttc" id="aa00032_html_aeae1348b2e2516a3f0bc0dc763c3ec26"><div class="ttname"><a href="a00032.html#aeae1348b2e2516a3f0bc0dc763c3ec26">pcl_err_ctx_sprintf</a></div><div class="ttdeci">PCL_EXPORT int pcl_err_ctx_sprintf(pcl_err_ctx_t *ctx, char *buf, size_t size, int indent, const char *message,...)</div><div class="ttdef"><b>Definition:</b> <a href="a00311_source.html#l00035">err_ctx_sprintf.c:35</a></div></div>
-<div class="ttc" id="aa01121_html_a9ec42de702ac1fcf2d7307c5a2415b94"><div class="ttname"><a href="a01121.html#a9ec42de702ac1fcf2d7307c5a2415b94">tag_pcl_err_ctx::frozen</a></div><div class="ttdeci">bool frozen</div><div class="ttdoc">Freezes context, making it immutable.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00077">errctx.h:77</a></div></div>
-<div class="ttc" id="aa00032_html_af3bc462b7e275d0b2a2be2202b22f709"><div class="ttname"><a href="a00032.html#af3bc462b7e275d0b2a2be2202b22f709">pcl_err_ctx_vsprintf</a></div><div class="ttdeci">PCL_EXPORT int pcl_err_ctx_vsprintf(pcl_err_ctx_t *ctx, char *buf, size_t size, int indent, const char *message, va_list ap)</div><div class="ttdef"><b>Definition:</b> <a href="a00320_source.html#l00037">err_ctx_vsprintf.c:37</a></div></div>
-<div class="ttc" id="aa01117_html_a32d2f5216cddb59c7cc8fb2806a7e727"><div class="ttname"><a href="a01117.html#a32d2f5216cddb59c7cc8fb2806a7e727">tag_pcl_err_trace::msg</a></div><div class="ttdeci">char * msg</div><div class="ttdoc">optional user-defined message</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00051">errctx.h:51</a></div></div>
-<div class="ttc" id="aa01117_html_adf9a36a42a9dc6f127512f5ff82b01e3"><div class="ttname"><a href="a01117.html#adf9a36a42a9dc6f127512f5ff82b01e3">tag_pcl_err_trace::func</a></div><div class="ttdeci">char * func</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00047">errctx.h:47</a></div></div>
-<div class="ttc" id="aa00032_html_ae1df9bde547d8a3c39d30353eb8eab61"><div class="ttname"><a href="a00032.html#ae1df9bde547d8a3c39d30353eb8eab61">pcl_err_ctx_fprintf</a></div><div class="ttdeci">PCL_EXPORT int pcl_err_ctx_fprintf(pcl_err_ctx_t *ctx, FILE *fp, int indent, const char *message,...)</div><div class="ttdef"><b>Definition:</b> <a href="a00302_source.html#l00035">err_ctx_fprintf.c:35</a></div></div>
-<div class="ttc" id="aa01121_html_a95f7673f875fad2b88002d7a10f00eb1"><div class="ttname"><a href="a01121.html#a95f7673f875fad2b88002d7a10f00eb1">tag_pcl_err_ctx::buffer</a></div><div class="ttdeci">pcl_buf_t * buffer</div><div class="ttdoc">An output buffer used by output formatting functions like pcl_err_ctx_fprintf.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00096">errctx.h:96</a></div></div>
-<div class="ttc" id="aa00032_html_a60f674f50dbae6a6a8df23dcd08457b9"><div class="ttname"><a href="a00032.html#a60f674f50dbae6a6a8df23dcd08457b9">pcl_err_ctx_clone</a></div><div class="ttdeci">PCL_EXPORT pcl_err_ctx_t * pcl_err_ctx_clone(const pcl_err_ctx_t *src)</div><div class="ttdoc">Clone one context to another.</div><div class="ttdef"><b>Definition:</b> <a href="a00296_source.html#l00037">err_ctx_clone.c:37</a></div></div>
-<div class="ttc" id="aa00092_html"><div class="ttname"><a href="a00092.html">types.h</a></div></div>
-<div class="ttc" id="aa01121_html_af22b89a25236c26e197118ca1652019a"><div class="ttname"><a href="a01121.html#af22b89a25236c26e197118ca1652019a">tag_pcl_err_ctx::strace</a></div><div class="ttdeci">pcl_err_trace_t * strace</div><div class="ttdoc">Stack trace implemented as a linked list.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00089">errctx.h:89</a></div></div>
+<div class="ttc" id="aa00098_html_ac114b2b1527c8ae241d37cc15ca7d122"><div class="ttname"><a href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a></div><div class="ttdeci">char pchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00098_source.html#l00053">types.h:53</a></div></div>
+<div class="ttc" id="aa01098_html_ga12c0f9a0e5f0d41bd409507abb0a6ac2"><div class="ttname"><a href="a01098.html#ga12c0f9a0e5f0d41bd409507abb0a6ac2">pcl_readdir</a></div><div class="ttdeci">PCL_EXPORT bool pcl_readdir(pcl_dir_t *dir, pcl_dirent_t *ent, pcl_stat_t *st)</div><div class="ttdoc">Read an entry from a directory handle.</div><div class="ttdef"><b>Definition:</b> <a href="a00278_source.html#l00046">readdir.c:46</a></div></div>
+<div class="ttc" id="aa01119_html_af9d4ecbda0712e6f029c4fefbc54e226"><div class="ttname"><a href="a01119.html#af9d4ecbda0712e6f029c4fefbc54e226">pcl_dirent_t::type</a></div><div class="ttdeci">pcl_dirent_type_t type</div><div class="ttdoc">type of entry: PclDirentFile, PclDirentDir, etc</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00124">dir.h:124</a></div></div>
+<div class="ttc" id="aa01119_html_a3c1a24d621dff9b9918019a25768f615"><div class="ttname"><a href="a01119.html#a3c1a24d621dff9b9918019a25768f615">pcl_dirent_t::namlen</a></div><div class="ttdeci">uint16_t namlen</div><div class="ttdoc">character length (excluding NUL) of the entry's file name</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00126">dir.h:126</a></div></div>
+<div class="ttc" id="aa01098_html_ga44d1b0ffef615047c21f382722c17c82"><div class="ttname"><a href="a01098.html#ga44d1b0ffef615047c21f382722c17c82">pcl_mkdirs</a></div><div class="ttdeci">PCL_EXPORT int pcl_mkdirs(const pchar_t *path, mode_t mode)</div><div class="ttdoc">Create a directory including any absent parents.</div><div class="ttdef"><b>Definition:</b> <a href="a00272_source.html#l00037">mkdirs.c:37</a></div></div>
+<div class="ttc" id="aa01098_html_ga07cef549518b08252f6d4c33c91aad09"><div class="ttname"><a href="a01098.html#ga07cef549518b08252f6d4c33c91aad09">pcl_dir_path</a></div><div class="ttdeci">PCL_EXPORT const pchar_t * pcl_dir_path(pcl_dir_t *dir, int *lenp)</div><div class="ttdoc">Get a directory handle's path.</div><div class="ttdef"><b>Definition:</b> <a href="a00266_source.html#l00036">dir_path.c:36</a></div></div>
+<div class="ttc" id="aa01098_html_ggae41b808539653bb51ff789a39595f03aad3570e8cb6acb6b733638232550200a0"><div class="ttname"><a href="a01098.html#ggae41b808539653bb51ff789a39595f03aad3570e8cb6acb6b733638232550200a0">PclDirentLink</a></div><div class="ttdeci">@ PclDirentLink</div><div class="ttdoc">Symbolic link.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00110">dir.h:110</a></div></div>
+<div class="ttc" id="aa01159_html"><div class="ttname"><a href="a01159.html">tag_pcl_stat</a></div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00221">stat.h:222</a></div></div>
+<div class="ttc" id="aa01098_html_ga4e50851b69498827be4f968bf32f1801"><div class="ttname"><a href="a01098.html#ga4e50851b69498827be4f968bf32f1801">pcl_rmdir_r</a></div><div class="ttdeci">PCL_EXPORT int pcl_rmdir_r(const pchar_t *path)</div><div class="ttdoc">Recursively remove a directory.</div><div class="ttdef"><b>Definition:</b> <a href="a00284_source.html#l00087">rmdir_r.c:87</a></div></div>
+<div class="ttc" id="aa01098_html_ga13533f63ec03a1abb3f72c93695e0746"><div class="ttname"><a href="a01098.html#ga13533f63ec03a1abb3f72c93695e0746">pcl_opendir</a></div><div class="ttdeci">PCL_EXPORT pcl_dir_t * pcl_opendir(const pchar_t *path)</div><div class="ttdoc">Open a directory.</div><div class="ttdef"><b>Definition:</b> <a href="a00275_source.html#l00042">opendir.c:42</a></div></div>
+<div class="ttc" id="aa01098_html_gaac838842f82869a4606daf5935b3ff42"><div class="ttname"><a href="a01098.html#gaac838842f82869a4606daf5935b3ff42">pcl_mkdir</a></div><div class="ttdeci">PCL_EXPORT int pcl_mkdir(const pchar_t *path, mode_t mode)</div><div class="ttdoc">Create a directory.</div><div class="ttdef"><b>Definition:</b> <a href="a00269_source.html#l00041">mkdir.c:41</a></div></div>
+<div class="ttc" id="aa01098_html_ggae41b808539653bb51ff789a39595f03aad39239acc789c49c45ee20485e426367"><div class="ttname"><a href="a01098.html#ggae41b808539653bb51ff789a39595f03aad39239acc789c49c45ee20485e426367">PclDirentUnknown</a></div><div class="ttdeci">@ PclDirentUnknown</div><div class="ttdoc">Entry type could not be determined.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00098">dir.h:98</a></div></div>
+<div class="ttc" id="aa01098_html_ga62bf2c19d6773b0529e0e8f4fae5ea45"><div class="ttname"><a href="a01098.html#ga62bf2c19d6773b0529e0e8f4fae5ea45">pcl_chdir</a></div><div class="ttdeci">PCL_EXPORT int pcl_chdir(const pchar_t *path)</div><div class="ttdoc">Change the current working directory.</div><div class="ttdef"><b>Definition:</b> <a href="a00260_source.html#l00036">chdir.c:36</a></div></div>
+<div class="ttc" id="aa01098_html_ggae41b808539653bb51ff789a39595f03aa1d83fbbedbdf13d9400655be218b3bd1"><div class="ttname"><a href="a01098.html#ggae41b808539653bb51ff789a39595f03aa1d83fbbedbdf13d9400655be218b3bd1">PclDirentSocket</a></div><div class="ttdeci">@ PclDirentSocket</div><div class="ttdoc">Unix domain socket.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00113">dir.h:112</a></div></div>
+<div class="ttc" id="aa01098_html_ggae41b808539653bb51ff789a39595f03aaec8f5ed49cbfd6beef2f7226d10ea88c"><div class="ttname"><a href="a01098.html#ggae41b808539653bb51ff789a39595f03aaec8f5ed49cbfd6beef2f7226d10ea88c">PclDirentFile</a></div><div class="ttdeci">@ PclDirentFile</div><div class="ttdoc">Regular file.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00108">dir.h:108</a></div></div>
+<div class="ttc" id="aa01098_html_ggae41b808539653bb51ff789a39595f03aa28c0a5c83c1a0a2c77d098ab22649b4e"><div class="ttname"><a href="a01098.html#ggae41b808539653bb51ff789a39595f03aa28c0a5c83c1a0a2c77d098ab22649b4e">PclDirentChar</a></div><div class="ttdeci">@ PclDirentChar</div><div class="ttdoc">Character device.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00102">dir.h:102</a></div></div>
+<div class="ttc" id="aa01098_html_ggae41b808539653bb51ff789a39595f03aa032b28f47b23732ac986054a87f5d0d3"><div class="ttname"><a href="a01098.html#ggae41b808539653bb51ff789a39595f03aa032b28f47b23732ac986054a87f5d0d3">PclDirentBlock</a></div><div class="ttdeci">@ PclDirentBlock</div><div class="ttdoc">Block device.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00106">dir.h:106</a></div></div>
+<div class="ttc" id="aa01119_html"><div class="ttname"><a href="a01119.html">pcl_dirent_t</a></div><div class="ttdoc">Directory entry object.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00121">dir.h:122</a></div></div>
+<div class="ttc" id="aa00098_html"><div class="ttname"><a href="a00098.html">types.h</a></div></div>
+<div class="ttc" id="aa01098_html_gaa484d019a2f4e64c27eaa7815d989742"><div class="ttname"><a href="a01098.html#gaa484d019a2f4e64c27eaa7815d989742">pcl_closedir</a></div><div class="ttdeci">PCL_EXPORT void pcl_closedir(pcl_dir_t *dir)</div><div class="ttdoc">Close a directory handle.</div><div class="ttdef"><b>Definition:</b> <a href="a00263_source.html#l00036">closedir.c:36</a></div></div>
+<div class="ttc" id="aa01098_html_ggae41b808539653bb51ff789a39595f03aa2430d830d1abf82f3cb0ed0a4252214c"><div class="ttname"><a href="a01098.html#ggae41b808539653bb51ff789a39595f03aa2430d830d1abf82f3cb0ed0a4252214c">PclDirentFifo</a></div><div class="ttdeci">@ PclDirentFifo</div><div class="ttdoc">Named pipe (FIFO)</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00100">dir.h:100</a></div></div>
+<div class="ttc" id="aa01098_html_gae41b808539653bb51ff789a39595f03a"><div class="ttname"><a href="a01098.html#gae41b808539653bb51ff789a39595f03a">pcl_dirent_type_t</a></div><div class="ttdeci">pcl_dirent_type_t</div><div class="ttdoc">Directory entry types.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00095">dir.h:96</a></div></div>
+<div class="ttc" id="aa01191_html"><div class="ttname"><a href="a01191.html">tag_pcl_dir</a></div><div class="ttdef"><b>Definition:</b> <a href="a00257_source.html#l00048">_dir.h:49</a></div></div>
+<div class="ttc" id="aa01098_html_ga37bac368d1d355d369acc0184aa480e6"><div class="ttname"><a href="a01098.html#ga37bac368d1d355d369acc0184aa480e6">pcl_rmdir</a></div><div class="ttdeci">PCL_EXPORT int pcl_rmdir(const pchar_t *path)</div><div class="ttdoc">Remove a directory.</div><div class="ttdef"><b>Definition:</b> <a href="a00281_source.html#l00036">rmdir.c:36</a></div></div>
+<div class="ttc" id="aa01098_html_ggae41b808539653bb51ff789a39595f03aae9ee7cbcfa44fe6d71c4be9cfb3d7aec"><div class="ttname"><a href="a01098.html#ggae41b808539653bb51ff789a39595f03aae9ee7cbcfa44fe6d71c4be9cfb3d7aec">PclDirentDir</a></div><div class="ttdeci">@ PclDirentDir</div><div class="ttdoc">Directory.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00104">dir.h:104</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

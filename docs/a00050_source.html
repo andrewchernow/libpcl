@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;pcl/init.h Source File</title>
+<title>&#x202A;libpcl: &#x202A;pcl/file.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,247 +67,180 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">init.h</div>  </div>
+<div class="title">file.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="a00050.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno"><a class="line" href="a01099.html#ga19c421f139d15d086eee3cc155366ec2">    1</a></span>&#160; </div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">  All rights reserved.</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">  modification, are permitted provided that the following conditions are met:</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">  * Redistributions of source code must retain the above copyright notice, this</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">    list of conditions and the following disclaimer.</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">  * Redistributions in binary form must reproduce the above copyright notice,</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">    this list of conditions and the following disclaimer in the documentation</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">    and/or other materials provided with the distribution.</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">  * Neither the name of the copyright holder nor the names of its</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">    contributors may be used to endorse or promote products derived from</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">    this software without specific prior written permission.</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">*/</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#ifndef LIBPCL_INIT_H</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#define LIBPCL_INIT_H</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment">/** @defgroup init Initialize Application</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="comment"> * Responisble for intializing the PCL library. ::pcl_init must be called before any other</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment"> * PCL function. This is typically accomplished by calling it from within the</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="comment"> * application&#39;s \c main function. This module also includes a \c getopt implementation</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="comment"> * since calling ::pcl_init and argument parsing are typically both done in \c main.</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="comment"> * #### Basic Usage</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment"> * @code</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="comment"> * #include &lt;pcl/init.h&gt;</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="comment"> * #include &lt;pcl/error.h&gt;</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment"> * #include &lt;pcl/io.h&gt;</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment"> * #include &lt;stdlib.h&gt;</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment"> * int pcl_tmain(int argc, tchar_t **argv)</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment"> * {</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment"> *   // always call first</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment"> *   pcl_init();</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment"> *   // a requires argument, b has optional argument and c &amp; d have no arguments</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment"> *   const tchar_t *optstr = _T(&quot;a:b::cd&quot;);</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="comment"> *   // match the &#39;val&#39; member of pcl_option_t to the &#39;optstr&#39; short options (not required)</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment"> *   pcl_option_t options[] = {</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment"> *     {_T(&quot;apple&quot;), PclReqArg, _T(&#39;a&#39;)},</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment"> *     {_T(&quot;banana&quot;), PclOptArg, _T(&#39;b&#39;)},</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment"> *     {_T(&quot;cherry&quot;), PclNoArg, _T(&#39;c&#39;)}</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment"> *     // &#39;d&#39; is not mapped to a long option</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment"> *   };</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="comment"> *   // initialize option state</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment"> *   pcl_optstate_t *state = pcl_initopt(argc, argv, optstr, options, countof(options));</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment"> *   if(!state)</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment"> *     PANIC(&quot;failed to initialize option state&quot;, 0);</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="comment"> *   int opt;</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment"> *   tchar_t *value;</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="comment"> *   pcl_option_t *longopt;</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="comment"> *   // 3rd argument longopt can be NULL, which is common</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="comment"> *   while((opt = pcl_getopt(state, &amp;value, &amp;longopt)) &gt; 0)</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment"> *   {</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="comment"> *     tchar_t *longname = longopt ? longopt-&gt;name : _T(&quot;&lt;short-only&gt;&quot;);</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="comment"> *     switch(opt)</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="comment"> *     {</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="comment"> *       case _T(&#39;a&#39;):</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="comment"> *         pcl_printf(&quot;a:%ts] %ts\n&quot;, longname, value);</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="comment"> *         break;</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="comment"> *       case _T(&#39;b&#39;):</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="comment"> *         pcl_printf(&quot;b:%ts] %s\n&quot;, longname, value ? value : _T(&quot;&lt;no-value&gt;&quot;));</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="comment"> *         break;</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="comment"> *       case _T(&#39;c&#39;):</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="comment"> *         pcl_printf(&quot;c:%ts] set\n&quot;, longname);</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="comment"> *         break;</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="comment"> *       case _T(&#39;d&#39;):</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="comment"> *       default:</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="comment"> *        pcl_printf(&quot;d:%ts] set\n&quot;, longname); // prints &quot;d:&lt;short-only&gt;] set\n&quot;</span></div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="comment"> *     }</span></div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="comment"> *   }</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="comment"> *   pcl_free(state);</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="comment"> *   if(opt == -1)</span></div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="comment"> *     PANIC(&quot;getopt failed&quot;, 0);</span></div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="comment"> *   return app_start();</span></div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="comment"> * }</span></div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="comment"> * @endcode</span></div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="comment"> * @{</span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00092.html">pcl/types.h</a>&gt;</span></div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="preprocessor"># define pcl_tmain wmain</span></div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00115"></a><span class="lineno"><a class="line" href="a01099.html#ga6cb9e05256271012792bc168e645fe47">  115</a></span>&#160;<span class="preprocessor"># define pcl_tmain main</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; </div>
-<div class="line"><a name="l00122"></a><span class="lineno"><a class="line" href="a01099.html#ga806c053b3bfec31bfceef3c83a3db92f">  122</a></span>&#160;<span class="keyword">enum</span> <a class="code" href="a01099.html#ga806c053b3bfec31bfceef3c83a3db92f">pcl_optpolicy</a></div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;{<span class="comment"></span></div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="comment">  /** Option does not take any arguments */</span></div>
-<div class="line"><a name="l00125"></a><span class="lineno"><a class="line" href="a01099.html#gga806c053b3bfec31bfceef3c83a3db92fa1e703d178f894e31a992400b6ad71e65">  125</a></span>&#160;  <a class="code" href="a01099.html#gga806c053b3bfec31bfceef3c83a3db92fa1e703d178f894e31a992400b6ad71e65">PclNoArg</a>,<span class="comment"></span></div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="comment">  /** Option requires an argument */</span></div>
-<div class="line"><a name="l00127"></a><span class="lineno"><a class="line" href="a01099.html#gga806c053b3bfec31bfceef3c83a3db92fa3131202ae7746972323b64254ad67961">  127</a></span>&#160;  <a class="code" href="a01099.html#gga806c053b3bfec31bfceef3c83a3db92fa3131202ae7746972323b64254ad67961">PclReqArg</a>,<span class="comment"></span></div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="comment">  /** Option takes an optional argument */</span></div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;  <a class="code" href="a01099.html#gga806c053b3bfec31bfceef3c83a3db92fad13f00190a15b7606cd4ad10b0961f07">PclOptArg</a></div>
-<div class="line"><a name="l00130"></a><span class="lineno"><a class="line" href="a01099.html#gga806c053b3bfec31bfceef3c83a3db92fad13f00190a15b7606cd4ad10b0961f07">  130</a></span>&#160;};</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
-<div class="line"><a name="l00132"></a><span class="lineno"><a class="line" href="a01133.html">  132</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct</span></div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;{<span class="comment"></span></div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="comment">  /** Option name without the dashes. */</span></div>
-<div class="line"><a name="l00135"></a><span class="lineno"><a class="line" href="a01133.html#ad2992198664f7d3c4244c30ad7d6bded">  135</a></span>&#160;  <a class="code" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *<a class="code" href="a01133.html#ad2992198664f7d3c4244c30ad7d6bded">name</a>;</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;<span class="comment">  /** Indicates if the option has no value, optional value or required value.</span></div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;<span class="comment">   * @see PclNoArg, PclOptArg, PclReqArg</span></div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;<span class="comment">   */</span></div>
-<div class="line"><a name="l00140"></a><span class="lineno"><a class="line" href="a01133.html#af1360db1ee84d9d6f13b0b9a3114b6b7">  140</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="a01133.html#af1360db1ee84d9d6f13b0b9a3114b6b7">policy</a>;</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;<span class="comment">  /** A value, like a character, that can be used to identify the long option. This is simpler</span></div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;<span class="comment">   * to work with (like a switch) then comparing long option names. It is common to set this</span></div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="comment">   * value to the cooresponding short option.</span></div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<span class="comment">   * @warning This value should not be -1 or 0, as these are ::pcl_getopt return values used to,</span></div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<span class="comment">   * respectively, indicate an error or completion.</span></div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="comment">   */</span></div>
-<div class="line"><a name="l00148"></a><span class="lineno"><a class="line" href="a01133.html#aa0ccb5ee6d882ee3605ff47745c6467b">  148</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="a01133.html#aa0ccb5ee6d882ee3605ff47745c6467b">val</a>;</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;} <a class="code" href="a01133.html">pcl_option_t</a>;</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;<span class="comment">/** State management for argument parsing.</span></div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;<span class="comment"> * @see pcl_initopt, pcl_getopt</span></div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="a01205.html">tag_pcl_optstate</a> <a class="code" href="a01205.html">pcl_optstate_t</a>;</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;<span class="comment">/** Initializes the PCL library. This must be called before using the PCL library. */</span></div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;PCL_EXPORT <span class="keywordtype">void</span> <a class="code" href="a01099.html#ga14907e41025b0abbdc02ef1f892bd9a2">pcl_init</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;<span class="comment">/** Intialize command-line argument parser. This behaves very similar to POSIX \c getopt_long.</span></div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;<span class="comment"> * Some differences are</span></div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;<span class="comment"> *  * This doesn&#39;t permute (rearrange) arguments</span></div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;<span class="comment"> *  * No support for \c &#39;+&#39; or \c POSIXLY_CORRECT</span></div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;<span class="comment"> *  * opaque pcl_optstate_t manages state rather than global variables</span></div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;<span class="comment"> *  * returns 0 when complete, not -1. -1 indicates an error</span></div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;<span class="comment"> *  * ? never returned to indicate an error, -1 is always returned</span></div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;<span class="comment"> *  * this never outputs to stderr, it instead returns -1 and set pcl_errno</span></div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;<span class="comment"> * @warning If the short options \a optstr defines different argument policies than the</span></div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;<span class="comment"> * matching pcl_option_t.val, the behavior is undefined. If time is taken to map short =&gt; long,</span></div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;<span class="comment"> * make sure policies match: ::PclNoArg, ::PclReqArg or ::PclOptArg.</span></div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="comment"> * @param argc argument count, typically from \c main</span></div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;<span class="comment"> * @param argv pointer to an array of arguments, typically from \c main</span></div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="comment"> * @param optstr option characters. If a character is followed by a colon, the option requires</span></div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;<span class="comment"> * an argument. If followed by two colons, the option takes an optional argument. In either case,</span></div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;<span class="comment"> * the argument can be specified as: \c &quot;-Ovalue&quot;, \c &quot;-O=value&quot; or \c &quot;-O value&quot;. When dealing</span></div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;<span class="comment"> * with an optional argument, the 3rd form excludes the value if it begins with a &#39;-&#39;: ie.</span></div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;<span class="comment"> * \c &quot;-O -value&quot;. This is not the case for a required argument. This can be \c NULL as long as</span></div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;<span class="comment"> * the \a options parameter is not \c NULL.</span></div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;<span class="comment"> * @param options array of option structures defining legitimate long options. The option</span></div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;<span class="comment"> * structure defines an option \a name, option argument \a policy and a \a val used as the</span></div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;<span class="comment"> * return value when a long option is found. Typically, \a val is set to its corresponding short</span></div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;<span class="comment"> * option character, but this is not a requirement. The argument can be specified as</span></div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;<span class="comment"> * \c &quot;--long=value&quot; or \c &quot;--long value&quot;. As with short options, the 2nd form excludes optional</span></div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;<span class="comment"> * arguments that begin with a &#39;-&#39;: ie. \c &quot;-long -value&quot;. This is not the case for a required</span></div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;<span class="comment"> * argument. This can be \c NULL as long as the \a optstr parameter is not \c NULL.</span></div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="comment"> * @param num_options number of option structures in the \a options parameter.</span></div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;<span class="comment"> * @return pointer to an option state structure, that must be freed by caller, or \c NULL on error.</span></div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<span class="comment"> * An error only occurs if there is an invalid argument.</span></div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;PCL_EXPORT <a class="code" href="a01205.html">pcl_optstate_t</a> *<a class="code" href="a01099.html#ga2518ba0aea4cfbf9144fa7e2a2b3b225">pcl_initopt</a>(<span class="keywordtype">int</span> <a class="code" href="a01205.html#ad1447518f4372828b8435ae82e48499e">argc</a>, <a class="code" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> **<a class="code" href="a01205.html#ad4dfe535e2663b3152bbe4bdaa4671fd">argv</a>, <span class="keyword">const</span> <a class="code" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *<a class="code" href="a01205.html#acb77a81e5ef01d2a431dee4a93ad42c7">optstr</a>,</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;  <a class="code" href="a01133.html">pcl_option_t</a> *<a class="code" href="a01205.html#a3b3f628671f0418e9acabf63b396ffb7">options</a>, <span class="keywordtype">int</span> <a class="code" href="a01205.html#a593108c2cc4b7dd3edecefd724edfd51">num_options</a>);</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;<span class="comment">/** Parse command-line arguments.</span></div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;<span class="comment"> * @param state pointer to a getopt state structure intialized via ::pcl_initopt</span></div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;<span class="comment"> * @param value pointer to a string to receive the value, if any. This can be \c NULL. If</span></div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;<span class="comment"> * this is \c NULL, there is no way to get an option&#39;s argument value. This value must be</span></div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;<span class="comment"> * copied to persist after argument parsing, since it is direct pointer to the \c argv array</span></div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;<span class="comment"> * provided during ::pcl_initopt.</span></div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;<span class="comment"> * @param longopt pointer to an option to receive the matching option object. The comparison</span></div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;<span class="comment"> * works for long or short option parsing. When a short option is found with a matching</span></div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;<span class="comment"> * pcl_option_t.val value, that option object is written here. For long options, the comparison</span></div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;<span class="comment"> * is based off pcl_option_t.name. If a short option has no matching \a val within long option</span></div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;<span class="comment"> * objects, or they were not provided to ::pcl_initopt, then this is set to \c NULL.</span></div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;<span class="comment"> * This is an optional parameter and can be \c NULL.</span></div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;<span class="comment"> * @return The short option character or long option pcl_option_t.val. When all arguments</span></div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;<span class="comment"> * have been parsed, this returns 0. On error, -1 is returned.</span></div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a01099.html#gaa2882afd52801436bdb3913609907015">pcl_getopt</a>(<a class="code" href="a01205.html">pcl_optstate_t</a> *state, <a class="code" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> **value, <a class="code" href="a01133.html">pcl_option_t</a> **longopt);</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160; </div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;}</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;<span class="comment">/** @} */</span></div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;<span class="preprocessor">#endif //LIBPCL_INIT_H</span></div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160; </div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160; </div>
+<a href="a00050.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">  modification, are permitted provided that the following conditions are met:</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">  * Redistributions of source code must retain the above copyright notice, this</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">    list of conditions and the following disclaimer.</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">  * Redistributions in binary form must reproduce the above copyright notice,</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">    this list of conditions and the following disclaimer in the documentation</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">    and/or other materials provided with the distribution.</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">  * Neither the name of the copyright holder nor the names of its</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">    contributors may be used to endorse or promote products derived from</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">    this software without specific prior written permission.</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#ifndef LIBPCL_UNISTD_H__</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#define LIBPCL_UNISTD_H__</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00098.html">pcl/types.h</a>&gt;</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">  #define PCL_RDLOCK 1 </span><span class="comment">/* shared or read lock */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">  #define PCL_UNLOCK 2 </span><span class="comment">/* unlock */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">  #define PCL_WRLOCK 3 </span><span class="comment">/* exclusive or write lock */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="a00050.html#acf40741bdbb235de60577c9b811f9564">   42</a></span>&#160;<span class="preprocessor">  #define PCL_RDLOCK F_RDLCK</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="a00050.html#a85f3d91287ae23f356fbbb67a34222ec">   43</a></span>&#160;<span class="preprocessor">  #define PCL_UNLOCK F_UNLCK</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="a00050.html#a740a5530c8042e415f4d45e1865617e3">   44</a></span>&#160;<span class="preprocessor">  #define PCL_WRLOCK F_WRLCK</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment">/* STDIO fixed FD values */</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#ifndef STDIN_FILENO</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="a00050.html#afcf80a6d91178952d107ad00b165752b">   49</a></span>&#160;<span class="preprocessor">  #define STDIN_FILENO 0</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">#ifndef STDOUT_FILENO</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="a00050.html#abd165ee6474b5b75bf075842fff13a04">   52</a></span>&#160;<span class="preprocessor">  #define STDOUT_FILENO 1</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#ifndef STDERR_FILENO</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="a00050.html#ae2fe1725bb5e9823d089c46b9ed5266e">   55</a></span>&#160;<span class="preprocessor">  #define STDERR_FILENO 2</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="a00050.html#a1bf90fe45d00542a56b403e456ee4769">   58</a></span>&#160;<span class="preprocessor">#define PCL_O_RDONLY     0x00000000     </span><span class="comment">/* open for reading only */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="a00050.html#a82e58361b57c3faf5eb9058810b5efc2">   59</a></span>&#160;<span class="preprocessor">#define PCL_O_WRONLY     0x00000001     </span><span class="comment">/* open for writing only */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="a00050.html#ac6de4717201889c8d02dcfdff992cbdc">   60</a></span>&#160;<span class="preprocessor">#define PCL_O_RDWR       0x00000002     </span><span class="comment">/* open for reading and writing */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="a00050.html#a593450f6c5d18bc9f9cbb3952f147c9b">   61</a></span>&#160;<span class="preprocessor">#define PCL_O_ACCMODE    0x00000003     </span><span class="comment">/* mask for above modes */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="a00050.html#a4d7dbf97e732ce21c92f1f833aeae005">   62</a></span>&#160;<span class="preprocessor">#define PCL_O_CREAT      0x00000008     </span><span class="comment">/* create and open file */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="a00050.html#a1e1c094ddc6b5841a783c36c752c4612">   63</a></span>&#160;<span class="preprocessor">#define PCL_O_APPEND     0x00000010     </span><span class="comment">/* set the append mode (all writes at EOF */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="a00050.html#abe3198789c5ffe1c29f33e14b67c77b1">   64</a></span>&#160;<span class="preprocessor">#define PCL_O_TRUNC      0x00000020     </span><span class="comment">/* truncate to zero length */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="a00050.html#a0a066971ccd5cca8b667dd7333c0bbbb">   65</a></span>&#160;<span class="preprocessor">#define PCL_O_EXCL       0x00000040     </span><span class="comment">/* open only if file doesn&#39;t already exist */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="a00050.html#a499da1bff319be4bc726d1853839c210">   66</a></span>&#160;<span class="preprocessor">#define PCL_O_NONBLOCK   0x00000080     </span><span class="comment">/* do not block on open or for data to become available */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="a00050.html#a84f916c85005e21fd7c1c76c1f931c72">   67</a></span>&#160;<span class="preprocessor">#define PCL_O_CLOEXEC    0x00000100     </span><span class="comment">/* close fd when exec() is invoked */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="a00050.html#a85c9c0689fda35fb78d531dbaf7a40aa">   68</a></span>&#160;<span class="preprocessor">#define PCL_O_DIRECTORY  0x00000200     </span><span class="comment">/* If not a directory, the open will fail */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="a00050.html#aa2b7795dd84d5d50f41da086ee8d891a">   69</a></span>&#160;<span class="preprocessor">#define PCL_O_NOFOLLOW   0x00000400     </span><span class="comment">/* Do not follow symlinks, the open will fail */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="a00050.html#acf2ad405933ebec8d43e8f6201bf5a13">   70</a></span>&#160;<span class="preprocessor">#define PCL_O_SYNC       0x00000800     </span><span class="comment">/* file is opened for synchronous I/O */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="a00050.html#a5dddce8ec3738fcf1216bc76f050f2ea">   71</a></span>&#160;<span class="preprocessor">#define PCL_O_SHLOCK     0x00001000     </span><span class="comment">/* share lock file, read lock */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="a00050.html#a17eb8bc31a7d785787c9b865e0a3c16b">   72</a></span>&#160;<span class="preprocessor">#define PCL_O_EXLOCK     0x00002000     </span><span class="comment">/* exclusive lock the file, read/write lock */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="a00050.html#af42b9ead2f95720ebfa86a3249bbe21b">   73</a></span>&#160;<span class="preprocessor">#define PCL_O_BACKUP     0x00004000     </span><span class="comment">/* win32 only, sets FILE_FLAG_BACKUP_SEMANTICS</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="a00050.html#aad0f1c072750e5dcada58f9d9606b986">   74</a></span>&#160;<span class="comment">                                           and possibly other things in future */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="a00050.html#a69f41cd04e4af9637176e1a0fdd618b6">   75</a></span>&#160;<span class="preprocessor">#define PCL_O_NOATIME    0x00008000     </span><span class="comment">/* linux only */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="a00050.html#a0b8fc5af7394cd71b7ca086ae8ae2814">   76</a></span>&#160;<span class="preprocessor">#define PCL_O_TEMP       0x00010000     </span><span class="comment">/* temp file: deleted after pcl_file_t is closed */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="a00050.html#acb8f3ddea498a9f7b1a4ceb5262ab3f3">   77</a></span>&#160;<span class="preprocessor">#define PCL_O_NDELAY     PCL_O_NONBLOCK</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor">#define PCL_O_NOINHERIT  PCL_O_CLOEXEC</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="a00050.html#a863aaab3b54f16ba02dbcf788fe88a0e">   80</a></span>&#160;<span class="comment">/* pcl_file_t.flags */</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="a00050.html#a6b5fee67dabf0b3f8ea60ae34357a517">   81</a></span>&#160;<span class="preprocessor">#define PCL_FF_FLOCK     0x0001 </span><span class="comment">/* locked explicitly via pcl_file_lock */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="a00050.html#a2472759bb7300c60bb17950ee1362b7b">   82</a></span>&#160;<span class="preprocessor">#define PCL_FF_NONBLOCK  0x0002</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="a00050.html#a8c530c746ff24a63cbe3071dab306d3a">   83</a></span>&#160;<span class="preprocessor">#define PCL_FF_APPEND    0x0004</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="a00050.html#a6a07e4d4ac7139bd3ce0c0d99486438d">   84</a></span>&#160;<span class="preprocessor">#define PCL_FF_READ      0x0008</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno"><a class="line" href="a00050.html#a6202a38336d5c8fbcffccc3011a756d1">   85</a></span>&#160;<span class="preprocessor">#define PCL_FF_WRITE     0x0010</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="a00050.html#adb74d22cf7d668ffbb5336e4a4da66ec">   86</a></span>&#160;<span class="preprocessor">#define PCL_FF_OLOCK     0x0020 </span><span class="comment">/* locked implicitly by pcl_file_open O_SHLOCK|O_EXLOCK */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="preprocessor">#define PCL_FF_RDWR      (PCL_FF_READ | PCL_FF_WRITE)</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;PCL_EXPORT <a class="code" href="a01207.html">pcl_file_t</a> *<a class="code" href="a00050.html#a5390df939f5b1f699b946b1e2a2349b6">pcl_file_open</a>(<span class="keyword">const</span> <a class="code" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *path, <span class="keywordtype">int</span> oflags, ...);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00050.html#ac8f4c5f12cf419c0a56ef6a8285828e5">pcl_file_read</a>(<a class="code" href="a01207.html">pcl_file_t</a> *file, <span class="keywordtype">void</span> *buf, <span class="keywordtype">size_t</span> count);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00050.html#ac99ffd83af2f5d4780bd861acbf07db1">pcl_file_write</a>(<a class="code" href="a01207.html">pcl_file_t</a> *file, <span class="keyword">const</span> <span class="keywordtype">void</span> *data, <span class="keywordtype">size_t</span> count);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00050.html#aed282a695af0fb3a13b7fabcd91fbddc">pcl_file_tryread</a>(<a class="code" href="a01207.html">pcl_file_t</a> *file, <span class="keywordtype">void</span> *buf, <span class="keywordtype">size_t</span> count, <span class="keywordtype">int</span> ms_timeout);</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00050.html#af2387712aa59c6a9b3ff9df858f6eb35">pcl_file_trywrite</a>(<a class="code" href="a01207.html">pcl_file_t</a> *file, <span class="keyword">const</span> <span class="keywordtype">void</span> *data, <span class="keywordtype">size_t</span> count, <span class="keywordtype">int</span> ms_timeout);</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;PCL_EXPORT off_t <a class="code" href="a00050.html#ae06c73e0e7627c0e295c027c36d46442">pcl_file_seek</a>(<a class="code" href="a01207.html">pcl_file_t</a> *file, off_t offset, <span class="keywordtype">int</span> whence);</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;PCL_EXPORT <span class="keywordtype">void</span> <a class="code" href="a00050.html#a4e888a5a186ccc8fff3176665d01720a">pcl_file_close</a>(<a class="code" href="a01207.html">pcl_file_t</a> *file);</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="comment">/** Lock a file with exclusive or shared access or unlock a file.</span></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="comment"> * @param file</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="comment"> * @param operation PCL_WRLOCK exclusive, PCL_RDLOCK shared, PCL_UNLOCK unlock</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="comment"> * @return 0 for success and -1 on error</span></div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00050.html#a7d88374be6765489b5408d0caaf74da0">pcl_file_lock</a>(<a class="code" href="a01207.html">pcl_file_t</a> *file, <span class="keywordtype">int</span> operation);</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="comment">/* Get the absolute path for a file descriptor.</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="comment"> * @param fd file descriptor. For windows, this is a CRT fd, not a HANDLE.</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="comment"> * @param out pointer to a pchar_t pointer to receive the result which must be freed</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="comment"> * by caller.</span></div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="comment"> * @return -1 on error number of characters written to out on success</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00050.html#a058caf8233ba7e33db5fc24686049220">pcl_fdpath</a>(<span class="keywordtype">int</span> fd, <a class="code" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> **out);</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="comment">/** Gets the canonicalized absolute pathname.</span></div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="comment"> * @param path path to convert</span></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="comment"> * @param[out] lenp If not \c NULL, character length (excluding NUL) is written here</span></div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="comment"> * @return an allocated absolute path or NULL on error</span></div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;PCL_EXPORT <a class="code" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *<a class="code" href="a00050.html#a759abd05ec38ac40da7e817e7a7556a5">pcl_realpath</a>(<span class="keyword">const</span> <a class="code" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *path, <span class="keywordtype">int</span> *lenp);</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="comment">/** Change the name or location of a file</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="comment"> * @param oldname The old name/path of the file</span></div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="comment"> * @param newname if this exists, it will be replaced</span></div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="comment"> * @return 0 on success and -1 on error</span></div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00050.html#a5ed61c05be7d65b379a0b48eca06282e">pcl_rename</a>(<span class="keyword">const</span> <a class="code" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *oldname, <span class="keyword">const</span> <a class="code" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *newname);</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<span class="comment">/** Delete a file or directory. The directory must be empty. File can be a link, socket, FIFO</span></div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;<span class="comment"> * or device.</span></div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;<span class="comment"> * @param pathname</span></div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;<span class="comment"> * @return 0 on success or -1 on error</span></div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00050.html#ab839ec3bcf26384f8cb2d46168d299a7">pcl_remove</a>(<span class="keyword">const</span> <a class="code" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *pathname);</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;<span class="comment">/** Delete a file.</span></div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="comment"> * @param path file to delete</span></div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<span class="comment"> * @return 0 on success and -1 on error</span></div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<span class="comment"> * @see pcl_remove</span></div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00050.html#add6d6cc2e05aa31d259539f9c9ea053b">pcl_unlink</a>(<span class="keyword">const</span> <a class="code" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *path);</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160; </div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;}</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160; </div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;<span class="preprocessor">#endif //LIBPCL_UNISTD_H__</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01099_html_gaa2882afd52801436bdb3913609907015"><div class="ttname"><a href="a01099.html#gaa2882afd52801436bdb3913609907015">pcl_getopt</a></div><div class="ttdeci">PCL_EXPORT int pcl_getopt(pcl_optstate_t *state, tchar_t **value, pcl_option_t **longopt)</div><div class="ttdoc">Parse command-line arguments.</div><div class="ttdef"><b>Definition:</b> <a href="a00530_source.html#l00038">getopt.c:38</a></div></div>
-<div class="ttc" id="aa00092_html_a7589c2eb4da44bc1c8e4d094798e7f0b"><div class="ttname"><a href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a></div><div class="ttdeci">char tchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00092_source.html#l00053">types.h:53</a></div></div>
-<div class="ttc" id="aa01133_html_aa0ccb5ee6d882ee3605ff47745c6467b"><div class="ttname"><a href="a01133.html#aa0ccb5ee6d882ee3605ff47745c6467b">pcl_option_t::val</a></div><div class="ttdeci">int val</div><div class="ttdoc">A value, like a character, that can be used to identify the long option.</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00148">init.h:148</a></div></div>
-<div class="ttc" id="aa01099_html_ga2518ba0aea4cfbf9144fa7e2a2b3b225"><div class="ttname"><a href="a01099.html#ga2518ba0aea4cfbf9144fa7e2a2b3b225">pcl_initopt</a></div><div class="ttdeci">PCL_EXPORT pcl_optstate_t * pcl_initopt(int argc, tchar_t **argv, const tchar_t *optstr, pcl_option_t *options, int num_options)</div><div class="ttdoc">Intialize command-line argument parser.</div><div class="ttdef"><b>Definition:</b> <a href="a00536_source.html#l00037">initopt.c:37</a></div></div>
-<div class="ttc" id="aa01133_html_ad2992198664f7d3c4244c30ad7d6bded"><div class="ttname"><a href="a01133.html#ad2992198664f7d3c4244c30ad7d6bded">pcl_option_t::name</a></div><div class="ttdeci">tchar_t * name</div><div class="ttdoc">Option name without the dashes.</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00135">init.h:135</a></div></div>
-<div class="ttc" id="aa01099_html_ga806c053b3bfec31bfceef3c83a3db92f"><div class="ttname"><a href="a01099.html#ga806c053b3bfec31bfceef3c83a3db92f">pcl_optpolicy</a></div><div class="ttdeci">pcl_optpolicy</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00122">init.h:123</a></div></div>
-<div class="ttc" id="aa01205_html_acb77a81e5ef01d2a431dee4a93ad42c7"><div class="ttname"><a href="a01205.html#acb77a81e5ef01d2a431dee4a93ad42c7">tag_pcl_optstate::optstr</a></div><div class="ttdeci">const tchar_t * optstr</div><div class="ttdef"><b>Definition:</b> <a href="a00527_source.html#l00048">_init.h:48</a></div></div>
-<div class="ttc" id="aa01205_html_a593108c2cc4b7dd3edecefd724edfd51"><div class="ttname"><a href="a01205.html#a593108c2cc4b7dd3edecefd724edfd51">tag_pcl_optstate::num_options</a></div><div class="ttdeci">int num_options</div><div class="ttdef"><b>Definition:</b> <a href="a00527_source.html#l00050">_init.h:50</a></div></div>
-<div class="ttc" id="aa01099_html_gga806c053b3bfec31bfceef3c83a3db92fad13f00190a15b7606cd4ad10b0961f07"><div class="ttname"><a href="a01099.html#gga806c053b3bfec31bfceef3c83a3db92fad13f00190a15b7606cd4ad10b0961f07">PclOptArg</a></div><div class="ttdeci">@ PclOptArg</div><div class="ttdoc">Option takes an optional argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00130">init.h:129</a></div></div>
-<div class="ttc" id="aa01205_html_ad4dfe535e2663b3152bbe4bdaa4671fd"><div class="ttname"><a href="a01205.html#ad4dfe535e2663b3152bbe4bdaa4671fd">tag_pcl_optstate::argv</a></div><div class="ttdeci">tchar_t ** argv</div><div class="ttdef"><b>Definition:</b> <a href="a00527_source.html#l00047">_init.h:47</a></div></div>
-<div class="ttc" id="aa01205_html_ad1447518f4372828b8435ae82e48499e"><div class="ttname"><a href="a01205.html#ad1447518f4372828b8435ae82e48499e">tag_pcl_optstate::argc</a></div><div class="ttdeci">int argc</div><div class="ttdef"><b>Definition:</b> <a href="a00527_source.html#l00046">_init.h:46</a></div></div>
-<div class="ttc" id="aa01133_html"><div class="ttname"><a href="a01133.html">pcl_option_t</a></div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00132">init.h:133</a></div></div>
-<div class="ttc" id="aa01099_html_gga806c053b3bfec31bfceef3c83a3db92fa1e703d178f894e31a992400b6ad71e65"><div class="ttname"><a href="a01099.html#gga806c053b3bfec31bfceef3c83a3db92fa1e703d178f894e31a992400b6ad71e65">PclNoArg</a></div><div class="ttdeci">@ PclNoArg</div><div class="ttdoc">Option does not take any arguments.</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00125">init.h:125</a></div></div>
-<div class="ttc" id="aa01099_html_gga806c053b3bfec31bfceef3c83a3db92fa3131202ae7746972323b64254ad67961"><div class="ttname"><a href="a01099.html#gga806c053b3bfec31bfceef3c83a3db92fa3131202ae7746972323b64254ad67961">PclReqArg</a></div><div class="ttdeci">@ PclReqArg</div><div class="ttdoc">Option requires an argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00127">init.h:127</a></div></div>
-<div class="ttc" id="aa01133_html_af1360db1ee84d9d6f13b0b9a3114b6b7"><div class="ttname"><a href="a01133.html#af1360db1ee84d9d6f13b0b9a3114b6b7">pcl_option_t::policy</a></div><div class="ttdeci">int policy</div><div class="ttdoc">Indicates if the option has no value, optional value or required value.</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00140">init.h:140</a></div></div>
-<div class="ttc" id="aa01205_html"><div class="ttname"><a href="a01205.html">tag_pcl_optstate</a></div><div class="ttdef"><b>Definition:</b> <a href="a00527_source.html#l00041">_init.h:42</a></div></div>
-<div class="ttc" id="aa01099_html_ga14907e41025b0abbdc02ef1f892bd9a2"><div class="ttname"><a href="a01099.html#ga14907e41025b0abbdc02ef1f892bd9a2">pcl_init</a></div><div class="ttdeci">PCL_EXPORT void pcl_init(void)</div><div class="ttdoc">Initializes the PCL library.</div><div class="ttdef"><b>Definition:</b> <a href="a00533_source.html#l00062">init.c:62</a></div></div>
-<div class="ttc" id="aa00092_html"><div class="ttname"><a href="a00092.html">types.h</a></div></div>
-<div class="ttc" id="aa01205_html_a3b3f628671f0418e9acabf63b396ffb7"><div class="ttname"><a href="a01205.html#a3b3f628671f0418e9acabf63b396ffb7">tag_pcl_optstate::options</a></div><div class="ttdeci">pcl_option_t * options</div><div class="ttdef"><b>Definition:</b> <a href="a00527_source.html#l00049">_init.h:49</a></div></div>
+<div class="ttc" id="aa00098_html_ac114b2b1527c8ae241d37cc15ca7d122"><div class="ttname"><a href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a></div><div class="ttdeci">char pchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00098_source.html#l00053">types.h:53</a></div></div>
+<div class="ttc" id="aa01207_html"><div class="ttname"><a href="a01207.html">tag_pcl_file</a></div><div class="ttdef"><b>Definition:</b> <a href="a00431_source.html#l00061">_file.h:62</a></div></div>
+<div class="ttc" id="aa00050_html_a7d88374be6765489b5408d0caaf74da0"><div class="ttname"><a href="a00050.html#a7d88374be6765489b5408d0caaf74da0">pcl_file_lock</a></div><div class="ttdeci">PCL_EXPORT int pcl_file_lock(pcl_file_t *file, int operation)</div><div class="ttdoc">Lock a file with exclusive or shared access or unlock a file.</div><div class="ttdef"><b>Definition:</b> <a href="a00446_source.html#l00036">file_lock.c:36</a></div></div>
+<div class="ttc" id="aa00050_html_a5ed61c05be7d65b379a0b48eca06282e"><div class="ttname"><a href="a00050.html#a5ed61c05be7d65b379a0b48eca06282e">pcl_rename</a></div><div class="ttdeci">PCL_EXPORT int pcl_rename(const pchar_t *oldname, const pchar_t *newname)</div><div class="ttdoc">Change the name or location of a file.</div><div class="ttdef"><b>Definition:</b> <a href="a00464_source.html#l00040">rename.c:40</a></div></div>
+<div class="ttc" id="aa00050_html_ab839ec3bcf26384f8cb2d46168d299a7"><div class="ttname"><a href="a00050.html#ab839ec3bcf26384f8cb2d46168d299a7">pcl_remove</a></div><div class="ttdeci">PCL_EXPORT int pcl_remove(const pchar_t *pathname)</div><div class="ttdoc">Delete a file or directory.</div><div class="ttdef"><b>Definition:</b> <a href="a00461_source.html#l00041">remove.c:41</a></div></div>
+<div class="ttc" id="aa00050_html_a5390df939f5b1f699b946b1e2a2349b6"><div class="ttname"><a href="a00050.html#a5390df939f5b1f699b946b1e2a2349b6">pcl_file_open</a></div><div class="ttdeci">PCL_EXPORT pcl_file_t * pcl_file_open(const pchar_t *path, int oflags,...)</div><div class="ttdef"><b>Definition:</b> <a href="a00449_source.html#l00036">file_open.c:36</a></div></div>
+<div class="ttc" id="aa00050_html_ac8f4c5f12cf419c0a56ef6a8285828e5"><div class="ttname"><a href="a00050.html#ac8f4c5f12cf419c0a56ef6a8285828e5">pcl_file_read</a></div><div class="ttdeci">PCL_EXPORT int pcl_file_read(pcl_file_t *file, void *buf, size_t count)</div><div class="ttdef"><b>Definition:</b> <a href="a00470_source.html#l00036">unix_read.c:36</a></div></div>
+<div class="ttc" id="aa00050_html_ac99ffd83af2f5d4780bd861acbf07db1"><div class="ttname"><a href="a00050.html#ac99ffd83af2f5d4780bd861acbf07db1">pcl_file_write</a></div><div class="ttdeci">PCL_EXPORT int pcl_file_write(pcl_file_t *file, const void *data, size_t count)</div><div class="ttdef"><b>Definition:</b> <a href="a00479_source.html#l00036">unix_write.c:36</a></div></div>
+<div class="ttc" id="aa00098_html"><div class="ttname"><a href="a00098.html">types.h</a></div></div>
+<div class="ttc" id="aa00050_html_a759abd05ec38ac40da7e817e7a7556a5"><div class="ttname"><a href="a00050.html#a759abd05ec38ac40da7e817e7a7556a5">pcl_realpath</a></div><div class="ttdeci">PCL_EXPORT pchar_t * pcl_realpath(const pchar_t *path, int *lenp)</div><div class="ttdoc">Gets the canonicalized absolute pathname.</div><div class="ttdef"><b>Definition:</b> <a href="a00458_source.html#l00044">realpath.c:44</a></div></div>
+<div class="ttc" id="aa00050_html_a4e888a5a186ccc8fff3176665d01720a"><div class="ttname"><a href="a00050.html#a4e888a5a186ccc8fff3176665d01720a">pcl_file_close</a></div><div class="ttdeci">PCL_EXPORT void pcl_file_close(pcl_file_t *file)</div><div class="ttdef"><b>Definition:</b> <a href="a00440_source.html#l00039">file_close.c:39</a></div></div>
+<div class="ttc" id="aa00050_html_a058caf8233ba7e33db5fc24686049220"><div class="ttname"><a href="a00050.html#a058caf8233ba7e33db5fc24686049220">pcl_fdpath</a></div><div class="ttdeci">PCL_EXPORT int pcl_fdpath(int fd, pchar_t **out)</div><div class="ttdef"><b>Definition:</b> <a href="a00434_source.html#l00051">fdpath.c:51</a></div></div>
+<div class="ttc" id="aa00050_html_ae06c73e0e7627c0e295c027c36d46442"><div class="ttname"><a href="a00050.html#ae06c73e0e7627c0e295c027c36d46442">pcl_file_seek</a></div><div class="ttdeci">PCL_EXPORT off_t pcl_file_seek(pcl_file_t *file, off_t offset, int whence)</div><div class="ttdef"><b>Definition:</b> <a href="a00452_source.html#l00036">file_seek.c:36</a></div></div>
+<div class="ttc" id="aa00050_html_add6d6cc2e05aa31d259539f9c9ea053b"><div class="ttname"><a href="a00050.html#add6d6cc2e05aa31d259539f9c9ea053b">pcl_unlink</a></div><div class="ttdeci">PCL_EXPORT int pcl_unlink(const pchar_t *path)</div><div class="ttdoc">Delete a file.</div><div class="ttdef"><b>Definition:</b> <a href="a00482_source.html#l00041">unlink.c:41</a></div></div>
+<div class="ttc" id="aa00050_html_aed282a695af0fb3a13b7fabcd91fbddc"><div class="ttname"><a href="a00050.html#aed282a695af0fb3a13b7fabcd91fbddc">pcl_file_tryread</a></div><div class="ttdeci">PCL_EXPORT int pcl_file_tryread(pcl_file_t *file, void *buf, size_t count, int ms_timeout)</div><div class="ttdef"><b>Definition:</b> <a href="a00473_source.html#l00037">unix_tryread.c:37</a></div></div>
+<div class="ttc" id="aa00050_html_af2387712aa59c6a9b3ff9df858f6eb35"><div class="ttname"><a href="a00050.html#af2387712aa59c6a9b3ff9df858f6eb35">pcl_file_trywrite</a></div><div class="ttdeci">PCL_EXPORT int pcl_file_trywrite(pcl_file_t *file, const void *data, size_t count, int ms_timeout)</div><div class="ttdef"><b>Definition:</b> <a href="a00476_source.html#l00037">unix_trywrite.c:37</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

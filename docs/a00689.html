@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/socket/sendall.c File Reference</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/socket/select.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -69,43 +69,56 @@ $(function() {
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">sendall.c File Reference</div>  </div>
+<div class="title">select.c File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="a00662_source.html">_socket.h</a>&quot;</code><br />
-<code>#include &lt;<a class="el" href="a00035_source.html">pcl/error.h</a>&gt;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00668_source.html">_socket.h</a>&quot;</code><br />
+<code>#include &lt;<a class="el" href="a00095_source.html">pcl/time.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="a00041_source.html">pcl/error.h</a>&gt;</code><br />
 </div>
 <p><a href="a00689_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ac92d595007c528c2ffb335322c308016"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00689.html#ac92d595007c528c2ffb335322c308016">pcl_sendall</a> (<a class="el" href="a00092.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *sock, const void *data, size_t count)</td></tr>
-<tr class="separator:ac92d595007c528c2ffb335322c308016"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e415cddb336095985fe5da394e93075"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00689.html#a0e415cddb336095985fe5da394e93075">pcl_select</a> (int fds, fd_set *rset, fd_set *wset, fd_set *eset, struct timeval *tv)</td></tr>
+<tr class="separator:a0e415cddb336095985fe5da394e93075"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="ac92d595007c528c2ffb335322c308016"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac92d595007c528c2ffb335322c308016">&#9670;&nbsp;</a></span>pcl_sendall()</h2>
+<a id="a0e415cddb336095985fe5da394e93075"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e415cddb336095985fe5da394e93075">&#9670;&nbsp;</a></span>pcl_select()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool pcl_sendall </td>
+          <td class="memname">int pcl_select </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="a00092.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *&#160;</td>
-          <td class="paramname"><em>sock</em>, </td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>fds</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const void *&#160;</td>
-          <td class="paramname"><em>data</em>, </td>
+          <td class="paramtype">fd_set *&#160;</td>
+          <td class="paramname"><em>rset</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>count</em>&#160;</td>
+          <td class="paramtype">fd_set *&#160;</td>
+          <td class="paramname"><em>wset</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">fd_set *&#160;</td>
+          <td class="paramname"><em>eset</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct timeval *&#160;</td>
+          <td class="paramname"><em>tv</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -115,9 +128,9 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="a00689_source.html#l00036">36</a> of file <a class="el" href="a00689_source.html">sendall.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00689_source.html#l00037">37</a> of file <a class="el" href="a00689_source.html">select.c</a>.</p>
 
-<p class="reference">References <a class="el" href="a00686_source.html#l00036">pcl_send()</a>, and <a class="el" href="a00005_source.html#l00287">R_TRC</a>.</p>
+<p class="reference">References <a class="el" href="a00959_source.html#l00036">pcl_clock()</a>, <a class="el" href="a00014_source.html#l00158">PCL_ETIMEOUT</a>, <a class="el" href="a00095_source.html#l00146">pcl_usecdiff()</a>, <a class="el" href="a00095_source.html#l00046">PCL_USECS</a>, <a class="el" href="a00011_source.html#l00145">R_SETERR</a>, and <a class="el" href="a00011_source.html#l00125">SETLASTERR</a>.</p>
 
 </div>
 </div>

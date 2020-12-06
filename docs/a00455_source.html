@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/file/remove.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/file/flagconv.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">remove.c</div>  </div>
+<div class="title">flagconv.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00455.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,63 +101,197 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00053.html">pcl/io.h</a>&gt;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00035.html">pcl/error.h</a>&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00431.html">_file.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;fcntl.h&gt;</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor"># include &lt;<a class="code" href="a00026.html">pcl/dir.h</a>&gt;</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor"># include &lt;<a class="code" href="a00074.html">pcl/stat.h</a>&gt;</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor"># include &lt;<a class="code" href="a00044.html">pcl/file.h</a>&gt;</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="a00455.html#a400d2ee0b7a8c86dfaa9a94052d87936">   41</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="a00455.html#a400d2ee0b7a8c86dfaa9a94052d87936">pcl_remove</a>(<span class="keyword">const</span> <a class="code" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *pathname)</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a00023.html#a8278668d120afdd0e47def881845559d">strempty</a>(pathname))</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01095.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a>();</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <a class="code" href="a01153.html">pcl_stat_t</a> st;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a00074.html#a8d97e7e5e65e8140ef73bb21ff634500">pcl_stat</a>(pathname, &amp;st))</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01095.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a>();</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a00074.html#a70b64ed67c0ab484b4ba09487da34e91">S_ISDIR</a>(st.<a class="code" href="a01153.html#adc8d3cf511ceb277aea0cfa1cd027c59">mode</a>))</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  {</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordflow">if</span>(<a class="code" href="a01092.html#gad69addc53647b240ff1dabe0d07b3eb9">pcl_rmdir</a>(pathname))</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01095.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a>();</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  }</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <span class="keywordflow">else</span> <span class="keywordflow">if</span>(!<a class="code" href="a00074.html#a722eba7370eb3b0aafb3272182e08520">S_ISBLK</a>(st.<a class="code" href="a01153.html#adc8d3cf511ceb277aea0cfa1cd027c59">mode</a>) &amp;&amp; !<a class="code" href="a00074.html#a767b5d0691f435f8a9b7f5e0fa97a645">S_ISCHR</a>(st.<a class="code" href="a01153.html#adc8d3cf511ceb277aea0cfa1cd027c59">mode</a>))</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  {</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordflow">if</span>(<a class="code" href="a00044.html#a0664813129e19b3567260769e52fba81">pcl_unlink</a>(pathname))</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01095.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a>();</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  }</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  <span class="keywordflow">if</span>(remove(pathname))</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01095.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a>();</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;}</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a00455.html#aa7e81820c3cfa99bc700654580c9264f">   36</a></span>&#160;<a class="code" href="a00455.html#aa7e81820c3cfa99bc700654580c9264f">ipcl_oflags_to_fflags</a>(<span class="keywordtype">int</span> oflags)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordtype">int</span> flags = 0;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordflow">if</span>(oflags &amp; <a class="code" href="a00050.html#a82e58361b57c3faf5eb9058810b5efc2">PCL_O_WRONLY</a>)</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    flags |= <a class="code" href="a00050.html#a6a07e4d4ac7139bd3ce0c0d99486438d">PCL_FF_WRITE</a>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordflow">else</span> <span class="keywordflow">if</span>(oflags &amp; <a class="code" href="a00050.html#ac6de4717201889c8d02dcfdff992cbdc">PCL_O_RDWR</a>)</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    flags |= <a class="code" href="a00050.html#adb74d22cf7d668ffbb5336e4a4da66ec">PCL_FF_RDWR</a>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    flags |= <a class="code" href="a00050.html#a8c530c746ff24a63cbe3071dab306d3a">PCL_FF_READ</a>;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordflow">if</span>(oflags &amp; <a class="code" href="a00050.html#a1e1c094ddc6b5841a783c36c752c4612">PCL_O_APPEND</a>)</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    flags |= <a class="code" href="a00050.html#a2472759bb7300c60bb17950ee1362b7b">PCL_FF_APPEND</a>;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="keywordflow">if</span>(oflags &amp; <a class="code" href="a00050.html#a499da1bff319be4bc726d1853839c210">PCL_O_NONBLOCK</a>)</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    flags |= <a class="code" href="a00050.html#a6b5fee67dabf0b3f8ea60ae34357a517">PCL_FF_NONBLOCK</a>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <span class="keywordflow">return</span> flags;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;}</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="a00455.html#aa637ba19a734db64bdc1e7a90dc36736">   57</a></span>&#160;<a class="code" href="a00455.html#aa637ba19a734db64bdc1e7a90dc36736">ipcl_sysoflags</a>(uint32_t pcl_oflags)</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;{</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  <span class="keywordtype">int</span> oflags = 0;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  oflags |= _O_BINARY;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  <span class="keywordflow">if</span>(pcl_oflags &amp; <a class="code" href="a00050.html#a1bf90fe45d00542a56b403e456ee4769">PCL_O_RDONLY</a>)</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  {</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="preprocessor">    #ifdef _O_RDONLY</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    oflags |= _O_RDONLY;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="preprocessor">    #elif defined(O_RDONLY)</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    oflags |= O_RDONLY;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor">    #endif</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  }</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  <span class="keywordflow">if</span>(pcl_oflags &amp; <a class="code" href="a00050.html#a82e58361b57c3faf5eb9058810b5efc2">PCL_O_WRONLY</a>)</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  {</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="preprocessor">    #ifdef _O_WRONLY</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    oflags |= _O_WRONLY;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor">    #elif defined(O_WRONLY)</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    oflags |= O_WRONLY;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor">    #endif</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  }</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  <span class="keywordflow">if</span>(pcl_oflags &amp; <a class="code" href="a00050.html#ac6de4717201889c8d02dcfdff992cbdc">PCL_O_RDWR</a>)</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  {</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="preprocessor">    #ifdef _O_RDWR</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    oflags |= _O_RDWR;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="preprocessor">    #elif defined(O_RDWR)</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    oflags |= O_RDWR;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="preprocessor">    #endif</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;  }</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;  <span class="keywordflow">if</span>(pcl_oflags &amp; <a class="code" href="a00050.html#a4d7dbf97e732ce21c92f1f833aeae005">PCL_O_CREAT</a>)</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;  {</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="preprocessor">    #ifdef _O_CREAT</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    oflags |= _O_CREAT;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="preprocessor">    #elif defined(O_CREAT)</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    oflags |= O_CREAT;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="preprocessor">    #endif</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;  }</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;  <span class="keywordflow">if</span>(pcl_oflags &amp; <a class="code" href="a00050.html#a1e1c094ddc6b5841a783c36c752c4612">PCL_O_APPEND</a>)</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;  {</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="preprocessor">    #ifdef _O_APPEND</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    oflags |= _O_APPEND;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="preprocessor">    #elif defined(O_APPEND)</span></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    oflags |= O_APPEND;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="preprocessor">    #endif</span></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;  }</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;  <span class="keywordflow">if</span>(pcl_oflags &amp; <a class="code" href="a00050.html#abe3198789c5ffe1c29f33e14b67c77b1">PCL_O_TRUNC</a>)</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;  {</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="preprocessor">    #ifdef _O_TRUNC</span></div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    oflags |= _O_TRUNC;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="preprocessor">    #elif defined(O_TRUNC)</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    oflags |= O_TRUNC;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="preprocessor">    #endif</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;  }</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160; </div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;  <span class="keywordflow">if</span>(pcl_oflags &amp; <a class="code" href="a00050.html#a0a066971ccd5cca8b667dd7333c0bbbb">PCL_O_EXCL</a>)</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;  {</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="preprocessor">    #ifdef _O_EXCL</span></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    oflags |= _O_EXCL;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="preprocessor">    #elif defined(O_EXCL)</span></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    oflags |= O_EXCL;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="preprocessor">    #endif</span></div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;  }</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160; </div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;  <span class="keywordflow">if</span>(pcl_oflags &amp; <a class="code" href="a00050.html#a499da1bff319be4bc726d1853839c210">PCL_O_NONBLOCK</a>)</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;  {</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="preprocessor">    #ifdef O_NONBLOCK</span></div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    oflags |= O_NONBLOCK;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="preprocessor">    #elif defined(O_NDELAY)</span></div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    oflags |= O_NDELAY;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="preprocessor">    #endif</span></div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;  }</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160; </div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;  <span class="keywordflow">if</span>(pcl_oflags &amp; <a class="code" href="a00050.html#a84f916c85005e21fd7c1c76c1f931c72">PCL_O_CLOEXEC</a>)</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;  {</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;<span class="preprocessor">    #ifdef _O_NOINHERIT</span></div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    oflags |= _O_NOINHERIT;</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;<span class="preprocessor">    #elif defined(O_CLOEXEC)</span></div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    oflags |= O_CLOEXEC;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;<span class="preprocessor">    #endif</span></div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;  }</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160; </div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;  <span class="comment">/* only linux supports this right now */</span></div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;  <span class="keywordflow">if</span>(pcl_oflags &amp; <a class="code" href="a00050.html#aad0f1c072750e5dcada58f9d9606b986">PCL_O_NOATIME</a>)</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;  {</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;<span class="preprocessor">    #ifdef O_NOATIME</span></div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    oflags |= O_NOATIME;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;<span class="preprocessor">    #endif</span></div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;  }</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160; </div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;  <span class="keywordflow">if</span>(pcl_oflags &amp; <a class="code" href="a00050.html#a85c9c0689fda35fb78d531dbaf7a40aa">PCL_O_DIRECTORY</a>)</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;  {</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;<span class="preprocessor">    #ifdef O_DIRECTORY</span></div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    oflags |= O_DIRECTORY;</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="preprocessor">    #endif</span></div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;  }</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160; </div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;  <span class="comment">/* Manually implemented by PCL when not available: like windows */</span></div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;  <span class="keywordflow">if</span>(pcl_oflags &amp; <a class="code" href="a00050.html#aa2b7795dd84d5d50f41da086ee8d891a">PCL_O_NOFOLLOW</a>)</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;  {</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;<span class="preprocessor">    #ifdef O_NOFOLLOW</span></div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    oflags |= O_NOFOLLOW;</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;<span class="preprocessor">    #endif</span></div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;  }</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160; </div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;  <span class="keywordflow">if</span>(pcl_oflags &amp; <a class="code" href="a00050.html#acf2ad405933ebec8d43e8f6201bf5a13">PCL_O_SYNC</a>)</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;  {</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;<span class="preprocessor">    #ifdef O_SYNC</span></div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    oflags |= O_SYNC;</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;<span class="preprocessor">    #else</span></div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="preprocessor">    #ifdef O_DSYNC</span></div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        oflags |= O_DSYNC;</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;<span class="preprocessor">      #endif</span></div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;<span class="preprocessor">      #ifdef O_FSYNC</span></div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        oflags |= O_FSYNC;</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;<span class="preprocessor">      #endif</span></div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;<span class="preprocessor">    #endif</span></div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;  }</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160; </div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;  <span class="keywordflow">if</span>(pcl_oflags &amp; <a class="code" href="a00050.html#a5dddce8ec3738fcf1216bc76f050f2ea">PCL_O_SHLOCK</a>)</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;  {</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;<span class="preprocessor">    #ifdef O_SHLOCK</span></div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    oflags |= O_SHLOCK;</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="preprocessor">    #endif</span></div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;  }</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160; </div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;  <span class="keywordflow">if</span>(pcl_oflags &amp; <a class="code" href="a00050.html#a17eb8bc31a7d785787c9b865e0a3c16b">PCL_O_EXLOCK</a>)</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;  {</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;<span class="preprocessor">    #ifdef O_EXLOCK</span></div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    oflags |= O_EXLOCK;</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;<span class="preprocessor">    #endif</span></div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;  }</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160; </div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;  <span class="keywordflow">return</span> oflags;</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00455_html_a400d2ee0b7a8c86dfaa9a94052d87936"><div class="ttname"><a href="a00455.html#a400d2ee0b7a8c86dfaa9a94052d87936">pcl_remove</a></div><div class="ttdeci">int pcl_remove(const tchar_t *pathname)</div><div class="ttdoc">Delete a file or directory.</div><div class="ttdef"><b>Definition:</b> <a href="a00455_source.html#l00041">remove.c:41</a></div></div>
-<div class="ttc" id="aa00044_html"><div class="ttname"><a href="a00044.html">file.h</a></div></div>
-<div class="ttc" id="aa00074_html"><div class="ttname"><a href="a00074.html">stat.h</a></div></div>
-<div class="ttc" id="aa01153_html"><div class="ttname"><a href="a01153.html">tag_pcl_stat</a></div><div class="ttdef"><b>Definition:</b> <a href="a00074_source.html#l00221">stat.h:222</a></div></div>
-<div class="ttc" id="aa00092_html_a7589c2eb4da44bc1c8e4d094798e7f0b"><div class="ttname"><a href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a></div><div class="ttdeci">char tchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00092_source.html#l00053">types.h:53</a></div></div>
-<div class="ttc" id="aa00074_html_a767b5d0691f435f8a9b7f5e0fa97a645"><div class="ttname"><a href="a00074.html#a767b5d0691f435f8a9b7f5e0fa97a645">S_ISCHR</a></div><div class="ttdeci">#define S_ISCHR(m)</div><div class="ttdef"><b>Definition:</b> <a href="a00074_source.html#l00157">stat.h:157</a></div></div>
-<div class="ttc" id="aa01153_html_adc8d3cf511ceb277aea0cfa1cd027c59"><div class="ttname"><a href="a01153.html#adc8d3cf511ceb277aea0cfa1cd027c59">tag_pcl_stat::mode</a></div><div class="ttdeci">mode_t mode</div><div class="ttdef"><b>Definition:</b> <a href="a00074_source.html#l00229">stat.h:229</a></div></div>
-<div class="ttc" id="aa01095_html_gab052d4faa8fd25e1a13e86ecd4aafa38"><div class="ttname"><a href="a01095.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a></div><div class="ttdeci">#define BADARG()</div><div class="ttdef"><b>Definition:</b> <a href="a00005_source.html#l00306">_errdefs.h:306</a></div></div>
-<div class="ttc" id="aa01095_html_ga9ad3ef2339f58a873bc7bace5ad9c9df"><div class="ttname"><a href="a01095.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a></div><div class="ttdeci">#define TRC()</div><div class="ttdoc">Adds a stack trace to the current thread's error context.</div><div class="ttdef"><b>Definition:</b> <a href="a00005_source.html#l00262">_errdefs.h:262</a></div></div>
-<div class="ttc" id="aa01092_html_gad69addc53647b240ff1dabe0d07b3eb9"><div class="ttname"><a href="a01092.html#gad69addc53647b240ff1dabe0d07b3eb9">pcl_rmdir</a></div><div class="ttdeci">PCL_EXPORT int pcl_rmdir(const tchar_t *path)</div><div class="ttdoc">Remove a directory.</div><div class="ttdef"><b>Definition:</b> <a href="a00275_source.html#l00036">rmdir.c:36</a></div></div>
-<div class="ttc" id="aa00026_html"><div class="ttname"><a href="a00026.html">dir.h</a></div></div>
-<div class="ttc" id="aa00074_html_a722eba7370eb3b0aafb3272182e08520"><div class="ttname"><a href="a00074.html#a722eba7370eb3b0aafb3272182e08520">S_ISBLK</a></div><div class="ttdeci">#define S_ISBLK(m)</div><div class="ttdef"><b>Definition:</b> <a href="a00074_source.html#l00160">stat.h:160</a></div></div>
-<div class="ttc" id="aa00035_html"><div class="ttname"><a href="a00035.html">error.h</a></div></div>
-<div class="ttc" id="aa00074_html_a70b64ed67c0ab484b4ba09487da34e91"><div class="ttname"><a href="a00074.html#a70b64ed67c0ab484b4ba09487da34e91">S_ISDIR</a></div><div class="ttdeci">#define S_ISDIR(m)</div><div class="ttdef"><b>Definition:</b> <a href="a00074_source.html#l00154">stat.h:154</a></div></div>
-<div class="ttc" id="aa00023_html_a8278668d120afdd0e47def881845559d"><div class="ttname"><a href="a00023.html#a8278668d120afdd0e47def881845559d">strempty</a></div><div class="ttdeci">#define strempty(str)</div><div class="ttdef"><b>Definition:</b> <a href="a00023_source.html#l00126">defs.h:126</a></div></div>
-<div class="ttc" id="aa00074_html_a8d97e7e5e65e8140ef73bb21ff634500"><div class="ttname"><a href="a00074.html#a8d97e7e5e65e8140ef73bb21ff634500">pcl_stat</a></div><div class="ttdeci">#define pcl_stat(path, stbuf)</div><div class="ttdef"><b>Definition:</b> <a href="a00074_source.html#l00061">stat.h:61</a></div></div>
-<div class="ttc" id="aa00053_html"><div class="ttname"><a href="a00053.html">io.h</a></div></div>
-<div class="ttc" id="aa00044_html_a0664813129e19b3567260769e52fba81"><div class="ttname"><a href="a00044.html#a0664813129e19b3567260769e52fba81">pcl_unlink</a></div><div class="ttdeci">PCL_EXPORT int pcl_unlink(const tchar_t *path)</div><div class="ttdoc">Delete a file.</div><div class="ttdef"><b>Definition:</b> <a href="a00476_source.html#l00041">unlink.c:41</a></div></div>
+<div class="ttc" id="aa00050_html_a6a07e4d4ac7139bd3ce0c0d99486438d"><div class="ttname"><a href="a00050.html#a6a07e4d4ac7139bd3ce0c0d99486438d">PCL_FF_WRITE</a></div><div class="ttdeci">#define PCL_FF_WRITE</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00084">file.h:84</a></div></div>
+<div class="ttc" id="aa00431_html"><div class="ttname"><a href="a00431.html">_file.h</a></div></div>
+<div class="ttc" id="aa00050_html_a499da1bff319be4bc726d1853839c210"><div class="ttname"><a href="a00050.html#a499da1bff319be4bc726d1853839c210">PCL_O_NONBLOCK</a></div><div class="ttdeci">#define PCL_O_NONBLOCK</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00066">file.h:66</a></div></div>
+<div class="ttc" id="aa00050_html_a1e1c094ddc6b5841a783c36c752c4612"><div class="ttname"><a href="a00050.html#a1e1c094ddc6b5841a783c36c752c4612">PCL_O_APPEND</a></div><div class="ttdeci">#define PCL_O_APPEND</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00063">file.h:63</a></div></div>
+<div class="ttc" id="aa00455_html_aa7e81820c3cfa99bc700654580c9264f"><div class="ttname"><a href="a00455.html#aa7e81820c3cfa99bc700654580c9264f">ipcl_oflags_to_fflags</a></div><div class="ttdeci">int ipcl_oflags_to_fflags(int oflags)</div><div class="ttdef"><b>Definition:</b> <a href="a00455_source.html#l00036">flagconv.c:36</a></div></div>
+<div class="ttc" id="aa00050_html_a8c530c746ff24a63cbe3071dab306d3a"><div class="ttname"><a href="a00050.html#a8c530c746ff24a63cbe3071dab306d3a">PCL_FF_READ</a></div><div class="ttdeci">#define PCL_FF_READ</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00083">file.h:83</a></div></div>
+<div class="ttc" id="aa00050_html_a2472759bb7300c60bb17950ee1362b7b"><div class="ttname"><a href="a00050.html#a2472759bb7300c60bb17950ee1362b7b">PCL_FF_APPEND</a></div><div class="ttdeci">#define PCL_FF_APPEND</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00082">file.h:82</a></div></div>
+<div class="ttc" id="aa00050_html_a85c9c0689fda35fb78d531dbaf7a40aa"><div class="ttname"><a href="a00050.html#a85c9c0689fda35fb78d531dbaf7a40aa">PCL_O_DIRECTORY</a></div><div class="ttdeci">#define PCL_O_DIRECTORY</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00068">file.h:68</a></div></div>
+<div class="ttc" id="aa00050_html_a1bf90fe45d00542a56b403e456ee4769"><div class="ttname"><a href="a00050.html#a1bf90fe45d00542a56b403e456ee4769">PCL_O_RDONLY</a></div><div class="ttdeci">#define PCL_O_RDONLY</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00058">file.h:58</a></div></div>
+<div class="ttc" id="aa00050_html_a5dddce8ec3738fcf1216bc76f050f2ea"><div class="ttname"><a href="a00050.html#a5dddce8ec3738fcf1216bc76f050f2ea">PCL_O_SHLOCK</a></div><div class="ttdeci">#define PCL_O_SHLOCK</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00071">file.h:71</a></div></div>
+<div class="ttc" id="aa00050_html_a17eb8bc31a7d785787c9b865e0a3c16b"><div class="ttname"><a href="a00050.html#a17eb8bc31a7d785787c9b865e0a3c16b">PCL_O_EXLOCK</a></div><div class="ttdeci">#define PCL_O_EXLOCK</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00072">file.h:72</a></div></div>
+<div class="ttc" id="aa00050_html_ac6de4717201889c8d02dcfdff992cbdc"><div class="ttname"><a href="a00050.html#ac6de4717201889c8d02dcfdff992cbdc">PCL_O_RDWR</a></div><div class="ttdeci">#define PCL_O_RDWR</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00060">file.h:60</a></div></div>
+<div class="ttc" id="aa00050_html_a0a066971ccd5cca8b667dd7333c0bbbb"><div class="ttname"><a href="a00050.html#a0a066971ccd5cca8b667dd7333c0bbbb">PCL_O_EXCL</a></div><div class="ttdeci">#define PCL_O_EXCL</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00065">file.h:65</a></div></div>
+<div class="ttc" id="aa00050_html_aa2b7795dd84d5d50f41da086ee8d891a"><div class="ttname"><a href="a00050.html#aa2b7795dd84d5d50f41da086ee8d891a">PCL_O_NOFOLLOW</a></div><div class="ttdeci">#define PCL_O_NOFOLLOW</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00069">file.h:69</a></div></div>
+<div class="ttc" id="aa00050_html_abe3198789c5ffe1c29f33e14b67c77b1"><div class="ttname"><a href="a00050.html#abe3198789c5ffe1c29f33e14b67c77b1">PCL_O_TRUNC</a></div><div class="ttdeci">#define PCL_O_TRUNC</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00064">file.h:64</a></div></div>
+<div class="ttc" id="aa00050_html_acf2ad405933ebec8d43e8f6201bf5a13"><div class="ttname"><a href="a00050.html#acf2ad405933ebec8d43e8f6201bf5a13">PCL_O_SYNC</a></div><div class="ttdeci">#define PCL_O_SYNC</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00070">file.h:70</a></div></div>
+<div class="ttc" id="aa00050_html_a6b5fee67dabf0b3f8ea60ae34357a517"><div class="ttname"><a href="a00050.html#a6b5fee67dabf0b3f8ea60ae34357a517">PCL_FF_NONBLOCK</a></div><div class="ttdeci">#define PCL_FF_NONBLOCK</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00081">file.h:81</a></div></div>
+<div class="ttc" id="aa00050_html_a82e58361b57c3faf5eb9058810b5efc2"><div class="ttname"><a href="a00050.html#a82e58361b57c3faf5eb9058810b5efc2">PCL_O_WRONLY</a></div><div class="ttdeci">#define PCL_O_WRONLY</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00059">file.h:59</a></div></div>
+<div class="ttc" id="aa00050_html_a4d7dbf97e732ce21c92f1f833aeae005"><div class="ttname"><a href="a00050.html#a4d7dbf97e732ce21c92f1f833aeae005">PCL_O_CREAT</a></div><div class="ttdeci">#define PCL_O_CREAT</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00062">file.h:62</a></div></div>
+<div class="ttc" id="aa00050_html_aad0f1c072750e5dcada58f9d9606b986"><div class="ttname"><a href="a00050.html#aad0f1c072750e5dcada58f9d9606b986">PCL_O_NOATIME</a></div><div class="ttdeci">#define PCL_O_NOATIME</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00074">file.h:74</a></div></div>
+<div class="ttc" id="aa00050_html_a84f916c85005e21fd7c1c76c1f931c72"><div class="ttname"><a href="a00050.html#a84f916c85005e21fd7c1c76c1f931c72">PCL_O_CLOEXEC</a></div><div class="ttdeci">#define PCL_O_CLOEXEC</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00067">file.h:67</a></div></div>
+<div class="ttc" id="aa00455_html_aa637ba19a734db64bdc1e7a90dc36736"><div class="ttname"><a href="a00455.html#aa637ba19a734db64bdc1e7a90dc36736">ipcl_sysoflags</a></div><div class="ttdeci">int ipcl_sysoflags(uint32_t pcl_oflags)</div><div class="ttdef"><b>Definition:</b> <a href="a00455_source.html#l00057">flagconv.c:57</a></div></div>
+<div class="ttc" id="aa00050_html_adb74d22cf7d668ffbb5336e4a4da66ec"><div class="ttname"><a href="a00050.html#adb74d22cf7d668ffbb5336e4a4da66ec">PCL_FF_RDWR</a></div><div class="ttdeci">#define PCL_FF_RDWR</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00086">file.h:86</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

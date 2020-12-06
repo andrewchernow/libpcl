@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/errctx/err_ctx_clear.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/dl/dlsym.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,12 +62,12 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_047e0d2443656299ad4ab68555c3785f.html">&#x202A;errctx</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_fc4f64794af458b8b860bb6698813ce3.html">&#x202A;dl</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">err_ctx_clear.c</div>  </div>
+<div class="title">dlsym.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00293.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,33 +101,56 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00290.html">_errctx.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<a class="code" href="a01121.html">pcl_err_ctx_t</a> *</div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a00293.html#a18db949ca2133a98eb2d42216ecc4999">   35</a></span>&#160;<a class="code" href="a00293.html#a18db949ca2133a98eb2d42216ecc4999">pcl_err_ctx_clear</a>(<a class="code" href="a01121.html">pcl_err_ctx_t</a> *ctx)</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordflow">if</span>(ctx &amp;&amp; !ctx-&gt;<a class="code" href="a01121.html#a9ec42de702ac1fcf2d7307c5a2415b94">frozen</a>)</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="comment">/* NOTE: do not clear possible ctx-&gt;buffer, defeats the purpose. No need to reset it</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="comment">     * either since it&#39;s always reset before use within serialize_error().</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="comment">     */</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    ctx-&gt;<a class="code" href="a01121.html#a6ce68847c12434f60d1b2654a3dc3409">err</a> = <a class="code" href="a01094.html#gad3b43ba0f3d97d535a1a3cf7fd8b35c2">PCL_EOKAY</a>;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    ctx-&gt;<a class="code" href="a01121.html#a99097cbbdd873a91579ae1e543195926">oserr</a> = 0;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    ctx-&gt;<a class="code" href="a01121.html#af22b89a25236c26e197118ca1652019a">strace</a> = <a class="code" href="a00290.html#a7957a846b8fa08a58547bf61da98cce7">ipcl_err_ctx_trace_free</a>(ctx-&gt;<a class="code" href="a01121.html#af22b89a25236c26e197118ca1652019a">strace</a>);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  }</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordflow">return</span> ctx;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00035.html">pcl/dl.h</a>&gt;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00041.html">pcl/error.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#ifndef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">  #include &lt;dlfcn.h&gt;</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor"># include &lt;windows.h&gt;</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;uintptr_t</div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="a00293.html#ab60191dae69569e9f832642b426d6f71">   42</a></span>&#160;<a class="code" href="a00293.html#ab60191dae69569e9f832642b426d6f71">pcl_dlsym</a>(<span class="keywordtype">void</span> * mod, <span class="keyword">const</span> <span class="keywordtype">char</span> *name)</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;{</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  uintptr_t sym;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordflow">if</span>(!mod || <a class="code" href="a00029.html#a8278668d120afdd0e47def881845559d">strempty</a>(name))</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  {</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="a01101.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a>();</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  }</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  sym = (uintptr_t)GetProcAddress(mod, name);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keywordflow">if</span>(!sym)</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  {</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <a class="code" href="a01101.html#ga405f0945f1e605ded867422c553c78cf">SETLASTERRMSG</a>(<span class="stringliteral">&quot;%s symbol not found&quot;</span>, name);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  }</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  sym = (uintptr_t)dlsym(mod, name);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  <span class="keywordflow">if</span>(!sym)</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  {</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <a class="code" href="a01101.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a>(<a class="code" href="a01100.html#ga93970fddc3e8f07956807d72be0bbd5c">PCL_ENOTFOUND</a>, <span class="stringliteral">&quot;%s symbol not found: %s&quot;</span>, name, dlerror());</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  }</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  <span class="keywordflow">return</span> sym;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01121_html_a6ce68847c12434f60d1b2654a3dc3409"><div class="ttname"><a href="a01121.html#a6ce68847c12434f60d1b2654a3dc3409">tag_pcl_err_ctx::err</a></div><div class="ttdeci">int err</div><div class="ttdoc">PCL error code: PCL_EXXX.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00080">errctx.h:80</a></div></div>
-<div class="ttc" id="aa01121_html"><div class="ttname"><a href="a01121.html">tag_pcl_err_ctx</a></div><div class="ttdoc">Represents a PCL error context, with optional stack trace.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00062">errctx.h:63</a></div></div>
-<div class="ttc" id="aa01121_html_a99097cbbdd873a91579ae1e543195926"><div class="ttname"><a href="a01121.html#a99097cbbdd873a91579ae1e543195926">tag_pcl_err_ctx::oserr</a></div><div class="ttdeci">uint32_t oserr</div><div class="ttdoc">Platform-specific error code: Unix errno, Windows Error (ie: GetLastError, _dos_errno),...</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00086">errctx.h:86</a></div></div>
-<div class="ttc" id="aa00290_html_a7957a846b8fa08a58547bf61da98cce7"><div class="ttname"><a href="a00290.html#a7957a846b8fa08a58547bf61da98cce7">ipcl_err_ctx_trace_free</a></div><div class="ttdeci">pcl_err_trace_t * ipcl_err_ctx_trace_free(pcl_err_trace_t *head)</div><div class="ttdef"><b>Definition:</b> <a href="a00314_source.html#l00036">err_ctx_trace_free.c:36</a></div></div>
-<div class="ttc" id="aa01121_html_a9ec42de702ac1fcf2d7307c5a2415b94"><div class="ttname"><a href="a01121.html#a9ec42de702ac1fcf2d7307c5a2415b94">tag_pcl_err_ctx::frozen</a></div><div class="ttdeci">bool frozen</div><div class="ttdoc">Freezes context, making it immutable.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00077">errctx.h:77</a></div></div>
-<div class="ttc" id="aa00293_html_a18db949ca2133a98eb2d42216ecc4999"><div class="ttname"><a href="a00293.html#a18db949ca2133a98eb2d42216ecc4999">pcl_err_ctx_clear</a></div><div class="ttdeci">pcl_err_ctx_t * pcl_err_ctx_clear(pcl_err_ctx_t *ctx)</div><div class="ttdoc">Clears the given context.</div><div class="ttdef"><b>Definition:</b> <a href="a00293_source.html#l00035">err_ctx_clear.c:35</a></div></div>
-<div class="ttc" id="aa00290_html"><div class="ttname"><a href="a00290.html">_errctx.h</a></div></div>
-<div class="ttc" id="aa01094_html_gad3b43ba0f3d97d535a1a3cf7fd8b35c2"><div class="ttname"><a href="a01094.html#gad3b43ba0f3d97d535a1a3cf7fd8b35c2">PCL_EOKAY</a></div><div class="ttdeci">#define PCL_EOKAY</div><div class="ttdoc">The operation was successful.</div><div class="ttdef"><b>Definition:</b> <a href="a00008_source.html#l00042">_errno.h:42</a></div></div>
-<div class="ttc" id="aa01121_html_af22b89a25236c26e197118ca1652019a"><div class="ttname"><a href="a01121.html#af22b89a25236c26e197118ca1652019a">tag_pcl_err_ctx::strace</a></div><div class="ttdeci">pcl_err_trace_t * strace</div><div class="ttdoc">Stack trace implemented as a linked list.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00089">errctx.h:89</a></div></div>
+<div class="ttc" id="aa01101_html_ga405f0945f1e605ded867422c553c78cf"><div class="ttname"><a href="a01101.html#ga405f0945f1e605ded867422c553c78cf">SETLASTERRMSG</a></div><div class="ttdeci">#define SETLASTERRMSG(_msgfmt,...)</div><div class="ttdoc">Sets the current thread's last OS error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00011_source.html#l00132">_errdefs.h:132</a></div></div>
+<div class="ttc" id="aa01101_html_gab052d4faa8fd25e1a13e86ecd4aafa38"><div class="ttname"><a href="a01101.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a></div><div class="ttdeci">#define BADARG()</div><div class="ttdef"><b>Definition:</b> <a href="a00011_source.html#l00306">_errdefs.h:306</a></div></div>
+<div class="ttc" id="aa01101_html_ga7859a0a1a544c581d53bd7d44ab6805d"><div class="ttname"><a href="a01101.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a></div><div class="ttdeci">#define SETERRMSG(_pclerr, _msgfmt,...)</div><div class="ttdoc">Sets the current thread's PCL error code and error message.</div><div class="ttdef"><b>Definition:</b> <a href="a00011_source.html#l00087">_errdefs.h:87</a></div></div>
+<div class="ttc" id="aa00029_html_a8278668d120afdd0e47def881845559d"><div class="ttname"><a href="a00029.html#a8278668d120afdd0e47def881845559d">strempty</a></div><div class="ttdeci">#define strempty(str)</div><div class="ttdef"><b>Definition:</b> <a href="a00029_source.html#l00124">defs.h:124</a></div></div>
+<div class="ttc" id="aa00293_html_ab60191dae69569e9f832642b426d6f71"><div class="ttname"><a href="a00293.html#ab60191dae69569e9f832642b426d6f71">pcl_dlsym</a></div><div class="ttdeci">uintptr_t pcl_dlsym(void *mod, const char *name)</div><div class="ttdef"><b>Definition:</b> <a href="a00293_source.html#l00042">dlsym.c:42</a></div></div>
+<div class="ttc" id="aa01100_html_ga93970fddc3e8f07956807d72be0bbd5c"><div class="ttname"><a href="a01100.html#ga93970fddc3e8f07956807d72be0bbd5c">PCL_ENOTFOUND</a></div><div class="ttdeci">#define PCL_ENOTFOUND</div><div class="ttdoc">Object or resource not found.</div><div class="ttdef"><b>Definition:</b> <a href="a00014_source.html#l00152">_errno.h:152</a></div></div>
+<div class="ttc" id="aa00035_html"><div class="ttname"><a href="a00035.html">dl.h</a></div></div>
+<div class="ttc" id="aa00041_html"><div class="ttname"><a href="a00041.html">error.h</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

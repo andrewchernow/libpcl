@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/init/getopt.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/htable/htable_remove_entry.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,17 +62,17 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_93ef7a03ae011ca5032e526d863e8f9f.html">&#x202A;init</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_b7d637e3591c140b5c5f63237dc79ee0.html">&#x202A;htable</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">getopt.c</div>  </div>
+<div class="title">htable_remove_entry.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00530.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (PCL)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2003, 2005-2014, 2017-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,247 +101,38 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00527.html">_init.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00035.html">pcl/error.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00077.html">pcl/string.h</a>&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00011.html">pcl/alloc.h</a>&gt;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="a01099.html#gaa2882afd52801436bdb3913609907015">   38</a></span>&#160;<a class="code" href="a01099.html#gaa2882afd52801436bdb3913609907015">pcl_getopt</a>(<a class="code" href="a01205.html">pcl_optstate_t</a> *state, <a class="code" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> **value, <a class="code" href="a01133.html">pcl_option_t</a> **longopt)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordflow">if</span>(!state)</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01095.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a>();</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <a class="code" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *valuebuf;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keywordflow">if</span>(!value)</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    value = &amp;valuebuf;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  *value = NULL;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="comment">/* in the middles of parsing a sequence of short options */</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="keywordflow">if</span>(state-&gt;<a class="code" href="a01205.html#ac1c7a85253861d935b9cbec222394d1e">next_optstr</a>)</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">goto</span> ParseShortOption;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="keywordflow">if</span>(state-&gt;<a class="code" href="a01205.html#ad1447518f4372828b8435ae82e48499e">argc</a> == state-&gt;<a class="code" href="a01205.html#a4de95b971548e0484e2ebfed6fb40373">argidx</a>)</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <a class="code" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *arg = state-&gt;<a class="code" href="a01205.html#ad4dfe535e2663b3152bbe4bdaa4671fd">argv</a>[state-&gt;<a class="code" href="a01205.html#a4de95b971548e0484e2ebfed6fb40373">argidx</a>];</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <span class="comment">/* --------------------------------------------------------------</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment">   * long option</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment">   */</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a01103.html#gabaa8d7aad8b450c90e0d57f18c9180db">pcl_tmemcmp</a>(arg, <a class="code" href="a00023.html#a76f4425a2027b15c08530794be52f2f1">_T</a>(<span class="stringliteral">&quot;--&quot;</span>), 2) == 0)</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  {</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">if</span>(!state-&gt;<a class="code" href="a01205.html#a3b3f628671f0418e9acabf63b396ffb7">options</a>)</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01095.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a>(<a class="code" href="a01094.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>, <span class="stringliteral">&quot;opt[%d] missing options[] for long options &#39;%ts&#39;&quot;</span>,</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        state-&gt;<a class="code" href="a01205.html#a4de95b971548e0484e2ebfed6fb40373">argidx</a>, arg);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordflow">if</span>(!arg[3])</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01095.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a>(<a class="code" href="a01094.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>, <span class="stringliteral">&quot;opt[%d] stray dash found &#39;%ts&#39;&quot;</span>, state-&gt;<a class="code" href="a01205.html#a4de95b971548e0484e2ebfed6fb40373">argidx</a>, arg);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    arg += 2;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <a class="code" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *eq = <a class="code" href="a01103.html#ga3dd4f493184d4d0d2c3f2f62820f7811">pcl_tcschr</a>(arg, <a class="code" href="a00023.html#a76f4425a2027b15c08530794be52f2f1">_T</a>(<span class="charliteral">&#39;=&#39;</span>));</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordflow">if</span>(eq)</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      *eq = 0;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <a class="code" href="a01133.html">pcl_option_t</a> *lopt = NULL;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; state-&gt;<a class="code" href="a01205.html#a593108c2cc4b7dd3edecefd724edfd51">num_options</a>; i++, lopt = NULL)</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    {</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;      lopt = &amp;state-&gt;<a class="code" href="a01205.html#a3b3f628671f0418e9acabf63b396ffb7">options</a>[i];</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;      <span class="keywordflow">if</span>(!<a class="code" href="a01103.html#ga2f0dcee280d506d66e55d5499c2f8361">pcl_tcscmp</a>(lopt-&gt;name, arg))</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    }</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">if</span>(eq)</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;      *eq = <a class="code" href="a00023.html#a76f4425a2027b15c08530794be52f2f1">_T</a>(<span class="charliteral">&#39;=&#39;</span>);</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordflow">if</span>(!lopt)</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01095.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a>(<a class="code" href="a01094.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>, <span class="stringliteral">&quot;opt[%d] unknown option &#39;%ts&#39;&quot;</span>, state-&gt;<a class="code" href="a01205.html#a4de95b971548e0484e2ebfed6fb40373">argidx</a>, arg);</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordflow">if</span>(lopt-&gt;policy == <a class="code" href="a01099.html#gga806c053b3bfec31bfceef3c83a3db92fa3131202ae7746972323b64254ad67961">PclReqArg</a>)</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    {</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;      <span class="comment">/* Form &quot;--path=/home&quot; */</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;      <span class="keywordflow">if</span>(eq)</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;      {</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        <span class="keywordflow">if</span>(!eq[1])</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;          <span class="keywordflow">return</span> <a class="code" href="a01095.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a>(<a class="code" href="a01094.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>, <span class="stringliteral">&quot;opt[%d] missing required argument &#39;%ts&#39;&quot;</span>, state-&gt;<a class="code" href="a01205.html#a4de95b971548e0484e2ebfed6fb40373">argidx</a>,</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            arg);</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        *value = ++eq;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;      }</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;      <span class="keywordflow">else</span> <span class="keywordflow">if</span>(state-&gt;<a class="code" href="a01205.html#a4de95b971548e0484e2ebfed6fb40373">argidx</a> + 1 &gt;= state-&gt;<a class="code" href="a01205.html#ad1447518f4372828b8435ae82e48499e">argc</a>)</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;      {</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="a01095.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a>(<a class="code" href="a01094.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>, <span class="stringliteral">&quot;opt[%d] missing required argument &#39;%ts&#39;&quot;</span>, state-&gt;<a class="code" href="a01205.html#a4de95b971548e0484e2ebfed6fb40373">argidx</a>, arg);</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;      }</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <span class="comment">/* Form &quot;--path /home&quot; */</span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;      <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;      {</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        *value = state-&gt;<a class="code" href="a01205.html#ad4dfe535e2663b3152bbe4bdaa4671fd">argv</a>[++state-&gt;<a class="code" href="a01205.html#a4de95b971548e0484e2ebfed6fb40373">argidx</a>];</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;      }</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    }</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span>(lopt-&gt;policy == <a class="code" href="a01099.html#gga806c053b3bfec31bfceef3c83a3db92fad13f00190a15b7606cd4ad10b0961f07">PclOptArg</a>)</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    {</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;      <span class="comment">/* Form &quot;--path=/home&quot; */</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;      <span class="keywordflow">if</span>(eq)</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;      {</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        <span class="comment">/* ignore empty value for optional */</span></div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        <span class="keywordflow">if</span>(eq[1])</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;          *value = eq + 1;</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;      }</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        <span class="comment">/* Form &quot;--path /home&quot; */</span></div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;      <span class="keywordflow">else</span> <span class="keywordflow">if</span>(state-&gt;<a class="code" href="a01205.html#a4de95b971548e0484e2ebfed6fb40373">argidx</a> + 1 &lt; state-&gt;<a class="code" href="a01205.html#ad1447518f4372828b8435ae82e48499e">argc</a> &amp;&amp; *state-&gt;<a class="code" href="a01205.html#ad4dfe535e2663b3152bbe4bdaa4671fd">argv</a>[state-&gt;<a class="code" href="a01205.html#a4de95b971548e0484e2ebfed6fb40373">argidx</a> + 1] != <a class="code" href="a00023.html#a76f4425a2027b15c08530794be52f2f1">_T</a>(<span class="charliteral">&#39;-&#39;</span>))</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;      {</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        *value = state-&gt;<a class="code" href="a01205.html#ad4dfe535e2663b3152bbe4bdaa4671fd">argv</a>[++state-&gt;<a class="code" href="a01205.html#a4de95b971548e0484e2ebfed6fb40373">argidx</a>];</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;      }</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    }</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    state-&gt;<a class="code" href="a01205.html#a4de95b971548e0484e2ebfed6fb40373">argidx</a>++;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160; </div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="keywordflow">if</span>(longopt)</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;      *longopt = lopt;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160; </div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="keywordflow">return</span> lopt-&gt;<a class="code" href="a01133.html#aa0ccb5ee6d882ee3605ff47745c6467b">val</a>;</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;  }</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160; </div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;  <span class="keywordflow">if</span>(*arg != <a class="code" href="a00023.html#a76f4425a2027b15c08530794be52f2f1">_T</a>(<span class="charliteral">&#39;-&#39;</span>))</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01095.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a>(<a class="code" href="a01094.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>, <span class="stringliteral">&quot;opt[%d] stray characters found &#39;%ts&#39;&quot;</span>, state-&gt;<a class="code" href="a01205.html#a4de95b971548e0484e2ebfed6fb40373">argidx</a>, arg);</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160; </div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;  <span class="comment">/* --------------------------------------------------------------</span></div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;<span class="comment">   * short option</span></div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;<span class="comment">   */</span></div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160; </div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;  <span class="keywordflow">if</span>(!state-&gt;<a class="code" href="a01205.html#acb77a81e5ef01d2a431dee4a93ad42c7">optstr</a>)</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01095.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a>(<a class="code" href="a01094.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>, <span class="stringliteral">&quot;opt[%d] missing optstr for short options &#39;%ts&#39;&quot;</span>, state-&gt;<a class="code" href="a01205.html#a4de95b971548e0484e2ebfed6fb40373">argidx</a>,</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;      arg);</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160; </div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;  <span class="keywordflow">if</span>(!arg[1])</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01095.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a>(<a class="code" href="a01094.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>, <span class="stringliteral">&quot;opt[%d] stray dash found &#39;%ts&#39;&quot;</span>, state-&gt;<a class="code" href="a01205.html#a4de95b971548e0484e2ebfed6fb40373">argidx</a>, arg);</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160; </div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;  <span class="comment">/* point to short option list: &quot;-l&quot; or &quot;-lpR&quot; w/o dashes */</span></div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;  state-&gt;<a class="code" href="a01205.html#ac1c7a85253861d935b9cbec222394d1e">next_optstr</a> = arg + 1;</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160; </div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;ParseShortOption:;</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160; </div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;  <a class="code" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> opt = *state-&gt;<a class="code" href="a01205.html#ac1c7a85253861d935b9cbec222394d1e">next_optstr</a>++;</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;  <a class="code" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *optstr = <a class="code" href="a01103.html#ga3dd4f493184d4d0d2c3f2f62820f7811">pcl_tcschr</a>(state-&gt;<a class="code" href="a01205.html#acb77a81e5ef01d2a431dee4a93ad42c7">optstr</a>, opt);</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160; </div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;  <span class="keywordflow">if</span>(!optstr)</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01095.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a>(<a class="code" href="a01094.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>, <span class="stringliteral">&quot;opt[%d] unknown option &#39;%tc&#39;&quot;</span>, state-&gt;<a class="code" href="a01205.html#a4de95b971548e0484e2ebfed6fb40373">argidx</a>, opt);</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160; </div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;  <span class="keywordtype">int</span> policy = <a class="code" href="a01099.html#gga806c053b3bfec31bfceef3c83a3db92fa1e703d178f894e31a992400b6ad71e65">PclNoArg</a>;</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;  <a class="code" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *eq = NULL;</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160; </div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;  <span class="keywordflow">if</span>(optstr[1] == <a class="code" href="a00023.html#a76f4425a2027b15c08530794be52f2f1">_T</a>(<span class="charliteral">&#39;:&#39;</span>))</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;  {</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    eq = <a class="code" href="a01103.html#ga3dd4f493184d4d0d2c3f2f62820f7811">pcl_tcschr</a>(state-&gt;<a class="code" href="a01205.html#ac1c7a85253861d935b9cbec222394d1e">next_optstr</a>, <a class="code" href="a00023.html#a76f4425a2027b15c08530794be52f2f1">_T</a>(<span class="charliteral">&#39;=&#39;</span>));</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    policy = optstr[2] == <a class="code" href="a00023.html#a76f4425a2027b15c08530794be52f2f1">_T</a>(<span class="charliteral">&#39;:&#39;</span>) ? <a class="code" href="a01099.html#gga806c053b3bfec31bfceef3c83a3db92fad13f00190a15b7606cd4ad10b0961f07">PclOptArg</a> : <a class="code" href="a01099.html#gga806c053b3bfec31bfceef3c83a3db92fa3131202ae7746972323b64254ad67961">PclReqArg</a>;</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;  }</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160; </div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;  <span class="keywordflow">if</span>(policy == <a class="code" href="a01099.html#gga806c053b3bfec31bfceef3c83a3db92fa3131202ae7746972323b64254ad67961">PclReqArg</a>)</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;  {</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    <span class="comment">/* Form: &quot;-O=value&quot; */</span></div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    <span class="keywordflow">if</span>(eq)</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    {</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;      <span class="keywordflow">if</span>(!eq[1])</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="a01095.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a>(<a class="code" href="a01094.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>, <span class="stringliteral">&quot;opt[%d] missing required argument &#39;%tc&#39;&quot;</span>, state-&gt;<a class="code" href="a01205.html#a4de95b971548e0484e2ebfed6fb40373">argidx</a>, opt);</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160; </div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;      *value = ++eq;</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;      state-&gt;<a class="code" href="a01205.html#ac1c7a85253861d935b9cbec222394d1e">next_optstr</a> = eq + <a class="code" href="a01103.html#ga180fcce21dd94eaf8e5949a8e2f7272c">pcl_tcslen</a>(eq); <span class="comment">// point to NUL</span></div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    }</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;      <span class="comment">/* Form: &quot;-O value&quot; -- look at next element for value */</span></div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span>(!*state-&gt;<a class="code" href="a01205.html#ac1c7a85253861d935b9cbec222394d1e">next_optstr</a>)</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    {</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;      <span class="keywordflow">if</span>(state-&gt;<a class="code" href="a01205.html#a4de95b971548e0484e2ebfed6fb40373">argidx</a> + 1 &gt;= state-&gt;<a class="code" href="a01205.html#ad1447518f4372828b8435ae82e48499e">argc</a>)</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="a01095.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a>(<a class="code" href="a01094.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>, <span class="stringliteral">&quot;opt[%d] missing required argument &#39;%tc&#39;&quot;</span>, state-&gt;<a class="code" href="a01205.html#a4de95b971548e0484e2ebfed6fb40373">argidx</a>, opt);</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160; </div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;      *value = state-&gt;<a class="code" href="a01205.html#ad4dfe535e2663b3152bbe4bdaa4671fd">argv</a>[++state-&gt;<a class="code" href="a01205.html#a4de95b971548e0484e2ebfed6fb40373">argidx</a>];</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    }</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;      <span class="comment">/* Form: &quot;-Ovalue&quot; */</span></div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    {</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;      *value = state-&gt;<a class="code" href="a01205.html#ac1c7a85253861d935b9cbec222394d1e">next_optstr</a>;</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;      state-&gt;<a class="code" href="a01205.html#ac1c7a85253861d935b9cbec222394d1e">next_optstr</a> += <a class="code" href="a01103.html#ga180fcce21dd94eaf8e5949a8e2f7272c">pcl_tcslen</a>(state-&gt;<a class="code" href="a01205.html#ac1c7a85253861d935b9cbec222394d1e">next_optstr</a>); <span class="comment">// point to NUL</span></div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    }</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;  }</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;  <span class="keywordflow">else</span> <span class="keywordflow">if</span>(policy == <a class="code" href="a01099.html#gga806c053b3bfec31bfceef3c83a3db92fad13f00190a15b7606cd4ad10b0961f07">PclOptArg</a>)</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;  {</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    <span class="comment">/* Form: &quot;-O=value&quot; */</span></div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    <span class="keywordflow">if</span>(eq)</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    {</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;      <span class="comment">/* ignore missing optional argument: ie. &quot;-O=&quot; */</span></div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;      <span class="keywordflow">if</span>(eq[1])</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;        *value = ++eq;</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160; </div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;      state-&gt;<a class="code" href="a01205.html#ac1c7a85253861d935b9cbec222394d1e">next_optstr</a> = eq + <a class="code" href="a01103.html#ga180fcce21dd94eaf8e5949a8e2f7272c">pcl_tcslen</a>(eq); <span class="comment">// point to NUL</span></div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    }</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;      <span class="comment">/* Form: &quot;-Ovalue&quot; */</span></div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span>(*state-&gt;<a class="code" href="a01205.html#ac1c7a85253861d935b9cbec222394d1e">next_optstr</a>)</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    {</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;      *value = state-&gt;<a class="code" href="a01205.html#ac1c7a85253861d935b9cbec222394d1e">next_optstr</a>;</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;      state-&gt;<a class="code" href="a01205.html#ac1c7a85253861d935b9cbec222394d1e">next_optstr</a> += <a class="code" href="a01103.html#ga180fcce21dd94eaf8e5949a8e2f7272c">pcl_tcslen</a>(state-&gt;<a class="code" href="a01205.html#ac1c7a85253861d935b9cbec222394d1e">next_optstr</a>); <span class="comment">// point to NUL</span></div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    }</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;      <span class="comment">/* Form &quot;-O value&quot; -- In this case, only allow value if it doesn&#39;t start with a &#39;-&#39; */</span></div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span>(state-&gt;<a class="code" href="a01205.html#a4de95b971548e0484e2ebfed6fb40373">argidx</a> + 1 &lt; state-&gt;<a class="code" href="a01205.html#ad1447518f4372828b8435ae82e48499e">argc</a> &amp;&amp; *state-&gt;<a class="code" href="a01205.html#ad4dfe535e2663b3152bbe4bdaa4671fd">argv</a>[state-&gt;<a class="code" href="a01205.html#a4de95b971548e0484e2ebfed6fb40373">argidx</a> + 1] != <a class="code" href="a00023.html#a76f4425a2027b15c08530794be52f2f1">_T</a>(<span class="charliteral">&#39;-&#39;</span>))</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    {</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;      *value = state-&gt;<a class="code" href="a01205.html#ad4dfe535e2663b3152bbe4bdaa4671fd">argv</a>[++state-&gt;<a class="code" href="a01205.html#a4de95b971548e0484e2ebfed6fb40373">argidx</a>];</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    }</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;  }</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160; </div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;  <span class="keywordflow">if</span>(!*state-&gt;<a class="code" href="a01205.html#ac1c7a85253861d935b9cbec222394d1e">next_optstr</a>)</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;  {</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    state-&gt;<a class="code" href="a01205.html#a4de95b971548e0484e2ebfed6fb40373">argidx</a>++;</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    state-&gt;<a class="code" href="a01205.html#ac1c7a85253861d935b9cbec222394d1e">next_optstr</a> = NULL;</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;  }</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160; </div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;  <span class="keywordflow">if</span>(longopt)</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    *longopt = NULL;</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160; </div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;  <span class="comment">/* map &#39;opt&#39; character to a long option */</span></div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;  <span class="keywordflow">if</span>(longopt &amp;&amp; state-&gt;<a class="code" href="a01205.html#a3b3f628671f0418e9acabf63b396ffb7">options</a>)</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;  {</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; state-&gt;<a class="code" href="a01205.html#a593108c2cc4b7dd3edecefd724edfd51">num_options</a>; i++)</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    {</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;      <span class="keywordflow">if</span>(state-&gt;<a class="code" href="a01205.html#a3b3f628671f0418e9acabf63b396ffb7">options</a>[i].<a class="code" href="a01133.html#aa0ccb5ee6d882ee3605ff47745c6467b">val</a> == (<span class="keywordtype">int</span>) opt)</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;      {</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;        *longopt = &amp;state-&gt;<a class="code" href="a01205.html#a3b3f628671f0418e9acabf63b396ffb7">options</a>[i];</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;      }</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    }</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;  }</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160; </div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;  <span class="keywordflow">return</span> opt;</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00497.html">_htable.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00017.html">pcl/alloc.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">void</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a00530.html#a2b06bb69df19fb756190fa5feef83862">   36</a></span>&#160;<a class="code" href="a00530.html#a2b06bb69df19fb756190fa5feef83862">ipcl_htable_remove_entry</a>(<a class="code" href="a01135.html">pcl_htable_t</a> *ht, <a class="code" href="a01131.html">pcl_htable_entry_t</a> *ent, <span class="keywordtype">bool</span> allow_rehash)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">if</span>(ht-&gt;<a class="code" href="a01135.html#a671a5819f733f2c3de67d78b2f118ac1">remove_entry</a>)</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    ht-&gt;<a class="code" href="a01135.html#a671a5819f733f2c3de67d78b2f118ac1">remove_entry</a>(ent-&gt;<a class="code" href="a01131.html#a9eb073a4e7f31790de2c4f6b2ea74081">key</a>, ent-&gt;<a class="code" href="a01131.html#a0f61d63b009d0880a89c843bd50d8d76">value</a>, ht-&gt;<a class="code" href="a01135.html#a7b5ec388916c74aa0010ca29022c72d2">userp</a>);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <a class="code" href="a01094.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(ent);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  ht-&gt;<a class="code" href="a01135.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a>--;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keywordflow">if</span>(allow_rehash &amp;&amp; ht-&gt;<a class="code" href="a01135.html#adbe66a087ac3fd4a5b0566f64ca2d12b">capacity</a> != <a class="code" href="a00497.html#aa2d11c3aa8ec67eb6b7e08a93db0a807">MIN_TABLE_SIZE</a>)</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordflow">if</span>(ht-&gt;<a class="code" href="a01135.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a> &lt; (<span class="keywordtype">int</span>) (ht-&gt;<a class="code" href="a01135.html#a208ae7a4b8b33d282ba214243f46d425">min_loadfac</a> * (<span class="keywordtype">float</span>) ht-&gt;<a class="code" href="a01135.html#adbe66a087ac3fd4a5b0566f64ca2d12b">capacity</a>))</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;      (void) <a class="code" href="a00497.html#aa7d6ea47969bab2ecd2e3d9ce4488d01">ipcl_htable_rehash</a>(ht, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01099_html_gaa2882afd52801436bdb3913609907015"><div class="ttname"><a href="a01099.html#gaa2882afd52801436bdb3913609907015">pcl_getopt</a></div><div class="ttdeci">int pcl_getopt(pcl_optstate_t *state, tchar_t **value, pcl_option_t **longopt)</div><div class="ttdoc">Parse command-line arguments.</div><div class="ttdef"><b>Definition:</b> <a href="a00530_source.html#l00038">getopt.c:38</a></div></div>
-<div class="ttc" id="aa00092_html_a7589c2eb4da44bc1c8e4d094798e7f0b"><div class="ttname"><a href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a></div><div class="ttdeci">char tchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00092_source.html#l00053">types.h:53</a></div></div>
-<div class="ttc" id="aa01133_html_aa0ccb5ee6d882ee3605ff47745c6467b"><div class="ttname"><a href="a01133.html#aa0ccb5ee6d882ee3605ff47745c6467b">pcl_option_t::val</a></div><div class="ttdeci">int val</div><div class="ttdoc">A value, like a character, that can be used to identify the long option.</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00148">init.h:148</a></div></div>
-<div class="ttc" id="aa01205_html_acb77a81e5ef01d2a431dee4a93ad42c7"><div class="ttname"><a href="a01205.html#acb77a81e5ef01d2a431dee4a93ad42c7">tag_pcl_optstate::optstr</a></div><div class="ttdeci">const tchar_t * optstr</div><div class="ttdef"><b>Definition:</b> <a href="a00527_source.html#l00048">_init.h:48</a></div></div>
-<div class="ttc" id="aa01095_html_gab052d4faa8fd25e1a13e86ecd4aafa38"><div class="ttname"><a href="a01095.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a></div><div class="ttdeci">#define BADARG()</div><div class="ttdef"><b>Definition:</b> <a href="a00005_source.html#l00306">_errdefs.h:306</a></div></div>
-<div class="ttc" id="aa01094_html_gae0cd5c5a7fae36cd480176bda17e77ca"><div class="ttname"><a href="a01094.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a></div><div class="ttdeci">#define PCL_EINVAL</div><div class="ttdoc">Invalid argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00008_source.html#l00078">_errno.h:78</a></div></div>
-<div class="ttc" id="aa01205_html_a593108c2cc4b7dd3edecefd724edfd51"><div class="ttname"><a href="a01205.html#a593108c2cc4b7dd3edecefd724edfd51">tag_pcl_optstate::num_options</a></div><div class="ttdeci">int num_options</div><div class="ttdef"><b>Definition:</b> <a href="a00527_source.html#l00050">_init.h:50</a></div></div>
-<div class="ttc" id="aa01099_html_gga806c053b3bfec31bfceef3c83a3db92fad13f00190a15b7606cd4ad10b0961f07"><div class="ttname"><a href="a01099.html#gga806c053b3bfec31bfceef3c83a3db92fad13f00190a15b7606cd4ad10b0961f07">PclOptArg</a></div><div class="ttdeci">@ PclOptArg</div><div class="ttdoc">Option takes an optional argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00130">init.h:129</a></div></div>
-<div class="ttc" id="aa01205_html_ad4dfe535e2663b3152bbe4bdaa4671fd"><div class="ttname"><a href="a01205.html#ad4dfe535e2663b3152bbe4bdaa4671fd">tag_pcl_optstate::argv</a></div><div class="ttdeci">tchar_t ** argv</div><div class="ttdef"><b>Definition:</b> <a href="a00527_source.html#l00047">_init.h:47</a></div></div>
-<div class="ttc" id="aa00011_html"><div class="ttname"><a href="a00011.html">alloc.h</a></div></div>
-<div class="ttc" id="aa01205_html_ad1447518f4372828b8435ae82e48499e"><div class="ttname"><a href="a01205.html#ad1447518f4372828b8435ae82e48499e">tag_pcl_optstate::argc</a></div><div class="ttdeci">int argc</div><div class="ttdef"><b>Definition:</b> <a href="a00527_source.html#l00046">_init.h:46</a></div></div>
-<div class="ttc" id="aa00023_html_a76f4425a2027b15c08530794be52f2f1"><div class="ttname"><a href="a00023.html#a76f4425a2027b15c08530794be52f2f1">_T</a></div><div class="ttdeci">#define _T(quote)</div><div class="ttdef"><b>Definition:</b> <a href="a00023_source.html#l00080">defs.h:80</a></div></div>
-<div class="ttc" id="aa01133_html"><div class="ttname"><a href="a01133.html">pcl_option_t</a></div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00132">init.h:133</a></div></div>
-<div class="ttc" id="aa01205_html_ac1c7a85253861d935b9cbec222394d1e"><div class="ttname"><a href="a01205.html#ac1c7a85253861d935b9cbec222394d1e">tag_pcl_optstate::next_optstr</a></div><div class="ttdeci">tchar_t * next_optstr</div><div class="ttdef"><b>Definition:</b> <a href="a00527_source.html#l00044">_init.h:44</a></div></div>
-<div class="ttc" id="aa01099_html_gga806c053b3bfec31bfceef3c83a3db92fa1e703d178f894e31a992400b6ad71e65"><div class="ttname"><a href="a01099.html#gga806c053b3bfec31bfceef3c83a3db92fa1e703d178f894e31a992400b6ad71e65">PclNoArg</a></div><div class="ttdeci">@ PclNoArg</div><div class="ttdoc">Option does not take any arguments.</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00125">init.h:125</a></div></div>
-<div class="ttc" id="aa01099_html_gga806c053b3bfec31bfceef3c83a3db92fa3131202ae7746972323b64254ad67961"><div class="ttname"><a href="a01099.html#gga806c053b3bfec31bfceef3c83a3db92fa3131202ae7746972323b64254ad67961">PclReqArg</a></div><div class="ttdeci">@ PclReqArg</div><div class="ttdoc">Option requires an argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00127">init.h:127</a></div></div>
-<div class="ttc" id="aa01103_html_ga180fcce21dd94eaf8e5949a8e2f7272c"><div class="ttname"><a href="a01103.html#ga180fcce21dd94eaf8e5949a8e2f7272c">pcl_tcslen</a></div><div class="ttdeci">size_t pcl_tcslen(const tchar_t *s)</div><div class="ttdoc">Get a string's length.</div></div>
-<div class="ttc" id="aa01103_html_ga2f0dcee280d506d66e55d5499c2f8361"><div class="ttname"><a href="a01103.html#ga2f0dcee280d506d66e55d5499c2f8361">pcl_tcscmp</a></div><div class="ttdeci">int pcl_tcscmp(const char *a, const char *b)</div><div class="ttdoc">Compare two strings.</div></div>
-<div class="ttc" id="aa01205_html"><div class="ttname"><a href="a01205.html">tag_pcl_optstate</a></div><div class="ttdef"><b>Definition:</b> <a href="a00527_source.html#l00041">_init.h:42</a></div></div>
-<div class="ttc" id="aa01205_html_a4de95b971548e0484e2ebfed6fb40373"><div class="ttname"><a href="a01205.html#a4de95b971548e0484e2ebfed6fb40373">tag_pcl_optstate::argidx</a></div><div class="ttdeci">int argidx</div><div class="ttdef"><b>Definition:</b> <a href="a00527_source.html#l00043">_init.h:43</a></div></div>
-<div class="ttc" id="aa01095_html_ga7859a0a1a544c581d53bd7d44ab6805d"><div class="ttname"><a href="a01095.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a></div><div class="ttdeci">#define SETERRMSG(_pclerr, _msgfmt,...)</div><div class="ttdoc">Sets the current thread's PCL error code and error message.</div><div class="ttdef"><b>Definition:</b> <a href="a00005_source.html#l00087">_errdefs.h:87</a></div></div>
-<div class="ttc" id="aa01103_html_gabaa8d7aad8b450c90e0d57f18c9180db"><div class="ttname"><a href="a01103.html#gabaa8d7aad8b450c90e0d57f18c9180db">pcl_tmemcmp</a></div><div class="ttdeci">int pcl_tmemcmp(void *a, void *b, size_t n)</div><div class="ttdoc">Comare memory blocks.</div></div>
-<div class="ttc" id="aa00035_html"><div class="ttname"><a href="a00035.html">error.h</a></div></div>
-<div class="ttc" id="aa00077_html"><div class="ttname"><a href="a00077.html">string.h</a></div></div>
-<div class="ttc" id="aa00527_html"><div class="ttname"><a href="a00527.html">_init.h</a></div></div>
-<div class="ttc" id="aa01103_html_ga3dd4f493184d4d0d2c3f2f62820f7811"><div class="ttname"><a href="a01103.html#ga3dd4f493184d4d0d2c3f2f62820f7811">pcl_tcschr</a></div><div class="ttdeci">tchar * pcl_tcschr(const tchar_t *s, tchar_t c)</div><div class="ttdoc">Find the first occurance of a character within a string.</div></div>
-<div class="ttc" id="aa01205_html_a3b3f628671f0418e9acabf63b396ffb7"><div class="ttname"><a href="a01205.html#a3b3f628671f0418e9acabf63b396ffb7">tag_pcl_optstate::options</a></div><div class="ttdeci">pcl_option_t * options</div><div class="ttdef"><b>Definition:</b> <a href="a00527_source.html#l00049">_init.h:49</a></div></div>
+<div class="ttc" id="aa01135_html_a208ae7a4b8b33d282ba214243f46d425"><div class="ttname"><a href="a01135.html#a208ae7a4b8b33d282ba214243f46d425">tag_pcl_htable::min_loadfac</a></div><div class="ttdeci">float min_loadfac</div><div class="ttdoc">The minimun load factor of the table.</div><div class="ttdef"><b>Definition:</b> <a href="a00053_source.html#l00252">htable.h:252</a></div></div>
+<div class="ttc" id="aa01135_html_a671a5819f733f2c3de67d78b2f118ac1"><div class="ttname"><a href="a01135.html#a671a5819f733f2c3de67d78b2f118ac1">tag_pcl_htable::remove_entry</a></div><div class="ttdeci">void(* remove_entry)(const void *key, void *value, void *userp)</div><div class="ttdoc">Called when an entry is being removed from the table.</div><div class="ttdef"><b>Definition:</b> <a href="a00053_source.html#l00273">htable.h:273</a></div></div>
+<div class="ttc" id="aa00017_html"><div class="ttname"><a href="a00017.html">alloc.h</a></div></div>
+<div class="ttc" id="aa00530_html_a2b06bb69df19fb756190fa5feef83862"><div class="ttname"><a href="a00530.html#a2b06bb69df19fb756190fa5feef83862">ipcl_htable_remove_entry</a></div><div class="ttdeci">void ipcl_htable_remove_entry(pcl_htable_t *ht, pcl_htable_entry_t *ent, bool allow_rehash)</div><div class="ttdef"><b>Definition:</b> <a href="a00530_source.html#l00036">htable_remove_entry.c:36</a></div></div>
+<div class="ttc" id="aa01131_html"><div class="ttname"><a href="a01131.html">tag_pcl_htable_entry</a></div><div class="ttdoc">Hash table entry object.</div><div class="ttdef"><b>Definition:</b> <a href="a00053_source.html#l00198">htable.h:199</a></div></div>
+<div class="ttc" id="aa01131_html_a9eb073a4e7f31790de2c4f6b2ea74081"><div class="ttname"><a href="a01131.html#a9eb073a4e7f31790de2c4f6b2ea74081">tag_pcl_htable_entry::key</a></div><div class="ttdeci">const void * key</div><div class="ttdoc">entry key</div><div class="ttdef"><b>Definition:</b> <a href="a00053_source.html#l00207">htable.h:207</a></div></div>
+<div class="ttc" id="aa00497_html"><div class="ttname"><a href="a00497.html">_htable.h</a></div></div>
+<div class="ttc" id="aa01135_html_adbe66a087ac3fd4a5b0566f64ca2d12b"><div class="ttname"><a href="a01135.html#adbe66a087ac3fd4a5b0566f64ca2d12b">tag_pcl_htable::capacity</a></div><div class="ttdeci">int capacity</div><div class="ttdoc">current table capacity</div><div class="ttdef"><b>Definition:</b> <a href="a00053_source.html#l00225">htable.h:225</a></div></div>
+<div class="ttc" id="aa01135_html_ad43c3812e6d13e0518d9f8b8f463ffcf"><div class="ttname"><a href="a01135.html#ad43c3812e6d13e0518d9f8b8f463ffcf">tag_pcl_htable::count</a></div><div class="ttdeci">int count</div><div class="ttdoc">count of entries</div><div class="ttdef"><b>Definition:</b> <a href="a00053_source.html#l00220">htable.h:220</a></div></div>
+<div class="ttc" id="aa01131_html_a0f61d63b009d0880a89c843bd50d8d76"><div class="ttname"><a href="a01131.html#a0f61d63b009d0880a89c843bd50d8d76">tag_pcl_htable_entry::value</a></div><div class="ttdeci">void * value</div><div class="ttdoc">entry value</div><div class="ttdef"><b>Definition:</b> <a href="a00053_source.html#l00210">htable.h:210</a></div></div>
+<div class="ttc" id="aa01135_html"><div class="ttname"><a href="a01135.html">tag_pcl_htable</a></div><div class="ttdef"><b>Definition:</b> <a href="a00053_source.html#l00213">htable.h:214</a></div></div>
+<div class="ttc" id="aa01135_html_a7b5ec388916c74aa0010ca29022c72d2"><div class="ttname"><a href="a01135.html#a7b5ec388916c74aa0010ca29022c72d2">tag_pcl_htable::userp</a></div><div class="ttdeci">void * userp</div><div class="ttdoc">User pointer passed to callbacks.</div><div class="ttdef"><b>Definition:</b> <a href="a00053_source.html#l00264">htable.h:264</a></div></div>
+<div class="ttc" id="aa00497_html_aa7d6ea47969bab2ecd2e3d9ce4488d01"><div class="ttname"><a href="a00497.html#aa7d6ea47969bab2ecd2e3d9ce4488d01">ipcl_htable_rehash</a></div><div class="ttdeci">int ipcl_htable_rehash(pcl_htable_t *ht, bool grow)</div><div class="ttdef"><b>Definition:</b> <a href="a00524_source.html#l00037">htable_rehash.c:37</a></div></div>
+<div class="ttc" id="aa00497_html_aa2d11c3aa8ec67eb6b7e08a93db0a807"><div class="ttname"><a href="a00497.html#aa2d11c3aa8ec67eb6b7e08a93db0a807">MIN_TABLE_SIZE</a></div><div class="ttdeci">#define MIN_TABLE_SIZE</div><div class="ttdef"><b>Definition:</b> <a href="a00497_source.html#l00039">_htable.h:39</a></div></div>
+<div class="ttc" id="aa01094_html_gab88b901c82e1010555b08ff6d39490f2"><div class="ttname"><a href="a01094.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a></div><div class="ttdeci">void * pcl_free(void *p)</div><div class="ttdoc">Free memory space.</div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/process/proc_parsecmd.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/process/proc_close.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">proc_parsecmd.c</div>  </div>
+<div class="title">proc_close.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00632.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,130 +101,25 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00620.html">_process.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00035.html">pcl/error.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00011.html">pcl/alloc.h</a>&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00077.html">pcl/string.h</a>&gt;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="a01101.html#ga9d79d384ab55a360c65e99458bb4e75f">   38</a></span>&#160;<a class="code" href="a01101.html#ga9d79d384ab55a360c65e99458bb4e75f">pcl_proc_parsecmd</a>(<span class="keyword">const</span> <a class="code" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *shell_cmd, <a class="code" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> ***out)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keyword">const</span> <a class="code" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *start;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordtype">bool</span> in_quote = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <a class="code" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> **targv;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordtype">size_t</span> size = 4;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keywordtype">int</span> count = 0;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordflow">if</span>(!shell_cmd)</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01095.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a>();</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  shell_cmd = <a class="code" href="a01103.html#gab4254d8db12d3a9340945754b5612f01">pcl_tcsskipws</a>(shell_cmd);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="keywordflow">if</span>(*shell_cmd == <span class="charliteral">&#39;&quot;&#39;</span>)</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  {</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    in_quote = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    shell_cmd++;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  }</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  start = shell_cmd;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  targv = (<a class="code" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> **)<a class="code" href="a01088.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a>((size + 1) * <span class="keyword">sizeof</span>(<a class="code" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *));</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  <span class="keywordflow">while</span>(<span class="keyword">true</span>)</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  {</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">switch</span>(*shell_cmd)</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    {</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      <span class="keywordflow">case</span> <span class="charliteral">&#39;\\&#39;</span>:</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        shell_cmd += 2;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;      <span class="keywordflow">case</span> <span class="charliteral">&#39;\0&#39;</span>:</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      <span class="keywordflow">case</span> <span class="charliteral">&#39;&quot;&#39;</span>:</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      <span class="keywordflow">case</span> <span class="charliteral">&#39; &#39;</span>:</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      <span class="keywordflow">case</span> <span class="charliteral">&#39;\t&#39;</span>:</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      {</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keywordtype">size_t</span> n;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keywordflow">if</span>(*shell_cmd == <span class="charliteral">&#39;&quot;&#39;</span>)</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        {</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;          <span class="keywordflow">if</span>(!in_quote)</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;          {</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            <a class="code" href="a01101.html#ga217015309f8b5e772a0fa6ea5321e54d">pcl_proc_freeargv</a>(count, targv);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="a01095.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a>(<a class="code" href="a01094.html#ga99139f6530576a23e1008caa5ddaee90">PCL_ESYNTAX</a>, <span class="stringliteral">&quot;unescaped quote&quot;</span>, 0);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;          }</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;          in_quote = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        }</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span>(in_quote)</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        {</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;          <span class="keywordflow">if</span>(*shell_cmd == <span class="charliteral">&#39;\0&#39;</span>)</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;          {</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            <a class="code" href="a01101.html#ga217015309f8b5e772a0fa6ea5321e54d">pcl_proc_freeargv</a>(count, targv);</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="a01095.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a>(<a class="code" href="a01094.html#ga99139f6530576a23e1008caa5ddaee90">PCL_ESYNTAX</a>, <span class="stringliteral">&quot;unterminated quote&quot;</span>, 0);</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;          }</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;          shell_cmd++;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;          <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        }</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        n = shell_cmd - start;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <span class="keywordflow">if</span>(n &gt; 0)</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        {</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;          <span class="keywordflow">if</span>(count == (<span class="keywordtype">int</span>)size)</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;          {</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            size = (size * 3) / 2;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            targv = (<a class="code" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> **)<a class="code" href="a01088.html#ga8ed2d8a28dde302fa8eac0d2e9ce8ea4">pcl_realloc</a>(targv, (size + 1) * <span class="keyword">sizeof</span>(<a class="code" href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a> *));</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;          }</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;          targv[count++] = <a class="code" href="a01103.html#gaf553d819c95ad91573ca0fa4699c9459">pcl_tcsndup</a>(start, shell_cmd - start);</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        }</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="keywordflow">if</span>(*shell_cmd == <span class="charliteral">&#39;\0&#39;</span>)</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;          <span class="keywordflow">goto</span> finish;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        shell_cmd = <a class="code" href="a01103.html#gab4254d8db12d3a9340945754b5612f01">pcl_tcsskipws</a>(++shell_cmd);</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <span class="keywordflow">if</span>(*shell_cmd == <span class="charliteral">&#39;&quot;&#39;</span>)</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        {</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;          in_quote = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;          shell_cmd++;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        }</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160; </div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        start = shell_cmd;</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;      }</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160; </div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;      <span class="keywordflow">default</span>:</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        shell_cmd++;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    }</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;  }</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160; </div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;finish:</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;  targv[count] = NULL;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;  <span class="keywordflow">if</span>(out)</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    *out = targv;</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160; </div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;  <span class="keywordflow">return</span> count;</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;}</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160; </div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160; </div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00626.html">_process.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00029.html">pcl/defs.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">void</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01107.html#gabedb79800f25896ebfbc4c987ae08513">   36</a></span>&#160;<a class="code" href="a01107.html#gabedb79800f25896ebfbc4c987ae08513">pcl_proc_close</a>(<a class="code" href="a00098.html#aebcc95bdc886e05c6e79044367ebc127">pcl_prochandle_t</a> handle)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordflow">if</span>(handle)</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    CloseHandle(handle);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <a class="code" href="a00029.html#a9b58a1294d89c976dfbe4dc480e9dfb8">UNUSED</a>(handle);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00092_html_a7589c2eb4da44bc1c8e4d094798e7f0b"><div class="ttname"><a href="a00092.html#a7589c2eb4da44bc1c8e4d094798e7f0b">tchar_t</a></div><div class="ttdeci">char tchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00092_source.html#l00053">types.h:53</a></div></div>
-<div class="ttc" id="aa01103_html_gab4254d8db12d3a9340945754b5612f01"><div class="ttname"><a href="a01103.html#gab4254d8db12d3a9340945754b5612f01">pcl_tcsskipws</a></div><div class="ttdeci">tchar_t * pcl_tcsskipws(const tchar_t *s)</div><div class="ttdoc">Skip whitespace.</div></div>
-<div class="ttc" id="aa01088_html_ga8ed2d8a28dde302fa8eac0d2e9ce8ea4"><div class="ttname"><a href="a01088.html#ga8ed2d8a28dde302fa8eac0d2e9ce8ea4">pcl_realloc</a></div><div class="ttdeci">void * pcl_realloc(void *p, size_t n)</div><div class="ttdoc">Re-allocate dynamic memory.</div></div>
-<div class="ttc" id="aa01095_html_gab052d4faa8fd25e1a13e86ecd4aafa38"><div class="ttname"><a href="a01095.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a></div><div class="ttdeci">#define BADARG()</div><div class="ttdef"><b>Definition:</b> <a href="a00005_source.html#l00306">_errdefs.h:306</a></div></div>
-<div class="ttc" id="aa00011_html"><div class="ttname"><a href="a00011.html">alloc.h</a></div></div>
-<div class="ttc" id="aa01101_html_ga9d79d384ab55a360c65e99458bb4e75f"><div class="ttname"><a href="a01101.html#ga9d79d384ab55a360c65e99458bb4e75f">pcl_proc_parsecmd</a></div><div class="ttdeci">int pcl_proc_parsecmd(const tchar_t *shell_cmd, tchar_t ***out)</div><div class="ttdoc">Converts the given shell command to a valid argv array, which is NULL terminated.</div><div class="ttdef"><b>Definition:</b> <a href="a00632_source.html#l00038">proc_parsecmd.c:38</a></div></div>
-<div class="ttc" id="aa01095_html_ga7859a0a1a544c581d53bd7d44ab6805d"><div class="ttname"><a href="a01095.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a></div><div class="ttdeci">#define SETERRMSG(_pclerr, _msgfmt,...)</div><div class="ttdoc">Sets the current thread's PCL error code and error message.</div><div class="ttdef"><b>Definition:</b> <a href="a00005_source.html#l00087">_errdefs.h:87</a></div></div>
-<div class="ttc" id="aa00035_html"><div class="ttname"><a href="a00035.html">error.h</a></div></div>
-<div class="ttc" id="aa00077_html"><div class="ttname"><a href="a00077.html">string.h</a></div></div>
-<div class="ttc" id="aa00620_html"><div class="ttname"><a href="a00620.html">_process.h</a></div></div>
-<div class="ttc" id="aa01094_html_ga99139f6530576a23e1008caa5ddaee90"><div class="ttname"><a href="a01094.html#ga99139f6530576a23e1008caa5ddaee90">PCL_ESYNTAX</a></div><div class="ttdeci">#define PCL_ESYNTAX</div><div class="ttdoc">Syntax error.</div><div class="ttdef"><b>Definition:</b> <a href="a00008_source.html#l00204">_errno.h:204</a></div></div>
-<div class="ttc" id="aa01088_html_ga1df8575b9ae906470c782db9c26201e8"><div class="ttname"><a href="a01088.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a></div><div class="ttdeci">void * pcl_malloc(size_t n)</div><div class="ttdoc">Allocate dynamic memory.</div></div>
-<div class="ttc" id="aa01103_html_gaf553d819c95ad91573ca0fa4699c9459"><div class="ttname"><a href="a01103.html#gaf553d819c95ad91573ca0fa4699c9459">pcl_tcsndup</a></div><div class="ttdeci">tchar_t * pcl_tcsndup(const tchar_t *s, size_t len)</div><div class="ttdoc">Duplicate a portion of a string.</div></div>
-<div class="ttc" id="aa01101_html_ga217015309f8b5e772a0fa6ea5321e54d"><div class="ttname"><a href="a01101.html#ga217015309f8b5e772a0fa6ea5321e54d">pcl_proc_freeargv</a></div><div class="ttdeci">PCL_EXPORT void * pcl_proc_freeargv(int targc, tchar_t **targv)</div><div class="ttdoc">Free an argv array.</div><div class="ttdef"><b>Definition:</b> <a href="a00629_source.html#l00036">proc_freecmd.c:36</a></div></div>
+<div class="ttc" id="aa00029_html"><div class="ttname"><a href="a00029.html">defs.h</a></div></div>
+<div class="ttc" id="aa00029_html_a9b58a1294d89c976dfbe4dc480e9dfb8"><div class="ttname"><a href="a00029.html#a9b58a1294d89c976dfbe4dc480e9dfb8">UNUSED</a></div><div class="ttdeci">#define UNUSED(...)</div><div class="ttdef"><b>Definition:</b> <a href="a00029_source.html#l00102">defs.h:102</a></div></div>
+<div class="ttc" id="aa00626_html"><div class="ttname"><a href="a00626.html">_process.h</a></div></div>
+<div class="ttc" id="aa01107_html_gabedb79800f25896ebfbc4c987ae08513"><div class="ttname"><a href="a01107.html#gabedb79800f25896ebfbc4c987ae08513">pcl_proc_close</a></div><div class="ttdeci">void pcl_proc_close(pcl_prochandle_t handle)</div><div class="ttdoc">Close a process handle.</div><div class="ttdef"><b>Definition:</b> <a href="a00632_source.html#l00036">proc_close.c:36</a></div></div>
+<div class="ttc" id="aa00098_html_aebcc95bdc886e05c6e79044367ebc127"><div class="ttname"><a href="a00098.html#aebcc95bdc886e05c6e79044367ebc127">pcl_prochandle_t</a></div><div class="ttdeci">pid_t pcl_prochandle_t</div><div class="ttdef"><b>Definition:</b> <a href="a00098_source.html#l00056">types.h:56</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

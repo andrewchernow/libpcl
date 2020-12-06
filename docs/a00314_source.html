@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/errctx/err_ctx_trace_free.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/errctx/err_ctx_serialize.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">err_ctx_trace_free.c</div>  </div>
+<div class="title">err_ctx_serialize.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00314.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,28 +101,114 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00290.html">_errctx.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00011.html">pcl/alloc.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<a class="code" href="a01117.html">pcl_err_trace_t</a> *</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a00314.html#a7957a846b8fa08a58547bf61da98cce7">   36</a></span>&#160;<a class="code" href="a00314.html#a7957a846b8fa08a58547bf61da98cce7">ipcl_err_ctx_trace_free</a>(<a class="code" href="a01117.html">pcl_err_trace_t</a> *head)</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">while</span>(head)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="a01117.html">pcl_err_trace_t</a> *node = head;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    head = node-&gt;<a class="code" href="a01117.html#a365f8bd3193b20fc56c910edb668a93b">next</a>;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="a01088.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(node);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  }</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordflow">return</span> head;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00296.html">_errctx.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/buf.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00059.html">pcl/io.h</a>&gt;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<a class="code" href="a01115.html">pcl_buf_t</a> *</div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="a00314.html#a612af4c887e8f4d384326c2fd86d6ef3">   37</a></span>&#160;<a class="code" href="a00314.html#a612af4c887e8f4d384326c2fd86d6ef3">ipcl_err_ctx_serialize</a>(<a class="code" href="a01127.html">pcl_err_ctx_t</a> *ctx, <span class="keywordtype">int</span> indent, <span class="keyword">const</span> <span class="keywordtype">char</span> *format, va_list ap)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <a class="code" href="a01123.html">pcl_err_trace_t</a> *t = ctx-&gt;<a class="code" href="a01127.html#af22b89a25236c26e197118ca1652019a">strace</a>;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">if</span>(!t || ctx-&gt;<a class="code" href="a01127.html#a6ce68847c12434f60d1b2654a3dc3409">err</a> == <a class="code" href="a01100.html#gad3b43ba0f3d97d535a1a3cf7fd8b35c2">PCL_EOKAY</a>)</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keywordtype">char</span> line[24];</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordtype">bool</span> hasfile, hasfunc, hasmsg;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <a class="code" href="a01115.html">pcl_buf_t</a> *b = ctx-&gt;<a class="code" href="a01127.html#a95f7673f875fad2b88002d7a10f00eb1">buffer</a>;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keywordflow">if</span>(!b)</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    b = ctx-&gt;<a class="code" href="a01127.html#a95f7673f875fad2b88002d7a10f00eb1">buffer</a> = <a class="code" href="a01096.html#gadd174ca0fea61e0f3be87c9d12b5e2f3">pcl_buf_init</a>(NULL, 512, <a class="code" href="a01096.html#ggafcd56f00f1c963d6f6f844f1df84f0f9a5dec0673e40b9d374a62eaef1d17e5a1">PclBufText</a>);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <a class="code" href="a01096.html#ga689e8c411b15e4ef700a56e3ca353037">pcl_buf_reset</a>(b); <span class="comment">// resue it (again, per-thread)</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <span class="keywordflow">if</span>(!<a class="code" href="a00029.html#a8278668d120afdd0e47def881845559d">strempty</a>(format))</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  {</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <a class="code" href="a01096.html#ga2ba3b09bc046d8c5af670b8e73697087">pcl_buf_putf</a>(b, <span class="stringliteral">&quot;%*sERROR: &quot;</span>, indent, indent ? <span class="stringliteral">&quot; &quot;</span> : <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <a class="code" href="a01096.html#ga83ed6123d3f2421baca12357736191aa">pcl_buf_vputf</a>(b, format, ap);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="comment">/* ensure message is terminated with LF */</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordflow">if</span>(b-&gt;<a class="code" href="a01115.html#a91a70b77df95bd8b0830b49a094c2acb">data</a>[b-&gt;<a class="code" href="a01115.html#afed088663f8704004425cdae2120b9b3">len</a> - 1] != <span class="charliteral">&#39;\n&#39;</span>)</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      <a class="code" href="a01096.html#ga48e936cee3defdf5fcb6e9904aff0d75">pcl_buf_putchar</a>(b, <span class="charliteral">&#39;\n&#39;</span>);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  }</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  <span class="keywordflow">for</span>(; t; t = t-&gt;<a class="code" href="a01123.html#a365f8bd3193b20fc56c910edb668a93b">next</a>, indent += 2)</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  {</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="comment">/* don&#39;t handle tail here. It&#39;s formatted differently being the actual error site */</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordflow">if</span>(!t-&gt;<a class="code" href="a01123.html#a365f8bd3193b20fc56c910edb668a93b">next</a>)</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;      <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    hasmsg = !<a class="code" href="a00029.html#a8278668d120afdd0e47def881845559d">strempty</a>(t-&gt;<a class="code" href="a01123.html#a32d2f5216cddb59c7cc8fb2806a7e727">msg</a>);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    hasfile = !<a class="code" href="a00029.html#a8278668d120afdd0e47def881845559d">strempty</a>(t-&gt;<a class="code" href="a01123.html#adf16cd437526a5c5e0e0af87745acbb8">file</a>);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    hasfunc = !<a class="code" href="a00029.html#a8278668d120afdd0e47def881845559d">strempty</a>(t-&gt;<a class="code" href="a01123.html#adf9a36a42a9dc6f127512f5ff82b01e3">func</a>);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    *line = 0;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordflow">if</span>(t-&gt;<a class="code" href="a01123.html#a41ebd28ef1d7c6ade45642cb6acc1039">line</a> &gt; 0)</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      <a class="code" href="a01106.html#gabe08d5fe6cacaf69148f35e0c73fc4c5">pcl_sprintf</a>(line, <span class="keyword">sizeof</span>(line), <span class="stringliteral">&quot;(%d)&quot;</span>, t-&gt;<a class="code" href="a01123.html#a41ebd28ef1d7c6ade45642cb6acc1039">line</a>);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <a class="code" href="a01096.html#ga2ba3b09bc046d8c5af670b8e73697087">pcl_buf_putf</a>(b, <span class="stringliteral">&quot;%*s%s%s%s%s%s%s\n&quot;</span>,</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;      indent, indent ? <span class="stringliteral">&quot; &quot;</span> : <span class="stringliteral">&quot;&quot;</span>,</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;      hasfile ? t-&gt;<a class="code" href="a01123.html#adf16cd437526a5c5e0e0af87745acbb8">file</a> : <span class="stringliteral">&quot;&quot;</span>,</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;      hasfile &amp;&amp; hasfunc ? <span class="stringliteral">&quot;:&quot;</span> : <span class="stringliteral">&quot;&quot;</span>, <span class="comment">/* if we have both, include separator */</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;      hasfunc ? t-&gt;<a class="code" href="a01123.html#adf9a36a42a9dc6f127512f5ff82b01e3">func</a> : <span class="stringliteral">&quot;&quot;</span>,</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;      line,</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;      hasmsg ? <span class="stringliteral">&quot;: &quot;</span> : <span class="stringliteral">&quot;&quot;</span>,</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;      hasmsg ? t-&gt;<a class="code" href="a01123.html#a32d2f5216cddb59c7cc8fb2806a7e727">msg</a> : <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  }</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  <span class="comment">/* &#39;t&#39; is stack trace tail, where the actual error occured */</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;  hasfile = !<a class="code" href="a00029.html#a8278668d120afdd0e47def881845559d">strempty</a>(t-&gt;<a class="code" href="a01123.html#adf16cd437526a5c5e0e0af87745acbb8">file</a>);</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  hasfunc = !<a class="code" href="a00029.html#a8278668d120afdd0e47def881845559d">strempty</a>(t-&gt;<a class="code" href="a01123.html#adf9a36a42a9dc6f127512f5ff82b01e3">func</a>);</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;  *line = 0;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;  <span class="keywordflow">if</span>(t-&gt;<a class="code" href="a01123.html#a41ebd28ef1d7c6ade45642cb6acc1039">line</a> &gt; 0)</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <a class="code" href="a01106.html#gabe08d5fe6cacaf69148f35e0c73fc4c5">pcl_sprintf</a>(line, <span class="keyword">sizeof</span>(line), <span class="stringliteral">&quot;(%d)&quot;</span>, t-&gt;<a class="code" href="a01123.html#a41ebd28ef1d7c6ade45642cb6acc1039">line</a>);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  <a class="code" href="a01096.html#ga2ba3b09bc046d8c5af670b8e73697087">pcl_buf_putf</a>(b, <span class="stringliteral">&quot;%*s%s%s%s%s%s%s - %s\n&quot;</span>,</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    indent, indent ? <span class="stringliteral">&quot; &quot;</span> : <span class="stringliteral">&quot;&quot;</span>,</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    hasfile ? t-&gt;<a class="code" href="a01123.html#adf16cd437526a5c5e0e0af87745acbb8">file</a> : <span class="stringliteral">&quot;&quot;</span>,</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    hasfile &amp;&amp; hasfunc ? <span class="stringliteral">&quot;:&quot;</span> : <span class="stringliteral">&quot;&quot;</span>, <span class="comment">/* if we have both, include separator */</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    hasfunc ? t-&gt;<a class="code" href="a01123.html#adf9a36a42a9dc6f127512f5ff82b01e3">func</a> : <span class="stringliteral">&quot;&quot;</span>,</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    line,</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    (hasfile || hasfunc || *line) ? <span class="stringliteral">&quot;: &quot;</span> : <span class="stringliteral">&quot;&quot;</span>,</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <a class="code" href="a01099.html#gad0fee080b336ed7ff879b61e72e0b8a9">pcl_err_name</a>(ctx-&gt;<a class="code" href="a01127.html#a6ce68847c12434f60d1b2654a3dc3409">err</a>),</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <a class="code" href="a01099.html#gab532e2f49c5ec111bfc7e51575fa1b2d">pcl_err_msg</a>(ctx-&gt;<a class="code" href="a01127.html#a6ce68847c12434f60d1b2654a3dc3409">err</a>));</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  <span class="comment">/* print actual error message, this could be empty if a context msg was not provided. */</span></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;  <span class="keywordflow">if</span>(!<a class="code" href="a00029.html#a8278668d120afdd0e47def881845559d">strempty</a>(t-&gt;<a class="code" href="a01123.html#a32d2f5216cddb59c7cc8fb2806a7e727">msg</a>))</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <a class="code" href="a01096.html#ga2ba3b09bc046d8c5af670b8e73697087">pcl_buf_putf</a>(b, <span class="stringliteral">&quot;%*s&gt;%s\n&quot;</span>, indent + 2, <span class="stringliteral">&quot; &quot;</span>, t-&gt;<a class="code" href="a01123.html#a32d2f5216cddb59c7cc8fb2806a7e727">msg</a>);</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;  <span class="keywordflow">return</span> b;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00314_html_a7957a846b8fa08a58547bf61da98cce7"><div class="ttname"><a href="a00314.html#a7957a846b8fa08a58547bf61da98cce7">ipcl_err_ctx_trace_free</a></div><div class="ttdeci">pcl_err_trace_t * ipcl_err_ctx_trace_free(pcl_err_trace_t *head)</div><div class="ttdef"><b>Definition:</b> <a href="a00314_source.html#l00036">err_ctx_trace_free.c:36</a></div></div>
-<div class="ttc" id="aa01117_html_a365f8bd3193b20fc56c910edb668a93b"><div class="ttname"><a href="a01117.html#a365f8bd3193b20fc56c910edb668a93b">tag_pcl_err_trace::next</a></div><div class="ttdeci">pcl_err_trace_t * next</div><div class="ttdoc">next trace in stack trace or NULL to indicate the end.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00045">errctx.h:45</a></div></div>
-<div class="ttc" id="aa01117_html"><div class="ttname"><a href="a01117.html">tag_pcl_err_trace</a></div><div class="ttdoc">Stack trace object implemented as a linked list.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00042">errctx.h:43</a></div></div>
-<div class="ttc" id="aa00011_html"><div class="ttname"><a href="a00011.html">alloc.h</a></div></div>
-<div class="ttc" id="aa00290_html"><div class="ttname"><a href="a00290.html">_errctx.h</a></div></div>
-<div class="ttc" id="aa01088_html_gab88b901c82e1010555b08ff6d39490f2"><div class="ttname"><a href="a01088.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a></div><div class="ttdeci">void * pcl_free(void *p)</div><div class="ttdoc">Free memory space.</div></div>
+<div class="ttc" id="aa01123_html"><div class="ttname"><a href="a01123.html">tag_pcl_err_trace</a></div><div class="ttdoc">Stack trace object implemented as a linked list.</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00042">errctx.h:43</a></div></div>
+<div class="ttc" id="aa00029_html_a8278668d120afdd0e47def881845559d"><div class="ttname"><a href="a00029.html#a8278668d120afdd0e47def881845559d">strempty</a></div><div class="ttdeci">#define strempty(str)</div><div class="ttdef"><b>Definition:</b> <a href="a00029_source.html#l00124">defs.h:124</a></div></div>
+<div class="ttc" id="aa01123_html_adf16cd437526a5c5e0e0af87745acbb8"><div class="ttname"><a href="a01123.html#adf16cd437526a5c5e0e0af87745acbb8">tag_pcl_err_trace::file</a></div><div class="ttdeci">char * file</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00046">errctx.h:46</a></div></div>
+<div class="ttc" id="aa01106_html_gabe08d5fe6cacaf69148f35e0c73fc4c5"><div class="ttname"><a href="a01106.html#gabe08d5fe6cacaf69148f35e0c73fc4c5">pcl_sprintf</a></div><div class="ttdeci">PCL_EXPORT int pcl_sprintf(char *buf, size_t size, const char *format,...)</div><div class="ttdoc">Write a formatted character string to a buffer.</div></div>
+<div class="ttc" id="aa01096_html_gadd174ca0fea61e0f3be87c9d12b5e2f3"><div class="ttname"><a href="a01096.html#gadd174ca0fea61e0f3be87c9d12b5e2f3">pcl_buf_init</a></div><div class="ttdeci">PCL_EXPORT pcl_buf_t * pcl_buf_init(pcl_buf_t *b, size_t size, enum pcl_buf_mode mode)</div><div class="ttdoc">Initializes a buffer object.</div><div class="ttdef"><b>Definition:</b> <a href="a00176_source.html#l00037">buf_init.c:37</a></div></div>
+<div class="ttc" id="aa00059_html"><div class="ttname"><a href="a00059.html">io.h</a></div></div>
+<div class="ttc" id="aa01100_html_gad3b43ba0f3d97d535a1a3cf7fd8b35c2"><div class="ttname"><a href="a01100.html#gad3b43ba0f3d97d535a1a3cf7fd8b35c2">PCL_EOKAY</a></div><div class="ttdeci">#define PCL_EOKAY</div><div class="ttdoc">The operation was successful.</div><div class="ttdef"><b>Definition:</b> <a href="a00014_source.html#l00042">_errno.h:42</a></div></div>
+<div class="ttc" id="aa01115_html_afed088663f8704004425cdae2120b9b3"><div class="ttname"><a href="a01115.html#afed088663f8704004425cdae2120b9b3">tag_pcl_buf::len</a></div><div class="ttdeci">int len</div><div class="ttdoc">number of characters in the buffer</div><div class="ttdef"><b>Definition:</b> <a href="a00023_source.html#l00141">buf.h:141</a></div></div>
+<div class="ttc" id="aa01123_html_a41ebd28ef1d7c6ade45642cb6acc1039"><div class="ttname"><a href="a01123.html#a41ebd28ef1d7c6ade45642cb6acc1039">tag_pcl_err_trace::line</a></div><div class="ttdeci">int line</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00048">errctx.h:48</a></div></div>
+<div class="ttc" id="aa01127_html_a95f7673f875fad2b88002d7a10f00eb1"><div class="ttname"><a href="a01127.html#a95f7673f875fad2b88002d7a10f00eb1">tag_pcl_err_ctx::buffer</a></div><div class="ttdeci">pcl_buf_t * buffer</div><div class="ttdoc">An output buffer used by output formatting functions like pcl_err_ctx_fprintf.</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00096">errctx.h:96</a></div></div>
+<div class="ttc" id="aa00296_html"><div class="ttname"><a href="a00296.html">_errctx.h</a></div></div>
+<div class="ttc" id="aa01127_html_af22b89a25236c26e197118ca1652019a"><div class="ttname"><a href="a01127.html#af22b89a25236c26e197118ca1652019a">tag_pcl_err_ctx::strace</a></div><div class="ttdeci">pcl_err_trace_t * strace</div><div class="ttdoc">Stack trace implemented as a linked list.</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00089">errctx.h:89</a></div></div>
+<div class="ttc" id="aa01096_html_ga689e8c411b15e4ef700a56e3ca353037"><div class="ttname"><a href="a01096.html#ga689e8c411b15e4ef700a56e3ca353037">pcl_buf_reset</a></div><div class="ttdeci">PCL_EXPORT pcl_buf_t * pcl_buf_reset(pcl_buf_t *b)</div><div class="ttdoc">Reset a buffer to its initial state.</div><div class="ttdef"><b>Definition:</b> <a href="a00203_source.html#l00036">buf_reset.c:36</a></div></div>
+<div class="ttc" id="aa01123_html_a365f8bd3193b20fc56c910edb668a93b"><div class="ttname"><a href="a01123.html#a365f8bd3193b20fc56c910edb668a93b">tag_pcl_err_trace::next</a></div><div class="ttdeci">pcl_err_trace_t * next</div><div class="ttdoc">next trace in stack trace or NULL to indicate the end.</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00045">errctx.h:45</a></div></div>
+<div class="ttc" id="aa01096_html_ga2ba3b09bc046d8c5af670b8e73697087"><div class="ttname"><a href="a01096.html#ga2ba3b09bc046d8c5af670b8e73697087">pcl_buf_putf</a></div><div class="ttdeci">PCL_EXPORT int pcl_buf_putf(pcl_buf_t *b, const void *format,...)</div><div class="ttdoc">Put a formatted string into a buffer.</div><div class="ttdef"><b>Definition:</b> <a href="a00185_source.html#l00035">buf_putf.c:35</a></div></div>
+<div class="ttc" id="aa01115_html_a91a70b77df95bd8b0830b49a094c2acb"><div class="ttname"><a href="a01115.html#a91a70b77df95bd8b0830b49a094c2acb">tag_pcl_buf::data</a></div><div class="ttdeci">char * data</div><div class="ttdoc">buffer bytes, always chrsize * size wide.</div><div class="ttdef"><b>Definition:</b> <a href="a00023_source.html#l00147">buf.h:147</a></div></div>
+<div class="ttc" id="aa01096_html_ga48e936cee3defdf5fcb6e9904aff0d75"><div class="ttname"><a href="a01096.html#ga48e936cee3defdf5fcb6e9904aff0d75">pcl_buf_putchar</a></div><div class="ttdeci">PCL_EXPORT int pcl_buf_putchar(pcl_buf_t *b, uint32_t c)</div><div class="ttdoc">Put a character into a buffer.</div><div class="ttdef"><b>Definition:</b> <a href="a00182_source.html#l00035">buf_putchar.c:35</a></div></div>
+<div class="ttc" id="aa00314_html_a612af4c887e8f4d384326c2fd86d6ef3"><div class="ttname"><a href="a00314.html#a612af4c887e8f4d384326c2fd86d6ef3">ipcl_err_ctx_serialize</a></div><div class="ttdeci">pcl_buf_t * ipcl_err_ctx_serialize(pcl_err_ctx_t *ctx, int indent, const char *format, va_list ap)</div><div class="ttdef"><b>Definition:</b> <a href="a00314_source.html#l00037">err_ctx_serialize.c:37</a></div></div>
+<div class="ttc" id="aa01127_html_a6ce68847c12434f60d1b2654a3dc3409"><div class="ttname"><a href="a01127.html#a6ce68847c12434f60d1b2654a3dc3409">tag_pcl_err_ctx::err</a></div><div class="ttdeci">int err</div><div class="ttdoc">PCL error code: PCL_EXXX.</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00080">errctx.h:80</a></div></div>
+<div class="ttc" id="aa01099_html_gab532e2f49c5ec111bfc7e51575fa1b2d"><div class="ttname"><a href="a01099.html#gab532e2f49c5ec111bfc7e51575fa1b2d">pcl_err_msg</a></div><div class="ttdeci">PCL_EXPORT const char * pcl_err_msg(int err)</div><div class="ttdef"><b>Definition:</b> <a href="a00365_source.html#l00035">err_msg.c:35</a></div></div>
+<div class="ttc" id="aa01123_html_a32d2f5216cddb59c7cc8fb2806a7e727"><div class="ttname"><a href="a01123.html#a32d2f5216cddb59c7cc8fb2806a7e727">tag_pcl_err_trace::msg</a></div><div class="ttdeci">char * msg</div><div class="ttdoc">optional user-defined message</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00051">errctx.h:51</a></div></div>
+<div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">buf.h</a></div></div>
+<div class="ttc" id="aa01127_html"><div class="ttname"><a href="a01127.html">tag_pcl_err_ctx</a></div><div class="ttdoc">Represents a PCL error context, with optional stack trace.</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00062">errctx.h:63</a></div></div>
+<div class="ttc" id="aa01115_html"><div class="ttname"><a href="a01115.html">tag_pcl_buf</a></div><div class="ttdef"><b>Definition:</b> <a href="a00023_source.html#l00127">buf.h:128</a></div></div>
+<div class="ttc" id="aa01123_html_adf9a36a42a9dc6f127512f5ff82b01e3"><div class="ttname"><a href="a01123.html#adf9a36a42a9dc6f127512f5ff82b01e3">tag_pcl_err_trace::func</a></div><div class="ttdeci">char * func</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00047">errctx.h:47</a></div></div>
+<div class="ttc" id="aa01099_html_gad0fee080b336ed7ff879b61e72e0b8a9"><div class="ttname"><a href="a01099.html#gad0fee080b336ed7ff879b61e72e0b8a9">pcl_err_name</a></div><div class="ttdeci">PCL_EXPORT const char * pcl_err_name(int err)</div><div class="ttdef"><b>Definition:</b> <a href="a00368_source.html#l00035">err_name.c:35</a></div></div>
+<div class="ttc" id="aa01096_html_ggafcd56f00f1c963d6f6f844f1df84f0f9a5dec0673e40b9d374a62eaef1d17e5a1"><div class="ttname"><a href="a01096.html#ggafcd56f00f1c963d6f6f844f1df84f0f9a5dec0673e40b9d374a62eaef1d17e5a1">PclBufText</a></div><div class="ttdeci">@ PclBufText</div><div class="ttdoc">Text buffer mode.</div><div class="ttdef"><b>Definition:</b> <a href="a00023_source.html#l00114">buf.h:114</a></div></div>
+<div class="ttc" id="aa01096_html_ga83ed6123d3f2421baca12357736191aa"><div class="ttname"><a href="a01096.html#ga83ed6123d3f2421baca12357736191aa">pcl_buf_vputf</a></div><div class="ttdeci">PCL_EXPORT int pcl_buf_vputf(pcl_buf_t *b, const void *format, va_list ap)</div><div class="ttdoc">Put a formatted string into a buffer.</div><div class="ttdef"><b>Definition:</b> <a href="a00206_source.html#l00037">buf_vputf.c:37</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

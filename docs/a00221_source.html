@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/crypto/cipher_reset.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/crypto/cipher_isaead.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">cipher_reset.c</div>  </div>
+<div class="title">cipher_isaead.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00221.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,48 +101,21 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00203.html">_crypto.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00077.html">string.h</a>&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00209.html">_crypto.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00083.html">pcl/string.h</a>&gt;</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01091.html#ga387a5dd9e9b0775c42df02014f43a24a">   36</a></span>&#160;<a class="code" href="a01091.html#ga387a5dd9e9b0775c42df02014f43a24a">pcl_cipher_reset</a>(<a class="code" href="a01177.html">pcl_cipher_t</a> *ciph, <span class="keyword">const</span> <span class="keywordtype">void</span> *iv, <span class="keyword">const</span> <span class="keywordtype">void</span> *aad, uint32_t aad_len)</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">bool</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01097.html#gaf700e3bca6f3926a52d44950ec37373a">   36</a></span>&#160;<a class="code" href="a01097.html#gaf700e3bca6f3926a52d44950ec37373a">pcl_cipher_isaead</a>(<a class="code" href="a01183.html">pcl_cipher_t</a> *ciph)</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">if</span>(!ciph || !iv)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01095.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a>();</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">if</span>(!memcmp(EVP_CIPHER_CTX_original_iv(ciph-&gt;<a class="code" href="a01177.html#a8b0e08a9c8eb05578c35571f2f2767ab">ctx</a>), iv, EVP_CIPHER_CTX_iv_length(ciph-&gt;<a class="code" href="a01177.html#a8b0e08a9c8eb05578c35571f2f2767ab">ctx</a>)))</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01095.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a>(<a class="code" href="a01094.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>, <span class="stringliteral">&quot;attempt to reset %s cipher with same IV&quot;</span>, ciph-&gt;<a class="code" href="a01177.html#a47b93ea34665686e1ff9a7256106f85e">algo</a>);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="comment">/* The IV should always be changed between cycles! We enforce this. However, the key should</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment">   * never be changed for a single pcl_cipher_t instance. The whole goal is to maintain the</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment">   * key for a series of operations that requires the same key: a set of files, set of network</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment">   * packets, etc. We do not allow changing the &#39;enc&#39; value, thus the -1.</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment">   */</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="keywordflow">if</span>(EVP_CipherInit_ex(ciph-&gt;<a class="code" href="a01177.html#a8b0e08a9c8eb05578c35571f2f2767ab">ctx</a>, NULL, NULL, NULL, iv, -1) == 0)</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01095.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a>(<a class="code" href="a01094.html#gaff9e807ddf8cadf26cd1c7218f8f24d6">PCL_ECRYPT</a>, <span class="stringliteral">&quot;Failed to reset %s context&quot;</span>, ciph-&gt;<a class="code" href="a01177.html#a47b93ea34665686e1ff9a7256106f85e">algo</a>);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="keywordflow">if</span>(aad &amp;&amp; aad_len &amp;&amp; <a class="code" href="a01091.html#gaf700e3bca6f3926a52d44950ec37373a">pcl_cipher_isaead</a>(ciph))</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  {</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">int</span> n;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">if</span>(EVP_CipherUpdate(ciph-&gt;<a class="code" href="a01177.html#a8b0e08a9c8eb05578c35571f2f2767ab">ctx</a>, NULL, &amp;n, (<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> *) aad, (<span class="keywordtype">int</span>) aad_len) == 0)</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01095.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a>(<a class="code" href="a01094.html#gaff9e807ddf8cadf26cd1c7218f8f24d6">PCL_ECRYPT</a>, <span class="stringliteral">&quot;Failed to set AAD: %s&quot;</span>, ciph-&gt;<a class="code" href="a01177.html#a47b93ea34665686e1ff9a7256106f85e">algo</a>);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  }</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;}</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">return</span> ciph &amp;&amp; <a class="code" href="a01108.html#ga418e36a6f95e23978919f855c1ee3e03">pcl_stristr</a>(ciph-&gt;<a class="code" href="a01183.html#a47b93ea34665686e1ff9a7256106f85e">algo</a>, <span class="stringliteral">&quot;-cbc&quot;</span>) == NULL;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00203_html"><div class="ttname"><a href="a00203.html">_crypto.h</a></div></div>
-<div class="ttc" id="aa01091_html_ga387a5dd9e9b0775c42df02014f43a24a"><div class="ttname"><a href="a01091.html#ga387a5dd9e9b0775c42df02014f43a24a">pcl_cipher_reset</a></div><div class="ttdeci">int pcl_cipher_reset(pcl_cipher_t *ciph, const void *iv, const void *aad, uint32_t aad_len)</div><div class="ttdoc">Reset a cipher so it can be reused.</div><div class="ttdef"><b>Definition:</b> <a href="a00221_source.html#l00036">cipher_reset.c:36</a></div></div>
-<div class="ttc" id="aa01095_html_gab052d4faa8fd25e1a13e86ecd4aafa38"><div class="ttname"><a href="a01095.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a></div><div class="ttdeci">#define BADARG()</div><div class="ttdef"><b>Definition:</b> <a href="a00005_source.html#l00306">_errdefs.h:306</a></div></div>
-<div class="ttc" id="aa01094_html_gae0cd5c5a7fae36cd480176bda17e77ca"><div class="ttname"><a href="a01094.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a></div><div class="ttdeci">#define PCL_EINVAL</div><div class="ttdoc">Invalid argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00008_source.html#l00078">_errno.h:78</a></div></div>
-<div class="ttc" id="aa01177_html_a8b0e08a9c8eb05578c35571f2f2767ab"><div class="ttname"><a href="a01177.html#a8b0e08a9c8eb05578c35571f2f2767ab">tag_pcl_cipher::ctx</a></div><div class="ttdeci">EVP_CIPHER_CTX * ctx</div><div class="ttdef"><b>Definition:</b> <a href="a00203_source.html#l00046">_crypto.h:46</a></div></div>
-<div class="ttc" id="aa01095_html_ga7859a0a1a544c581d53bd7d44ab6805d"><div class="ttname"><a href="a01095.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a></div><div class="ttdeci">#define SETERRMSG(_pclerr, _msgfmt,...)</div><div class="ttdoc">Sets the current thread's PCL error code and error message.</div><div class="ttdef"><b>Definition:</b> <a href="a00005_source.html#l00087">_errdefs.h:87</a></div></div>
-<div class="ttc" id="aa00077_html"><div class="ttname"><a href="a00077.html">string.h</a></div></div>
-<div class="ttc" id="aa01091_html_gaf700e3bca6f3926a52d44950ec37373a"><div class="ttname"><a href="a01091.html#gaf700e3bca6f3926a52d44950ec37373a">pcl_cipher_isaead</a></div><div class="ttdeci">PCL_EXPORT bool pcl_cipher_isaead(pcl_cipher_t *ciph)</div><div class="ttdoc">I this an AEAD cipher.</div><div class="ttdef"><b>Definition:</b> <a href="a00215_source.html#l00036">cipher_isaead.c:36</a></div></div>
-<div class="ttc" id="aa01177_html_a47b93ea34665686e1ff9a7256106f85e"><div class="ttname"><a href="a01177.html#a47b93ea34665686e1ff9a7256106f85e">tag_pcl_cipher::algo</a></div><div class="ttdeci">const char * algo</div><div class="ttdef"><b>Definition:</b> <a href="a00203_source.html#l00047">_crypto.h:47</a></div></div>
-<div class="ttc" id="aa01177_html"><div class="ttname"><a href="a01177.html">tag_pcl_cipher</a></div><div class="ttdef"><b>Definition:</b> <a href="a00203_source.html#l00044">_crypto.h:45</a></div></div>
-<div class="ttc" id="aa01094_html_gaff9e807ddf8cadf26cd1c7218f8f24d6"><div class="ttname"><a href="a01094.html#gaff9e807ddf8cadf26cd1c7218f8f24d6">PCL_ECRYPT</a></div><div class="ttdeci">#define PCL_ECRYPT</div><div class="ttdoc">Encryption or decryption failed.</div><div class="ttdef"><b>Definition:</b> <a href="a00008_source.html#l00156">_errno.h:156</a></div></div>
+<div class="ttc" id="aa01097_html_gaf700e3bca6f3926a52d44950ec37373a"><div class="ttname"><a href="a01097.html#gaf700e3bca6f3926a52d44950ec37373a">pcl_cipher_isaead</a></div><div class="ttdeci">bool pcl_cipher_isaead(pcl_cipher_t *ciph)</div><div class="ttdoc">I this an AEAD cipher.</div><div class="ttdef"><b>Definition:</b> <a href="a00221_source.html#l00036">cipher_isaead.c:36</a></div></div>
+<div class="ttc" id="aa01183_html_a47b93ea34665686e1ff9a7256106f85e"><div class="ttname"><a href="a01183.html#a47b93ea34665686e1ff9a7256106f85e">tag_pcl_cipher::algo</a></div><div class="ttdeci">const char * algo</div><div class="ttdef"><b>Definition:</b> <a href="a00209_source.html#l00047">_crypto.h:47</a></div></div>
+<div class="ttc" id="aa00209_html"><div class="ttname"><a href="a00209.html">_crypto.h</a></div></div>
+<div class="ttc" id="aa01108_html_ga418e36a6f95e23978919f855c1ee3e03"><div class="ttname"><a href="a01108.html#ga418e36a6f95e23978919f855c1ee3e03">pcl_stristr</a></div><div class="ttdeci">char * pcl_stristr(const char *haystack, const char *needle)</div><div class="ttdoc">Locate a substring ignoring case.</div></div>
+<div class="ttc" id="aa00083_html"><div class="ttname"><a href="a00083.html">string.h</a></div></div>
+<div class="ttc" id="aa01183_html"><div class="ttname"><a href="a01183.html">tag_pcl_cipher</a></div><div class="ttdef"><b>Definition:</b> <a href="a00209_source.html#l00044">_crypto.h:45</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

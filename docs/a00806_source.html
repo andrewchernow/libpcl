@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/stat/strmode.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/stat/statent.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">strmode.c</div>  </div>
+<div class="title">statent.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00806.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,88 +101,56 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00074.html">pcl/stat.h</a>&gt;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">char</span> *</div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a00806.html#a553906969d7b44124534b84a3ee95720">   35</a></span>&#160;<a class="code" href="a00806.html#a553906969d7b44124534b84a3ee95720">pcl_strmode</a>(<span class="keywordtype">char</span> *out, <span class="keywordtype">size_t</span> out_size, mode_t mode)</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordtype">char</span> *out_save = out;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordflow">if</span>(out)</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    *out = 0;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordflow">if</span>(out &amp;&amp; out_size &gt;= 11)</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">switch</span>(mode &amp; <a class="code" href="a00074.html#ab5bee51e9ee68b83ab11d4b340f7200b">S_IFMT</a>)</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    {</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;      <span class="keywordflow">case</span> <a class="code" href="a00074.html#a11fb0652b963a735f3377eb1c9239f2d">S_IFDIR</a>:  *out++ = <span class="charliteral">&#39;d&#39;</span>; <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      <span class="keywordflow">case</span> <a class="code" href="a00074.html#a1aaa48b192a5dd3b6d7ee91fc98cd17d">S_IFREG</a>:  *out++ = <span class="charliteral">&#39;-&#39;</span>; <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;      <span class="keywordflow">case</span> <a class="code" href="a00074.html#afef163ce62372757e84bd9fc88c07aad">S_IFLNK</a>:  *out++ = <span class="charliteral">&#39;l&#39;</span>; <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;      <span class="keywordflow">case</span> <a class="code" href="a00074.html#a5c5b74a1cb1a1ae83572500b94e1938f">S_IFBLK</a>:  *out++ = <span class="charliteral">&#39;b&#39;</span>; <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      <span class="keywordflow">case</span> <a class="code" href="a00074.html#aef3a1d1ba22c83e30b5c834dd343b2a8">S_IFCHR</a>:  *out++ = <span class="charliteral">&#39;c&#39;</span>; <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      <span class="keywordflow">case</span> <a class="code" href="a00074.html#a4966f25d9f03a7a06bc47ac729fd86cf">S_IFIFO</a>:  *out++ = <span class="charliteral">&#39;p&#39;</span>; <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;      <span class="keywordflow">case</span> <a class="code" href="a00074.html#a28e80cd43106882904be148b2a397d42">S_IFSOCK</a>: *out++ = <span class="charliteral">&#39;s&#39;</span>; <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      <span class="keywordflow">default</span>:       *out++ = <span class="charliteral">&#39;?&#39;</span>; <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    }</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00803.html">_stat.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00050.html">pcl/file.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00041.html">pcl/error.h</a>&gt;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00017.html">pcl/alloc.h</a>&gt;</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00083.html">pcl/string.h</a>&gt;</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="a00806.html#acd7f080661e895e217e22ab67e9d0f77">   39</a></span>&#160;<a class="code" href="a00806.html#acd7f080661e895e217e22ab67e9d0f77">pcl_statent</a>(<span class="keyword">const</span> <a class="code" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *path, <span class="keywordtype">int</span> fd, <a class="code" href="a01159.html">pcl_stat_t</a> *buf, <span class="keywordtype">int</span> flags)</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <a class="code" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *fdpath = NULL;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a00029.html#a8278668d120afdd0e47def881845559d">strempty</a>(path) &amp;&amp; fd &lt; 0)</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01101.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a>();</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordflow">if</span>(buf)</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  {</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    memset(buf, 0, <span class="keyword">sizeof</span>(*buf));</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="comment">/* only get path when buf is provided and path is empty. If path empty, fd IS valid */</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordflow">if</span>(<a class="code" href="a00029.html#a8278668d120afdd0e47def881845559d">strempty</a>(path))</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      <span class="keywordflow">if</span>(<a class="code" href="a00050.html#a058caf8233ba7e33db5fc24686049220">pcl_fdpath</a>(fd, &amp;fdpath) &lt; 0)</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="a01101.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a>();</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="comment">/* owner */</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    *out++ = mode &amp; <a class="code" href="a00074.html#a84c7dbf5cf2fdfb690f76348b60a8cb7">S_IRUSR</a> ? <span class="charliteral">&#39;r&#39;</span> : <span class="charliteral">&#39;-&#39;</span>;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    *out++ = mode &amp; <a class="code" href="a00074.html#ad70001754261c15a1bdc8e876c6d09d7">S_IWUSR</a> ? <span class="charliteral">&#39;w&#39;</span> : <span class="charliteral">&#39;-&#39;</span>;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      path = fdpath;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    }</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  }</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="comment">/* setuid */</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">if</span>(mode &amp; <a class="code" href="a00074.html#a30384a8cd2feb1615efd5eadc243684b">S_ISUID</a>)</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      *out++ = mode &amp; <a class="code" href="a00074.html#af10a35e3950795d6ee4e07157d000131">S_IXUSR</a>  ? <span class="charliteral">&#39;s&#39;</span> : <span class="charliteral">&#39;S&#39;</span>;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;      *out++ = mode &amp; <a class="code" href="a00074.html#af10a35e3950795d6ee4e07157d000131">S_IXUSR</a> ? <span class="charliteral">&#39;x&#39;</span> : <span class="charliteral">&#39;-&#39;</span>;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="comment">/* group */</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    *out++ = mode &amp; <a class="code" href="a00074.html#a4f5f280b929768113739fb34d6f7be8a">S_IRGRP</a> ? <span class="charliteral">&#39;r&#39;</span> : <span class="charliteral">&#39;-&#39;</span>;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    *out++ = mode &amp; <a class="code" href="a00074.html#ae6774871a90d9442f00abe18b87fee6e">S_IWGRP</a> ? <span class="charliteral">&#39;w&#39;</span> : <span class="charliteral">&#39;-&#39;</span>;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="comment">/* setgid */</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordflow">if</span>(mode &amp; <a class="code" href="a00074.html#a9c9e4cc0a8acc43c99ae6c3d972ae2d8">S_ISGID</a>)</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      *out++ = mode &amp; <a class="code" href="a00074.html#a042e69ac0e7dd56e5cfcd9e97d010323">S_IXGRP</a>  ? <span class="charliteral">&#39;s&#39;</span> : <span class="charliteral">&#39;S&#39;</span>;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      *out++ = mode &amp; <a class="code" href="a00074.html#a042e69ac0e7dd56e5cfcd9e97d010323">S_IXGRP</a> ? <span class="charliteral">&#39;x&#39;</span> : <span class="charliteral">&#39;-&#39;</span>;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="comment">/* other */</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    *out++ = mode &amp; <a class="code" href="a00074.html#a071147a0cb995036967c80f64b1f74b9">S_IROTH</a> ? <span class="charliteral">&#39;r&#39;</span> : <span class="charliteral">&#39;-&#39;</span>;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    *out++ = mode &amp; <a class="code" href="a00074.html#a5303f49f26293acdb9533756c78322fb">S_IWOTH</a> ? <span class="charliteral">&#39;w&#39;</span> : <span class="charliteral">&#39;-&#39;</span>;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="comment">/* sticky bit */</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordflow">if</span>(mode &amp; <a class="code" href="a00074.html#a97b5e445a72c99b37dc5b8d620fbd14e">S_ISVTX</a>)</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;      *out++ = mode &amp; <a class="code" href="a00074.html#af10a35e3950795d6ee4e07157d000131">S_IXUSR</a> ? <span class="charliteral">&#39;t&#39;</span> : <span class="charliteral">&#39;T&#39;</span>;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;      *out++ = mode &amp; <a class="code" href="a00074.html#a40223db1b95a04f5b28cceb3c34cfebd">S_IXOTH</a> ? <span class="charliteral">&#39;x&#39;</span> : <span class="charliteral">&#39;-&#39;</span>;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    *out = 0;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  }</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  <span class="keywordflow">return</span> out_save;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;}</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  <span class="keywordtype">int</span> r = <a class="code" href="a00803.html#a880dfe976d60a9b856c5b60ac8f49020">ipcl_statent</a>(path, fd, buf, flags);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  <span class="keywordflow">if</span>(path == fdpath)</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <a class="code" href="a01094.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe</a>(fdpath);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  <span class="keywordflow">return</span> r ? <a class="code" href="a01101.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a>() : 0;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00074_html_afef163ce62372757e84bd9fc88c07aad"><div class="ttname"><a href="a00074.html#afef163ce62372757e84bd9fc88c07aad">S_IFLNK</a></div><div class="ttdeci">#define S_IFLNK</div><div class="ttdef"><b>Definition:</b> <a href="a00074_source.html#l00077">stat.h:77</a></div></div>
-<div class="ttc" id="aa00074_html_a071147a0cb995036967c80f64b1f74b9"><div class="ttname"><a href="a00074.html#a071147a0cb995036967c80f64b1f74b9">S_IROTH</a></div><div class="ttdeci">#define S_IROTH</div><div class="ttdef"><b>Definition:</b> <a href="a00074_source.html#l00138">stat.h:138</a></div></div>
-<div class="ttc" id="aa00074_html"><div class="ttname"><a href="a00074.html">stat.h</a></div></div>
-<div class="ttc" id="aa00074_html_a30384a8cd2feb1615efd5eadc243684b"><div class="ttname"><a href="a00074.html#a30384a8cd2feb1615efd5eadc243684b">S_ISUID</a></div><div class="ttdeci">#define S_ISUID</div><div class="ttdef"><b>Definition:</b> <a href="a00074_source.html#l00102">stat.h:102</a></div></div>
-<div class="ttc" id="aa00074_html_af10a35e3950795d6ee4e07157d000131"><div class="ttname"><a href="a00074.html#af10a35e3950795d6ee4e07157d000131">S_IXUSR</a></div><div class="ttdeci">#define S_IXUSR</div><div class="ttdef"><b>Definition:</b> <a href="a00074_source.html#l00120">stat.h:120</a></div></div>
-<div class="ttc" id="aa00074_html_a9c9e4cc0a8acc43c99ae6c3d972ae2d8"><div class="ttname"><a href="a00074.html#a9c9e4cc0a8acc43c99ae6c3d972ae2d8">S_ISGID</a></div><div class="ttdeci">#define S_ISGID</div><div class="ttdef"><b>Definition:</b> <a href="a00074_source.html#l00105">stat.h:105</a></div></div>
-<div class="ttc" id="aa00074_html_a84c7dbf5cf2fdfb690f76348b60a8cb7"><div class="ttname"><a href="a00074.html#a84c7dbf5cf2fdfb690f76348b60a8cb7">S_IRUSR</a></div><div class="ttdeci">#define S_IRUSR</div><div class="ttdef"><b>Definition:</b> <a href="a00074_source.html#l00114">stat.h:114</a></div></div>
-<div class="ttc" id="aa00074_html_a28e80cd43106882904be148b2a397d42"><div class="ttname"><a href="a00074.html#a28e80cd43106882904be148b2a397d42">S_IFSOCK</a></div><div class="ttdeci">#define S_IFSOCK</div><div class="ttdef"><b>Definition:</b> <a href="a00074_source.html#l00074">stat.h:74</a></div></div>
-<div class="ttc" id="aa00074_html_a97b5e445a72c99b37dc5b8d620fbd14e"><div class="ttname"><a href="a00074.html#a97b5e445a72c99b37dc5b8d620fbd14e">S_ISVTX</a></div><div class="ttdeci">#define S_ISVTX</div><div class="ttdef"><b>Definition:</b> <a href="a00074_source.html#l00108">stat.h:108</a></div></div>
-<div class="ttc" id="aa00074_html_a5303f49f26293acdb9533756c78322fb"><div class="ttname"><a href="a00074.html#a5303f49f26293acdb9533756c78322fb">S_IWOTH</a></div><div class="ttdeci">#define S_IWOTH</div><div class="ttdef"><b>Definition:</b> <a href="a00074_source.html#l00141">stat.h:141</a></div></div>
-<div class="ttc" id="aa00074_html_a40223db1b95a04f5b28cceb3c34cfebd"><div class="ttname"><a href="a00074.html#a40223db1b95a04f5b28cceb3c34cfebd">S_IXOTH</a></div><div class="ttdeci">#define S_IXOTH</div><div class="ttdef"><b>Definition:</b> <a href="a00074_source.html#l00144">stat.h:144</a></div></div>
-<div class="ttc" id="aa00074_html_ae6774871a90d9442f00abe18b87fee6e"><div class="ttname"><a href="a00074.html#ae6774871a90d9442f00abe18b87fee6e">S_IWGRP</a></div><div class="ttdeci">#define S_IWGRP</div><div class="ttdef"><b>Definition:</b> <a href="a00074_source.html#l00129">stat.h:129</a></div></div>
-<div class="ttc" id="aa00074_html_a1aaa48b192a5dd3b6d7ee91fc98cd17d"><div class="ttname"><a href="a00074.html#a1aaa48b192a5dd3b6d7ee91fc98cd17d">S_IFREG</a></div><div class="ttdeci">#define S_IFREG</div><div class="ttdef"><b>Definition:</b> <a href="a00074_source.html#l00080">stat.h:80</a></div></div>
-<div class="ttc" id="aa00806_html_a553906969d7b44124534b84a3ee95720"><div class="ttname"><a href="a00806.html#a553906969d7b44124534b84a3ee95720">pcl_strmode</a></div><div class="ttdeci">char * pcl_strmode(char *out, size_t out_size, mode_t mode)</div><div class="ttdef"><b>Definition:</b> <a href="a00806_source.html#l00035">strmode.c:35</a></div></div>
-<div class="ttc" id="aa00074_html_a042e69ac0e7dd56e5cfcd9e97d010323"><div class="ttname"><a href="a00074.html#a042e69ac0e7dd56e5cfcd9e97d010323">S_IXGRP</a></div><div class="ttdeci">#define S_IXGRP</div><div class="ttdef"><b>Definition:</b> <a href="a00074_source.html#l00132">stat.h:132</a></div></div>
-<div class="ttc" id="aa00074_html_aef3a1d1ba22c83e30b5c834dd343b2a8"><div class="ttname"><a href="a00074.html#aef3a1d1ba22c83e30b5c834dd343b2a8">S_IFCHR</a></div><div class="ttdeci">#define S_IFCHR</div><div class="ttdef"><b>Definition:</b> <a href="a00074_source.html#l00089">stat.h:89</a></div></div>
-<div class="ttc" id="aa00074_html_a4f5f280b929768113739fb34d6f7be8a"><div class="ttname"><a href="a00074.html#a4f5f280b929768113739fb34d6f7be8a">S_IRGRP</a></div><div class="ttdeci">#define S_IRGRP</div><div class="ttdef"><b>Definition:</b> <a href="a00074_source.html#l00126">stat.h:126</a></div></div>
-<div class="ttc" id="aa00074_html_a4966f25d9f03a7a06bc47ac729fd86cf"><div class="ttname"><a href="a00074.html#a4966f25d9f03a7a06bc47ac729fd86cf">S_IFIFO</a></div><div class="ttdeci">#define S_IFIFO</div><div class="ttdef"><b>Definition:</b> <a href="a00074_source.html#l00092">stat.h:92</a></div></div>
-<div class="ttc" id="aa00074_html_a11fb0652b963a735f3377eb1c9239f2d"><div class="ttname"><a href="a00074.html#a11fb0652b963a735f3377eb1c9239f2d">S_IFDIR</a></div><div class="ttdeci">#define S_IFDIR</div><div class="ttdef"><b>Definition:</b> <a href="a00074_source.html#l00086">stat.h:86</a></div></div>
-<div class="ttc" id="aa00074_html_ab5bee51e9ee68b83ab11d4b340f7200b"><div class="ttname"><a href="a00074.html#ab5bee51e9ee68b83ab11d4b340f7200b">S_IFMT</a></div><div class="ttdeci">#define S_IFMT</div><div class="ttdef"><b>Definition:</b> <a href="a00074_source.html#l00071">stat.h:71</a></div></div>
-<div class="ttc" id="aa00074_html_a5c5b74a1cb1a1ae83572500b94e1938f"><div class="ttname"><a href="a00074.html#a5c5b74a1cb1a1ae83572500b94e1938f">S_IFBLK</a></div><div class="ttdeci">#define S_IFBLK</div><div class="ttdef"><b>Definition:</b> <a href="a00074_source.html#l00083">stat.h:83</a></div></div>
-<div class="ttc" id="aa00074_html_ad70001754261c15a1bdc8e876c6d09d7"><div class="ttname"><a href="a00074.html#ad70001754261c15a1bdc8e876c6d09d7">S_IWUSR</a></div><div class="ttdeci">#define S_IWUSR</div><div class="ttdef"><b>Definition:</b> <a href="a00074_source.html#l00117">stat.h:117</a></div></div>
+<div class="ttc" id="aa00098_html_ac114b2b1527c8ae241d37cc15ca7d122"><div class="ttname"><a href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a></div><div class="ttdeci">char pchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00098_source.html#l00053">types.h:53</a></div></div>
+<div class="ttc" id="aa00803_html"><div class="ttname"><a href="a00803.html">_stat.h</a></div></div>
+<div class="ttc" id="aa01094_html_ga2de1e7abd61febca9d319940c5c2bd1b"><div class="ttname"><a href="a01094.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe</a></div><div class="ttdeci">void * pcl_free_safe(void *p)</div><div class="ttdoc">Safely free memory space.</div></div>
+<div class="ttc" id="aa01101_html_gab052d4faa8fd25e1a13e86ecd4aafa38"><div class="ttname"><a href="a01101.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a></div><div class="ttdeci">#define BADARG()</div><div class="ttdef"><b>Definition:</b> <a href="a00011_source.html#l00306">_errdefs.h:306</a></div></div>
+<div class="ttc" id="aa00029_html_a8278668d120afdd0e47def881845559d"><div class="ttname"><a href="a00029.html#a8278668d120afdd0e47def881845559d">strempty</a></div><div class="ttdeci">#define strempty(str)</div><div class="ttdef"><b>Definition:</b> <a href="a00029_source.html#l00124">defs.h:124</a></div></div>
+<div class="ttc" id="aa00017_html"><div class="ttname"><a href="a00017.html">alloc.h</a></div></div>
+<div class="ttc" id="aa00806_html_acd7f080661e895e217e22ab67e9d0f77"><div class="ttname"><a href="a00806.html#acd7f080661e895e217e22ab67e9d0f77">pcl_statent</a></div><div class="ttdeci">int pcl_statent(const pchar_t *path, int fd, pcl_stat_t *buf, int flags)</div><div class="ttdoc">Get file or directory status.</div><div class="ttdef"><b>Definition:</b> <a href="a00806_source.html#l00039">statent.c:39</a></div></div>
+<div class="ttc" id="aa00803_html_a880dfe976d60a9b856c5b60ac8f49020"><div class="ttname"><a href="a00803.html#a880dfe976d60a9b856c5b60ac8f49020">ipcl_statent</a></div><div class="ttdeci">int ipcl_statent(const pchar_t *path, int fd, pcl_stat_t *buf, int flags)</div><div class="ttdef"><b>Definition:</b> <a href="a00815_source.html#l00087">unix_statent.c:87</a></div></div>
+<div class="ttc" id="aa01159_html"><div class="ttname"><a href="a01159.html">tag_pcl_stat</a></div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00221">stat.h:222</a></div></div>
+<div class="ttc" id="aa00083_html"><div class="ttname"><a href="a00083.html">string.h</a></div></div>
+<div class="ttc" id="aa00050_html"><div class="ttname"><a href="a00050.html">file.h</a></div></div>
+<div class="ttc" id="aa00041_html"><div class="ttname"><a href="a00041.html">error.h</a></div></div>
+<div class="ttc" id="aa00050_html_a058caf8233ba7e33db5fc24686049220"><div class="ttname"><a href="a00050.html#a058caf8233ba7e33db5fc24686049220">pcl_fdpath</a></div><div class="ttdeci">PCL_EXPORT int pcl_fdpath(int fd, pchar_t **out)</div><div class="ttdef"><b>Definition:</b> <a href="a00434_source.html#l00051">fdpath.c:51</a></div></div>
+<div class="ttc" id="aa01101_html_ga9ad3ef2339f58a873bc7bace5ad9c9df"><div class="ttname"><a href="a01101.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a></div><div class="ttdeci">#define TRC()</div><div class="ttdoc">Adds a stack trace to the current thread's error context.</div><div class="ttdef"><b>Definition:</b> <a href="a00011_source.html#l00262">_errdefs.h:262</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>
