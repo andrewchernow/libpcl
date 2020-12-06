@@ -3,7 +3,8 @@ This is the Portable C Library (PCL) API documentation. PCL is broken up into ma
 modules, where each module's interface is within a header file. The best way to go through
 this documentation, is to explore the API on a module level.
 
-You can navigate to each module by clicking on the "Modules" tab.
+The best place to start is the "Related Pages" tab. Then navigate to each module by clicking 
+on the "Modules" tab.
 
 The Portable C Library (PCL) is a library of cross-platform C code which has been tested on the
 following platforms:
