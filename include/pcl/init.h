@@ -45,7 +45,7 @@
  * #include <pcl/io.h>
  * #include <stdlib.h>
  *
- * int pcl_tmain(int argc, pchar_t **argv)
+ * int pcl_main(int argc, pchar_t **argv)
  * {
  *   // always call first
  *   pcl_init();
@@ -110,9 +110,9 @@
 #include <pcl/types.h>
 
 #ifdef PCL_WINDOWS
-#	define pcl_tmain wmain
+#	define pcl_main wmain
 #else
-#	define pcl_tmain main
+#	define pcl_main main
 #endif
 
 #ifdef __cplusplus

@@ -35,7 +35,7 @@
 #include <pcl/io.h>
 #include <stdlib.h>
 
-int pcl_tmain(int argc, pchar_t **argv)
+int pcl_main(int argc, pchar_t **argv)
 {
 	pcl_init();
 

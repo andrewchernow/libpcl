@@ -42,7 +42,7 @@
  * #include <pcl/dir.h>
  * #include <pcl/io.h>
  *
- * int pcl_tmain(int argc, pchar_t *targv)
+ * int pcl_main(int argc, pchar_t *targv)
  * {
  *   // always first
  *   pcl_init();

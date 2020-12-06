@@ -37,7 +37,7 @@
 #include <pcl/alloc.h>
 #include <stdlib.h>
 
-int pcl_tmain(int argc, pchar_t **argv)
+int pcl_main(int argc, pchar_t **argv)
 {
 	pchar_t *file = argc > 1 ? argv[1] : NULL;
 

@@ -35,7 +35,7 @@
 #include <pcl/init.h>
 #include <stdlib.h>
 
-int pcl_tmain(int argc, pchar_t **argv)
+int pcl_main(int argc, pchar_t **argv)
 {
 	pcl_proc_exec_t exec = {0};
 
