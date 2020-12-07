@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;pcl/stat.h Source File</title>
+<title>&#x202A;libpcl: &#x202A;pcl/ssl.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,10 +67,10 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">stat.h</div>  </div>
+<div class="title">ssl.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="a00080.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno"><a class="line" href="a00080.html#a3e63d27ae45ef4a22249859bda12bade">    1</a></span>&#160; </div>
+<a href="a00080.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">/*</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
@@ -102,275 +102,172 @@ $(function() {
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#ifndef LIBPCL_STAT_H</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#define LIBPCL_STAT_H</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#ifndef LIBPCL_SSL_H</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#define LIBPCL_SSL_H</span></div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00095.html">pcl/time.h</a>&gt;</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &lt;sys/stat.h&gt;</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00101.html">pcl/types.h</a>&gt;</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &lt;openssl/ossl_typ.h&gt;</span> <span class="comment">// X509 structure</span></div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">  #define sys_stat _wstat64</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">  #define sys_fstat _fstat64</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">  #define sys_lstat sys_stat</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keyword">typedef</span> <span class="keyword">struct </span>__stat64 <a class="code" href="a00080.html#a3e63d27ae45ef4a22249859bda12bade">sys_stat_t</a>;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="a00080.html#a48c3927c0c326a742b2d0e3e08f70804">   45</a></span>&#160;<span class="preprocessor">  #define sys_stat stat</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="a00080.html#a248205de6785c45dbda1ab5127aebef8">   46</a></span>&#160;<span class="preprocessor">  #define sys_fstat fstat</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="a00080.html#acaa23d36f3ede22782b952de861a1cec">   47</a></span>&#160;<span class="preprocessor">  #define sys_lstat lstat</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keyword">typedef</span> <span class="keyword">struct </span>stat <a class="code" href="a00080.html#a3e63d27ae45ef4a22249859bda12bade">sys_stat_t</a>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment">/* flags for pcl_statent: ie. pcl_stat, pcl_lstat and pcl_fstat */</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="a00080.html#a580e3cd5ff34699b1f67c1d76b6f36d2">   52</a></span>&#160;<span class="preprocessor">#define PCL_STAT_LINK 0x01</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment">/* skip looking up entry owner: SIDs and ACLs. Very expensive on Windows and</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment"> * rarely needed after a stat call. This is for WIN32 only, thus the name.</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="comment"> * No effect on non-Windows systems. The pcl_stat_t.mode will contain boiler</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment"> * plate permission bits. If you need precise perms, do not use this flag.</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="a00080.html#a62b4777a9d7302e69b61234019ecc59f">   59</a></span>&#160;<span class="preprocessor">#define PCL_STAT_SKIP_WIN32OWNER 0x10</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="a00080.html#a8d97e7e5e65e8140ef73bb21ff634500">   61</a></span>&#160;<span class="preprocessor">#define pcl_stat(path,stbuf)  pcl_statent(path, -1, stbuf, 0)</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="a00080.html#afbeac7130cab447ed8f36ae890d0d40f">   62</a></span>&#160;<span class="preprocessor">#define pcl_fstat(fd,stbuf)   pcl_statent(NULL, fd, stbuf, 0)</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="a00080.html#aebaa91ead88db4bc8a0f3002dc7cf97d">   63</a></span>&#160;<span class="preprocessor">#define pcl_lstat(path,stbuf) pcl_statent(path, -1, stbuf, PCL_STAT_LINK)</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment">/* ---------------------------------------------------------------------------</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment"> * file type bits</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="preprocessor">#ifndef S_IFMT</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="a00080.html#ab5bee51e9ee68b83ab11d4b340f7200b">   71</a></span>&#160;<span class="preprocessor">  #define S_IFMT 0170000 </span><span class="comment">/* file type mask */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="preprocessor">#ifndef S_IFSOCK</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="a00080.html#a28e80cd43106882904be148b2a397d42">   74</a></span>&#160;<span class="preprocessor">  #define S_IFSOCK 0140000</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="preprocessor">#ifndef S_IFLNK</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="a00080.html#afef163ce62372757e84bd9fc88c07aad">   77</a></span>&#160;<span class="preprocessor">  #define S_IFLNK 0120000</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="preprocessor">#ifndef S_IFREG</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="a00080.html#a1aaa48b192a5dd3b6d7ee91fc98cd17d">   80</a></span>&#160;<span class="preprocessor">  #define S_IFREG 0100000</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor">#ifndef S_IFBLK</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="a00080.html#a5c5b74a1cb1a1ae83572500b94e1938f">   83</a></span>&#160;<span class="preprocessor">  #define S_IFBLK 0060000</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="preprocessor">#ifndef S_IFDIR</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="a00080.html#a11fb0652b963a735f3377eb1c9239f2d">   86</a></span>&#160;<span class="preprocessor">  #define S_IFDIR 0040000</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="preprocessor">#ifndef S_IFCHR</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="a00080.html#aef3a1d1ba22c83e30b5c834dd343b2a8">   89</a></span>&#160;<span class="preprocessor">  #define S_IFCHR 0020000</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="preprocessor">#ifndef S_IFIFO</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno"><a class="line" href="a00080.html#a4966f25d9f03a7a06bc47ac729fd86cf">   92</a></span>&#160;<span class="preprocessor">  #define S_IFIFO 0010000</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="comment">/* ---------------------------------------------------------------------------</span></div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="comment"> * file mode bits, least significant 9 bits are permission bits</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="comment">/* default cipher suite, also only TLSv1.2+ proto versions are supported */</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="a00080.html#a213c7f8d10339ae6ba600c8b320f0d78">   40</a></span>&#160;<span class="preprocessor">#define PCL_SSL_DEFCIPHLIST &quot;ECDHE-ECDSA-AES256-GCM-SHA384:&quot; \</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">&quot;ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:&quot; \</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">&quot;ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:&quot; \</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">&quot;ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:&quot; \</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">&quot;ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256&quot;</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="a00080.html#a2da254b8f8bdbd4be927a7a51e1ae189">   46</a></span>&#160;<span class="preprocessor">#define PCL_SSL_WANTREAD  1  </span><span class="comment">/* connect &amp; handshake, wait for read() */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="a00080.html#ac40e63cd67aa780e135f0d5e12b2355f">   47</a></span>&#160;<span class="preprocessor">#define PCL_SSL_WANTWRITE 2  </span><span class="comment">/* connect &amp; handshake, wait for write() */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="a00080.html#a11dfb1daed272b37c90070f4ea6c6919">   49</a></span>&#160;<span class="preprocessor">#define PCL_SSL_SERVER       0x0010 </span><span class="comment">/* Server-side active-socket */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="a00080.html#aac1e8cec89765d61bb9a8ea4bc332782">   50</a></span>&#160;<span class="preprocessor">#define PCL_SSL_PASSIVE      0x0020 </span><span class="comment">/* passive-socket (server listener) */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="a00080.html#a5cdf22a9c0d2ee3e2ad3aa6b96b1182f">   51</a></span>&#160;<span class="preprocessor">#define PCL_SSL_VERIFY_PEER  0x0040 </span><span class="comment">/* internally set */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="a01158.html">   57</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;{</div>
+<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="a01158.html#a0204e0de511554dd02b5c6d7b28a4498">   59</a></span>&#160;  <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <a class="code" href="a01158.html#a0204e0de511554dd02b5c6d7b28a4498">code</a>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="a01158.html#a32d2f5216cddb59c7cc8fb2806a7e727">   60</a></span>&#160;  <span class="keywordtype">char</span> *<a class="code" href="a01158.html#a32d2f5216cddb59c7cc8fb2806a7e727">msg</a>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;} <a class="code" href="a01158.html">pcl_openssl_error_t</a>;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment">/* used by pcl_ssl_certentry() */</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="a00080.html#a04240d8271f7bdd40c55c5e3189bdb7a">   64</a></span>&#160;<span class="keyword">enum</span> <a class="code" href="a00080.html#a04240d8271f7bdd40c55c5e3189bdb7a">tag_ssl_cert</a></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;{</div>
+<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="a00080.html#a04240d8271f7bdd40c55c5e3189bdb7aa46e23c82fc1fd323ed29f44a88949cfe">   66</a></span>&#160;  <a class="code" href="a00080.html#a04240d8271f7bdd40c55c5e3189bdb7aa46e23c82fc1fd323ed29f44a88949cfe">PCL_SSL_CERT_COUNTRY_NAME</a>,</div>
+<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="a00080.html#a04240d8271f7bdd40c55c5e3189bdb7aa93306670bc8d020c480601b91f6dc5d7">   67</a></span>&#160;  <a class="code" href="a00080.html#a04240d8271f7bdd40c55c5e3189bdb7aa93306670bc8d020c480601b91f6dc5d7">PCL_SSL_CERT_LOCALITY_NAME</a>,</div>
+<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="a00080.html#a04240d8271f7bdd40c55c5e3189bdb7aaa44fb2ce2b5202daa84de162eadb17f9">   68</a></span>&#160;  <a class="code" href="a00080.html#a04240d8271f7bdd40c55c5e3189bdb7aaa44fb2ce2b5202daa84de162eadb17f9">PCL_SSL_CERT_STATE</a>,</div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="a00080.html#a04240d8271f7bdd40c55c5e3189bdb7aac6c4db9c9d6bd3bc5f38682382c5e537">   69</a></span>&#160;  <a class="code" href="a00080.html#a04240d8271f7bdd40c55c5e3189bdb7aac6c4db9c9d6bd3bc5f38682382c5e537">PCL_SSL_CERT_ORG_NAME</a>,</div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="a00080.html#a04240d8271f7bdd40c55c5e3189bdb7aa72dcbd910c3f0c281f96dd6f61ae64a8">   70</a></span>&#160;  <a class="code" href="a00080.html#a04240d8271f7bdd40c55c5e3189bdb7aa72dcbd910c3f0c281f96dd6f61ae64a8">PCL_SSL_CERT_ORG_UNIT</a>,     <span class="comment">/* OU */</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  <a class="code" href="a00080.html#a04240d8271f7bdd40c55c5e3189bdb7aaf4e3fd791b4942adbd528a7d3493e7b8">PCL_SSL_CERT_COMMON_NAME</a>   <span class="comment">/* CN */</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="a00080.html#a04240d8271f7bdd40c55c5e3189bdb7aaf4e3fd791b4942adbd528a7d3493e7b8">   72</a></span>&#160;};</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="comment">/* If PCL_SSL_PASSIVE is set, &quot;...&quot; expects two additional arguments:</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="comment"> *   const char *listen_host, int listen_port</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment"> * Note: use PCL_SOCK_NONBLOCK from socket API within flags for nonblocking.</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;PCL_EXPORT <a class="code" href="a01222.html">pcl_ssl_t</a> *<a class="code" href="a00080.html#ad34e1af825bf028ccfe0b7b89e488795">pcl_ssl_create</a>(<span class="keywordtype">int</span> flags, ...);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="comment">/* Connects to the server&#39;s host and port.  If want_io is provided,</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="comment"> * it will point to PCL_SSL_WANTREAD or PCL_SSL_WANTWRITE when the SSL socket</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="comment"> * is non-blocking and the operation would block if continued.</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00080.html#a962e47857f17feb82b0146d2f33fa562">pcl_ssl_connect</a>(<a class="code" href="a01222.html">pcl_ssl_t</a> *ssl, <span class="keyword">const</span> <span class="keywordtype">char</span> *host, <span class="keywordtype">int</span> port, <span class="keywordtype">int</span> *want_io);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;PCL_EXPORT <a class="code" href="a01222.html">pcl_ssl_t</a> *<a class="code" href="a00080.html#a50ccb1b720aa3613d8150f0748ed7f55">pcl_ssl_accept</a>(<a class="code" href="a01222.html">pcl_ssl_t</a> *server);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="comment">/* Performs the SSL handshake with a client.  If want_io is provided,</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="comment"> * it will point to PCL_SSL_WANTREAD or PCL_SSL_WANTWRITE when the SSL socket</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="comment"> * is non-blocking and the operation would block if continued.</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00080.html#a8b03fe5d686dab499be4240a4cafcdee">pcl_ssl_handshake</a>(<a class="code" href="a01222.html">pcl_ssl_t</a> *ssl, <span class="keywordtype">int</span> *want_io);</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="comment">/* Returns the number of bytes actually received.  On error,</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="comment"> * PCL_EAGAIN is returned for non-blocking sockets that could not</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="comment"> * make any progress.</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00080.html#ad93c04c6d78b80a5652a89b486beab87">pcl_ssl_recv</a>(<a class="code" href="a01222.html">pcl_ssl_t</a> *ssl, <span class="keywordtype">void</span> *buf, <span class="keywordtype">size_t</span> len);</div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
-<div class="line"><a name="l00100"></a><span class="lineno"><a class="line" href="a00080.html#af79897361fe6d7685a256d60ee190a70">  100</a></span>&#160;<span class="preprocessor">#define S_IFMOD   07777  </span><span class="comment">/* mode bits: mask for file type &amp; perms, pcl extension */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="preprocessor">#ifndef S_ISUID</span></div>
-<div class="line"><a name="l00102"></a><span class="lineno"><a class="line" href="a00080.html#a30384a8cd2feb1615efd5eadc243684b">  102</a></span>&#160;<span class="preprocessor">  #define S_ISUID 04000  </span><span class="comment">/* set-uid bit */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="preprocessor">#ifndef S_ISGID</span></div>
-<div class="line"><a name="l00105"></a><span class="lineno"><a class="line" href="a00080.html#a9c9e4cc0a8acc43c99ae6c3d972ae2d8">  105</a></span>&#160;<span class="preprocessor">  #define S_ISGID 02000  </span><span class="comment">/* set-gid bit */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="preprocessor">#ifndef S_ISVTX</span></div>
-<div class="line"><a name="l00108"></a><span class="lineno"><a class="line" href="a00080.html#a97b5e445a72c99b37dc5b8d620fbd14e">  108</a></span>&#160;<span class="preprocessor">  #define S_ISVTX 01000  </span><span class="comment">/* sticky bit */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="preprocessor">#ifndef S_IRWXU</span></div>
-<div class="line"><a name="l00111"></a><span class="lineno"><a class="line" href="a00080.html#afe3da42e762f6362c93454682fad5eb5">  111</a></span>&#160;<span class="preprocessor">  #define S_IRWXU 00700</span></div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="preprocessor">#ifndef S_IRUSR</span></div>
-<div class="line"><a name="l00114"></a><span class="lineno"><a class="line" href="a00080.html#a84c7dbf5cf2fdfb690f76348b60a8cb7">  114</a></span>&#160;<span class="preprocessor">  #define S_IRUSR 00400</span></div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="preprocessor">#ifndef S_IWUSR</span></div>
-<div class="line"><a name="l00117"></a><span class="lineno"><a class="line" href="a00080.html#ad70001754261c15a1bdc8e876c6d09d7">  117</a></span>&#160;<span class="preprocessor">  #define S_IWUSR 00200</span></div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="preprocessor">#ifndef S_IXUSR</span></div>
-<div class="line"><a name="l00120"></a><span class="lineno"><a class="line" href="a00080.html#af10a35e3950795d6ee4e07157d000131">  120</a></span>&#160;<span class="preprocessor">  #define S_IXUSR 00100</span></div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="preprocessor">#ifndef S_IRWXG</span></div>
-<div class="line"><a name="l00123"></a><span class="lineno"><a class="line" href="a00080.html#a230c642d2bb81f15f85c122b1883de5c">  123</a></span>&#160;<span class="preprocessor">  #define S_IRWXG 00070</span></div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="preprocessor">#ifndef S_IRGRP</span></div>
-<div class="line"><a name="l00126"></a><span class="lineno"><a class="line" href="a00080.html#a4f5f280b929768113739fb34d6f7be8a">  126</a></span>&#160;<span class="preprocessor">  #define S_IRGRP 00040</span></div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="preprocessor">#ifndef S_IWGRP</span></div>
-<div class="line"><a name="l00129"></a><span class="lineno"><a class="line" href="a00080.html#ae6774871a90d9442f00abe18b87fee6e">  129</a></span>&#160;<span class="preprocessor">  #define S_IWGRP 00020</span></div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="preprocessor">#ifndef S_IXGRP</span></div>
-<div class="line"><a name="l00132"></a><span class="lineno"><a class="line" href="a00080.html#a042e69ac0e7dd56e5cfcd9e97d010323">  132</a></span>&#160;<span class="preprocessor">  #define S_IXGRP 00010</span></div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="preprocessor">#ifndef S_IRWXO</span></div>
-<div class="line"><a name="l00135"></a><span class="lineno"><a class="line" href="a00080.html#a5b93e0da7fe32bbd4926626bffad96b1">  135</a></span>&#160;<span class="preprocessor">  #define S_IRWXO 00007</span></div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;<span class="preprocessor">#ifndef S_IROTH</span></div>
-<div class="line"><a name="l00138"></a><span class="lineno"><a class="line" href="a00080.html#a071147a0cb995036967c80f64b1f74b9">  138</a></span>&#160;<span class="preprocessor">  #define S_IROTH 00004</span></div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;<span class="preprocessor">#ifndef S_IWOTH</span></div>
-<div class="line"><a name="l00141"></a><span class="lineno"><a class="line" href="a00080.html#a5303f49f26293acdb9533756c78322fb">  141</a></span>&#160;<span class="preprocessor">  #define S_IWOTH 00002</span></div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;<span class="preprocessor">#ifndef S_IXOTH</span></div>
-<div class="line"><a name="l00144"></a><span class="lineno"><a class="line" href="a00080.html#a40223db1b95a04f5b28cceb3c34cfebd">  144</a></span>&#160;<span class="preprocessor">  #define S_IXOTH 00001</span></div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<span class="comment">/* file type macro helpers */</span></div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="preprocessor">#ifndef S_ISLNK</span></div>
-<div class="line"><a name="l00148"></a><span class="lineno"><a class="line" href="a00080.html#a835359614ec43fbd96f53993cde84ef2">  148</a></span>&#160;<span class="preprocessor">  #define S_ISLNK(m)  (((m) &amp; S_IFMT) == S_IFLNK)</span></div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;<span class="preprocessor">#ifndef S_ISREG</span></div>
-<div class="line"><a name="l00151"></a><span class="lineno"><a class="line" href="a00080.html#abf68371159fa46b5cc47d0f3ac9ab723">  151</a></span>&#160;<span class="preprocessor">  #define S_ISREG(m)  (((m) &amp; S_IFMT) == S_IFREG)</span></div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;<span class="preprocessor">#ifndef S_ISDIR</span></div>
-<div class="line"><a name="l00154"></a><span class="lineno"><a class="line" href="a00080.html#a70b64ed67c0ab484b4ba09487da34e91">  154</a></span>&#160;<span class="preprocessor">  #define S_ISDIR(m)  (((m) &amp; S_IFMT) == S_IFDIR)</span></div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;<span class="preprocessor">#ifndef S_ISCHR</span></div>
-<div class="line"><a name="l00157"></a><span class="lineno"><a class="line" href="a00080.html#a767b5d0691f435f8a9b7f5e0fa97a645">  157</a></span>&#160;<span class="preprocessor">  #define S_ISCHR(m)  (((m) &amp; S_IFMT) == S_IFCHR)</span></div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;<span class="preprocessor">#ifndef S_ISBLK</span></div>
-<div class="line"><a name="l00160"></a><span class="lineno"><a class="line" href="a00080.html#a722eba7370eb3b0aafb3272182e08520">  160</a></span>&#160;<span class="preprocessor">  #define S_ISBLK(m)  (((m) &amp; S_IFMT) == S_IFBLK)</span></div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;<span class="preprocessor">#ifndef S_ISFIFO</span></div>
-<div class="line"><a name="l00163"></a><span class="lineno"><a class="line" href="a00080.html#a777b706bbe9e7920c091aaa2b547b093">  163</a></span>&#160;<span class="preprocessor">  #define S_ISFIFO(m) (((m) &amp; S_IFMT) == S_IFIFO)</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="comment">/* Returns the number of bytes actually sent, or -1 on error.  On error,</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="comment"> * PCL_EAGAIN is returned for non-blocking sockets that could not</span></div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="comment"> * make any progress.</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00080.html#a4f4e33cfc797557727d1c05808bee74c">pcl_ssl_send</a>(<a class="code" href="a01222.html">pcl_ssl_t</a> *ssl, <span class="keyword">const</span> <span class="keywordtype">void</span> *data, <span class="keywordtype">size_t</span> len);</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="comment">/* closes the connection and does some reseting, but can be reused.</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="comment"> * use pcl_ssl_free() to completely wipe out an pcl_ssl_t object.</span></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;PCL_EXPORT <span class="keywordtype">void</span> <a class="code" href="a00080.html#a8632d30d5f4898a9db396c79c1dfaeab">pcl_ssl_close</a>(<a class="code" href="a01222.html">pcl_ssl_t</a> *ssl);</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;PCL_EXPORT <span class="keywordtype">void</span> <a class="code" href="a00080.html#a07d2e9b4b7bacc122bf06ca4b27e516b">pcl_ssl_free</a>(<a class="code" href="a01222.html">pcl_ssl_t</a> *ssl);</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;PCL_EXPORT X509 *<a class="code" href="a00080.html#a500af1cc9c3008ca769dcaa6bdde5fce">pcl_ssl_peercert</a>(<a class="code" href="a01222.html">pcl_ssl_t</a> *ssl);</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="comment">/* Gets all certificate entries of the given &#39;entry_type&#39;.  entry_type is one of PCL_SSL_CERT_xxx</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="comment"> * enum values.  If no entries are found for the given &#39;entry_type&#39;, NULL is returned and</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="comment"> * PCL_ENOTFOUND is raised.  If an error occurs, NULL is returned and pcl_errno contains</span></div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="comment"> * the last error.  On success, a non-NULL vector of char** is returned, use pcl_vec_getptr().</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;PCL_EXPORT <a class="code" href="a01182.html">pcl_vector_t</a> *<a class="code" href="a00080.html#a4c12d6390f2d6c45e03a07d26d5fcde1">pcl_ssl_certentry</a>(<a class="code" href="a01222.html">pcl_ssl_t</a> *ssl, <span class="keywordtype">int</span> entry_type);</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; </div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="comment">/* Sets the cipher list if something other than PCL_SSL_DEFCIPHLIST is desired.</span></div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="comment"> * For format of &#39;ciph_list&#39;, see openssl documentation.</span></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00080.html#a47ac38451d6da6fb73f151a24547b2d3">pcl_ssl_setciphlist</a>(<a class="code" href="a01222.html">pcl_ssl_t</a> *ssl, <span class="keyword">const</span> <span class="keywordtype">char</span> *ciph_list);</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160; </div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="comment">/* Sets the peer&#39;s CA certificate, so we can verify the peer. */</span></div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00080.html#ac497d069adc7b5541271624b9348974e">pcl_ssl_setpeerca</a>(<a class="code" href="a01222.html">pcl_ssl_t</a> *ssl, <span class="keyword">const</span> <span class="keywordtype">char</span> *peer_ca_path, <span class="keywordtype">int</span> peer_depth);</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160; </div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="comment">/* Sets the caller&#39;s (either client or server) certificate and</span></div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="comment"> * RSA private key pair, both expected to be in PEM format.  This allows</span></div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="comment"> * our peer to verify us.</span></div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00080.html#a47e00b7c0f6ef7a4f7b80c4cbc859f53">pcl_ssl_setpair</a>(<a class="code" href="a01222.html">pcl_ssl_t</a> *ssl, <span class="keyword">const</span> <span class="keywordtype">char</span> *cert_path, <span class="keyword">const</span> <span class="keywordtype">char</span> *key_path);</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160; </div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;PCL_EXPORT <span class="keywordtype">bool</span> <a class="code" href="a00080.html#af6f03a520481beca94859004278a4c23">pcl_ssl_isalive</a>(<a class="code" href="a01222.html">pcl_ssl_t</a> *ssl);</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160; </div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;PCL_EXPORT <a class="code" href="a01218.html">pcl_socket_t</a> *<a class="code" href="a00080.html#adb4e2d036d43bf1fe9b43530329c42f6">pcl_ssl_socket</a>(<a class="code" href="a01222.html">pcl_ssl_t</a> *ssl);</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160; </div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;<span class="comment">/* This builds an OpenSSL error message and stores it within the given err.</span></div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;<span class="comment"> * Returns 0 on success and -1 on error. Must free err-&gt;msg.</span></div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00080.html#a2e31953f320eafb508ab38a37393c36d">pcl_openssl_error</a>(<a class="code" href="a01158.html">pcl_openssl_error_t</a> *err);</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160; </div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<span class="comment">/* returned msg must be freed */</span></div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;PCL_INLINE <span class="keywordtype">char</span> *</div>
+<div class="line"><a name="l00147"></a><span class="lineno"><a class="line" href="a00080.html#a5eaa119bc5d02de3934affb064c3efb2">  147</a></span>&#160;<a class="code" href="a00080.html#a5eaa119bc5d02de3934affb064c3efb2">pcl_openssl_errmsg</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;{</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;  <a class="code" href="a01158.html">pcl_openssl_error_t</a> e = {0};</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;  <a class="code" href="a00080.html#a2e31953f320eafb508ab38a37393c36d">pcl_openssl_error</a>(&amp;e);</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;  <span class="keywordflow">return</span> e.<a class="code" href="a01158.html#a32d2f5216cddb59c7cc8fb2806a7e727">msg</a>;</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;}</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160; </div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;<span class="comment">/* Same as pcl_openssl_error() except this takes an SSL object and returns</span></div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;<span class="comment"> * an pcl_openssl_error_t object that has been populated; internally by</span></div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;<span class="comment"> * pcl_openssl_error(). No need to free anything as the returned error structure is</span></div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;<span class="comment"> * managed by the given ssl object.</span></div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;PCL_EXPORT <a class="code" href="a01158.html">pcl_openssl_error_t</a> *<a class="code" href="a00080.html#a0393569278351bacd1ea6ad40d5b48e6">pcl_ssl_error</a>(<a class="code" href="a01222.html">pcl_ssl_t</a> *ssl);</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160; </div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;}</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;<span class="preprocessor">#ifndef S_ISSOCK</span></div>
-<div class="line"><a name="l00166"></a><span class="lineno"><a class="line" href="a00080.html#a765304585be8c05f7fa72495e6d5881f">  166</a></span>&#160;<span class="preprocessor">  #define S_ISSOCK(m) (((m) &amp; S_IFMT) == S_IFSOCK)</span></div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160; </div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;<span class="preprocessor">#ifndef UF_NODUMP</span></div>
-<div class="line"><a name="l00170"></a><span class="lineno"><a class="line" href="a00080.html#a20f3a5e6da903beb45eab886c0064810">  170</a></span>&#160;<span class="preprocessor">  #define UF_NODUMP      0x00000001 </span><span class="comment">/* do not dump file */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="preprocessor">#ifndef UF_IMMUTABLE</span></div>
-<div class="line"><a name="l00173"></a><span class="lineno"><a class="line" href="a00080.html#afe6f592dade8fc031927cd296d9defe3">  173</a></span>&#160;<span class="preprocessor">  #define UF_IMMUTABLE   0x00000002 </span><span class="comment">/* file may not be changed */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;<span class="preprocessor">#ifndef UF_APPEND</span></div>
-<div class="line"><a name="l00176"></a><span class="lineno"><a class="line" href="a00080.html#a84bdddf45c9aa271db9dacade1dda791">  176</a></span>&#160;<span class="preprocessor">  #define UF_APPEND      0x00000004 </span><span class="comment">/* writes to file may only append */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;<span class="preprocessor">#ifndef UF_OPAQUE</span></div>
-<div class="line"><a name="l00179"></a><span class="lineno"><a class="line" href="a00080.html#a4532bc0763830b1f6592b564e45e039c">  179</a></span>&#160;<span class="preprocessor">  #define UF_OPAQUE      0x00000008 </span><span class="comment">/* directory is opaque wrt. union */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;<span class="preprocessor">#ifndef UF_NOUNLINK</span></div>
-<div class="line"><a name="l00182"></a><span class="lineno"><a class="line" href="a00080.html#a69b485c23350c496674e864e85841d57">  182</a></span>&#160;<span class="preprocessor">  #define UF_NOUNLINK    0x00000010 </span><span class="comment">/* file may not be removed or renamed */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;<span class="preprocessor">#ifndef UF_COMPRESSED</span></div>
-<div class="line"><a name="l00185"></a><span class="lineno"><a class="line" href="a00080.html#afd7c17a86e2ff32feb30bb539971b4a7">  185</a></span>&#160;<span class="preprocessor">  #define UF_COMPRESSED  0x00000020 </span><span class="comment">/* file is compressed */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="preprocessor">#ifndef UF_TRACKED</span></div>
-<div class="line"><a name="l00188"></a><span class="lineno"><a class="line" href="a00080.html#a136f99b05f9a78aebde7bc633b8879d5">  188</a></span>&#160;<span class="preprocessor">  #define UF_TRACKED     0x00000040 </span><span class="comment">/* file renames and deletes are tracked */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160; </div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;<span class="comment">/* PCL extensions (only meaningful on windows) */</span></div>
-<div class="line"><a name="l00192"></a><span class="lineno"><a class="line" href="a00080.html#a0f0a064cf2642002c09fe112719ae218">  192</a></span>&#160;<span class="preprocessor">#define UF_ENCRYPTED     0x00000080 </span><span class="comment">/* item is encrypted */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00193"></a><span class="lineno"><a class="line" href="a00080.html#a9a06bad258bfc2b385fef5eb93aa481e">  193</a></span>&#160;<span class="preprocessor">#define UF_SPARSE        0x00000100 </span><span class="comment">/* item is a sparse file */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00194"></a><span class="lineno"><a class="line" href="a00080.html#afa05f5da4548f0e39d835277a055db66">  194</a></span>&#160;<span class="preprocessor">#define UF_SYSTEM        0x00000200 </span><span class="comment">/* item used exclusively by OS */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160; </div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;<span class="comment">/* MAC OS X extension */</span></div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;<span class="preprocessor">#ifndef UF_HIDDEN</span></div>
-<div class="line"><a name="l00198"></a><span class="lineno"><a class="line" href="a00080.html#a3140c5d226d0222f0040b3c15b8c65f8">  198</a></span>&#160;<span class="preprocessor">  #define UF_HIDDEN      0x00008000 </span><span class="comment">/* item is hidden */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;<span class="preprocessor">#ifndef SF_ARCHIVED</span></div>
-<div class="line"><a name="l00201"></a><span class="lineno"><a class="line" href="a00080.html#a1e44d0609ddacaee438936be02f3eedb">  201</a></span>&#160;<span class="preprocessor">  #define SF_ARCHIVED    0x00010000 </span><span class="comment">/* file is archived */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;<span class="preprocessor">#ifndef SF_IMMUTABLE</span></div>
-<div class="line"><a name="l00204"></a><span class="lineno"><a class="line" href="a00080.html#a1e9534cb0a63c1cabf4726e88cf2236c">  204</a></span>&#160;<span class="preprocessor">  #define SF_IMMUTABLE   0x00020000 </span><span class="comment">/* file may not be changed */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;<span class="preprocessor">#ifndef SF_APPEND</span></div>
-<div class="line"><a name="l00207"></a><span class="lineno"><a class="line" href="a00080.html#a9ed9b3676b48663c6d4b94bab1de7025">  207</a></span>&#160;<span class="preprocessor">  #define SF_APPEND      0x00040000 </span><span class="comment">/* writes to file may only append */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;<span class="preprocessor">#ifndef SF_NOUNLINK</span></div>
-<div class="line"><a name="l00210"></a><span class="lineno"><a class="line" href="a00080.html#ad0a66eb28ba8bcd98eaca7fe3c39b7ad">  210</a></span>&#160;<span class="preprocessor">  #define SF_NOUNLINK    0x00100000   </span><span class="comment">/* file may not be removed or renamed */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;<span class="preprocessor">#ifndef SF_SNAPSHOT</span></div>
-<div class="line"><a name="l00213"></a><span class="lineno"><a class="line" href="a00080.html#a546bb4b585fdd55e68d5829a5e291d6b">  213</a></span>&#160;<span class="preprocessor">  #define SF_SNAPSHOT    0x00200000   </span><span class="comment">/* snapshot inode */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160; </div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160; </div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160; </div>
-<div class="line"><a name="l00221"></a><span class="lineno"><a class="line" href="a01159.html">  221</a></span>&#160;<span class="keyword">struct </span><a class="code" href="a01159.html">tag_pcl_stat</a></div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;{</div>
-<div class="line"><a name="l00223"></a><span class="lineno"><a class="line" href="a01159.html#a8910285a0352a5c710e65ec9ecbe32a1">  223</a></span>&#160;  dev_t      <a class="code" href="a01159.html#a8910285a0352a5c710e65ec9ecbe32a1">dev</a>;        <span class="comment">/* ID of device containing file. on windows, the major</span></div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;<span class="comment">                           is FILE_TYPE_DISK and minor is uppercase ascii</span></div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;<span class="comment">                           value of the drive letter (drive paths only).</span></div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;<span class="comment">                           If not, this is zero. Example: &quot;1,67&quot; 67=C:\.  Use</span></div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;<span class="comment">                           the major()/minor() macros to extract numbers. */</span></div>
-<div class="line"><a name="l00228"></a><span class="lineno"><a class="line" href="a01159.html#aa9c25ec6cb415e0c2d201fc9205e73d0">  228</a></span>&#160;  ino_t      <a class="code" href="a01159.html#aa9c25ec6cb415e0c2d201fc9205e73d0">ino</a>;        <span class="comment">/* inode number */</span></div>
-<div class="line"><a name="l00229"></a><span class="lineno"><a class="line" href="a01159.html#adc8d3cf511ceb277aea0cfa1cd027c59">  229</a></span>&#160;  mode_t     <a class="code" href="a01159.html#adc8d3cf511ceb277aea0cfa1cd027c59">mode</a>;       <span class="comment">/* permissions and entry type as a bit mask */</span></div>
-<div class="line"><a name="l00230"></a><span class="lineno"><a class="line" href="a01159.html#a865318c04add1efed27d5b0a248a3163">  230</a></span>&#160;  nlink_t    <a class="code" href="a01159.html#a865318c04add1efed27d5b0a248a3163">nlink</a>;      <span class="comment">/* number of hard links */</span></div>
-<div class="line"><a name="l00231"></a><span class="lineno"><a class="line" href="a01159.html#a1163f413982fef86f5c8313564d8589c">  231</a></span>&#160;  uid_t      <a class="code" href="a01159.html#a1163f413982fef86f5c8313564d8589c">uid</a>;        <span class="comment">/* user ID of owner, on windows this is a</span></div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;<span class="comment">                           SID string: ex. &#39;S-1-5-32-544&#39; */</span></div>
-<div class="line"><a name="l00233"></a><span class="lineno"><a class="line" href="a01159.html#accbf90b0b518578acff258d328c5575d">  233</a></span>&#160;  gid_t      <a class="code" href="a01159.html#accbf90b0b518578acff258d328c5575d">gid</a>;        <span class="comment">/* group ID of owner, on windows this is a</span></div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;<span class="comment">                           SID string: ex. &#39;S-1-5-32-544&#39; */</span></div>
-<div class="line"><a name="l00235"></a><span class="lineno"><a class="line" href="a01159.html#a1b4fb3994ca9f3ad9ec0f5c9dbea77a9">  235</a></span>&#160;  dev_t      <a class="code" href="a01159.html#a1b4fb3994ca9f3ad9ec0f5c9dbea77a9">rdev</a>;       <span class="comment">/* device ID (if special file) */</span></div>
-<div class="line"><a name="l00236"></a><span class="lineno"><a class="line" href="a01159.html#a54d2158f6808e2cc402feddc76d6240b">  236</a></span>&#160;  int64_t    <a class="code" href="a01159.html#a54d2158f6808e2cc402feddc76d6240b">size</a>;       <span class="comment">/* total size in bytes of entry&#39;s contents */</span></div>
-<div class="line"><a name="l00237"></a><span class="lineno"><a class="line" href="a01159.html#aab06eed5bd7a0f98649fa5abde3dbbf7">  237</a></span>&#160;  int64_t    <a class="code" href="a01159.html#aab06eed5bd7a0f98649fa5abde3dbbf7">dsize</a>;      <span class="comment">/* total size in bytes of the entry&#39;s contents, including</span></div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;<span class="comment">                           the overhead incurred by file system block size */</span></div>
-<div class="line"><a name="l00239"></a><span class="lineno"><a class="line" href="a01159.html#a5db008489406de834c7b5598d3b90f40">  239</a></span>&#160;  <span class="keywordtype">int</span>        <a class="code" href="a01159.html#a5db008489406de834c7b5598d3b90f40">blksize</a>;    <span class="comment">/* block size for file system I/O */</span></div>
-<div class="line"><a name="l00240"></a><span class="lineno"><a class="line" href="a01159.html#af4120042303b49a109ff13f67e4bea97">  240</a></span>&#160;  uint64_t   <a class="code" href="a01159.html#af4120042303b49a109ff13f67e4bea97">blocks</a>;     <span class="comment">/* number of 512B blocks allocated */</span></div>
-<div class="line"><a name="l00241"></a><span class="lineno"><a class="line" href="a01159.html#a223cbb76e5359c53e73a190015080beb">  241</a></span>&#160;  <a class="code" href="a01167.html">pcl_time_t</a> <a class="code" href="a01159.html#a223cbb76e5359c53e73a190015080beb">atime</a>;      <span class="comment">/* time of last access */</span></div>
-<div class="line"><a name="l00242"></a><span class="lineno"><a class="line" href="a01159.html#a63eae24810a9fe13ffba70752f8286f1">  242</a></span>&#160;  <a class="code" href="a01167.html">pcl_time_t</a> <a class="code" href="a01159.html#a63eae24810a9fe13ffba70752f8286f1">mtime</a>;      <span class="comment">/* time of last modification */</span></div>
-<div class="line"><a name="l00243"></a><span class="lineno"><a class="line" href="a01159.html#a57bb9545ed5536635ca1bba0ac418cde">  243</a></span>&#160;  <a class="code" href="a01167.html">pcl_time_t</a> <a class="code" href="a01159.html#a57bb9545ed5536635ca1bba0ac418cde">ctime</a>;      <span class="comment">/* time of last status change (same as mtime on windows) */</span></div>
-<div class="line"><a name="l00244"></a><span class="lineno"><a class="line" href="a01159.html#a9dada9e32b7ccb261547952a8376dce7">  244</a></span>&#160;  <a class="code" href="a01167.html">pcl_time_t</a> <a class="code" href="a01159.html#a9dada9e32b7ccb261547952a8376dce7">crtime</a>;     <span class="comment">/* creation time, when available (no linux support) */</span></div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160; </div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;  <span class="comment">/* UF_xxx and SF_xxx flags (see BSD chflags()).  On Darwin, these are</span></div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;<span class="comment">   * directly lifted from st_flags or ATTR_CMN_FLAGS.  On Windows,</span></div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;<span class="comment">   * WIN32_FIND_DATA.dwFileAttributes are translated.  On Linux, only</span></div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;<span class="comment">   * UF_HIDDEN is set when the file name begins with a dot &#39;.&#39;.</span></div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;<span class="comment">   */</span></div>
-<div class="line"><a name="l00251"></a><span class="lineno"><a class="line" href="a01159.html#a773b39d480759f67926cb18ae2219281">  251</a></span>&#160;  uint32_t   <a class="code" href="a01159.html#a773b39d480759f67926cb18ae2219281">flags</a>;</div>
-<div class="line"><a name="l00252"></a><span class="lineno"><a class="line" href="a01159.html#a4f788396277d2346e2a9e8afec9d867e">  252</a></span>&#160;  <span class="keywordtype">char</span>       <a class="code" href="a01159.html#a4f788396277d2346e2a9e8afec9d867e">finder_info</a>[32]; <span class="comment">/* finder info (darwin only) */</span></div>
-<div class="line"><a name="l00253"></a><span class="lineno"><a class="line" href="a01159.html#aaf0912f2a2832873f91fbff57ffbda87">  253</a></span>&#160;  <a class="code" href="a01167.html">pcl_time_t</a> <a class="code" href="a01159.html#aaf0912f2a2832873f91fbff57ffbda87">btime</a>;     <span class="comment">/* backup time (darwin only) */</span></div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;};</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;<span class="comment">/** Get file or directory status. This is normally not used directly. Instead, pcl_stat,</span></div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;<span class="comment"> * pcl_fstat and pcl_lstat macros are used.</span></div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;<span class="comment"> * @param path filesystem entry to stat. If NULL, the fd argument must be valid.</span></div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;<span class="comment"> * @param fd file descriptor representing the entry to stat. If &lt; 0, path is expected to be valid.</span></div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;<span class="comment"> * @param buf output stat buffer, this can be NULL in which case this function is merely an</span></div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;<span class="comment"> * &quot;exists&quot; check.</span></div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;<span class="comment"> * @param flags PCL_STAT_xxx flags such as PCL_STAT_LINK incicates this should perform an lstat.</span></div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;<span class="comment"> * @return on success 0 and -1 on error</span></div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00080.html#a284539a26efd8c10ddba280913d84565">pcl_statent</a>(<span class="keyword">const</span> <a class="code" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *path, <span class="keywordtype">int</span> fd, <a class="code" href="a01159.html">pcl_stat_t</a> *buf, <span class="keywordtype">int</span> flags);</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160; </div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;PCL_EXPORT <span class="keywordtype">char</span> *<a class="code" href="a00080.html#a44f8e85e8b8d4027f93595251fdeef4a">pcl_strmode</a>(<span class="keywordtype">char</span> *out, <span class="keywordtype">size_t</span> out_size, mode_t mode);</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;PCL_EXPORT <span class="keywordtype">char</span> *<a class="code" href="a00080.html#aa4a303a099ddb82259476363c78e95b2">pcl_strflags</a>(<span class="keywordtype">char</span> *out, <span class="keywordtype">size_t</span> len, uint32_t flags);</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160; </div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;}</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160; </div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160; </div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00098_html_ac114b2b1527c8ae241d37cc15ca7d122"><div class="ttname"><a href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a></div><div class="ttdeci">char pchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00098_source.html#l00053">types.h:53</a></div></div>
-<div class="ttc" id="aa00080_html_a3e63d27ae45ef4a22249859bda12bade"><div class="ttname"><a href="a00080.html#a3e63d27ae45ef4a22249859bda12bade">sys_stat_t</a></div><div class="ttdeci">struct stat sys_stat_t</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00001">stat.h:48</a></div></div>
-<div class="ttc" id="aa01159_html_adc8d3cf511ceb277aea0cfa1cd027c59"><div class="ttname"><a href="a01159.html#adc8d3cf511ceb277aea0cfa1cd027c59">tag_pcl_stat::mode</a></div><div class="ttdeci">mode_t mode</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00229">stat.h:229</a></div></div>
-<div class="ttc" id="aa00095_html"><div class="ttname"><a href="a00095.html">time.h</a></div></div>
-<div class="ttc" id="aa01159_html_aaf0912f2a2832873f91fbff57ffbda87"><div class="ttname"><a href="a01159.html#aaf0912f2a2832873f91fbff57ffbda87">tag_pcl_stat::btime</a></div><div class="ttdeci">pcl_time_t btime</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00253">stat.h:253</a></div></div>
-<div class="ttc" id="aa01159_html_a63eae24810a9fe13ffba70752f8286f1"><div class="ttname"><a href="a01159.html#a63eae24810a9fe13ffba70752f8286f1">tag_pcl_stat::mtime</a></div><div class="ttdeci">pcl_time_t mtime</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00242">stat.h:242</a></div></div>
-<div class="ttc" id="aa00080_html_aa4a303a099ddb82259476363c78e95b2"><div class="ttname"><a href="a00080.html#aa4a303a099ddb82259476363c78e95b2">pcl_strflags</a></div><div class="ttdeci">PCL_EXPORT char * pcl_strflags(char *out, size_t len, uint32_t flags)</div><div class="ttdef"><b>Definition:</b> <a href="a00809_source.html#l00036">strflags.c:36</a></div></div>
-<div class="ttc" id="aa01159_html"><div class="ttname"><a href="a01159.html">tag_pcl_stat</a></div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00221">stat.h:222</a></div></div>
-<div class="ttc" id="aa01159_html_accbf90b0b518578acff258d328c5575d"><div class="ttname"><a href="a01159.html#accbf90b0b518578acff258d328c5575d">tag_pcl_stat::gid</a></div><div class="ttdeci">gid_t gid</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00233">stat.h:233</a></div></div>
-<div class="ttc" id="aa01159_html_a773b39d480759f67926cb18ae2219281"><div class="ttname"><a href="a01159.html#a773b39d480759f67926cb18ae2219281">tag_pcl_stat::flags</a></div><div class="ttdeci">uint32_t flags</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00251">stat.h:251</a></div></div>
-<div class="ttc" id="aa01159_html_a8910285a0352a5c710e65ec9ecbe32a1"><div class="ttname"><a href="a01159.html#a8910285a0352a5c710e65ec9ecbe32a1">tag_pcl_stat::dev</a></div><div class="ttdeci">dev_t dev</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00223">stat.h:223</a></div></div>
-<div class="ttc" id="aa01159_html_a223cbb76e5359c53e73a190015080beb"><div class="ttname"><a href="a01159.html#a223cbb76e5359c53e73a190015080beb">tag_pcl_stat::atime</a></div><div class="ttdeci">pcl_time_t atime</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00241">stat.h:241</a></div></div>
-<div class="ttc" id="aa01159_html_a4f788396277d2346e2a9e8afec9d867e"><div class="ttname"><a href="a01159.html#a4f788396277d2346e2a9e8afec9d867e">tag_pcl_stat::finder_info</a></div><div class="ttdeci">char finder_info[32]</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00252">stat.h:252</a></div></div>
-<div class="ttc" id="aa01167_html"><div class="ttname"><a href="a01167.html">tag_pcl_time</a></div><div class="ttdef"><b>Definition:</b> <a href="a00095_source.html#l00057">time.h:58</a></div></div>
-<div class="ttc" id="aa00080_html_a44f8e85e8b8d4027f93595251fdeef4a"><div class="ttname"><a href="a00080.html#a44f8e85e8b8d4027f93595251fdeef4a">pcl_strmode</a></div><div class="ttdeci">PCL_EXPORT char * pcl_strmode(char *out, size_t out_size, mode_t mode)</div><div class="ttdef"><b>Definition:</b> <a href="a00812_source.html#l00035">strmode.c:35</a></div></div>
-<div class="ttc" id="aa01159_html_a57bb9545ed5536635ca1bba0ac418cde"><div class="ttname"><a href="a01159.html#a57bb9545ed5536635ca1bba0ac418cde">tag_pcl_stat::ctime</a></div><div class="ttdeci">pcl_time_t ctime</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00243">stat.h:243</a></div></div>
-<div class="ttc" id="aa01159_html_a1b4fb3994ca9f3ad9ec0f5c9dbea77a9"><div class="ttname"><a href="a01159.html#a1b4fb3994ca9f3ad9ec0f5c9dbea77a9">tag_pcl_stat::rdev</a></div><div class="ttdeci">dev_t rdev</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00235">stat.h:235</a></div></div>
-<div class="ttc" id="aa01159_html_a9dada9e32b7ccb261547952a8376dce7"><div class="ttname"><a href="a01159.html#a9dada9e32b7ccb261547952a8376dce7">tag_pcl_stat::crtime</a></div><div class="ttdeci">pcl_time_t crtime</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00244">stat.h:244</a></div></div>
-<div class="ttc" id="aa01159_html_a5db008489406de834c7b5598d3b90f40"><div class="ttname"><a href="a01159.html#a5db008489406de834c7b5598d3b90f40">tag_pcl_stat::blksize</a></div><div class="ttdeci">int blksize</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00239">stat.h:239</a></div></div>
-<div class="ttc" id="aa01159_html_af4120042303b49a109ff13f67e4bea97"><div class="ttname"><a href="a01159.html#af4120042303b49a109ff13f67e4bea97">tag_pcl_stat::blocks</a></div><div class="ttdeci">uint64_t blocks</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00240">stat.h:240</a></div></div>
-<div class="ttc" id="aa01159_html_a54d2158f6808e2cc402feddc76d6240b"><div class="ttname"><a href="a01159.html#a54d2158f6808e2cc402feddc76d6240b">tag_pcl_stat::size</a></div><div class="ttdeci">int64_t size</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00236">stat.h:236</a></div></div>
-<div class="ttc" id="aa01159_html_a1163f413982fef86f5c8313564d8589c"><div class="ttname"><a href="a01159.html#a1163f413982fef86f5c8313564d8589c">tag_pcl_stat::uid</a></div><div class="ttdeci">uid_t uid</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00231">stat.h:231</a></div></div>
-<div class="ttc" id="aa01159_html_aa9c25ec6cb415e0c2d201fc9205e73d0"><div class="ttname"><a href="a01159.html#aa9c25ec6cb415e0c2d201fc9205e73d0">tag_pcl_stat::ino</a></div><div class="ttdeci">ino_t ino</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00228">stat.h:228</a></div></div>
-<div class="ttc" id="aa00080_html_a284539a26efd8c10ddba280913d84565"><div class="ttname"><a href="a00080.html#a284539a26efd8c10ddba280913d84565">pcl_statent</a></div><div class="ttdeci">PCL_EXPORT int pcl_statent(const pchar_t *path, int fd, pcl_stat_t *buf, int flags)</div><div class="ttdoc">Get file or directory status.</div><div class="ttdef"><b>Definition:</b> <a href="a00806_source.html#l00039">statent.c:39</a></div></div>
-<div class="ttc" id="aa01159_html_a865318c04add1efed27d5b0a248a3163"><div class="ttname"><a href="a01159.html#a865318c04add1efed27d5b0a248a3163">tag_pcl_stat::nlink</a></div><div class="ttdeci">nlink_t nlink</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00230">stat.h:230</a></div></div>
-<div class="ttc" id="aa01159_html_aab06eed5bd7a0f98649fa5abde3dbbf7"><div class="ttname"><a href="a01159.html#aab06eed5bd7a0f98649fa5abde3dbbf7">tag_pcl_stat::dsize</a></div><div class="ttdeci">int64_t dsize</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00237">stat.h:237</a></div></div>
+<div class="ttc" id="aa00080_html_a04240d8271f7bdd40c55c5e3189bdb7aa46e23c82fc1fd323ed29f44a88949cfe"><div class="ttname"><a href="a00080.html#a04240d8271f7bdd40c55c5e3189bdb7aa46e23c82fc1fd323ed29f44a88949cfe">PCL_SSL_CERT_COUNTRY_NAME</a></div><div class="ttdeci">@ PCL_SSL_CERT_COUNTRY_NAME</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00066">ssl.h:66</a></div></div>
+<div class="ttc" id="aa00080_html_a0393569278351bacd1ea6ad40d5b48e6"><div class="ttname"><a href="a00080.html#a0393569278351bacd1ea6ad40d5b48e6">pcl_ssl_error</a></div><div class="ttdeci">PCL_EXPORT pcl_openssl_error_t * pcl_ssl_error(pcl_ssl_t *ssl)</div><div class="ttdef"><b>Definition:</b> <a href="a00770_source.html#l00035">ssl_error.c:35</a></div></div>
+<div class="ttc" id="aa00101_html"><div class="ttname"><a href="a00101.html">types.h</a></div></div>
+<div class="ttc" id="aa00080_html_a47e00b7c0f6ef7a4f7b80c4cbc859f53"><div class="ttname"><a href="a00080.html#a47e00b7c0f6ef7a4f7b80c4cbc859f53">pcl_ssl_setpair</a></div><div class="ttdeci">PCL_EXPORT int pcl_ssl_setpair(pcl_ssl_t *ssl, const char *cert_path, const char *key_path)</div><div class="ttdef"><b>Definition:</b> <a href="a00797_source.html#l00036">ssl_setpair.c:36</a></div></div>
+<div class="ttc" id="aa00080_html_a500af1cc9c3008ca769dcaa6bdde5fce"><div class="ttname"><a href="a00080.html#a500af1cc9c3008ca769dcaa6bdde5fce">pcl_ssl_peercert</a></div><div class="ttdeci">PCL_EXPORT X509 * pcl_ssl_peercert(pcl_ssl_t *ssl)</div><div class="ttdef"><b>Definition:</b> <a href="a00785_source.html#l00035">ssl_percert.c:35</a></div></div>
+<div class="ttc" id="aa00080_html_a04240d8271f7bdd40c55c5e3189bdb7aaf4e3fd791b4942adbd528a7d3493e7b8"><div class="ttname"><a href="a00080.html#a04240d8271f7bdd40c55c5e3189bdb7aaf4e3fd791b4942adbd528a7d3493e7b8">PCL_SSL_CERT_COMMON_NAME</a></div><div class="ttdeci">@ PCL_SSL_CERT_COMMON_NAME</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00072">ssl.h:71</a></div></div>
+<div class="ttc" id="aa00080_html_a8632d30d5f4898a9db396c79c1dfaeab"><div class="ttname"><a href="a00080.html#a8632d30d5f4898a9db396c79c1dfaeab">pcl_ssl_close</a></div><div class="ttdeci">PCL_EXPORT void pcl_ssl_close(pcl_ssl_t *ssl)</div><div class="ttdef"><b>Definition:</b> <a href="a00758_source.html#l00037">ssl_close.c:37</a></div></div>
+<div class="ttc" id="aa01158_html"><div class="ttname"><a href="a01158.html">pcl_openssl_error_t</a></div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00057">ssl.h:58</a></div></div>
+<div class="ttc" id="aa01222_html"><div class="ttname"><a href="a01222.html">tag_pcl_ssl</a></div><div class="ttdef"><b>Definition:</b> <a href="a00746_source.html#l00046">_ssl.h:47</a></div></div>
+<div class="ttc" id="aa00080_html_a47ac38451d6da6fb73f151a24547b2d3"><div class="ttname"><a href="a00080.html#a47ac38451d6da6fb73f151a24547b2d3">pcl_ssl_setciphlist</a></div><div class="ttdeci">PCL_EXPORT int pcl_ssl_setciphlist(pcl_ssl_t *ssl, const char *ciph_list)</div><div class="ttdef"><b>Definition:</b> <a href="a00794_source.html#l00035">ssl_setciphlist.c:35</a></div></div>
+<div class="ttc" id="aa00080_html_a04240d8271f7bdd40c55c5e3189bdb7aa72dcbd910c3f0c281f96dd6f61ae64a8"><div class="ttname"><a href="a00080.html#a04240d8271f7bdd40c55c5e3189bdb7aa72dcbd910c3f0c281f96dd6f61ae64a8">PCL_SSL_CERT_ORG_UNIT</a></div><div class="ttdeci">@ PCL_SSL_CERT_ORG_UNIT</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00070">ssl.h:70</a></div></div>
+<div class="ttc" id="aa00080_html_a2e31953f320eafb508ab38a37393c36d"><div class="ttname"><a href="a00080.html#a2e31953f320eafb508ab38a37393c36d">pcl_openssl_error</a></div><div class="ttdeci">PCL_EXPORT int pcl_openssl_error(pcl_openssl_error_t *err)</div><div class="ttdef"><b>Definition:</b> <a href="a00749_source.html#l00054">openssl_error.c:54</a></div></div>
+<div class="ttc" id="aa00080_html_a04240d8271f7bdd40c55c5e3189bdb7aaa44fb2ce2b5202daa84de162eadb17f9"><div class="ttname"><a href="a00080.html#a04240d8271f7bdd40c55c5e3189bdb7aaa44fb2ce2b5202daa84de162eadb17f9">PCL_SSL_CERT_STATE</a></div><div class="ttdeci">@ PCL_SSL_CERT_STATE</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00068">ssl.h:68</a></div></div>
+<div class="ttc" id="aa00080_html_adb4e2d036d43bf1fe9b43530329c42f6"><div class="ttname"><a href="a00080.html#adb4e2d036d43bf1fe9b43530329c42f6">pcl_ssl_socket</a></div><div class="ttdeci">PCL_EXPORT pcl_socket_t * pcl_ssl_socket(pcl_ssl_t *ssl)</div><div class="ttdef"><b>Definition:</b> <a href="a00803_source.html#l00035">ssl_socket.c:35</a></div></div>
+<div class="ttc" id="aa00080_html_af6f03a520481beca94859004278a4c23"><div class="ttname"><a href="a00080.html#af6f03a520481beca94859004278a4c23">pcl_ssl_isalive</a></div><div class="ttdeci">PCL_EXPORT bool pcl_ssl_isalive(pcl_ssl_t *ssl)</div><div class="ttdef"><b>Definition:</b> <a href="a00782_source.html#l00036">ssl_isalive.c:36</a></div></div>
+<div class="ttc" id="aa01158_html_a0204e0de511554dd02b5c6d7b28a4498"><div class="ttname"><a href="a01158.html#a0204e0de511554dd02b5c6d7b28a4498">pcl_openssl_error_t::code</a></div><div class="ttdeci">unsigned long code</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00059">ssl.h:59</a></div></div>
+<div class="ttc" id="aa00080_html_a8b03fe5d686dab499be4240a4cafcdee"><div class="ttname"><a href="a00080.html#a8b03fe5d686dab499be4240a4cafcdee">pcl_ssl_handshake</a></div><div class="ttdeci">PCL_EXPORT int pcl_ssl_handshake(pcl_ssl_t *ssl, int *want_io)</div><div class="ttdef"><b>Definition:</b> <a href="a00779_source.html#l00036">ssl_handshake.c:36</a></div></div>
+<div class="ttc" id="aa00080_html_a50ccb1b720aa3613d8150f0748ed7f55"><div class="ttname"><a href="a00080.html#a50ccb1b720aa3613d8150f0748ed7f55">pcl_ssl_accept</a></div><div class="ttdeci">PCL_EXPORT pcl_ssl_t * pcl_ssl_accept(pcl_ssl_t *server)</div><div class="ttdef"><b>Definition:</b> <a href="a00752_source.html#l00037">ssl_accept.c:37</a></div></div>
+<div class="ttc" id="aa00080_html_a07d2e9b4b7bacc122bf06ca4b27e516b"><div class="ttname"><a href="a00080.html#a07d2e9b4b7bacc122bf06ca4b27e516b">pcl_ssl_free</a></div><div class="ttdeci">PCL_EXPORT void pcl_ssl_free(pcl_ssl_t *ssl)</div><div class="ttdef"><b>Definition:</b> <a href="a00776_source.html#l00036">ssl_free.c:36</a></div></div>
+<div class="ttc" id="aa00080_html_ac497d069adc7b5541271624b9348974e"><div class="ttname"><a href="a00080.html#ac497d069adc7b5541271624b9348974e">pcl_ssl_setpeerca</a></div><div class="ttdeci">PCL_EXPORT int pcl_ssl_setpeerca(pcl_ssl_t *ssl, const char *peer_ca_path, int peer_depth)</div><div class="ttdef"><b>Definition:</b> <a href="a00800_source.html#l00036">ssl_setpeerca.c:36</a></div></div>
+<div class="ttc" id="aa00080_html_ad34e1af825bf028ccfe0b7b89e488795"><div class="ttname"><a href="a00080.html#ad34e1af825bf028ccfe0b7b89e488795">pcl_ssl_create</a></div><div class="ttdeci">PCL_EXPORT pcl_ssl_t * pcl_ssl_create(int flags,...)</div><div class="ttdef"><b>Definition:</b> <a href="a00767_source.html#l00073">ssl_create.c:73</a></div></div>
+<div class="ttc" id="aa01218_html"><div class="ttname"><a href="a01218.html">tag_pcl_socket</a></div><div class="ttdef"><b>Definition:</b> <a href="a00671_source.html#l00047">_socket.h:48</a></div></div>
+<div class="ttc" id="aa00080_html_a962e47857f17feb82b0146d2f33fa562"><div class="ttname"><a href="a00080.html#a962e47857f17feb82b0146d2f33fa562">pcl_ssl_connect</a></div><div class="ttdeci">PCL_EXPORT int pcl_ssl_connect(pcl_ssl_t *ssl, const char *host, int port, int *want_io)</div><div class="ttdef"><b>Definition:</b> <a href="a00764_source.html#l00037">ssl_connect.c:37</a></div></div>
+<div class="ttc" id="aa00080_html_a04240d8271f7bdd40c55c5e3189bdb7a"><div class="ttname"><a href="a00080.html#a04240d8271f7bdd40c55c5e3189bdb7a">tag_ssl_cert</a></div><div class="ttdeci">tag_ssl_cert</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00064">ssl.h:65</a></div></div>
+<div class="ttc" id="aa00080_html_ad93c04c6d78b80a5652a89b486beab87"><div class="ttname"><a href="a00080.html#ad93c04c6d78b80a5652a89b486beab87">pcl_ssl_recv</a></div><div class="ttdeci">PCL_EXPORT int pcl_ssl_recv(pcl_ssl_t *ssl, void *buf, size_t len)</div><div class="ttdef"><b>Definition:</b> <a href="a00788_source.html#l00036">ssl_recv.c:36</a></div></div>
+<div class="ttc" id="aa01182_html"><div class="ttname"><a href="a01182.html">tag_pcl_vector</a></div><div class="ttdoc">Vector object.</div><div class="ttdef"><b>Definition:</b> <a href="a00110_source.html#l00090">vector.h:91</a></div></div>
+<div class="ttc" id="aa00080_html_a4c12d6390f2d6c45e03a07d26d5fcde1"><div class="ttname"><a href="a00080.html#a4c12d6390f2d6c45e03a07d26d5fcde1">pcl_ssl_certentry</a></div><div class="ttdeci">PCL_EXPORT pcl_vector_t * pcl_ssl_certentry(pcl_ssl_t *ssl, int entry_type)</div><div class="ttdef"><b>Definition:</b> <a href="a00755_source.html#l00037">ssl_certentry.c:37</a></div></div>
+<div class="ttc" id="aa01158_html_a32d2f5216cddb59c7cc8fb2806a7e727"><div class="ttname"><a href="a01158.html#a32d2f5216cddb59c7cc8fb2806a7e727">pcl_openssl_error_t::msg</a></div><div class="ttdeci">char * msg</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00060">ssl.h:60</a></div></div>
+<div class="ttc" id="aa00080_html_a4f4e33cfc797557727d1c05808bee74c"><div class="ttname"><a href="a00080.html#a4f4e33cfc797557727d1c05808bee74c">pcl_ssl_send</a></div><div class="ttdeci">PCL_EXPORT int pcl_ssl_send(pcl_ssl_t *ssl, const void *data, size_t len)</div><div class="ttdef"><b>Definition:</b> <a href="a00791_source.html#l00036">ssl_send.c:36</a></div></div>
+<div class="ttc" id="aa00080_html_a04240d8271f7bdd40c55c5e3189bdb7aa93306670bc8d020c480601b91f6dc5d7"><div class="ttname"><a href="a00080.html#a04240d8271f7bdd40c55c5e3189bdb7aa93306670bc8d020c480601b91f6dc5d7">PCL_SSL_CERT_LOCALITY_NAME</a></div><div class="ttdeci">@ PCL_SSL_CERT_LOCALITY_NAME</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00067">ssl.h:67</a></div></div>
+<div class="ttc" id="aa00080_html_a5eaa119bc5d02de3934affb064c3efb2"><div class="ttname"><a href="a00080.html#a5eaa119bc5d02de3934affb064c3efb2">pcl_openssl_errmsg</a></div><div class="ttdeci">PCL_INLINE char * pcl_openssl_errmsg(void)</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00147">ssl.h:147</a></div></div>
+<div class="ttc" id="aa00080_html_a04240d8271f7bdd40c55c5e3189bdb7aac6c4db9c9d6bd3bc5f38682382c5e537"><div class="ttname"><a href="a00080.html#a04240d8271f7bdd40c55c5e3189bdb7aac6c4db9c9d6bd3bc5f38682382c5e537">PCL_SSL_CERT_ORG_NAME</a></div><div class="ttdeci">@ PCL_SSL_CERT_ORG_NAME</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00069">ssl.h:69</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

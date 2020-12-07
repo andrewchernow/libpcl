@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;pcl/socket.h File Reference</title>
+<title>&#x202A;libpcl: &#x202A;pcl/process.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -71,877 +71,97 @@ $(function() {
 <a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">socket.h File Reference</div>  </div>
+<div class="title">process.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;<a class="el" href="a00098_source.html">pcl/types.h</a>&gt;</code><br />
-<code>#include &lt;winsock2.h&gt;</code><br />
+<div class="textblock"><code>#include &lt;<a class="el" href="a00098_source.html">pcl/time.h</a>&gt;</code><br />
 </div>
 <p><a href="a00074_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Data Structures</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01151.html">pcl_keepalive_t</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01150.html">pcl_proc_exec_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Contains input and output parameters for a call to <a class="el" href="a01110.html#ga6340023fde71cb0e45005c881eec5323" title="&#x202A;Execute a command within a child process.">pcl_proc_exec()</a>.  <a href="a01150.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a0b9ee24d653ed3d56acdd7deea798b3c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00074.html#a0b9ee24d653ed3d56acdd7deea798b3c">PCL_SOCK_NONBLOCK</a>&#160;&#160;&#160;0x01</td></tr>
-<tr class="separator:a0b9ee24d653ed3d56acdd7deea798b3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa2021c1f54b94b4ec01dd6d44d9b53ac"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00074.html#aa2021c1f54b94b4ec01dd6d44d9b53ac">PCL_SOCK_CONNECTED</a>&#160;&#160;&#160;0x02</td></tr>
-<tr class="separator:aa2021c1f54b94b4ec01dd6d44d9b53ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a26769957ec1a2beaf223f33b66ee64ab"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00074.html#a26769957ec1a2beaf223f33b66ee64ab">INVALID_SOCKET</a>&#160;&#160;&#160;(<a class="el" href="a00098.html#a35d4d11068f60efd5365b31e315c18eb">pcl_socketfd_t</a>)(-1)</td></tr>
-<tr class="separator:a26769957ec1a2beaf223f33b66ee64ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc058eb75fbe9bf75064cd675ad96d21"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00074.html#acc058eb75fbe9bf75064cd675ad96d21">POLLRDHUP</a>&#160;&#160;&#160;0x2000</td></tr>
-<tr class="separator:acc058eb75fbe9bf75064cd675ad96d21"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af1c8cf84ac37451afaef3bde9976b6e1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00074.html#af1c8cf84ac37451afaef3bde9976b6e1">SHUT_RD</a>&#160;&#160;&#160;0 /* No more receptions.  */</td></tr>
-<tr class="separator:af1c8cf84ac37451afaef3bde9976b6e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:addb0a758e6fafdd89f5b7120f84738eb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00074.html#addb0a758e6fafdd89f5b7120f84738eb">SHUT_WR</a>&#160;&#160;&#160;1	/* No more transmissions.  */</td></tr>
-<tr class="separator:addb0a758e6fafdd89f5b7120f84738eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a80c54d1399557c97a0c81a319d08e9db"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00074.html#a80c54d1399557c97a0c81a319d08e9db">SHUT_RDWR</a>&#160;&#160;&#160;2 /* No more receptions or transmissions.  */</td></tr>
-<tr class="separator:a80c54d1399557c97a0c81a319d08e9db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga87d008e6f434301f4b517e0cdf5a320c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01110.html#ga87d008e6f434301f4b517e0cdf5a320c">PCL_EXEC_STDIN</a>&#160;&#160;&#160;0x0001</td></tr>
+<tr class="memdesc:ga87d008e6f434301f4b517e0cdf5a320c"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Get a write handle to the spawned process's <code>STDIN</code>.  <a href="a01110.html#ga87d008e6f434301f4b517e0cdf5a320c">More...</a><br /></td></tr>
+<tr class="separator:ga87d008e6f434301f4b517e0cdf5a320c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8c1fc48ff39c94e8d3dcf53255fae7a8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01110.html#ga8c1fc48ff39c94e8d3dcf53255fae7a8">PCL_EXEC_STDIN_NB</a>&#160;&#160;&#160;0x0002</td></tr>
+<tr class="memdesc:ga8c1fc48ff39c94e8d3dcf53255fae7a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Get a non-blocking write handle to the spawned process's <code>STDIN</code>.  <a href="a01110.html#ga8c1fc48ff39c94e8d3dcf53255fae7a8">More...</a><br /></td></tr>
+<tr class="separator:ga8c1fc48ff39c94e8d3dcf53255fae7a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf0b0f1ec2dcdb568a1826a04c0cf46d0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01110.html#gaf0b0f1ec2dcdb568a1826a04c0cf46d0">PCL_EXEC_STDOUT</a>&#160;&#160;&#160;0x0004</td></tr>
+<tr class="memdesc:gaf0b0f1ec2dcdb568a1826a04c0cf46d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Get a read handle to the spawned process's <code>STDOUT</code>.  <a href="a01110.html#gaf0b0f1ec2dcdb568a1826a04c0cf46d0">More...</a><br /></td></tr>
+<tr class="separator:gaf0b0f1ec2dcdb568a1826a04c0cf46d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5a4c32c851a5d9bda967d6393aaafba2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01110.html#ga5a4c32c851a5d9bda967d6393aaafba2">PCL_EXEC_STDOUT_NB</a>&#160;&#160;&#160;0x0008</td></tr>
+<tr class="memdesc:ga5a4c32c851a5d9bda967d6393aaafba2"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Get a non-blocking read handle to the spawned process's <code>STDIN</code>.  <a href="a01110.html#ga5a4c32c851a5d9bda967d6393aaafba2">More...</a><br /></td></tr>
+<tr class="separator:ga5a4c32c851a5d9bda967d6393aaafba2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6f5de5f5bd36c584904dabcc987eee5f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01110.html#ga6f5de5f5bd36c584904dabcc987eee5f">PCL_EXEC_STDERR</a>&#160;&#160;&#160;0x0010</td></tr>
+<tr class="memdesc:ga6f5de5f5bd36c584904dabcc987eee5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Get a read handle to the spawned process's <code>STDERR</code>.  <a href="a01110.html#ga6f5de5f5bd36c584904dabcc987eee5f">More...</a><br /></td></tr>
+<tr class="separator:ga6f5de5f5bd36c584904dabcc987eee5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad6167eaf15543bcb6c790fae1a32b64c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01110.html#gad6167eaf15543bcb6c790fae1a32b64c">PCL_EXEC_STDERR_NB</a>&#160;&#160;&#160;0x0020</td></tr>
+<tr class="memdesc:gad6167eaf15543bcb6c790fae1a32b64c"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Get a non-blocking read handle to the spawned process's <code>STDERR</code>.  <a href="a01110.html#gad6167eaf15543bcb6c790fae1a32b64c">More...</a><br /></td></tr>
+<tr class="separator:gad6167eaf15543bcb6c790fae1a32b64c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5d137fcd09f0d5a005010d30651f5d08"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01110.html#ga5d137fcd09f0d5a005010d30651f5d08">PCL_EXEC_SHELL</a>&#160;&#160;&#160;0x0040</td></tr>
+<tr class="memdesc:ga5d137fcd09f0d5a005010d30651f5d08"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Indicates that the command to exec should be passed to the SHELL.  <a href="a01110.html#ga5d137fcd09f0d5a005010d30651f5d08">More...</a><br /></td></tr>
+<tr class="separator:ga5d137fcd09f0d5a005010d30651f5d08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8b71b5aea5f40fa9e7624d5120b9122e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01110.html#ga8b71b5aea5f40fa9e7624d5120b9122e">PCL_EXEC_HANDLE</a>&#160;&#160;&#160;0x0080</td></tr>
+<tr class="memdesc:ga8b71b5aea5f40fa9e7624d5120b9122e"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Get a raw operating system handle to the spawned process.  <a href="a01110.html#ga8b71b5aea5f40fa9e7624d5120b9122e">More...</a><br /></td></tr>
+<tr class="separator:ga8b71b5aea5f40fa9e7624d5120b9122e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3d28c1b2550f63de4f0be96fc6dc3f47"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01110.html#ga3d28c1b2550f63de4f0be96fc6dc3f47">PCL_EXEC_LDPATH</a>&#160;&#160;&#160;0x0100</td></tr>
+<tr class="memdesc:ga3d28c1b2550f63de4f0be96fc6dc3f47"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Sets the library search path within the new process.  <a href="a01110.html#ga3d28c1b2550f63de4f0be96fc6dc3f47">More...</a><br /></td></tr>
+<tr class="separator:ga3d28c1b2550f63de4f0be96fc6dc3f47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac99b9ac0f7e0b1eb9ac3f45894a74c29"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01110.html#gac99b9ac0f7e0b1eb9ac3f45894a74c29">PRIV_RDFILE</a>&#160;&#160;&#160;<a class="el" href="a00032.html#a1df9ab18a5e5dd2e6d6d3977c35e976c">_P</a>(&quot;SeBackupPrivilege&quot;)</td></tr>
+<tr class="memdesc:gac99b9ac0f7e0b1eb9ac3f45894a74c29"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Grant all read access to files, bypassing access checks.  <a href="a01110.html#gac99b9ac0f7e0b1eb9ac3f45894a74c29">More...</a><br /></td></tr>
+<tr class="separator:gac99b9ac0f7e0b1eb9ac3f45894a74c29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga24e04eb46bbd64de462db54f00c6d66a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01110.html#ga24e04eb46bbd64de462db54f00c6d66a">PRIV_WRFILE</a>&#160;&#160;&#160;<a class="el" href="a00032.html#a1df9ab18a5e5dd2e6d6d3977c35e976c">_P</a>(&quot;SeRestorePrivilege&quot;)</td></tr>
+<tr class="memdesc:ga24e04eb46bbd64de462db54f00c6d66a"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Grant all write access to files, bypassing access checks.  <a href="a01110.html#ga24e04eb46bbd64de462db54f00c6d66a">More...</a><br /></td></tr>
+<tr class="separator:ga24e04eb46bbd64de462db54f00c6d66a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad3cfd4e4da6ba6cf312dea115834d381"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01110.html#gad3cfd4e4da6ba6cf312dea115834d381">PRIV_PROCESS</a>&#160;&#160;&#160;<a class="el" href="a00032.html#a1df9ab18a5e5dd2e6d6d3977c35e976c">_P</a>(&quot;SeDebugPrivilege&quot;)</td></tr>
+<tr class="memdesc:gad3cfd4e4da6ba6cf312dea115834d381"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Grant all access to processes owned by other accounts.  <a href="a01110.html#gad3cfd4e4da6ba6cf312dea115834d381">More...</a><br /></td></tr>
+<tr class="separator:gad3cfd4e4da6ba6cf312dea115834d381"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabdc3e2e1d17ce3c85b1134cc205b1f14"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01110.html#gabdc3e2e1d17ce3c85b1134cc205b1f14">PRIV_MKSYMLINK</a>&#160;&#160;&#160;<a class="el" href="a00032.html#a1df9ab18a5e5dd2e6d6d3977c35e976c">_P</a>(&quot;SeCreateSymbolicLinkPrivilege&quot;)</td></tr>
+<tr class="memdesc:gabdc3e2e1d17ce3c85b1134cc205b1f14"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Grant the ability to make (create) symbolic links.  <a href="a01110.html#gabdc3e2e1d17ce3c85b1134cc205b1f14">More...</a><br /></td></tr>
+<tr class="separator:gabdc3e2e1d17ce3c85b1134cc205b1f14"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aac303faba752f9112d378b001c94a501"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00074.html#aac303faba752f9112d378b001c94a501">pcl_socket</a> (const char *host, int port)</td></tr>
-<tr class="separator:aac303faba752f9112d378b001c94a501"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe8fab239ab48bab01c7be28b7e3ab01"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00074.html#abe8fab239ab48bab01c7be28b7e3ab01">pcl_connect</a> (<a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *sock)</td></tr>
-<tr class="separator:abe8fab239ab48bab01c7be28b7e3ab01"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac35fe5869e3a8c1898e04d165b9ee14f"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00074.html#ac35fe5869e3a8c1898e04d165b9ee14f">pcl_accept</a> (<a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *sock)</td></tr>
-<tr class="separator:ac35fe5869e3a8c1898e04d165b9ee14f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac85dcefb08fba74d70b0a97f86840bff"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00074.html#ac85dcefb08fba74d70b0a97f86840bff">pcl_select</a> (int fds, fd_set *rset, fd_set *wset, fd_set *eset, struct timeval *tv)</td></tr>
-<tr class="separator:ac85dcefb08fba74d70b0a97f86840bff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7348fe71ddaa16c2ca9d14113a8b9e34"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00074.html#a7348fe71ddaa16c2ca9d14113a8b9e34">pcl_shutdown</a> (<a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *sock, int how)</td></tr>
-<tr class="separator:a7348fe71ddaa16c2ca9d14113a8b9e34"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abd407eb3345b04d0299410d26b5c8108"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT ssize_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00074.html#abd407eb3345b04d0299410d26b5c8108">pcl_recv</a> (<a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *sock, void *buf, size_t count, int flags)</td></tr>
-<tr class="separator:abd407eb3345b04d0299410d26b5c8108"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab3d4e36501e13b4335b52bb0a00bf579"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00074.html#ab3d4e36501e13b4335b52bb0a00bf579">pcl_recvall</a> (<a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *sock, void *buf, size_t count)</td></tr>
-<tr class="separator:ab3d4e36501e13b4335b52bb0a00bf579"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af0202e0f54398d92480ad7c8970d14f8"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT ssize_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00074.html#af0202e0f54398d92480ad7c8970d14f8">pcl_send</a> (<a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *sock, const void *data, size_t count, int flags)</td></tr>
-<tr class="separator:af0202e0f54398d92480ad7c8970d14f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acd004c18f11a6f0f36ba4ad57da4a503"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00074.html#acd004c18f11a6f0f36ba4ad57da4a503">pcl_sendall</a> (<a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *sock, const void *data, size_t count)</td></tr>
-<tr class="separator:acd004c18f11a6f0f36ba4ad57da4a503"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ae58536d08116844455ea582cf629f0"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00074.html#a0ae58536d08116844455ea582cf629f0">pcl_bind</a> (<a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *sock)</td></tr>
-<tr class="separator:a0ae58536d08116844455ea582cf629f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a29417c8b83a1ccbb17225d61b4fe2fd5"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00074.html#a29417c8b83a1ccbb17225d61b4fe2fd5">pcl_listen</a> (<a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *sock, int backlog)</td></tr>
-<tr class="separator:a29417c8b83a1ccbb17225d61b4fe2fd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac7838dea49e81078e1ae5bde9319005d"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00074.html#ac7838dea49e81078e1ae5bde9319005d">pcl_socket_close</a> (<a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *sock)</td></tr>
-<tr class="separator:ac7838dea49e81078e1ae5bde9319005d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6eb0fc1509e3439a9940d1e70c4cad60"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00074.html#a6eb0fc1509e3439a9940d1e70c4cad60">pcl_socket_isalive</a> (<a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *sock)</td></tr>
-<tr class="separator:a6eb0fc1509e3439a9940d1e70c4cad60"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ef9a8e3b2590a539c760dae3d4720ca"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00074.html#a8ef9a8e3b2590a539c760dae3d4720ca">pcl_socket_error</a> (<a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *sock)</td></tr>
-<tr class="separator:a8ef9a8e3b2590a539c760dae3d4720ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7e9cfa84011f73eff1e3f46e7104f1fb"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a00098.html#a35d4d11068f60efd5365b31e315c18eb">pcl_socketfd_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00074.html#a7e9cfa84011f73eff1e3f46e7104f1fb">pcl_socket_fd</a> (<a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *sock)</td></tr>
-<tr class="separator:a7e9cfa84011f73eff1e3f46e7104f1fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a68dc8a2ab719789e933ab7d6612f9c9d"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00074.html#a68dc8a2ab719789e933ab7d6612f9c9d">pcl_socket_ip</a> (<a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *sock)</td></tr>
-<tr class="separator:a68dc8a2ab719789e933ab7d6612f9c9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaca369f06276121e76d027f060ad4f45"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00074.html#aaca369f06276121e76d027f060ad4f45">pcl_socket_port</a> (<a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *sock)</td></tr>
-<tr class="separator:aaca369f06276121e76d027f060ad4f45"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1bdb3797e114a841d65b05a1ec382275"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00074.html#a1bdb3797e114a841d65b05a1ec382275">pcl_socket_setrcvtimeo</a> (<a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *sock, uint32_t msecs)</td></tr>
-<tr class="separator:a1bdb3797e114a841d65b05a1ec382275"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a88ad179436d8841ed952832ca88fe620"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00074.html#a88ad179436d8841ed952832ca88fe620">pcl_socket_setsndtimeo</a> (<a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *sock, uint32_t msecs)</td></tr>
-<tr class="separator:a88ad179436d8841ed952832ca88fe620"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13c9c1bf545cf9e9cf9c7ed464c7c605"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00074.html#a13c9c1bf545cf9e9cf9c7ed464c7c605">pcl_socket_setnonblocking</a> (<a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *sock, bool enable)</td></tr>
-<tr class="separator:a13c9c1bf545cf9e9cf9c7ed464c7c605"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a111d7c2fcc9e7f0d4ea89ac09299ca73"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00074.html#a111d7c2fcc9e7f0d4ea89ac09299ca73">pcl_socket_setkeepalive</a> (<a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *sock, <a class="el" href="a01151.html">pcl_keepalive_t</a> *ka)</td></tr>
-<tr class="separator:a111d7c2fcc9e7f0d4ea89ac09299ca73"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a121d7e9be6d00679c8b251b3b21e8b54"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00074.html#a121d7e9be6d00679c8b251b3b21e8b54">pcl_ispassive</a> (<a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *sock)</td></tr>
-<tr class="separator:a121d7e9be6d00679c8b251b3b21e8b54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6340023fde71cb0e45005c881eec5323"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01110.html#ga6340023fde71cb0e45005c881eec5323">pcl_proc_exec</a> (<a class="el" href="a01150.html">pcl_proc_exec_t</a> *exec, int flags)</td></tr>
+<tr class="memdesc:ga6340023fde71cb0e45005c881eec5323"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Execute a command within a child process.  <a href="a01110.html#ga6340023fde71cb0e45005c881eec5323">More...</a><br /></td></tr>
+<tr class="separator:ga6340023fde71cb0e45005c881eec5323"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab04a347eacf073a5008359f37f1cdad3"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01110.html#gab04a347eacf073a5008359f37f1cdad3">pcl_proc_pipe</a> (<a class="el" href="a00101.html#ad9cada4fd6c46abc8fbf45fea3416a66">pcl_file_t</a> *pipes[2], int rd_oflags, int wr_oflags)</td></tr>
+<tr class="memdesc:gab04a347eacf073a5008359f37f1cdad3"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Creates a pipe pair of pcl_file_t objects using the given read and write open flags (PCL_O_xxx).  <a href="a01110.html#gab04a347eacf073a5008359f37f1cdad3">More...</a><br /></td></tr>
+<tr class="separator:gab04a347eacf073a5008359f37f1cdad3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga403317a17754c52687615448d3752786"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT pid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01110.html#ga403317a17754c52687615448d3752786">pcl_proc_self</a> (void)</td></tr>
+<tr class="memdesc:ga403317a17754c52687615448d3752786"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Gets the Process ID of the calling process (PID).  <a href="a01110.html#ga403317a17754c52687615448d3752786">More...</a><br /></td></tr>
+<tr class="separator:ga403317a17754c52687615448d3752786"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa625964173add23831431d1ab1d48ffc"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a00101.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01110.html#gaa625964173add23831431d1ab1d48ffc">pcl_proc_path</a> (pid_t pid)</td></tr>
+<tr class="memdesc:gaa625964173add23831431d1ab1d48ffc"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Get a process's path.  <a href="a01110.html#gaa625964173add23831431d1ab1d48ffc">More...</a><br /></td></tr>
+<tr class="separator:gaa625964173add23831431d1ab1d48ffc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga25ee01ddb7701aa34ac2b1f8ec3b9b1c"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01110.html#ga25ee01ddb7701aa34ac2b1f8ec3b9b1c">pcl_proc_setpriv</a> (const <a class="el" href="a00101.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *priv, bool enable)</td></tr>
+<tr class="memdesc:ga25ee01ddb7701aa34ac2b1f8ec3b9b1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Enables or disables a process privilege.  <a href="a01110.html#ga25ee01ddb7701aa34ac2b1f8ec3b9b1c">More...</a><br /></td></tr>
+<tr class="separator:ga25ee01ddb7701aa34ac2b1f8ec3b9b1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabedb79800f25896ebfbc4c987ae08513"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01110.html#gabedb79800f25896ebfbc4c987ae08513">pcl_proc_close</a> (<a class="el" href="a00101.html#aebcc95bdc886e05c6e79044367ebc127">pcl_prochandle_t</a> handle)</td></tr>
+<tr class="memdesc:gabedb79800f25896ebfbc4c987ae08513"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Close a process handle.  <a href="a01110.html#gabedb79800f25896ebfbc4c987ae08513">More...</a><br /></td></tr>
+<tr class="separator:gabedb79800f25896ebfbc4c987ae08513"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaaf83b3f360e47aaadb80236b8b87a512"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01110.html#gaaf83b3f360e47aaadb80236b8b87a512">pcl_proc_parsecmd</a> (const <a class="el" href="a00101.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *shell_cmd, <a class="el" href="a00101.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> ***out)</td></tr>
+<tr class="memdesc:gaaf83b3f360e47aaadb80236b8b87a512"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Converts the given shell command to a valid argv array, which is <code>NULL</code> terminated.  <a href="a01110.html#gaaf83b3f360e47aaadb80236b8b87a512">More...</a><br /></td></tr>
+<tr class="separator:gaaf83b3f360e47aaadb80236b8b87a512"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaff8afc5485fb9d86c2477e39e3163429"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01110.html#gaff8afc5485fb9d86c2477e39e3163429">pcl_proc_freeargv</a> (int targc, <a class="el" href="a00101.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> **targv)</td></tr>
+<tr class="memdesc:gaff8afc5485fb9d86c2477e39e3163429"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Free an argv array.  <a href="a01110.html#gaff8afc5485fb9d86c2477e39e3163429">More...</a><br /></td></tr>
+<tr class="separator:gaff8afc5485fb9d86c2477e39e3163429"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf853825c1435f4a9ff30821a45556d01"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a00101.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01110.html#gaf853825c1435f4a9ff30821a45556d01">pcl_getenv</a> (const <a class="el" href="a00101.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *name)</td></tr>
+<tr class="memdesc:gaf853825c1435f4a9ff30821a45556d01"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Get the value of an environment variable.  <a href="a01110.html#gaf853825c1435f4a9ff30821a45556d01">More...</a><br /></td></tr>
+<tr class="separator:gaf853825c1435f4a9ff30821a45556d01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gace0c6222678a363bdcf34a792caf2605"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01110.html#gace0c6222678a363bdcf34a792caf2605">pcl_setenv</a> (const <a class="el" href="a00101.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *name, const <a class="el" href="a00101.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *value, bool overwrite)</td></tr>
+<tr class="memdesc:gace0c6222678a363bdcf34a792caf2605"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Set the value of an environment variable.  <a href="a01110.html#gace0c6222678a363bdcf34a792caf2605">More...</a><br /></td></tr>
+<tr class="separator:gace0c6222678a363bdcf34a792caf2605"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga664ead6ff59373f6eb600298c26837c2"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01110.html#ga664ead6ff59373f6eb600298c26837c2">pcl_unsetenv</a> (const <a class="el" href="a00101.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *name)</td></tr>
+<tr class="memdesc:ga664ead6ff59373f6eb600298c26837c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Unset an environment variable.  <a href="a01110.html#ga664ead6ff59373f6eb600298c26837c2">More...</a><br /></td></tr>
+<tr class="separator:ga664ead6ff59373f6eb600298c26837c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a0b9ee24d653ed3d56acdd7deea798b3c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0b9ee24d653ed3d56acdd7deea798b3c">&#9670;&nbsp;</a></span>PCL_SOCK_NONBLOCK</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define PCL_SOCK_NONBLOCK&#160;&#160;&#160;0x01</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00074_source.html#l00053">53</a> of file <a class="el" href="a00074_source.html">socket.h</a>.</p>
-
-</div>
-</div>
-<a id="aa2021c1f54b94b4ec01dd6d44d9b53ac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa2021c1f54b94b4ec01dd6d44d9b53ac">&#9670;&nbsp;</a></span>PCL_SOCK_CONNECTED</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define PCL_SOCK_CONNECTED&#160;&#160;&#160;0x02</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00074_source.html#l00054">54</a> of file <a class="el" href="a00074_source.html">socket.h</a>.</p>
-
-</div>
-</div>
-<a id="a26769957ec1a2beaf223f33b66ee64ab"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a26769957ec1a2beaf223f33b66ee64ab">&#9670;&nbsp;</a></span>INVALID_SOCKET</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define INVALID_SOCKET&#160;&#160;&#160;(<a class="el" href="a00098.html#a35d4d11068f60efd5365b31e315c18eb">pcl_socketfd_t</a>)(-1)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00074_source.html#l00057">57</a> of file <a class="el" href="a00074_source.html">socket.h</a>.</p>
-
-</div>
-</div>
-<a id="acc058eb75fbe9bf75064cd675ad96d21"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acc058eb75fbe9bf75064cd675ad96d21">&#9670;&nbsp;</a></span>POLLRDHUP</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define POLLRDHUP&#160;&#160;&#160;0x2000</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00074_source.html#l00062">62</a> of file <a class="el" href="a00074_source.html">socket.h</a>.</p>
-
-</div>
-</div>
-<a id="af1c8cf84ac37451afaef3bde9976b6e1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af1c8cf84ac37451afaef3bde9976b6e1">&#9670;&nbsp;</a></span>SHUT_RD</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define SHUT_RD&#160;&#160;&#160;0 /* No more receptions.  */</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00074_source.html#l00065">65</a> of file <a class="el" href="a00074_source.html">socket.h</a>.</p>
-
-</div>
-</div>
-<a id="addb0a758e6fafdd89f5b7120f84738eb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#addb0a758e6fafdd89f5b7120f84738eb">&#9670;&nbsp;</a></span>SHUT_WR</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define SHUT_WR&#160;&#160;&#160;1	/* No more transmissions.  */</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00074_source.html#l00068">68</a> of file <a class="el" href="a00074_source.html">socket.h</a>.</p>
-
-</div>
-</div>
-<a id="a80c54d1399557c97a0c81a319d08e9db"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a80c54d1399557c97a0c81a319d08e9db">&#9670;&nbsp;</a></span>SHUT_RDWR</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define SHUT_RDWR&#160;&#160;&#160;2 /* No more receptions or transmissions.  */</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00074_source.html#l00071">71</a> of file <a class="el" href="a00074_source.html">socket.h</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="aac303faba752f9112d378b001c94a501"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aac303faba752f9112d378b001c94a501">&#9670;&nbsp;</a></span>pcl_socket()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">PCL_EXPORT <a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a>* pcl_socket </td>
-          <td>(</td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>host</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>port</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00701_source.html#l00046">46</a> of file <a class="el" href="a00701_source.html">socket.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a00668_source.html#l00071">tag_pcl_socket::addr</a>, <a class="el" href="a00668_source.html#l00053">tag_pcl_socket::fd</a>, <a class="el" href="a00074_source.html#l00057">INVALID_SOCKET</a>, <a class="el" href="a00704_source.html#l00036">ipcl_socket_alloc()</a>, <a class="el" href="a00014_source.html#l00227">PCL_EAFNOSUPPORT</a>, <a class="el" href="a00014_source.html#l00078">PCL_EINVAL</a>, <a class="el" href="a00014_source.html#l00263">PCL_EPFNOSUPPORT</a>, <a class="el" href="a00602_source.html#l00035">pcl_net_ai2pcl()</a>, <a class="el" href="a00707_source.html#l00040">pcl_socket_close()</a>, <a class="el" href="a01108.html#ga25f17052163749bc3e0d31ae8741a47b">pcl_strcpy()</a>, <a class="el" href="a00011_source.html#l00145">R_SETERR</a>, <a class="el" href="a00668_source.html#l00068">tag_pcl_socket::sa_len</a>, <a class="el" href="a00668_source.html#l00056">tag_pcl_socket::sa_protocol</a>, <a class="el" href="a00668_source.html#l00059">tag_pcl_socket::sa_socktype</a>, <a class="el" href="a00011_source.html#l00065">SETERR</a>, <a class="el" href="a00011_source.html#l00087">SETERRMSG</a>, <a class="el" href="a00011_source.html#l00125">SETLASTERR</a>, <a class="el" href="a00029_source.html#l00124">strempty</a>, and <a class="el" href="a00011_source.html#l00262">TRC</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="a00758_source.html#l00036">ipcl_ssl_configure_socket()</a>.</p>
-
-</div>
-</div>
-<a id="abe8fab239ab48bab01c7be28b7e3ab01"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abe8fab239ab48bab01c7be28b7e3ab01">&#9670;&nbsp;</a></span>pcl_connect()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">PCL_EXPORT int pcl_connect </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *&#160;</td>
-          <td class="paramname"><em>sock</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00677_source.html#l00036">36</a> of file <a class="el" href="a00677_source.html">connect.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a00668_source.html#l00071">tag_pcl_socket::addr</a>, <a class="el" href="a00668_source.html#l00053">tag_pcl_socket::fd</a>, <a class="el" href="a00668_source.html#l00050">tag_pcl_socket::flags</a>, <a class="el" href="a00074_source.html#l00057">INVALID_SOCKET</a>, <a class="el" href="a00014_source.html#l00048">PCL_EAGAIN</a>, <a class="el" href="a00014_source.html#l00052">PCL_EALREADY</a>, <a class="el" href="a00014_source.html#l00050">PCL_EINPROGRESS</a>, <a class="el" href="a00014_source.html#l00076">PCL_EINTR</a>, <a class="el" href="a00014_source.html#l00078">PCL_EINVAL</a>, <a class="el" href="a00014_source.html#l00241">PCL_EISCONN</a>, <a class="el" href="a00371_source.html#l00035">pcl_err_os2pcl()</a>, <a class="el" href="a00074_source.html#l00054">PCL_SOCK_CONNECTED</a>, <a class="el" href="a00041_source.html#l00135">pcl_sockerrno</a>, <a class="el" href="a00668_source.html#l00068">tag_pcl_socket::sa_len</a>, and <a class="el" href="a00011_source.html#l00065">SETERR</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="a00761_source.html#l00037">pcl_ssl_connect()</a>.</p>
-
-</div>
-</div>
-<a id="ac35fe5869e3a8c1898e04d165b9ee14f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac35fe5869e3a8c1898e04d165b9ee14f">&#9670;&nbsp;</a></span>pcl_accept()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">PCL_EXPORT <a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a>* pcl_accept </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *&#160;</td>
-          <td class="paramname"><em>sock</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00671_source.html#l00041">41</a> of file <a class="el" href="a00671_source.html">accept.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a00668_source.html#l00071">tag_pcl_socket::addr</a>, <a class="el" href="a00668_source.html#l00053">tag_pcl_socket::fd</a>, <a class="el" href="a00668_source.html#l00050">tag_pcl_socket::flags</a>, <a class="el" href="a00074_source.html#l00057">INVALID_SOCKET</a>, <a class="el" href="a00704_source.html#l00036">ipcl_socket_alloc()</a>, <a class="el" href="a00014_source.html#l00048">PCL_EAGAIN</a>, <a class="el" href="a00014_source.html#l00050">PCL_EINPROGRESS</a>, <a class="el" href="a00014_source.html#l00076">PCL_EINTR</a>, <a class="el" href="a00371_source.html#l00035">pcl_err_os2pcl()</a>, <a class="el" href="a00074_source.html#l00054">PCL_SOCK_CONNECTED</a>, <a class="el" href="a00074_source.html#l00053">PCL_SOCK_NONBLOCK</a>, <a class="el" href="a00041_source.html#l00135">pcl_sockerrno</a>, <a class="el" href="a00707_source.html#l00040">pcl_socket_close()</a>, <a class="el" href="a00731_source.html#l00040">pcl_socket_setnonblocking()</a>, <a class="el" href="a00011_source.html#l00145">R_SETERR</a>, <a class="el" href="a00668_source.html#l00068">tag_pcl_socket::sa_len</a>, <a class="el" href="a00668_source.html#l00056">tag_pcl_socket::sa_protocol</a>, and <a class="el" href="a00668_source.html#l00059">tag_pcl_socket::sa_socktype</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="a00749_source.html#l00037">pcl_ssl_accept()</a>.</p>
-
-</div>
-</div>
-<a id="ac85dcefb08fba74d70b0a97f86840bff"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac85dcefb08fba74d70b0a97f86840bff">&#9670;&nbsp;</a></span>pcl_select()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">PCL_EXPORT int pcl_select </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>fds</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">fd_set *&#160;</td>
-          <td class="paramname"><em>rset</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">fd_set *&#160;</td>
-          <td class="paramname"><em>wset</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">fd_set *&#160;</td>
-          <td class="paramname"><em>eset</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">struct timeval *&#160;</td>
-          <td class="paramname"><em>tv</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00689_source.html#l00037">37</a> of file <a class="el" href="a00689_source.html">select.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a00959_source.html#l00036">pcl_clock()</a>, <a class="el" href="a00014_source.html#l00158">PCL_ETIMEOUT</a>, <a class="el" href="a00095_source.html#l00146">pcl_usecdiff()</a>, <a class="el" href="a00095_source.html#l00046">PCL_USECS</a>, <a class="el" href="a00011_source.html#l00145">R_SETERR</a>, and <a class="el" href="a00011_source.html#l00125">SETLASTERR</a>.</p>
-
-</div>
-</div>
-<a id="a7348fe71ddaa16c2ca9d14113a8b9e34"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7348fe71ddaa16c2ca9d14113a8b9e34">&#9670;&nbsp;</a></span>pcl_shutdown()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">PCL_EXPORT void pcl_shutdown </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *&#160;</td>
-          <td class="paramname"><em>sock</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>how</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00698_source.html#l00035">35</a> of file <a class="el" href="a00698_source.html">shutdown.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a00668_source.html#l00053">tag_pcl_socket::fd</a>, <a class="el" href="a00668_source.html#l00050">tag_pcl_socket::flags</a>, <a class="el" href="a00074_source.html#l00057">INVALID_SOCKET</a>, <a class="el" href="a00074_source.html#l00054">PCL_SOCK_CONNECTED</a>, and <a class="el" href="a00074_source.html#l00071">SHUT_RDWR</a>.</p>
-
-</div>
-</div>
-<a id="abd407eb3345b04d0299410d26b5c8108"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abd407eb3345b04d0299410d26b5c8108">&#9670;&nbsp;</a></span>pcl_recv()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">PCL_EXPORT ssize_t pcl_recv </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *&#160;</td>
-          <td class="paramname"><em>sock</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>buf</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>count</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>flags</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00683_source.html#l00036">36</a> of file <a class="el" href="a00683_source.html">recv.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a00668_source.html#l00053">tag_pcl_socket::fd</a>, <a class="el" href="a00014_source.html#l00048">PCL_EAGAIN</a>, <a class="el" href="a00014_source.html#l00076">PCL_EINTR</a>, <a class="el" href="a00014_source.html#l00078">PCL_EINVAL</a>, <a class="el" href="a00371_source.html#l00035">pcl_err_os2pcl()</a>, <a class="el" href="a00014_source.html#l00130">PCL_EWOULDBLOCK</a>, <a class="el" href="a00041_source.html#l00135">pcl_sockerrno</a>, <a class="el" href="a00719_source.html#l00035">pcl_socket_isalive()</a>, and <a class="el" href="a00011_source.html#l00065">SETERR</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="a00686_source.html#l00036">pcl_recvall()</a>.</p>
-
-</div>
-</div>
-<a id="ab3d4e36501e13b4335b52bb0a00bf579"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab3d4e36501e13b4335b52bb0a00bf579">&#9670;&nbsp;</a></span>pcl_recvall()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">PCL_EXPORT bool pcl_recvall </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *&#160;</td>
-          <td class="paramname"><em>sock</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>buf</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>count</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00686_source.html#l00036">36</a> of file <a class="el" href="a00686_source.html">recvall.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a00014_source.html#l00233">PCL_ECONNRESET</a>, <a class="el" href="a00683_source.html#l00036">pcl_recv()</a>, <a class="el" href="a00011_source.html#l00065">SETERR</a>, and <a class="el" href="a00011_source.html#l00262">TRC</a>.</p>
-
-</div>
-</div>
-<a id="af0202e0f54398d92480ad7c8970d14f8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af0202e0f54398d92480ad7c8970d14f8">&#9670;&nbsp;</a></span>pcl_send()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">PCL_EXPORT ssize_t pcl_send </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *&#160;</td>
-          <td class="paramname"><em>sock</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const void *&#160;</td>
-          <td class="paramname"><em>data</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>count</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>flags</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00692_source.html#l00036">36</a> of file <a class="el" href="a00692_source.html">send.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a00668_source.html#l00053">tag_pcl_socket::fd</a>, <a class="el" href="a00014_source.html#l00048">PCL_EAGAIN</a>, <a class="el" href="a00014_source.html#l00076">PCL_EINTR</a>, <a class="el" href="a00014_source.html#l00078">PCL_EINVAL</a>, <a class="el" href="a00371_source.html#l00035">pcl_err_os2pcl()</a>, <a class="el" href="a00014_source.html#l00130">PCL_EWOULDBLOCK</a>, <a class="el" href="a00041_source.html#l00135">pcl_sockerrno</a>, <a class="el" href="a00719_source.html#l00035">pcl_socket_isalive()</a>, and <a class="el" href="a00011_source.html#l00065">SETERR</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="a00695_source.html#l00036">pcl_sendall()</a>.</p>
-
-</div>
-</div>
-<a id="acd004c18f11a6f0f36ba4ad57da4a503"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acd004c18f11a6f0f36ba4ad57da4a503">&#9670;&nbsp;</a></span>pcl_sendall()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">PCL_EXPORT bool pcl_sendall </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *&#160;</td>
-          <td class="paramname"><em>sock</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const void *&#160;</td>
-          <td class="paramname"><em>data</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>count</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00695_source.html#l00036">36</a> of file <a class="el" href="a00695_source.html">sendall.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a00692_source.html#l00036">pcl_send()</a>, and <a class="el" href="a00011_source.html#l00287">R_TRC</a>.</p>
-
-</div>
-</div>
-<a id="a0ae58536d08116844455ea582cf629f0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0ae58536d08116844455ea582cf629f0">&#9670;&nbsp;</a></span>pcl_bind()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">PCL_EXPORT int pcl_bind </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *&#160;</td>
-          <td class="paramname"><em>sock</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00674_source.html#l00045">45</a> of file <a class="el" href="a00674_source.html">bind.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a00668_source.html#l00071">tag_pcl_socket::addr</a>, <a class="el" href="a00668_source.html#l00053">tag_pcl_socket::fd</a>, <a class="el" href="a01094.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free()</a>, <a class="el" href="a00041_source.html#l00135">pcl_sockerrno</a>, <a class="el" href="a00482_source.html#l00041">pcl_unlink()</a>, <a class="el" href="a00884_source.html#l00063">pcl_utf8_to_pcs()</a>, <a class="el" href="a00668_source.html#l00068">tag_pcl_socket::sa_len</a>, and <a class="el" href="a00011_source.html#l00111">SETOSERR</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="a00764_source.html#l00073">pcl_ssl_create()</a>.</p>
-
-</div>
-</div>
-<a id="a29417c8b83a1ccbb17225d61b4fe2fd5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a29417c8b83a1ccbb17225d61b4fe2fd5">&#9670;&nbsp;</a></span>pcl_listen()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">PCL_EXPORT int pcl_listen </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *&#160;</td>
-          <td class="paramname"><em>sock</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>backlog</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00680_source.html#l00036">36</a> of file <a class="el" href="a00680_source.html">listen.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a00668_source.html#l00053">tag_pcl_socket::fd</a>, <a class="el" href="a00029_source.html#l00112">max</a>, <a class="el" href="a00041_source.html#l00135">pcl_sockerrno</a>, and <a class="el" href="a00011_source.html#l00111">SETOSERR</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="a00764_source.html#l00073">pcl_ssl_create()</a>.</p>
-
-</div>
-</div>
-<a id="ac7838dea49e81078e1ae5bde9319005d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac7838dea49e81078e1ae5bde9319005d">&#9670;&nbsp;</a></span>pcl_socket_close()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">PCL_EXPORT void pcl_socket_close </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *&#160;</td>
-          <td class="paramname"><em>sock</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00707_source.html#l00040">40</a> of file <a class="el" href="a00707_source.html">socket_close.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a00668_source.html#l00053">tag_pcl_socket::fd</a>, <a class="el" href="a00074_source.html#l00057">INVALID_SOCKET</a>, <a class="el" href="a00668_source.html#l00062">tag_pcl_socket::ipaddr</a>, <a class="el" href="a01094.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free()</a>, and <a class="el" href="a01094.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe()</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="a00671_source.html#l00041">pcl_accept()</a>, <a class="el" href="a00701_source.html#l00046">pcl_socket()</a>, and <a class="el" href="a00755_source.html#l00037">pcl_ssl_close()</a>.</p>
-
-</div>
-</div>
-<a id="a6eb0fc1509e3439a9940d1e70c4cad60"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6eb0fc1509e3439a9940d1e70c4cad60">&#9670;&nbsp;</a></span>pcl_socket_isalive()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">PCL_EXPORT bool pcl_socket_isalive </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *&#160;</td>
-          <td class="paramname"><em>sock</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00719_source.html#l00035">35</a> of file <a class="el" href="a00719_source.html">socket_isalive.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a00668_source.html#l00053">tag_pcl_socket::fd</a>, <a class="el" href="a00668_source.html#l00050">tag_pcl_socket::flags</a>, <a class="el" href="a00074_source.html#l00057">INVALID_SOCKET</a>, and <a class="el" href="a00074_source.html#l00054">PCL_SOCK_CONNECTED</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="a00683_source.html#l00036">pcl_recv()</a>, <a class="el" href="a00692_source.html#l00036">pcl_send()</a>, <a class="el" href="a00761_source.html#l00037">pcl_ssl_connect()</a>, and <a class="el" href="a00779_source.html#l00036">pcl_ssl_isalive()</a>.</p>
-
-</div>
-</div>
-<a id="a8ef9a8e3b2590a539c760dae3d4720ca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8ef9a8e3b2590a539c760dae3d4720ca">&#9670;&nbsp;</a></span>pcl_socket_error()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">PCL_EXPORT int pcl_socket_error </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *&#160;</td>
-          <td class="paramname"><em>sock</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00710_source.html#l00040">40</a> of file <a class="el" href="a00710_source.html">socket_error.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a00668_source.html#l00053">tag_pcl_socket::fd</a>, <a class="el" href="a00014_source.html#l00042">PCL_EOKAY</a>, and <a class="el" href="a00371_source.html#l00035">pcl_err_os2pcl()</a>.</p>
-
-</div>
-</div>
-<a id="a7e9cfa84011f73eff1e3f46e7104f1fb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7e9cfa84011f73eff1e3f46e7104f1fb">&#9670;&nbsp;</a></span>pcl_socket_fd()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">PCL_EXPORT <a class="el" href="a00098.html#a35d4d11068f60efd5365b31e315c18eb">pcl_socketfd_t</a> pcl_socket_fd </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *&#160;</td>
-          <td class="paramname"><em>sock</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00713_source.html#l00036">36</a> of file <a class="el" href="a00713_source.html">socket_fd.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a00668_source.html#l00053">tag_pcl_socket::fd</a>, <a class="el" href="a00074_source.html#l00057">INVALID_SOCKET</a>, <a class="el" href="a00014_source.html#l00078">PCL_EINVAL</a>, and <a class="el" href="a00011_source.html#l00145">R_SETERR</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="a00758_source.html#l00036">ipcl_ssl_configure_socket()</a>, <a class="el" href="a00749_source.html#l00037">pcl_ssl_accept()</a>, and <a class="el" href="a00761_source.html#l00037">pcl_ssl_connect()</a>.</p>
-
-</div>
-</div>
-<a id="a68dc8a2ab719789e933ab7d6612f9c9d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a68dc8a2ab719789e933ab7d6612f9c9d">&#9670;&nbsp;</a></span>pcl_socket_ip()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">PCL_EXPORT char* pcl_socket_ip </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *&#160;</td>
-          <td class="paramname"><em>sock</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00716_source.html#l00039">39</a> of file <a class="el" href="a00716_source.html">socket_ip.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a00668_source.html#l00071">tag_pcl_socket::addr</a>, <a class="el" href="a00668_source.html#l00062">tag_pcl_socket::ipaddr</a>, <a class="el" href="a00014_source.html#l00078">PCL_EINVAL</a>, <a class="el" href="a00062_source.html#l00041">PCL_MAXIPLEN</a>, <a class="el" href="a00596_source.html#l00042">pcl_net_addr2ip()</a>, <a class="el" href="a01108.html#ga046608776c880d7d3bf39943e692f064">pcl_strdup()</a>, <a class="el" href="a00011_source.html#l00145">R_SETERR</a>, and <a class="el" href="a00011_source.html#l00287">R_TRC</a>.</p>
-
-</div>
-</div>
-<a id="aaca369f06276121e76d027f060ad4f45"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaca369f06276121e76d027f060ad4f45">&#9670;&nbsp;</a></span>pcl_socket_port()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">PCL_EXPORT int pcl_socket_port </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *&#160;</td>
-          <td class="paramname"><em>sock</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00725_source.html#l00040">40</a> of file <a class="el" href="a00725_source.html">socket_port.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a00668_source.html#l00071">tag_pcl_socket::addr</a>, <a class="el" href="a00014_source.html#l00078">PCL_EINVAL</a>, and <a class="el" href="a00011_source.html#l00065">SETERR</a>.</p>
-
-</div>
-</div>
-<a id="a1bdb3797e114a841d65b05a1ec382275"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1bdb3797e114a841d65b05a1ec382275">&#9670;&nbsp;</a></span>pcl_socket_setrcvtimeo()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">PCL_EXPORT int pcl_socket_setrcvtimeo </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *&#160;</td>
-          <td class="paramname"><em>sock</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>msecs</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00734_source.html#l00036">36</a> of file <a class="el" href="a00734_source.html">socket_setrcvtimeo.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a00668_source.html#l00053">tag_pcl_socket::fd</a>, <a class="el" href="a00041_source.html#l00135">pcl_sockerrno</a>, and <a class="el" href="a00011_source.html#l00111">SETOSERR</a>.</p>
-
-</div>
-</div>
-<a id="a88ad179436d8841ed952832ca88fe620"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a88ad179436d8841ed952832ca88fe620">&#9670;&nbsp;</a></span>pcl_socket_setsndtimeo()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">PCL_EXPORT int pcl_socket_setsndtimeo </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *&#160;</td>
-          <td class="paramname"><em>sock</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>msecs</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00737_source.html#l00036">36</a> of file <a class="el" href="a00737_source.html">socket_setsndtimeo.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a00668_source.html#l00053">tag_pcl_socket::fd</a>, <a class="el" href="a00041_source.html#l00135">pcl_sockerrno</a>, and <a class="el" href="a00011_source.html#l00111">SETOSERR</a>.</p>
-
-</div>
-</div>
-<a id="a13c9c1bf545cf9e9cf9c7ed464c7c605"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a13c9c1bf545cf9e9cf9c7ed464c7c605">&#9670;&nbsp;</a></span>pcl_socket_setnonblocking()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">PCL_EXPORT int pcl_socket_setnonblocking </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *&#160;</td>
-          <td class="paramname"><em>sock</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>enable</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00731_source.html#l00040">40</a> of file <a class="el" href="a00731_source.html">socket_setnonblocking.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a00668_source.html#l00053">tag_pcl_socket::fd</a>, <a class="el" href="a00668_source.html#l00050">tag_pcl_socket::flags</a>, <a class="el" href="a00074_source.html#l00053">PCL_SOCK_NONBLOCK</a>, <a class="el" href="a00041_source.html#l00135">pcl_sockerrno</a>, <a class="el" href="a00011_source.html#l00125">SETLASTERR</a>, and <a class="el" href="a00011_source.html#l00111">SETOSERR</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="a00758_source.html#l00036">ipcl_ssl_configure_socket()</a>, and <a class="el" href="a00671_source.html#l00041">pcl_accept()</a>.</p>
-
-</div>
-</div>
-<a id="a111d7c2fcc9e7f0d4ea89ac09299ca73"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a111d7c2fcc9e7f0d4ea89ac09299ca73">&#9670;&nbsp;</a></span>pcl_socket_setkeepalive()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">PCL_EXPORT void pcl_socket_setkeepalive </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *&#160;</td>
-          <td class="paramname"><em>sock</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a01151.html">pcl_keepalive_t</a> *&#160;</td>
-          <td class="paramname"><em>ka</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00728_source.html#l00040">40</a> of file <a class="el" href="a00728_source.html">socket_setkeepalive.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a00074_source.html#l00080">pcl_keepalive_t::enable</a>, <a class="el" href="a00668_source.html#l00053">tag_pcl_socket::fd</a>, <a class="el" href="a00074_source.html#l00081">pcl_keepalive_t::idle</a>, <a class="el" href="a00074_source.html#l00082">pcl_keepalive_t::interval</a>, and <a class="el" href="a00074_source.html#l00083">pcl_keepalive_t::probes</a>.</p>
-
-</div>
-</div>
-<a id="a121d7e9be6d00679c8b251b3b21e8b54"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a121d7e9be6d00679c8b251b3b21e8b54">&#9670;&nbsp;</a></span>pcl_ispassive()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">PCL_EXPORT bool pcl_ispassive </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00098.html#a281dab68eedba9982a54c3bf45d47d91">pcl_socket_t</a> *&#160;</td>
-          <td class="paramname"><em>sock</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00722_source.html#l00040">40</a> of file <a class="el" href="a00722_source.html">socket_ispassive.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a00668_source.html#l00053">tag_pcl_socket::fd</a>, and <a class="el" href="a00011_source.html#l00125">SETLASTERR</a>.</p>
-
-</div>
-</div>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->

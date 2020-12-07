@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/error/err_vtrace.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/error/err_vsprintf.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">err_vtrace.c</div>  </div>
+<div class="title">err_vsprintf.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00398.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,100 +101,21 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;../errctx/_errctx.h&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00017.html">pcl/alloc.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00059.html">pcl/io.h</a>&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00083.html">pcl/string.h</a>&gt;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="a01099.html#ga86913f06e1be53427513e88d829651ad">   38</a></span>&#160;<a class="code" href="a01099.html#ga86913f06e1be53427513e88d829651ad">pcl_err_vtrace</a>(<a class="code" href="a00029.html#acaae4a70e5707a94c3ea8e9da14fcab6">PCL_LOCATION_PARAMS</a>, <span class="keyword">const</span> <span class="keywordtype">char</span> *format, va_list ap)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <a class="code" href="a01127.html">pcl_err_ctx_t</a> *ctx = <a class="code" href="a01099.html#gacba4bcf84db2e3237d7274aa57a30253">pcl_err_ctx</a>();</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordflow">if</span>(ctx-&gt;<a class="code" href="a01127.html#a9ec42de702ac1fcf2d7307c5a2415b94">frozen</a>)</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="comment">/* To avoid issues with a trace occuring in an SO or DLL that&#39;s been unloaded, we must allocate</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment">   * file and func. We can&#39;t count on file and func const strings being available. We also allocate</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment">   * the dynaically sized format message. All of these strings are allocated at end of the trace</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment">   * struct, so we have one allocation rather than four per trace.</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment">   */</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <span class="keywordtype">size_t</span> file_len = 0, func_len = 0, msg_len = 0;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <span class="keywordflow">if</span>(file)</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    file_len = strlen(file) + 1;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordflow">if</span>(func)</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    func_len = strlen(func) + 1;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  <span class="keywordflow">if</span>(!<a class="code" href="a00029.html#a8278668d120afdd0e47def881845559d">strempty</a>(format))</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  {</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    va_list ap2;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    va_copy(ap2, ap);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    msg_len = <a class="code" href="a01106.html#gacabe8fd13aa180b4c36b1d55d9e3605f">pcl_vsprintf</a>(NULL, 0, format, ap2) + 1; <span class="comment">// query for size</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    va_end(ap2);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  }</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  <span class="keywordtype">size_t</span> trc_len = <span class="keyword">sizeof</span>(<a class="code" href="a00098.html#a5ac911541b566c007c682947c68cd08f">pcl_err_trace_t</a>) + file_len + func_len + msg_len;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <a class="code" href="a01123.html">pcl_err_trace_t</a> *trc = <a class="code" href="a01094.html#ga8f4cbae7a9d6191bceec2d2d1f04eb5d">pcl_zalloc</a>(trc_len);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  <span class="keywordtype">char</span> *tail = (<span class="keywordtype">char</span> *) (trc + 1);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  trc-&gt;<a class="code" href="a01123.html#a41ebd28ef1d7c6ade45642cb6acc1039">line</a> = line;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  trc-&gt;<a class="code" href="a01123.html#a854352f53b148adc24983a58a1866d66">size</a> = trc_len;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  trc-&gt;<a class="code" href="a01123.html#adf16cd437526a5c5e0e0af87745acbb8">file</a> = file_len ? tail : NULL;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  trc-&gt;<a class="code" href="a01123.html#adf9a36a42a9dc6f127512f5ff82b01e3">func</a> = func_len ? tail + file_len : NULL;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  trc-&gt;<a class="code" href="a01123.html#a32d2f5216cddb59c7cc8fb2806a7e727">msg</a> = msg_len ? tail + file_len + func_len : NULL;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  <span class="keywordflow">if</span>(trc-&gt;<a class="code" href="a01123.html#adf16cd437526a5c5e0e0af87745acbb8">file</a>)</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  {</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    memcpy(trc-&gt;<a class="code" href="a01123.html#adf16cd437526a5c5e0e0af87745acbb8">file</a>, file, file_len);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <a class="code" href="a01108.html#gaa4541cdb547f77703315e143bb34cec7">pcl_strrepchr</a>(trc-&gt;<a class="code" href="a01123.html#adf16cd437526a5c5e0e0af87745acbb8">file</a>, <span class="charliteral">&#39;\\&#39;</span>, <span class="charliteral">&#39;/&#39;</span>);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  }</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  <span class="keywordflow">if</span>(trc-&gt;<a class="code" href="a01123.html#adf9a36a42a9dc6f127512f5ff82b01e3">func</a>)</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  {</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    memcpy(trc-&gt;<a class="code" href="a01123.html#adf9a36a42a9dc6f127512f5ff82b01e3">func</a>, func, func_len);</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <a class="code" href="a01108.html#gaa4541cdb547f77703315e143bb34cec7">pcl_strrepchr</a>(trc-&gt;<a class="code" href="a01123.html#adf9a36a42a9dc6f127512f5ff82b01e3">func</a>, <span class="charliteral">&#39;\\&#39;</span>, <span class="charliteral">&#39;/&#39;</span>);</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;  }</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;  <span class="keywordflow">if</span>(trc-&gt;<a class="code" href="a01123.html#a32d2f5216cddb59c7cc8fb2806a7e727">msg</a>)</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <a class="code" href="a01106.html#gacabe8fd13aa180b4c36b1d55d9e3605f">pcl_vsprintf</a>(trc-&gt;<a class="code" href="a01123.html#a32d2f5216cddb59c7cc8fb2806a7e727">msg</a>, msg_len, format, ap);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;  <span class="comment">/* add to stack (push) */</span></div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;  trc-&gt;<a class="code" href="a01123.html#a365f8bd3193b20fc56c910edb668a93b">next</a> = ctx-&gt;<a class="code" href="a01127.html#af22b89a25236c26e197118ca1652019a">strace</a>;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  ctx-&gt;<a class="code" href="a01127.html#af22b89a25236c26e197118ca1652019a">strace</a> = trc;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;  <span class="keywordflow">return</span> ctx-&gt;<a class="code" href="a01127.html#a6ce68847c12434f60d1b2654a3dc3409">err</a> == <a class="code" href="a01100.html#gad3b43ba0f3d97d535a1a3cf7fd8b35c2">PCL_EOKAY</a> ? 0 : -1;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00335.html">_error.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00041.html">pcl/errctx.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01102.html#ga831abab4c892fe6f99eb8a39174119c8">   36</a></span>&#160;<a class="code" href="a01102.html#ga831abab4c892fe6f99eb8a39174119c8">pcl_err_vsprintf</a>(<span class="keywordtype">char</span> *buf, <span class="keywordtype">size_t</span> size, <span class="keywordtype">int</span> indent,</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">char</span> *format, va_list args)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a00041.html#af3bc462b7e275d0b2a2be2202b22f709">pcl_err_ctx_vsprintf</a>(<a class="code" href="a01102.html#gacba4bcf84db2e3237d7274aa57a30253">pcl_err_ctx</a>(), buf, size, indent, format, args);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01123_html"><div class="ttname"><a href="a01123.html">tag_pcl_err_trace</a></div><div class="ttdoc">Stack trace object implemented as a linked list.</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00042">errctx.h:43</a></div></div>
-<div class="ttc" id="aa01106_html_gacabe8fd13aa180b4c36b1d55d9e3605f"><div class="ttname"><a href="a01106.html#gacabe8fd13aa180b4c36b1d55d9e3605f">pcl_vsprintf</a></div><div class="ttdeci">PCL_EXPORT int pcl_vsprintf(char *buf, size_t size, const char *format, va_list ap)</div><div class="ttdoc">Write a formatted character string to a buffer.</div></div>
-<div class="ttc" id="aa00029_html_a8278668d120afdd0e47def881845559d"><div class="ttname"><a href="a00029.html#a8278668d120afdd0e47def881845559d">strempty</a></div><div class="ttdeci">#define strempty(str)</div><div class="ttdef"><b>Definition:</b> <a href="a00029_source.html#l00124">defs.h:124</a></div></div>
-<div class="ttc" id="aa01123_html_adf16cd437526a5c5e0e0af87745acbb8"><div class="ttname"><a href="a01123.html#adf16cd437526a5c5e0e0af87745acbb8">tag_pcl_err_trace::file</a></div><div class="ttdeci">char * file</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00046">errctx.h:46</a></div></div>
-<div class="ttc" id="aa01108_html_gaa4541cdb547f77703315e143bb34cec7"><div class="ttname"><a href="a01108.html#gaa4541cdb547f77703315e143bb34cec7">pcl_strrepchr</a></div><div class="ttdeci">PCL_INLINE char * pcl_strrepchr(char *s, int oldch, int newch)</div><div class="ttdoc">Replace all occurance of a character in a string.</div><div class="ttdef"><b>Definition:</b> <a href="a00083_source.html#l00457">string.h:457</a></div></div>
-<div class="ttc" id="aa00017_html"><div class="ttname"><a href="a00017.html">alloc.h</a></div></div>
-<div class="ttc" id="aa00059_html"><div class="ttname"><a href="a00059.html">io.h</a></div></div>
-<div class="ttc" id="aa01100_html_gad3b43ba0f3d97d535a1a3cf7fd8b35c2"><div class="ttname"><a href="a01100.html#gad3b43ba0f3d97d535a1a3cf7fd8b35c2">PCL_EOKAY</a></div><div class="ttdeci">#define PCL_EOKAY</div><div class="ttdoc">The operation was successful.</div><div class="ttdef"><b>Definition:</b> <a href="a00014_source.html#l00042">_errno.h:42</a></div></div>
-<div class="ttc" id="aa01094_html_ga8f4cbae7a9d6191bceec2d2d1f04eb5d"><div class="ttname"><a href="a01094.html#ga8f4cbae7a9d6191bceec2d2d1f04eb5d">pcl_zalloc</a></div><div class="ttdeci">void * pcl_zalloc(size_t n)</div><div class="ttdoc">Allocate and zero dynamic memory.</div></div>
-<div class="ttc" id="aa00029_html_acaae4a70e5707a94c3ea8e9da14fcab6"><div class="ttname"><a href="a00029.html#acaae4a70e5707a94c3ea8e9da14fcab6">PCL_LOCATION_PARAMS</a></div><div class="ttdeci">#define PCL_LOCATION_PARAMS</div><div class="ttdoc">PCL_LOCATION_PARAMS expands to a function/macro declaration's parameter list: ie.</div><div class="ttdef"><b>Definition:</b> <a href="a00029_source.html#l00097">defs.h:97</a></div></div>
-<div class="ttc" id="aa01123_html_a41ebd28ef1d7c6ade45642cb6acc1039"><div class="ttname"><a href="a01123.html#a41ebd28ef1d7c6ade45642cb6acc1039">tag_pcl_err_trace::line</a></div><div class="ttdeci">int line</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00048">errctx.h:48</a></div></div>
-<div class="ttc" id="aa01127_html_a9ec42de702ac1fcf2d7307c5a2415b94"><div class="ttname"><a href="a01127.html#a9ec42de702ac1fcf2d7307c5a2415b94">tag_pcl_err_ctx::frozen</a></div><div class="ttdeci">bool frozen</div><div class="ttdoc">Freezes context, making it immutable.</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00077">errctx.h:77</a></div></div>
-<div class="ttc" id="aa00083_html"><div class="ttname"><a href="a00083.html">string.h</a></div></div>
-<div class="ttc" id="aa01127_html_af22b89a25236c26e197118ca1652019a"><div class="ttname"><a href="a01127.html#af22b89a25236c26e197118ca1652019a">tag_pcl_err_ctx::strace</a></div><div class="ttdeci">pcl_err_trace_t * strace</div><div class="ttdoc">Stack trace implemented as a linked list.</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00089">errctx.h:89</a></div></div>
-<div class="ttc" id="aa01123_html_a365f8bd3193b20fc56c910edb668a93b"><div class="ttname"><a href="a01123.html#a365f8bd3193b20fc56c910edb668a93b">tag_pcl_err_trace::next</a></div><div class="ttdeci">pcl_err_trace_t * next</div><div class="ttdoc">next trace in stack trace or NULL to indicate the end.</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00045">errctx.h:45</a></div></div>
-<div class="ttc" id="aa01127_html_a6ce68847c12434f60d1b2654a3dc3409"><div class="ttname"><a href="a01127.html#a6ce68847c12434f60d1b2654a3dc3409">tag_pcl_err_ctx::err</a></div><div class="ttdeci">int err</div><div class="ttdoc">PCL error code: PCL_EXXX.</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00080">errctx.h:80</a></div></div>
-<div class="ttc" id="aa00098_html_a5ac911541b566c007c682947c68cd08f"><div class="ttname"><a href="a00098.html#a5ac911541b566c007c682947c68cd08f">pcl_err_trace_t</a></div><div class="ttdeci">struct tag_pcl_err_trace pcl_err_trace_t</div><div class="ttdef"><b>Definition:</b> <a href="a00098_source.html#l00060">types.h:64</a></div></div>
-<div class="ttc" id="aa01099_html_ga86913f06e1be53427513e88d829651ad"><div class="ttname"><a href="a01099.html#ga86913f06e1be53427513e88d829651ad">pcl_err_vtrace</a></div><div class="ttdeci">int pcl_err_vtrace(PCL_LOCATION_PARAMS, const char *format, va_list ap)</div><div class="ttdef"><b>Definition:</b> <a href="a00398_source.html#l00038">err_vtrace.c:38</a></div></div>
-<div class="ttc" id="aa01123_html_a32d2f5216cddb59c7cc8fb2806a7e727"><div class="ttname"><a href="a01123.html#a32d2f5216cddb59c7cc8fb2806a7e727">tag_pcl_err_trace::msg</a></div><div class="ttdeci">char * msg</div><div class="ttdoc">optional user-defined message</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00051">errctx.h:51</a></div></div>
-<div class="ttc" id="aa01123_html_a854352f53b148adc24983a58a1866d66"><div class="ttname"><a href="a01123.html#a854352f53b148adc24983a58a1866d66">tag_pcl_err_trace::size</a></div><div class="ttdeci">size_t size</div><div class="ttdoc">allocation size of trace structure.</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00056">errctx.h:56</a></div></div>
-<div class="ttc" id="aa01127_html"><div class="ttname"><a href="a01127.html">tag_pcl_err_ctx</a></div><div class="ttdoc">Represents a PCL error context, with optional stack trace.</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00062">errctx.h:63</a></div></div>
-<div class="ttc" id="aa01123_html_adf9a36a42a9dc6f127512f5ff82b01e3"><div class="ttname"><a href="a01123.html#adf9a36a42a9dc6f127512f5ff82b01e3">tag_pcl_err_trace::func</a></div><div class="ttdeci">char * func</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00047">errctx.h:47</a></div></div>
-<div class="ttc" id="aa01099_html_gacba4bcf84db2e3237d7274aa57a30253"><div class="ttname"><a href="a01099.html#gacba4bcf84db2e3237d7274aa57a30253">pcl_err_ctx</a></div><div class="ttdeci">PCL_EXPORT pcl_err_ctx_t * pcl_err_ctx(void)</div><div class="ttdoc">Gets the calling thread's error context.</div><div class="ttdef"><b>Definition:</b> <a href="a00347_source.html#l00045">err_ctx.c:45</a></div></div>
+<div class="ttc" id="aa01102_html_gacba4bcf84db2e3237d7274aa57a30253"><div class="ttname"><a href="a01102.html#gacba4bcf84db2e3237d7274aa57a30253">pcl_err_ctx</a></div><div class="ttdeci">PCL_EXPORT pcl_err_ctx_t * pcl_err_ctx(void)</div><div class="ttdoc">Gets the calling thread's error context.</div><div class="ttdef"><b>Definition:</b> <a href="a00350_source.html#l00045">err_ctx.c:45</a></div></div>
+<div class="ttc" id="aa00335_html"><div class="ttname"><a href="a00335.html">_error.h</a></div></div>
+<div class="ttc" id="aa01102_html_ga831abab4c892fe6f99eb8a39174119c8"><div class="ttname"><a href="a01102.html#ga831abab4c892fe6f99eb8a39174119c8">pcl_err_vsprintf</a></div><div class="ttdeci">int pcl_err_vsprintf(char *buf, size_t size, int indent, const char *format, va_list args)</div><div class="ttdef"><b>Definition:</b> <a href="a00398_source.html#l00036">err_vsprintf.c:36</a></div></div>
+<div class="ttc" id="aa00041_html_af3bc462b7e275d0b2a2be2202b22f709"><div class="ttname"><a href="a00041.html#af3bc462b7e275d0b2a2be2202b22f709">pcl_err_ctx_vsprintf</a></div><div class="ttdeci">PCL_EXPORT int pcl_err_ctx_vsprintf(pcl_err_ctx_t *ctx, char *buf, size_t size, int indent, const char *message, va_list ap)</div><div class="ttdef"><b>Definition:</b> <a href="a00329_source.html#l00037">err_ctx_vsprintf.c:37</a></div></div>
+<div class="ttc" id="aa00041_html"><div class="ttname"><a href="a00041.html">errctx.h</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

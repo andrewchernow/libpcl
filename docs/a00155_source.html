@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/buf/buf_getchar.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/buf/buf_get.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,12 +67,12 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">buf_getchar.c</div>  </div>
+<div class="title">buf_get.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00155.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (PCL)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2003, 2005-2014, 2017-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,18 +101,38 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00140.html">_buf.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01096.html#ga8bcebb4f7d8cbb6c4944e3246bf048a9">   35</a></span>&#160;<a class="code" href="a01096.html#ga8bcebb4f7d8cbb6c4944e3246bf048a9">pcl_buf_getchar</a>(<a class="code" href="a01115.html">pcl_buf_t</a> *b, uint32_t *c)</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01096.html#ga310ef6a2f1e1b43aa4e405c40701d7af">pcl_buf_get</a>(b, c, 1);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00143.html">_buf.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00086.html">string.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01099.html#ga310ef6a2f1e1b43aa4e405c40701d7af">   36</a></span>&#160;<a class="code" href="a01099.html#ga310ef6a2f1e1b43aa4e405c40701d7af">pcl_buf_get</a>(<a class="code" href="a01118.html">pcl_buf_t</a> *b, <span class="keywordtype">void</span> *buf, <span class="keywordtype">int</span> len)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">if</span>(!b || !buf || b-&gt;<a class="code" href="a01118.html#aa3c645ba44135114a8900bfa8a0b9407">mode</a> != <a class="code" href="a01099.html#ggafcd56f00f1c963d6f6f844f1df84f0f9aabe00de48aebc854e4ff2254b21988dc">PclBufBinary</a>)</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01104.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a>(<a class="code" href="a01103.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="comment">/* reading past the end of the buffer */</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordflow">if</span>(len &gt; (b-&gt;<a class="code" href="a01118.html#afed088663f8704004425cdae2120b9b3">len</a> - b-&gt;<a class="code" href="a01118.html#a1910d262855b71da353ed0d07a6c7823">pos</a>))</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01104.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a>(<a class="code" href="a01103.html#ga5179de209af451d8eeb3737b932aac6b">PCL_EOF</a>);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  memcpy(buf, b-&gt;<a class="code" href="a01118.html#a91a70b77df95bd8b0830b49a094c2acb">data</a> + b-&gt;<a class="code" href="a01118.html#a1910d262855b71da353ed0d07a6c7823">pos</a> * b-&gt;<a class="code" href="a01118.html#aa80bf9a72b65769a4c5c70c0c2d65700">chrsize</a>, len * b-&gt;<a class="code" href="a01118.html#aa80bf9a72b65769a4c5c70c0c2d65700">chrsize</a>);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  b-&gt;<a class="code" href="a01118.html#a1910d262855b71da353ed0d07a6c7823">pos</a> += len;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keywordflow">return</span> len;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01096_html_ga310ef6a2f1e1b43aa4e405c40701d7af"><div class="ttname"><a href="a01096.html#ga310ef6a2f1e1b43aa4e405c40701d7af">pcl_buf_get</a></div><div class="ttdeci">PCL_EXPORT int pcl_buf_get(pcl_buf_t *b, void *buf, int len)</div><div class="ttdoc">Get a blob from a buffer.</div><div class="ttdef"><b>Definition:</b> <a href="a00152_source.html#l00036">buf_get.c:36</a></div></div>
-<div class="ttc" id="aa00140_html"><div class="ttname"><a href="a00140.html">_buf.h</a></div></div>
-<div class="ttc" id="aa01096_html_ga8bcebb4f7d8cbb6c4944e3246bf048a9"><div class="ttname"><a href="a01096.html#ga8bcebb4f7d8cbb6c4944e3246bf048a9">pcl_buf_getchar</a></div><div class="ttdeci">int pcl_buf_getchar(pcl_buf_t *b, uint32_t *c)</div><div class="ttdoc">Get a character from a buffer.</div><div class="ttdef"><b>Definition:</b> <a href="a00155_source.html#l00035">buf_getchar.c:35</a></div></div>
-<div class="ttc" id="aa01115_html"><div class="ttname"><a href="a01115.html">tag_pcl_buf</a></div><div class="ttdef"><b>Definition:</b> <a href="a00023_source.html#l00127">buf.h:128</a></div></div>
+<div class="ttc" id="aa00086_html"><div class="ttname"><a href="a00086.html">string.h</a></div></div>
+<div class="ttc" id="aa01118_html_afed088663f8704004425cdae2120b9b3"><div class="ttname"><a href="a01118.html#afed088663f8704004425cdae2120b9b3">tag_pcl_buf::len</a></div><div class="ttdeci">int len</div><div class="ttdoc">number of characters in the buffer</div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00141">buf.h:141</a></div></div>
+<div class="ttc" id="aa01099_html_ggafcd56f00f1c963d6f6f844f1df84f0f9aabe00de48aebc854e4ff2254b21988dc"><div class="ttname"><a href="a01099.html#ggafcd56f00f1c963d6f6f844f1df84f0f9aabe00de48aebc854e4ff2254b21988dc">PclBufBinary</a></div><div class="ttdeci">@ PclBufBinary</div><div class="ttdoc">Binary buffer mode.</div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00111">buf.h:111</a></div></div>
+<div class="ttc" id="aa01103_html_gae0cd5c5a7fae36cd480176bda17e77ca"><div class="ttname"><a href="a01103.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a></div><div class="ttdeci">#define PCL_EINVAL</div><div class="ttdoc">Invalid argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00078">_errno.h:78</a></div></div>
+<div class="ttc" id="aa01099_html_ga310ef6a2f1e1b43aa4e405c40701d7af"><div class="ttname"><a href="a01099.html#ga310ef6a2f1e1b43aa4e405c40701d7af">pcl_buf_get</a></div><div class="ttdeci">int pcl_buf_get(pcl_buf_t *b, void *buf, int len)</div><div class="ttdoc">Get a blob from a buffer.</div><div class="ttdef"><b>Definition:</b> <a href="a00155_source.html#l00036">buf_get.c:36</a></div></div>
+<div class="ttc" id="aa01118_html_aa80bf9a72b65769a4c5c70c0c2d65700"><div class="ttname"><a href="a01118.html#aa80bf9a72b65769a4c5c70c0c2d65700">tag_pcl_buf::chrsize</a></div><div class="ttdeci">int chrsize</div><div class="ttdoc">Size of a character for this buffer in bytes.</div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00135">buf.h:135</a></div></div>
+<div class="ttc" id="aa01104_html_ga82adf6365b61d9a32021e559d9c31497"><div class="ttname"><a href="a01104.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a></div><div class="ttdeci">#define SETERR(_pclerr)</div><div class="ttdoc">Sets the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00014_source.html#l00065">_errdefs.h:65</a></div></div>
+<div class="ttc" id="aa01118_html"><div class="ttname"><a href="a01118.html">tag_pcl_buf</a></div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00127">buf.h:128</a></div></div>
+<div class="ttc" id="aa01118_html_a91a70b77df95bd8b0830b49a094c2acb"><div class="ttname"><a href="a01118.html#a91a70b77df95bd8b0830b49a094c2acb">tag_pcl_buf::data</a></div><div class="ttdeci">char * data</div><div class="ttdoc">buffer bytes, always chrsize * size wide.</div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00147">buf.h:147</a></div></div>
+<div class="ttc" id="aa01118_html_aa3c645ba44135114a8900bfa8a0b9407"><div class="ttname"><a href="a01118.html#aa3c645ba44135114a8900bfa8a0b9407">tag_pcl_buf::mode</a></div><div class="ttdeci">enum pcl_buf_mode mode</div><div class="ttdoc">buffer mode, see pcl_buf_mode</div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00322">buf.h:130</a></div></div>
+<div class="ttc" id="aa00143_html"><div class="ttname"><a href="a00143.html">_buf.h</a></div></div>
+<div class="ttc" id="aa01118_html_a1910d262855b71da353ed0d07a6c7823"><div class="ttname"><a href="a01118.html#a1910d262855b71da353ed0d07a6c7823">tag_pcl_buf::pos</a></div><div class="ttdeci">int pos</div><div class="ttdoc">current character position</div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00138">buf.h:138</a></div></div>
+<div class="ttc" id="aa01103_html_ga5179de209af451d8eeb3737b932aac6b"><div class="ttname"><a href="a01103.html#ga5179de209af451d8eeb3737b932aac6b">PCL_EOF</a></div><div class="ttdeci">#define PCL_EOF</div><div class="ttdoc">End of file.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00154">_errno.h:154</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

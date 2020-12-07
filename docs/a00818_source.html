@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/stat/win32_statent.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/stat/unix_statent.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">win32_statent.c</div>  </div>
+<div class="title">unix_statent.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00818.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,369 +101,177 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00803.html">_stat.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &quot;../time/_time.h&quot;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &quot;../win32/_win32.h&quot;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00107.html">pcl/vector.h</a>&gt;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00044.html">pcl/event.h</a>&gt;</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00092.html">pcl/thread.h</a>&gt;</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00017.html">pcl/alloc.h</a>&gt;</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00050.html">pcl/file.h</a>&gt;</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#include &lt;Shlwapi.h&gt;</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00059.html">io.h</a>&gt;</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="a00818.html#aa031dc6712613a6c64f5d8b26eb1baae">   43</a></span>&#160;<span class="preprocessor">#define makedev(x, y)  ((dev_t)(((x) &lt;&lt; 24) | (y)))</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="a01223.html">   45</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;{</div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="a01223.html#abc678c91e58d592596c10b8b26b198c9">   47</a></span>&#160;  <a class="code" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *<a class="code" href="a01223.html#abc678c91e58d592596c10b8b26b198c9">root</a>;</div>
-<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="a01223.html#a5db008489406de834c7b5598d3b90f40">   48</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="a01223.html#a5db008489406de834c7b5598d3b90f40">blksize</a>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;} <a class="code" href="a01223.html">bsize_cache_t</a>;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keyword">static</span> pthread_key_t bsize_key;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> convstat(<a class="code" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *path, <a class="code" href="a01159.html">pcl_stat_t</a> *st, WIN32_FIND_DATA *wfd, <span class="keywordtype">int</span> flags, <span class="keywordtype">bool</span> is_root);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;bsize_veccleanup(<a class="code" href="a01179.html">pcl_vector_t</a> *v, <span class="keywordtype">void</span> *elem)</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;{</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <a class="code" href="a01223.html">bsize_cache_t</a> *b = (<a class="code" href="a01223.html">bsize_cache_t</a> *) elem;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  <a class="code" href="a01094.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe</a>(b-&gt;<a class="code" href="a01223.html#abc678c91e58d592596c10b8b26b198c9">root</a>);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  <a class="code" href="a00029.html#a9b58a1294d89c976dfbe4dc480e9dfb8">UNUSED</a>(v);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;}</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;bsize_thread_destroy(<span class="keywordtype">void</span> *a)</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;{</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <a class="code" href="a01111.html#gaab2be8ec6279861c6ba6bb0f20e73ccb">pcl_vector_free</a>((<a class="code" href="a01179.html">pcl_vector_t</a> *) a);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;}</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="keywordtype">void</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="a00818.html#a8ef4b25b75c63f0cf84cae92a208c8a3">   70</a></span>&#160;<a class="code" href="a00818.html#a8ef4b25b75c63f0cf84cae92a208c8a3">ipcl_win32_stat_handler</a>(uint32_t which, <span class="keywordtype">void</span> *data)</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;{</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  <a class="code" href="a00029.html#a9b58a1294d89c976dfbe4dc480e9dfb8">UNUSED</a>(data);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  <span class="keywordflow">if</span>(which == <a class="code" href="a01102.html#ga60d1bf6bac043a65b2188b0c13a1b9d3">PCL_EVENT_INIT</a>)</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <a class="code" href="a00092.html#ad411aca9ab5b05ef8287863a08cf2d3b">pcl_tls_alloc</a>(&amp;bsize_key, bsize_thread_destroy);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  <span class="keywordflow">if</span>(which == <a class="code" href="a01102.html#ga60d1bf6bac043a65b2188b0c13a1b9d3">PCL_EVENT_INIT</a> || which == <a class="code" href="a01102.html#ga3146683f8619c24b5aa15044b635b380">PCL_EVENT_THREADINIT</a>)</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <a class="code" href="a00092.html#aeed18624e9e341d06c760db3bc240330">pcl_tls_set</a>(bsize_key, <a class="code" href="a01111.html#ga516a4fa37d3facd5e0d86e1eb1bbee84">pcl_vector_create</a>(2, <span class="keyword">sizeof</span>(<a class="code" href="a01223.html">bsize_cache_t</a>), bsize_veccleanup));</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;}</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="a00818.html#a214a52ae84c5066c875e0e002266c3ba">   82</a></span>&#160;<a class="code" href="a00818.html#a214a52ae84c5066c875e0e002266c3ba">ipcl_statent</a>(<span class="keyword">const</span> <a class="code" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *_path, <span class="keywordtype">int</span> fd, <a class="code" href="a01159.html">pcl_stat_t</a> *buf, <span class="keywordtype">int</span> flags)</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;{</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  HANDLE hfind;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  WIN32_FIND_DATA wfd;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a00029.html#a8278668d120afdd0e47def881845559d">strempty</a>(_path) &amp;&amp; fd &lt; 0)</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01101.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a>();</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;  memset(&amp;wfd, 0, <span class="keyword">sizeof</span>(wfd));</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00083.html">pcl/stat.h</a>&gt;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00044.html">pcl/error.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00086.html">pcl/string.h</a>&gt;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#ifdef PCL_DARWIN</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &lt;sys/attr.h&gt;</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#include &lt;unistd.h&gt;</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;convert_times(<a class="code" href="a01162.html">pcl_stat_t</a> *buf, <a class="code" href="a00083.html#a3e63d27ae45ef4a22249859bda12bade">sys_stat_t</a> *os_buf)</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;{</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="comment">/* Linux stat uses a macro to provide backward compatability with the old st_[a|m|c]time naming.</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment">   * If that macro is defined, we are being compiled to use st_atim vs. st_atimensec.</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment">   *</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment">   * Note: Darwin has both but the way we compile it uses the xtimespec struct member.</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment">   */</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="comment">/* convert to nanoseconds */</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  buf-&gt;<a class="code" href="a01162.html#a223cbb76e5359c53e73a190015080beb">atime</a>.<a class="code" href="a01170.html#a4c17f3941fd29561d689e4e03f18db46">sec</a> = os_buf-&gt;st_atime;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">#ifdef PCL_DARWIN</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  buf-&gt;<a class="code" href="a01162.html#a223cbb76e5359c53e73a190015080beb">atime</a>.<a class="code" href="a01170.html#a67abf16c44712c2f6eacfce2da5aa5b4">nsec</a> = (int) os_buf-&gt;st_atimespec.tv_nsec;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;#elif defined(st_atime)</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  buf-&gt;<a class="code" href="a01162.html#a223cbb76e5359c53e73a190015080beb">atime</a>.<a class="code" href="a01170.html#a67abf16c44712c2f6eacfce2da5aa5b4">nsec</a> = (int) os_buf-&gt;st_atim.tv_nsec;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;#<span class="keywordflow">else</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  buf-&gt;<a class="code" href="a01162.html#a223cbb76e5359c53e73a190015080beb">atime</a>.<a class="code" href="a01170.html#a67abf16c44712c2f6eacfce2da5aa5b4">nsec</a> = (<span class="keywordtype">int</span>) os_buf-&gt;st_atimensec;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  <span class="comment">/* convert to nanoseconds */</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  buf-&gt;<a class="code" href="a01162.html#a63eae24810a9fe13ffba70752f8286f1">mtime</a>.<a class="code" href="a01170.html#a4c17f3941fd29561d689e4e03f18db46">sec</a> = os_buf-&gt;st_mtime;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor">#ifdef PCL_DARWIN</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  buf-&gt;<a class="code" href="a01162.html#a63eae24810a9fe13ffba70752f8286f1">mtime</a>.<a class="code" href="a01170.html#a67abf16c44712c2f6eacfce2da5aa5b4">nsec</a> = (int) os_buf-&gt;st_mtimespec.tv_nsec;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;#elif defined(st_mtime)</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  buf-&gt;<a class="code" href="a01162.html#a63eae24810a9fe13ffba70752f8286f1">mtime</a>.<a class="code" href="a01170.html#a67abf16c44712c2f6eacfce2da5aa5b4">nsec</a> = (int) os_buf-&gt;st_mtim.tv_nsec;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;#<span class="keywordflow">else</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  buf-&gt;<a class="code" href="a01162.html#a63eae24810a9fe13ffba70752f8286f1">mtime</a>.<a class="code" href="a01170.html#a67abf16c44712c2f6eacfce2da5aa5b4">nsec</a> = (<span class="keywordtype">int</span>) os_buf-&gt;st_mtimensec;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  <span class="comment">/* convert to nanoseconds */</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  buf-&gt;<a class="code" href="a01162.html#a57bb9545ed5536635ca1bba0ac418cde">ctime</a>.<a class="code" href="a01170.html#a4c17f3941fd29561d689e4e03f18db46">sec</a> = os_buf-&gt;st_ctime;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor">#ifdef PCL_DARWIN</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  buf-&gt;<a class="code" href="a01162.html#a57bb9545ed5536635ca1bba0ac418cde">ctime</a>.<a class="code" href="a01170.html#a67abf16c44712c2f6eacfce2da5aa5b4">nsec</a> = (int) os_buf-&gt;st_ctimespec.tv_nsec;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;#elif defined(st_ctime)</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  buf-&gt;<a class="code" href="a01162.html#a57bb9545ed5536635ca1bba0ac418cde">ctime</a>.<a class="code" href="a01170.html#a67abf16c44712c2f6eacfce2da5aa5b4">nsec</a> = (int) os_buf-&gt;st_ctim.tv_nsec;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;#<span class="keywordflow">else</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  buf-&gt;<a class="code" href="a01162.html#a57bb9545ed5536635ca1bba0ac418cde">ctime</a>.<a class="code" href="a01170.html#a67abf16c44712c2f6eacfce2da5aa5b4">nsec</a> = (<span class="keywordtype">int</span>) os_buf-&gt;st_ctimensec;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor">#ifdef PCL_DARWIN</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  buf-&gt;<a class="code" href="a01162.html#a9dada9e32b7ccb261547952a8376dce7">crtime</a>.<a class="code" href="a01170.html#a4c17f3941fd29561d689e4e03f18db46">sec</a> = os_buf-&gt;st_birthtimespec.tv_sec;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  buf-&gt;<a class="code" href="a01162.html#a9dada9e32b7ccb261547952a8376dce7">crtime</a>.<a class="code" href="a01170.html#a67abf16c44712c2f6eacfce2da5aa5b4">nsec</a> = (int) os_buf-&gt;st_birthtimespec.tv_nsec;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;#endif</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;}</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="a00818.html#a880dfe976d60a9b856c5b60ac8f49020">   87</a></span>&#160;<a class="code" href="a00818.html#a880dfe976d60a9b856c5b60ac8f49020">ipcl_statent</a>(<span class="keyword">const</span> <a class="code" href="a00101.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *path, <span class="keywordtype">int</span> fd, <a class="code" href="a01162.html">pcl_stat_t</a> *buf, <span class="keywordtype">int</span> flags)</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;{</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  <span class="keywordtype">int</span> n;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;  <a class="code" href="a00083.html#a3e63d27ae45ef4a22249859bda12bade">sys_stat_t</a> os_buf;</div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;  <span class="comment">/* this is a windows fstat */</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;  <span class="keywordflow">if</span>(fd &gt; -1)</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;  {</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    BY_HANDLE_FILE_INFORMATION info = {0};</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keywordflow">if</span>(!GetFileInformationByHandle((HANDLE) _get_osfhandle(fd), &amp;info))</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01101.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="comment">/* no stat buf, caller is just doing an exists check */</span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordflow">if</span>(!buf)</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;      <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    wfd.dwFileAttributes = info.dwFileAttributes;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    wfd.ftCreationTime = info.ftCreationTime;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    wfd.ftLastAccessTime = info.ftLastAccessTime;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    wfd.ftLastWriteTime = info.ftLastWriteTime;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    wfd.nFileSizeHigh = info.nFileSizeHigh;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    wfd.nFileSizeLow = info.nFileSizeLow;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    convstat(NULL, buf, &amp;wfd, flags, <span class="keyword">false</span>);</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;  }</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;  <a class="code" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *path = <a class="code" href="a00050.html#a759abd05ec38ac40da7e817e7a7556a5">pcl_realpath</a>(_path, NULL);</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;  <span class="keywordflow">if</span>(!path)</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01101.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a>();</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160; </div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;  <span class="comment">/* UNC Server: \\server */</span></div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;  <span class="keywordflow">if</span>(PathIsUNCServer(path))</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;  {</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    wfd.dwFileAttributes = GetFileAttributes(path);</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160; </div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keywordflow">if</span>(wfd.dwFileAttributes == INVALID_FILE_ATTRIBUTES)</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    {</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;      <a class="code" href="a01101.html#ga405f0945f1e605ded867422c553c78cf">SETLASTERRMSG</a>(<span class="stringliteral">&quot;cannot get information about &#39;%Ps&#39;&quot;</span>, path);</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;      <a class="code" href="a01094.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(path);</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;      <span class="keywordflow">return</span> -1;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    }</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a00032.html#a8278668d120afdd0e47def881845559d">strempty</a>(path) &amp;&amp; fd &lt; 0)</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01104.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a>();</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  <span class="keywordflow">if</span>(fd &gt; -1)</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    n = <a class="code" href="a00083.html#a248205de6785c45dbda1ab5127aebef8">sys_fstat</a>(fd, &amp;os_buf);</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;  <span class="keywordflow">else</span> <span class="keywordflow">if</span>(flags &amp; <a class="code" href="a00083.html#a580e3cd5ff34699b1f67c1d76b6f36d2">PCL_STAT_LINK</a>)</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    n = <a class="code" href="a00083.html#acaa23d36f3ede22782b952de861a1cec">sys_lstat</a>(path, &amp;os_buf);</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;  <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    n = <a class="code" href="a00083.html#a48c3927c0c326a742b2d0e3e08f70804">sys_stat</a>(path, &amp;os_buf);</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;  <span class="keywordflow">if</span>(n)</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01104.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  <span class="keywordflow">if</span>(!buf)</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keywordflow">return</span> 0; <span class="comment">// exists check only</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;  buf-&gt;<a class="code" href="a01162.html#a54d2158f6808e2cc402feddc76d6240b">size</a>    = (int64_t) os_buf.st_size;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;  buf-&gt;<a class="code" href="a01162.html#a1b4fb3994ca9f3ad9ec0f5c9dbea77a9">rdev</a>    = os_buf.st_rdev;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;  buf-&gt;<a class="code" href="a01162.html#a8910285a0352a5c710e65ec9ecbe32a1">dev</a>     = os_buf.st_dev;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;  buf-&gt;<a class="code" href="a01162.html#aa9c25ec6cb415e0c2d201fc9205e73d0">ino</a>     = os_buf.st_ino;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;  buf-&gt;<a class="code" href="a01162.html#a1163f413982fef86f5c8313564d8589c">uid</a>     = os_buf.st_uid;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;  buf-&gt;<a class="code" href="a01162.html#accbf90b0b518578acff258d328c5575d">gid</a>     = os_buf.st_gid;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;  buf-&gt;<a class="code" href="a01162.html#a865318c04add1efed27d5b0a248a3163">nlink</a>   = os_buf.st_nlink;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;  buf-&gt;<a class="code" href="a01162.html#adc8d3cf511ceb277aea0cfa1cd027c59">mode</a>    = os_buf.st_mode;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;  buf-&gt;<a class="code" href="a01162.html#a5db008489406de834c7b5598d3b90f40">blksize</a> = os_buf.st_blksize;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;  buf-&gt;<a class="code" href="a01162.html#af4120042303b49a109ff13f67e4bea97">blocks</a>  = os_buf.st_blocks;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160; </div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;  <span class="keywordflow">if</span>(path)</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;  {</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keyword">const</span> <a class="code" href="a00101.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *name = <a class="code" href="a01112.html#gac16c7cf06336524f862d7d601edc95f4">pcl_pcsrchr</a>(path, PCL_PPATHSEPCHAR);</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160; </div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="keywordflow">if</span>(name)</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;      name++;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;      name = path;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160; </div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <span class="keywordflow">if</span>(*name == <span class="charliteral">&#39;.&#39;</span>)</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;      buf-&gt;<a class="code" href="a01162.html#a773b39d480759f67926cb18ae2219281">flags</a> |= <a class="code" href="a00083.html#a3140c5d226d0222f0040b3c15b8c65f8">UF_HIDDEN</a>;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;  }</div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="keywordflow">if</span>(buf)</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;      convstat(path, buf, &amp;wfd, flags, <span class="keyword">false</span>);</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160; </div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <a class="code" href="a01094.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(path);</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;  }</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160; </div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;  <span class="comment">/* Roots: C:\, \, \\server\share (PathIsUNCServerShare) */</span></div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;  <span class="keywordflow">if</span>(PathIsRoot(path))</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;  convert_times(buf, &amp;os_buf);</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160; </div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;  <span class="comment">/* grab backup time (btime) and finder info: The below uses fgetattrlist if &#39;fd&#39; is</span></div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;<span class="comment">   * valid, otherwise getattrlist using &#39;path&#39;</span></div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<span class="comment">   */</span></div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;<span class="preprocessor">#ifdef PCL_DARWIN</span></div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;  buf-&gt;<a class="code" href="a01162.html#a773b39d480759f67926cb18ae2219281">flags</a> |= os_buf.st_flags;</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160; </div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;  <span class="keyword">struct</span></div>
 <div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;  {</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    WIN32_FILE_ATTRIBUTE_DATA attr;</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160; </div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    <span class="keywordflow">if</span>(!GetFileAttributesEx(path, GetFileExInfoStandard, &amp;attr))</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    {</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;      <a class="code" href="a01101.html#ga405f0945f1e605ded867422c553c78cf">SETLASTERRMSG</a>(<span class="stringliteral">&quot;cannot get information about &#39;%Ps&#39;&quot;</span>, path);</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;      <a class="code" href="a01094.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(path);</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;      <span class="keywordflow">return</span> -1;</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    }</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160; </div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keywordflow">if</span>(buf)</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    {</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;      wfd.dwFileAttributes = attr.dwFileAttributes;</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;      wfd.ftCreationTime = attr.ftCreationTime;</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;      wfd.ftLastAccessTime = attr.ftLastAccessTime;</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;      wfd.ftLastWriteTime = attr.ftLastWriteTime;</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;      wfd.nFileSizeHigh = attr.nFileSizeHigh;</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;      wfd.nFileSizeLow = attr.nFileSizeLow;</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;      convstat(path, buf, &amp;wfd, flags, <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    }</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160; </div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    <a class="code" href="a01094.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(path);</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;  }</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    u_int32_t length;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="keyword">struct </span>timespec bcktime;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    <span class="keywordtype">char</span> finder_info[32];</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;  } __attribute__ ((__packed__)) info;</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160; </div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;  <span class="keyword">struct </span>attrlist attr;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;  <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> opts = (flags &amp; <a class="code" href="a00083.html#a580e3cd5ff34699b1f67c1d76b6f36d2">PCL_STAT_LINK</a>) ? FSOPT_NOFOLLOW : 0;</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160; </div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;  memset(&amp;attr, 0, <span class="keyword">sizeof</span>(attr));</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;  attr.bitmapcount = ATTR_BIT_MAP_COUNT;</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;  attr.commonattr = ATTR_CMN_BKUPTIME | ATTR_CMN_FNDRINFO;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160; </div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;  <span class="keywordflow">if</span>((fd &gt;= 0 &amp;&amp; !fgetattrlist(fd, &amp;attr, &amp;info, <span class="keyword">sizeof</span>(info), opts)) ||</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    (path &amp;&amp; !getattrlist(path, &amp;attr, &amp;info, <span class="keyword">sizeof</span>(info), opts)))</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;  {</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    buf-&gt;<a class="code" href="a01162.html#aaf0912f2a2832873f91fbff57ffbda87">btime</a>.<a class="code" href="a01170.html#a4c17f3941fd29561d689e4e03f18db46">sec</a> = info.bcktime.tv_sec;</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    buf-&gt;<a class="code" href="a01162.html#aaf0912f2a2832873f91fbff57ffbda87">btime</a>.<a class="code" href="a01170.html#a67abf16c44712c2f6eacfce2da5aa5b4">nsec</a> = (int) info.bcktime.tv_nsec;</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    memcpy(buf-&gt;<a class="code" href="a01162.html#a4f788396277d2346e2a9e8afec9d867e">finder_info</a>, info.finder_info, 32);</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;  }</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160; </div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;  <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;}</div>
 <div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160; </div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;  <span class="comment">/* Regular file system object */</span></div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;  hfind = FindFirstFile(path, &amp;wfd);</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160; </div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;  <span class="keywordflow">if</span>(hfind == INVALID_HANDLE_VALUE)</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;  {</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    <a class="code" href="a01101.html#ga405f0945f1e605ded867422c553c78cf">SETLASTERRMSG</a>(<span class="stringliteral">&quot;cannot get information about &#39;%Ps&#39;&quot;</span>, path);</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <a class="code" href="a01094.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(path);</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    <span class="keywordflow">return</span> -1;</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;  }</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160; </div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;  FindClose(hfind);</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160; </div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;  <span class="keywordflow">if</span>(buf)</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    convstat(path, buf, &amp;wfd, flags, <span class="keyword">false</span>);</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160; </div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;  <a class="code" href="a01094.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(path);</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;  <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;}</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160; </div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span></div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;convstat(<a class="code" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *path, <a class="code" href="a01159.html">pcl_stat_t</a> *st, WIN32_FIND_DATA *wfd, <span class="keywordtype">int</span> flags, <span class="keywordtype">bool</span> is_root)</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;{</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;  st-&gt;<a class="code" href="a01159.html#a865318c04add1efed27d5b0a248a3163">nlink</a> = 1;</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160; </div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;  <span class="comment">/* default is SECURITY_NULL_SID_AUTHORITY: ie Unknown */</span></div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;  <a class="code" href="a01108.html#ga25f17052163749bc3e0d31ae8741a47b">pcl_strcpy</a>(st-&gt;<a class="code" href="a01159.html#a1163f413982fef86f5c8313564d8589c">uid</a>, <a class="code" href="a00029.html#a9941e62482da843b972636008fd80e56">countof</a>(st-&gt;<a class="code" href="a01159.html#accbf90b0b518578acff258d328c5575d">gid</a>), <span class="stringliteral">&quot;S-1-0-0&quot;</span>);</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;  <a class="code" href="a01108.html#ga25f17052163749bc3e0d31ae8741a47b">pcl_strcpy</a>(st-&gt;<a class="code" href="a01159.html#accbf90b0b518578acff258d328c5575d">gid</a>, <a class="code" href="a00029.html#a9941e62482da843b972636008fd80e56">countof</a>(st-&gt;<a class="code" href="a01159.html#accbf90b0b518578acff258d328c5575d">gid</a>), <span class="stringliteral">&quot;S-1-0-0&quot;</span>);</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160; </div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;  <span class="comment">/* get unix permission bits from the DACL.  If that fails, use boiler</span></div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;<span class="comment">   * plate hack from Microsoft&#39;s CRT library.</span></div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;<span class="comment">   */</span></div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;  <span class="keywordflow">if</span>((flags &amp; <a class="code" href="a00080.html#a62b4777a9d7302e69b61234019ecc59f">PCL_STAT_SKIP_WIN32OWNER</a>) || !path ||</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;     <a class="code" href="a01046.html#a4a921a887faeacb8882d203f45be1815">ipcl_win32_file_security</a>(path, &amp;st-&gt;<a class="code" href="a01159.html#adc8d3cf511ceb277aea0cfa1cd027c59">mode</a>, &amp;st-&gt;<a class="code" href="a01159.html#a1163f413982fef86f5c8313564d8589c">uid</a>, &amp;st-&gt;<a class="code" href="a01159.html#accbf90b0b518578acff258d328c5575d">gid</a>))</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;  {</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    <span class="keywordflow">if</span>(wfd-&gt;dwFileAttributes &amp; FILE_ATTRIBUTE_READONLY)</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;      st-&gt;<a class="code" href="a01159.html#adc8d3cf511ceb277aea0cfa1cd027c59">mode</a> |= (_S_IREAD + (_S_IREAD &gt;&gt; 3) + (_S_IREAD &gt;&gt; 6));</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;      st-&gt;<a class="code" href="a01159.html#adc8d3cf511ceb277aea0cfa1cd027c59">mode</a> |= ((_S_IREAD | _S_IWRITE) + ((_S_IREAD | _S_IWRITE) &gt;&gt; 3) +</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;                   ((_S_IREAD | _S_IWRITE) &gt;&gt; 6));</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;  }</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160; </div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;  <span class="comment">/* Use drive letter as device id */</span></div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;  <span class="keywordflow">if</span>(!<a class="code" href="a00029.html#a8278668d120afdd0e47def881845559d">strempty</a>(path) &amp;&amp; path[1] == <a class="code" href="a00029.html#a1df9ab18a5e5dd2e6d6d3977c35e976c">_P</a>(<span class="charliteral">&#39;:&#39;</span>))</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;  {</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    <span class="keywordtype">int</span> drive = <a class="code" href="a01109.html#gad46a84b8af02ea87b6f3af7aacde03ac">pcl_topupper</a>(path[0]);</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160; </div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    st-&gt;<a class="code" href="a01159.html#a8910285a0352a5c710e65ec9ecbe32a1">dev</a> = <a class="code" href="a00818.html#aa031dc6712613a6c64f5d8b26eb1baae">makedev</a>(FILE_TYPE_DISK, drive);</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160; </div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    <span class="keywordflow">if</span>(is_root)</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;      st-&gt;<a class="code" href="a01159.html#adc8d3cf511ceb277aea0cfa1cd027c59">mode</a> |= <a class="code" href="a00080.html#a5c5b74a1cb1a1ae83572500b94e1938f">S_IFBLK</a>;</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;  }</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160; </div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;  <span class="keywordflow">if</span>((flags &amp; <a class="code" href="a00080.html#a580e3cd5ff34699b1f67c1d76b6f36d2">PCL_STAT_LINK</a>) &amp;&amp; (wfd-&gt;dwFileAttributes &amp; FILE_ATTRIBUTE_REPARSE_POINT))</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    st-&gt;<a class="code" href="a01159.html#adc8d3cf511ceb277aea0cfa1cd027c59">mode</a> |= <a class="code" href="a00080.html#afef163ce62372757e84bd9fc88c07aad">S_IFLNK</a>;</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160; </div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;  <span class="comment">/* only set dir or reg if link is not already set */</span></div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;  <span class="keywordflow">if</span>(!<a class="code" href="a00080.html#a835359614ec43fbd96f53993cde84ef2">S_ISLNK</a>(st-&gt;<a class="code" href="a01159.html#adc8d3cf511ceb277aea0cfa1cd027c59">mode</a>))</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;  {</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    <span class="keywordflow">if</span>(wfd-&gt;dwFileAttributes &amp; FILE_ATTRIBUTE_DIRECTORY)</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;      st-&gt;<a class="code" href="a01159.html#adc8d3cf511ceb277aea0cfa1cd027c59">mode</a> |= <a class="code" href="a00080.html#a11fb0652b963a735f3377eb1c9239f2d">S_IFDIR</a>;</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;      st-&gt;<a class="code" href="a01159.html#adc8d3cf511ceb277aea0cfa1cd027c59">mode</a> |= <a class="code" href="a00080.html#a1aaa48b192a5dd3b6d7ee91fc98cd17d">S_IFREG</a>;</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;  }</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160; </div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;  <span class="comment">/* set st_size to the number of used bytes */</span></div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;  <span class="keywordflow">if</span>(is_root)</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;  {</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    ULARGE_INTEGER btot, bfree;</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    <span class="keywordflow">if</span>(path &amp;&amp; GetDiskFreeSpaceEx(path, NULL, &amp;btot, &amp;bfree))</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;      st-&gt;<a class="code" href="a01159.html#a54d2158f6808e2cc402feddc76d6240b">size</a> = btot.QuadPart - bfree.QuadPart;</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;  }</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;  <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;  {</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;    st-&gt;<a class="code" href="a01159.html#a54d2158f6808e2cc402feddc76d6240b">size</a> = ((int64_t) wfd-&gt;nFileSizeHigh * ((int64_t) MAXDWORD + 1)) +</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;               (int64_t) wfd-&gt;nFileSizeLow;</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;  }</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160; </div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;  <span class="comment">/* File Times */</span></div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;  st-&gt;<a class="code" href="a01159.html#a223cbb76e5359c53e73a190015080beb">atime</a> = <a class="code" href="a00980.html#a4d87dd088227edcbe0d048eac92ce31e">ipcl_win32_ftime_to_pcl</a>(&amp;wfd-&gt;ftLastAccessTime);</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;  st-&gt;<a class="code" href="a01159.html#a63eae24810a9fe13ffba70752f8286f1">mtime</a> = <a class="code" href="a00980.html#a4d87dd088227edcbe0d048eac92ce31e">ipcl_win32_ftime_to_pcl</a>(&amp;wfd-&gt;ftLastWriteTime);</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;  st-&gt;<a class="code" href="a01159.html#a9dada9e32b7ccb261547952a8376dce7">crtime</a> = <a class="code" href="a00980.html#a4d87dd088227edcbe0d048eac92ce31e">ipcl_win32_ftime_to_pcl</a>(&amp;wfd-&gt;ftCreationTime);</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;  st-&gt;<a class="code" href="a01159.html#a57bb9545ed5536635ca1bba0ac418cde">ctime</a> = st-&gt;<a class="code" href="a01159.html#a63eae24810a9fe13ffba70752f8286f1">mtime</a>; <span class="comment">/* changed time resembles mtime the most */</span></div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160; </div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;  <span class="keywordflow">if</span>(wfd-&gt;dwFileAttributes &amp; FILE_ATTRIBUTE_ARCHIVE)</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    st-&gt;<a class="code" href="a01159.html#a773b39d480759f67926cb18ae2219281">flags</a> |= <a class="code" href="a00080.html#a1e44d0609ddacaee438936be02f3eedb">SF_ARCHIVED</a>;</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;  <span class="keywordflow">if</span>(wfd-&gt;dwFileAttributes &amp; FILE_ATTRIBUTE_HIDDEN)</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    st-&gt;<a class="code" href="a01159.html#a773b39d480759f67926cb18ae2219281">flags</a> |= <a class="code" href="a00080.html#a3140c5d226d0222f0040b3c15b8c65f8">UF_HIDDEN</a>;</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;  <span class="keywordflow">if</span>(wfd-&gt;dwFileAttributes &amp; FILE_ATTRIBUTE_COMPRESSED)</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    st-&gt;<a class="code" href="a01159.html#a773b39d480759f67926cb18ae2219281">flags</a> |= <a class="code" href="a00080.html#afd7c17a86e2ff32feb30bb539971b4a7">UF_COMPRESSED</a>;</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;  <span class="keywordflow">if</span>(wfd-&gt;dwFileAttributes &amp; FILE_ATTRIBUTE_ENCRYPTED)</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;    st-&gt;<a class="code" href="a01159.html#a773b39d480759f67926cb18ae2219281">flags</a> |= <a class="code" href="a00080.html#a0f0a064cf2642002c09fe112719ae218">UF_ENCRYPTED</a>;</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;  <span class="keywordflow">if</span>(wfd-&gt;dwFileAttributes &amp; FILE_ATTRIBUTE_SPARSE_FILE)</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    st-&gt;<a class="code" href="a01159.html#a773b39d480759f67926cb18ae2219281">flags</a> |= <a class="code" href="a00080.html#a9a06bad258bfc2b385fef5eb93aa481e">UF_SPARSE</a>;</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;  <span class="keywordflow">if</span>(wfd-&gt;dwFileAttributes &amp; FILE_ATTRIBUTE_SYSTEM)</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    st-&gt;<a class="code" href="a01159.html#a773b39d480759f67926cb18ae2219281">flags</a> |= <a class="code" href="a00080.html#afa05f5da4548f0e39d835277a055db66">UF_SYSTEM</a>;</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160; </div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;  <span class="keywordflow">if</span>(!path)</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;    <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160; </div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;  <span class="comment">/* GetDiskFreeSpace() is expensive which is why we cache each root path&#39;s block size as we</span></div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;<span class="comment">   * see them.  We do this per thread to avoid requiring locks.</span></div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;<span class="comment">   */</span></div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160; </div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;  st-&gt;<a class="code" href="a01159.html#a5db008489406de834c7b5598d3b90f40">blksize</a> = 4096;</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160; </div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;  <span class="keywordflow">if</span>(!PathIsRelative(path) &amp;&amp; PathStripToRoot(path))</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;  {</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    <span class="comment">/* GetDiskFreeSpace needs a trailing slash */</span></div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;    <span class="keywordtype">size_t</span> path_len = <a class="code" href="a01109.html#ga51b9a7b503726400268da5fd3a11186d">pcl_pcslen</a>(path);</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160; </div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;    <span class="keywordflow">if</span>(path[path_len - 1] != PCL_PPATHSEPCHAR)</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;    {</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;      path[path_len++] = L<span class="charliteral">&#39;\\&#39;</span>;</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;      path[path_len] = 0;</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;    }</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160; </div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;    <span class="comment">/* check cache */</span></div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;    <span class="keywordtype">int</span> i;</div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;    <a class="code" href="a01179.html">pcl_vector_t</a> *bsize_cache = <a class="code" href="a00092.html#af682f722d388060857e9c5b6f974b31c">pcl_tls_get</a>(bsize_key);</div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160; </div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;    <span class="keywordflow">for</span>(i = 0; i &lt; bsize_cache-&gt;<a class="code" href="a01179.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a>; i++)</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;    {</div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;      <a class="code" href="a01223.html">bsize_cache_t</a> *bs = <a class="code" href="a01111.html#gab34f9d473aa3d3cacf5540d8719fccf3">pcl_vector_get</a>(bsize_cache, i);</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160; </div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;      <span class="keywordflow">if</span>(!<a class="code" href="a01109.html#ga8145fe2aa683a999cbf49a47499156c9">pcl_pcsicmp</a>(bs-&gt;<a class="code" href="a01223.html#abc678c91e58d592596c10b8b26b198c9">root</a>, path))</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;      {</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;        st-&gt;<a class="code" href="a01159.html#a5db008489406de834c7b5598d3b90f40">blksize</a> = bs-&gt;<a class="code" href="a01223.html#a5db008489406de834c7b5598d3b90f40">blksize</a>;</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;      }</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;    }</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160; </div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;    <span class="comment">/* not in cache yet */</span></div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;    <span class="keywordflow">if</span>(i == bsize_cache-&gt;<a class="code" href="a01179.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a>)</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;    {</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;      DWORD a, b, sectors_per_cluster, bytes_per_sec;</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160; </div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;      <span class="keywordflow">if</span>(GetDiskFreeSpace(path, &amp;sectors_per_cluster, &amp;bytes_per_sec, &amp;a, &amp;b))</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;      {</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;        <a class="code" href="a01223.html">bsize_cache_t</a> elem;</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160; </div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;        elem.<a class="code" href="a01223.html#abc678c91e58d592596c10b8b26b198c9">root</a> = <a class="code" href="a01109.html#ga3e9b6b1ba2888cd40bef1185f8c64a93">pcl_pcsdup</a>(path);</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;        st-&gt;<a class="code" href="a01159.html#a5db008489406de834c7b5598d3b90f40">blksize</a> = elem.<a class="code" href="a01223.html#a5db008489406de834c7b5598d3b90f40">blksize</a> = (int) (sectors_per_cluster * bytes_per_sec);</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;        <a class="code" href="a01111.html#ga002aba7a474ea2b6d621ae5852a3a5c6">pcl_vector_append</a>(bsize_cache, &amp;elem);</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;      }</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;    }</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;  }</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160; </div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;  st-&gt;<a class="code" href="a01159.html#aab06eed5bd7a0f98649fa5abde3dbbf7">dsize</a> = <a class="code" href="a00029.html#a96e664bb4e98b2c771f9cfa7d45a92d3">roundup</a>(st-&gt;<a class="code" href="a01159.html#a54d2158f6808e2cc402feddc76d6240b">size</a>, st-&gt;<a class="code" href="a01159.html#a5db008489406de834c7b5598d3b90f40">blksize</a>);</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160; </div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;  <span class="keywordflow">if</span>(st-&gt;<a class="code" href="a01159.html#aab06eed5bd7a0f98649fa5abde3dbbf7">dsize</a> == st-&gt;<a class="code" href="a01159.html#a54d2158f6808e2cc402feddc76d6240b">size</a>)</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;    st-&gt;<a class="code" href="a01159.html#aab06eed5bd7a0f98649fa5abde3dbbf7">dsize</a> += st-&gt;<a class="code" href="a01159.html#a5db008489406de834c7b5598d3b90f40">blksize</a>;</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160; </div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;  st-&gt;<a class="code" href="a01159.html#af4120042303b49a109ff13f67e4bea97">blocks</a> = st-&gt;<a class="code" href="a01159.html#aab06eed5bd7a0f98649fa5abde3dbbf7">dsize</a> / 512;</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;  <span class="keywordflow">if</span>(st-&gt;<a class="code" href="a01159.html#af4120042303b49a109ff13f67e4bea97">blocks</a> &lt;= 0)</div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;    st-&gt;<a class="code" href="a01159.html#af4120042303b49a109ff13f67e4bea97">blocks</a> = 1;</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;}</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160; </div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00098_html_ac114b2b1527c8ae241d37cc15ca7d122"><div class="ttname"><a href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a></div><div class="ttdeci">char pchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00098_source.html#l00053">types.h:53</a></div></div>
-<div class="ttc" id="aa01111_html_ga516a4fa37d3facd5e0d86e1eb1bbee84"><div class="ttname"><a href="a01111.html#ga516a4fa37d3facd5e0d86e1eb1bbee84">pcl_vector_create</a></div><div class="ttdeci">PCL_EXPORT pcl_vector_t * pcl_vector_create(int capacity, size_t elemsize, pcl_vector_cleanup_t cleanup)</div><div class="ttdoc">Creates a new vector object.</div><div class="ttdef"><b>Definition:</b> <a href="a01019_source.html#l00036">vector_create.c:36</a></div></div>
-<div class="ttc" id="aa01101_html_ga405f0945f1e605ded867422c553c78cf"><div class="ttname"><a href="a01101.html#ga405f0945f1e605ded867422c553c78cf">SETLASTERRMSG</a></div><div class="ttdeci">#define SETLASTERRMSG(_msgfmt,...)</div><div class="ttdoc">Sets the current thread's last OS error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00011_source.html#l00132">_errdefs.h:132</a></div></div>
-<div class="ttc" id="aa00803_html"><div class="ttname"><a href="a00803.html">_stat.h</a></div></div>
-<div class="ttc" id="aa01094_html_ga2de1e7abd61febca9d319940c5c2bd1b"><div class="ttname"><a href="a01094.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe</a></div><div class="ttdeci">void * pcl_free_safe(void *p)</div><div class="ttdoc">Safely free memory space.</div></div>
-<div class="ttc" id="aa00044_html"><div class="ttname"><a href="a00044.html">event.h</a></div></div>
-<div class="ttc" id="aa01223_html"><div class="ttname"><a href="a01223.html">bsize_cache_t</a></div><div class="ttdef"><b>Definition:</b> <a href="a00818_source.html#l00045">win32_statent.c:46</a></div></div>
-<div class="ttc" id="aa00080_html_a835359614ec43fbd96f53993cde84ef2"><div class="ttname"><a href="a00080.html#a835359614ec43fbd96f53993cde84ef2">S_ISLNK</a></div><div class="ttdeci">#define S_ISLNK(m)</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00148">stat.h:148</a></div></div>
-<div class="ttc" id="aa01159_html_adc8d3cf511ceb277aea0cfa1cd027c59"><div class="ttname"><a href="a01159.html#adc8d3cf511ceb277aea0cfa1cd027c59">tag_pcl_stat::mode</a></div><div class="ttdeci">mode_t mode</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00229">stat.h:229</a></div></div>
-<div class="ttc" id="aa01101_html_gab052d4faa8fd25e1a13e86ecd4aafa38"><div class="ttname"><a href="a01101.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a></div><div class="ttdeci">#define BADARG()</div><div class="ttdef"><b>Definition:</b> <a href="a00011_source.html#l00306">_errdefs.h:306</a></div></div>
-<div class="ttc" id="aa01223_html_abc678c91e58d592596c10b8b26b198c9"><div class="ttname"><a href="a01223.html#abc678c91e58d592596c10b8b26b198c9">bsize_cache_t::root</a></div><div class="ttdeci">pchar_t * root</div><div class="ttdef"><b>Definition:</b> <a href="a00818_source.html#l00047">win32_statent.c:47</a></div></div>
-<div class="ttc" id="aa01109_html_gad46a84b8af02ea87b6f3af7aacde03ac"><div class="ttname"><a href="a01109.html#gad46a84b8af02ea87b6f3af7aacde03ac">pcl_topupper</a></div><div class="ttdeci">pchar_t pcl_topupper(pchar_t c)</div><div class="ttdoc">Uppercase a character.</div></div>
-<div class="ttc" id="aa00818_html_a8ef4b25b75c63f0cf84cae92a208c8a3"><div class="ttname"><a href="a00818.html#a8ef4b25b75c63f0cf84cae92a208c8a3">ipcl_win32_stat_handler</a></div><div class="ttdeci">void ipcl_win32_stat_handler(uint32_t which, void *data)</div><div class="ttdef"><b>Definition:</b> <a href="a00818_source.html#l00070">win32_statent.c:70</a></div></div>
-<div class="ttc" id="aa00029_html_a8278668d120afdd0e47def881845559d"><div class="ttname"><a href="a00029.html#a8278668d120afdd0e47def881845559d">strempty</a></div><div class="ttdeci">#define strempty(str)</div><div class="ttdef"><b>Definition:</b> <a href="a00029_source.html#l00124">defs.h:124</a></div></div>
-<div class="ttc" id="aa01046_html_a4a921a887faeacb8882d203f45be1815"><div class="ttname"><a href="a01046.html#a4a921a887faeacb8882d203f45be1815">ipcl_win32_file_security</a></div><div class="ttdeci">int ipcl_win32_file_security(const pchar_t *path, mode_t *mode, uid_t *uidp, gid_t *gidp)</div><div class="ttdef"><b>Definition:</b> <a href="a01049_source.html#l00037">win32_file_security.c:37</a></div></div>
-<div class="ttc" id="aa00080_html_a3140c5d226d0222f0040b3c15b8c65f8"><div class="ttname"><a href="a00080.html#a3140c5d226d0222f0040b3c15b8c65f8">UF_HIDDEN</a></div><div class="ttdeci">#define UF_HIDDEN</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00198">stat.h:198</a></div></div>
-<div class="ttc" id="aa00017_html"><div class="ttname"><a href="a00017.html">alloc.h</a></div></div>
-<div class="ttc" id="aa00080_html_a11fb0652b963a735f3377eb1c9239f2d"><div class="ttname"><a href="a00080.html#a11fb0652b963a735f3377eb1c9239f2d">S_IFDIR</a></div><div class="ttdeci">#define S_IFDIR</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00086">stat.h:86</a></div></div>
-<div class="ttc" id="aa00059_html"><div class="ttname"><a href="a00059.html">io.h</a></div></div>
-<div class="ttc" id="aa01109_html_ga8145fe2aa683a999cbf49a47499156c9"><div class="ttname"><a href="a01109.html#ga8145fe2aa683a999cbf49a47499156c9">pcl_pcsicmp</a></div><div class="ttdeci">int pcl_pcsicmp(const pchar_t *a, const pchar_t *b)</div><div class="ttdoc">Compare two strings ignoring case.</div></div>
-<div class="ttc" id="aa01179_html_ad43c3812e6d13e0518d9f8b8f463ffcf"><div class="ttname"><a href="a01179.html#ad43c3812e6d13e0518d9f8b8f463ffcf">tag_pcl_vector::count</a></div><div class="ttdeci">int count</div><div class="ttdoc">number of elements in vector</div><div class="ttdef"><b>Definition:</b> <a href="a00107_source.html#l00093">vector.h:93</a></div></div>
-<div class="ttc" id="aa00092_html_af682f722d388060857e9c5b6f974b31c"><div class="ttname"><a href="a00092.html#af682f722d388060857e9c5b6f974b31c">pcl_tls_get</a></div><div class="ttdeci">PCL_EXPORT void * pcl_tls_get(pthread_key_t key)</div><div class="ttdef"><b>Definition:</b> <a href="a00947_source.html#l00035">tls_get.c:35</a></div></div>
-<div class="ttc" id="aa01179_html"><div class="ttname"><a href="a01179.html">tag_pcl_vector</a></div><div class="ttdoc">Vector object.</div><div class="ttdef"><b>Definition:</b> <a href="a00107_source.html#l00090">vector.h:91</a></div></div>
-<div class="ttc" id="aa00080_html_a9a06bad258bfc2b385fef5eb93aa481e"><div class="ttname"><a href="a00080.html#a9a06bad258bfc2b385fef5eb93aa481e">UF_SPARSE</a></div><div class="ttdeci">#define UF_SPARSE</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00193">stat.h:193</a></div></div>
-<div class="ttc" id="aa00980_html_a4d87dd088227edcbe0d048eac92ce31e"><div class="ttname"><a href="a00980.html#a4d87dd088227edcbe0d048eac92ce31e">ipcl_win32_ftime_to_pcl</a></div><div class="ttdeci">pcl_time_t ipcl_win32_ftime_to_pcl(FILETIME *ft)</div><div class="ttdef"><b>Definition:</b> <a href="a00980_source.html#l00035">win32_ftime_to_pcl.c:35</a></div></div>
-<div class="ttc" id="aa01159_html_a63eae24810a9fe13ffba70752f8286f1"><div class="ttname"><a href="a01159.html#a63eae24810a9fe13ffba70752f8286f1">tag_pcl_stat::mtime</a></div><div class="ttdeci">pcl_time_t mtime</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00242">stat.h:242</a></div></div>
-<div class="ttc" id="aa01159_html"><div class="ttname"><a href="a01159.html">tag_pcl_stat</a></div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00221">stat.h:222</a></div></div>
-<div class="ttc" id="aa01159_html_accbf90b0b518578acff258d328c5575d"><div class="ttname"><a href="a01159.html#accbf90b0b518578acff258d328c5575d">tag_pcl_stat::gid</a></div><div class="ttdeci">gid_t gid</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00233">stat.h:233</a></div></div>
-<div class="ttc" id="aa01109_html_ga51b9a7b503726400268da5fd3a11186d"><div class="ttname"><a href="a01109.html#ga51b9a7b503726400268da5fd3a11186d">pcl_pcslen</a></div><div class="ttdeci">size_t pcl_pcslen(const pchar_t *s)</div><div class="ttdoc">Get a string's length.</div></div>
-<div class="ttc" id="aa00080_html_a62b4777a9d7302e69b61234019ecc59f"><div class="ttname"><a href="a00080.html#a62b4777a9d7302e69b61234019ecc59f">PCL_STAT_SKIP_WIN32OWNER</a></div><div class="ttdeci">#define PCL_STAT_SKIP_WIN32OWNER</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00059">stat.h:59</a></div></div>
-<div class="ttc" id="aa01159_html_a773b39d480759f67926cb18ae2219281"><div class="ttname"><a href="a01159.html#a773b39d480759f67926cb18ae2219281">tag_pcl_stat::flags</a></div><div class="ttdeci">uint32_t flags</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00251">stat.h:251</a></div></div>
-<div class="ttc" id="aa01159_html_a8910285a0352a5c710e65ec9ecbe32a1"><div class="ttname"><a href="a01159.html#a8910285a0352a5c710e65ec9ecbe32a1">tag_pcl_stat::dev</a></div><div class="ttdeci">dev_t dev</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00223">stat.h:223</a></div></div>
-<div class="ttc" id="aa01159_html_a223cbb76e5359c53e73a190015080beb"><div class="ttname"><a href="a01159.html#a223cbb76e5359c53e73a190015080beb">tag_pcl_stat::atime</a></div><div class="ttdeci">pcl_time_t atime</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00241">stat.h:241</a></div></div>
-<div class="ttc" id="aa00080_html_a1aaa48b192a5dd3b6d7ee91fc98cd17d"><div class="ttname"><a href="a00080.html#a1aaa48b192a5dd3b6d7ee91fc98cd17d">S_IFREG</a></div><div class="ttdeci">#define S_IFREG</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00080">stat.h:80</a></div></div>
-<div class="ttc" id="aa00029_html_a96e664bb4e98b2c771f9cfa7d45a92d3"><div class="ttname"><a href="a00029.html#a96e664bb4e98b2c771f9cfa7d45a92d3">roundup</a></div><div class="ttdeci">#define roundup(val, mult)</div><div class="ttdef"><b>Definition:</b> <a href="a00029_source.html#l00105">defs.h:105</a></div></div>
-<div class="ttc" id="aa00029_html_a9941e62482da843b972636008fd80e56"><div class="ttname"><a href="a00029.html#a9941e62482da843b972636008fd80e56">countof</a></div><div class="ttdeci">#define countof(buffer)</div><div class="ttdef"><b>Definition:</b> <a href="a00029_source.html#l00127">defs.h:127</a></div></div>
-<div class="ttc" id="aa00029_html_a9b58a1294d89c976dfbe4dc480e9dfb8"><div class="ttname"><a href="a00029.html#a9b58a1294d89c976dfbe4dc480e9dfb8">UNUSED</a></div><div class="ttdeci">#define UNUSED(...)</div><div class="ttdef"><b>Definition:</b> <a href="a00029_source.html#l00102">defs.h:102</a></div></div>
-<div class="ttc" id="aa01159_html_a57bb9545ed5536635ca1bba0ac418cde"><div class="ttname"><a href="a01159.html#a57bb9545ed5536635ca1bba0ac418cde">tag_pcl_stat::ctime</a></div><div class="ttdeci">pcl_time_t ctime</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00243">stat.h:243</a></div></div>
-<div class="ttc" id="aa00080_html_a1e44d0609ddacaee438936be02f3eedb"><div class="ttname"><a href="a00080.html#a1e44d0609ddacaee438936be02f3eedb">SF_ARCHIVED</a></div><div class="ttdeci">#define SF_ARCHIVED</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00201">stat.h:201</a></div></div>
-<div class="ttc" id="aa00080_html_afef163ce62372757e84bd9fc88c07aad"><div class="ttname"><a href="a00080.html#afef163ce62372757e84bd9fc88c07aad">S_IFLNK</a></div><div class="ttdeci">#define S_IFLNK</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00077">stat.h:77</a></div></div>
-<div class="ttc" id="aa01109_html_ga3e9b6b1ba2888cd40bef1185f8c64a93"><div class="ttname"><a href="a01109.html#ga3e9b6b1ba2888cd40bef1185f8c64a93">pcl_pcsdup</a></div><div class="ttdeci">pchar_t * pcl_pcsdup(const pchar_t *s)</div><div class="ttdoc">Duplicate a string.</div></div>
-<div class="ttc" id="aa00080_html_afa05f5da4548f0e39d835277a055db66"><div class="ttname"><a href="a00080.html#afa05f5da4548f0e39d835277a055db66">UF_SYSTEM</a></div><div class="ttdeci">#define UF_SYSTEM</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00194">stat.h:194</a></div></div>
-<div class="ttc" id="aa01159_html_a9dada9e32b7ccb261547952a8376dce7"><div class="ttname"><a href="a01159.html#a9dada9e32b7ccb261547952a8376dce7">tag_pcl_stat::crtime</a></div><div class="ttdeci">pcl_time_t crtime</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00244">stat.h:244</a></div></div>
-<div class="ttc" id="aa00080_html_a5c5b74a1cb1a1ae83572500b94e1938f"><div class="ttname"><a href="a00080.html#a5c5b74a1cb1a1ae83572500b94e1938f">S_IFBLK</a></div><div class="ttdeci">#define S_IFBLK</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00083">stat.h:83</a></div></div>
-<div class="ttc" id="aa00818_html_aa031dc6712613a6c64f5d8b26eb1baae"><div class="ttname"><a href="a00818.html#aa031dc6712613a6c64f5d8b26eb1baae">makedev</a></div><div class="ttdeci">#define makedev(x, y)</div><div class="ttdef"><b>Definition:</b> <a href="a00818_source.html#l00043">win32_statent.c:43</a></div></div>
-<div class="ttc" id="aa01159_html_a5db008489406de834c7b5598d3b90f40"><div class="ttname"><a href="a01159.html#a5db008489406de834c7b5598d3b90f40">tag_pcl_stat::blksize</a></div><div class="ttdeci">int blksize</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00239">stat.h:239</a></div></div>
-<div class="ttc" id="aa01102_html_ga3146683f8619c24b5aa15044b635b380"><div class="ttname"><a href="a01102.html#ga3146683f8619c24b5aa15044b635b380">PCL_EVENT_THREADINIT</a></div><div class="ttdeci">#define PCL_EVENT_THREADINIT</div><div class="ttdoc">Passed to a pcl_event_handler_t function to indicate that a thread is being initialized.</div><div class="ttdef"><b>Definition:</b> <a href="a00044_source.html#l00051">event.h:51</a></div></div>
-<div class="ttc" id="aa00080_html_afd7c17a86e2ff32feb30bb539971b4a7"><div class="ttname"><a href="a00080.html#afd7c17a86e2ff32feb30bb539971b4a7">UF_COMPRESSED</a></div><div class="ttdeci">#define UF_COMPRESSED</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00185">stat.h:185</a></div></div>
-<div class="ttc" id="aa00092_html_ad411aca9ab5b05ef8287863a08cf2d3b"><div class="ttname"><a href="a00092.html#ad411aca9ab5b05ef8287863a08cf2d3b">pcl_tls_alloc</a></div><div class="ttdeci">PCL_EXPORT int pcl_tls_alloc(pthread_key_t *key, void(*destructor)(void *))</div><div class="ttdef"><b>Definition:</b> <a href="a00941_source.html#l00036">tls_alloc.c:36</a></div></div>
-<div class="ttc" id="aa00050_html"><div class="ttname"><a href="a00050.html">file.h</a></div></div>
-<div class="ttc" id="aa00080_html_a580e3cd5ff34699b1f67c1d76b6f36d2"><div class="ttname"><a href="a00080.html#a580e3cd5ff34699b1f67c1d76b6f36d2">PCL_STAT_LINK</a></div><div class="ttdeci">#define PCL_STAT_LINK</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00052">stat.h:52</a></div></div>
-<div class="ttc" id="aa00092_html_aeed18624e9e341d06c760db3bc240330"><div class="ttname"><a href="a00092.html#aeed18624e9e341d06c760db3bc240330">pcl_tls_set</a></div><div class="ttdeci">PCL_EXPORT int pcl_tls_set(pthread_key_t key, void *value)</div><div class="ttdef"><b>Definition:</b> <a href="a00950_source.html#l00036">tls_set.c:36</a></div></div>
-<div class="ttc" id="aa01159_html_af4120042303b49a109ff13f67e4bea97"><div class="ttname"><a href="a01159.html#af4120042303b49a109ff13f67e4bea97">tag_pcl_stat::blocks</a></div><div class="ttdeci">uint64_t blocks</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00240">stat.h:240</a></div></div>
-<div class="ttc" id="aa01111_html_gab34f9d473aa3d3cacf5540d8719fccf3"><div class="ttname"><a href="a01111.html#gab34f9d473aa3d3cacf5540d8719fccf3">pcl_vector_get</a></div><div class="ttdeci">#define pcl_vector_get(v, pos)</div><div class="ttdoc">Get an element.</div><div class="ttdef"><b>Definition:</b> <a href="a00107_source.html#l00136">vector.h:136</a></div></div>
-<div class="ttc" id="aa01159_html_a54d2158f6808e2cc402feddc76d6240b"><div class="ttname"><a href="a01159.html#a54d2158f6808e2cc402feddc76d6240b">tag_pcl_stat::size</a></div><div class="ttdeci">int64_t size</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00236">stat.h:236</a></div></div>
-<div class="ttc" id="aa01159_html_a1163f413982fef86f5c8313564d8589c"><div class="ttname"><a href="a01159.html#a1163f413982fef86f5c8313564d8589c">tag_pcl_stat::uid</a></div><div class="ttdeci">uid_t uid</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00231">stat.h:231</a></div></div>
-<div class="ttc" id="aa01111_html_ga002aba7a474ea2b6d621ae5852a3a5c6"><div class="ttname"><a href="a01111.html#ga002aba7a474ea2b6d621ae5852a3a5c6">pcl_vector_append</a></div><div class="ttdeci">#define pcl_vector_append(v, elem)</div><div class="ttdoc">Append an element.</div><div class="ttdef"><b>Definition:</b> <a href="a00107_source.html#l00156">vector.h:156</a></div></div>
-<div class="ttc" id="aa01101_html_ga89b8bfbe17595305872551a1caaa5702"><div class="ttname"><a href="a01101.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a></div><div class="ttdeci">#define SETLASTERR()</div><div class="ttdoc">Sets the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00011_source.html#l00125">_errdefs.h:125</a></div></div>
-<div class="ttc" id="aa00029_html_a1df9ab18a5e5dd2e6d6d3977c35e976c"><div class="ttname"><a href="a00029.html#a1df9ab18a5e5dd2e6d6d3977c35e976c">_P</a></div><div class="ttdeci">#define _P(quote)</div><div class="ttdef"><b>Definition:</b> <a href="a00029_source.html#l00078">defs.h:78</a></div></div>
-<div class="ttc" id="aa00050_html_a759abd05ec38ac40da7e817e7a7556a5"><div class="ttname"><a href="a00050.html#a759abd05ec38ac40da7e817e7a7556a5">pcl_realpath</a></div><div class="ttdeci">PCL_EXPORT pchar_t * pcl_realpath(const pchar_t *path, int *lenp)</div><div class="ttdoc">Gets the canonicalized absolute pathname.</div><div class="ttdef"><b>Definition:</b> <a href="a00458_source.html#l00044">realpath.c:44</a></div></div>
-<div class="ttc" id="aa00107_html"><div class="ttname"><a href="a00107.html">vector.h</a></div></div>
-<div class="ttc" id="aa01223_html_a5db008489406de834c7b5598d3b90f40"><div class="ttname"><a href="a01223.html#a5db008489406de834c7b5598d3b90f40">bsize_cache_t::blksize</a></div><div class="ttdeci">int blksize</div><div class="ttdef"><b>Definition:</b> <a href="a00818_source.html#l00048">win32_statent.c:48</a></div></div>
-<div class="ttc" id="aa00080_html_a0f0a064cf2642002c09fe112719ae218"><div class="ttname"><a href="a00080.html#a0f0a064cf2642002c09fe112719ae218">UF_ENCRYPTED</a></div><div class="ttdeci">#define UF_ENCRYPTED</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00192">stat.h:192</a></div></div>
-<div class="ttc" id="aa01101_html_ga9ad3ef2339f58a873bc7bace5ad9c9df"><div class="ttname"><a href="a01101.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a></div><div class="ttdeci">#define TRC()</div><div class="ttdoc">Adds a stack trace to the current thread's error context.</div><div class="ttdef"><b>Definition:</b> <a href="a00011_source.html#l00262">_errdefs.h:262</a></div></div>
-<div class="ttc" id="aa01111_html_gaab2be8ec6279861c6ba6bb0f20e73ccb"><div class="ttname"><a href="a01111.html#gaab2be8ec6279861c6ba6bb0f20e73ccb">pcl_vector_free</a></div><div class="ttdeci">PCL_EXPORT void pcl_vector_free(pcl_vector_t *v)</div><div class="ttdoc">Release all resources used by a vector as well as the vector itself.</div><div class="ttdef"><b>Definition:</b> <a href="a01022_source.html#l00036">vector_free.c:36</a></div></div>
-<div class="ttc" id="aa01102_html_ga60d1bf6bac043a65b2188b0c13a1b9d3"><div class="ttname"><a href="a01102.html#ga60d1bf6bac043a65b2188b0c13a1b9d3">PCL_EVENT_INIT</a></div><div class="ttdeci">#define PCL_EVENT_INIT</div><div class="ttdoc">Passed to a pcl_event_handler_t function to indicate that the PCL library is being initialized.</div><div class="ttdef"><b>Definition:</b> <a href="a00044_source.html#l00044">event.h:44</a></div></div>
-<div class="ttc" id="aa01108_html_ga25f17052163749bc3e0d31ae8741a47b"><div class="ttname"><a href="a01108.html#ga25f17052163749bc3e0d31ae8741a47b">pcl_strcpy</a></div><div class="ttdeci">char * pcl_strcpy(char *dest, size_t size, const char *src)</div><div class="ttdoc">Copy a string.</div></div>
-<div class="ttc" id="aa01159_html_a865318c04add1efed27d5b0a248a3163"><div class="ttname"><a href="a01159.html#a865318c04add1efed27d5b0a248a3163">tag_pcl_stat::nlink</a></div><div class="ttdeci">nlink_t nlink</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00230">stat.h:230</a></div></div>
-<div class="ttc" id="aa01094_html_gab88b901c82e1010555b08ff6d39490f2"><div class="ttname"><a href="a01094.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a></div><div class="ttdeci">void * pcl_free(void *p)</div><div class="ttdoc">Free memory space.</div></div>
-<div class="ttc" id="aa00092_html"><div class="ttname"><a href="a00092.html">thread.h</a></div></div>
-<div class="ttc" id="aa01159_html_aab06eed5bd7a0f98649fa5abde3dbbf7"><div class="ttname"><a href="a01159.html#aab06eed5bd7a0f98649fa5abde3dbbf7">tag_pcl_stat::dsize</a></div><div class="ttdeci">int64_t dsize</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00237">stat.h:237</a></div></div>
-<div class="ttc" id="aa00818_html_a214a52ae84c5066c875e0e002266c3ba"><div class="ttname"><a href="a00818.html#a214a52ae84c5066c875e0e002266c3ba">ipcl_statent</a></div><div class="ttdeci">int ipcl_statent(const pchar_t *_path, int fd, pcl_stat_t *buf, int flags)</div><div class="ttdef"><b>Definition:</b> <a href="a00818_source.html#l00082">win32_statent.c:82</a></div></div>
+<div class="ttc" id="aa00044_html"><div class="ttname"><a href="a00044.html">error.h</a></div></div>
+<div class="ttc" id="aa00086_html"><div class="ttname"><a href="a00086.html">string.h</a></div></div>
+<div class="ttc" id="aa01162_html_a57bb9545ed5536635ca1bba0ac418cde"><div class="ttname"><a href="a01162.html#a57bb9545ed5536635ca1bba0ac418cde">tag_pcl_stat::ctime</a></div><div class="ttdeci">pcl_time_t ctime</div><div class="ttdef"><b>Definition:</b> <a href="a00083_source.html#l00243">stat.h:243</a></div></div>
+<div class="ttc" id="aa01162_html_accbf90b0b518578acff258d328c5575d"><div class="ttname"><a href="a01162.html#accbf90b0b518578acff258d328c5575d">tag_pcl_stat::gid</a></div><div class="ttdeci">gid_t gid</div><div class="ttdef"><b>Definition:</b> <a href="a00083_source.html#l00233">stat.h:233</a></div></div>
+<div class="ttc" id="aa00083_html_a248205de6785c45dbda1ab5127aebef8"><div class="ttname"><a href="a00083.html#a248205de6785c45dbda1ab5127aebef8">sys_fstat</a></div><div class="ttdeci">#define sys_fstat</div><div class="ttdef"><b>Definition:</b> <a href="a00083_source.html#l00046">stat.h:46</a></div></div>
+<div class="ttc" id="aa01170_html_a4c17f3941fd29561d689e4e03f18db46"><div class="ttname"><a href="a01170.html#a4c17f3941fd29561d689e4e03f18db46">tag_pcl_time::sec</a></div><div class="ttdeci">long long sec</div><div class="ttdef"><b>Definition:</b> <a href="a00098_source.html#l00059">time.h:59</a></div></div>
+<div class="ttc" id="aa00101_html_ac114b2b1527c8ae241d37cc15ca7d122"><div class="ttname"><a href="a00101.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a></div><div class="ttdeci">char pchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00101_source.html#l00053">types.h:53</a></div></div>
+<div class="ttc" id="aa01162_html_aaf0912f2a2832873f91fbff57ffbda87"><div class="ttname"><a href="a01162.html#aaf0912f2a2832873f91fbff57ffbda87">tag_pcl_stat::btime</a></div><div class="ttdeci">pcl_time_t btime</div><div class="ttdef"><b>Definition:</b> <a href="a00083_source.html#l00253">stat.h:253</a></div></div>
+<div class="ttc" id="aa00032_html_a8278668d120afdd0e47def881845559d"><div class="ttname"><a href="a00032.html#a8278668d120afdd0e47def881845559d">strempty</a></div><div class="ttdeci">#define strempty(str)</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00124">defs.h:124</a></div></div>
+<div class="ttc" id="aa01104_html_ga89b8bfbe17595305872551a1caaa5702"><div class="ttname"><a href="a01104.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a></div><div class="ttdeci">#define SETLASTERR()</div><div class="ttdoc">Sets the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00014_source.html#l00125">_errdefs.h:125</a></div></div>
+<div class="ttc" id="aa01162_html_a4f788396277d2346e2a9e8afec9d867e"><div class="ttname"><a href="a01162.html#a4f788396277d2346e2a9e8afec9d867e">tag_pcl_stat::finder_info</a></div><div class="ttdeci">char finder_info[32]</div><div class="ttdef"><b>Definition:</b> <a href="a00083_source.html#l00252">stat.h:252</a></div></div>
+<div class="ttc" id="aa01112_html_gac16c7cf06336524f862d7d601edc95f4"><div class="ttname"><a href="a01112.html#gac16c7cf06336524f862d7d601edc95f4">pcl_pcsrchr</a></div><div class="ttdeci">pchar_t * pcl_pcsrchr(const pchar_t *s, pchar_t c)</div><div class="ttdoc">Find the last occurance of a character within a string.</div></div>
+<div class="ttc" id="aa01162_html_a54d2158f6808e2cc402feddc76d6240b"><div class="ttname"><a href="a01162.html#a54d2158f6808e2cc402feddc76d6240b">tag_pcl_stat::size</a></div><div class="ttdeci">int64_t size</div><div class="ttdef"><b>Definition:</b> <a href="a00083_source.html#l00236">stat.h:236</a></div></div>
+<div class="ttc" id="aa00083_html_a580e3cd5ff34699b1f67c1d76b6f36d2"><div class="ttname"><a href="a00083.html#a580e3cd5ff34699b1f67c1d76b6f36d2">PCL_STAT_LINK</a></div><div class="ttdeci">#define PCL_STAT_LINK</div><div class="ttdef"><b>Definition:</b> <a href="a00083_source.html#l00052">stat.h:52</a></div></div>
+<div class="ttc" id="aa00083_html_a3140c5d226d0222f0040b3c15b8c65f8"><div class="ttname"><a href="a00083.html#a3140c5d226d0222f0040b3c15b8c65f8">UF_HIDDEN</a></div><div class="ttdeci">#define UF_HIDDEN</div><div class="ttdef"><b>Definition:</b> <a href="a00083_source.html#l00198">stat.h:198</a></div></div>
+<div class="ttc" id="aa00083_html"><div class="ttname"><a href="a00083.html">stat.h</a></div></div>
+<div class="ttc" id="aa01162_html_a223cbb76e5359c53e73a190015080beb"><div class="ttname"><a href="a01162.html#a223cbb76e5359c53e73a190015080beb">tag_pcl_stat::atime</a></div><div class="ttdeci">pcl_time_t atime</div><div class="ttdef"><b>Definition:</b> <a href="a00083_source.html#l00241">stat.h:241</a></div></div>
+<div class="ttc" id="aa01170_html_a67abf16c44712c2f6eacfce2da5aa5b4"><div class="ttname"><a href="a01170.html#a67abf16c44712c2f6eacfce2da5aa5b4">tag_pcl_time::nsec</a></div><div class="ttdeci">int nsec</div><div class="ttdef"><b>Definition:</b> <a href="a00098_source.html#l00060">time.h:60</a></div></div>
+<div class="ttc" id="aa01162_html_a9dada9e32b7ccb261547952a8376dce7"><div class="ttname"><a href="a01162.html#a9dada9e32b7ccb261547952a8376dce7">tag_pcl_stat::crtime</a></div><div class="ttdeci">pcl_time_t crtime</div><div class="ttdef"><b>Definition:</b> <a href="a00083_source.html#l00244">stat.h:244</a></div></div>
+<div class="ttc" id="aa01162_html_a773b39d480759f67926cb18ae2219281"><div class="ttname"><a href="a01162.html#a773b39d480759f67926cb18ae2219281">tag_pcl_stat::flags</a></div><div class="ttdeci">uint32_t flags</div><div class="ttdef"><b>Definition:</b> <a href="a00083_source.html#l00251">stat.h:251</a></div></div>
+<div class="ttc" id="aa01162_html_a1b4fb3994ca9f3ad9ec0f5c9dbea77a9"><div class="ttname"><a href="a01162.html#a1b4fb3994ca9f3ad9ec0f5c9dbea77a9">tag_pcl_stat::rdev</a></div><div class="ttdeci">dev_t rdev</div><div class="ttdef"><b>Definition:</b> <a href="a00083_source.html#l00235">stat.h:235</a></div></div>
+<div class="ttc" id="aa01162_html_af4120042303b49a109ff13f67e4bea97"><div class="ttname"><a href="a01162.html#af4120042303b49a109ff13f67e4bea97">tag_pcl_stat::blocks</a></div><div class="ttdeci">uint64_t blocks</div><div class="ttdef"><b>Definition:</b> <a href="a00083_source.html#l00240">stat.h:240</a></div></div>
+<div class="ttc" id="aa00083_html_acaa23d36f3ede22782b952de861a1cec"><div class="ttname"><a href="a00083.html#acaa23d36f3ede22782b952de861a1cec">sys_lstat</a></div><div class="ttdeci">#define sys_lstat</div><div class="ttdef"><b>Definition:</b> <a href="a00083_source.html#l00047">stat.h:47</a></div></div>
+<div class="ttc" id="aa01162_html_a8910285a0352a5c710e65ec9ecbe32a1"><div class="ttname"><a href="a01162.html#a8910285a0352a5c710e65ec9ecbe32a1">tag_pcl_stat::dev</a></div><div class="ttdeci">dev_t dev</div><div class="ttdef"><b>Definition:</b> <a href="a00083_source.html#l00223">stat.h:223</a></div></div>
+<div class="ttc" id="aa01162_html_a5db008489406de834c7b5598d3b90f40"><div class="ttname"><a href="a01162.html#a5db008489406de834c7b5598d3b90f40">tag_pcl_stat::blksize</a></div><div class="ttdeci">int blksize</div><div class="ttdef"><b>Definition:</b> <a href="a00083_source.html#l00239">stat.h:239</a></div></div>
+<div class="ttc" id="aa00083_html_a3e63d27ae45ef4a22249859bda12bade"><div class="ttname"><a href="a00083.html#a3e63d27ae45ef4a22249859bda12bade">sys_stat_t</a></div><div class="ttdeci">struct stat sys_stat_t</div><div class="ttdef"><b>Definition:</b> <a href="a00083_source.html#l00001">stat.h:48</a></div></div>
+<div class="ttc" id="aa01162_html_aa9c25ec6cb415e0c2d201fc9205e73d0"><div class="ttname"><a href="a01162.html#aa9c25ec6cb415e0c2d201fc9205e73d0">tag_pcl_stat::ino</a></div><div class="ttdeci">ino_t ino</div><div class="ttdef"><b>Definition:</b> <a href="a00083_source.html#l00228">stat.h:228</a></div></div>
+<div class="ttc" id="aa01162_html_a63eae24810a9fe13ffba70752f8286f1"><div class="ttname"><a href="a01162.html#a63eae24810a9fe13ffba70752f8286f1">tag_pcl_stat::mtime</a></div><div class="ttdeci">pcl_time_t mtime</div><div class="ttdef"><b>Definition:</b> <a href="a00083_source.html#l00242">stat.h:242</a></div></div>
+<div class="ttc" id="aa00818_html_a880dfe976d60a9b856c5b60ac8f49020"><div class="ttname"><a href="a00818.html#a880dfe976d60a9b856c5b60ac8f49020">ipcl_statent</a></div><div class="ttdeci">int ipcl_statent(const pchar_t *path, int fd, pcl_stat_t *buf, int flags)</div><div class="ttdef"><b>Definition:</b> <a href="a00818_source.html#l00087">unix_statent.c:87</a></div></div>
+<div class="ttc" id="aa01162_html_a865318c04add1efed27d5b0a248a3163"><div class="ttname"><a href="a01162.html#a865318c04add1efed27d5b0a248a3163">tag_pcl_stat::nlink</a></div><div class="ttdeci">nlink_t nlink</div><div class="ttdef"><b>Definition:</b> <a href="a00083_source.html#l00230">stat.h:230</a></div></div>
+<div class="ttc" id="aa01162_html_adc8d3cf511ceb277aea0cfa1cd027c59"><div class="ttname"><a href="a01162.html#adc8d3cf511ceb277aea0cfa1cd027c59">tag_pcl_stat::mode</a></div><div class="ttdeci">mode_t mode</div><div class="ttdef"><b>Definition:</b> <a href="a00083_source.html#l00229">stat.h:229</a></div></div>
+<div class="ttc" id="aa00083_html_a48c3927c0c326a742b2d0e3e08f70804"><div class="ttname"><a href="a00083.html#a48c3927c0c326a742b2d0e3e08f70804">sys_stat</a></div><div class="ttdeci">#define sys_stat</div><div class="ttdef"><b>Definition:</b> <a href="a00083_source.html#l00045">stat.h:45</a></div></div>
+<div class="ttc" id="aa01162_html"><div class="ttname"><a href="a01162.html">tag_pcl_stat</a></div><div class="ttdef"><b>Definition:</b> <a href="a00083_source.html#l00221">stat.h:222</a></div></div>
+<div class="ttc" id="aa01162_html_a1163f413982fef86f5c8313564d8589c"><div class="ttname"><a href="a01162.html#a1163f413982fef86f5c8313564d8589c">tag_pcl_stat::uid</a></div><div class="ttdeci">uid_t uid</div><div class="ttdef"><b>Definition:</b> <a href="a00083_source.html#l00231">stat.h:231</a></div></div>
+<div class="ttc" id="aa01104_html_gab052d4faa8fd25e1a13e86ecd4aafa38"><div class="ttname"><a href="a01104.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a></div><div class="ttdeci">#define BADARG()</div><div class="ttdef"><b>Definition:</b> <a href="a00014_source.html#l00306">_errdefs.h:306</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

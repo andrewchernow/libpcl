@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['string_20management_2813',['String Management',['../a01108.html',1,'']]],
-  ['string_20to_20integer_20conversion_2814',['String to Integer Conversion',['../a01110.html',1,'']]]
+  ['string_20management_2816',['String Management',['../a01111.html',1,'']]],
+  ['string_20to_20integer_20conversion_2817',['String to Integer Conversion',['../a01113.html',1,'']]]
 ];

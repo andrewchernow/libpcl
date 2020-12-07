@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/crypto/digest_len.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/crypto/digest_free.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">digest_len.c</div>  </div>
+<div class="title">digest_free.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00245.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,22 +101,27 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00209.html">_crypto.h</a>&quot;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00212.html">_crypto.h</a>&quot;</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01097.html#ga8ec13c02b60a1c1d1c677c3cc6041c63">   35</a></span>&#160;<a class="code" href="a01097.html#ga8ec13c02b60a1c1d1c677c3cc6041c63">pcl_digest_len</a>(<a class="code" href="a01187.html">pcl_digest_t</a> *d)</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">void</span> *</div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01100.html#ga56d47188edee01dc1f42af9eb37e4ae7">   35</a></span>&#160;<a class="code" href="a01100.html#ga56d47188edee01dc1f42af9eb37e4ae7">pcl_digest_free</a>(<a class="code" href="a01190.html">pcl_digest_t</a> *d)</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordflow">if</span>(!d)</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01101.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a>();</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordflow">return</span> EVP_MD_size(d-&gt;<a class="code" href="a01187.html#abb7f2f40445a754241e3a2c1ebcd52b6">md</a>);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;}</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordflow">if</span>(d)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  {</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">if</span>(d-&gt;<a class="code" href="a01190.html#ab96dd86ce4a562051102939f8e524798">ctx</a>)</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;      EVP_MD_CTX_free(d-&gt;<a class="code" href="a01190.html#ab96dd86ce4a562051102939f8e524798">ctx</a>);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="a01097.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(d);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  }</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01101_html_gab052d4faa8fd25e1a13e86ecd4aafa38"><div class="ttname"><a href="a01101.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a></div><div class="ttdeci">#define BADARG()</div><div class="ttdef"><b>Definition:</b> <a href="a00011_source.html#l00306">_errdefs.h:306</a></div></div>
-<div class="ttc" id="aa00209_html"><div class="ttname"><a href="a00209.html">_crypto.h</a></div></div>
-<div class="ttc" id="aa01187_html"><div class="ttname"><a href="a01187.html">tag_pcl_digest</a></div><div class="ttdef"><b>Definition:</b> <a href="a00209_source.html#l00050">_crypto.h:51</a></div></div>
-<div class="ttc" id="aa01187_html_abb7f2f40445a754241e3a2c1ebcd52b6"><div class="ttname"><a href="a01187.html#abb7f2f40445a754241e3a2c1ebcd52b6">tag_pcl_digest::md</a></div><div class="ttdeci">const EVP_MD * md</div><div class="ttdef"><b>Definition:</b> <a href="a00209_source.html#l00052">_crypto.h:52</a></div></div>
-<div class="ttc" id="aa01097_html_ga8ec13c02b60a1c1d1c677c3cc6041c63"><div class="ttname"><a href="a01097.html#ga8ec13c02b60a1c1d1c677c3cc6041c63">pcl_digest_len</a></div><div class="ttdeci">int pcl_digest_len(pcl_digest_t *d)</div><div class="ttdoc">Get digest length.</div><div class="ttdef"><b>Definition:</b> <a href="a00245_source.html#l00035">digest_len.c:35</a></div></div>
+<div class="ttc" id="aa01190_html_ab96dd86ce4a562051102939f8e524798"><div class="ttname"><a href="a01190.html#ab96dd86ce4a562051102939f8e524798">tag_pcl_digest::ctx</a></div><div class="ttdeci">EVP_MD_CTX * ctx</div><div class="ttdef"><b>Definition:</b> <a href="a00212_source.html#l00053">_crypto.h:53</a></div></div>
+<div class="ttc" id="aa01100_html_ga56d47188edee01dc1f42af9eb37e4ae7"><div class="ttname"><a href="a01100.html#ga56d47188edee01dc1f42af9eb37e4ae7">pcl_digest_free</a></div><div class="ttdeci">void * pcl_digest_free(pcl_digest_t *d)</div><div class="ttdoc">Free a message digest.</div><div class="ttdef"><b>Definition:</b> <a href="a00245_source.html#l00035">digest_free.c:35</a></div></div>
+<div class="ttc" id="aa00212_html"><div class="ttname"><a href="a00212.html">_crypto.h</a></div></div>
+<div class="ttc" id="aa01097_html_gab88b901c82e1010555b08ff6d39490f2"><div class="ttname"><a href="a01097.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a></div><div class="ttdeci">void * pcl_free(void *p)</div><div class="ttdoc">Free memory space.</div></div>
+<div class="ttc" id="aa01190_html"><div class="ttname"><a href="a01190.html">tag_pcl_digest</a></div><div class="ttdef"><b>Definition:</b> <a href="a00212_source.html#l00050">_crypto.h:51</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

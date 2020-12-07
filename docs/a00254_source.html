@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/crypto/rand.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/crypto/digest_update.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,12 +67,12 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">rand.c</div>  </div>
+<div class="title">digest_update.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00254.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (PCL)</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2003, 2005-2014, 2017-2020 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,74 +101,32 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00026.html">pcl/crypto.h</a>&gt;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00020.html">pcl/atomic.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;openssl/rand.h&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#ifdef PCL_UNIX</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">  #include &lt;unistd.h&gt;</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">  #include &lt;fcntl.h&gt;</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">  #include &lt;windows.h&gt;</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">  #include &lt;wincrypt.h&gt;</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;seedprng(<span class="keywordtype">void</span>)</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;{</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordtype">int</span> count = 0;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keywordtype">char</span> seed[16 * 1024];</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="keywordtype">int</span> seed_len = (int) <span class="keyword">sizeof</span>(seed);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  HCRYPTPROV h;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <span class="keywordtype">bool</span> ok = CryptAcquireContext(&amp;h, NULL, NULL, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keywordflow">if</span>(ok)</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  {</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordflow">if</span>(CryptGenRandom(h, seed_len, (BYTE *) seed))</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      count = seed_len;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    CryptReleaseContext(h, 0);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  }</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  <span class="keywordtype">int</span> fd = open(<span class="stringliteral">&quot;/dev/urandom&quot;</span>, O_RDONLY);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <span class="keywordflow">if</span>(fd != -1)</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  {</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">int</span> tot, n;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">for</span>(tot = 0; tot &lt; seed_len; tot += n)</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      <span class="keywordflow">if</span>((n = (<span class="keywordtype">int</span>) read(fd, seed + tot, seed_len - tot)) &lt; 1)</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    close(fd);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    count = tot;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  }</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  RAND_seed(seed, count);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;}</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="a01097.html#gabe91914e6c220178ec8348ba83fe6d10">   83</a></span>&#160;<a class="code" href="a01097.html#gabe91914e6c220178ec8348ba83fe6d10">pcl_rand</a>(<span class="keywordtype">void</span> *buf, <span class="keywordtype">int</span> num)</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;{</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  <span class="keyword">static</span> <a class="code" href="a00098.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a> seed_when_one = 0;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a01095.html#ga291441b4ea0e2aa1948c7a5247b82954">pcl_atomic_add_fetch</a>(&amp;seed_when_one, 1) == 1)</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    seedprng();</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;  RAND_bytes((<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> *) buf, num);</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;  <span class="keywordflow">return</span> num;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;}</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00212.html">_crypto.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01100.html#ga36514cd9aac96e158d5d26126d259728">   35</a></span>&#160;<a class="code" href="a01100.html#ga36514cd9aac96e158d5d26126d259728">pcl_digest_update</a>(<a class="code" href="a01190.html">pcl_digest_t</a> *d, <span class="keyword">const</span> <span class="keywordtype">void</span> *data, <span class="keywordtype">size_t</span> len)</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordflow">if</span>(!d)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01104.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a>();</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordflow">if</span>(!data)</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordtype">int</span> r = EVP_DigestUpdate(d-&gt;<a class="code" href="a01190.html#ab96dd86ce4a562051102939f8e524798">ctx</a>, data, len);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordflow">if</span>(r == 0)</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01104.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a>(<a class="code" href="a01103.html#gaff9e807ddf8cadf26cd1c7218f8f24d6">PCL_ECRYPT</a>);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00026_html"><div class="ttname"><a href="a00026.html">crypto.h</a></div></div>
-<div class="ttc" id="aa01095_html_ga291441b4ea0e2aa1948c7a5247b82954"><div class="ttname"><a href="a01095.html#ga291441b4ea0e2aa1948c7a5247b82954">pcl_atomic_add_fetch</a></div><div class="ttdeci">PCL_EXPORT pcl_atomic_t pcl_atomic_add_fetch(pcl_atomic_t *dest, pcl_atomic_t add)</div><div class="ttdoc">Performs an add and fetch operation.</div><div class="ttdef"><b>Definition:</b> <a href="a00125_source.html#l00039">atomic_add_fetch.c:39</a></div></div>
-<div class="ttc" id="aa00020_html"><div class="ttname"><a href="a00020.html">atomic.h</a></div></div>
-<div class="ttc" id="aa00098_html_a74a9f3e3e5163485365adb35c5030f65"><div class="ttname"><a href="a00098.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a></div><div class="ttdeci">int64_t pcl_atomic_t</div><div class="ttdef"><b>Definition:</b> <a href="a00098_source.html#l00059">types.h:59</a></div></div>
-<div class="ttc" id="aa01097_html_gabe91914e6c220178ec8348ba83fe6d10"><div class="ttname"><a href="a01097.html#gabe91914e6c220178ec8348ba83fe6d10">pcl_rand</a></div><div class="ttdeci">int pcl_rand(void *buf, int num)</div><div class="ttdoc">Generate random bytes.</div><div class="ttdef"><b>Definition:</b> <a href="a00254_source.html#l00083">rand.c:83</a></div></div>
+<div class="ttc" id="aa01190_html_ab96dd86ce4a562051102939f8e524798"><div class="ttname"><a href="a01190.html#ab96dd86ce4a562051102939f8e524798">tag_pcl_digest::ctx</a></div><div class="ttdeci">EVP_MD_CTX * ctx</div><div class="ttdef"><b>Definition:</b> <a href="a00212_source.html#l00053">_crypto.h:53</a></div></div>
+<div class="ttc" id="aa01100_html_ga36514cd9aac96e158d5d26126d259728"><div class="ttname"><a href="a01100.html#ga36514cd9aac96e158d5d26126d259728">pcl_digest_update</a></div><div class="ttdeci">int pcl_digest_update(pcl_digest_t *d, const void *data, size_t len)</div><div class="ttdoc">Update the data of a digest operation.</div><div class="ttdef"><b>Definition:</b> <a href="a00254_source.html#l00035">digest_update.c:35</a></div></div>
+<div class="ttc" id="aa01104_html_ga82adf6365b61d9a32021e559d9c31497"><div class="ttname"><a href="a01104.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a></div><div class="ttdeci">#define SETERR(_pclerr)</div><div class="ttdoc">Sets the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00014_source.html#l00065">_errdefs.h:65</a></div></div>
+<div class="ttc" id="aa00212_html"><div class="ttname"><a href="a00212.html">_crypto.h</a></div></div>
+<div class="ttc" id="aa01190_html"><div class="ttname"><a href="a01190.html">tag_pcl_digest</a></div><div class="ttdef"><b>Definition:</b> <a href="a00212_source.html#l00050">_crypto.h:51</a></div></div>
+<div class="ttc" id="aa01103_html_gaff9e807ddf8cadf26cd1c7218f8f24d6"><div class="ttname"><a href="a01103.html#gaff9e807ddf8cadf26cd1c7218f8f24d6">PCL_ECRYPT</a></div><div class="ttdeci">#define PCL_ECRYPT</div><div class="ttdoc">Encryption or decryption failed.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00156">_errno.h:156</a></div></div>
+<div class="ttc" id="aa01104_html_gab052d4faa8fd25e1a13e86ecd4aafa38"><div class="ttname"><a href="a01104.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a></div><div class="ttdeci">#define BADARG()</div><div class="ttdef"><b>Definition:</b> <a href="a00014_source.html#l00306">_errdefs.h:306</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

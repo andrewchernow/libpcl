@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/file/_file.h Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/event/event_unregister.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,12 +62,12 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_f17c642dae9e225ab953fe9c6da2e34a.html">&#x202A;file</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_f278fbcf62338d746f20818c09b59427.html">&#x202A;event</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">_file.h</div>  </div>
+<div class="title">event_unregister.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00431.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,86 +101,41 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#ifndef LIBPCL__UNISTD_H__</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#define LIBPCL__UNISTD_H__</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00419.html">_event.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00086.html">string.h</a>&gt;</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00050.html">pcl/file.h</a>&gt;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">void</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01105.html#ga5e48475a04701c77022079a13e4c98ce">   36</a></span>&#160;<a class="code" href="a01105.html#ga5e48475a04701c77022079a13e4c98ce">pcl_event_unregister</a>(<a class="code" href="a01105.html#ga04ab8867aacede25175c89e51a3e206d">pcl_event_handler_t</a> handler)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">if</span>(!handler)</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">return</span>;</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor"># include &lt;windows.h&gt;</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="comment">  /** used by pcl_file_t for windows. provides OVERLAPPED structure and</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment">   * some state in regard to pending and who requested it</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment">   */</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keyword">struct </span>ipcl_win32_aio</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  {</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    OVERLAPPED ol;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment">    /** When zero, there are no pending I/O operations. When non-zero, there</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment">     * are pending I/O operations and this is set to the requester&#39;s thread-id.</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment">     */</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    uint64_t pending;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  };</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor"># include &lt;fcntl.h&gt;</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor"># include &lt;unistd.h&gt;</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="a01207.html">   61</a></span>&#160;<span class="keyword">struct </span><a class="code" href="a01207.html">tag_pcl_file</a></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;{</div>
-<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="a01207.html#a773b39d480759f67926cb18ae2219281">   63</a></span>&#160;  uint32_t <a class="code" href="a01207.html#a773b39d480759f67926cb18ae2219281">flags</a>;</div>
-<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="a01207.html#aea2da8bf318182f7770734b14f9202b2">   64</a></span>&#160;  <a class="code" href="a00098.html#a38181b2081934a85dad92145b8f4d774">pcl_fd_t</a> <a class="code" href="a01207.html#aea2da8bf318182f7770734b14f9202b2">fd</a>;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <span class="keyword">struct </span>ipcl_win32_aio aio_read;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  <span class="keyword">struct </span>ipcl_win32_aio aio_write;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;};</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment">/* Allocates a new PCL file object and optionally allows specifying the</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="comment">* backing file descriptor and any file flags: like PCL_FF_NONBLOCK,</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="comment">* PCL_FF_APPEND, PCL_FF_LOCKED, etc... These arguments can be zero.</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="comment">*/</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<a class="code" href="a01207.html">pcl_file_t</a> *<a class="code" href="a00431.html#a74d4df93ad11a0d0bc1c6035e1da2c13">ipcl_file_alloc</a>(<a class="code" href="a00098.html#a38181b2081934a85dad92145b8f4d774">pcl_fd_t</a> fd, <span class="keywordtype">int</span> fflags);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="keywordtype">int</span> <a class="code" href="a00431.html#ab5e687dffa2a61657b385178b77896e4">ipcl_file_open</a>(<a class="code" href="a01207.html">pcl_file_t</a> *file, <span class="keyword">const</span> <a class="code" href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *path, <span class="keywordtype">int</span> flags, mode_t mode);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="comment">/** Initialize a preallocated file using a set of file-flags.</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="comment"> * @param file</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="comment"> * @param fflags</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="comment"> * @return</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<a class="code" href="a01207.html">pcl_file_t</a> *<a class="code" href="a00431.html#a212e2b16e367ab22870295f42579cfd1">ipcl_file_init</a>(<a class="code" href="a01207.html">pcl_file_t</a> *file, <span class="keywordtype">int</span> fflags);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="comment">/* You cannot set PCL_FF_OLOCK or PCL_FF_FLOCK with this call */</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="keywordtype">int</span> <a class="code" href="a00431.html#aa7e81820c3cfa99bc700654580c9264f">ipcl_oflags_to_fflags</a>(<span class="keywordtype">int</span> oflags);</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="comment">/* Convert PCL_O_* open flags to the system&#39;s (OS) open flags. There is some</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="comment"> * lose during the conversion that pcl_file_open() handles internally. If using</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="comment"> * this outside of pcl_file_open(), be aware of that.</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="keywordtype">int</span> <a class="code" href="a00431.html#aa637ba19a734db64bdc1e7a90dc36736">ipcl_sysoflags</a>(uint32_t pcl_oflags);</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;}</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="preprocessor">#endif //LIBPCL__UNISTD_H__</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <a class="code" href="a01206.html">ipcl_event_context_t</a> *ctx = <a class="code" href="a00419.html#a420caa65d73df927f9b9458d4b694f34">ipcl_event_context</a>();</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; ctx-&gt;<a class="code" href="a01206.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a>; i++)</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <a class="code" href="a01105.html#ga04ab8867aacede25175c89e51a3e206d">pcl_event_handler_t</a> h = ctx-&gt;<a class="code" href="a01206.html#a2bac420819c6eac4b74a890ec6f7dd32">handlers</a>[i];</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">if</span>(h == handler)</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    {</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;      <a class="code" href="a01105.html#ga04ab8867aacede25175c89e51a3e206d">pcl_event_handler_t</a> *x = ctx-&gt;<a class="code" href="a01206.html#a2bac420819c6eac4b74a890ec6f7dd32">handlers</a> + i;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      memmove(x, x + 1, (ctx-&gt;<a class="code" href="a01206.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a> - i - 1) * <span class="keyword">sizeof</span>(h));</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    }</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  }</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <a class="code" href="a00419.html#a2e5925633da0861508d7c8eb742e48cf">ipcl_event_context_release</a>();</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00098_html_ac114b2b1527c8ae241d37cc15ca7d122"><div class="ttname"><a href="a00098.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a></div><div class="ttdeci">char pchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00098_source.html#l00053">types.h:53</a></div></div>
-<div class="ttc" id="aa01207_html"><div class="ttname"><a href="a01207.html">tag_pcl_file</a></div><div class="ttdef"><b>Definition:</b> <a href="a00431_source.html#l00061">_file.h:62</a></div></div>
-<div class="ttc" id="aa00431_html_a74d4df93ad11a0d0bc1c6035e1da2c13"><div class="ttname"><a href="a00431.html#a74d4df93ad11a0d0bc1c6035e1da2c13">ipcl_file_alloc</a></div><div class="ttdeci">pcl_file_t * ipcl_file_alloc(pcl_fd_t fd, int fflags)</div><div class="ttdef"><b>Definition:</b> <a href="a00437_source.html#l00036">file_alloc.c:36</a></div></div>
-<div class="ttc" id="aa00431_html_aa637ba19a734db64bdc1e7a90dc36736"><div class="ttname"><a href="a00431.html#aa637ba19a734db64bdc1e7a90dc36736">ipcl_sysoflags</a></div><div class="ttdeci">int ipcl_sysoflags(uint32_t pcl_oflags)</div><div class="ttdef"><b>Definition:</b> <a href="a00455_source.html#l00057">flagconv.c:57</a></div></div>
-<div class="ttc" id="aa00431_html_aa7e81820c3cfa99bc700654580c9264f"><div class="ttname"><a href="a00431.html#aa7e81820c3cfa99bc700654580c9264f">ipcl_oflags_to_fflags</a></div><div class="ttdeci">int ipcl_oflags_to_fflags(int oflags)</div><div class="ttdef"><b>Definition:</b> <a href="a00455_source.html#l00036">flagconv.c:36</a></div></div>
-<div class="ttc" id="aa00098_html_a38181b2081934a85dad92145b8f4d774"><div class="ttname"><a href="a00098.html#a38181b2081934a85dad92145b8f4d774">pcl_fd_t</a></div><div class="ttdeci">int pcl_fd_t</div><div class="ttdef"><b>Definition:</b> <a href="a00098_source.html#l00054">types.h:54</a></div></div>
-<div class="ttc" id="aa00050_html"><div class="ttname"><a href="a00050.html">file.h</a></div></div>
-<div class="ttc" id="aa01207_html_a773b39d480759f67926cb18ae2219281"><div class="ttname"><a href="a01207.html#a773b39d480759f67926cb18ae2219281">tag_pcl_file::flags</a></div><div class="ttdeci">uint32_t flags</div><div class="ttdef"><b>Definition:</b> <a href="a00431_source.html#l00063">_file.h:63</a></div></div>
-<div class="ttc" id="aa01207_html_aea2da8bf318182f7770734b14f9202b2"><div class="ttname"><a href="a01207.html#aea2da8bf318182f7770734b14f9202b2">tag_pcl_file::fd</a></div><div class="ttdeci">pcl_fd_t fd</div><div class="ttdef"><b>Definition:</b> <a href="a00431_source.html#l00064">_file.h:64</a></div></div>
-<div class="ttc" id="aa00431_html_ab5e687dffa2a61657b385178b77896e4"><div class="ttname"><a href="a00431.html#ab5e687dffa2a61657b385178b77896e4">ipcl_file_open</a></div><div class="ttdeci">int ipcl_file_open(pcl_file_t *file, const pchar_t *path, int flags, mode_t mode)</div><div class="ttdef"><b>Definition:</b> <a href="a00467_source.html#l00037">unix_file_open.c:37</a></div></div>
-<div class="ttc" id="aa00431_html_a212e2b16e367ab22870295f42579cfd1"><div class="ttname"><a href="a00431.html#a212e2b16e367ab22870295f42579cfd1">ipcl_file_init</a></div><div class="ttdeci">pcl_file_t * ipcl_file_init(pcl_file_t *file, int fflags)</div><div class="ttdoc">Initialize a preallocated file using a set of file-flags.</div><div class="ttdef"><b>Definition:</b> <a href="a00443_source.html#l00036">file_init.c:36</a></div></div>
+<div class="ttc" id="aa00086_html"><div class="ttname"><a href="a00086.html">string.h</a></div></div>
+<div class="ttc" id="aa00419_html_a2e5925633da0861508d7c8eb742e48cf"><div class="ttname"><a href="a00419.html#a2e5925633da0861508d7c8eb742e48cf">ipcl_event_context_release</a></div><div class="ttdeci">void ipcl_event_context_release(void)</div><div class="ttdef"><b>Definition:</b> <a href="a00422_source.html#l00052">event_context.c:52</a></div></div>
+<div class="ttc" id="aa00419_html_a420caa65d73df927f9b9458d4b694f34"><div class="ttname"><a href="a00419.html#a420caa65d73df927f9b9458d4b694f34">ipcl_event_context</a></div><div class="ttdeci">ipcl_event_context_t * ipcl_event_context(void)</div><div class="ttdef"><b>Definition:</b> <a href="a00422_source.html#l00045">event_context.c:45</a></div></div>
+<div class="ttc" id="aa01105_html_ga5e48475a04701c77022079a13e4c98ce"><div class="ttname"><a href="a01105.html#ga5e48475a04701c77022079a13e4c98ce">pcl_event_unregister</a></div><div class="ttdeci">void pcl_event_unregister(pcl_event_handler_t handler)</div><div class="ttdoc">Unregisters a previously registered event handler.</div><div class="ttdef"><b>Definition:</b> <a href="a00431_source.html#l00036">event_unregister.c:36</a></div></div>
+<div class="ttc" id="aa00419_html"><div class="ttname"><a href="a00419.html">_event.h</a></div></div>
+<div class="ttc" id="aa01206_html_ad43c3812e6d13e0518d9f8b8f463ffcf"><div class="ttname"><a href="a01206.html#ad43c3812e6d13e0518d9f8b8f463ffcf">ipcl_event_context_t::count</a></div><div class="ttdeci">int count</div><div class="ttdef"><b>Definition:</b> <a href="a00419_source.html#l00043">_event.h:43</a></div></div>
+<div class="ttc" id="aa01105_html_ga04ab8867aacede25175c89e51a3e206d"><div class="ttname"><a href="a01105.html#ga04ab8867aacede25175c89e51a3e206d">pcl_event_handler_t</a></div><div class="ttdeci">void(* pcl_event_handler_t)(uint32_t event, void *data)</div><div class="ttdoc">Event handler prototype.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00064">event.h:64</a></div></div>
+<div class="ttc" id="aa01206_html_a2bac420819c6eac4b74a890ec6f7dd32"><div class="ttname"><a href="a01206.html#a2bac420819c6eac4b74a890ec6f7dd32">ipcl_event_context_t::handlers</a></div><div class="ttdeci">pcl_event_handler_t * handlers</div><div class="ttdef"><b>Definition:</b> <a href="a00419_source.html#l00045">_event.h:45</a></div></div>
+<div class="ttc" id="aa01206_html"><div class="ttname"><a href="a01206.html">ipcl_event_context_t</a></div><div class="ttdef"><b>Definition:</b> <a href="a00419_source.html#l00041">_event.h:42</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

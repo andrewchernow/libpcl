@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/string/strlower.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/string/stristr.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">strlower.c</div>  </div>
+<div class="title">stristr.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00851.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,46 +101,62 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00821.html">_string.h</a>&quot;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00824.html">_string.h</a>&quot;</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#undef isxupper</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#undef toxlower</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#ifdef XWIDE</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor"># include &lt;wctype.h&gt;</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor"># define isxupper iswupper</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor"># define toxlower towlower</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor"># include &lt;ctype.h&gt;</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="a00851.html#a89ce62b0bcce28985f024ecd023c829e">   43</a></span>&#160;<span class="preprocessor"># define isxupper isupper</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="a00851.html#a7c3554a295892ad8adc9efb5e6b331c6">   44</a></span>&#160;<span class="preprocessor"># define toxlower tolower</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<a class="code" href="a00821.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *</div>
-<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="a00851.html#a45e3b8c2f76cf0611762bb5bc420bcdb">   48</a></span>&#160;<a class="code" href="a00821.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a>(<a class="code" href="a00851.html#a45e3b8c2f76cf0611762bb5bc420bcdb">lower</a>)(<a class="code" href="a00821.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *s)</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;{</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <a class="code" href="a00821.html#acccab69d0e95cc5047e7fdd343603c90">xint</a> ch;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="keywordflow">for</span>(<a class="code" href="a00821.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *p = s; (ch = *p); p++)</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordflow">if</span>(<a class="code" href="a00851.html#a89ce62b0bcce28985f024ecd023c829e">isxupper</a>(ch))</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      *p = (<a class="code" href="a00821.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a>) <a class="code" href="a00851.html#a7c3554a295892ad8adc9efb5e6b331c6">toxlower</a>(ch);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordflow">return</span> s;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;}</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#ifndef XWIDE</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="a00851.html#af3082199ea3ac518b87acdac953cf385">   60</a></span>&#160;<span class="preprocessor"># define XWIDE</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor"># include &quot;<a class="code" href="a00851.html">strlower.c</a>&quot;</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment">/* Windows doesn&#39;t have strcasestr or stristr, you have to use shlwapi.h StrStrIA and StrStrIW</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment"> * which are very slow for some reason. Also requires unwanted linking with Shlwapi.lib.</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment"> * In addition, Darwin doesn&#39;t have wcscasestr but does have strcasestr. For simplicity,</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="comment"> * we replace darwin&#39;s strcasestr with the below since these funcs come in pairs.</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#undef toxlower</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#ifdef XWIDE</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor"># include &lt;wctype.h&gt;</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">  #define toxlower towlower</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor"># include &lt;ctype.h&gt;</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="a00851.html#a7c3554a295892ad8adc9efb5e6b331c6">   47</a></span>&#160;<span class="preprocessor">  #define toxlower tolower</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<a class="code" href="a00824.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *</div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="a00851.html#acd5ce4af061ede4bd09e52fb0395ae80">   51</a></span>&#160;<a class="code" href="a00824.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a>(<a class="code" href="a00851.html#acd5ce4af061ede4bd09e52fb0395ae80">istr</a>)(<span class="keyword">const</span> <a class="code" href="a00824.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *haystack, <span class="keyword">const</span> <a class="code" href="a00824.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *needle)</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;{</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <a class="code" href="a00824.html#acccab69d0e95cc5047e7fdd343603c90">xint</a> c = <a class="code" href="a00851.html#a7c3554a295892ad8adc9efb5e6b331c6">toxlower</a>((<a class="code" href="a00824.html#acccab69d0e95cc5047e7fdd343603c90">xint</a>) *needle);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keywordflow">if</span>(c == <span class="charliteral">&#39;\0&#39;</span>)</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">return</span> (<a class="code" href="a00824.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *) haystack;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <span class="keywordflow">for</span>(; *haystack; haystack++)</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  {</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordflow">if</span>(<a class="code" href="a00851.html#a7c3554a295892ad8adc9efb5e6b331c6">toxlower</a>((<a class="code" href="a00824.html#acccab69d0e95cc5047e7fdd343603c90">xint</a>) *haystack) == c)</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    {</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      <span class="keywordflow">for</span>(<span class="keywordtype">size_t</span> i = 0;;)</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      {</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keywordflow">if</span>(needle[++i] == <span class="charliteral">&#39;\0&#39;</span>)</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;          <span class="keywordflow">return</span> (<a class="code" href="a00824.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *) haystack;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keywordflow">if</span>(<a class="code" href="a00851.html#a7c3554a295892ad8adc9efb5e6b331c6">toxlower</a>((<a class="code" href="a00824.html#acccab69d0e95cc5047e7fdd343603c90">xint</a>) haystack[i]) != <a class="code" href="a00851.html#a7c3554a295892ad8adc9efb5e6b331c6">toxlower</a>((<a class="code" href="a00824.html#acccab69d0e95cc5047e7fdd343603c90">xint</a>) needle[i]))</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;          <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      }</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    }</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  }</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;}</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="preprocessor">#ifndef XWIDE</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="a00851.html#af3082199ea3ac518b87acdac953cf385">   77</a></span>&#160;<span class="preprocessor">  #define XWIDE</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor">  #include &quot;<a class="code" href="a00851.html">stristr.c</a>&quot;</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00821_html_a234f7ec71c9c19ed532c4bf11a9b9b8e"><div class="ttname"><a href="a00821.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a></div><div class="ttdeci">#define xchar</div><div class="ttdef"><b>Definition:</b> <a href="a00821_source.html#l00070">_string.h:70</a></div></div>
-<div class="ttc" id="aa00851_html_a89ce62b0bcce28985f024ecd023c829e"><div class="ttname"><a href="a00851.html#a89ce62b0bcce28985f024ecd023c829e">isxupper</a></div><div class="ttdeci">#define isxupper</div><div class="ttdef"><b>Definition:</b> <a href="a00851_source.html#l00043">strlower.c:43</a></div></div>
-<div class="ttc" id="aa00851_html_a7c3554a295892ad8adc9efb5e6b331c6"><div class="ttname"><a href="a00851.html#a7c3554a295892ad8adc9efb5e6b331c6">toxlower</a></div><div class="ttdeci">#define toxlower</div><div class="ttdef"><b>Definition:</b> <a href="a00851_source.html#l00044">strlower.c:44</a></div></div>
-<div class="ttc" id="aa00821_html_a5c4b00cbc494339ce63882d7404bad27"><div class="ttname"><a href="a00821.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a></div><div class="ttdeci">#define XFUNC(name)</div><div class="ttdef"><b>Definition:</b> <a href="a00821_source.html#l00068">_string.h:68</a></div></div>
-<div class="ttc" id="aa00851_html_a45e3b8c2f76cf0611762bb5bc420bcdb"><div class="ttname"><a href="a00851.html#a45e3b8c2f76cf0611762bb5bc420bcdb">lower</a></div><div class="ttdeci">xchar *XFUNC() lower(xchar *s)</div><div class="ttdef"><b>Definition:</b> <a href="a00851_source.html#l00048">strlower.c:48</a></div></div>
-<div class="ttc" id="aa00821_html"><div class="ttname"><a href="a00821.html">_string.h</a></div></div>
-<div class="ttc" id="aa00821_html_acccab69d0e95cc5047e7fdd343603c90"><div class="ttname"><a href="a00821.html#acccab69d0e95cc5047e7fdd343603c90">xint</a></div><div class="ttdeci">#define xint</div><div class="ttdef"><b>Definition:</b> <a href="a00821_source.html#l00081">_string.h:81</a></div></div>
-<div class="ttc" id="aa00851_html"><div class="ttname"><a href="a00851.html">strlower.c</a></div></div>
+<div class="ttc" id="aa00824_html_a234f7ec71c9c19ed532c4bf11a9b9b8e"><div class="ttname"><a href="a00824.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a></div><div class="ttdeci">#define xchar</div><div class="ttdef"><b>Definition:</b> <a href="a00824_source.html#l00070">_string.h:70</a></div></div>
+<div class="ttc" id="aa00824_html"><div class="ttname"><a href="a00824.html">_string.h</a></div></div>
+<div class="ttc" id="aa00824_html_acccab69d0e95cc5047e7fdd343603c90"><div class="ttname"><a href="a00824.html#acccab69d0e95cc5047e7fdd343603c90">xint</a></div><div class="ttdeci">#define xint</div><div class="ttdef"><b>Definition:</b> <a href="a00824_source.html#l00081">_string.h:81</a></div></div>
+<div class="ttc" id="aa00851_html_acd5ce4af061ede4bd09e52fb0395ae80"><div class="ttname"><a href="a00851.html#acd5ce4af061ede4bd09e52fb0395ae80">istr</a></div><div class="ttdeci">xchar *XFUNC() istr(const xchar *haystack, const xchar *needle)</div><div class="ttdef"><b>Definition:</b> <a href="a00851_source.html#l00051">stristr.c:51</a></div></div>
+<div class="ttc" id="aa00851_html_a7c3554a295892ad8adc9efb5e6b331c6"><div class="ttname"><a href="a00851.html#a7c3554a295892ad8adc9efb5e6b331c6">toxlower</a></div><div class="ttdeci">#define toxlower</div><div class="ttdef"><b>Definition:</b> <a href="a00851_source.html#l00047">stristr.c:47</a></div></div>
+<div class="ttc" id="aa00824_html_a5c4b00cbc494339ce63882d7404bad27"><div class="ttname"><a href="a00824.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a></div><div class="ttdeci">#define XFUNC(name)</div><div class="ttdef"><b>Definition:</b> <a href="a00824_source.html#l00068">_string.h:68</a></div></div>
+<div class="ttc" id="aa00851_html"><div class="ttname"><a href="a00851.html">stristr.c</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

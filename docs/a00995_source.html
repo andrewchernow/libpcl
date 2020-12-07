@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/usrgrp/getgid.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/usrgrp/_usrgrp.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">getgid.c</div>  </div>
+<div class="title">_usrgrp.h</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00995.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,58 +101,21 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00992.html">_usrgrp.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00041.html">pcl/error.h</a>&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#ifndef LIBPCL__USRGRP_H</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#define LIBPCL__USRGRP_H</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment">// note that gidp can be NULL for use as an exists check</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="a00995.html#af2b406d95344fbe093b6caf4d9320075">   37</a></span>&#160;<a class="code" href="a00995.html#af2b406d95344fbe093b6caf4d9320075">pcl_getgid</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *name, gid_t *gidp)</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordtype">int</span> n;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a00029.html#a8278668d120afdd0e47def881845559d">strempty</a>(name))</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01101.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a>();</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00107.html">pcl/usrgrp.h</a>&gt;</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">  #include &quot;../win32/_win32.h&quot;</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">  #include &lt;pwd.h&gt;</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">  #include &lt;grp.h&gt;</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="comment">/* on windows, uid and gid are SID strings so both resolve in the same fashion */</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  n = <a class="code" href="a00104.html#aac8365f342de13aec9d6011dec9e0d90">pcl_getuid</a>(name, gidp);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordflow">if</span>(n)</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="a01101.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a>();</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <span class="keywordtype">char</span> buf[4096];</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="keyword">struct </span>group grbuf, *gr = NULL;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  n = getgrnam_r(name, &amp;grbuf, buf, <span class="keyword">sizeof</span>(buf), &amp;gr);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordflow">if</span>(n == 0)</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  {</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordflow">if</span>(!gr)</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;      n = <a class="code" href="a01101.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a>(<a class="code" href="a01100.html#ga93970fddc3e8f07956807d72be0bbd5c">PCL_ENOTFOUND</a>);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span>(gidp)</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      *gidp = gr-&gt;gr_gid;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  }</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  {</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    n = <a class="code" href="a01101.html#gaadc76b147014f17dcc08fa3c2f110a25">SETOSERR</a>(n);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  }</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  <span class="keywordflow">return</span> n;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;}</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#endif //__LIBPCL__USRGRP_H__</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00992_html"><div class="ttname"><a href="a00992.html">_usrgrp.h</a></div></div>
-<div class="ttc" id="aa01101_html_gab052d4faa8fd25e1a13e86ecd4aafa38"><div class="ttname"><a href="a01101.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a></div><div class="ttdeci">#define BADARG()</div><div class="ttdef"><b>Definition:</b> <a href="a00011_source.html#l00306">_errdefs.h:306</a></div></div>
-<div class="ttc" id="aa00029_html_a8278668d120afdd0e47def881845559d"><div class="ttname"><a href="a00029.html#a8278668d120afdd0e47def881845559d">strempty</a></div><div class="ttdeci">#define strempty(str)</div><div class="ttdef"><b>Definition:</b> <a href="a00029_source.html#l00124">defs.h:124</a></div></div>
-<div class="ttc" id="aa01101_html_ga82adf6365b61d9a32021e559d9c31497"><div class="ttname"><a href="a01101.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a></div><div class="ttdeci">#define SETERR(_pclerr)</div><div class="ttdoc">Sets the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00011_source.html#l00065">_errdefs.h:65</a></div></div>
-<div class="ttc" id="aa01100_html_ga93970fddc3e8f07956807d72be0bbd5c"><div class="ttname"><a href="a01100.html#ga93970fddc3e8f07956807d72be0bbd5c">PCL_ENOTFOUND</a></div><div class="ttdeci">#define PCL_ENOTFOUND</div><div class="ttdoc">Object or resource not found.</div><div class="ttdef"><b>Definition:</b> <a href="a00014_source.html#l00152">_errno.h:152</a></div></div>
-<div class="ttc" id="aa01101_html_gaadc76b147014f17dcc08fa3c2f110a25"><div class="ttname"><a href="a01101.html#gaadc76b147014f17dcc08fa3c2f110a25">SETOSERR</a></div><div class="ttdeci">#define SETOSERR(_oserr)</div><div class="ttdoc">Sets the current thread's OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00011_source.html#l00111">_errdefs.h:111</a></div></div>
-<div class="ttc" id="aa00041_html"><div class="ttname"><a href="a00041.html">error.h</a></div></div>
-<div class="ttc" id="aa00104_html_aac8365f342de13aec9d6011dec9e0d90"><div class="ttname"><a href="a00104.html#aac8365f342de13aec9d6011dec9e0d90">pcl_getuid</a></div><div class="ttdeci">PCL_EXPORT int pcl_getuid(const char *name, uid_t *uidp)</div><div class="ttdoc">Gets the user identifier for the given account user name.</div><div class="ttdef"><b>Definition:</b> <a href="a01001_source.html#l00038">getuid.c:38</a></div></div>
-<div class="ttc" id="aa01101_html_ga9ad3ef2339f58a873bc7bace5ad9c9df"><div class="ttname"><a href="a01101.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a></div><div class="ttdeci">#define TRC()</div><div class="ttdoc">Adds a stack trace to the current thread's error context.</div><div class="ttdef"><b>Definition:</b> <a href="a00011_source.html#l00262">_errdefs.h:262</a></div></div>
-<div class="ttc" id="aa00995_html_af2b406d95344fbe093b6caf4d9320075"><div class="ttname"><a href="a00995.html#af2b406d95344fbe093b6caf4d9320075">pcl_getgid</a></div><div class="ttdeci">int pcl_getgid(const char *name, gid_t *gidp)</div><div class="ttdoc">Gets the group identifier for the given group name.</div><div class="ttdef"><b>Definition:</b> <a href="a00995_source.html#l00037">getgid.c:37</a></div></div>
+<div class="ttc" id="aa00107_html"><div class="ttname"><a href="a00107.html">usrgrp.h</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>
