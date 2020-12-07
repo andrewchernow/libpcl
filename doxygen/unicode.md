@@ -86,7 +86,7 @@ int pcl_main(int argc, pchar_t **argv)
   return 0;
 }
 ```
-First, this example uses ::pcl_fopen which takes a \c pchar_t file and mode. Underneath the
+First, this example uses ::pcl_fopen which takes a \c pchar_t file and mode. Behind the
 scenes, ::pcl_fopen uses \c _wfopen_s on Windows and \c fopen on Unix. Thus, the file and 
 mode arguments can be passed straight through to the platform-specific functions without having
 to translate them.
