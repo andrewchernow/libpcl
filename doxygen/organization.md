@@ -17,8 +17,8 @@ quickly learn how to use PCL; and how easy it is to use.
 
 ## Include Directory
 This contains the "pcl" directory. Every header file is within the pcl directory. This allows
-installation of pcl header files within a system without running into name conflicts. For
-eaxmple, installing into \c /usr/include would place all headers into \c /usr/include/pcl.
+installation of pcl header files without running into name conflicts. For
+example, installing into \c /usr/include would place all headers into \c /usr/include/pcl.
 When including PCL headers, use `#include <pcl/header.h>`. Any header file that begins with
 an underscroe \c _, should not be included directly.
 
@@ -35,7 +35,8 @@ while the associated headers go into the include directory.
 
 ### Google FarmHash
 This is the only library used by all platforms. Each lib directory contains a pre-compiled object
-file and a \c farmhash.h file in the include directory. This is only used by the PCL hash table.
+file and a `%farmhash.h` file in the include directory. This is only used by the PCL hash table,
+however PCL exports functions that can be used to generate hash codes.
 
 To rebuild or build differently, follow the below instructions.
 
@@ -48,7 +49,7 @@ For windows, open the x64 or x86 Visual Studio prompt and run the below:
 cl /nologo /MD /wd4267 /wd4244 /wd4319 /O2 /W3 /DFARMHASH_NO_BUILTIN_EXPECT -c farmhash.cc
 ```
 
-Copy farmhash.h to `libs\windows-x86|x86_64\include` and farmhash.obj to
+Copy %farmhash.h to `libs\windows-x86|x86_64\include` and farmhash.obj to
 `libs\windows-x86|x86_64`.
 
 #### Darwin & Linux
@@ -58,7 +59,7 @@ For Darwin, add `-mmacosx-version-min=10.9` to the below. For 32-bit builds, add
 gcc -Wall -g0 -mavx -maes -O3 -o farmhash.o -c farmhash.cc
 ```
 
-Copy farmhash.h to `libs\linux|darwin-x86|x86_64\include` and farmhash.obj to
+Copy %farmhash.h to `libs\linux|darwin-x86|x86_64\include` and farmhash.obj to
 `libs\linux|darwin-x86|x86_64`.
 
 #### POSIX Threads For Windows
@@ -82,3 +83,8 @@ files to `libs\windows-x86` and `libs\windows-x86\include`.
 ## Src Directory
 The \c src directory contains one sub-directory per module. Each sub-directory contains one file 
 per module function, with a CMakeLists.txt file.
+
+### string module
+Many of the source files within the string module use the preprocessor to include themselves:
+once without \c XWIDE defined and another with \c XWIDE defined. This is for generating both
+a \c char and \c wchar_t versions of the functions. 

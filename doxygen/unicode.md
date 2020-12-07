@@ -32,6 +32,7 @@ PCL offers three extensions to the standard printf family: \c \%Ps for portable 
 \c \%Pc for portable characters and \c %/ for the platform-specific path separator. 
 The \c P is the length modifier while the \c s or \c c is the conversion specifier.
 
+#### Example
 Below is an example of using portable character strings with PCL. Assume 
 this is ran at a BASH or DOS prompt:
 ```bash
