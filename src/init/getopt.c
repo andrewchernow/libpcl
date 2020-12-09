@@ -41,8 +41,10 @@ pcl_getopt(pcl_optstate_t *state, pchar_t **value, pcl_option_t **longopt)
 		return BADARG();
 
 	pchar_t *valuebuf;
+
 	if(!value)
 		value = &valuebuf;
+
 	*value = NULL;
 
 	/* in the middles of parsing a sequence of short options */
