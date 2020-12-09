@@ -59,14 +59,16 @@ extern "C" {
 PCL_EXPORT FILE *pcl_fopen(const pchar_t *path, const pchar_t *mode);
 
 /** Pipe a stream to or from a process. This differs from the POSIX popen in that there is
- * no type argument. Instead, this using symbols (like Perl open) to indicate redirection
- * and optional flags as the first set of characters within the command arguments.
+ * no type argument. Instead, this uses redirection symbols like a Unix shell.
+ *
+ * @note The Windows CRT popen only works when used within a console application. PCL's popen
+ * has no such restriction. This function internally calls ::pcl_proc_exec.
  *
  * @code
  * Mode     Description         Same as...
  *   <      read from stdout    popen("cmd", "r")
  *   >      write to stdin      popen("cmd", "w")
- *   ^      read from stderr    [no equivalent, ^ used to mimic FISH shell]
+ *   ^      read from stderr    [no equivalent]
  *
  * The below documents the other "flags" that can be specified in mode:
  *

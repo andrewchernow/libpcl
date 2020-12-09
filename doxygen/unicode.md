@@ -2,7 +2,7 @@
 @brief Unicode support through portable character strings.
 
 A Portable Character, or Portable Character String, is a platform-specific character for character
-and string management on a specific platform. On Windows, a \c pchar_t is always a \c wchar_t 
+and string management. On Windows, a \c pchar_t is always a \c wchar_t 
 which is encoded as UTF-16. On Unix machines, a \c pchar_t is a \c char encoded as UTF-8. The 
 portable character exists so applications can be unicode on either Windows or Unix. It is very
 important to interact with the Win32 API with \c UNICODE defined. This causes windows to use
@@ -45,6 +45,8 @@ For starters, an application needs to be able to accept UTF-8 or UTF-16 argument
 /*
  * print_sizes.c - Output the size of each UTF-8 encoded newline separated 
  * pathname and a total size when complete.
+ * 
+ * error checking excluded to simplify example
  */
 
 #include <pcl/init.h>
@@ -87,16 +89,19 @@ int pcl_main(int argc, pchar_t **argv)
   return 0;
 }
 ```
-First, this example uses ::pcl_fopen which takes a \c pchar_t file and mode. Behind the
-scenes, ::pcl_fopen uses \c _wfopen_s on Windows and \c fopen on Unix. Thus, the file and 
-mode arguments can be passed straight through to the platform-specific functions without having
-to translate them.
+First, this example uses ::pcl_fopen which takes a \c pchar_t \a file and \a mode. Behind the
+scenes, ::pcl_fopen uses \c _wfopen_s on Windows and \c fopen on Unix. Thus, the \a file and 
+\a mode arguments can be passed straight through to the platform-specific functions without having
+to translate them. In general, try to always work with portable character strings. Many PCL 
+function parameters take \c pchar_t* and do not offer a \c char or \c wchar_t version. For 
+example, all file system functions (anything dealing with a path) only support \c pchar_t: like
+the above ::pcl_fopen and ::pcl_stat.
 
 After reading each line, the UTF-8 string is converted to a portable character string that is then
 passed to ::pcl_stat. As stated above, there is no conversion when on Unix since a Unix portable
 character string is already UTF-8. 
 
-If the \c pcl_stat succeeds, the file is included in the formatted output. This demostrates 
+If the \c pcl_stat succeeds, the \c path is included in the formatted output. This demostrates 
 using a PCL formatted output extension: \c \%Ps.
 
 When looking at the above code, all of these dirty details are abstracted away, allowing an 

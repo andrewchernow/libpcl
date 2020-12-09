@@ -1,10 +1,19 @@
 @mainpage Overview
-This is the Portable C Library (PCL) API documentation. PCL is broken up into many different
-modules, where each module's interface is within a header file. The best way to go through
-this documentation, is to explore the API on a module level.
+This is the Portable C Library (PCL) documentation. It includes API documentation, examples 
+and a detailed overview of PCL concepts.
 
-The best place to start is the "Related Pages" tab. Then navigate to each module by clicking 
-on the "Modules" tab.
+It is recommended to read through the PCL overview documents before proceeding to the
+API documentation. The below documents can also be found in the "Related Pages" tab.
+
+  * \ref org
+  * \ref unicode
+  * \ref openssl
+  * \ref errsys
+
+After reading through the overview documents, navigate to the "Modules" tab. This is a great way
+to go through the API documentation.
+
+The GitHUb repository is here: https://github.com/andrewchernow/libpcl .
 
 The Portable C Library (PCL) is a library of cross-platform C code which has been tested on the
 following platforms:

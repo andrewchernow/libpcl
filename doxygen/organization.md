@@ -7,13 +7,15 @@ modules define a private header, typically _modulename.h, that is used to declar
 structures or internal functions required to implement the public interface. 
 
 ## Doxygen Directory
-The doxygen directory contain resource pulled into the generated documentation: markdown, html, 
+The doxygen directory contain resources pulled into the generated documentation: markdown, html, 
 etc. files. The generated documents are stored in a docs directory on a "docs" branch. The
-Doxyfile configuration file is in the root of the repository.
+Doxyfile configuration file is in the root of the repository and is configured to dump the
+generated files into the "docs" folder of the "docs" branch.
 
 ## Examples Directory
 This directory contains example programs for different PCL modules. This is a great place to 
-quickly learn how to use PCL; and how easy it is to use.
+quickly learn how to use PCL; and how easy it is to use. There are also plenty of examples
+within the API documentation, typically within the detailed section of a module.
 
 ## Include Directory
 This contains the "pcl" directory. Every header file is within the pcl directory. This allows
@@ -24,11 +26,14 @@ an underscroe \c _, should not be included directly.
 
 ## Libs Directory
 This contains 3rd party libraries required for PCL to function properly. This is organized
-into platform folders that all contain and \c include directory. For example:
+into platform folders that all contain and \c include directory. 
 
   * darwin-x86
+  * darwin-x86_64
+  * windows-x86  
   * windows-x86_64
   * linux-x86
+  * linux-x86_64
 
 Third-party objects, archives or shared objects are placed in the platform-specific lib directory
 while the associated headers go into the include directory.  
@@ -87,4 +92,4 @@ per module function, with a CMakeLists.txt file.
 ### string module
 Many of the source files within the string module use the preprocessor to include themselves:
 once without \c XWIDE defined and another with \c XWIDE defined. This is for generating both
-a \c char and \c wchar_t versions of the functions. 
+a \c char and \c wchar_t version of the functions. 

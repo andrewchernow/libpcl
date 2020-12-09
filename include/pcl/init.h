@@ -182,7 +182,7 @@ PCL_EXPORT void pcl_init(void);
  * return value when a long option is found. Typically, \a val is set to its corresponding short
  * option character, but this is not a requirement. The argument can be specified as
  * \c "--long=value" or \c "--long value". As with short options, the 2nd form excludes optional
- * arguments that begin with a '-': ie. \c "-long -value". This is not the case for a required
+ * arguments that begin with a '-': ie. \c "--long -value". This is not the case for a required
  * argument. This can be \c NULL as long as the \a optstr parameter is not \c NULL.
  * @param num_options number of option structures in the \a options parameter.
  * @return pointer to an option state structure, that must be freed by caller, or \c NULL on error.
