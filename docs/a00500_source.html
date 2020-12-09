@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/htable/_htable.h Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/file/win32_write.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,12 +62,12 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_b7d637e3591c140b5c5f63237dc79ee0.html">&#x202A;htable</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_f17c642dae9e225ab953fe9c6da2e34a.html">&#x202A;file</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">_htable.h</div>  </div>
+<div class="title">win32_write.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00500.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,59 +101,48 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#ifndef LIBPCL__HTABLE_H</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#define LIBPCL__HTABLE_H</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00437.html">_file.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/error.h</a>&gt;</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00056.html">pcl/htable.h</a>&gt;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="a00500.html#af350412720da789b997757b9ae621474">   37</a></span>&#160;<span class="preprocessor">#define MAX_LOADFAC 0.75f</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="a00500.html#ad83cf4743461de00b5243a832b08c2d6">   38</a></span>&#160;<span class="preprocessor">#define MIN_LOADFAC 0.2f</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="a00500.html#aa2d11c3aa8ec67eb6b7e08a93db0a807">   39</a></span>&#160;<span class="preprocessor">#define MIN_TABLE_SIZE 17</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a00500.html#ab1329bfeebaf46fa68ce97429bb3b090">   36</a></span>&#160;<a class="code" href="a00500.html#ab1329bfeebaf46fa68ce97429bb3b090">pcl_file_write</a>(<a class="code" href="a01214.html">pcl_file_t</a> *file, <span class="keyword">const</span> <span class="keywordtype">void</span> *data, <span class="keywordtype">size_t</span> count)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">if</span>(!file || !data)</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01108.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a>();</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keywordtype">int</span> <a class="code" href="a00500.html#ad4c4e804762da7fd8ddc913bce0797ff">ipcl_htable_capacity</a>(<span class="keywordtype">int</span> capacity);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<a class="code" href="a01134.html">pcl_htable_entry_t</a> *<a class="code" href="a00500.html#afcbb8b233028125512d923de0b76424f">ipcl_htable_lookup</a>(<a class="code" href="a01138.html">pcl_htable_t</a> *ht, <span class="keyword">const</span> <span class="keywordtype">void</span> *key,</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  uintptr_t *code, <span class="keywordtype">int</span> *index);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment">/**</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment"> * @param ht</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment"> * @param ent</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment"> * @param allow_rehash When true and the table has fallen below the min_loadfac, a table rehash</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment"> * is automatically performed. When false, the min_loadfac check is skipped and no table rehash</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="comment"> * is performed. pcl_htable_clear is an example of why one might set this false. That function</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment"> * removes all entries and then shrinks the table to MIN_TABLE_SIZE. No reason to rehash</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment"> * while removing.</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="keywordtype">void</span> <a class="code" href="a00500.html#a2b06bb69df19fb756190fa5feef83862">ipcl_htable_remove_entry</a>(<a class="code" href="a01138.html">pcl_htable_t</a> *ht, <a class="code" href="a01134.html">pcl_htable_entry_t</a> *ent, <span class="keywordtype">bool</span> allow_rehash);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment">/**</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="comment"> * @param ht</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment"> * @param grow true to grow table and false to shrink. When true, the new table size is set</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment"> * to double its current value and then rounded up to the nearest prime. When false, the</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment"> * table size is divided in half and then rounded up to the nearest table size.</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment"> * @return</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="keywordtype">int</span> <a class="code" href="a00500.html#aa7d6ea47969bab2ecd2e3d9ce4488d01">ipcl_htable_rehash</a>(<a class="code" href="a01138.html">pcl_htable_t</a> *ht, <span class="keywordtype">bool</span> grow);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;}</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="preprocessor">#endif // LIBPCL__HTABLE_H</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">if</span>(!(file-&gt;<a class="code" href="a01214.html#a773b39d480759f67926cb18ae2219281">flags</a> &amp; <a class="code" href="a00056.html#a6a07e4d4ac7139bd3ce0c0d99486438d">PCL_FF_WRITE</a>))</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01108.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a>(<a class="code" href="a01107.html#gaa655ad92e38d9ceb2879388b44a0b944">PCL_ENOTSUP</a>, <span class="stringliteral">&quot;file not opened for write operations&quot;</span>, 0);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keywordflow">if</span>(file-&gt;<a class="code" href="a01214.html#a773b39d480759f67926cb18ae2219281">flags</a> &amp; <a class="code" href="a00056.html#a6b5fee67dabf0b3f8ea60ae34357a517">PCL_FF_NONBLOCK</a>)</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  {</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">int</span> r = <a class="code" href="a00056.html#af2387712aa59c6a9b3ff9df858f6eb35">pcl_file_trywrite</a>(file, data, count, 0);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">return</span> r == -1 ? <a class="code" href="a01108.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a>() : r;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  }</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  DWORD written = 0;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  SetLastError(0);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="keywordflow">if</span>(WriteFile(file-&gt;<a class="code" href="a01214.html#aea2da8bf318182f7770734b14f9202b2">fd</a>, data, (DWORD) count, &amp;written, NULL))</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">return</span> (<span class="keywordtype">int</span>) written;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01108.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00500_html_a2b06bb69df19fb756190fa5feef83862"><div class="ttname"><a href="a00500.html#a2b06bb69df19fb756190fa5feef83862">ipcl_htable_remove_entry</a></div><div class="ttdeci">void ipcl_htable_remove_entry(pcl_htable_t *ht, pcl_htable_entry_t *ent, bool allow_rehash)</div><div class="ttdef"><b>Definition:</b> <a href="a00533_source.html#l00036">htable_remove_entry.c:36</a></div></div>
-<div class="ttc" id="aa00500_html_ad4c4e804762da7fd8ddc913bce0797ff"><div class="ttname"><a href="a00500.html#ad4c4e804762da7fd8ddc913bce0797ff">ipcl_htable_capacity</a></div><div class="ttdeci">int ipcl_htable_capacity(int capacity)</div><div class="ttdef"><b>Definition:</b> <a href="a00503_source.html#l00036">htable_capacity.c:36</a></div></div>
-<div class="ttc" id="aa01138_html"><div class="ttname"><a href="a01138.html">tag_pcl_htable</a></div><div class="ttdef"><b>Definition:</b> <a href="a00056_source.html#l00213">htable.h:214</a></div></div>
-<div class="ttc" id="aa00056_html"><div class="ttname"><a href="a00056.html">htable.h</a></div></div>
-<div class="ttc" id="aa01134_html"><div class="ttname"><a href="a01134.html">tag_pcl_htable_entry</a></div><div class="ttdoc">Hash table entry object.</div><div class="ttdef"><b>Definition:</b> <a href="a00056_source.html#l00198">htable.h:199</a></div></div>
-<div class="ttc" id="aa00500_html_aa7d6ea47969bab2ecd2e3d9ce4488d01"><div class="ttname"><a href="a00500.html#aa7d6ea47969bab2ecd2e3d9ce4488d01">ipcl_htable_rehash</a></div><div class="ttdeci">int ipcl_htable_rehash(pcl_htable_t *ht, bool grow)</div><div class="ttdef"><b>Definition:</b> <a href="a00527_source.html#l00037">htable_rehash.c:37</a></div></div>
-<div class="ttc" id="aa00500_html_afcbb8b233028125512d923de0b76424f"><div class="ttname"><a href="a00500.html#afcbb8b233028125512d923de0b76424f">ipcl_htable_lookup</a></div><div class="ttdeci">pcl_htable_entry_t * ipcl_htable_lookup(pcl_htable_t *ht, const void *key, uintptr_t *code, int *index)</div><div class="ttdef"><b>Definition:</b> <a href="a00521_source.html#l00047">htable_lookup.c:47</a></div></div>
+<div class="ttc" id="aa01108_html_ga7859a0a1a544c581d53bd7d44ab6805d"><div class="ttname"><a href="a01108.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a></div><div class="ttdeci">#define SETERRMSG(_pclerr, _msgfmt,...)</div><div class="ttdoc">Sets the current thread's PCL error code and error message.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00087">_errdefs.h:87</a></div></div>
+<div class="ttc" id="aa01108_html_ga89b8bfbe17595305872551a1caaa5702"><div class="ttname"><a href="a01108.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a></div><div class="ttdeci">#define SETLASTERR()</div><div class="ttdoc">Sets the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00125">_errdefs.h:125</a></div></div>
+<div class="ttc" id="aa01107_html_gaa655ad92e38d9ceb2879388b44a0b944"><div class="ttname"><a href="a01107.html#gaa655ad92e38d9ceb2879388b44a0b944">PCL_ENOTSUP</a></div><div class="ttdeci">#define PCL_ENOTSUP</div><div class="ttdoc">Operation not supported.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00114">_errno.h:114</a></div></div>
+<div class="ttc" id="aa01214_html_a773b39d480759f67926cb18ae2219281"><div class="ttname"><a href="a01214.html#a773b39d480759f67926cb18ae2219281">tag_pcl_file::flags</a></div><div class="ttdeci">uint32_t flags</div><div class="ttdef"><b>Definition:</b> <a href="a00437_source.html#l00063">_file.h:63</a></div></div>
+<div class="ttc" id="aa00056_html_af2387712aa59c6a9b3ff9df858f6eb35"><div class="ttname"><a href="a00056.html#af2387712aa59c6a9b3ff9df858f6eb35">pcl_file_trywrite</a></div><div class="ttdeci">PCL_EXPORT int pcl_file_trywrite(pcl_file_t *file, const void *data, size_t count, int ms_timeout)</div><div class="ttdef"><b>Definition:</b> <a href="a00482_source.html#l00037">unix_trywrite.c:37</a></div></div>
+<div class="ttc" id="aa00437_html"><div class="ttname"><a href="a00437.html">_file.h</a></div></div>
+<div class="ttc" id="aa01108_html_gab052d4faa8fd25e1a13e86ecd4aafa38"><div class="ttname"><a href="a01108.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a></div><div class="ttdeci">#define BADARG()</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00306">_errdefs.h:306</a></div></div>
+<div class="ttc" id="aa00056_html_a6b5fee67dabf0b3f8ea60ae34357a517"><div class="ttname"><a href="a00056.html#a6b5fee67dabf0b3f8ea60ae34357a517">PCL_FF_NONBLOCK</a></div><div class="ttdeci">#define PCL_FF_NONBLOCK</div><div class="ttdef"><b>Definition:</b> <a href="a00056_source.html#l00081">file.h:81</a></div></div>
+<div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">error.h</a></div></div>
+<div class="ttc" id="aa01214_html"><div class="ttname"><a href="a01214.html">tag_pcl_file</a></div><div class="ttdef"><b>Definition:</b> <a href="a00437_source.html#l00061">_file.h:62</a></div></div>
+<div class="ttc" id="aa00500_html_ab1329bfeebaf46fa68ce97429bb3b090"><div class="ttname"><a href="a00500.html#ab1329bfeebaf46fa68ce97429bb3b090">pcl_file_write</a></div><div class="ttdeci">int pcl_file_write(pcl_file_t *file, const void *data, size_t count)</div><div class="ttdef"><b>Definition:</b> <a href="a00500_source.html#l00036">win32_write.c:36</a></div></div>
+<div class="ttc" id="aa01108_html_ga9ad3ef2339f58a873bc7bace5ad9c9df"><div class="ttname"><a href="a01108.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a></div><div class="ttdeci">#define TRC()</div><div class="ttdoc">Adds a stack trace to the current thread's error context.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00262">_errdefs.h:262</a></div></div>
+<div class="ttc" id="aa00056_html_a6a07e4d4ac7139bd3ce0c0d99486438d"><div class="ttname"><a href="a00056.html#a6a07e4d4ac7139bd3ce0c0d99486438d">PCL_FF_WRITE</a></div><div class="ttdeci">#define PCL_FF_WRITE</div><div class="ttdef"><b>Definition:</b> <a href="a00056_source.html#l00084">file.h:84</a></div></div>
+<div class="ttc" id="aa01214_html_aea2da8bf318182f7770734b14f9202b2"><div class="ttname"><a href="a01214.html#aea2da8bf318182f7770734b14f9202b2">tag_pcl_file::fd</a></div><div class="ttdeci">pcl_fd_t fd</div><div class="ttdef"><b>Definition:</b> <a href="a00437_source.html#l00064">_file.h:64</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/ssl/ssl_percert.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/ssl/ssl_isalive.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">ssl_percert.c</div>  </div>
+<div class="title">ssl_isalive.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00785.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,18 +101,22 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00746.html">_ssl.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;X509 *</div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a00785.html#a54672c759153706ccedea17aeab5011f">   35</a></span>&#160;<a class="code" href="a00785.html#a54672c759153706ccedea17aeab5011f">pcl_ssl_peercert</a>(<a class="code" href="a01222.html">pcl_ssl_t</a> *ssl)</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordflow">return</span> ssl ? SSL_get_peer_certificate(ssl-&gt;<a class="code" href="a01222.html#ae7c0417fa2881f3546920311fee80311">ssl</a>) : NULL;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00749.html">_ssl.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00080.html">pcl/socket.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">bool</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a00785.html#aebb08e20f63c9a93775983e6caed939f">   36</a></span>&#160;<a class="code" href="a00785.html#aebb08e20f63c9a93775983e6caed939f">pcl_ssl_isalive</a>(<a class="code" href="a01226.html">pcl_ssl_t</a> *ssl)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">return</span> ssl &amp;&amp; ssl-&gt;<a class="code" href="a01226.html#ae7c0417fa2881f3546920311fee80311">ssl</a> &amp;&amp; <a class="code" href="a00080.html#a6eb0fc1509e3439a9940d1e70c4cad60">pcl_socket_isalive</a>(ssl-&gt;<a class="code" href="a01226.html#a940bf91f14cd0c9d944272e8336077ee">sock</a>);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01222_html"><div class="ttname"><a href="a01222.html">tag_pcl_ssl</a></div><div class="ttdef"><b>Definition:</b> <a href="a00746_source.html#l00046">_ssl.h:47</a></div></div>
-<div class="ttc" id="aa00746_html"><div class="ttname"><a href="a00746.html">_ssl.h</a></div></div>
-<div class="ttc" id="aa01222_html_ae7c0417fa2881f3546920311fee80311"><div class="ttname"><a href="a01222.html#ae7c0417fa2881f3546920311fee80311">tag_pcl_ssl::ssl</a></div><div class="ttdeci">SSL * ssl</div><div class="ttdef"><b>Definition:</b> <a href="a00746_source.html#l00055">_ssl.h:55</a></div></div>
-<div class="ttc" id="aa00785_html_a54672c759153706ccedea17aeab5011f"><div class="ttname"><a href="a00785.html#a54672c759153706ccedea17aeab5011f">pcl_ssl_peercert</a></div><div class="ttdeci">X509 * pcl_ssl_peercert(pcl_ssl_t *ssl)</div><div class="ttdef"><b>Definition:</b> <a href="a00785_source.html#l00035">ssl_percert.c:35</a></div></div>
+<div class="ttc" id="aa00749_html"><div class="ttname"><a href="a00749.html">_ssl.h</a></div></div>
+<div class="ttc" id="aa00785_html_aebb08e20f63c9a93775983e6caed939f"><div class="ttname"><a href="a00785.html#aebb08e20f63c9a93775983e6caed939f">pcl_ssl_isalive</a></div><div class="ttdeci">bool pcl_ssl_isalive(pcl_ssl_t *ssl)</div><div class="ttdef"><b>Definition:</b> <a href="a00785_source.html#l00036">ssl_isalive.c:36</a></div></div>
+<div class="ttc" id="aa00080_html"><div class="ttname"><a href="a00080.html">socket.h</a></div></div>
+<div class="ttc" id="aa01226_html_a940bf91f14cd0c9d944272e8336077ee"><div class="ttname"><a href="a01226.html#a940bf91f14cd0c9d944272e8336077ee">tag_pcl_ssl::sock</a></div><div class="ttdeci">pcl_socket_t * sock</div><div class="ttdef"><b>Definition:</b> <a href="a00749_source.html#l00053">_ssl.h:53</a></div></div>
+<div class="ttc" id="aa00080_html_a6eb0fc1509e3439a9940d1e70c4cad60"><div class="ttname"><a href="a00080.html#a6eb0fc1509e3439a9940d1e70c4cad60">pcl_socket_isalive</a></div><div class="ttdeci">PCL_EXPORT bool pcl_socket_isalive(pcl_socket_t *sock)</div><div class="ttdef"><b>Definition:</b> <a href="a00725_source.html#l00035">socket_isalive.c:35</a></div></div>
+<div class="ttc" id="aa01226_html"><div class="ttname"><a href="a01226.html">tag_pcl_ssl</a></div><div class="ttdef"><b>Definition:</b> <a href="a00749_source.html#l00046">_ssl.h:47</a></div></div>
+<div class="ttc" id="aa01226_html_ae7c0417fa2881f3546920311fee80311"><div class="ttname"><a href="a01226.html#ae7c0417fa2881f3546920311fee80311">tag_pcl_ssl::ssl</a></div><div class="ttdeci">SSL * ssl</div><div class="ttdef"><b>Definition:</b> <a href="a00749_source.html#l00055">_ssl.h:55</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

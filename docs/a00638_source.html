@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/process/proc_freecmd.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/process/proc_close.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">proc_freecmd.c</div>  </div>
+<div class="title">proc_close.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00638.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,25 +101,25 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00629.html">_process.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00020.html">pcl/alloc.h</a>&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00632.html">_process.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00035.html">pcl/defs.h</a>&gt;</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">void</span> *</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01110.html#gaff8afc5485fb9d86c2477e39e3163429">   36</a></span>&#160;<a class="code" href="a01110.html#gaff8afc5485fb9d86c2477e39e3163429">pcl_proc_freeargv</a>(<span class="keywordtype">int</span> targc, <a class="code" href="a00101.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> **targv)</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">void</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01114.html#gabedb79800f25896ebfbc4c987ae08513">   36</a></span>&#160;<a class="code" href="a01114.html#gabedb79800f25896ebfbc4c987ae08513">pcl_proc_close</a>(<a class="code" href="a00104.html#aebcc95bdc886e05c6e79044367ebc127">pcl_prochandle_t</a> handle)</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordtype">int</span> i;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordflow">for</span>(i=0; i &lt; targc; i++)</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <a class="code" href="a01097.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe</a>(targv[i]);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01097.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe</a>(targv);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordflow">if</span>(handle)</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    CloseHandle(handle);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <a class="code" href="a00035.html#a9b58a1294d89c976dfbe4dc480e9dfb8">UNUSED</a>(handle);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00101_html_ac114b2b1527c8ae241d37cc15ca7d122"><div class="ttname"><a href="a00101.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a></div><div class="ttdeci">char pchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00101_source.html#l00053">types.h:53</a></div></div>
-<div class="ttc" id="aa00629_html"><div class="ttname"><a href="a00629.html">_process.h</a></div></div>
-<div class="ttc" id="aa01110_html_gaff8afc5485fb9d86c2477e39e3163429"><div class="ttname"><a href="a01110.html#gaff8afc5485fb9d86c2477e39e3163429">pcl_proc_freeargv</a></div><div class="ttdeci">void * pcl_proc_freeargv(int targc, pchar_t **targv)</div><div class="ttdoc">Free an argv array.</div><div class="ttdef"><b>Definition:</b> <a href="a00638_source.html#l00036">proc_freecmd.c:36</a></div></div>
-<div class="ttc" id="aa01097_html_ga2de1e7abd61febca9d319940c5c2bd1b"><div class="ttname"><a href="a01097.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe</a></div><div class="ttdeci">void * pcl_free_safe(void *p)</div><div class="ttdoc">Safely free memory space.</div></div>
-<div class="ttc" id="aa00020_html"><div class="ttname"><a href="a00020.html">alloc.h</a></div></div>
+<div class="ttc" id="aa01114_html_gabedb79800f25896ebfbc4c987ae08513"><div class="ttname"><a href="a01114.html#gabedb79800f25896ebfbc4c987ae08513">pcl_proc_close</a></div><div class="ttdeci">void pcl_proc_close(pcl_prochandle_t handle)</div><div class="ttdoc">Close a process handle.</div><div class="ttdef"><b>Definition:</b> <a href="a00638_source.html#l00036">proc_close.c:36</a></div></div>
+<div class="ttc" id="aa00035_html_a9b58a1294d89c976dfbe4dc480e9dfb8"><div class="ttname"><a href="a00035.html#a9b58a1294d89c976dfbe4dc480e9dfb8">UNUSED</a></div><div class="ttdeci">#define UNUSED(...)</div><div class="ttdef"><b>Definition:</b> <a href="a00035_source.html#l00102">defs.h:102</a></div></div>
+<div class="ttc" id="aa00104_html_aebcc95bdc886e05c6e79044367ebc127"><div class="ttname"><a href="a00104.html#aebcc95bdc886e05c6e79044367ebc127">pcl_prochandle_t</a></div><div class="ttdeci">pid_t pcl_prochandle_t</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00056">types.h:56</a></div></div>
+<div class="ttc" id="aa00632_html"><div class="ttname"><a href="a00632.html">_process.h</a></div></div>
+<div class="ttc" id="aa00035_html"><div class="ttname"><a href="a00035.html">defs.h</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

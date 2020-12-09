@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;tag_pcl_htable_entry Struct Reference</title>
+<title>&#x202A;libpcl: &#x202A;tag_pcl_err_ctx Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -65,118 +65,148 @@ $(function() {
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
   <div class="headertitle">
-<div class="title">tag_pcl_htable_entry Struct Reference<div class="ingroups"><a class="el" href="a01107.html">Hash Table</a></div></div>  </div>
+<div class="title">tag_pcl_err_ctx Struct Reference<div class="ingroups"><a class="el" href="a01105.html">Error Context Management</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>&#x202A;Hash table entry object.  
+<p>&#x202A;Represents a PCL error context, with optional stack trace.  
  <a href="a01134.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="a00056_source.html">pcl/htable.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="a00044_source.html">pcl/errctx.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a24db4f5d81913feb7c4c07aaadc61e1b"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="a01134.html">tag_pcl_htable_entry</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01134.html#a24db4f5d81913feb7c4c07aaadc61e1b">next</a></td></tr>
-<tr class="memdesc:a24db4f5d81913feb7c4c07aaadc61e1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;leave me alone (collision list)  <a href="a01134.html#a24db4f5d81913feb7c4c07aaadc61e1b">More...</a><br /></td></tr>
-<tr class="separator:a24db4f5d81913feb7c4c07aaadc61e1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abede96ae68047d0d7dca084c0ded2f1d"><td class="memItemLeft" align="right" valign="top">uintptr_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01134.html#abede96ae68047d0d7dca084c0ded2f1d">code</a></td></tr>
-<tr class="memdesc:abede96ae68047d0d7dca084c0ded2f1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;hash code of entry key, 4 bytes on 32-bit and 8 bytes on 64-bit  <a href="a01134.html#abede96ae68047d0d7dca084c0ded2f1d">More...</a><br /></td></tr>
-<tr class="separator:abede96ae68047d0d7dca084c0ded2f1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9eb073a4e7f31790de2c4f6b2ea74081"><td class="memItemLeft" align="right" valign="top">const void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01134.html#a9eb073a4e7f31790de2c4f6b2ea74081">key</a></td></tr>
-<tr class="memdesc:a9eb073a4e7f31790de2c4f6b2ea74081"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;entry key  <a href="a01134.html#a9eb073a4e7f31790de2c4f6b2ea74081">More...</a><br /></td></tr>
-<tr class="separator:a9eb073a4e7f31790de2c4f6b2ea74081"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0f61d63b009d0880a89c843bd50d8d76"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01134.html#a0f61d63b009d0880a89c843bd50d8d76">value</a></td></tr>
-<tr class="memdesc:a0f61d63b009d0880a89c843bd50d8d76"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;entry value  <a href="a01134.html#a0f61d63b009d0880a89c843bd50d8d76">More...</a><br /></td></tr>
-<tr class="separator:a0f61d63b009d0880a89c843bd50d8d76"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ec42de702ac1fcf2d7307c5a2415b94"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01134.html#a9ec42de702ac1fcf2d7307c5a2415b94">frozen</a></td></tr>
+<tr class="memdesc:a9ec42de702ac1fcf2d7307c5a2415b94"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Freezes context, making it immutable.  <a href="a01134.html#a9ec42de702ac1fcf2d7307c5a2415b94">More...</a><br /></td></tr>
+<tr class="separator:a9ec42de702ac1fcf2d7307c5a2415b94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ce68847c12434f60d1b2654a3dc3409"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01134.html#a6ce68847c12434f60d1b2654a3dc3409">err</a></td></tr>
+<tr class="memdesc:a6ce68847c12434f60d1b2654a3dc3409"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;PCL error code: PCL_EXXX.  <a href="a01134.html#a6ce68847c12434f60d1b2654a3dc3409">More...</a><br /></td></tr>
+<tr class="separator:a6ce68847c12434f60d1b2654a3dc3409"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99097cbbdd873a91579ae1e543195926"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01134.html#a99097cbbdd873a91579ae1e543195926">oserr</a></td></tr>
+<tr class="memdesc:a99097cbbdd873a91579ae1e543195926"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Platform-specific error code: Unix errno, Windows Error (ie: GetLastError, _dos_errno), etc.  <a href="a01134.html#a99097cbbdd873a91579ae1e543195926">More...</a><br /></td></tr>
+<tr class="separator:a99097cbbdd873a91579ae1e543195926"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af22b89a25236c26e197118ca1652019a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00104.html#a5ac911541b566c007c682947c68cd08f">pcl_err_trace_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01134.html#af22b89a25236c26e197118ca1652019a">strace</a></td></tr>
+<tr class="memdesc:af22b89a25236c26e197118ca1652019a"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Stack trace implemented as a linked list.  <a href="a01134.html#af22b89a25236c26e197118ca1652019a">More...</a><br /></td></tr>
+<tr class="separator:af22b89a25236c26e197118ca1652019a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95f7673f875fad2b88002d7a10f00eb1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01102.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01134.html#a95f7673f875fad2b88002d7a10f00eb1">buffer</a></td></tr>
+<tr class="memdesc:a95f7673f875fad2b88002d7a10f00eb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;An output buffer used by output formatting functions like pcl_err_ctx_fprintf.  <a href="a01134.html#a95f7673f875fad2b88002d7a10f00eb1">More...</a><br /></td></tr>
+<tr class="separator:a95f7673f875fad2b88002d7a10f00eb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p class="DocNodeLTR">Hash table entry object. </p>
-<p class="DocNodeLTR">The overhead of each entry is 16 bytes on 32-bit machines and 32 bytes on 64-bit machines. </p>
+<div class="textblock"><p class="DocNodeLTR">Represents a PCL error context, with optional stack trace. </p>
+<p class="DocNodeLTR">This can be thought of as Unix <code>errno</code> on steroids. </p>
 
-<p class="definition">Definition at line <a class="el" href="a00056_source.html#l00198">198</a> of file <a class="el" href="a00056_source.html">htable.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00044_source.html#l00066">66</a> of file <a class="el" href="a00044_source.html">errctx.h</a>.</p>
 </div><h2 class="groupheader">Field Documentation</h2>
-<a id="a24db4f5d81913feb7c4c07aaadc61e1b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a24db4f5d81913feb7c4c07aaadc61e1b">&#9670;&nbsp;</a></span>next</h2>
+<a id="a9ec42de702ac1fcf2d7307c5a2415b94"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ec42de702ac1fcf2d7307c5a2415b94">&#9670;&nbsp;</a></span>frozen</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct <a class="el" href="a01134.html">tag_pcl_htable_entry</a>* next</td>
+          <td class="memname">bool frozen</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>&#x202A;leave me alone (collision list) </p>
+<p>&#x202A;Freezes context, making it immutable. </p>
+<p class="DocNodeLTR">It should be noted that a frozen context object cannot be cleared or freed. The only exception is the per-thread context, which can and will be freed if the thread exits.</p>
+<p class="DocNodeLTR">Typically, freezing an object is only useful when used with the PCL error API. For example: freezing the per-thread context before performing cleanup after an error, where the cleanup could overwrite the "real" error: ie. <code>freeze=true; cleanup_code; freeze=false;</code>.</p>
+<p class="DocNodeLTR">Internally, all printf-style context functions freeze the object before performing output and thaw before returning.</p>
+<dl class="section see DocNodeLTR"><dt>See also</dt><dd>&#x202A;<a class="el" href="a01108.html#ga5d0d174193729a18bb8a57d35a255229" title="&#x202A;Freeze the current thread&#39;s error context while executing code.">FREEZE_ERR</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="a00056_source.html#l00201">201</a> of file <a class="el" href="a00056_source.html">htable.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00044_source.html#l00081">81</a> of file <a class="el" href="a00044_source.html">errctx.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="a00521_source.html#l00047">ipcl_htable_lookup()</a>, <a class="el" href="a00527_source.html#l00037">ipcl_htable_rehash()</a>, <a class="el" href="a00506_source.html#l00037">pcl_htable_clear()</a>, <a class="el" href="a00518_source.html#l00036">pcl_htable_keys()</a>, <a class="el" href="a00524_source.html#l00037">pcl_htable_put()</a>, and <a class="el" href="a00530_source.html#l00035">pcl_htable_remove()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="a00347_source.html#l00035">pcl_err_clear()</a>, <a class="el" href="a00305_source.html#l00035">pcl_err_ctx_clear()</a>, <a class="el" href="a00317_source.html#l00047">pcl_err_ctx_free()</a>, <a class="el" href="a00329_source.html#l00036">pcl_err_ctx_vfprintf()</a>, <a class="el" href="a00332_source.html#l00037">pcl_err_ctx_vsprintf()</a>, <a class="el" href="a00359_source.html#l00036">pcl_err_freeze()</a>, <a class="el" href="a00398_source.html#l00035">pcl_err_vset()</a>, <a class="el" href="a00404_source.html#l00038">pcl_err_vtrace()</a>, <a class="el" href="a00446_source.html#l00039">pcl_file_close()</a>, and <a class="el" href="a00596_source.html#l00043">pcl_log_vevent()</a>.</p>
 
 </div>
 </div>
-<a id="abede96ae68047d0d7dca084c0ded2f1d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abede96ae68047d0d7dca084c0ded2f1d">&#9670;&nbsp;</a></span>code</h2>
+<a id="a6ce68847c12434f60d1b2654a3dc3409"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ce68847c12434f60d1b2654a3dc3409">&#9670;&nbsp;</a></span>err</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uintptr_t code</td>
+          <td class="memname">int err</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>&#x202A;hash code of entry key, 4 bytes on 32-bit and 8 bytes on 64-bit </p>
+<p>&#x202A;PCL error code: PCL_EXXX. </p>
 
-<p class="definition">Definition at line <a class="el" href="a00056_source.html#l00204">204</a> of file <a class="el" href="a00056_source.html">htable.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00044_source.html#l00084">84</a> of file <a class="el" href="a00044_source.html">errctx.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="a00527_source.html#l00037">ipcl_htable_rehash()</a>, and <a class="el" href="a00524_source.html#l00037">pcl_htable_put()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="a00320_source.html#l00037">ipcl_err_ctx_serialize()</a>, <a class="el" href="a00305_source.html#l00035">pcl_err_ctx_clear()</a>, <a class="el" href="a00308_source.html#l00037">pcl_err_ctx_clone()</a>, <a class="el" href="a00362_source.html#l00035">pcl_err_last()</a>, <a class="el" href="a00398_source.html#l00035">pcl_err_vset()</a>, and <a class="el" href="a00404_source.html#l00038">pcl_err_vtrace()</a>.</p>
 
 </div>
 </div>
-<a id="a9eb073a4e7f31790de2c4f6b2ea74081"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9eb073a4e7f31790de2c4f6b2ea74081">&#9670;&nbsp;</a></span>key</h2>
+<a id="a99097cbbdd873a91579ae1e543195926"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99097cbbdd873a91579ae1e543195926">&#9670;&nbsp;</a></span>oserr</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const void* key</td>
+          <td class="memname">uint32_t oserr</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>&#x202A;entry key </p>
+<p>&#x202A;Platform-specific error code: Unix errno, Windows Error (ie: GetLastError, _dos_errno), etc. </p>
+<p class="DocNodeLTR">This can be zero even when 'err' is not. However, if this is non-zero 'err' will also be non-zero. </p>
 
-<p class="definition">Definition at line <a class="el" href="a00056_source.html#l00207">207</a> of file <a class="el" href="a00056_source.html">htable.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00044_source.html#l00090">90</a> of file <a class="el" href="a00044_source.html">errctx.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="a00533_source.html#l00036">ipcl_htable_remove_entry()</a>, <a class="el" href="a00524_source.html#l00037">pcl_htable_put()</a>, and <a class="el" href="a00530_source.html#l00035">pcl_htable_remove()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="a00305_source.html#l00035">pcl_err_ctx_clear()</a>, <a class="el" href="a00308_source.html#l00037">pcl_err_ctx_clone()</a>, <a class="el" href="a00368_source.html#l00035">pcl_err_lastos()</a>, and <a class="el" href="a00398_source.html#l00035">pcl_err_vset()</a>.</p>
 
 </div>
 </div>
-<a id="a0f61d63b009d0880a89c843bd50d8d76"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0f61d63b009d0880a89c843bd50d8d76">&#9670;&nbsp;</a></span>value</h2>
+<a id="af22b89a25236c26e197118ca1652019a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af22b89a25236c26e197118ca1652019a">&#9670;&nbsp;</a></span>strace</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void* value</td>
+          <td class="memname"><a class="el" href="a00104.html#a5ac911541b566c007c682947c68cd08f">pcl_err_trace_t</a>* strace</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>&#x202A;entry value </p>
+<p>&#x202A;Stack trace implemented as a linked list. </p>
+<p class="DocNodeLTR">This is NULL if there is no stack trace. </p>
 
-<p class="definition">Definition at line <a class="el" href="a00056_source.html#l00210">210</a> of file <a class="el" href="a00056_source.html">htable.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00044_source.html#l00093">93</a> of file <a class="el" href="a00044_source.html">errctx.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="a00533_source.html#l00036">ipcl_htable_remove_entry()</a>, <a class="el" href="a00515_source.html#l00036">pcl_htable_get()</a>, and <a class="el" href="a00524_source.html#l00037">pcl_htable_put()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="a00317_source.html#l00038">ipcl_err_ctx_destroy()</a>, <a class="el" href="a00320_source.html#l00037">ipcl_err_ctx_serialize()</a>, <a class="el" href="a00305_source.html#l00035">pcl_err_ctx_clear()</a>, <a class="el" href="a00308_source.html#l00037">pcl_err_ctx_clone()</a>, <a class="el" href="a00365_source.html#l00035">pcl_err_lastmsg()</a>, and <a class="el" href="a00404_source.html#l00038">pcl_err_vtrace()</a>.</p>
+
+</div>
+</div>
+<a id="a95f7673f875fad2b88002d7a10f00eb1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95f7673f875fad2b88002d7a10f00eb1">&#9670;&nbsp;</a></span>buffer</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01102.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a>* buffer</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>&#x202A;An output buffer used by output formatting functions like pcl_err_ctx_fprintf. </p>
+<p class="DocNodeLTR">This is lazily-created so can be NULL. This is really just for internal use and provides for a cached/allocated buffer to use for multiple output calls. This provides no context functionality, implementation detail. </p>
+
+<p class="definition">Definition at line <a class="el" href="a00044_source.html#l00100">100</a> of file <a class="el" href="a00044_source.html">errctx.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00317_source.html#l00038">ipcl_err_ctx_destroy()</a>, and <a class="el" href="a00320_source.html#l00037">ipcl_err_ctx_serialize()</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>pcl/<a class="el" href="a00056_source.html">htable.h</a></li>
+<li>pcl/<a class="el" href="a00044_source.html">errctx.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.20-->

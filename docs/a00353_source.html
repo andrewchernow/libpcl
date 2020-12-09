@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/error/err_fprintf.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/error/err_ctx.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">err_fprintf.c</div>  </div>
+<div class="title">err_ctx.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00353.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,21 +101,49 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00335.html">_error.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01102.html#gac9db573a481c66387f100e67ed9f1e5a">   35</a></span>&#160;<a class="code" href="a01102.html#gac9db573a481c66387f100e67ed9f1e5a">pcl_err_fprintf</a>(FILE *stream, <span class="keywordtype">int</span> indent, <span class="keyword">const</span> <span class="keywordtype">char</span> *format, ...)</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  va_list args;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  va_start(args, format);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordtype">int</span> r = <a class="code" href="a01102.html#gae5822fbf0ae8754ffb680d04146d1f8a">pcl_err_vfprintf</a>(stream, indent, format, args);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  va_end(args);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">return</span> r;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="comment">/* NOTE: the errctx.h API knows nothing about per-thread contextes. It just knows how</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="comment"> * to manage and output a pcl_err_ctx_t. This is why pcl_err_ctx() is defined within</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment"> * the error.h API. This is the linkage.</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &quot;../errctx/_errctx.h&quot;</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00098.html">pcl/thread.h</a>&gt;</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00050.html">pcl/event.h</a>&gt;</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="comment">/* holds our pcl_err_ctx_t for this thread. */</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="keyword">static</span> pthread_key_t ctxkey;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<a class="code" href="a01134.html">pcl_err_ctx_t</a> *</div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="a01106.html#gacba4bcf84db2e3237d7274aa57a30253">   45</a></span>&#160;<a class="code" href="a01106.html#gacba4bcf84db2e3237d7274aa57a30253">pcl_err_ctx</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;{</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a00098.html#af682f722d388060857e9c5b6f974b31c">pcl_tls_get</a>(ctxkey);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keywordtype">void</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="a00353.html#a4c9627f99ee899481f1c2886029ede4b">   51</a></span>&#160;<a class="code" href="a00353.html#a4c9627f99ee899481f1c2886029ede4b">ipcl_err_ctx_handler</a>(uint32_t which, <span class="keywordtype">void</span> *data)</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;{</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <a class="code" href="a00035.html#a9b58a1294d89c976dfbe4dc480e9dfb8">UNUSED</a>(data);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keywordflow">if</span>(which == <a class="code" href="a01109.html#ga60d1bf6bac043a65b2188b0c13a1b9d3">PCL_EVENT_INIT</a>)</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <a class="code" href="a00098.html#ad411aca9ab5b05ef8287863a08cf2d3b">pcl_tls_alloc</a>(&amp;ctxkey, <a class="code" href="a00302.html#aa715f0843fde8aa43963979a6a7034ce">ipcl_err_ctx_destroy</a>);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <span class="keywordflow">if</span>(which == <a class="code" href="a01109.html#ga60d1bf6bac043a65b2188b0c13a1b9d3">PCL_EVENT_INIT</a> || which == <a class="code" href="a01109.html#ga3146683f8619c24b5aa15044b635b380">PCL_EVENT_THREADINIT</a>)</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <a class="code" href="a00098.html#aeed18624e9e341d06c760db3bc240330">pcl_tls_set</a>(ctxkey, <a class="code" href="a01105.html#ga541f93c44bc3164b5dd789af74224d0c">pcl_err_ctx_create</a>());</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01102_html_gac9db573a481c66387f100e67ed9f1e5a"><div class="ttname"><a href="a01102.html#gac9db573a481c66387f100e67ed9f1e5a">pcl_err_fprintf</a></div><div class="ttdeci">int pcl_err_fprintf(FILE *stream, int indent, const char *format,...)</div><div class="ttdef"><b>Definition:</b> <a href="a00353_source.html#l00035">err_fprintf.c:35</a></div></div>
-<div class="ttc" id="aa00335_html"><div class="ttname"><a href="a00335.html">_error.h</a></div></div>
-<div class="ttc" id="aa01102_html_gae5822fbf0ae8754ffb680d04146d1f8a"><div class="ttname"><a href="a01102.html#gae5822fbf0ae8754ffb680d04146d1f8a">pcl_err_vfprintf</a></div><div class="ttdeci">PCL_EXPORT int pcl_err_vfprintf(FILE *stream, int indent, const char *format, va_list args)</div><div class="ttdef"><b>Definition:</b> <a href="a00392_source.html#l00036">err_vfprintf.c:36</a></div></div>
+<div class="ttc" id="aa00098_html_af682f722d388060857e9c5b6f974b31c"><div class="ttname"><a href="a00098.html#af682f722d388060857e9c5b6f974b31c">pcl_tls_get</a></div><div class="ttdeci">PCL_EXPORT void * pcl_tls_get(pthread_key_t key)</div><div class="ttdef"><b>Definition:</b> <a href="a00953_source.html#l00035">tls_get.c:35</a></div></div>
+<div class="ttc" id="aa00098_html_ad411aca9ab5b05ef8287863a08cf2d3b"><div class="ttname"><a href="a00098.html#ad411aca9ab5b05ef8287863a08cf2d3b">pcl_tls_alloc</a></div><div class="ttdeci">PCL_EXPORT int pcl_tls_alloc(pthread_key_t *key, void(*destructor)(void *))</div><div class="ttdef"><b>Definition:</b> <a href="a00947_source.html#l00036">tls_alloc.c:36</a></div></div>
+<div class="ttc" id="aa01109_html_ga60d1bf6bac043a65b2188b0c13a1b9d3"><div class="ttname"><a href="a01109.html#ga60d1bf6bac043a65b2188b0c13a1b9d3">PCL_EVENT_INIT</a></div><div class="ttdeci">#define PCL_EVENT_INIT</div><div class="ttdoc">Passed to a pcl_event_handler_t function to indicate that the PCL library is being initialized.</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00044">event.h:44</a></div></div>
+<div class="ttc" id="aa00098_html_aeed18624e9e341d06c760db3bc240330"><div class="ttname"><a href="a00098.html#aeed18624e9e341d06c760db3bc240330">pcl_tls_set</a></div><div class="ttdeci">PCL_EXPORT int pcl_tls_set(pthread_key_t key, void *value)</div><div class="ttdef"><b>Definition:</b> <a href="a00956_source.html#l00036">tls_set.c:36</a></div></div>
+<div class="ttc" id="aa00035_html_a9b58a1294d89c976dfbe4dc480e9dfb8"><div class="ttname"><a href="a00035.html#a9b58a1294d89c976dfbe4dc480e9dfb8">UNUSED</a></div><div class="ttdeci">#define UNUSED(...)</div><div class="ttdef"><b>Definition:</b> <a href="a00035_source.html#l00102">defs.h:102</a></div></div>
+<div class="ttc" id="aa00302_html_aa715f0843fde8aa43963979a6a7034ce"><div class="ttname"><a href="a00302.html#aa715f0843fde8aa43963979a6a7034ce">ipcl_err_ctx_destroy</a></div><div class="ttdeci">void ipcl_err_ctx_destroy(void *obj)</div><div class="ttdef"><b>Definition:</b> <a href="a00317_source.html#l00038">err_ctx_free.c:38</a></div></div>
+<div class="ttc" id="aa01106_html_gacba4bcf84db2e3237d7274aa57a30253"><div class="ttname"><a href="a01106.html#gacba4bcf84db2e3237d7274aa57a30253">pcl_err_ctx</a></div><div class="ttdeci">pcl_err_ctx_t * pcl_err_ctx(void)</div><div class="ttdoc">Gets the calling thread's error context.</div><div class="ttdef"><b>Definition:</b> <a href="a00353_source.html#l00045">err_ctx.c:45</a></div></div>
+<div class="ttc" id="aa01134_html"><div class="ttname"><a href="a01134.html">tag_pcl_err_ctx</a></div><div class="ttdoc">Represents a PCL error context, with optional stack trace.</div><div class="ttdef"><b>Definition:</b> <a href="a00044_source.html#l00066">errctx.h:67</a></div></div>
+<div class="ttc" id="aa00050_html"><div class="ttname"><a href="a00050.html">event.h</a></div></div>
+<div class="ttc" id="aa00353_html_a4c9627f99ee899481f1c2886029ede4b"><div class="ttname"><a href="a00353.html#a4c9627f99ee899481f1c2886029ede4b">ipcl_err_ctx_handler</a></div><div class="ttdeci">void ipcl_err_ctx_handler(uint32_t which, void *data)</div><div class="ttdef"><b>Definition:</b> <a href="a00353_source.html#l00051">err_ctx.c:51</a></div></div>
+<div class="ttc" id="aa00098_html"><div class="ttname"><a href="a00098.html">thread.h</a></div></div>
+<div class="ttc" id="aa01105_html_ga541f93c44bc3164b5dd789af74224d0c"><div class="ttname"><a href="a01105.html#ga541f93c44bc3164b5dd789af74224d0c">pcl_err_ctx_create</a></div><div class="ttdeci">PCL_EXPORT pcl_err_ctx_t * pcl_err_ctx_create(void)</div><div class="ttdoc">Allocates a new error context.</div><div class="ttdef"><b>Definition:</b> <a href="a00311_source.html#l00036">err_ctx_create.c:36</a></div></div>
+<div class="ttc" id="aa01109_html_ga3146683f8619c24b5aa15044b635b380"><div class="ttname"><a href="a01109.html#ga3146683f8619c24b5aa15044b635b380">PCL_EVENT_THREADINIT</a></div><div class="ttdeci">#define PCL_EVENT_THREADINIT</div><div class="ttdoc">Passed to a pcl_event_handler_t function to indicate that a thread is being initialized.</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00051">event.h:51</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

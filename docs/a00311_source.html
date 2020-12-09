@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/errctx/err_ctx_fprintf.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/errctx/err_ctx_create.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">err_ctx_fprintf.c</div>  </div>
+<div class="title">err_ctx_create.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00311.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,22 +101,20 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00299.html">_errctx.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a00311.html#a6a97fc67973d338668bbf78d18851d67">   35</a></span>&#160;<a class="code" href="a00311.html#a6a97fc67973d338668bbf78d18851d67">pcl_err_ctx_fprintf</a>(<a class="code" href="a01130.html">pcl_err_ctx_t</a> *ctx, FILE *fp, <span class="keywordtype">int</span> indent, <span class="keyword">const</span> <span class="keywordtype">char</span> *message, ...)</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  va_list ap;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  va_start(ap, message);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordtype">int</span> r = <a class="code" href="a00041.html#a805efd9866e583aef994285cbadc3adc">pcl_err_ctx_vfprintf</a>(ctx, fp, indent, message, ap);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  va_end(ap);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">return</span> r;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00302.html">_errctx.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<a class="code" href="a01134.html">pcl_err_ctx_t</a> *</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01105.html#ga541f93c44bc3164b5dd789af74224d0c">   36</a></span>&#160;<a class="code" href="a01105.html#ga541f93c44bc3164b5dd789af74224d0c">pcl_err_ctx_create</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01100.html#ga8f4cbae7a9d6191bceec2d2d1f04eb5d">pcl_zalloc</a>(<span class="keyword">sizeof</span>(<a class="code" href="a01134.html">pcl_err_ctx_t</a>));</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00299_html"><div class="ttname"><a href="a00299.html">_errctx.h</a></div></div>
-<div class="ttc" id="aa00041_html_a805efd9866e583aef994285cbadc3adc"><div class="ttname"><a href="a00041.html#a805efd9866e583aef994285cbadc3adc">pcl_err_ctx_vfprintf</a></div><div class="ttdeci">PCL_EXPORT int pcl_err_ctx_vfprintf(pcl_err_ctx_t *ctx, FILE *fp, int indent, const char *message, va_list ap)</div><div class="ttdef"><b>Definition:</b> <a href="a00326_source.html#l00036">err_ctx_vfprintf.c:36</a></div></div>
-<div class="ttc" id="aa01130_html"><div class="ttname"><a href="a01130.html">tag_pcl_err_ctx</a></div><div class="ttdoc">Represents a PCL error context, with optional stack trace.</div><div class="ttdef"><b>Definition:</b> <a href="a00041_source.html#l00062">errctx.h:63</a></div></div>
-<div class="ttc" id="aa00311_html_a6a97fc67973d338668bbf78d18851d67"><div class="ttname"><a href="a00311.html#a6a97fc67973d338668bbf78d18851d67">pcl_err_ctx_fprintf</a></div><div class="ttdeci">int pcl_err_ctx_fprintf(pcl_err_ctx_t *ctx, FILE *fp, int indent, const char *message,...)</div><div class="ttdef"><b>Definition:</b> <a href="a00311_source.html#l00035">err_ctx_fprintf.c:35</a></div></div>
+<div class="ttc" id="aa00302_html"><div class="ttname"><a href="a00302.html">_errctx.h</a></div></div>
+<div class="ttc" id="aa01100_html_ga8f4cbae7a9d6191bceec2d2d1f04eb5d"><div class="ttname"><a href="a01100.html#ga8f4cbae7a9d6191bceec2d2d1f04eb5d">pcl_zalloc</a></div><div class="ttdeci">void * pcl_zalloc(size_t n)</div><div class="ttdoc">Allocate and zero dynamic memory.</div></div>
+<div class="ttc" id="aa01134_html"><div class="ttname"><a href="a01134.html">tag_pcl_err_ctx</a></div><div class="ttdoc">Represents a PCL error context, with optional stack trace.</div><div class="ttdef"><b>Definition:</b> <a href="a00044_source.html#l00066">errctx.h:67</a></div></div>
+<div class="ttc" id="aa01105_html_ga541f93c44bc3164b5dd789af74224d0c"><div class="ttname"><a href="a01105.html#ga541f93c44bc3164b5dd789af74224d0c">pcl_err_ctx_create</a></div><div class="ttdeci">pcl_err_ctx_t * pcl_err_ctx_create(void)</div><div class="ttdoc">Allocates a new error context.</div><div class="ttdef"><b>Definition:</b> <a href="a00311_source.html#l00036">err_ctx_create.c:36</a></div></div>
+<div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

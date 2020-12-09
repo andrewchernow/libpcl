@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/socket/bind.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/socket/accept.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">bind.c</div>  </div>
+<div class="title">accept.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00677.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,51 +101,99 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00671.html">_socket.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00044.html">pcl/error.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00020.html">pcl/alloc.h</a>&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00053.html">pcl/file.h</a>&gt;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00086.html">pcl/string.h</a>&gt;</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#ifdef PCL_UNIX</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor"># include &lt;sys/un.h&gt;</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor"># include &lt;afunix.h&gt;</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="a00677.html#a7172ce16ccffbf72a00e031040241669">   45</a></span>&#160;<a class="code" href="a00677.html#a7172ce16ccffbf72a00e031040241669">pcl_bind</a>(<a class="code" href="a01218.html">pcl_socket_t</a> *sock)</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;{</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordflow">if</span>(sock-&gt;<a class="code" href="a01218.html#a4863f5b8767cd19fe6ea4db75456e5df">addr</a>-&gt;sa_family == AF_UNIX)</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  {</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keyword">struct </span>sockaddr_un *u = (<span class="keyword">struct </span>sockaddr_un *) sock-&gt;<a class="code" href="a01218.html#a4863f5b8767cd19fe6ea4db75456e5df">addr</a>;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="a00101.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *path = <a class="code" href="a01111.html#gafa1b87428b69658496d7331da10b7796">pcl_utf8_to_pcs</a>(u-&gt;sun_path, 0, NULL);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    (void) <a class="code" href="a00053.html#add6d6cc2e05aa31d259539f9c9ea053b">pcl_unlink</a>(path);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <a class="code" href="a01097.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(path);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  }</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keywordflow">if</span>(bind(sock-&gt;<a class="code" href="a01218.html#a8a04492110d683cd4b6119648e1584d6">fd</a>, sock-&gt;<a class="code" href="a01218.html#a4863f5b8767cd19fe6ea4db75456e5df">addr</a>, sock-&gt;<a class="code" href="a01218.html#a98d04694e72bc10426574eeec5bff1a1">sa_len</a>))</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01104.html#gaadc76b147014f17dcc08fa3c2f110a25">SETOSERR</a>(<a class="code" href="a01102.html#ga4926f863ec8fe31588c707f0b69bbe9a">pcl_sockerrno</a>);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00674.html">_socket.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/error.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00089.html">string.h</a>&gt;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor"># include &lt;ws2tcpip.h&gt;</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<a class="code" href="a01222.html">pcl_socket_t</a> *</div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="a00677.html#aa894397117467f0fa2608e2373f71bfc">   41</a></span>&#160;<a class="code" href="a00677.html#aa894397117467f0fa2608e2373f71bfc">pcl_accept</a>(<a class="code" href="a01222.html">pcl_socket_t</a> *sock)</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordtype">int</span> val = 0;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <a class="code" href="a01222.html">pcl_socket_t</a> *cli = <a class="code" href="a00674.html#a0da3c043a0f5ad72d611329132d08619">ipcl_socket_alloc</a>();</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#if defined(PCL_LINUX) &amp;&amp; defined(SOCK_NONBLOCK)</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="comment">/* Saves a fcntl call to accept the socket and set it to nonblock</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment">   * in a single call, only available on linux.</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment">   */</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  val = sock-&gt;<a class="code" href="a01222.html#ac8bf36fe0577cba66bccda3a6f7e80a4">flags</a> &amp; <a class="code" href="a00080.html#a0b9ee24d653ed3d56acdd7deea798b3c">PCL_SOCK_NONBLOCK</a> ? SOCK_NONBLOCK : 0;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  cli-&gt;<a class="code" href="a01222.html#a8a04492110d683cd4b6119648e1584d6">fd</a> = accept4(sock-&gt;<a class="code" href="a01222.html#a8a04492110d683cd4b6119648e1584d6">fd</a>, (<span class="keyword">struct</span> sockaddr *)cli-&gt;<a class="code" href="a01222.html#a4863f5b8767cd19fe6ea4db75456e5df">addr</a>, (socklen_t *)&amp;cli-&gt;<a class="code" href="a01222.html#a98d04694e72bc10426574eeec5bff1a1">sa_len</a>, val);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="keywordflow">if</span>(cli-&gt;<a class="code" href="a01222.html#a8a04492110d683cd4b6119648e1584d6">fd</a> != <a class="code" href="a00080.html#a26769957ec1a2beaf223f33b66ee64ab">INVALID_SOCKET</a> &amp;&amp; val == SOCK_NONBLOCK)</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    cli-&gt;<a class="code" href="a01222.html#ac8bf36fe0577cba66bccda3a6f7e80a4">flags</a> |= <a class="code" href="a00080.html#a0b9ee24d653ed3d56acdd7deea798b3c">PCL_SOCK_NONBLOCK</a>;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  cli-&gt;<a class="code" href="a01222.html#a8a04492110d683cd4b6119648e1584d6">fd</a> = accept(sock-&gt;<a class="code" href="a01222.html#a8a04492110d683cd4b6119648e1584d6">fd</a>, (<span class="keyword">struct</span> sockaddr *) cli-&gt;<a class="code" href="a01222.html#a4863f5b8767cd19fe6ea4db75456e5df">addr</a>, (socklen_t *) &amp;cli-&gt;<a class="code" href="a01222.html#a98d04694e72bc10426574eeec5bff1a1">sa_len</a>);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  <span class="keywordflow">if</span>(cli-&gt;<a class="code" href="a01222.html#a8a04492110d683cd4b6119648e1584d6">fd</a> == <a class="code" href="a00080.html#a26769957ec1a2beaf223f33b66ee64ab">INVALID_SOCKET</a>)</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  {</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">int</span> err = <a class="code" href="a01106.html#ga3ff5c98b765df74bd305d2e56e9b4f31">pcl_err_os2pcl</a>(<a class="code" href="a01106.html#ga4926f863ec8fe31588c707f0b69bbe9a">pcl_sockerrno</a>);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <a class="code" href="a00080.html#ac7838dea49e81078e1ae5bde9319005d">pcl_socket_close</a>(cli);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordflow">switch</span>(err)</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    {</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      <span class="keywordflow">case</span> <a class="code" href="a01107.html#gae8d8c032afaa7fd7fe25abdb520331e2">PCL_EAGAIN</a>:      <span class="comment">/* same as EINPROGRESS, PCL_EWOULDBLOCK */</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      <span class="keywordflow">case</span> <a class="code" href="a01107.html#ga5d8d645b84c1aa23bf8cb2b94882092c">PCL_EINPROGRESS</a>: <span class="comment">/* connect would block, try again */</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      <span class="keywordflow">case</span> <a class="code" href="a01107.html#gabd98a45fef9d002ccb21c347b2c0b4e0">PCL_EINTR</a>:       <span class="comment">/* interrupted */</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        err = <a class="code" href="a01107.html#gae8d8c032afaa7fd7fe25abdb520331e2">PCL_EAGAIN</a>;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      <span class="keywordflow">default</span>:</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    }</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01108.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a>(NULL, err);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  }</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  <span class="comment">/* For some reason, accept doesn&#39;t properly populate the AF_UNIX sun_path.  So, manually</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="comment">   * copy it from server sock.</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="comment">   */</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  <span class="keywordflow">if</span>(cli-&gt;<a class="code" href="a01222.html#a4863f5b8767cd19fe6ea4db75456e5df">addr</a>-&gt;sa_family == AF_UNIX)</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  {</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    memcpy(cli-&gt;<a class="code" href="a01222.html#a4863f5b8767cd19fe6ea4db75456e5df">addr</a>, sock-&gt;<a class="code" href="a01222.html#a4863f5b8767cd19fe6ea4db75456e5df">addr</a>, sock-&gt;<a class="code" href="a01222.html#a98d04694e72bc10426574eeec5bff1a1">sa_len</a>);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    cli-&gt;<a class="code" href="a01222.html#a98d04694e72bc10426574eeec5bff1a1">sa_len</a> = sock-&gt;<a class="code" href="a01222.html#a98d04694e72bc10426574eeec5bff1a1">sa_len</a>;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  }</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;  cli-&gt;<a class="code" href="a01222.html#a860df8b34725443e6edae72ec9b14e2a">sa_protocol</a> = sock-&gt;<a class="code" href="a01222.html#a860df8b34725443e6edae72ec9b14e2a">sa_protocol</a>;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  cli-&gt;<a class="code" href="a01222.html#abb10baf920bd1954936155d4b2bc76a4">sa_socktype</a> = sock-&gt;<a class="code" href="a01222.html#abb10baf920bd1954936155d4b2bc76a4">sa_socktype</a>;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;  cli-&gt;<a class="code" href="a01222.html#ac8bf36fe0577cba66bccda3a6f7e80a4">flags</a> |= <a class="code" href="a00080.html#aa2021c1f54b94b4ec01dd6d44d9b53ac">PCL_SOCK_CONNECTED</a>;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;  <span class="comment">/* if accept4 was used, pcl_socket_setnonblocking does nothing since &#39;cli&#39; is already</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="comment">   * flagged as nonblocking.</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="comment">   */</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  <span class="keywordflow">if</span>(sock-&gt;<a class="code" href="a01222.html#ac8bf36fe0577cba66bccda3a6f7e80a4">flags</a> &amp; <a class="code" href="a00080.html#a0b9ee24d653ed3d56acdd7deea798b3c">PCL_SOCK_NONBLOCK</a>)</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <a class="code" href="a00080.html#a13c9c1bf545cf9e9cf9c7ed464c7c605">pcl_socket_setnonblocking</a>(cli, <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  setsockopt(cli-&gt;<a class="code" href="a01222.html#a8a04492110d683cd4b6119648e1584d6">fd</a>, SOL_SOCKET, SO_LINGER, (<span class="keywordtype">char</span> *) &amp;val, <span class="keyword">sizeof</span>(val));</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;  <span class="keywordflow">return</span> cli;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00044_html"><div class="ttname"><a href="a00044.html">error.h</a></div></div>
-<div class="ttc" id="aa00086_html"><div class="ttname"><a href="a00086.html">string.h</a></div></div>
-<div class="ttc" id="aa00101_html_ac114b2b1527c8ae241d37cc15ca7d122"><div class="ttname"><a href="a00101.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a></div><div class="ttdeci">char pchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00101_source.html#l00053">types.h:53</a></div></div>
-<div class="ttc" id="aa01102_html_ga4926f863ec8fe31588c707f0b69bbe9a"><div class="ttname"><a href="a01102.html#ga4926f863ec8fe31588c707f0b69bbe9a">pcl_sockerrno</a></div><div class="ttdeci">#define pcl_sockerrno</div><div class="ttdef"><b>Definition:</b> <a href="a00044_source.html#l00135">error.h:135</a></div></div>
-<div class="ttc" id="aa00053_html_add6d6cc2e05aa31d259539f9c9ea053b"><div class="ttname"><a href="a00053.html#add6d6cc2e05aa31d259539f9c9ea053b">pcl_unlink</a></div><div class="ttdeci">PCL_EXPORT int pcl_unlink(const pchar_t *path)</div><div class="ttdoc">Delete a file.</div><div class="ttdef"><b>Definition:</b> <a href="a00485_source.html#l00041">unlink.c:41</a></div></div>
-<div class="ttc" id="aa01218_html_a98d04694e72bc10426574eeec5bff1a1"><div class="ttname"><a href="a01218.html#a98d04694e72bc10426574eeec5bff1a1">tag_pcl_socket::sa_len</a></div><div class="ttdeci">int sa_len</div><div class="ttdef"><b>Definition:</b> <a href="a00671_source.html#l00068">_socket.h:68</a></div></div>
-<div class="ttc" id="aa01104_html_gaadc76b147014f17dcc08fa3c2f110a25"><div class="ttname"><a href="a01104.html#gaadc76b147014f17dcc08fa3c2f110a25">SETOSERR</a></div><div class="ttdeci">#define SETOSERR(_oserr)</div><div class="ttdoc">Sets the current thread's OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00014_source.html#l00111">_errdefs.h:111</a></div></div>
-<div class="ttc" id="aa01218_html_a8a04492110d683cd4b6119648e1584d6"><div class="ttname"><a href="a01218.html#a8a04492110d683cd4b6119648e1584d6">tag_pcl_socket::fd</a></div><div class="ttdeci">pcl_socketfd_t fd</div><div class="ttdef"><b>Definition:</b> <a href="a00671_source.html#l00053">_socket.h:53</a></div></div>
-<div class="ttc" id="aa01218_html_a4863f5b8767cd19fe6ea4db75456e5df"><div class="ttname"><a href="a01218.html#a4863f5b8767cd19fe6ea4db75456e5df">tag_pcl_socket::addr</a></div><div class="ttdeci">struct sockaddr * addr</div><div class="ttdef"><b>Definition:</b> <a href="a00671_source.html#l00071">_socket.h:71</a></div></div>
-<div class="ttc" id="aa01218_html"><div class="ttname"><a href="a01218.html">tag_pcl_socket</a></div><div class="ttdef"><b>Definition:</b> <a href="a00671_source.html#l00047">_socket.h:48</a></div></div>
-<div class="ttc" id="aa01097_html_gab88b901c82e1010555b08ff6d39490f2"><div class="ttname"><a href="a01097.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a></div><div class="ttdeci">void * pcl_free(void *p)</div><div class="ttdoc">Free memory space.</div></div>
-<div class="ttc" id="aa00020_html"><div class="ttname"><a href="a00020.html">alloc.h</a></div></div>
-<div class="ttc" id="aa01111_html_gafa1b87428b69658496d7331da10b7796"><div class="ttname"><a href="a01111.html#gafa1b87428b69658496d7331da10b7796">pcl_utf8_to_pcs</a></div><div class="ttdeci">PCL_EXPORT pchar_t * pcl_utf8_to_pcs(const char *src, size_t src_len, size_t *lenp)</div><div class="ttdoc">Convert a UTF-8 string to a pchar_t string.</div><div class="ttdef"><b>Definition:</b> <a href="a00887_source.html#l00063">utf8_to_pcs.c:63</a></div></div>
-<div class="ttc" id="aa00671_html"><div class="ttname"><a href="a00671.html">_socket.h</a></div></div>
-<div class="ttc" id="aa00677_html_a7172ce16ccffbf72a00e031040241669"><div class="ttname"><a href="a00677.html#a7172ce16ccffbf72a00e031040241669">pcl_bind</a></div><div class="ttdeci">int pcl_bind(pcl_socket_t *sock)</div><div class="ttdef"><b>Definition:</b> <a href="a00677_source.html#l00045">bind.c:45</a></div></div>
-<div class="ttc" id="aa00053_html"><div class="ttname"><a href="a00053.html">file.h</a></div></div>
+<div class="ttc" id="aa01107_html_gabd98a45fef9d002ccb21c347b2c0b4e0"><div class="ttname"><a href="a01107.html#gabd98a45fef9d002ccb21c347b2c0b4e0">PCL_EINTR</a></div><div class="ttdeci">#define PCL_EINTR</div><div class="ttdoc">Interrupted system call.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00076">_errno.h:76</a></div></div>
+<div class="ttc" id="aa00674_html"><div class="ttname"><a href="a00674.html">_socket.h</a></div></div>
+<div class="ttc" id="aa01222_html_a98d04694e72bc10426574eeec5bff1a1"><div class="ttname"><a href="a01222.html#a98d04694e72bc10426574eeec5bff1a1">tag_pcl_socket::sa_len</a></div><div class="ttdeci">int sa_len</div><div class="ttdef"><b>Definition:</b> <a href="a00674_source.html#l00068">_socket.h:68</a></div></div>
+<div class="ttc" id="aa01107_html_gae8d8c032afaa7fd7fe25abdb520331e2"><div class="ttname"><a href="a01107.html#gae8d8c032afaa7fd7fe25abdb520331e2">PCL_EAGAIN</a></div><div class="ttdeci">#define PCL_EAGAIN</div><div class="ttdoc">Try again.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00048">_errno.h:48</a></div></div>
+<div class="ttc" id="aa01222_html_a8a04492110d683cd4b6119648e1584d6"><div class="ttname"><a href="a01222.html#a8a04492110d683cd4b6119648e1584d6">tag_pcl_socket::fd</a></div><div class="ttdeci">pcl_socketfd_t fd</div><div class="ttdef"><b>Definition:</b> <a href="a00674_source.html#l00053">_socket.h:53</a></div></div>
+<div class="ttc" id="aa01222_html_a860df8b34725443e6edae72ec9b14e2a"><div class="ttname"><a href="a01222.html#a860df8b34725443e6edae72ec9b14e2a">tag_pcl_socket::sa_protocol</a></div><div class="ttdeci">int sa_protocol</div><div class="ttdef"><b>Definition:</b> <a href="a00674_source.html#l00056">_socket.h:56</a></div></div>
+<div class="ttc" id="aa01222_html"><div class="ttname"><a href="a01222.html">tag_pcl_socket</a></div><div class="ttdef"><b>Definition:</b> <a href="a00674_source.html#l00047">_socket.h:48</a></div></div>
+<div class="ttc" id="aa00080_html_aa2021c1f54b94b4ec01dd6d44d9b53ac"><div class="ttname"><a href="a00080.html#aa2021c1f54b94b4ec01dd6d44d9b53ac">PCL_SOCK_CONNECTED</a></div><div class="ttdeci">#define PCL_SOCK_CONNECTED</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00054">socket.h:54</a></div></div>
+<div class="ttc" id="aa01222_html_abb10baf920bd1954936155d4b2bc76a4"><div class="ttname"><a href="a01222.html#abb10baf920bd1954936155d4b2bc76a4">tag_pcl_socket::sa_socktype</a></div><div class="ttdeci">int sa_socktype</div><div class="ttdef"><b>Definition:</b> <a href="a00674_source.html#l00059">_socket.h:59</a></div></div>
+<div class="ttc" id="aa00080_html_a0b9ee24d653ed3d56acdd7deea798b3c"><div class="ttname"><a href="a00080.html#a0b9ee24d653ed3d56acdd7deea798b3c">PCL_SOCK_NONBLOCK</a></div><div class="ttdeci">#define PCL_SOCK_NONBLOCK</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00053">socket.h:53</a></div></div>
+<div class="ttc" id="aa00080_html_a13c9c1bf545cf9e9cf9c7ed464c7c605"><div class="ttname"><a href="a00080.html#a13c9c1bf545cf9e9cf9c7ed464c7c605">pcl_socket_setnonblocking</a></div><div class="ttdeci">PCL_EXPORT int pcl_socket_setnonblocking(pcl_socket_t *sock, bool enable)</div><div class="ttdef"><b>Definition:</b> <a href="a00737_source.html#l00040">socket_setnonblocking.c:40</a></div></div>
+<div class="ttc" id="aa00080_html_a26769957ec1a2beaf223f33b66ee64ab"><div class="ttname"><a href="a00080.html#a26769957ec1a2beaf223f33b66ee64ab">INVALID_SOCKET</a></div><div class="ttdeci">#define INVALID_SOCKET</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00057">socket.h:57</a></div></div>
+<div class="ttc" id="aa01107_html_ga5d8d645b84c1aa23bf8cb2b94882092c"><div class="ttname"><a href="a01107.html#ga5d8d645b84c1aa23bf8cb2b94882092c">PCL_EINPROGRESS</a></div><div class="ttdeci">#define PCL_EINPROGRESS</div><div class="ttdoc">Operation is now in progress.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00050">_errno.h:50</a></div></div>
+<div class="ttc" id="aa00080_html_ac7838dea49e81078e1ae5bde9319005d"><div class="ttname"><a href="a00080.html#ac7838dea49e81078e1ae5bde9319005d">pcl_socket_close</a></div><div class="ttdeci">PCL_EXPORT void pcl_socket_close(pcl_socket_t *sock)</div><div class="ttdef"><b>Definition:</b> <a href="a00713_source.html#l00040">socket_close.c:40</a></div></div>
+<div class="ttc" id="aa00674_html_a0da3c043a0f5ad72d611329132d08619"><div class="ttname"><a href="a00674.html#a0da3c043a0f5ad72d611329132d08619">ipcl_socket_alloc</a></div><div class="ttdeci">pcl_socket_t * ipcl_socket_alloc(void)</div><div class="ttdef"><b>Definition:</b> <a href="a00710_source.html#l00036">socket_alloc.c:36</a></div></div>
+<div class="ttc" id="aa01106_html_ga3ff5c98b765df74bd305d2e56e9b4f31"><div class="ttname"><a href="a01106.html#ga3ff5c98b765df74bd305d2e56e9b4f31">pcl_err_os2pcl</a></div><div class="ttdeci">PCL_EXPORT int pcl_err_os2pcl(uint32_t oserr)</div><div class="ttdef"><b>Definition:</b> <a href="a00377_source.html#l00035">err_os2pcl.c:35</a></div></div>
+<div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">error.h</a></div></div>
+<div class="ttc" id="aa00089_html"><div class="ttname"><a href="a00089.html">string.h</a></div></div>
+<div class="ttc" id="aa01222_html_a4863f5b8767cd19fe6ea4db75456e5df"><div class="ttname"><a href="a01222.html#a4863f5b8767cd19fe6ea4db75456e5df">tag_pcl_socket::addr</a></div><div class="ttdeci">struct sockaddr * addr</div><div class="ttdef"><b>Definition:</b> <a href="a00674_source.html#l00071">_socket.h:71</a></div></div>
+<div class="ttc" id="aa01106_html_ga4926f863ec8fe31588c707f0b69bbe9a"><div class="ttname"><a href="a01106.html#ga4926f863ec8fe31588c707f0b69bbe9a">pcl_sockerrno</a></div><div class="ttdeci">#define pcl_sockerrno</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00135">error.h:135</a></div></div>
+<div class="ttc" id="aa01108_html_gae8eaed12aa57a2870ad8e45cc2306318"><div class="ttname"><a href="a01108.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a></div><div class="ttdeci">#define R_SETERR(_retval, _pclerr)</div><div class="ttdoc">Sets the return value and the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00145">_errdefs.h:145</a></div></div>
+<div class="ttc" id="aa00677_html_aa894397117467f0fa2608e2373f71bfc"><div class="ttname"><a href="a00677.html#aa894397117467f0fa2608e2373f71bfc">pcl_accept</a></div><div class="ttdeci">pcl_socket_t * pcl_accept(pcl_socket_t *sock)</div><div class="ttdef"><b>Definition:</b> <a href="a00677_source.html#l00041">accept.c:41</a></div></div>
+<div class="ttc" id="aa01222_html_ac8bf36fe0577cba66bccda3a6f7e80a4"><div class="ttname"><a href="a01222.html#ac8bf36fe0577cba66bccda3a6f7e80a4">tag_pcl_socket::flags</a></div><div class="ttdeci">int flags</div><div class="ttdef"><b>Definition:</b> <a href="a00674_source.html#l00050">_socket.h:50</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

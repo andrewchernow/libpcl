@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/errctx/err_ctx_trace_free.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/errctx/err_ctx_sprintf.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">err_ctx_trace_free.c</div>  </div>
+<div class="title">err_ctx_sprintf.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00323.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,28 +101,23 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00299.html">_errctx.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00020.html">pcl/alloc.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<a class="code" href="a01126.html">pcl_err_trace_t</a> *</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a00323.html#a7957a846b8fa08a58547bf61da98cce7">   36</a></span>&#160;<a class="code" href="a00323.html#a7957a846b8fa08a58547bf61da98cce7">ipcl_err_ctx_trace_free</a>(<a class="code" href="a01126.html">pcl_err_trace_t</a> *head)</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00302.html">_errctx.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01105.html#gaeae1348b2e2516a3f0bc0dc763c3ec26">   35</a></span>&#160;<a class="code" href="a01105.html#gaeae1348b2e2516a3f0bc0dc763c3ec26">pcl_err_ctx_sprintf</a>(<a class="code" href="a01134.html">pcl_err_ctx_t</a> *ctx, <span class="keywordtype">char</span> *buf, <span class="keywordtype">size_t</span> size, <span class="keywordtype">int</span> indent,</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">char</span> *message, ...)</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">while</span>(head)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="a01126.html">pcl_err_trace_t</a> *node = head;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    head = node-&gt;<a class="code" href="a01126.html#a365f8bd3193b20fc56c910edb668a93b">next</a>;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="a01097.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(node);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  }</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordflow">return</span> head;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;}</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  va_list ap;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  va_start(ap, message);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordtype">int</span> r = <a class="code" href="a01105.html#gaf3bc462b7e275d0b2a2be2202b22f709">pcl_err_ctx_vsprintf</a>(ctx, buf, size, indent, message, ap);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  va_end(ap);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordflow">return</span> r;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00323_html_a7957a846b8fa08a58547bf61da98cce7"><div class="ttname"><a href="a00323.html#a7957a846b8fa08a58547bf61da98cce7">ipcl_err_ctx_trace_free</a></div><div class="ttdeci">pcl_err_trace_t * ipcl_err_ctx_trace_free(pcl_err_trace_t *head)</div><div class="ttdef"><b>Definition:</b> <a href="a00323_source.html#l00036">err_ctx_trace_free.c:36</a></div></div>
-<div class="ttc" id="aa00299_html"><div class="ttname"><a href="a00299.html">_errctx.h</a></div></div>
-<div class="ttc" id="aa01126_html_a365f8bd3193b20fc56c910edb668a93b"><div class="ttname"><a href="a01126.html#a365f8bd3193b20fc56c910edb668a93b">tag_pcl_err_trace::next</a></div><div class="ttdeci">pcl_err_trace_t * next</div><div class="ttdoc">next trace in stack trace or NULL to indicate the end.</div><div class="ttdef"><b>Definition:</b> <a href="a00041_source.html#l00045">errctx.h:45</a></div></div>
-<div class="ttc" id="aa01097_html_gab88b901c82e1010555b08ff6d39490f2"><div class="ttname"><a href="a01097.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a></div><div class="ttdeci">void * pcl_free(void *p)</div><div class="ttdoc">Free memory space.</div></div>
-<div class="ttc" id="aa01126_html"><div class="ttname"><a href="a01126.html">tag_pcl_err_trace</a></div><div class="ttdoc">Stack trace object implemented as a linked list.</div><div class="ttdef"><b>Definition:</b> <a href="a00041_source.html#l00042">errctx.h:43</a></div></div>
-<div class="ttc" id="aa00020_html"><div class="ttname"><a href="a00020.html">alloc.h</a></div></div>
+<div class="ttc" id="aa00302_html"><div class="ttname"><a href="a00302.html">_errctx.h</a></div></div>
+<div class="ttc" id="aa01134_html"><div class="ttname"><a href="a01134.html">tag_pcl_err_ctx</a></div><div class="ttdoc">Represents a PCL error context, with optional stack trace.</div><div class="ttdef"><b>Definition:</b> <a href="a00044_source.html#l00066">errctx.h:67</a></div></div>
+<div class="ttc" id="aa01105_html_gaf3bc462b7e275d0b2a2be2202b22f709"><div class="ttname"><a href="a01105.html#gaf3bc462b7e275d0b2a2be2202b22f709">pcl_err_ctx_vsprintf</a></div><div class="ttdeci">PCL_EXPORT int pcl_err_ctx_vsprintf(pcl_err_ctx_t *ctx, char *buf, size_t size, int indent, const char *message, va_list ap)</div><div class="ttdef"><b>Definition:</b> <a href="a00332_source.html#l00037">err_ctx_vsprintf.c:37</a></div></div>
+<div class="ttc" id="aa01105_html_gaeae1348b2e2516a3f0bc0dc763c3ec26"><div class="ttname"><a href="a01105.html#gaeae1348b2e2516a3f0bc0dc763c3ec26">pcl_err_ctx_sprintf</a></div><div class="ttdeci">int pcl_err_ctx_sprintf(pcl_err_ctx_t *ctx, char *buf, size_t size, int indent, const char *message,...)</div><div class="ttdef"><b>Definition:</b> <a href="a00323_source.html#l00035">err_ctx_sprintf.c:35</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

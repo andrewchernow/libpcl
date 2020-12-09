@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/file/remove.c File Reference</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/file/realpath.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -69,49 +69,64 @@ $(function() {
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">remove.c File Reference</div>  </div>
+<div class="title">realpath.c File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;<a class="el" href="a00062_source.html">pcl/io.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="a00044_source.html">pcl/error.h</a>&gt;</code><br />
+<div class="textblock"><code>#include &lt;<a class="el" href="a00047_source.html">pcl/error.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="a00089_source.html">pcl/string.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="a00068_source.html">limits.h</a>&gt;</code><br />
+<code>#include &lt;stdlib.h&gt;</code><br />
 </div>
 <p><a href="a00464_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ad0f85e6c41194d352b2015db9eb0541a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00464.html#ad0f85e6c41194d352b2015db9eb0541a">pcl_remove</a> (const <a class="el" href="a00101.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *pathname)</td></tr>
-<tr class="memdesc:ad0f85e6c41194d352b2015db9eb0541a"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Delete a file or directory.  <a href="a00464.html#ad0f85e6c41194d352b2015db9eb0541a">More...</a><br /></td></tr>
-<tr class="separator:ad0f85e6c41194d352b2015db9eb0541a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6bf3a33892b2688b5e88e663e1dbe5e5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00464.html#a6bf3a33892b2688b5e88e663e1dbe5e5">pcl_realpath</a> (const <a class="el" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *path, int *lenp)</td></tr>
+<tr class="memdesc:a6bf3a33892b2688b5e88e663e1dbe5e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Gets the canonicalized absolute pathname.  <a href="a00464.html#a6bf3a33892b2688b5e88e663e1dbe5e5">More...</a><br /></td></tr>
+<tr class="separator:a6bf3a33892b2688b5e88e663e1dbe5e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="ad0f85e6c41194d352b2015db9eb0541a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad0f85e6c41194d352b2015db9eb0541a">&#9670;&nbsp;</a></span>pcl_remove()</h2>
+<a id="a6bf3a33892b2688b5e88e663e1dbe5e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6bf3a33892b2688b5e88e663e1dbe5e5">&#9670;&nbsp;</a></span>pcl_realpath()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int pcl_remove </td>
+          <td class="memname"><a class="el" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>* pcl_realpath </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="a00101.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>pathname</em></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>lenp</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>&#x202A;Delete a file or directory. </p>
-<p class="DocNodeLTR">The directory must be empty. File can be a link, socket, FIFO or device. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>&#x202A;Gets the canonicalized absolute pathname. </p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">pathname</td><td></td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">path</td><td>&#x202A;path to convert </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">lenp</td><td>&#x202A;If not <code>NULL</code>, character length (excluding NUL) is written here </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;0 on success or -1 on error </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;an allocated absolute path or NULL on error </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="a00464_source.html#l00041">41</a> of file <a class="el" href="a00464_source.html">remove.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00464_source.html#l00044">44</a> of file <a class="el" href="a00464_source.html">realpath.c</a>.</p>
 
-<p class="reference">References <a class="el" href="a00014_source.html#l00306">BADARG</a>, <a class="el" href="a00083_source.html#l00229">tag_pcl_stat::mode</a>, <a class="el" href="a00284_source.html#l00036">pcl_rmdir()</a>, <a class="el" href="a00083_source.html#l00061">pcl_stat</a>, <a class="el" href="a00485_source.html#l00041">pcl_unlink()</a>, <a class="el" href="a00083_source.html#l00160">S_ISBLK</a>, <a class="el" href="a00083_source.html#l00157">S_ISCHR</a>, <a class="el" href="a00083_source.html#l00154">S_ISDIR</a>, <a class="el" href="a00032_source.html#l00124">strempty</a>, and <a class="el" href="a00014_source.html#l00262">TRC</a>.</p>
+<p class="reference">References <a class="el" href="a00020_source.html#l00078">PCL_EINVAL</a>, <a class="el" href="a01100.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc()</a>, <a class="el" href="a01115.html#ga76ffbaececfd9e912d39e6e69bfa4b7d">pcl_strndup()</a>, <a class="el" href="a00017_source.html#l00145">R_SETERR</a>, <a class="el" href="a00017_source.html#l00235">R_SETLASTERR</a>, and <a class="el" href="a00035_source.html#l00124">strempty</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00281_source.html#l00042">pcl_opendir()</a>.</p>
 
 </div>
 </div>

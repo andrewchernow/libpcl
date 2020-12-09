@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/win32/win32_process_token.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/win32/win32_process_sid.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">win32_process_token.c</div>  </div>
+<div class="title">win32_process_sid.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a01067.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,31 +101,40 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a01049.html">_win32.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01067.html#aa2e6fad1f9cae00b92f120929499825c">   35</a></span>&#160;<a class="code" href="a01067.html#aa2e6fad1f9cae00b92f120929499825c">ipcl_win32_process_token</a>(HANDLE *htok)</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordflow">if</span>(!OpenThreadToken(GetCurrentThread(), TOKEN_QUERY, <span class="keyword">true</span>, htok))</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="comment">/* no_token means there is no impersonation token for the calling</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="comment">     * thread, fallback to process token.</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="comment">     */</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">if</span>(<a class="code" href="a01102.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a> != ERROR_NO_TOKEN)</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01104.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="comment">/* try process token */</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordflow">if</span>(!OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, htok))</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01104.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a01052.html">_win32.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;PSID</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01067.html#aa3b15ac99dce2f5d07ec5751379f9a43">   36</a></span>&#160;<a class="code" href="a01067.html#aa3b15ac99dce2f5d07ec5751379f9a43">ipcl_win32_process_sid</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  HANDLE token = NULL;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  TOKEN_USER *user;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  PSID sid;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a01052.html#aa2e6fad1f9cae00b92f120929499825c">ipcl_win32_process_token</a>(&amp;token) || <a class="code" href="a01052.html#a81f5bfccc512aca872b44048311449f8">ipcl_win32_token_into</a>(token, TokenUser, &amp;user))</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  {</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">if</span>(token)</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;      CloseHandle(token);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="a01108.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a>();</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">return</span> NULL;</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  }</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;}</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  sid = <a class="code" href="a01052.html#a3320e31561fb1072aa4a29b54ad140ba">ipcl_win32_sid_dup</a>(user-&gt;User.Sid);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <a class="code" href="a01100.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(user);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  CloseHandle(token);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="keywordflow">return</span> sid;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;}</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01104_html_ga89b8bfbe17595305872551a1caaa5702"><div class="ttname"><a href="a01104.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a></div><div class="ttdeci">#define SETLASTERR()</div><div class="ttdoc">Sets the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00014_source.html#l00125">_errdefs.h:125</a></div></div>
-<div class="ttc" id="aa01049_html"><div class="ttname"><a href="a01049.html">_win32.h</a></div></div>
-<div class="ttc" id="aa01067_html_aa2e6fad1f9cae00b92f120929499825c"><div class="ttname"><a href="a01067.html#aa2e6fad1f9cae00b92f120929499825c">ipcl_win32_process_token</a></div><div class="ttdeci">int ipcl_win32_process_token(HANDLE *htok)</div><div class="ttdef"><b>Definition:</b> <a href="a01067_source.html#l00035">win32_process_token.c:35</a></div></div>
-<div class="ttc" id="aa01102_html_ga3646b2825d51326a06f25e597f883555"><div class="ttname"><a href="a01102.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a></div><div class="ttdeci">#define pcl_oserrno</div><div class="ttdef"><b>Definition:</b> <a href="a00044_source.html#l00133">error.h:133</a></div></div>
+<div class="ttc" id="aa01052_html"><div class="ttname"><a href="a01052.html">_win32.h</a></div></div>
+<div class="ttc" id="aa01052_html_a81f5bfccc512aca872b44048311449f8"><div class="ttname"><a href="a01052.html#a81f5bfccc512aca872b44048311449f8">ipcl_win32_token_into</a></div><div class="ttdeci">int ipcl_win32_token_into(HANDLE htok, TOKEN_INFORMATION_CLASS type, void **data)</div><div class="ttdef"><b>Definition:</b> <a href="a01094_source.html#l00036">win32_token_info.c:36</a></div></div>
+<div class="ttc" id="aa01052_html_a3320e31561fb1072aa4a29b54ad140ba"><div class="ttname"><a href="a01052.html#a3320e31561fb1072aa4a29b54ad140ba">ipcl_win32_sid_dup</a></div><div class="ttdeci">PSID ipcl_win32_sid_dup(PSID sid)</div><div class="ttdoc">Duplicates the given SID.</div><div class="ttdef"><b>Definition:</b> <a href="a01088_source.html#l00036">win32_sid_dup.c:36</a></div></div>
+<div class="ttc" id="aa01067_html_aa3b15ac99dce2f5d07ec5751379f9a43"><div class="ttname"><a href="a01067.html#aa3b15ac99dce2f5d07ec5751379f9a43">ipcl_win32_process_sid</a></div><div class="ttdeci">PSID ipcl_win32_process_sid(void)</div><div class="ttdoc">Get TokenUser SID of process.</div><div class="ttdef"><b>Definition:</b> <a href="a01067_source.html#l00036">win32_process_sid.c:36</a></div></div>
+<div class="ttc" id="aa01100_html_gab88b901c82e1010555b08ff6d39490f2"><div class="ttname"><a href="a01100.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a></div><div class="ttdeci">void * pcl_free(void *p)</div><div class="ttdoc">Free memory space.</div></div>
+<div class="ttc" id="aa01108_html_ga9ad3ef2339f58a873bc7bace5ad9c9df"><div class="ttname"><a href="a01108.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a></div><div class="ttdeci">#define TRC()</div><div class="ttdoc">Adds a stack trace to the current thread's error context.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00262">_errdefs.h:262</a></div></div>
+<div class="ttc" id="aa01052_html_aa2e6fad1f9cae00b92f120929499825c"><div class="ttname"><a href="a01052.html#aa2e6fad1f9cae00b92f120929499825c">ipcl_win32_process_token</a></div><div class="ttdeci">int ipcl_win32_process_token(HANDLE *htok)</div><div class="ttdef"><b>Definition:</b> <a href="a01070_source.html#l00035">win32_process_token.c:35</a></div></div>
+<div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

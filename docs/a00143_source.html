@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/buf/_buf.h Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/atomic/atomic_fetch_add.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,12 +62,12 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_c75ab398b767e7b486366c424da2e3a8.html">&#x202A;buf</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_1616b9fc1c478b579b25a17ac2468817.html">&#x202A;atomic</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">_buf.h</div>  </div>
+<div class="title">atomic_fetch_add.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00143.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,16 +101,27 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#ifndef LIBPCL__BUF_H</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#define LIBPCL__BUF_H</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00026.html">pcl/buf.h</a>&gt;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00044.html">pcl/error.h</a>&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00026.html">pcl/atomic.h</a>&gt;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">  #include &lt;windows.h&gt;</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#endif // LIBPCL__BUF_H</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<a class="code" href="a00104.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a></div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="a01101.html#ga8c165c06fb31d754be57b5f21388713b">   39</a></span>&#160;<a class="code" href="a01101.html#ga8c165c06fb31d754be57b5f21388713b">pcl_atomic_fetch_add</a>(<a class="code" href="a00104.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a> *dest, <a class="code" href="a00104.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a> add)</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#ifdef _WIN32</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <a class="code" href="a00104.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a> orig = *dest;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  (void)InterlockedAdd64((LONGLONG <span class="keyword">volatile</span> *)dest, add);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keywordflow">return</span> orig;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordflow">return</span> (<a class="code" href="a00104.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a>)__atomic_fetch_add((<span class="keywordtype">long</span> <span class="keywordtype">long</span> *)dest, add, __ATOMIC_SEQ_CST);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00044_html"><div class="ttname"><a href="a00044.html">error.h</a></div></div>
-<div class="ttc" id="aa00026_html"><div class="ttname"><a href="a00026.html">buf.h</a></div></div>
+<div class="ttc" id="aa00026_html"><div class="ttname"><a href="a00026.html">atomic.h</a></div></div>
+<div class="ttc" id="aa01101_html_ga8c165c06fb31d754be57b5f21388713b"><div class="ttname"><a href="a01101.html#ga8c165c06fb31d754be57b5f21388713b">pcl_atomic_fetch_add</a></div><div class="ttdeci">pcl_atomic_t pcl_atomic_fetch_add(pcl_atomic_t *dest, pcl_atomic_t add)</div><div class="ttdoc">Performs a fetch and add.</div><div class="ttdef"><b>Definition:</b> <a href="a00143_source.html#l00039">atomic_fetch_add.c:39</a></div></div>
+<div class="ttc" id="aa00104_html_a74a9f3e3e5163485365adb35c5030f65"><div class="ttname"><a href="a00104.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a></div><div class="ttdeci">int64_t pcl_atomic_t</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00059">types.h:59</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

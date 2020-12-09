@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/error/err_lastos.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/error/err_lastmsg.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">err_lastos.c</div>  </div>
+<div class="title">err_lastmsg.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00365.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -103,15 +103,27 @@ $(function() {
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;../errctx/_errctx.h&quot;</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;uint32_t</div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a00365.html#a05c9628f9163895a702ae714e9190be1">   35</a></span>&#160;<a class="code" href="a00365.html#a05c9628f9163895a702ae714e9190be1">pcl_err_lastos</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">char</span> *</div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01106.html#ga84bacea2f9a9e0defe3f8c8bf75db011">   35</a></span>&#160;<a class="code" href="a01106.html#ga84bacea2f9a9e0defe3f8c8bf75db011">pcl_err_lastmsg</a>(<span class="keywordtype">void</span>)</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01102.html#gacba4bcf84db2e3237d7274aa57a30253">pcl_err_ctx</a>()-&gt;<a class="code" href="a01130.html#a99097cbbdd873a91579ae1e543195926">oserr</a>;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;}</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keyword">static</span> <span class="keywordtype">char</span> empty_str[1] = {0};</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <a class="code" href="a01134.html">pcl_err_ctx_t</a> *ctx = <a class="code" href="a01106.html#gacba4bcf84db2e3237d7274aa57a30253">pcl_err_ctx</a>();</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <a class="code" href="a01130.html">pcl_err_trace_t</a> *last = NULL;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordflow">for</span>(<a class="code" href="a01130.html">pcl_err_trace_t</a> *head = ctx-&gt;<a class="code" href="a01134.html#af22b89a25236c26e197118ca1652019a">strace</a>; head; head = head-&gt;<a class="code" href="a01130.html#a365f8bd3193b20fc56c910edb668a93b">next</a>)</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    last = head;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordflow">return</span> last &amp;&amp; last-&gt;<a class="code" href="a01130.html#a32d2f5216cddb59c7cc8fb2806a7e727">msg</a> ? last-&gt;<a class="code" href="a01130.html#a32d2f5216cddb59c7cc8fb2806a7e727">msg</a> : empty_str;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00365_html_a05c9628f9163895a702ae714e9190be1"><div class="ttname"><a href="a00365.html#a05c9628f9163895a702ae714e9190be1">pcl_err_lastos</a></div><div class="ttdeci">uint32_t pcl_err_lastos(void)</div><div class="ttdef"><b>Definition:</b> <a href="a00365_source.html#l00035">err_lastos.c:35</a></div></div>
-<div class="ttc" id="aa01102_html_gacba4bcf84db2e3237d7274aa57a30253"><div class="ttname"><a href="a01102.html#gacba4bcf84db2e3237d7274aa57a30253">pcl_err_ctx</a></div><div class="ttdeci">PCL_EXPORT pcl_err_ctx_t * pcl_err_ctx(void)</div><div class="ttdoc">Gets the calling thread's error context.</div><div class="ttdef"><b>Definition:</b> <a href="a00350_source.html#l00045">err_ctx.c:45</a></div></div>
-<div class="ttc" id="aa01130_html_a99097cbbdd873a91579ae1e543195926"><div class="ttname"><a href="a01130.html#a99097cbbdd873a91579ae1e543195926">tag_pcl_err_ctx::oserr</a></div><div class="ttdeci">uint32_t oserr</div><div class="ttdoc">Platform-specific error code: Unix errno, Windows Error (ie: GetLastError, _dos_errno),...</div><div class="ttdef"><b>Definition:</b> <a href="a00041_source.html#l00086">errctx.h:86</a></div></div>
+<div class="ttc" id="aa01130_html"><div class="ttname"><a href="a01130.html">tag_pcl_err_trace</a></div><div class="ttdoc">Stack trace object implemented as a linked list.</div><div class="ttdef"><b>Definition:</b> <a href="a00044_source.html#l00046">errctx.h:47</a></div></div>
+<div class="ttc" id="aa01106_html_gacba4bcf84db2e3237d7274aa57a30253"><div class="ttname"><a href="a01106.html#gacba4bcf84db2e3237d7274aa57a30253">pcl_err_ctx</a></div><div class="ttdeci">PCL_EXPORT pcl_err_ctx_t * pcl_err_ctx(void)</div><div class="ttdoc">Gets the calling thread's error context.</div><div class="ttdef"><b>Definition:</b> <a href="a00353_source.html#l00045">err_ctx.c:45</a></div></div>
+<div class="ttc" id="aa01106_html_ga84bacea2f9a9e0defe3f8c8bf75db011"><div class="ttname"><a href="a01106.html#ga84bacea2f9a9e0defe3f8c8bf75db011">pcl_err_lastmsg</a></div><div class="ttdeci">char * pcl_err_lastmsg(void)</div><div class="ttdoc">Get the last error message, stack trace tail.</div><div class="ttdef"><b>Definition:</b> <a href="a00365_source.html#l00035">err_lastmsg.c:35</a></div></div>
+<div class="ttc" id="aa01134_html_af22b89a25236c26e197118ca1652019a"><div class="ttname"><a href="a01134.html#af22b89a25236c26e197118ca1652019a">tag_pcl_err_ctx::strace</a></div><div class="ttdeci">pcl_err_trace_t * strace</div><div class="ttdoc">Stack trace implemented as a linked list.</div><div class="ttdef"><b>Definition:</b> <a href="a00044_source.html#l00093">errctx.h:93</a></div></div>
+<div class="ttc" id="aa01134_html"><div class="ttname"><a href="a01134.html">tag_pcl_err_ctx</a></div><div class="ttdoc">Represents a PCL error context, with optional stack trace.</div><div class="ttdef"><b>Definition:</b> <a href="a00044_source.html#l00066">errctx.h:67</a></div></div>
+<div class="ttc" id="aa01130_html_a32d2f5216cddb59c7cc8fb2806a7e727"><div class="ttname"><a href="a01130.html#a32d2f5216cddb59c7cc8fb2806a7e727">tag_pcl_err_trace::msg</a></div><div class="ttdeci">char * msg</div><div class="ttdoc">optional user-defined message</div><div class="ttdef"><b>Definition:</b> <a href="a00044_source.html#l00055">errctx.h:55</a></div></div>
+<div class="ttc" id="aa01130_html_a365f8bd3193b20fc56c910edb668a93b"><div class="ttname"><a href="a01130.html#a365f8bd3193b20fc56c910edb668a93b">tag_pcl_err_trace::next</a></div><div class="ttdeci">pcl_err_trace_t * next</div><div class="ttdoc">next trace in stack trace or NULL to indicate the end.</div><div class="ttdef"><b>Definition:</b> <a href="a00044_source.html#l00049">errctx.h:49</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

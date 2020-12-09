@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;pcl/net.h Source File</title>
+<title>&#x202A;libpcl: &#x202A;pcl/log.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,10 +67,10 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">net.h</div>  </div>
+<div class="title">log.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="a00071.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
+<a href="a00071.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno"><a class="line" href="a00071.html#a5d480eda7e8dd10fbd479144d54e5483">    1</a></span>&#160; </div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">/*</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
@@ -102,99 +102,230 @@ $(function() {
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#ifndef LIBPCL_NET_H</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#define LIBPCL_NET_H</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#ifndef LIBPCL_LOG_H</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#define LIBPCL_LOG_H</span></div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00101.html">pcl/types.h</a>&gt;</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#ifdef PCL_UNIX</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">  #include &lt;arpa/inet.h&gt;</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">  #include &lt;ws2tcpip.h&gt;</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00101.html">pcl/time.h</a>&gt;</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00035.html">pcl/defs.h</a>&gt;</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment">/* Converts an IP string address to a binary internet address.  af can</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment"> * be AF_INET or AF_INET6.  This function is equivilant to inet_pton,</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment"> * which is not always available.  Returns 0 on success and</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment"> * -1 on error.  &#39;inaddr&#39; is expected to be sizeof(struct in_addr) if</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment"> * AF_INET is specified and sizeof(struct in6_addr) if AF_INET6 is specified.</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment"> * Supports AF_INET, AF_INET6.</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00071.html#a8594e0c91bf6918fbdaf685e387dbf75">pcl_net_ip2inet</a>(<span class="keywordtype">int</span> af, <span class="keyword">const</span> <span class="keywordtype">char</span> *ipstr, <span class="keywordtype">void</span> *inaddr);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="comment">/* Converts a binary inet addr (in_addr or in6_addr) to a string.  Same as</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment"> * inet_ntop, which is not always available. If af is AF_INET,</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment"> * &#39;inaddr&#39; is a struct in_addr, if AF_INET6 its a struct in6_addr.</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment"> * Returns NULL on error.  NOTE: this wraps pcl_net_addr2ip().</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment"> * Supports AF_INET, AF_INET6 and AF_UNIX.</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="comment">/* log severity levels */</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="a00071.html#a37ad27ba8a96431810049ca2006fd28b">   44</a></span>&#160;<span class="preprocessor">#define PCL_LOGLEV_DEBUG 0x000001u</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="a00071.html#a1d59bbc9a679d10b0282b1ecb2a3e62d">   45</a></span>&#160;<span class="preprocessor">#define PCL_LOGLEV_INFO  0x000002u</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="a00071.html#a79a4b6cbca41ed35598f2ec8b0c40b57">   46</a></span>&#160;<span class="preprocessor">#define PCL_LOGLEV_WARN  0x000004u</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="a00071.html#a0c31c0d908ecbd176b028695ad240229">   47</a></span>&#160;<span class="preprocessor">#define PCL_LOGLEV_ERROR 0x000008u</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="a00071.html#a51d77eebd993b1baaf72181bde566bbc">   48</a></span>&#160;<span class="preprocessor">#define PCL_LOGLEV_FATAL 0x000010u</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="a00071.html#a8cb9e3fa32954a35d5585617381f4ec6">   49</a></span>&#160;<span class="preprocessor">#define PCL_LOGLEV_PANIC 0x000020u</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment">/* trace bits for each level */</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="a00071.html#aaefc1ce65391e106804eefcc0c94c9f1">   52</a></span>&#160;<span class="preprocessor">#define PCL_LOGTRC_DEBUG 0x000100u</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="a00071.html#aaabb1029c2879d6235ea4fead0e6351f">   53</a></span>&#160;<span class="preprocessor">#define PCL_LOGTRC_INFO  0x000200u</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="a00071.html#a0d4461f0f011f2bf982360ed2cd32c41">   54</a></span>&#160;<span class="preprocessor">#define PCL_LOGTRC_WARN  0x000400u</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="a00071.html#a9a5d40df34ef1e499964b5923162467a">   55</a></span>&#160;<span class="preprocessor">#define PCL_LOGTRC_ERROR 0x000800u</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="a00071.html#a2f1907a53e8160a644aaa6b2a2402441">   56</a></span>&#160;<span class="preprocessor">#define PCL_LOGTRC_FATAL 0x001000u</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="a00071.html#a25b1436e42b799f7c89914f789b5fe38">   57</a></span>&#160;<span class="preprocessor">#define PCL_LOGTRC_PANIC 0x002000u</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment">/* display UTC time (defaults to localtime). bitwise OR in with</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment"> * pcl_log_event_t.level.</span></div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;PCL_EXPORT <span class="keywordtype">char</span> *<a class="code" href="a00071.html#ac2e07d0f0d1a97a6ffb799741ccb09d3">pcl_net_inet2ip</a>(<span class="keywordtype">int</span> af, <span class="keyword">const</span> <span class="keywordtype">void</span> *inaddr, <span class="keywordtype">char</span> *ipbuf, <span class="keywordtype">size_t</span> len);</div>
+<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="a00071.html#a827623fde629d60b0dabcbf85c6060d6">   62</a></span>&#160;<span class="preprocessor">#define PCL_LOGOPT_UTC 0x010000u</span></div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="comment">/* Converts an IP or hostname to a binary socket address.  It is</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment"> * recommended that if &#39;sa&#39; is not NULL, is should be wide enough for an</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment"> * IPv6 sockaddr_in6 or a AF_UNIX path. NOTE: sa can be NULL, which will just</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment"> * verify the host. Returns zero on success and -1 on error.</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment"> * Supports AF_INET, AF_INET6 and AF_UNIX.</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00071.html#a0db0633eb9d33e95c85b6e77082e5977">pcl_net_host2addr</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *host, <span class="keyword">struct</span> sockaddr *sa);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="comment">/* Converts a sockaddr to its string representation and stores the</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="comment"> * result at the address pointed to by ipbuf, which is len bytes</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="comment"> * wide.  Returns a pointer to ipbuf on success and NULL on error.</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="comment"> * Supports AF_INET, AF_INET6 and AF_UNIX.</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;PCL_EXPORT <span class="keywordtype">char</span> *<a class="code" href="a00071.html#a3a89fff841a4a80f3463d4e0c5a01d34">pcl_net_addr2ip</a>(<span class="keyword">struct</span> sockaddr *sa, <span class="keywordtype">char</span> *ipbuf, <span class="keywordtype">size_t</span> len);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="comment">/* Convert an AddrInfo (AI) error code to an PCL code */</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00071.html#a50b8574eff9768351e9d99282d65dda3">pcl_net_ai2pcl</a>(<span class="keywordtype">int</span> ai_retval);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="comment">/* Convert a DNS resolution error to an PCL error code */</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00071.html#ab1d75e16b7dbd947318dffbcc27a6022">pcl_net_dns2pcl</a>(<span class="keywordtype">int</span> err);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="comment">/* performs reverse DNS on the give IPv4 or IPv6 address.  The resulting</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="comment"> * hostname is written to host, no more than len bytes will be written.</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="comment"> * return 0 on success and -1 on error, check pcl_errno.</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00071.html#a4888f86383ed6c71364fab38dfb3c151">pcl_net_reverse</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *ipaddr, <span class="keywordtype">char</span> *host, <span class="keywordtype">size_t</span> len);</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="comment">/* Resolves the given hostname to a list of IP addresses, IPv4/IPv6.</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="comment"> * The return is a vector of char**, use pcl_vector_getptr().</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;PCL_EXPORT <a class="code" href="a01182.html">pcl_vector_t</a> *<a class="code" href="a00071.html#a658e741b7671368eddb06e170a49d066">ipcl_net_resolve</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *host);</div>
+<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="a00071.html#a93869685481e7f526691e0f1d538c678">   64</a></span>&#160;<span class="preprocessor">#define PCL_LOG_MAXLEVELSTR 48u</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="a00071.html#a7d206f2411b9b39eaa1c543743af1bce">   65</a></span>&#160;<span class="preprocessor">#define PCL_LOGLEV_MASK  0x00ffu </span><span class="comment">/* log level mask */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="a00071.html#a78d2a59658b42e67c9ffa26040ce0928">   66</a></span>&#160;<span class="preprocessor">#define PCL_LOGTRC_MASK  0xff00u </span><span class="comment">/* log trace mask */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="a00071.html#aa6d69da076022d958d58df9580506334">   67</a></span>&#160;<span class="preprocessor">#define PCL_LOGTRC_LSH   8u    </span><span class="comment">/* no. of bits to left shift level to get trace bit */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment">/* Convert a _level bit to a trace bit */</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="a00071.html#aa6857f32d86193a66d24cfe11e33615d">   70</a></span>&#160;<span class="preprocessor">#define PCL_LOGLEV_TOTRACE(_level) \</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor">  (((_level) &amp; (unsigned)PCL_LOGLEV_MASK) &lt;&lt; (unsigned)PCL_LOGTRC_LSH)</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="comment">/* Test if a _level bit has it&#39;s trace bit set (enabled/on) */</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="a00071.html#a329a232ff06eb133f036b0202751e81a">   74</a></span>&#160;<span class="preprocessor">#define PCL_LOGLEV_HASTRACE(_level) ((_level) &amp; PCL_LOGLEV_TOTRACE(_level))</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment">/* time format used by the PCL logging system. classic syslog/rsyslog format</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="comment"> * This can be redefined and set to any valid `strftime(3)` format. The</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="comment"> * resulting format is limited to 128 characters.</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor">#ifndef PCL_LOG_TIMEFORMAT</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="a00071.html#afbeba3b9b377061663880d159c1cfc6c">   81</a></span>&#160;<span class="preprocessor"># define PCL_LOG_TIMEFORMAT &quot;%b %d %H:%M:%S&quot;</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="comment">/* suggested fopen mode to use when opening a PCL log file */</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno"><a class="line" href="a00071.html#a85f26c260517603fa2d0374b513dd4a2">   85</a></span>&#160;<span class="preprocessor">#define PCL_LOG_OPEN_MODE _P(&quot;a+b&quot;)</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="comment">/* This structure represents a PCL log event. It must be filled out and passed</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="comment"> * to either call pcl_log_event or pcl_log_vevent.</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="a01150.html">tag_pcl_log_event</a> <a class="code" href="a01150.html">pcl_log_event_t</a>;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
+<div class="line"><a name="l00092"></a><span class="lineno"><a class="line" href="a01150.html">   92</a></span>&#160;<span class="keyword">struct </span><a class="code" href="a01150.html">tag_pcl_log_event</a></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;{</div>
+<div class="line"><a name="l00094"></a><span class="lineno"><a class="line" href="a01150.html#a867a8cb54d3231f2acbfaa44fb31d6c4">   94</a></span>&#160;  FILE *<a class="code" href="a01150.html#a867a8cb54d3231f2acbfaa44fb31d6c4">stream</a>;          <span class="comment">/* application stream (standard log file), can be NULL */</span></div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="comment">/* Retrieves the DNS TXT record for the given host, or NULL on error.</span></div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="comment"> * The vector elements represent each text item associated with the</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="comment"> * TXT resource record. Returns a vector of char**, use pcl_vector_getptr().</span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;PCL_EXPORT <a class="code" href="a01182.html">pcl_vector_t</a> *<a class="code" href="a00071.html#aa06b75987aa53e5dc52b322cb737461f">pcl_net_dnstxtrec</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *host);</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="comment">/* Gets the length in bytes of the given socket address.  Returns zero</span></div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="comment"> * if addr is NULL or the address family is not supported.  Supported</span></div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="comment"> * families are: AF_INET, AF_INET6 and AF_UNIX (non-windows systems only).</span></div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;PCL_EXPORT socklen_t <a class="code" href="a00071.html#a4cc1493e1d445d006db62cae4904979f">pcl_net_addrlen</a>(<span class="keyword">const</span> <span class="keyword">struct</span> sockaddr *addr);</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;}</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;  <span class="comment">/* EVENT LOCATION */</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno"><a class="line" href="a01150.html#af0baa3ccdd9d2a6adf03b72e2bea5789">   97</a></span>&#160;  <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="a01150.html#af0baa3ccdd9d2a6adf03b72e2bea5789">file</a>;      <span class="comment">/* file where log event was created */</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno"><a class="line" href="a01150.html#afc4e949c7b7d0ab565ecfb62c3380171">   98</a></span>&#160;  <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="a01150.html#afc4e949c7b7d0ab565ecfb62c3380171">func</a>;      <span class="comment">/* function where log event was created */</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno"><a class="line" href="a01150.html#a41ebd28ef1d7c6ade45642cb6acc1039">   99</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="a01150.html#a41ebd28ef1d7c6ade45642cb6acc1039">line</a>;              <span class="comment">/* line number where log event was created */</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;  <span class="comment">/* EVENT DETAILS */</span></div>
+<div class="line"><a name="l00102"></a><span class="lineno"><a class="line" href="a01150.html#a18b79ec3119b764f72fce15b9429715c">  102</a></span>&#160;  <a class="code" href="a01174.html">pcl_time_t</a> <a class="code" href="a01150.html#a18b79ec3119b764f72fce15b9429715c">when</a>;       <span class="comment">/* when the event occurred */</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno"><a class="line" href="a01150.html#a6a330c3b2adf87bfa27e9a9450d8bc40">  103</a></span>&#160;  uint32_t <a class="code" href="a01150.html#a6a330c3b2adf87bfa27e9a9450d8bc40">level</a>;        <span class="comment">/* log level OR&#39;d with possible log trace bit */</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno"><a class="line" href="a01150.html#a221bc94f5e121329a736bf8d4483cb0c">  104</a></span>&#160;  <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="a01150.html#a221bc94f5e121329a736bf8d4483cb0c">facility</a>;  <span class="comment">/* name for the app/thread/etc... that is logging the event, can be NULL */</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno"><a class="line" href="a01150.html#a3ccecb8b287b3572632cd53233ff8b44">  105</a></span>&#160;  <a class="code" href="a01134.html">pcl_err_ctx_t</a> *<a class="code" href="a01150.html#a3ccecb8b287b3572632cd53233ff8b44">ctx</a>;    <span class="comment">/* optional context, if NULL the current thread&#39;s context is used. */</span></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;  <span class="comment">/* EXIT CONFIG: like panic or even fatal */</span></div>
+<div class="line"><a name="l00108"></a><span class="lineno"><a class="line" href="a01150.html#ab1729158be557ef60548f7b7575ea4dd">  108</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="a01150.html#ab1729158be557ef60548f7b7575ea4dd">exit_code</a>;         <span class="comment">/* exit code to use by exit_handler or by logging system if</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="comment">                            exit_handler is NULL or doesn&#39;t actually exit. */</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno"><a class="line" href="a01150.html#a374a8b67f3133d49c54e401d3933fe80">  110</a></span>&#160;  <span class="keywordtype">void</span> *<a class="code" href="a01150.html#a374a8b67f3133d49c54e401d3933fe80">exit_context</a>;    <span class="comment">/* user context pointer passed to optional &#39;exit_handler&#39;. */</span></div>
+<div class="line"><a name="l00111"></a><span class="lineno"><a class="line" href="a01150.html#a91cc79b0d0c45f78adbc4ad852ef2745">  111</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="a01150.html#a91cc79b0d0c45f78adbc4ad852ef2745">exit_levels</a>;       <span class="comment">/* bit mask of levels that signify an app exit condition,</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="comment">                            where the PCL logging system calls exit_handler or exit(exit_code) if</span></div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="comment">                            no exit_handler is present and exit_levels is non-zero.</span></div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="comment">                            If this value is zero, the PCL logging will never exit</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="comment">                            on it&#39;s own or call the exit_handler. */</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno"><a class="line" href="a01150.html#ad3af6a32b5c322268e7f5e4946fa842b">  116</a></span>&#160;  void (*<a class="code" href="a01150.html#ad3af6a32b5c322268e7f5e4946fa842b">exit_handler</a>)(  <span class="comment">/* If exit level is detected, use this callback to exit, */</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <a class="code" href="a01150.html">pcl_log_event_t</a> *e,     <span class="comment">/* otherwise PCL logging system will call exit(exit_code)) if */</span></div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keywordtype">void</span> *context);         <span class="comment">/* exit_levels match the current event level. */</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;};</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160; </div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="comment">/* Placeholder PCL_LOG_EVENT macro implementation function. Any production app</span></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="comment"> * should redefine PCL_LOG_EVENT macro to call an app-specific function.</span></div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;PCL_EXPORT <span class="keywordtype">int</span></div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<a class="code" href="a00071.html#aac4791890f8ebd7b84c93b1fb1b60dfe">pcl_log_event_default</a>(<a class="code" href="a00035.html#acaae4a70e5707a94c3ea8e9da14fcab6">PCL_LOCATION_PARAMS</a>, uint32_t level, <span class="keyword">const</span> <span class="keywordtype">char</span> *message, ...);</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160; </div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="comment">/* Returns the number of bytes written to all possible streams. For a</span></div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="comment"> * breakdown of bytes written to each possible stream, see the</span></div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="comment"> * pcl_log_event_t structure. On error, -1 is returned.</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;PCL_EXPORT <span class="keywordtype">int</span></div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<a class="code" href="a00071.html#a6b03cb196603a30a2f30a061477bce3d">pcl_log_event</a>(<a class="code" href="a01150.html">pcl_log_event_t</a> *e, <span class="keyword">const</span> <span class="keywordtype">char</span> *message, ...);</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160; </div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="comment">/* Returns the number of bytes written to all possible streams. For a</span></div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;<span class="comment"> * breakdown of bytes written to each possible stream, see the</span></div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<span class="comment"> * pcl_log_event_t structure. On error, -1 is returned.</span></div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;PCL_EXPORT <span class="keywordtype">int</span></div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;<a class="code" href="a00071.html#a5bee4dfdf9867893b60c3661a206def2">pcl_log_vevent</a>(<a class="code" href="a01150.html">pcl_log_event_t</a> *e, <span class="keyword">const</span> <span class="keywordtype">char</span> *message, va_list ap);</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160; </div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;<span class="comment">/* LOG_EVENT macros, can be disabled via PCL_NO_LOG_EVENT_MACROS */</span></div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;<span class="preprocessor">#ifndef PCL_NO_LOG_EVENT_MACROS</span></div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160; </div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="comment">/* Log an event. This macro is designed to be undef&#39;d and redefined to an app-specific</span></div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<span class="comment"> * log event function. This is really just a placeholder. See pcl/src/log.c</span></div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<span class="comment"> * for an example of implementing the PCL_LOG_EVENT macro function properly.</span></div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00148"></a><span class="lineno"><a class="line" href="a00071.html#a242aa1ae7d637a173ab7e5e2ebb5d00b">  148</a></span>&#160;<span class="preprocessor">#define PCL_LOG_EVENT(level, msg, ...) \</span></div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;<span class="preprocessor">  pcl_log_event_default(PCL_LOCATION_ARGS, (uint32_t)(level), msg, __VA_ARGS__)</span></div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160; </div>
+<div class="line"><a name="l00151"></a><span class="lineno"><a class="line" href="a00071.html#a4be3aaf377633ac9b7adf40227d8a0ea">  151</a></span>&#160;<span class="preprocessor">#define LOG_PANIC(msg, ...)       PCL_LOG_EVENT(PCL_LOGLEV_PANIC, msg, __VA_ARGS__)</span></div>
+<div class="line"><a name="l00152"></a><span class="lineno"><a class="line" href="a00071.html#aa6bb99023313602f9065f1ee56f2b8e0">  152</a></span>&#160;<span class="preprocessor">#define LOG_FATAL(msg, ...)       PCL_LOG_EVENT(PCL_LOGLEV_FATAL, msg, __VA_ARGS__)</span></div>
+<div class="line"><a name="l00153"></a><span class="lineno"><a class="line" href="a00071.html#ad9c73bc78b8b2564e47a037b5a6ca226">  153</a></span>&#160;<span class="preprocessor">#define LOG_ERROR(msg, ...)       PCL_LOG_EVENT(PCL_LOGLEV_ERROR, msg, __VA_ARGS__)</span></div>
+<div class="line"><a name="l00154"></a><span class="lineno"><a class="line" href="a00071.html#a3dd84b7daa8b86c1dda5d0c9b6e6dc11">  154</a></span>&#160;<span class="preprocessor">#define LOG_WARN(msg, ...)        PCL_LOG_EVENT(PCL_LOGLEV_WARN, msg, __VA_ARGS__)</span></div>
+<div class="line"><a name="l00155"></a><span class="lineno"><a class="line" href="a00071.html#a3a355e1f39a113ebe9476236e571e5d8">  155</a></span>&#160;<span class="preprocessor">#define LOG_INFO(msg, ...)        PCL_LOG_EVENT(PCL_LOGLEV_INFO, msg, __VA_ARGS__)</span></div>
+<div class="line"><a name="l00156"></a><span class="lineno"><a class="line" href="a00071.html#a5c01521cd0033d3db4fb914d19865125">  156</a></span>&#160;<span class="preprocessor">#define LOG_DEBUG(msg, ...)       PCL_LOG_EVENT(PCL_LOGLEV_DEBUG, msg, __VA_ARGS__)</span></div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160; </div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="comment">/* Set an PCL error and log an event */</span></div>
+<div class="line"><a name="l00159"></a><span class="lineno"><a class="line" href="a00071.html#ad944952d259e2a6303518d10d9fffb87">  159</a></span>&#160;<span class="preprocessor">#define PCL_LOG_ERR(_e, _l, _m, ...) do{ \</span></div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;<span class="preprocessor">  SETERR(_e); \</span></div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;<span class="preprocessor">  PCL_LOG_EVENT(_l,_m,__VA_ARGS__); \</span></div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;<span class="preprocessor">}while(0)</span></div>
+<div class="line"><a name="l00163"></a><span class="lineno"><a class="line" href="a00071.html#a9b9026cd78d2011740ae7be960aca2ca">  163</a></span>&#160;<span class="preprocessor">#define LOG_PANIC_ERR(_e, _m, ...)  PCL_LOG_ERR(_e,PCL_LOGLEV_PANIC,_m,__VA_ARGS__)</span></div>
+<div class="line"><a name="l00164"></a><span class="lineno"><a class="line" href="a00071.html#a8dba3e56450fe7a12d7090d0a9331692">  164</a></span>&#160;<span class="preprocessor">#define LOG_FATAL_ERR(_e, _m, ...)  PCL_LOG_ERR(_e,PCL_LOGLEV_FATAL,_m,__VA_ARGS__)</span></div>
+<div class="line"><a name="l00165"></a><span class="lineno"><a class="line" href="a00071.html#ac347927dbf7b7a30f3279770b95eaaf2">  165</a></span>&#160;<span class="preprocessor">#define LOG_ERROR_ERR(_e, _m, ...)  PCL_LOG_ERR(_e,PCL_LOGLEV_ERROR,_m,__VA_ARGS__)</span></div>
+<div class="line"><a name="l00166"></a><span class="lineno"><a class="line" href="a00071.html#aaa209cc6a07ba39e199930c773010331">  166</a></span>&#160;<span class="preprocessor">#define LOG_WARN_ERR(_e, _m, ...)   PCL_LOG_ERR(_e,PCL_LOGLEV_WARN,_m,__VA_ARGS__)</span></div>
+<div class="line"><a name="l00167"></a><span class="lineno"><a class="line" href="a00071.html#a081f0488659042bf90a917609dc29a04">  167</a></span>&#160;<span class="preprocessor">#define LOG_INFO_ERR(_e, _m, ...)   PCL_LOG_ERR(_e,PCL_LOGLEV_INFO,_m,__VA_ARGS__)</span></div>
+<div class="line"><a name="l00168"></a><span class="lineno"><a class="line" href="a00071.html#af937f7f57d6f91e557b50243c9729012">  168</a></span>&#160;<span class="preprocessor">#define LOG_DEBUG_ERR(_e, _m, ...)  PCL_LOG_ERR(_e,PCL_LOGLEV_DEBUG,_m,__VA_ARGS__)</span></div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160; </div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;<span class="comment">/* Set an OS error and log an event */</span></div>
+<div class="line"><a name="l00171"></a><span class="lineno"><a class="line" href="a00071.html#a0ae08a792decbbebf327aaf71e90892a">  171</a></span>&#160;<span class="preprocessor">#define PCL_LOG_OS(_o, _l, _m, ...) do{ \</span></div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="preprocessor">  SETOSERR(_o); \</span></div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;<span class="preprocessor">  PCL_LOG_EVENT(_l,_m,__VAR_ARGS__); \</span></div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="preprocessor">}while(0)</span></div>
+<div class="line"><a name="l00175"></a><span class="lineno"><a class="line" href="a00071.html#a06297d2478e060f829f3df764ebe70b9">  175</a></span>&#160;<span class="preprocessor">#define LOG_PANIC_OS(_o, _m, ...)   PCL_LOG_OS(_o,PCL_LOGLEV_PANIC,_m,__VA_ARGS__)</span></div>
+<div class="line"><a name="l00176"></a><span class="lineno"><a class="line" href="a00071.html#a98e96ed6547d2bad4b78c570faf8e9ce">  176</a></span>&#160;<span class="preprocessor">#define LOG_FATAL_OS(_o, _m, ...)   PCL_LOG_OS(_o,PCL_LOGLEV_FATAL,_m,__VA_ARGS__)</span></div>
+<div class="line"><a name="l00177"></a><span class="lineno"><a class="line" href="a00071.html#ab2c57a5bafa7c917b2cc939d0df69fb1">  177</a></span>&#160;<span class="preprocessor">#define LOG_ERROR_OS(_o, _m, ...)   PCL_LOG_OS(_o,PCL_LOGLEV_ERROR,_m,__VA_ARGS__)</span></div>
+<div class="line"><a name="l00178"></a><span class="lineno"><a class="line" href="a00071.html#a63604550e943c93808242b67b5558b39">  178</a></span>&#160;<span class="preprocessor">#define LOG_WARN_OS(_o, _m, ...)    PCL_LOG_OS(_o,PCL_LOGLEV_WARN,_m,__VA_ARGS__)</span></div>
+<div class="line"><a name="l00179"></a><span class="lineno"><a class="line" href="a00071.html#ad1695c4c950eebc79aea1a336fbde75c">  179</a></span>&#160;<span class="preprocessor">#define LOG_INFO_OS(_o, _m, ...)    PCL_LOG_OS(_o,PCL_LOGLEV_INFO,_m,__VA_ARGS__)</span></div>
+<div class="line"><a name="l00180"></a><span class="lineno"><a class="line" href="a00071.html#abe836e26e3d520fbb8d1f53ed735705c">  180</a></span>&#160;<span class="preprocessor">#define LOG_DEBUG_OS(_o, _m, ...)   PCL_LOG_OS(_o,PCL_LOGLEV_DEBUG,_m,__VA_ARGS__)</span></div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160; </div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;<span class="comment">/* Set the last OS error and log an event */</span></div>
+<div class="line"><a name="l00183"></a><span class="lineno"><a class="line" href="a00071.html#a9bb77c96b0bcd9364f453ef5d4dd2ca0">  183</a></span>&#160;<span class="preprocessor">#define PCL_LOG_LAST(_l, _m, ...) do{ \</span></div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;<span class="preprocessor">  SETLASTERR(); \</span></div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;<span class="preprocessor">  PCL_LOG_EVENT(_l,_m,__VA_ARGS__); \</span></div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;<span class="preprocessor">}while(0)</span></div>
+<div class="line"><a name="l00187"></a><span class="lineno"><a class="line" href="a00071.html#a090f92af23f5c21226559c9ae98bb061">  187</a></span>&#160;<span class="preprocessor">#define LOG_PANIC_LAST(_m, ...)    PCL_LOG_LAST(PCL_LOGLEV_PANIC,_m,__VA_ARGS__)</span></div>
+<div class="line"><a name="l00188"></a><span class="lineno"><a class="line" href="a00071.html#aa2948d397ca46eca96c74b7258ba65df">  188</a></span>&#160;<span class="preprocessor">#define LOG_FATAL_LAST(_m, ...)    PCL_LOG_LAST(PCL_LOGLEV_FATAL,_m,__VA_ARGS__)</span></div>
+<div class="line"><a name="l00189"></a><span class="lineno"><a class="line" href="a00071.html#aa326dcb3908571f5bad6d09181aaf299">  189</a></span>&#160;<span class="preprocessor">#define LOG_ERROR_LAST(_m, ...)    PCL_LOG_LAST(PCL_LOGLEV_ERROR,_m,__VA_ARGS__)</span></div>
+<div class="line"><a name="l00190"></a><span class="lineno"><a class="line" href="a00071.html#aa8f4134bd080f721a6ca7da56601a458">  190</a></span>&#160;<span class="preprocessor">#define LOG_WARN_LAST(_m, ...)     PCL_LOG_LAST(PCL_LOGLEV_WARN,_m,__VA_ARGS__)</span></div>
+<div class="line"><a name="l00191"></a><span class="lineno"><a class="line" href="a00071.html#a95023a484d341ac45b2eb2883a3a3bf5">  191</a></span>&#160;<span class="preprocessor">#define LOG_INFO_LAST(_m, ...)     PCL_LOG_LAST(PCL_LOGLEV_INFO,_m,__VA_ARGS__)</span></div>
+<div class="line"><a name="l00192"></a><span class="lineno"><a class="line" href="a00071.html#a63eaaa24bacda50882bd9fe21ad8ec48">  192</a></span>&#160;<span class="preprocessor">#define LOG_DEBUG_LAST(_m, ...)    PCL_LOG_LAST(PCL_LOGLEV_DEBUG,_m,__VA_ARGS__)</span></div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160; </div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* !PCL_NO_LOG_EVENT_MACROS */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;<span class="comment">/** convert an PCL_LOGLEV_xxx bit value to a string</span></div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;<span class="comment"> * @param[in] level log level</span></div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;<span class="comment"> * @return the level name as a string or &quot;&quot;</span></div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;PCL_INLINE <span class="keyword">const</span> <span class="keywordtype">char</span> *</div>
+<div class="line"><a name="l00201"></a><span class="lineno"><a class="line" href="a00071.html#a483c4806effa440fd47b7c991a6ffb7e">  201</a></span>&#160;<a class="code" href="a00071.html#a483c4806effa440fd47b7c991a6ffb7e">pcl_log_strlevel</a>(uint32_t level)</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;{</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;  <span class="keywordflow">switch</span>(level &amp; <a class="code" href="a00071.html#a7d206f2411b9b39eaa1c543743af1bce">PCL_LOGLEV_MASK</a>)</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;  {</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="a00071.html#a8cb9e3fa32954a35d5585617381f4ec6">PCL_LOGLEV_PANIC</a>:</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;      <span class="keywordflow">return</span> <span class="stringliteral">&quot;panic&quot;</span>;</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="a00071.html#a51d77eebd993b1baaf72181bde566bbc">PCL_LOGLEV_FATAL</a>:</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;      <span class="keywordflow">return</span> <span class="stringliteral">&quot;fatal&quot;</span>;</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="a00071.html#a0c31c0d908ecbd176b028695ad240229">PCL_LOGLEV_ERROR</a>:</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;      <span class="keywordflow">return</span> <span class="stringliteral">&quot;error&quot;</span>;</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="a00071.html#a79a4b6cbca41ed35598f2ec8b0c40b57">PCL_LOGLEV_WARN</a>:</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;      <span class="keywordflow">return</span> <span class="stringliteral">&quot;warn&quot;</span>;</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="a00071.html#a1d59bbc9a679d10b0282b1ecb2a3e62d">PCL_LOGLEV_INFO</a>:</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;      <span class="keywordflow">return</span> <span class="stringliteral">&quot;info&quot;</span>;</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="a00071.html#a37ad27ba8a96431810049ca2006fd28b">PCL_LOGLEV_DEBUG</a>:</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;      <span class="keywordflow">return</span> <span class="stringliteral">&quot;debug&quot;</span>;</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;    <span class="keywordflow">default</span>:</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;      <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;  }</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;}</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160; </div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;}</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160; </div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* !LIBPCL_LOG_H */</span><span class="preprocessor"></span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00101_html"><div class="ttname"><a href="a00101.html">types.h</a></div></div>
-<div class="ttc" id="aa00071_html_ac2e07d0f0d1a97a6ffb799741ccb09d3"><div class="ttname"><a href="a00071.html#ac2e07d0f0d1a97a6ffb799741ccb09d3">pcl_net_inet2ip</a></div><div class="ttdeci">PCL_EXPORT char * pcl_net_inet2ip(int af, const void *inaddr, char *ipbuf, size_t len)</div><div class="ttdef"><b>Definition:</b> <a href="a00617_source.html#l00035">net_inet2ip.c:35</a></div></div>
-<div class="ttc" id="aa00071_html_a8594e0c91bf6918fbdaf685e387dbf75"><div class="ttname"><a href="a00071.html#a8594e0c91bf6918fbdaf685e387dbf75">pcl_net_ip2inet</a></div><div class="ttdeci">PCL_EXPORT int pcl_net_ip2inet(int af, const char *ipstr, void *inaddr)</div><div class="ttdef"><b>Definition:</b> <a href="a00620_source.html#l00036">net_ip2inet.c:36</a></div></div>
-<div class="ttc" id="aa00071_html_a4cc1493e1d445d006db62cae4904979f"><div class="ttname"><a href="a00071.html#a4cc1493e1d445d006db62cae4904979f">pcl_net_addrlen</a></div><div class="ttdeci">PCL_EXPORT socklen_t pcl_net_addrlen(const struct sockaddr *addr)</div><div class="ttdef"><b>Definition:</b> <a href="a00602_source.html#l00041">net_addrlen.c:41</a></div></div>
-<div class="ttc" id="aa00071_html_a658e741b7671368eddb06e170a49d066"><div class="ttname"><a href="a00071.html#a658e741b7671368eddb06e170a49d066">ipcl_net_resolve</a></div><div class="ttdeci">PCL_EXPORT pcl_vector_t * ipcl_net_resolve(const char *host)</div><div class="ttdef"><b>Definition:</b> <a href="a00623_source.html#l00037">net_resolve.c:37</a></div></div>
-<div class="ttc" id="aa00071_html_a4888f86383ed6c71364fab38dfb3c151"><div class="ttname"><a href="a00071.html#a4888f86383ed6c71364fab38dfb3c151">pcl_net_reverse</a></div><div class="ttdeci">PCL_EXPORT int pcl_net_reverse(const char *ipaddr, char *host, size_t len)</div><div class="ttdef"><b>Definition:</b> <a href="a00626_source.html#l00035">net_reverse.c:35</a></div></div>
-<div class="ttc" id="aa00071_html_a0db0633eb9d33e95c85b6e77082e5977"><div class="ttname"><a href="a00071.html#a0db0633eb9d33e95c85b6e77082e5977">pcl_net_host2addr</a></div><div class="ttdeci">PCL_EXPORT int pcl_net_host2addr(const char *host, struct sockaddr *sa)</div><div class="ttdef"><b>Definition:</b> <a href="a00614_source.html#l00043">net_host2addr.c:43</a></div></div>
-<div class="ttc" id="aa00071_html_a50b8574eff9768351e9d99282d65dda3"><div class="ttname"><a href="a00071.html#a50b8574eff9768351e9d99282d65dda3">pcl_net_ai2pcl</a></div><div class="ttdeci">PCL_EXPORT int pcl_net_ai2pcl(int ai_retval)</div><div class="ttdef"><b>Definition:</b> <a href="a00605_source.html#l00035">net_ai2pcl.c:35</a></div></div>
-<div class="ttc" id="aa00071_html_aa06b75987aa53e5dc52b322cb737461f"><div class="ttname"><a href="a00071.html#aa06b75987aa53e5dc52b322cb737461f">pcl_net_dnstxtrec</a></div><div class="ttdeci">PCL_EXPORT pcl_vector_t * pcl_net_dnstxtrec(const char *host)</div><div class="ttdef"><b>Definition:</b> <a href="a00611_source.html#l00049">net_dnstxtrec.c:49</a></div></div>
-<div class="ttc" id="aa00071_html_ab1d75e16b7dbd947318dffbcc27a6022"><div class="ttname"><a href="a00071.html#ab1d75e16b7dbd947318dffbcc27a6022">pcl_net_dns2pcl</a></div><div class="ttdeci">PCL_EXPORT int pcl_net_dns2pcl(int err)</div><div class="ttdef"><b>Definition:</b> <a href="a00608_source.html#l00035">net_dns2pcl.c:35</a></div></div>
-<div class="ttc" id="aa00071_html_a3a89fff841a4a80f3463d4e0c5a01d34"><div class="ttname"><a href="a00071.html#a3a89fff841a4a80f3463d4e0c5a01d34">pcl_net_addr2ip</a></div><div class="ttdeci">PCL_EXPORT char * pcl_net_addr2ip(struct sockaddr *sa, char *ipbuf, size_t len)</div><div class="ttdef"><b>Definition:</b> <a href="a00599_source.html#l00042">net_addr2ip.c:42</a></div></div>
-<div class="ttc" id="aa01182_html"><div class="ttname"><a href="a01182.html">tag_pcl_vector</a></div><div class="ttdoc">Vector object.</div><div class="ttdef"><b>Definition:</b> <a href="a00110_source.html#l00090">vector.h:91</a></div></div>
+<div class="ttc" id="aa00071_html_a1d59bbc9a679d10b0282b1ecb2a3e62d"><div class="ttname"><a href="a00071.html#a1d59bbc9a679d10b0282b1ecb2a3e62d">PCL_LOGLEV_INFO</a></div><div class="ttdeci">#define PCL_LOGLEV_INFO</div><div class="ttdef"><b>Definition:</b> <a href="a00071_source.html#l00045">log.h:45</a></div></div>
+<div class="ttc" id="aa00101_html"><div class="ttname"><a href="a00101.html">time.h</a></div></div>
+<div class="ttc" id="aa00071_html_a0c31c0d908ecbd176b028695ad240229"><div class="ttname"><a href="a00071.html#a0c31c0d908ecbd176b028695ad240229">PCL_LOGLEV_ERROR</a></div><div class="ttdeci">#define PCL_LOGLEV_ERROR</div><div class="ttdef"><b>Definition:</b> <a href="a00071_source.html#l00047">log.h:47</a></div></div>
+<div class="ttc" id="aa00035_html_acaae4a70e5707a94c3ea8e9da14fcab6"><div class="ttname"><a href="a00035.html#acaae4a70e5707a94c3ea8e9da14fcab6">PCL_LOCATION_PARAMS</a></div><div class="ttdeci">#define PCL_LOCATION_PARAMS</div><div class="ttdoc">PCL_LOCATION_PARAMS expands to a function/macro declaration's parameter list: ie.</div><div class="ttdef"><b>Definition:</b> <a href="a00035_source.html#l00097">defs.h:97</a></div></div>
+<div class="ttc" id="aa01174_html"><div class="ttname"><a href="a01174.html">tag_pcl_time</a></div><div class="ttdef"><b>Definition:</b> <a href="a00101_source.html#l00057">time.h:58</a></div></div>
+<div class="ttc" id="aa01150_html_a221bc94f5e121329a736bf8d4483cb0c"><div class="ttname"><a href="a01150.html#a221bc94f5e121329a736bf8d4483cb0c">tag_pcl_log_event::facility</a></div><div class="ttdeci">const char * facility</div><div class="ttdef"><b>Definition:</b> <a href="a00071_source.html#l00104">log.h:104</a></div></div>
+<div class="ttc" id="aa00071_html_a5bee4dfdf9867893b60c3661a206def2"><div class="ttname"><a href="a00071.html#a5bee4dfdf9867893b60c3661a206def2">pcl_log_vevent</a></div><div class="ttdeci">PCL_EXPORT int pcl_log_vevent(pcl_log_event_t *e, const char *message, va_list ap)</div><div class="ttdef"><b>Definition:</b> <a href="a00596_source.html#l00043">log_vevent.c:43</a></div></div>
+<div class="ttc" id="aa00071_html_a7d206f2411b9b39eaa1c543743af1bce"><div class="ttname"><a href="a00071.html#a7d206f2411b9b39eaa1c543743af1bce">PCL_LOGLEV_MASK</a></div><div class="ttdeci">#define PCL_LOGLEV_MASK</div><div class="ttdef"><b>Definition:</b> <a href="a00071_source.html#l00065">log.h:65</a></div></div>
+<div class="ttc" id="aa01150_html_afc4e949c7b7d0ab565ecfb62c3380171"><div class="ttname"><a href="a01150.html#afc4e949c7b7d0ab565ecfb62c3380171">tag_pcl_log_event::func</a></div><div class="ttdeci">const char * func</div><div class="ttdef"><b>Definition:</b> <a href="a00071_source.html#l00098">log.h:98</a></div></div>
+<div class="ttc" id="aa01150_html_a18b79ec3119b764f72fce15b9429715c"><div class="ttname"><a href="a01150.html#a18b79ec3119b764f72fce15b9429715c">tag_pcl_log_event::when</a></div><div class="ttdeci">pcl_time_t when</div><div class="ttdef"><b>Definition:</b> <a href="a00071_source.html#l00102">log.h:102</a></div></div>
+<div class="ttc" id="aa01150_html_ad3af6a32b5c322268e7f5e4946fa842b"><div class="ttname"><a href="a01150.html#ad3af6a32b5c322268e7f5e4946fa842b">tag_pcl_log_event::exit_handler</a></div><div class="ttdeci">void(* exit_handler)(pcl_log_event_t *e, void *context)</div><div class="ttdef"><b>Definition:</b> <a href="a00071_source.html#l00116">log.h:116</a></div></div>
+<div class="ttc" id="aa01134_html"><div class="ttname"><a href="a01134.html">tag_pcl_err_ctx</a></div><div class="ttdoc">Represents a PCL error context, with optional stack trace.</div><div class="ttdef"><b>Definition:</b> <a href="a00044_source.html#l00066">errctx.h:67</a></div></div>
+<div class="ttc" id="aa00071_html_a79a4b6cbca41ed35598f2ec8b0c40b57"><div class="ttname"><a href="a00071.html#a79a4b6cbca41ed35598f2ec8b0c40b57">PCL_LOGLEV_WARN</a></div><div class="ttdeci">#define PCL_LOGLEV_WARN</div><div class="ttdef"><b>Definition:</b> <a href="a00071_source.html#l00046">log.h:46</a></div></div>
+<div class="ttc" id="aa01150_html_ab1729158be557ef60548f7b7575ea4dd"><div class="ttname"><a href="a01150.html#ab1729158be557ef60548f7b7575ea4dd">tag_pcl_log_event::exit_code</a></div><div class="ttdeci">int exit_code</div><div class="ttdef"><b>Definition:</b> <a href="a00071_source.html#l00108">log.h:108</a></div></div>
+<div class="ttc" id="aa01150_html_a91cc79b0d0c45f78adbc4ad852ef2745"><div class="ttname"><a href="a01150.html#a91cc79b0d0c45f78adbc4ad852ef2745">tag_pcl_log_event::exit_levels</a></div><div class="ttdeci">int exit_levels</div><div class="ttdef"><b>Definition:</b> <a href="a00071_source.html#l00111">log.h:111</a></div></div>
+<div class="ttc" id="aa01150_html_a3ccecb8b287b3572632cd53233ff8b44"><div class="ttname"><a href="a01150.html#a3ccecb8b287b3572632cd53233ff8b44">tag_pcl_log_event::ctx</a></div><div class="ttdeci">pcl_err_ctx_t * ctx</div><div class="ttdef"><b>Definition:</b> <a href="a00071_source.html#l00105">log.h:105</a></div></div>
+<div class="ttc" id="aa01150_html_af0baa3ccdd9d2a6adf03b72e2bea5789"><div class="ttname"><a href="a01150.html#af0baa3ccdd9d2a6adf03b72e2bea5789">tag_pcl_log_event::file</a></div><div class="ttdeci">const char * file</div><div class="ttdef"><b>Definition:</b> <a href="a00071_source.html#l00097">log.h:97</a></div></div>
+<div class="ttc" id="aa01150_html_a41ebd28ef1d7c6ade45642cb6acc1039"><div class="ttname"><a href="a01150.html#a41ebd28ef1d7c6ade45642cb6acc1039">tag_pcl_log_event::line</a></div><div class="ttdeci">int line</div><div class="ttdef"><b>Definition:</b> <a href="a00071_source.html#l00099">log.h:99</a></div></div>
+<div class="ttc" id="aa00035_html"><div class="ttname"><a href="a00035.html">defs.h</a></div></div>
+<div class="ttc" id="aa00071_html_a37ad27ba8a96431810049ca2006fd28b"><div class="ttname"><a href="a00071.html#a37ad27ba8a96431810049ca2006fd28b">PCL_LOGLEV_DEBUG</a></div><div class="ttdeci">#define PCL_LOGLEV_DEBUG</div><div class="ttdef"><b>Definition:</b> <a href="a00071_source.html#l00044">log.h:44</a></div></div>
+<div class="ttc" id="aa00071_html_a51d77eebd993b1baaf72181bde566bbc"><div class="ttname"><a href="a00071.html#a51d77eebd993b1baaf72181bde566bbc">PCL_LOGLEV_FATAL</a></div><div class="ttdeci">#define PCL_LOGLEV_FATAL</div><div class="ttdef"><b>Definition:</b> <a href="a00071_source.html#l00048">log.h:48</a></div></div>
+<div class="ttc" id="aa01150_html_a374a8b67f3133d49c54e401d3933fe80"><div class="ttname"><a href="a01150.html#a374a8b67f3133d49c54e401d3933fe80">tag_pcl_log_event::exit_context</a></div><div class="ttdeci">void * exit_context</div><div class="ttdef"><b>Definition:</b> <a href="a00071_source.html#l00110">log.h:110</a></div></div>
+<div class="ttc" id="aa00071_html_aac4791890f8ebd7b84c93b1fb1b60dfe"><div class="ttname"><a href="a00071.html#aac4791890f8ebd7b84c93b1fb1b60dfe">pcl_log_event_default</a></div><div class="ttdeci">PCL_EXPORT int pcl_log_event_default(PCL_LOCATION_PARAMS, uint32_t level, const char *message,...)</div><div class="ttdef"><b>Definition:</b> <a href="a00593_source.html#l00052">log_event_default.c:52</a></div></div>
+<div class="ttc" id="aa00071_html_a483c4806effa440fd47b7c991a6ffb7e"><div class="ttname"><a href="a00071.html#a483c4806effa440fd47b7c991a6ffb7e">pcl_log_strlevel</a></div><div class="ttdeci">PCL_INLINE const char * pcl_log_strlevel(uint32_t level)</div><div class="ttdoc">convert an PCL_LOGLEV_xxx bit value to a string</div><div class="ttdef"><b>Definition:</b> <a href="a00071_source.html#l00201">log.h:201</a></div></div>
+<div class="ttc" id="aa01150_html"><div class="ttname"><a href="a01150.html">tag_pcl_log_event</a></div><div class="ttdef"><b>Definition:</b> <a href="a00071_source.html#l00092">log.h:93</a></div></div>
+<div class="ttc" id="aa01150_html_a6a330c3b2adf87bfa27e9a9450d8bc40"><div class="ttname"><a href="a01150.html#a6a330c3b2adf87bfa27e9a9450d8bc40">tag_pcl_log_event::level</a></div><div class="ttdeci">uint32_t level</div><div class="ttdef"><b>Definition:</b> <a href="a00071_source.html#l00103">log.h:103</a></div></div>
+<div class="ttc" id="aa01150_html_a867a8cb54d3231f2acbfaa44fb31d6c4"><div class="ttname"><a href="a01150.html#a867a8cb54d3231f2acbfaa44fb31d6c4">tag_pcl_log_event::stream</a></div><div class="ttdeci">FILE * stream</div><div class="ttdef"><b>Definition:</b> <a href="a00071_source.html#l00094">log.h:94</a></div></div>
+<div class="ttc" id="aa00071_html_a8cb9e3fa32954a35d5585617381f4ec6"><div class="ttname"><a href="a00071.html#a8cb9e3fa32954a35d5585617381f4ec6">PCL_LOGLEV_PANIC</a></div><div class="ttdeci">#define PCL_LOGLEV_PANIC</div><div class="ttdef"><b>Definition:</b> <a href="a00071_source.html#l00049">log.h:49</a></div></div>
+<div class="ttc" id="aa00071_html_a6b03cb196603a30a2f30a061477bce3d"><div class="ttname"><a href="a00071.html#a6b03cb196603a30a2f30a061477bce3d">pcl_log_event</a></div><div class="ttdeci">PCL_EXPORT int pcl_log_event(pcl_log_event_t *e, const char *message,...)</div><div class="ttdef"><b>Definition:</b> <a href="a00590_source.html#l00035">log_event.c:35</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/buf/buf_putf.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/buf/buf_putchar.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,12 +67,12 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">buf_putf.c</div>  </div>
+<div class="title">buf_putchar.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00188.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (PCL)</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2003, 2005-2014, 2017-2020 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,22 +101,21 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00143.html">_buf.h</a>&quot;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00146.html">_buf.h</a>&quot;</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01099.html#ga2ba3b09bc046d8c5af670b8e73697087">   35</a></span>&#160;<a class="code" href="a01099.html#ga2ba3b09bc046d8c5af670b8e73697087">pcl_buf_putf</a>(<a class="code" href="a01118.html">pcl_buf_t</a> *b, <span class="keyword">const</span> <span class="keywordtype">void</span> *format, ...)</div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01102.html#ga48e936cee3defdf5fcb6e9904aff0d75">   35</a></span>&#160;<a class="code" href="a01102.html#ga48e936cee3defdf5fcb6e9904aff0d75">pcl_buf_putchar</a>(<a class="code" href="a01122.html">pcl_buf_t</a> *b, uint32_t c)</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  va_list ap;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  va_start(ap, format);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordtype">int</span> r = <a class="code" href="a01099.html#ga83ed6123d3f2421baca12357736191aa">pcl_buf_vputf</a>(b, format, ap);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  va_end(ap);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">return</span> r;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;}</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordflow">if</span>(b)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01102.html#gaa753cac8202932d5aefa84a136fe3d45">pcl_buf_put</a>(b, (<span class="keyword">const</span> <span class="keywordtype">void</span> *)&amp;c, 1);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01108.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a>();</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01099_html_ga2ba3b09bc046d8c5af670b8e73697087"><div class="ttname"><a href="a01099.html#ga2ba3b09bc046d8c5af670b8e73697087">pcl_buf_putf</a></div><div class="ttdeci">int pcl_buf_putf(pcl_buf_t *b, const void *format,...)</div><div class="ttdoc">Put a formatted string into a buffer.</div><div class="ttdef"><b>Definition:</b> <a href="a00188_source.html#l00035">buf_putf.c:35</a></div></div>
-<div class="ttc" id="aa01099_html_ga83ed6123d3f2421baca12357736191aa"><div class="ttname"><a href="a01099.html#ga83ed6123d3f2421baca12357736191aa">pcl_buf_vputf</a></div><div class="ttdeci">PCL_EXPORT int pcl_buf_vputf(pcl_buf_t *b, const void *format, va_list ap)</div><div class="ttdoc">Put a formatted string into a buffer.</div><div class="ttdef"><b>Definition:</b> <a href="a00209_source.html#l00037">buf_vputf.c:37</a></div></div>
-<div class="ttc" id="aa01118_html"><div class="ttname"><a href="a01118.html">tag_pcl_buf</a></div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00127">buf.h:128</a></div></div>
-<div class="ttc" id="aa00143_html"><div class="ttname"><a href="a00143.html">_buf.h</a></div></div>
+<div class="ttc" id="aa01108_html_gab052d4faa8fd25e1a13e86ecd4aafa38"><div class="ttname"><a href="a01108.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a></div><div class="ttdeci">#define BADARG()</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00306">_errdefs.h:306</a></div></div>
+<div class="ttc" id="aa01122_html"><div class="ttname"><a href="a01122.html">tag_pcl_buf</a></div><div class="ttdef"><b>Definition:</b> <a href="a00029_source.html#l00127">buf.h:128</a></div></div>
+<div class="ttc" id="aa01102_html_gaa753cac8202932d5aefa84a136fe3d45"><div class="ttname"><a href="a01102.html#gaa753cac8202932d5aefa84a136fe3d45">pcl_buf_put</a></div><div class="ttdeci">PCL_EXPORT int pcl_buf_put(pcl_buf_t *b, const void *data, int len)</div><div class="ttdoc">Put a blob into a buffer.</div><div class="ttdef"><b>Definition:</b> <a href="a00185_source.html#l00036">buf_put.c:36</a></div></div>
+<div class="ttc" id="aa00146_html"><div class="ttname"><a href="a00146.html">_buf.h</a></div></div>
+<div class="ttc" id="aa01102_html_ga48e936cee3defdf5fcb6e9904aff0d75"><div class="ttname"><a href="a01102.html#ga48e936cee3defdf5fcb6e9904aff0d75">pcl_buf_putchar</a></div><div class="ttdeci">int pcl_buf_putchar(pcl_buf_t *b, uint32_t c)</div><div class="ttdoc">Put a character into a buffer.</div><div class="ttdef"><b>Definition:</b> <a href="a00188_source.html#l00035">buf_putchar.c:35</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

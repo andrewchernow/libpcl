@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/process/unsetenv.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/process/unix_proc_path.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">unsetenv.c</div>  </div>
+<div class="title">unix_proc_path.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00662.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,33 +101,52 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00629.html">_process.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00044.html">pcl/error.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01110.html#ga664ead6ff59373f6eb600298c26837c2">   36</a></span>&#160;<a class="code" href="a01110.html#ga664ead6ff59373f6eb600298c26837c2">pcl_unsetenv</a>(<span class="keyword">const</span> <a class="code" href="a00101.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *name)</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordtype">int</span> r;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00632.html">_process.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/error.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00089.html">pcl/string.h</a>&gt;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#ifdef PCL_DARWIN</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor"># include &lt;libproc.h&gt;</span> <span class="comment">// proc_pidpath</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a00032.html#a8278668d120afdd0e47def881845559d">strempty</a>(name))</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01104.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a>();</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  r = SetEnvironmentVariable(name, NULL) ? 0 : -1;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  r = unsetenv(name);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="keywordflow">return</span> r ? <a class="code" href="a01104.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>() : 0;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;}</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<a class="code" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *</div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="a01114.html#gaa625964173add23831431d1ab1d48ffc">   41</a></span>&#160;<a class="code" href="a01114.html#gaa625964173add23831431d1ab1d48ffc">pcl_proc_path</a>(pid_t pid)</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordflow">if</span>(pid &lt; 0)</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    pid = <a class="code" href="a01114.html#ga403317a17754c52687615448d3752786">pcl_proc_self</a>();</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#ifdef PCL_LINUX</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordtype">char</span> exe[80];</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keywordtype">char</span> path[4096];</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  sprintf(exe, <span class="stringliteral">&quot;/proc/%d/exe&quot;</span>, pid);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="comment">/* readlink doesn&#39;t terminate buffer, so reserve a NUL */</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <span class="keywordtype">int</span> len = (int) readlink(exe, path, <span class="keyword">sizeof</span>(path) - 1);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">#else // darwin</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordtype">char</span> path[PROC_PIDPATHINFO_SIZE]; <span class="comment">/* proc_pidpath is very picky about buf sizes! */</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <span class="keywordtype">int</span> len = proc_pidpath(pid, path, PROC_PIDPATHINFO_SIZE);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  <span class="keywordflow">if</span>(len == 0)</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    len = -1;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  <span class="keywordflow">if</span>(len &lt; 0)</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01108.html#gad08a56aa55af3716a251ced9f780686d">R_SETLASTERR</a>(NULL);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01116.html#ga906f8952991b7313cb6b4bcbc3ab4545">pcl_pcsndup</a>(path, len);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;}</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00044_html"><div class="ttname"><a href="a00044.html">error.h</a></div></div>
-<div class="ttc" id="aa00101_html_ac114b2b1527c8ae241d37cc15ca7d122"><div class="ttname"><a href="a00101.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a></div><div class="ttdeci">char pchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00101_source.html#l00053">types.h:53</a></div></div>
-<div class="ttc" id="aa00032_html_a8278668d120afdd0e47def881845559d"><div class="ttname"><a href="a00032.html#a8278668d120afdd0e47def881845559d">strempty</a></div><div class="ttdeci">#define strempty(str)</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00124">defs.h:124</a></div></div>
-<div class="ttc" id="aa01104_html_ga89b8bfbe17595305872551a1caaa5702"><div class="ttname"><a href="a01104.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a></div><div class="ttdeci">#define SETLASTERR()</div><div class="ttdoc">Sets the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00014_source.html#l00125">_errdefs.h:125</a></div></div>
-<div class="ttc" id="aa00629_html"><div class="ttname"><a href="a00629.html">_process.h</a></div></div>
-<div class="ttc" id="aa01110_html_ga664ead6ff59373f6eb600298c26837c2"><div class="ttname"><a href="a01110.html#ga664ead6ff59373f6eb600298c26837c2">pcl_unsetenv</a></div><div class="ttdeci">int pcl_unsetenv(const pchar_t *name)</div><div class="ttdoc">Unset an environment variable.</div><div class="ttdef"><b>Definition:</b> <a href="a00662_source.html#l00036">unsetenv.c:36</a></div></div>
-<div class="ttc" id="aa01104_html_gab052d4faa8fd25e1a13e86ecd4aafa38"><div class="ttname"><a href="a01104.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a></div><div class="ttdeci">#define BADARG()</div><div class="ttdef"><b>Definition:</b> <a href="a00014_source.html#l00306">_errdefs.h:306</a></div></div>
+<div class="ttc" id="aa00104_html_ac114b2b1527c8ae241d37cc15ca7d122"><div class="ttname"><a href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a></div><div class="ttdeci">char pchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00053">types.h:53</a></div></div>
+<div class="ttc" id="aa01108_html_gad08a56aa55af3716a251ced9f780686d"><div class="ttname"><a href="a01108.html#gad08a56aa55af3716a251ced9f780686d">R_SETLASTERR</a></div><div class="ttdeci">#define R_SETLASTERR(_retval)</div><div class="ttdoc">Sets the return value and the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00235">_errdefs.h:235</a></div></div>
+<div class="ttc" id="aa01114_html_gaa625964173add23831431d1ab1d48ffc"><div class="ttname"><a href="a01114.html#gaa625964173add23831431d1ab1d48ffc">pcl_proc_path</a></div><div class="ttdeci">pchar_t * pcl_proc_path(pid_t pid)</div><div class="ttdoc">Get a process's path.</div><div class="ttdef"><b>Definition:</b> <a href="a00662_source.html#l00041">unix_proc_path.c:41</a></div></div>
+<div class="ttc" id="aa01114_html_ga403317a17754c52687615448d3752786"><div class="ttname"><a href="a01114.html#ga403317a17754c52687615448d3752786">pcl_proc_self</a></div><div class="ttdeci">PCL_EXPORT pid_t pcl_proc_self(void)</div><div class="ttdoc">Gets the Process ID of the calling process (PID).</div><div class="ttdef"><b>Definition:</b> <a href="a00650_source.html#l00035">proc_self.c:35</a></div></div>
+<div class="ttc" id="aa01116_html_ga906f8952991b7313cb6b4bcbc3ab4545"><div class="ttname"><a href="a01116.html#ga906f8952991b7313cb6b4bcbc3ab4545">pcl_pcsndup</a></div><div class="ttdeci">pchar_t * pcl_pcsndup(const pchar_t *s, size_t len)</div><div class="ttdoc">Duplicate a portion of a string.</div></div>
+<div class="ttc" id="aa00632_html"><div class="ttname"><a href="a00632.html">_process.h</a></div></div>
+<div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">error.h</a></div></div>
+<div class="ttc" id="aa00089_html"><div class="ttname"><a href="a00089.html">string.h</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

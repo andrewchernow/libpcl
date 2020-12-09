@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;Vector</title>
+<title>&#x202A;libpcl: &#x202A;Process Management</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -65,325 +65,402 @@ $(function() {
   <div class="summary">
 <a href="#nested-classes">Data Structures</a> &#124;
 <a href="#define-members">Macros</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">Vector</div>  </div>
+<div class="title">Process Management</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>&#x202A;A PCL Vector is a dynamic and contiguous block of memory for an array of same-sized elements.  
+<p>&#x202A;This module contains functions for managing processes.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Data Structures</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01182.html">tag_pcl_vector</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Vector object.  <a href="a01182.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01154.html">pcl_proc_exec_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Contains input and output parameters for a call to <a class="el" href="a01114.html#ga6340023fde71cb0e45005c881eec5323" title="&#x202A;Execute a command within a child process.">pcl_proc_exec()</a>.  <a href="a01154.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:gab34f9d473aa3d3cacf5540d8719fccf3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#gab34f9d473aa3d3cacf5540d8719fccf3">pcl_vector_get</a>(v,  pos)&#160;&#160;&#160;  ((void *)(((<a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *)(v))-&gt;elems + ((pos) * ((<a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *)(v))-&gt;size)))</td></tr>
-<tr class="memdesc:gab34f9d473aa3d3cacf5540d8719fccf3"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Get an element.  <a href="a01114.html#gab34f9d473aa3d3cacf5540d8719fccf3">More...</a><br /></td></tr>
-<tr class="separator:gab34f9d473aa3d3cacf5540d8719fccf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gacd64dfb43af3c59a55a755cd612711b8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#gacd64dfb43af3c59a55a755cd612711b8">pcl_vector_getptr</a>(v,  pos)&#160;&#160;&#160;*((void **)<a class="el" href="a01114.html#gab34f9d473aa3d3cacf5540d8719fccf3">pcl_vector_get</a>(v, pos))</td></tr>
-<tr class="memdesc:gacd64dfb43af3c59a55a755cd612711b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Dereference an element and return it.  <a href="a01114.html#gacd64dfb43af3c59a55a755cd612711b8">More...</a><br /></td></tr>
-<tr class="separator:gacd64dfb43af3c59a55a755cd612711b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga002aba7a474ea2b6d621ae5852a3a5c6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#ga002aba7a474ea2b6d621ae5852a3a5c6">pcl_vector_append</a>(v,  elem)&#160;&#160;&#160;  <a class="el" href="a01114.html#ga6f091d8d2a9c1060630f9d5ed071e9f8">pcl_vector_insert</a>(v, (const void *)(elem), ((<a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *)(v))-&gt;count)</td></tr>
-<tr class="memdesc:ga002aba7a474ea2b6d621ae5852a3a5c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Append an element.  <a href="a01114.html#ga002aba7a474ea2b6d621ae5852a3a5c6">More...</a><br /></td></tr>
-<tr class="separator:ga002aba7a474ea2b6d621ae5852a3a5c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:gad02d203d34a7f8b5cc8516219411ec06"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="a01182.html">tag_pcl_vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a></td></tr>
-<tr class="memdesc:gad02d203d34a7f8b5cc8516219411ec06"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Vector object.  <a href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">More...</a><br /></td></tr>
-<tr class="separator:gad02d203d34a7f8b5cc8516219411ec06"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga1ef62141a23331682c8554facd43faaa"><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#ga1ef62141a23331682c8554facd43faaa">pcl_vector_cleanup_t</a>) (<a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *v, void *elem)</td></tr>
-<tr class="memdesc:ga1ef62141a23331682c8554facd43faaa"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;A callback cleanup function for vector elements.  <a href="a01114.html#ga1ef62141a23331682c8554facd43faaa">More...</a><br /></td></tr>
-<tr class="separator:ga1ef62141a23331682c8554facd43faaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga87d008e6f434301f4b517e0cdf5a320c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#ga87d008e6f434301f4b517e0cdf5a320c">PCL_EXEC_STDIN</a>&#160;&#160;&#160;0x0001</td></tr>
+<tr class="memdesc:ga87d008e6f434301f4b517e0cdf5a320c"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Get a write handle to the spawned process's <code>STDIN</code>.  <a href="a01114.html#ga87d008e6f434301f4b517e0cdf5a320c">More...</a><br /></td></tr>
+<tr class="separator:ga87d008e6f434301f4b517e0cdf5a320c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8c1fc48ff39c94e8d3dcf53255fae7a8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#ga8c1fc48ff39c94e8d3dcf53255fae7a8">PCL_EXEC_STDIN_NB</a>&#160;&#160;&#160;0x0002</td></tr>
+<tr class="memdesc:ga8c1fc48ff39c94e8d3dcf53255fae7a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Get a non-blocking write handle to the spawned process's <code>STDIN</code>.  <a href="a01114.html#ga8c1fc48ff39c94e8d3dcf53255fae7a8">More...</a><br /></td></tr>
+<tr class="separator:ga8c1fc48ff39c94e8d3dcf53255fae7a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf0b0f1ec2dcdb568a1826a04c0cf46d0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#gaf0b0f1ec2dcdb568a1826a04c0cf46d0">PCL_EXEC_STDOUT</a>&#160;&#160;&#160;0x0004</td></tr>
+<tr class="memdesc:gaf0b0f1ec2dcdb568a1826a04c0cf46d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Get a read handle to the spawned process's <code>STDOUT</code>.  <a href="a01114.html#gaf0b0f1ec2dcdb568a1826a04c0cf46d0">More...</a><br /></td></tr>
+<tr class="separator:gaf0b0f1ec2dcdb568a1826a04c0cf46d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5a4c32c851a5d9bda967d6393aaafba2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#ga5a4c32c851a5d9bda967d6393aaafba2">PCL_EXEC_STDOUT_NB</a>&#160;&#160;&#160;0x0008</td></tr>
+<tr class="memdesc:ga5a4c32c851a5d9bda967d6393aaafba2"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Get a non-blocking read handle to the spawned process's <code>STDIN</code>.  <a href="a01114.html#ga5a4c32c851a5d9bda967d6393aaafba2">More...</a><br /></td></tr>
+<tr class="separator:ga5a4c32c851a5d9bda967d6393aaafba2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6f5de5f5bd36c584904dabcc987eee5f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#ga6f5de5f5bd36c584904dabcc987eee5f">PCL_EXEC_STDERR</a>&#160;&#160;&#160;0x0010</td></tr>
+<tr class="memdesc:ga6f5de5f5bd36c584904dabcc987eee5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Get a read handle to the spawned process's <code>STDERR</code>.  <a href="a01114.html#ga6f5de5f5bd36c584904dabcc987eee5f">More...</a><br /></td></tr>
+<tr class="separator:ga6f5de5f5bd36c584904dabcc987eee5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad6167eaf15543bcb6c790fae1a32b64c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#gad6167eaf15543bcb6c790fae1a32b64c">PCL_EXEC_STDERR_NB</a>&#160;&#160;&#160;0x0020</td></tr>
+<tr class="memdesc:gad6167eaf15543bcb6c790fae1a32b64c"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Get a non-blocking read handle to the spawned process's <code>STDERR</code>.  <a href="a01114.html#gad6167eaf15543bcb6c790fae1a32b64c">More...</a><br /></td></tr>
+<tr class="separator:gad6167eaf15543bcb6c790fae1a32b64c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5d137fcd09f0d5a005010d30651f5d08"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#ga5d137fcd09f0d5a005010d30651f5d08">PCL_EXEC_SHELL</a>&#160;&#160;&#160;0x0040</td></tr>
+<tr class="memdesc:ga5d137fcd09f0d5a005010d30651f5d08"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Indicates that the command to exec should be passed to the SHELL.  <a href="a01114.html#ga5d137fcd09f0d5a005010d30651f5d08">More...</a><br /></td></tr>
+<tr class="separator:ga5d137fcd09f0d5a005010d30651f5d08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8b71b5aea5f40fa9e7624d5120b9122e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#ga8b71b5aea5f40fa9e7624d5120b9122e">PCL_EXEC_HANDLE</a>&#160;&#160;&#160;0x0080</td></tr>
+<tr class="memdesc:ga8b71b5aea5f40fa9e7624d5120b9122e"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Get a raw operating system handle to the spawned process.  <a href="a01114.html#ga8b71b5aea5f40fa9e7624d5120b9122e">More...</a><br /></td></tr>
+<tr class="separator:ga8b71b5aea5f40fa9e7624d5120b9122e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3d28c1b2550f63de4f0be96fc6dc3f47"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#ga3d28c1b2550f63de4f0be96fc6dc3f47">PCL_EXEC_LDPATH</a>&#160;&#160;&#160;0x0100</td></tr>
+<tr class="memdesc:ga3d28c1b2550f63de4f0be96fc6dc3f47"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Sets the library search path within the new process.  <a href="a01114.html#ga3d28c1b2550f63de4f0be96fc6dc3f47">More...</a><br /></td></tr>
+<tr class="separator:ga3d28c1b2550f63de4f0be96fc6dc3f47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac99b9ac0f7e0b1eb9ac3f45894a74c29"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#gac99b9ac0f7e0b1eb9ac3f45894a74c29">PRIV_RDFILE</a>&#160;&#160;&#160;<a class="el" href="a00035.html#a1df9ab18a5e5dd2e6d6d3977c35e976c">_P</a>(&quot;SeBackupPrivilege&quot;)</td></tr>
+<tr class="memdesc:gac99b9ac0f7e0b1eb9ac3f45894a74c29"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Grant all read access to files, bypassing access checks.  <a href="a01114.html#gac99b9ac0f7e0b1eb9ac3f45894a74c29">More...</a><br /></td></tr>
+<tr class="separator:gac99b9ac0f7e0b1eb9ac3f45894a74c29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga24e04eb46bbd64de462db54f00c6d66a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#ga24e04eb46bbd64de462db54f00c6d66a">PRIV_WRFILE</a>&#160;&#160;&#160;<a class="el" href="a00035.html#a1df9ab18a5e5dd2e6d6d3977c35e976c">_P</a>(&quot;SeRestorePrivilege&quot;)</td></tr>
+<tr class="memdesc:ga24e04eb46bbd64de462db54f00c6d66a"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Grant all write access to files, bypassing access checks.  <a href="a01114.html#ga24e04eb46bbd64de462db54f00c6d66a">More...</a><br /></td></tr>
+<tr class="separator:ga24e04eb46bbd64de462db54f00c6d66a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad3cfd4e4da6ba6cf312dea115834d381"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#gad3cfd4e4da6ba6cf312dea115834d381">PRIV_PROCESS</a>&#160;&#160;&#160;<a class="el" href="a00035.html#a1df9ab18a5e5dd2e6d6d3977c35e976c">_P</a>(&quot;SeDebugPrivilege&quot;)</td></tr>
+<tr class="memdesc:gad3cfd4e4da6ba6cf312dea115834d381"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Grant all access to processes owned by other accounts.  <a href="a01114.html#gad3cfd4e4da6ba6cf312dea115834d381">More...</a><br /></td></tr>
+<tr class="separator:gad3cfd4e4da6ba6cf312dea115834d381"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabdc3e2e1d17ce3c85b1134cc205b1f14"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#gabdc3e2e1d17ce3c85b1134cc205b1f14">PRIV_MKSYMLINK</a>&#160;&#160;&#160;<a class="el" href="a00035.html#a1df9ab18a5e5dd2e6d6d3977c35e976c">_P</a>(&quot;SeCreateSymbolicLinkPrivilege&quot;)</td></tr>
+<tr class="memdesc:gabdc3e2e1d17ce3c85b1134cc205b1f14"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Grant the ability to make (create) symbolic links.  <a href="a01114.html#gabdc3e2e1d17ce3c85b1134cc205b1f14">More...</a><br /></td></tr>
+<tr class="separator:gabdc3e2e1d17ce3c85b1134cc205b1f14"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:gafc6b9f242b8965850d48a5233d7d23ed"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#gafc6b9f242b8965850d48a5233d7d23ed">pcl_vector_init</a> (<a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *v, int capacity, size_t elemsize, <a class="el" href="a01114.html#ga1ef62141a23331682c8554facd43faaa">pcl_vector_cleanup_t</a> cleanup)</td></tr>
-<tr class="memdesc:gafc6b9f242b8965850d48a5233d7d23ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Initialize a vector.  <a href="a01114.html#gafc6b9f242b8965850d48a5233d7d23ed">More...</a><br /></td></tr>
-<tr class="separator:gafc6b9f242b8965850d48a5233d7d23ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga516a4fa37d3facd5e0d86e1eb1bbee84"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#ga516a4fa37d3facd5e0d86e1eb1bbee84">pcl_vector_create</a> (int capacity, size_t elemsize, <a class="el" href="a01114.html#ga1ef62141a23331682c8554facd43faaa">pcl_vector_cleanup_t</a> cleanup)</td></tr>
-<tr class="memdesc:ga516a4fa37d3facd5e0d86e1eb1bbee84"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Creates a new vector object.  <a href="a01114.html#ga516a4fa37d3facd5e0d86e1eb1bbee84">More...</a><br /></td></tr>
-<tr class="separator:ga516a4fa37d3facd5e0d86e1eb1bbee84"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga6f091d8d2a9c1060630f9d5ed071e9f8"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#ga6f091d8d2a9c1060630f9d5ed071e9f8">pcl_vector_insert</a> (<a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *v, const void *elem, int pos)</td></tr>
-<tr class="memdesc:ga6f091d8d2a9c1060630f9d5ed071e9f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Insert an element.  <a href="a01114.html#ga6f091d8d2a9c1060630f9d5ed071e9f8">More...</a><br /></td></tr>
-<tr class="separator:ga6f091d8d2a9c1060630f9d5ed071e9f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8187d2e621f85fac545931bcf490a47d"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#ga8187d2e621f85fac545931bcf490a47d">pcl_vector_append_str</a> (<a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *v, const char *s)</td></tr>
-<tr class="memdesc:ga8187d2e621f85fac545931bcf490a47d"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Allocate and append a string.  <a href="a01114.html#ga8187d2e621f85fac545931bcf490a47d">More...</a><br /></td></tr>
-<tr class="separator:ga8187d2e621f85fac545931bcf490a47d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga9ea1447b36364e086845852e1868b282"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#ga9ea1447b36364e086845852e1868b282">pcl_vector_remove</a> (<a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *v, int pos)</td></tr>
-<tr class="memdesc:ga9ea1447b36364e086845852e1868b282"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Remove an element.  <a href="a01114.html#ga9ea1447b36364e086845852e1868b282">More...</a><br /></td></tr>
-<tr class="separator:ga9ea1447b36364e086845852e1868b282"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8629168fbc04d9a5ee188e6ef05f46e7"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#ga8629168fbc04d9a5ee188e6ef05f46e7">pcl_vector_get_safe</a> (<a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *v, int pos)</td></tr>
-<tr class="memdesc:ga8629168fbc04d9a5ee188e6ef05f46e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Get an element with bounds checking (safe version of <a class="el" href="a01114.html#gab34f9d473aa3d3cacf5540d8719fccf3" title="&#x202A;Get an element.">pcl_vector_get</a>).  <a href="a01114.html#ga8629168fbc04d9a5ee188e6ef05f46e7">More...</a><br /></td></tr>
-<tr class="separator:ga8629168fbc04d9a5ee188e6ef05f46e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga4e02b363da4663740612db4453add093"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#ga4e02b363da4663740612db4453add093">pcl_vector_getptr_safe</a> (<a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *v, int pos)</td></tr>
-<tr class="memdesc:ga4e02b363da4663740612db4453add093"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Dereference an element with bounds checking and return it.  <a href="a01114.html#ga4e02b363da4663740612db4453add093">More...</a><br /></td></tr>
-<tr class="separator:ga4e02b363da4663740612db4453add093"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaf6b8f2bafa23f1b631eb32671a6641e9"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#gaf6b8f2bafa23f1b631eb32671a6641e9">pcl_vector_compact</a> (<a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *v)</td></tr>
-<tr class="memdesc:gaf6b8f2bafa23f1b631eb32671a6641e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Compact a vector such that its element capacity matches its element count.  <a href="a01114.html#gaf6b8f2bafa23f1b631eb32671a6641e9">More...</a><br /></td></tr>
-<tr class="separator:gaf6b8f2bafa23f1b631eb32671a6641e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga7ee744f6d4d0f6db5ce022988e9275a6"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#ga7ee744f6d4d0f6db5ce022988e9275a6">pcl_vector_clear</a> (<a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *v)</td></tr>
-<tr class="memdesc:ga7ee744f6d4d0f6db5ce022988e9275a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Clear/remove all elements from a vector.  <a href="a01114.html#ga7ee744f6d4d0f6db5ce022988e9275a6">More...</a><br /></td></tr>
-<tr class="separator:ga7ee744f6d4d0f6db5ce022988e9275a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga5eed3421d6a45258915b1868c402d356"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#ga5eed3421d6a45258915b1868c402d356">pcl_vector_uninit</a> (<a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *v)</td></tr>
-<tr class="memdesc:ga5eed3421d6a45258915b1868c402d356"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Release all resources used by a vector.  <a href="a01114.html#ga5eed3421d6a45258915b1868c402d356">More...</a><br /></td></tr>
-<tr class="separator:ga5eed3421d6a45258915b1868c402d356"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaab2be8ec6279861c6ba6bb0f20e73ccb"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#gaab2be8ec6279861c6ba6bb0f20e73ccb">pcl_vector_free</a> (<a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *v)</td></tr>
-<tr class="memdesc:gaab2be8ec6279861c6ba6bb0f20e73ccb"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Release all resources used by a vector as well as the vector itself.  <a href="a01114.html#gaab2be8ec6279861c6ba6bb0f20e73ccb">More...</a><br /></td></tr>
-<tr class="separator:gaab2be8ec6279861c6ba6bb0f20e73ccb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae588078a95bbdc08f858b9b2778b54e2"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#gae588078a95bbdc08f858b9b2778b54e2">pcl_vector_cleanup_dblptr</a> (<a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *v, void *elem)</td></tr>
-<tr class="memdesc:gae588078a95bbdc08f858b9b2778b54e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Built-in element cleanup handler for double pointer elements.  <a href="a01114.html#gae588078a95bbdc08f858b9b2778b54e2">More...</a><br /></td></tr>
-<tr class="separator:gae588078a95bbdc08f858b9b2778b54e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad92337c015e78779ec762315b25866a2"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#gad92337c015e78779ec762315b25866a2">pcl_vector_sort</a> (<a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *v, int(*cmp)(const void *, const void *))</td></tr>
-<tr class="memdesc:gad92337c015e78779ec762315b25866a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Sort a vector using <code>qsort</code>.  <a href="a01114.html#gad92337c015e78779ec762315b25866a2">More...</a><br /></td></tr>
-<tr class="separator:gad92337c015e78779ec762315b25866a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6340023fde71cb0e45005c881eec5323"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#ga6340023fde71cb0e45005c881eec5323">pcl_proc_exec</a> (<a class="el" href="a01154.html">pcl_proc_exec_t</a> *exec, int flags)</td></tr>
+<tr class="memdesc:ga6340023fde71cb0e45005c881eec5323"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Execute a command within a child process.  <a href="a01114.html#ga6340023fde71cb0e45005c881eec5323">More...</a><br /></td></tr>
+<tr class="separator:ga6340023fde71cb0e45005c881eec5323"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab04a347eacf073a5008359f37f1cdad3"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#gab04a347eacf073a5008359f37f1cdad3">pcl_proc_pipe</a> (<a class="el" href="a00104.html#ad9cada4fd6c46abc8fbf45fea3416a66">pcl_file_t</a> *pipes[2], int rd_oflags, int wr_oflags)</td></tr>
+<tr class="memdesc:gab04a347eacf073a5008359f37f1cdad3"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Creates a pipe pair of pcl_file_t objects using the given read and write open flags (PCL_O_xxx).  <a href="a01114.html#gab04a347eacf073a5008359f37f1cdad3">More...</a><br /></td></tr>
+<tr class="separator:gab04a347eacf073a5008359f37f1cdad3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga403317a17754c52687615448d3752786"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT pid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#ga403317a17754c52687615448d3752786">pcl_proc_self</a> (void)</td></tr>
+<tr class="memdesc:ga403317a17754c52687615448d3752786"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Gets the Process ID of the calling process (PID).  <a href="a01114.html#ga403317a17754c52687615448d3752786">More...</a><br /></td></tr>
+<tr class="separator:ga403317a17754c52687615448d3752786"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa625964173add23831431d1ab1d48ffc"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#gaa625964173add23831431d1ab1d48ffc">pcl_proc_path</a> (pid_t pid)</td></tr>
+<tr class="memdesc:gaa625964173add23831431d1ab1d48ffc"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Get a process's path.  <a href="a01114.html#gaa625964173add23831431d1ab1d48ffc">More...</a><br /></td></tr>
+<tr class="separator:gaa625964173add23831431d1ab1d48ffc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga25ee01ddb7701aa34ac2b1f8ec3b9b1c"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#ga25ee01ddb7701aa34ac2b1f8ec3b9b1c">pcl_proc_setpriv</a> (const <a class="el" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *priv, bool enable)</td></tr>
+<tr class="memdesc:ga25ee01ddb7701aa34ac2b1f8ec3b9b1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Enables or disables a process privilege.  <a href="a01114.html#ga25ee01ddb7701aa34ac2b1f8ec3b9b1c">More...</a><br /></td></tr>
+<tr class="separator:ga25ee01ddb7701aa34ac2b1f8ec3b9b1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabedb79800f25896ebfbc4c987ae08513"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#gabedb79800f25896ebfbc4c987ae08513">pcl_proc_close</a> (<a class="el" href="a00104.html#aebcc95bdc886e05c6e79044367ebc127">pcl_prochandle_t</a> handle)</td></tr>
+<tr class="memdesc:gabedb79800f25896ebfbc4c987ae08513"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Close a process handle.  <a href="a01114.html#gabedb79800f25896ebfbc4c987ae08513">More...</a><br /></td></tr>
+<tr class="separator:gabedb79800f25896ebfbc4c987ae08513"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaaf83b3f360e47aaadb80236b8b87a512"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#gaaf83b3f360e47aaadb80236b8b87a512">pcl_proc_parsecmd</a> (const <a class="el" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *shell_cmd, <a class="el" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> ***out)</td></tr>
+<tr class="memdesc:gaaf83b3f360e47aaadb80236b8b87a512"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Converts the given shell command to a valid argv array, which is <code>NULL</code> terminated.  <a href="a01114.html#gaaf83b3f360e47aaadb80236b8b87a512">More...</a><br /></td></tr>
+<tr class="separator:gaaf83b3f360e47aaadb80236b8b87a512"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaff8afc5485fb9d86c2477e39e3163429"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#gaff8afc5485fb9d86c2477e39e3163429">pcl_proc_freeargv</a> (int targc, <a class="el" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> **targv)</td></tr>
+<tr class="memdesc:gaff8afc5485fb9d86c2477e39e3163429"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Free an argv array.  <a href="a01114.html#gaff8afc5485fb9d86c2477e39e3163429">More...</a><br /></td></tr>
+<tr class="separator:gaff8afc5485fb9d86c2477e39e3163429"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf853825c1435f4a9ff30821a45556d01"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#gaf853825c1435f4a9ff30821a45556d01">pcl_getenv</a> (const <a class="el" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *name)</td></tr>
+<tr class="memdesc:gaf853825c1435f4a9ff30821a45556d01"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Get the value of an environment variable.  <a href="a01114.html#gaf853825c1435f4a9ff30821a45556d01">More...</a><br /></td></tr>
+<tr class="separator:gaf853825c1435f4a9ff30821a45556d01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gace0c6222678a363bdcf34a792caf2605"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#gace0c6222678a363bdcf34a792caf2605">pcl_setenv</a> (const <a class="el" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *name, const <a class="el" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *value, bool overwrite)</td></tr>
+<tr class="memdesc:gace0c6222678a363bdcf34a792caf2605"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Set the value of an environment variable.  <a href="a01114.html#gace0c6222678a363bdcf34a792caf2605">More...</a><br /></td></tr>
+<tr class="separator:gace0c6222678a363bdcf34a792caf2605"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga664ead6ff59373f6eb600298c26837c2"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01114.html#ga664ead6ff59373f6eb600298c26837c2">pcl_unsetenv</a> (const <a class="el" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *name)</td></tr>
+<tr class="memdesc:ga664ead6ff59373f6eb600298c26837c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Unset an environment variable.  <a href="a01114.html#ga664ead6ff59373f6eb600298c26837c2">More...</a><br /></td></tr>
+<tr class="separator:ga664ead6ff59373f6eb600298c26837c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p class="DocNodeLTR">A PCL Vector is a dynamic and contiguous block of memory for an array of same-sized elements. </p>
-<p class="DocNodeLTR">The vector automatically expands this block of memory if an insertion would exceed the vector's current capacity. The vector never automatically shrinks itself during an element removal, but a vector can be shrunk using <a class="el" href="a01114.html#gaf6b8f2bafa23f1b631eb32671a6641e9" title="&#x202A;Compact a vector such that its element capacity matches its element count.">pcl_vector_compact</a>. </p>
-<h4 class="DocNodeLTR"><a class="anchor" id="autotoc_md26"></a>
-Basic Usage</h4>
-<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="a00059.html">pcl/init.h</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="a00110.html">pcl/vector.h</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
-<div class="line"> </div>
-<div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> **argv)</div>
-<div class="line">{</div>
-<div class="line">  <span class="comment">// always first</span></div>
-<div class="line">  <a class="code" href="a01108.html#ga14907e41025b0abbdc02ef1f892bd9a2">pcl_init</a>();</div>
-<div class="line"> </div>
-<div class="line">  <span class="comment">// cleanup handler can be NULL, integer doesn&#39;t need it</span></div>
-<div class="line">  <a class="code" href="a01182.html">pcl_vector_t</a> *vec = <a class="code" href="a01114.html#ga516a4fa37d3facd5e0d86e1eb1bbee84">pcl_vector_create</a>(8, <span class="keyword">sizeof</span>(<span class="keywordtype">int</span>), NULL);</div>
-<div class="line"> </div>
-<div class="line">  <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i=0; i &lt; vec-&gt;<a class="code" href="a01182.html#adbe66a087ac3fd4a5b0566f64ca2d12b">capacity</a> * 2; i++)</div>
-<div class="line">    <a class="code" href="a01114.html#ga002aba7a474ea2b6d621ae5852a3a5c6">pcl_vector_append</a>(vec, &amp;i); <span class="comment">// vector will have to expand after 8 appends</span></div>
-<div class="line"> </div>
-<div class="line">  <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i=0; i &lt; vec-&gt;<a class="code" href="a01182.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a>; i++)</div>
-<div class="line">  {</div>
-<div class="line">    <span class="keywordtype">int</span> *elem = <a class="code" href="a01114.html#gab34f9d473aa3d3cacf5540d8719fccf3">pcl_vector_get</a>(vec, i);</div>
-<div class="line">    printf(<span class="stringliteral">&quot;%d\n&quot;</span>, *elem); <span class="comment">// 0\n1\n...15\n</span></div>
-<div class="line">  }</div>
-<div class="line"> </div>
-<div class="line">  <a class="code" href="a01114.html#gaab2be8ec6279861c6ba6bb0f20e73ccb">pcl_vector_free</a>(vec);</div>
-<div class="line">}</div>
-</div><!-- fragment --> <h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="gab34f9d473aa3d3cacf5540d8719fccf3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gab34f9d473aa3d3cacf5540d8719fccf3">&#9670;&nbsp;</a></span>pcl_vector_get</h2>
+<p class="DocNodeLTR">This module contains functions for managing processes. </p>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="ga87d008e6f434301f4b517e0cdf5a320c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga87d008e6f434301f4b517e0cdf5a320c">&#9670;&nbsp;</a></span>PCL_EXEC_STDIN</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define pcl_vector_get</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">v, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">pos&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td>&#160;&#160;&#160;  ((void *)(((<a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *)(v))-&gt;elems + ((pos) * ((<a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *)(v))-&gt;size)))</td>
+          <td class="memname">#define PCL_EXEC_STDIN&#160;&#160;&#160;0x0001</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00110.html">pcl/vector.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="a00077.html">pcl/process.h</a>&gt;</code></p>
 
-<p>&#x202A;Get an element. </p>
-<dl class="section warning DocNodeLTR"><dt>Warning</dt><dd>&#x202A;this provides no bounds checking on <em>pos</em> and is designed to be used in cases where <em>pos</em> is known to be valid: such as a loop constrained by the vector's count. This is an optimization for the most common usage pattern. Expect a core dump or undefined behavior if <em>v</em> or <em>pos</em> is invalid. </dd></dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">v</td><td>&#x202A;pointer to a vector </td></tr>
-    <tr><td class="paramname">pos</td><td>&#x202A;zero-based position of element to retreive </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to element at <em>pos</em> </dd></dl>
-<dl class="section see DocNodeLTR"><dt>See also</dt><dd>&#x202A;<a class="el" href="a01114.html#ga8629168fbc04d9a5ee188e6ef05f46e7" title="&#x202A;Get an element with bounds checking (safe version of pcl_vector_get).">pcl_vector_get_safe</a> </dd></dl>
+<p>&#x202A;Get a write handle to the spawned process's <code>STDIN</code>. </p>
+<p class="DocNodeLTR">The <a class="el" href="a00104.html#ad9cada4fd6c46abc8fbf45fea3416a66">pcl_file_t</a> (handle) is stored in <a class="el" href="a01154.html#ab71f56b16803f8bcee33ae4adce50810" title="&#x202A;Set to the write end of the child process&#39;s stdin when PCL_EXEC_STDIN or PCL_EXEC_STDIN_NB.">pcl_proc_exec_t.f_stdin</a> and must be closed by the caller after use. If <a class="el" href="a01114.html#ga8c1fc48ff39c94e8d3dcf53255fae7a8" title="&#x202A;Get a non-blocking write handle to the spawned process&#39;s STDIN.">PCL_EXEC_STDIN_NB</a> is also set, this flag is ignored. </p><dl class="section see DocNodeLTR"><dt>See also</dt><dd>&#x202A;<a class="el" href="a01114.html#ga8c1fc48ff39c94e8d3dcf53255fae7a8" title="&#x202A;Get a non-blocking write handle to the spawned process&#39;s STDIN.">PCL_EXEC_STDIN_NB</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="a00110_source.html#l00136">136</a> of file <a class="el" href="a00110_source.html">vector.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00077_source.html#l00046">46</a> of file <a class="el" href="a00077_source.html">process.h</a>.</p>
 
 </div>
 </div>
-<a id="gacd64dfb43af3c59a55a755cd612711b8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gacd64dfb43af3c59a55a755cd612711b8">&#9670;&nbsp;</a></span>pcl_vector_getptr</h2>
+<a id="ga8c1fc48ff39c94e8d3dcf53255fae7a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8c1fc48ff39c94e8d3dcf53255fae7a8">&#9670;&nbsp;</a></span>PCL_EXEC_STDIN_NB</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define pcl_vector_getptr</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">v, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">pos&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td>&#160;&#160;&#160;*((void **)<a class="el" href="a01114.html#gab34f9d473aa3d3cacf5540d8719fccf3">pcl_vector_get</a>(v, pos))</td>
+          <td class="memname">#define PCL_EXEC_STDIN_NB&#160;&#160;&#160;0x0002</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00110.html">pcl/vector.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="a00077.html">pcl/process.h</a>&gt;</code></p>
 
-<p>&#x202A;Dereference an element and return it. </p>
-<dl class="section warning DocNodeLTR"><dt>Warning</dt><dd>&#x202A;this provides no bounds checking on <em>pos</em> and is designed to be used in cases where <em>pos</em> is known to be valid: such as a loop constrained by the vector's count. This is an optimization for the most common usage pattern. Expect a core dump or undefined behavior if <em>v</em> or <em>pos</em> is invalid. </dd></dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">v</td><td>&#x202A;pointer to a vector </td></tr>
-    <tr><td class="paramname">pos</td><td>&#x202A;zero-based position of element to retreive </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to element at <em>pos</em> </dd></dl>
-<dl class="section see DocNodeLTR"><dt>See also</dt><dd>&#x202A;<a class="el" href="a01114.html#ga4e02b363da4663740612db4453add093" title="&#x202A;Dereference an element with bounds checking and return it.">pcl_vector_getptr_safe</a> </dd></dl>
+<p>&#x202A;Get a non-blocking write handle to the spawned process's <code>STDIN</code>. </p>
+<p class="DocNodeLTR">The <a class="el" href="a00104.html#ad9cada4fd6c46abc8fbf45fea3416a66">pcl_file_t</a> (handle) is stored in <a class="el" href="a01154.html#ab71f56b16803f8bcee33ae4adce50810" title="&#x202A;Set to the write end of the child process&#39;s stdin when PCL_EXEC_STDIN or PCL_EXEC_STDIN_NB.">pcl_proc_exec_t.f_stdin</a> and must be closed by the caller after use. If this is set, it takes precedence over <a class="el" href="a01114.html#ga87d008e6f434301f4b517e0cdf5a320c" title="&#x202A;Get a write handle to the spawned process&#39;s STDIN.">PCL_EXEC_STDIN</a>. </p><dl class="section see DocNodeLTR"><dt>See also</dt><dd>&#x202A;<a class="el" href="a01114.html#ga87d008e6f434301f4b517e0cdf5a320c" title="&#x202A;Get a write handle to the spawned process&#39;s STDIN.">PCL_EXEC_STDIN</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="a00110_source.html#l00149">149</a> of file <a class="el" href="a00110_source.html">vector.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00077_source.html#l00053">53</a> of file <a class="el" href="a00077_source.html">process.h</a>.</p>
 
 </div>
 </div>
-<a id="ga002aba7a474ea2b6d621ae5852a3a5c6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga002aba7a474ea2b6d621ae5852a3a5c6">&#9670;&nbsp;</a></span>pcl_vector_append</h2>
+<a id="gaf0b0f1ec2dcdb568a1826a04c0cf46d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf0b0f1ec2dcdb568a1826a04c0cf46d0">&#9670;&nbsp;</a></span>PCL_EXEC_STDOUT</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define pcl_vector_append</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">v, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">elem&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td>&#160;&#160;&#160;  <a class="el" href="a01114.html#ga6f091d8d2a9c1060630f9d5ed071e9f8">pcl_vector_insert</a>(v, (const void *)(elem), ((<a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *)(v))-&gt;count)</td>
+          <td class="memname">#define PCL_EXEC_STDOUT&#160;&#160;&#160;0x0004</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00110.html">pcl/vector.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="a00077.html">pcl/process.h</a>&gt;</code></p>
 
-<p>&#x202A;Append an element. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">v</td><td>&#x202A;pointer to a vector </td></tr>
-    <tr><td class="paramname">elem</td><td>&#x202A;pointer to an element </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to the vector element inserted or <code>NULL</code> on error </dd></dl>
+<p>&#x202A;Get a read handle to the spawned process's <code>STDOUT</code>. </p>
+<p class="DocNodeLTR">The <a class="el" href="a00104.html#ad9cada4fd6c46abc8fbf45fea3416a66">pcl_file_t</a> (handle) is stored in <a class="el" href="a01154.html#a3d368a0bf5425e0ca958b0beee200277" title="&#x202A;Set to the read end of the child process&#39;s stdout when PCL_EXEC_STDOUT or PCL_EXEC_STDOUT_NB.">pcl_proc_exec_t.f_stdout</a> and must be closed by the caller after use. If <a class="el" href="a01114.html#ga5a4c32c851a5d9bda967d6393aaafba2" title="&#x202A;Get a non-blocking read handle to the spawned process&#39;s STDIN.">PCL_EXEC_STDOUT_NB</a> is also set, this flag is ignored. </p><dl class="section see DocNodeLTR"><dt>See also</dt><dd>&#x202A;<a class="el" href="a01114.html#ga5a4c32c851a5d9bda967d6393aaafba2" title="&#x202A;Get a non-blocking read handle to the spawned process&#39;s STDIN.">PCL_EXEC_STDOUT_NB</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="a00110_source.html#l00156">156</a> of file <a class="el" href="a00110_source.html">vector.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00077_source.html#l00060">60</a> of file <a class="el" href="a00077_source.html">process.h</a>.</p>
 
 </div>
 </div>
-<h2 class="groupheader">Typedef Documentation</h2>
-<a id="gad02d203d34a7f8b5cc8516219411ec06"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gad02d203d34a7f8b5cc8516219411ec06">&#9670;&nbsp;</a></span>pcl_vector_t</h2>
+<a id="ga5a4c32c851a5d9bda967d6393aaafba2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5a4c32c851a5d9bda967d6393aaafba2">&#9670;&nbsp;</a></span>PCL_EXEC_STDOUT_NB</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef struct <a class="el" href="a01182.html">tag_pcl_vector</a> <a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a></td>
+          <td class="memname">#define PCL_EXEC_STDOUT_NB&#160;&#160;&#160;0x0008</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00101.html">pcl/types.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="a00077.html">pcl/process.h</a>&gt;</code></p>
 
-<p>&#x202A;Vector object. </p>
-<p class="DocNodeLTR">Used to track elements and grow the internal elements array when required. </p>
+<p>&#x202A;Get a non-blocking read handle to the spawned process's <code>STDIN</code>. </p>
+<p class="DocNodeLTR">The <a class="el" href="a00104.html#ad9cada4fd6c46abc8fbf45fea3416a66">pcl_file_t</a> (handle) is stored in <a class="el" href="a01154.html#ab71f56b16803f8bcee33ae4adce50810" title="&#x202A;Set to the write end of the child process&#39;s stdin when PCL_EXEC_STDIN or PCL_EXEC_STDIN_NB.">pcl_proc_exec_t.f_stdin</a> and must be closed by the caller after use. If this is set, it takes precedence over <a class="el" href="a01114.html#gaf0b0f1ec2dcdb568a1826a04c0cf46d0" title="&#x202A;Get a read handle to the spawned process&#39;s STDOUT.">PCL_EXEC_STDOUT</a>. </p><dl class="section see DocNodeLTR"><dt>See also</dt><dd>&#x202A;<a class="el" href="a01114.html#gaf0b0f1ec2dcdb568a1826a04c0cf46d0" title="&#x202A;Get a read handle to the spawned process&#39;s STDOUT.">PCL_EXEC_STDOUT</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="a00101_source.html#l00060">60</a> of file <a class="el" href="a00101_source.html">types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00077_source.html#l00067">67</a> of file <a class="el" href="a00077_source.html">process.h</a>.</p>
 
 </div>
 </div>
-<a id="ga1ef62141a23331682c8554facd43faaa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga1ef62141a23331682c8554facd43faaa">&#9670;&nbsp;</a></span>pcl_vector_cleanup_t</h2>
+<a id="ga6f5de5f5bd36c584904dabcc987eee5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6f5de5f5bd36c584904dabcc987eee5f">&#9670;&nbsp;</a></span>PCL_EXEC_STDERR</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef void(* pcl_vector_cleanup_t) (<a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *v, void *elem)</td>
+          <td class="memname">#define PCL_EXEC_STDERR&#160;&#160;&#160;0x0010</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00110.html">pcl/vector.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="a00077.html">pcl/process.h</a>&gt;</code></p>
 
-<p>&#x202A;A callback cleanup function for vector elements. </p>
-<p class="DocNodeLTR">This is needed if the vector elements contain any dynamic memory or the elements are pointers to pointers: such as a vector of strings. When a structure contains allocated members, only free the allocated members &ndash; not the structure/element itself. The vector owns the structure. However, if elements are pointers to pointers, you will need to derefence <em>elem</em> and free that pointer. </p><dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;optionally, the <a class="el" href="a01182.html#a8425e91c76fe75856c2d38863f291d60" title="&#x202A;Optional user-defined pointer available within the cleanup callback.">pcl_vector_t.cleanup_ptr</a> can be set and utilized within the callback. </dd></dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">v</td><td>&#x202A;pointer to a vector </td></tr>
-    <tr><td class="paramname">elem</td><td>&#x202A;pointer to the element being removed. If elements are pointers to pointers, like strings, remember to dereference: <code>pcl_free(*(char **) elem)</code>. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section see DocNodeLTR"><dt>See also</dt><dd>&#x202A;<a class="el" href="a01114.html#ga516a4fa37d3facd5e0d86e1eb1bbee84" title="&#x202A;Creates a new vector object.">pcl_vector_create</a>, <a class="el" href="a01114.html#gae588078a95bbdc08f858b9b2778b54e2" title="&#x202A;Built-in element cleanup handler for double pointer elements.">pcl_vector_cleanup_dblptr</a> </dd></dl>
+<p>&#x202A;Get a read handle to the spawned process's <code>STDERR</code>. </p>
+<p class="DocNodeLTR">The <a class="el" href="a00104.html#ad9cada4fd6c46abc8fbf45fea3416a66">pcl_file_t</a> (handle) is stored in <a class="el" href="a01154.html#a58a969e094efba78b7ee68457df0b44a" title="&#x202A;Set to the read end of the child process&#39;s stderr when PCL_EXEC_STDERR or PCL_EXEC_STDERR_NB.">pcl_proc_exec_t.f_stderr</a> and must be closed by the caller after use. If <a class="el" href="a01114.html#gad6167eaf15543bcb6c790fae1a32b64c" title="&#x202A;Get a non-blocking read handle to the spawned process&#39;s STDERR.">PCL_EXEC_STDERR_NB</a> is also set, this flag is ignored. </p><dl class="section see DocNodeLTR"><dt>See also</dt><dd>&#x202A;<a class="el" href="a01114.html#gad6167eaf15543bcb6c790fae1a32b64c" title="&#x202A;Get a non-blocking read handle to the spawned process&#39;s STDERR.">PCL_EXEC_STDERR_NB</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="a00110_source.html#l00087">87</a> of file <a class="el" href="a00110_source.html">vector.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00077_source.html#l00074">74</a> of file <a class="el" href="a00077_source.html">process.h</a>.</p>
+
+</div>
+</div>
+<a id="gad6167eaf15543bcb6c790fae1a32b64c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad6167eaf15543bcb6c790fae1a32b64c">&#9670;&nbsp;</a></span>PCL_EXEC_STDERR_NB</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PCL_EXEC_STDERR_NB&#160;&#160;&#160;0x0020</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00077.html">pcl/process.h</a>&gt;</code></p>
+
+<p>&#x202A;Get a non-blocking read handle to the spawned process's <code>STDERR</code>. </p>
+<p class="DocNodeLTR">The <a class="el" href="a00104.html#ad9cada4fd6c46abc8fbf45fea3416a66">pcl_file_t</a> (handle) is stored in <a class="el" href="a01154.html#a58a969e094efba78b7ee68457df0b44a" title="&#x202A;Set to the read end of the child process&#39;s stderr when PCL_EXEC_STDERR or PCL_EXEC_STDERR_NB.">pcl_proc_exec_t.f_stderr</a> and must be closed by the caller after use. If this is set, it takes precedence over <a class="el" href="a01114.html#ga6f5de5f5bd36c584904dabcc987eee5f" title="&#x202A;Get a read handle to the spawned process&#39;s STDERR.">PCL_EXEC_STDERR</a>. </p><dl class="section see DocNodeLTR"><dt>See also</dt><dd>&#x202A;<a class="el" href="a01114.html#ga6f5de5f5bd36c584904dabcc987eee5f" title="&#x202A;Get a read handle to the spawned process&#39;s STDERR.">PCL_EXEC_STDERR</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00077_source.html#l00081">81</a> of file <a class="el" href="a00077_source.html">process.h</a>.</p>
+
+</div>
+</div>
+<a id="ga5d137fcd09f0d5a005010d30651f5d08"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5d137fcd09f0d5a005010d30651f5d08">&#9670;&nbsp;</a></span>PCL_EXEC_SHELL</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PCL_EXEC_SHELL&#160;&#160;&#160;0x0040</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00077.html">pcl/process.h</a>&gt;</code></p>
+
+<p>&#x202A;Indicates that the command to exec should be passed to the SHELL. </p>
+<p class="DocNodeLTR">On unix, this uses <code>$SHELL -c "your_command"</code> and on windows, this uses <code>COMSPEC% /C "your_command</code>.</p>
+<p class="DocNodeLTR">This is only required for internal (builtin) commands. These are commands that are built into windows CMD.EXE or the Unix shell: like BASH <code>cd</code>. Thus, you must do <code>cmd.exe /C "command"</code> or <code>sh -c "command"</code> to exec them. This will work for non-built-in commands but incurs an unnecessary shell. </p>
+
+<p class="definition">Definition at line <a class="el" href="a00077_source.html#l00091">91</a> of file <a class="el" href="a00077_source.html">process.h</a>.</p>
+
+</div>
+</div>
+<a id="ga8b71b5aea5f40fa9e7624d5120b9122e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8b71b5aea5f40fa9e7624d5120b9122e">&#9670;&nbsp;</a></span>PCL_EXEC_HANDLE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PCL_EXEC_HANDLE&#160;&#160;&#160;0x0080</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00077.html">pcl/process.h</a>&gt;</code></p>
+
+<p>&#x202A;Get a raw operating system handle to the spawned process. </p>
+<p class="DocNodeLTR">This will be written to <a class="el" href="a01154.html#a7d161ee740cf713596125892ab3870ad" title="&#x202A;set to the process handle (windows HANDLE and unix pid).">pcl_proc_exec_t.handle</a>. It is a windows process <code>HANDLE</code> or a Unix <code>PID</code>. This must be passed to <a class="el" href="a01114.html#gabedb79800f25896ebfbc4c987ae08513" title="&#x202A;Close a process handle.">pcl_proc_close</a> when no longer needed. On Unix, the <a class="el" href="a01114.html#gabedb79800f25896ebfbc4c987ae08513" title="&#x202A;Close a process handle.">pcl_proc_close</a> doesn't do anything but for cross-platform applications, it should be called to avoid preprocessing. </p>
+
+<p class="definition">Definition at line <a class="el" href="a00077_source.html#l00099">99</a> of file <a class="el" href="a00077_source.html">process.h</a>.</p>
+
+</div>
+</div>
+<a id="ga3d28c1b2550f63de4f0be96fc6dc3f47"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga3d28c1b2550f63de4f0be96fc6dc3f47">&#9670;&nbsp;</a></span>PCL_EXEC_LDPATH</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PCL_EXEC_LDPATH&#160;&#160;&#160;0x0100</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00077.html">pcl/process.h</a>&gt;</code></p>
+
+<p>&#x202A;Sets the library search path within the new process. </p>
+<p class="DocNodeLTR">The library path is set to the value of <a class="el" href="a01154.html#ad8d88d77d8016edad15d482f562a2749" title="&#x202A;library search path to use for exec&#39;d process, requires PCL_EXEC_LDPATH.">pcl_proc_exec_t.ldpath</a>; a colon separated list of paths. On windows colons are replaced for ';' so either can be used.</p>
+<p class="DocNodeLTR">On Unix, if 'ldpath' is <code>NULL</code>, exec tries <a class="el" href="a01154.html#a275ac033f148bacc497e571ba91c53e6" title="&#x202A;set current working directory of new process.">pcl_proc_exec_t.cwd</a> and then <code>getcwd</code>. If none of these work, the flag is ignored.</p>
+<p class="DocNodeLTR">On windows, if <a class="el" href="a01154.html#ad8d88d77d8016edad15d482f562a2749" title="&#x202A;library search path to use for exec&#39;d process, requires PCL_EXEC_LDPATH.">pcl_proc_exec_t.ldpath</a> is <code>NULL</code>, pcl_proc_exec ignores this flag (continues) and there are no fallback attempts like on Unix. This is because on windows, the current working directory is already part of the library search path.</p>
+<p class="DocNodeLTR"><a class="el" href="a01154.html#ad8d88d77d8016edad15d482f562a2749" title="&#x202A;library search path to use for exec&#39;d process, requires PCL_EXEC_LDPATH.">pcl_proc_exec_t.ldpath</a> must be <code>NULL</code> for exec to try another one. An empty string is completely valid and can be used to clear the library search path for this new process; but not effect the system-wide search paths.</p>
+<ul class="DocNodeLTR">
+<li>&#x202A;Windows: added to PATH =&gt; <a href="https://docs.microsoft.com/en-us/cpp/build/search-path-used-by-windows-to-locate-a-dll">https://docs.microsoft.com/en-us/cpp/build/search-path-used-by-windows-to-locate-a-dll</a></li>
+<li>&#x202A;Linux: added to LD_LIBRARY_PATH</li>
+<li>&#x202A;Darwin: added to DYLD_LIBRARY_PATH </li>
+</ul>
+
+<p class="definition">Definition at line <a class="el" href="a00077_source.html#l00120">120</a> of file <a class="el" href="a00077_source.html">process.h</a>.</p>
+
+</div>
+</div>
+<a id="gac99b9ac0f7e0b1eb9ac3f45894a74c29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac99b9ac0f7e0b1eb9ac3f45894a74c29">&#9670;&nbsp;</a></span>PRIV_RDFILE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PRIV_RDFILE&#160;&#160;&#160;<a class="el" href="a00035.html#a1df9ab18a5e5dd2e6d6d3977c35e976c">_P</a>(&quot;SeBackupPrivilege&quot;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00077.html">pcl/process.h</a>&gt;</code></p>
+
+<p>&#x202A;Grant all read access to files, bypassing access checks. </p>
+<p class="DocNodeLTR">Great for backup operations. </p><dl class="section see DocNodeLTR"><dt>See also</dt><dd>&#x202A;<a class="el" href="a01114.html#ga25ee01ddb7701aa34ac2b1f8ec3b9b1c" title="&#x202A;Enables or disables a process privilege.">pcl_proc_setpriv</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00077_source.html#l00134">134</a> of file <a class="el" href="a00077_source.html">process.h</a>.</p>
+
+</div>
+</div>
+<a id="ga24e04eb46bbd64de462db54f00c6d66a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga24e04eb46bbd64de462db54f00c6d66a">&#9670;&nbsp;</a></span>PRIV_WRFILE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PRIV_WRFILE&#160;&#160;&#160;<a class="el" href="a00035.html#a1df9ab18a5e5dd2e6d6d3977c35e976c">_P</a>(&quot;SeRestorePrivilege&quot;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00077.html">pcl/process.h</a>&gt;</code></p>
+
+<p>&#x202A;Grant all write access to files, bypassing access checks. </p>
+<p class="DocNodeLTR">Great for restore operations. </p><dl class="section see DocNodeLTR"><dt>See also</dt><dd>&#x202A;<a class="el" href="a01114.html#ga25ee01ddb7701aa34ac2b1f8ec3b9b1c" title="&#x202A;Enables or disables a process privilege.">pcl_proc_setpriv</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00077_source.html#l00140">140</a> of file <a class="el" href="a00077_source.html">process.h</a>.</p>
+
+</div>
+</div>
+<a id="gad3cfd4e4da6ba6cf312dea115834d381"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad3cfd4e4da6ba6cf312dea115834d381">&#9670;&nbsp;</a></span>PRIV_PROCESS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PRIV_PROCESS&#160;&#160;&#160;<a class="el" href="a00035.html#a1df9ab18a5e5dd2e6d6d3977c35e976c">_P</a>(&quot;SeDebugPrivilege&quot;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00077.html">pcl/process.h</a>&gt;</code></p>
+
+<p>&#x202A;Grant all access to processes owned by other accounts. </p>
+<p class="DocNodeLTR">This is required to use PCL's process list/stat API. </p><dl class="section see DocNodeLTR"><dt>See also</dt><dd>&#x202A;<a class="el" href="a01114.html#ga25ee01ddb7701aa34ac2b1f8ec3b9b1c" title="&#x202A;Enables or disables a process privilege.">pcl_proc_setpriv</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00077_source.html#l00146">146</a> of file <a class="el" href="a00077_source.html">process.h</a>.</p>
+
+</div>
+</div>
+<a id="gabdc3e2e1d17ce3c85b1134cc205b1f14"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gabdc3e2e1d17ce3c85b1134cc205b1f14">&#9670;&nbsp;</a></span>PRIV_MKSYMLINK</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PRIV_MKSYMLINK&#160;&#160;&#160;<a class="el" href="a00035.html#a1df9ab18a5e5dd2e6d6d3977c35e976c">_P</a>(&quot;SeCreateSymbolicLinkPrivilege&quot;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00077.html">pcl/process.h</a>&gt;</code></p>
+
+<p>&#x202A;Grant the ability to make (create) symbolic links. </p>
+<dl class="section see DocNodeLTR"><dt>See also</dt><dd>&#x202A;<a class="el" href="a01114.html#ga25ee01ddb7701aa34ac2b1f8ec3b9b1c" title="&#x202A;Enables or disables a process privilege.">pcl_proc_setpriv</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00077_source.html#l00151">151</a> of file <a class="el" href="a00077_source.html">process.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="gafc6b9f242b8965850d48a5233d7d23ed"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gafc6b9f242b8965850d48a5233d7d23ed">&#9670;&nbsp;</a></span>pcl_vector_init()</h2>
+<a id="ga6340023fde71cb0e45005c881eec5323"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6340023fde71cb0e45005c881eec5323">&#9670;&nbsp;</a></span>pcl_proc_exec()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">PCL_EXPORT <a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a>* pcl_vector_init </td>
+          <td class="memname">PCL_EXPORT int pcl_proc_exec </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *&#160;</td>
-          <td class="paramname"><em>v</em>, </td>
+          <td class="paramtype"><a class="el" href="a01154.html">pcl_proc_exec_t</a> *&#160;</td>
+          <td class="paramname"><em>exec</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>capacity</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>elemsize</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a01114.html#ga1ef62141a23331682c8554facd43faaa">pcl_vector_cleanup_t</a>&#160;</td>
-          <td class="paramname"><em>cleanup</em>&#160;</td>
+          <td class="paramname"><em>flags</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -393,203 +470,49 @@ Basic Usage</h4>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00110.html">pcl/vector.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="a00077.html">pcl/process.h</a>&gt;</code></p>
 
-<p>&#x202A;Initialize a vector. </p>
-<p class="DocNodeLTR">This is used internally by pcl_vector_create. This is only useful in cases where caller already has a vector object allocated or caller is using stack memory. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">v</td><td>&#x202A;pointer to a vector </td></tr>
-    <tr><td class="paramname">capacity</td><td>&#x202A;initial capacity of the vector as number of elements </td></tr>
-    <tr><td class="paramname">elemsize</td><td>&#x202A;byte size of each element </td></tr>
-    <tr><td class="paramname">cleanup</td><td>&#x202A;element cleanup handler called whenever an element is removed from the vector. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to the <em>v</em> argument </dd></dl>
-<dl class="section see DocNodeLTR"><dt>See also</dt><dd>&#x202A;<a class="el" href="a01114.html#ga5eed3421d6a45258915b1868c402d356" title="&#x202A;Release all resources used by a vector.">pcl_vector_uninit</a> </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="a01034_source.html#l00036">36</a> of file <a class="el" href="a01034_source.html">vector_init.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a00110_source.html#l00096">tag_pcl_vector::capacity</a>, <a class="el" href="a00110_source.html#l00123">tag_pcl_vector::cleanup</a>, <a class="el" href="a00110_source.html#l00105">tag_pcl_vector::cleanup_ptr</a>, <a class="el" href="a00110_source.html#l00093">tag_pcl_vector::count</a>, <a class="el" href="a00110_source.html#l00102">tag_pcl_vector::elems</a>, <a class="el" href="a00032_source.html#l00112">max</a>, <a class="el" href="a01097.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc()</a>, and <a class="el" href="a00110_source.html#l00099">tag_pcl_vector::size</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="a01022_source.html#l00036">pcl_vector_create()</a>.</p>
-
-</div>
-</div>
-<a id="ga516a4fa37d3facd5e0d86e1eb1bbee84"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga516a4fa37d3facd5e0d86e1eb1bbee84">&#9670;&nbsp;</a></span>pcl_vector_create()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">PCL_EXPORT <a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a>* pcl_vector_create </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>capacity</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>elemsize</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a01114.html#ga1ef62141a23331682c8554facd43faaa">pcl_vector_cleanup_t</a>&#160;</td>
-          <td class="paramname"><em>cleanup</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00110.html">pcl/vector.h</a>&gt;</code></p>
-
-<p>&#x202A;Creates a new vector object. </p>
+<p>&#x202A;Execute a command within a child process. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">capacity</td><td>&#x202A;initial capacity of the vector as number of elements </td></tr>
-    <tr><td class="paramname">elemsize</td><td>&#x202A;byte size of each element </td></tr>
-    <tr><td class="paramname">cleanup</td><td>&#x202A;element cleanup handler called whenever an element is removed from the vector. </td></tr>
+    <tr><td class="paramname">exec</td><td></td></tr>
+    <tr><td class="paramname">flags</td><td>&#x202A;bitmask of <code>PROC_EXEC_xxx</code> flags </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;an allocated vector object that must be freed by the application </dd></dl>
-<dl class="section see DocNodeLTR"><dt>See also</dt><dd>&#x202A;<a class="el" href="a01114.html#gaab2be8ec6279861c6ba6bb0f20e73ccb" title="&#x202A;Release all resources used by a vector as well as the vector itself.">pcl_vector_free</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;0 on success and -1 on error. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="a01022_source.html#l00036">36</a> of file <a class="el" href="a01022_source.html">vector_create.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00659_source.html#l00072">72</a> of file <a class="el" href="a00659_source.html">unix_proc_exec.c</a>.</p>
 
-<p class="reference">References <a class="el" href="a01097.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc()</a>, and <a class="el" href="a01034_source.html#l00036">pcl_vector_init()</a>.</p>
+<p class="reference">References <a class="el" href="a00035_source.html#l00078">_P</a>, <a class="el" href="a00017_source.html#l00306">BADARG</a>, <a class="el" href="a00659_source.html#l00066">CLOSE_ALL</a>, <a class="el" href="a00659_source.html#l00056">CLOSE_FDS</a>, <a class="el" href="a00659_source.html#l00049">CLOSE_FILES</a>, <a class="el" href="a00077_source.html#l00163">pcl_proc_exec_t::command</a>, <a class="el" href="a00035_source.html#l00127">countof</a>, <a class="el" href="a00077_source.html#l00175">pcl_proc_exec_t::cwd</a>, <a class="el" href="a00077_source.html#l00213">pcl_proc_exec_t::f_stderr</a>, <a class="el" href="a00077_source.html#l00207">pcl_proc_exec_t::f_stdin</a>, <a class="el" href="a00077_source.html#l00201">pcl_proc_exec_t::f_stdout</a>, <a class="el" href="a00437_source.html#l00064">tag_pcl_file::fd</a>, <a class="el" href="a00017_source.html#l00053">FREEZE_ERR</a>, <a class="el" href="a00077_source.html#l00169">pcl_proc_exec_t::group</a>, <a class="el" href="a00077_source.html#l00195">pcl_proc_exec_t::handle</a>, <a class="el" href="a00077_source.html#l00181">pcl_proc_exec_t::ldpath</a>, <a class="el" href="a00659_source.html#l00045">LIBPATH</a>, <a class="el" href="a00101_source.html#l00060">tag_pcl_time::nsec</a>, <a class="el" href="a00035_source.html#l00133">PCL_BADFD</a>, <a class="el" href="a00266_source.html#l00036">pcl_chdir()</a>, <a class="el" href="a00020_source.html#l00056">PCL_EBADCMD</a>, <a class="el" href="a00020_source.html#l00042">PCL_EOKAY</a>, <a class="el" href="a00356_source.html#l00035">pcl_err_fprintf()</a>, <a class="el" href="a00377_source.html#l00035">pcl_err_os2pcl()</a>, <a class="el" href="a00047_source.html#l00125">pcl_errno</a>, <a class="el" href="a00077_source.html#l00099">PCL_EXEC_HANDLE</a>, <a class="el" href="a00077_source.html#l00120">PCL_EXEC_LDPATH</a>, <a class="el" href="a00077_source.html#l00091">PCL_EXEC_SHELL</a>, <a class="el" href="a00077_source.html#l00074">PCL_EXEC_STDERR</a>, <a class="el" href="a00077_source.html#l00081">PCL_EXEC_STDERR_NB</a>, <a class="el" href="a00077_source.html#l00046">PCL_EXEC_STDIN</a>, <a class="el" href="a00077_source.html#l00053">PCL_EXEC_STDIN_NB</a>, <a class="el" href="a00077_source.html#l00060">PCL_EXEC_STDOUT</a>, <a class="el" href="a00077_source.html#l00067">PCL_EXEC_STDOUT_NB</a>, <a class="el" href="a00446_source.html#l00039">pcl_file_close()</a>, <a class="el" href="a01001_source.html#l00037">pcl_getgid()</a>, <a class="el" href="a01007_source.html#l00038">pcl_getuid()</a>, <a class="el" href="a01100.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc()</a>, <a class="el" href="a00068_source.html#l00052">PCL_MAXPATH</a>, <a class="el" href="a00056_source.html#l00067">PCL_O_CLOEXEC</a>, <a class="el" href="a00056_source.html#l00066">PCL_O_NONBLOCK</a>, <a class="el" href="a01116.html#ga8a29f63660824f958762e3562b3c8d48">pcl_pcscatf()</a>, <a class="el" href="a01116.html#gab041bc00f3c2fe16fcb717caa9733fbc">pcl_pcscpy()</a>, <a class="el" href="a01116.html#ga3e9b6b1ba2888cd40bef1185f8c64a93">pcl_pcsdup()</a>, <a class="el" href="a01116.html#ga51b9a7b503726400268da5fd3a11186d">pcl_pcslen()</a>, <a class="el" href="a01116.html#ga5e1986997327559a2b3179593c7a475f">pcl_pcsskipws()</a>, <a class="el" href="a01100.html#gaf94fd7f766974d7d9792b9efec72e0c6">pcl_pmalloc()</a>, <a class="el" href="a01116.html#ga6a07ddcd29cae0a9a26dfd5f6d690941">pcl_pmemcpy()</a>, <a class="el" href="a00641_source.html#l00036">pcl_proc_freeargv()</a>, <a class="el" href="a00644_source.html#l00038">pcl_proc_parsecmd()</a>, <a class="el" href="a00647_source.html#l00041">pcl_proc_pipe()</a>, <a class="el" href="a01113.html#ga60b7489a194d1a539bb71b30343ec772">pcl_spprintf()</a>, <a class="el" href="a01115.html#ga418e36a6f95e23978919f855c1ee3e03">pcl_stristr()</a>, <a class="el" href="a00980_source.html#l00035">pcl_time()</a>, <a class="el" href="a00077_source.html#l00186">pcl_proc_exec_t::pid</a>, <a class="el" href="a00101_source.html#l00059">tag_pcl_time::sec</a>, <a class="el" href="a00017_source.html#l00087">SETERRMSG</a>, <a class="el" href="a00017_source.html#l00125">SETLASTERR</a>, <a class="el" href="a00077_source.html#l00189">pcl_proc_exec_t::start</a>, <a class="el" href="a00056_source.html#l00055">STDERR_FILENO</a>, <a class="el" href="a00056_source.html#l00049">STDIN_FILENO</a>, <a class="el" href="a00056_source.html#l00052">STDOUT_FILENO</a>, <a class="el" href="a00035_source.html#l00124">strempty</a>, <a class="el" href="a00017_source.html#l00262">TRC</a>, <a class="el" href="a00017_source.html#l00275">TRCMSG</a>, <a class="el" href="a00077_source.html#l00166">pcl_proc_exec_t::user</a>, and <a class="el" href="a00035_source.html#l00130">zero</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="a00623_source.html#l00037">ipcl_net_resolve()</a>, <a class="el" href="a00518_source.html#l00036">pcl_htable_keys()</a>, <a class="el" href="a00611_source.html#l00049">pcl_net_dnstxtrec()</a>, and <a class="el" href="a00755_source.html#l00037">pcl_ssl_certentry()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="a00569_source.html#l00040">pcl_popen()</a>.</p>
 
 </div>
 </div>
-<a id="ga6f091d8d2a9c1060630f9d5ed071e9f8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga6f091d8d2a9c1060630f9d5ed071e9f8">&#9670;&nbsp;</a></span>pcl_vector_insert()</h2>
+<a id="gab04a347eacf073a5008359f37f1cdad3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab04a347eacf073a5008359f37f1cdad3">&#9670;&nbsp;</a></span>pcl_proc_pipe()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">PCL_EXPORT void* pcl_vector_insert </td>
+          <td class="memname">PCL_EXPORT int pcl_proc_pipe </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *&#160;</td>
-          <td class="paramname"><em>v</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const void *&#160;</td>
-          <td class="paramname"><em>elem</em>, </td>
+          <td class="paramtype"><a class="el" href="a00104.html#ad9cada4fd6c46abc8fbf45fea3416a66">pcl_file_t</a> *&#160;</td>
+          <td class="paramname"><em>pipes</em>[2], </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>pos</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00110.html">pcl/vector.h</a>&gt;</code></p>
-
-<p>&#x202A;Insert an element. </p>
-<p class="DocNodeLTR">To append an element, set <em>pos</em> to <a class="el" href="a01182.html#ad43c3812e6d13e0518d9f8b8f463ffcf" title="&#x202A;number of elements in vector">pcl_vector_t.count</a> </p><dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;Starting at <em>elem</em>, <a class="el" href="a01182.html#a854352f53b148adc24983a58a1866d66" title="&#x202A;byte size of an element">pcl_vector_t.size</a> bytes are copied into the vector's internal memory. </dd></dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">v</td><td>&#x202A;pointer to a vector </td></tr>
-    <tr><td class="paramname">elem</td><td>&#x202A;pointer to an element. If this is <code>NULL</code>, a zero'd element is inserted </td></tr>
-    <tr><td class="paramname">pos</td><td>&#x202A;the 0-based position to insert the new element. If this is equal to the <a class="el" href="a01182.html#ad43c3812e6d13e0518d9f8b8f463ffcf" title="&#x202A;number of elements in vector">pcl_vector_t.count</a>, the element will be appended. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to the element inserted, which is not the same as <em>elem</em>. <code>NULL</code> is returned on error. </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="a01037_source.html#l00037">37</a> of file <a class="el" href="a01037_source.html">vector_insert.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a00110_source.html#l00096">tag_pcl_vector::capacity</a>, <a class="el" href="a00110_source.html#l00093">tag_pcl_vector::count</a>, <a class="el" href="a00110_source.html#l00102">tag_pcl_vector::elems</a>, <a class="el" href="a01097.html#ga8ed2d8a28dde302fa8eac0d2e9ce8ea4">pcl_realloc()</a>, <a class="el" href="a00110_source.html#l00136">pcl_vector_get</a>, and <a class="el" href="a00110_source.html#l00099">tag_pcl_vector::size</a>.</p>
-
-</div>
-</div>
-<a id="ga8187d2e621f85fac545931bcf490a47d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga8187d2e621f85fac545931bcf490a47d">&#9670;&nbsp;</a></span>pcl_vector_append_str()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">PCL_EXPORT void* pcl_vector_append_str </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *&#160;</td>
-          <td class="paramname"><em>v</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>s</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00110.html">pcl/vector.h</a>&gt;</code></p>
-
-<p>&#x202A;Allocate and append a string. </p>
-<p class="DocNodeLTR">This function should only be used with string vectors, where the element size was set to the size of a pointer. Elements added with this function will require a pcl_vector_cleanup_t handler. </p>
-<h4 class="DocNodeLTR"><a class="anchor" id="autotoc_md27"></a>
-Example</h4>
-<div class="fragment"><div class="line"><span class="comment">// identical to: pcl_vector_append_str(vec, &quot;hello&quot;)</span></div>
-<div class="line"><span class="keywordtype">char</span> *s = <a class="code" href="a01111.html#ga046608776c880d7d3bf39943e692f064">pcl_strdup</a>(<span class="stringliteral">&quot;hello&quot;</span>);</div>
-<div class="line"><a class="code" href="a01114.html#ga002aba7a474ea2b6d621ae5852a3a5c6">pcl_vector_append</a>(vec, &amp;s);</div>
-</div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">v</td><td>&#x202A;pointer to a vector </td></tr>
-    <tr><td class="paramname">s</td><td>&#x202A;pointer to a string that is internally allocated and then appended to the vector. If this is <code>NULL</code>, a zero'd element is appended. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to the vector element. The returned pointer needs to be dereferenced to get its value. <code>NULL</code> is returned on error. If <em>s</em> is <code>NULL</code>, a valid pointer is returned but dereferencing it will produce a <code>NULL</code> pointer. </dd></dl>
-<dl class="section see DocNodeLTR"><dt>See also</dt><dd>&#x202A;<a class="el" href="a01114.html#gae588078a95bbdc08f858b9b2778b54e2" title="&#x202A;Built-in element cleanup handler for double pointer elements.">pcl_vector_cleanup_dblptr</a> </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="a01010_source.html#l00037">37</a> of file <a class="el" href="a01010_source.html">vector_append_str.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a00017_source.html#l00078">PCL_EINVAL</a>, <a class="el" href="a01111.html#ga046608776c880d7d3bf39943e692f064">pcl_strdup()</a>, <a class="el" href="a00110_source.html#l00156">pcl_vector_append</a>, and <a class="el" href="a00014_source.html#l00145">R_SETERR</a>.</p>
-
-</div>
-</div>
-<a id="ga9ea1447b36364e086845852e1868b282"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga9ea1447b36364e086845852e1868b282">&#9670;&nbsp;</a></span>pcl_vector_remove()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">PCL_EXPORT int pcl_vector_remove </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *&#160;</td>
-          <td class="paramname"><em>v</em>, </td>
+          <td class="paramname"><em>rd_oflags</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>pos</em>&#160;</td>
+          <td class="paramname"><em>wr_oflags</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -599,86 +522,228 @@ Example</h4>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00110.html">pcl/vector.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="a00077.html">pcl/process.h</a>&gt;</code></p>
 
-<p>&#x202A;Remove an element. </p>
-<dl class="params"><dt>Parameters</dt><dd>
+<p>&#x202A;Creates a pipe pair of pcl_file_t objects using the given read and write open flags (PCL_O_xxx). </p>
+<p class="DocNodeLTR">Note that unlike the unix <code>pipe2</code> function, this version allows you to set different flags for both the read and write ends of the pipe. pipes[0]=read and pipes[1]=write. Again, the rd_oflags and wr_oflags are PCL_O_xxx open flags, not POSIX O_xxx flags. PCL_O_RDONLY is automatically added to the rd_oflags and PCL_O_WRONLY to wr_oflags. PCL_O_RDWR is removed if present. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">v</td><td>&#x202A;pointer to a vector </td></tr>
-    <tr><td class="paramname">pos</td><td>&#x202A;a zero-based position of the element to remove </td></tr>
+    <tr><td class="paramname">pipes</td><td>&#x202A;a two element array of <a class="el" href="a00104.html#ad9cada4fd6c46abc8fbf45fea3416a66">pcl_file_t</a> pointers. Element 0 is set to the read end of the pipe and element 1 to the write end. </td></tr>
+    <tr><td class="paramname">rd_oflags</td><td>&#x202A;a bitmask of PCL_O_xxx flags for the read end of the pipe </td></tr>
+    <tr><td class="paramname">wr_oflags</td><td>&#x202A;a bitmask of PCL_O_xxx flags for the write end of the pipe </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;0 for success and -1 on error. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;0 on success and -1 on error </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="a01043_source.html#l00036">36</a> of file <a class="el" href="a01043_source.html">vector_remove.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00647_source.html#l00041">41</a> of file <a class="el" href="a00647_source.html">proc_pipe.c</a>.</p>
 
-<p class="reference">References <a class="el" href="a00110_source.html#l00123">tag_pcl_vector::cleanup</a>, <a class="el" href="a00110_source.html#l00093">tag_pcl_vector::count</a>, <a class="el" href="a00110_source.html#l00136">pcl_vector_get</a>, and <a class="el" href="a00110_source.html#l00099">tag_pcl_vector::size</a>.</p>
+<p class="reference">References <a class="el" href="a00443_source.html#l00036">ipcl_file_alloc()</a>, <a class="el" href="a00449_source.html#l00036">ipcl_file_init()</a>, <a class="el" href="a00056_source.html#l00067">PCL_O_CLOEXEC</a>, <a class="el" href="a00056_source.html#l00066">PCL_O_NONBLOCK</a>, <a class="el" href="a00056_source.html#l00058">PCL_O_RDONLY</a>, <a class="el" href="a00056_source.html#l00060">PCL_O_RDWR</a>, <a class="el" href="a00056_source.html#l00059">PCL_O_WRONLY</a>, <a class="el" href="a00650_source.html#l00035">pcl_proc_self()</a>, <a class="el" href="a00260_source.html#l00083">pcl_rand()</a>, and <a class="el" href="a00017_source.html#l00125">SETLASTERR</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00659_source.html#l00072">pcl_proc_exec()</a>.</p>
 
 </div>
 </div>
-<a id="ga8629168fbc04d9a5ee188e6ef05f46e7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga8629168fbc04d9a5ee188e6ef05f46e7">&#9670;&nbsp;</a></span>pcl_vector_get_safe()</h2>
+<a id="ga403317a17754c52687615448d3752786"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga403317a17754c52687615448d3752786">&#9670;&nbsp;</a></span>pcl_proc_self()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">PCL_EXPORT void* pcl_vector_get_safe </td>
+          <td class="memname">PCL_EXPORT pid_t pcl_proc_self </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *&#160;</td>
-          <td class="paramname"><em>v</em>, </td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00077.html">pcl/process.h</a>&gt;</code></p>
+
+<p>&#x202A;Gets the Process ID of the calling process (PID). </p>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;process id </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00650_source.html#l00035">35</a> of file <a class="el" href="a00650_source.html">proc_self.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00662_source.html#l00041">pcl_proc_path()</a>, <a class="el" href="a00647_source.html#l00041">pcl_proc_pipe()</a>, and <a class="el" href="a00653_source.html#l00036">pcl_proc_setpriv()</a>.</p>
+
+</div>
+</div>
+<a id="gaa625964173add23831431d1ab1d48ffc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa625964173add23831431d1ab1d48ffc">&#9670;&nbsp;</a></span>pcl_proc_path()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PCL_EXPORT <a class="el" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>* pcl_proc_path </td>
+          <td>(</td>
+          <td class="paramtype">pid_t&#160;</td>
+          <td class="paramname"><em>pid</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00077.html">pcl/process.h</a>&gt;</code></p>
+
+<p>&#x202A;Get a process's path. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pid</td><td>&#x202A;process id </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to the allocated process image path or <code>NULL</code> on error. This value must be freed. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00662_source.html#l00041">41</a> of file <a class="el" href="a00662_source.html">unix_proc_path.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a01116.html#ga906f8952991b7313cb6b4bcbc3ab4545">pcl_pcsndup()</a>, <a class="el" href="a00650_source.html#l00035">pcl_proc_self()</a>, and <a class="el" href="a00017_source.html#l00235">R_SETLASTERR</a>.</p>
+
+</div>
+</div>
+<a id="ga25ee01ddb7701aa34ac2b1f8ec3b9b1c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga25ee01ddb7701aa34ac2b1f8ec3b9b1c">&#9670;&nbsp;</a></span>pcl_proc_setpriv()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PCL_EXPORT int pcl_proc_setpriv </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
+          <td class="paramname"><em>priv</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>enable</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00077.html">pcl/process.h</a>&gt;</code></p>
+
+<p>&#x202A;Enables or disables a process privilege. </p>
+<p class="DocNodeLTR">'priv' can be any privilege defined in winnt.h and supported by LookupPrivilegeValue on windows. Currently, only one of the PRIV_xxx constants are known to PCL if libpcl ever decides to provide functionality for non-Windows based machines. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">priv</td><td>&#x202A;privilege name </td></tr>
+    <tr><td class="paramname">enable</td><td>&#x202A;true to enable and false to disable </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;0 on success and -1 on error. Unix system always return zero and currently provides no functionality. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00653_source.html#l00036">36</a> of file <a class="el" href="a00653_source.html">proc_setpriv.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00650_source.html#l00035">pcl_proc_self()</a>, <a class="el" href="a00017_source.html#l00125">SETLASTERR</a>, and <a class="el" href="a00035_source.html#l00102">UNUSED</a>.</p>
+
+</div>
+</div>
+<a id="gabedb79800f25896ebfbc4c987ae08513"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gabedb79800f25896ebfbc4c987ae08513">&#9670;&nbsp;</a></span>pcl_proc_close()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PCL_EXPORT void pcl_proc_close </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a00104.html#aebcc95bdc886e05c6e79044367ebc127">pcl_prochandle_t</a>&#160;</td>
+          <td class="paramname"><em>handle</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00077.html">pcl/process.h</a>&gt;</code></p>
+
+<p>&#x202A;Close a process handle. </p>
+<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;this does nothing on unixes. </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">handle</td><td>&#x202A;wijndows <code>HANDLE</code> and Unix pid. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="a00638_source.html#l00036">36</a> of file <a class="el" href="a00638_source.html">proc_close.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00035_source.html#l00102">UNUSED</a>.</p>
+
+</div>
+</div>
+<a id="gaaf83b3f360e47aaadb80236b8b87a512"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaaf83b3f360e47aaadb80236b8b87a512">&#9670;&nbsp;</a></span>pcl_proc_parsecmd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PCL_EXPORT int pcl_proc_parsecmd </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
+          <td class="paramname"><em>shell_cmd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> ***&#160;</td>
+          <td class="paramname"><em>out</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00077.html">pcl/process.h</a>&gt;</code></p>
+
+<p>&#x202A;Converts the given shell command to a valid argv array, which is <code>NULL</code> terminated. </p>
+<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;a blank shell_cmd, will result in zero being returned which could be an error to an application. </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">shell_cmd</td><td>&#x202A;pointer to the shell command to parse </td></tr>
+    <tr><td class="paramname">out</td><td>&#x202A;pointer to a pointer table to receive the results. Use <a class="el" href="a01114.html#gaff8afc5485fb9d86c2477e39e3163429" title="&#x202A;Free an argv array.">pcl_proc_freeargv</a> when done with this value. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;the number of arguments, exlcuding terminating NULL element, or -1 on error </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00644_source.html#l00038">38</a> of file <a class="el" href="a00644_source.html">proc_parsecmd.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00017_source.html#l00306">BADARG</a>, <a class="el" href="a00020_source.html#l00204">PCL_ESYNTAX</a>, <a class="el" href="a01100.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc()</a>, <a class="el" href="a01116.html#ga906f8952991b7313cb6b4bcbc3ab4545">pcl_pcsndup()</a>, <a class="el" href="a01116.html#ga5e1986997327559a2b3179593c7a475f">pcl_pcsskipws()</a>, <a class="el" href="a00641_source.html#l00036">pcl_proc_freeargv()</a>, <a class="el" href="a01100.html#ga8ed2d8a28dde302fa8eac0d2e9ce8ea4">pcl_realloc()</a>, and <a class="el" href="a00017_source.html#l00087">SETERRMSG</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00659_source.html#l00072">pcl_proc_exec()</a>.</p>
+
+</div>
+</div>
+<a id="gaff8afc5485fb9d86c2477e39e3163429"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaff8afc5485fb9d86c2477e39e3163429">&#9670;&nbsp;</a></span>pcl_proc_freeargv()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PCL_EXPORT void* pcl_proc_freeargv </td>
+          <td>(</td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>pos</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00110.html">pcl/vector.h</a>&gt;</code></p>
-
-<p>&#x202A;Get an element with bounds checking (safe version of <a class="el" href="a01114.html#gab34f9d473aa3d3cacf5540d8719fccf3" title="&#x202A;Get an element.">pcl_vector_get</a>). </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">v</td><td>&#x202A;pointer to a vector </td></tr>
-    <tr><td class="paramname">pos</td><td>&#x202A;zero-based position of element to get </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to the element or <code>NULL</code> on error </dd></dl>
-<dl class="section see DocNodeLTR"><dt>See also</dt><dd>&#x202A;<a class="el" href="a01114.html#gab34f9d473aa3d3cacf5540d8719fccf3" title="&#x202A;Get an element.">pcl_vector_get</a> </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="a01028_source.html#l00036">36</a> of file <a class="el" href="a01028_source.html">vector_get_s.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a00017_source.html#l00152">PCL_ENOTFOUND</a>, <a class="el" href="a00110_source.html#l00136">pcl_vector_get</a>, and <a class="el" href="a00014_source.html#l00145">R_SETERR</a>.</p>
-
-</div>
-</div>
-<a id="ga4e02b363da4663740612db4453add093"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga4e02b363da4663740612db4453add093">&#9670;&nbsp;</a></span>pcl_vector_getptr_safe()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">PCL_EXPORT void* pcl_vector_getptr_safe </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *&#160;</td>
-          <td class="paramname"><em>v</em>, </td>
+          <td class="paramname"><em>targc</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>pos</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> **&#160;</td>
+          <td class="paramname"><em>targv</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -688,179 +753,85 @@ Example</h4>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00110.html">pcl/vector.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="a00077.html">pcl/process.h</a>&gt;</code></p>
 
-<p>&#x202A;Dereference an element with bounds checking and return it. </p>
+<p>&#x202A;Free an argv array. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">v</td><td>&#x202A;pointer to a vector </td></tr>
-    <tr><td class="paramname">pos</td><td>&#x202A;zero-based position of element to retreive </td></tr>
+    <tr><td class="paramname">targc</td><td>&#x202A;number of arguments (exlcuding trailing <code>NULL</code> element) </td></tr>
+    <tr><td class="paramname">targv</td><td>&#x202A;pointer to an argument array </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to element at <em>pos</em> or <code>NULL</code> on error </dd></dl>
-<dl class="section see DocNodeLTR"><dt>See also</dt><dd>&#x202A;<a class="el" href="a01114.html#gacd64dfb43af3c59a55a755cd612711b8" title="&#x202A;Dereference an element and return it.">pcl_vector_getptr</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;always returns <code>NULL</code> </dd></dl>
+<dl class="section see DocNodeLTR"><dt>See also</dt><dd>&#x202A;<a class="el" href="a01114.html#gaaf83b3f360e47aaadb80236b8b87a512" title="&#x202A;Converts the given shell command to a valid argv array, which is NULL terminated.">pcl_proc_parsecmd</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="a01031_source.html#l00036">36</a> of file <a class="el" href="a01031_source.html">vector_getptr_s.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00641_source.html#l00036">36</a> of file <a class="el" href="a00641_source.html">proc_freecmd.c</a>.</p>
 
-<p class="reference">References <a class="el" href="a00017_source.html#l00152">PCL_ENOTFOUND</a>, <a class="el" href="a00110_source.html#l00149">pcl_vector_getptr</a>, and <a class="el" href="a00014_source.html#l00145">R_SETERR</a>.</p>
+<p class="reference">References <a class="el" href="a01100.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00659_source.html#l00072">pcl_proc_exec()</a>, and <a class="el" href="a00644_source.html#l00038">pcl_proc_parsecmd()</a>.</p>
 
 </div>
 </div>
-<a id="gaf6b8f2bafa23f1b631eb32671a6641e9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaf6b8f2bafa23f1b631eb32671a6641e9">&#9670;&nbsp;</a></span>pcl_vector_compact()</h2>
+<a id="gaf853825c1435f4a9ff30821a45556d01"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf853825c1435f4a9ff30821a45556d01">&#9670;&nbsp;</a></span>pcl_getenv()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">PCL_EXPORT <a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a>* pcl_vector_compact </td>
+          <td class="memname">PCL_EXPORT <a class="el" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>* pcl_getenv </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *&#160;</td>
-          <td class="paramname"><em>v</em></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00110.html">pcl/vector.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="a00077.html">pcl/process.h</a>&gt;</code></p>
 
-<p>&#x202A;Compact a vector such that its element capacity matches its element count. </p>
+<p>&#x202A;Get the value of an environment variable. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">v</td><td>&#x202A;pointer to a vector </td></tr>
+    <tr><td class="paramname">name</td><td>&#x202A;name of the environment variable </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to <em>v</em> argument </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to the environment variable's value. This is an allocated value that must be freed. If <em>name</em> was not found, <code>NULL</code> is returned. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="a01019_source.html#l00036">36</a> of file <a class="el" href="a01019_source.html">vector_compact.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00635_source.html#l00040">40</a> of file <a class="el" href="a00635_source.html">getenv.c</a>.</p>
 
-<p class="reference">References <a class="el" href="a00110_source.html#l00096">tag_pcl_vector::capacity</a>, <a class="el" href="a00110_source.html#l00093">tag_pcl_vector::count</a>, <a class="el" href="a00110_source.html#l00102">tag_pcl_vector::elems</a>, <a class="el" href="a01097.html#ga8ed2d8a28dde302fa8eac0d2e9ce8ea4">pcl_realloc()</a>, and <a class="el" href="a00110_source.html#l00099">tag_pcl_vector::size</a>.</p>
+<p class="reference">References <a class="el" href="a01100.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free()</a>, <a class="el" href="a01100.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc()</a>, and <a class="el" href="a01116.html#ga3e9b6b1ba2888cd40bef1185f8c64a93">pcl_pcsdup()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00578_source.html#l00047">pcl_tmpfile()</a>.</p>
 
 </div>
 </div>
-<a id="ga7ee744f6d4d0f6db5ce022988e9275a6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga7ee744f6d4d0f6db5ce022988e9275a6">&#9670;&nbsp;</a></span>pcl_vector_clear()</h2>
+<a id="gace0c6222678a363bdcf34a792caf2605"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gace0c6222678a363bdcf34a792caf2605">&#9670;&nbsp;</a></span>pcl_setenv()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">PCL_EXPORT <a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a>* pcl_vector_clear </td>
+          <td class="memname">PCL_EXPORT int pcl_setenv </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *&#160;</td>
-          <td class="paramname"><em>v</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00110.html">pcl/vector.h</a>&gt;</code></p>
-
-<p>&#x202A;Clear/remove all elements from a vector. </p>
-<p class="DocNodeLTR">This doesn't adjust the vector's capacity. To adjust its capacity, call <a class="el" href="a01114.html#gaf6b8f2bafa23f1b631eb32671a6641e9" title="&#x202A;Compact a vector such that its element capacity matches its element count.">pcl_vector_compact</a> after this. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">v</td><td>&#x202A;pointer to a vector </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to the <em>v</em> argument </dd></dl>
-<dl class="section see DocNodeLTR"><dt>See also</dt><dd>&#x202A;<a class="el" href="a01114.html#gaf6b8f2bafa23f1b631eb32671a6641e9" title="&#x202A;Compact a vector such that its element capacity matches its element count.">pcl_vector_compact</a> </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="a01016_source.html#l00035">35</a> of file <a class="el" href="a01016_source.html">vector_clear.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a00110_source.html#l00123">tag_pcl_vector::cleanup</a>, <a class="el" href="a00110_source.html#l00093">tag_pcl_vector::count</a>, and <a class="el" href="a00110_source.html#l00136">pcl_vector_get</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="a01025_source.html#l00036">pcl_vector_free()</a>, and <a class="el" href="a01046_source.html#l00037">pcl_vector_uninit()</a>.</p>
-
-</div>
-</div>
-<a id="ga5eed3421d6a45258915b1868c402d356"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga5eed3421d6a45258915b1868c402d356">&#9670;&nbsp;</a></span>pcl_vector_uninit()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">PCL_EXPORT <a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a>* pcl_vector_uninit </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *&#160;</td>
-          <td class="paramname"><em>v</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00110.html">pcl/vector.h</a>&gt;</code></p>
-
-<p>&#x202A;Release all resources used by a vector. </p>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;This does not free the vector object itself. This function is designed to be used with <a class="el" href="a01114.html#gafc6b9f242b8965850d48a5233d7d23ed" title="&#x202A;Initialize a vector.">pcl_vector_init</a>. After this call, the given vector must be reinitialized. </dd></dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">v</td><td>&#x202A;pointer to a vector </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to the <em>v</em> argument </dd></dl>
-<dl class="section see DocNodeLTR"><dt>See also</dt><dd>&#x202A;<a class="el" href="a01114.html#gafc6b9f242b8965850d48a5233d7d23ed" title="&#x202A;Initialize a vector.">pcl_vector_init</a> </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="a01046_source.html#l00037">37</a> of file <a class="el" href="a01046_source.html">vector_uninit.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a00110_source.html#l00102">tag_pcl_vector::elems</a>, <a class="el" href="a01097.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe()</a>, and <a class="el" href="a01016_source.html#l00035">pcl_vector_clear()</a>.</p>
-
-</div>
-</div>
-<a id="gaab2be8ec6279861c6ba6bb0f20e73ccb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaab2be8ec6279861c6ba6bb0f20e73ccb">&#9670;&nbsp;</a></span>pcl_vector_free()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">PCL_EXPORT void pcl_vector_free </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *&#160;</td>
-          <td class="paramname"><em>v</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00110.html">pcl/vector.h</a>&gt;</code></p>
-
-<p>&#x202A;Release all resources used by a vector as well as the vector itself. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">v</td><td>&#x202A;pointer to a vector that is unusable after this call. If this is <code>NULL</code>, the function silently ignores the request. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section see DocNodeLTR"><dt>See also</dt><dd>&#x202A;<a class="el" href="a01114.html#ga516a4fa37d3facd5e0d86e1eb1bbee84" title="&#x202A;Creates a new vector object.">pcl_vector_create</a> </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="a01025_source.html#l00036">36</a> of file <a class="el" href="a01025_source.html">vector_free.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a00110_source.html#l00102">tag_pcl_vector::elems</a>, <a class="el" href="a01097.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe()</a>, and <a class="el" href="a01016_source.html#l00035">pcl_vector_clear()</a>.</p>
-
-</div>
-</div>
-<a id="gae588078a95bbdc08f858b9b2778b54e2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gae588078a95bbdc08f858b9b2778b54e2">&#9670;&nbsp;</a></span>pcl_vector_cleanup_dblptr()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">PCL_EXPORT void pcl_vector_cleanup_dblptr </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *&#160;</td>
-          <td class="paramname"><em>v</em>, </td>
+          <td class="paramtype">const <a class="el" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>elem</em>&#160;</td>
+          <td class="paramtype">const <a class="el" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
+          <td class="paramname"><em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>overwrite</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -870,90 +841,59 @@ Example</h4>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00110.html">pcl/vector.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="a00077.html">pcl/process.h</a>&gt;</code></p>
 
-<p>&#x202A;Built-in element cleanup handler for double pointer elements. </p>
-<p class="DocNodeLTR">This is typically used for pointer tables: like a vector of strings. It will internally dereference an element and pass it to <a class="el" href="a01097.html#gab88b901c82e1010555b08ff6d39490f2" title="&#x202A;Free memory space.">pcl_free</a> </p>
-<h4 class="DocNodeLTR"><a class="anchor" id="autotoc_md28"></a>
-Example</h4>
-<div class="fragment"><div class="line"><a class="code" href="a01182.html">pcl_vector_t</a> *vec = <a class="code" href="a01114.html#ga516a4fa37d3facd5e0d86e1eb1bbee84">pcl_vector_create</a>(16, <span class="keyword">sizeof</span>(<span class="keywordtype">char</span> **), <a class="code" href="a01114.html#gae588078a95bbdc08f858b9b2778b54e2">pcl_vector_cleanup_dblptr</a>);</div>
-<div class="line"><a class="code" href="a01114.html#ga8187d2e621f85fac545931bcf490a47d">pcl_vector_append_str</a>(vec, <span class="stringliteral">&quot;Hello World&quot;</span>);</div>
-<div class="line"><a class="code" href="a01114.html#ga9ea1447b36364e086845852e1868b282">pcl_vector_remove</a>(vec, 0); <span class="comment">// calls pcl_vector_cleanup_dblptr</span></div>
-</div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
+<p>&#x202A;Set the value of an environment variable. </p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">v</td><td>&#x202A;pointer to a vector </td></tr>
-    <tr><td class="paramname">elem</td><td>&#x202A;pointer to an element </td></tr>
+    <tr><td class="paramname">name</td><td>&#x202A;name of the environment variable </td></tr>
+    <tr><td class="paramname">value</td><td>&#x202A;pointer to the value to set </td></tr>
+    <tr><td class="paramname">overwrite</td><td>&#x202A;When true, if <em>name</em> already exists it will be overwritten. If this is false, the value will not be set. If <em>name</em> doesn't exist, this argument is ignored. </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;o on success and -1 on error </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="a01013_source.html#l00036">36</a> of file <a class="el" href="a01013_source.html">vector_cleanup_dblptr.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00656_source.html#l00036">36</a> of file <a class="el" href="a00656_source.html">setenv.c</a>.</p>
 
-<p class="reference">References <a class="el" href="a01097.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe()</a>, and <a class="el" href="a00032_source.html#l00102">UNUSED</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="a00623_source.html#l00037">ipcl_net_resolve()</a>, <a class="el" href="a00611_source.html#l00049">pcl_net_dnstxtrec()</a>, and <a class="el" href="a00755_source.html#l00037">pcl_ssl_certentry()</a>.</p>
+<p class="reference">References <a class="el" href="a00017_source.html#l00306">BADARG</a>, <a class="el" href="a00017_source.html#l00125">SETLASTERR</a>, and <a class="el" href="a00035_source.html#l00124">strempty</a>.</p>
 
 </div>
 </div>
-<a id="gad92337c015e78779ec762315b25866a2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gad92337c015e78779ec762315b25866a2">&#9670;&nbsp;</a></span>pcl_vector_sort()</h2>
+<a id="ga664ead6ff59373f6eb600298c26837c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga664ead6ff59373f6eb600298c26837c2">&#9670;&nbsp;</a></span>pcl_unsetenv()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">PCL_EXPORT <a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a>* pcl_vector_sort </td>
+          <td class="memname">PCL_EXPORT int pcl_unsetenv </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="a01114.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *&#160;</td>
-          <td class="paramname"><em>v</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype">const <a class="el" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">int(*)(const void *, const void *)&#160;</td>
-          <td class="paramname"><em>cmp</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00110.html">pcl/vector.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="a00077.html">pcl/process.h</a>&gt;</code></p>
 
-<p>&#x202A;Sort a vector using <code>qsort</code>. </p>
+<p>&#x202A;Unset an environment variable. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">v</td><td>&#x202A;ppointer to a vector </td></tr>
-    <tr><td class="paramname">cmp</td><td>&#x202A;pointer to a function comparator whose behavior is identical to <code>qsort</code> </td></tr>
+    <tr><td class="paramname">name</td><td>&#x202A;name of the environment variable </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to the <em>v</em> argument </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;o on success and -1 on error </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="a01040_source.html#l00042">42</a> of file <a class="el" href="a01040_source.html">vector_qsort.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00665_source.html#l00036">36</a> of file <a class="el" href="a00665_source.html">unsetenv.c</a>.</p>
 
-<p class="reference">References <a class="el" href="a00110_source.html#l00093">tag_pcl_vector::count</a>, <a class="el" href="a00110_source.html#l00102">tag_pcl_vector::elems</a>, and <a class="el" href="a00110_source.html#l00099">tag_pcl_vector::size</a>.</p>
+<p class="reference">References <a class="el" href="a00017_source.html#l00306">BADARG</a>, <a class="el" href="a00017_source.html#l00125">SETLASTERR</a>, and <a class="el" href="a00035_source.html#l00124">strempty</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
-<div class="ttc" id="aa01111_html_ga046608776c880d7d3bf39943e692f064"><div class="ttname"><a href="a01111.html#ga046608776c880d7d3bf39943e692f064">pcl_strdup</a></div><div class="ttdeci">char * pcl_strdup(const char *s)</div><div class="ttdoc">Duplicate a string.</div></div>
-<div class="ttc" id="aa01114_html_gae588078a95bbdc08f858b9b2778b54e2"><div class="ttname"><a href="a01114.html#gae588078a95bbdc08f858b9b2778b54e2">pcl_vector_cleanup_dblptr</a></div><div class="ttdeci">PCL_EXPORT void pcl_vector_cleanup_dblptr(pcl_vector_t *v, void *elem)</div><div class="ttdoc">Built-in element cleanup handler for double pointer elements.</div><div class="ttdef"><b>Definition:</b> <a href="a01013_source.html#l00036">vector_cleanup_dblptr.c:36</a></div></div>
-<div class="ttc" id="aa00110_html"><div class="ttname"><a href="a00110.html">vector.h</a></div></div>
-<div class="ttc" id="aa00059_html"><div class="ttname"><a href="a00059.html">init.h</a></div></div>
-<div class="ttc" id="aa01114_html_ga002aba7a474ea2b6d621ae5852a3a5c6"><div class="ttname"><a href="a01114.html#ga002aba7a474ea2b6d621ae5852a3a5c6">pcl_vector_append</a></div><div class="ttdeci">#define pcl_vector_append(v, elem)</div><div class="ttdoc">Append an element.</div><div class="ttdef"><b>Definition:</b> <a href="a00110_source.html#l00156">vector.h:156</a></div></div>
-<div class="ttc" id="aa01114_html_gab34f9d473aa3d3cacf5540d8719fccf3"><div class="ttname"><a href="a01114.html#gab34f9d473aa3d3cacf5540d8719fccf3">pcl_vector_get</a></div><div class="ttdeci">#define pcl_vector_get(v, pos)</div><div class="ttdoc">Get an element.</div><div class="ttdef"><b>Definition:</b> <a href="a00110_source.html#l00136">vector.h:136</a></div></div>
-<div class="ttc" id="aa01182_html_adbe66a087ac3fd4a5b0566f64ca2d12b"><div class="ttname"><a href="a01182.html#adbe66a087ac3fd4a5b0566f64ca2d12b">tag_pcl_vector::capacity</a></div><div class="ttdeci">int capacity</div><div class="ttdoc">number of elements allocated</div><div class="ttdef"><b>Definition:</b> <a href="a00110_source.html#l00096">vector.h:96</a></div></div>
-<div class="ttc" id="aa01182_html_ad43c3812e6d13e0518d9f8b8f463ffcf"><div class="ttname"><a href="a01182.html#ad43c3812e6d13e0518d9f8b8f463ffcf">tag_pcl_vector::count</a></div><div class="ttdeci">int count</div><div class="ttdoc">number of elements in vector</div><div class="ttdef"><b>Definition:</b> <a href="a00110_source.html#l00093">vector.h:93</a></div></div>
-<div class="ttc" id="aa01182_html"><div class="ttname"><a href="a01182.html">tag_pcl_vector</a></div><div class="ttdoc">Vector object.</div><div class="ttdef"><b>Definition:</b> <a href="a00110_source.html#l00090">vector.h:91</a></div></div>
-<div class="ttc" id="aa01114_html_ga9ea1447b36364e086845852e1868b282"><div class="ttname"><a href="a01114.html#ga9ea1447b36364e086845852e1868b282">pcl_vector_remove</a></div><div class="ttdeci">PCL_EXPORT int pcl_vector_remove(pcl_vector_t *v, int pos)</div><div class="ttdoc">Remove an element.</div><div class="ttdef"><b>Definition:</b> <a href="a01043_source.html#l00036">vector_remove.c:36</a></div></div>
-<div class="ttc" id="aa01108_html_ga14907e41025b0abbdc02ef1f892bd9a2"><div class="ttname"><a href="a01108.html#ga14907e41025b0abbdc02ef1f892bd9a2">pcl_init</a></div><div class="ttdeci">PCL_EXPORT void pcl_init(void)</div><div class="ttdoc">Initializes the PCL library.</div><div class="ttdef"><b>Definition:</b> <a href="a00542_source.html#l00062">init.c:62</a></div></div>
-<div class="ttc" id="aa01114_html_ga516a4fa37d3facd5e0d86e1eb1bbee84"><div class="ttname"><a href="a01114.html#ga516a4fa37d3facd5e0d86e1eb1bbee84">pcl_vector_create</a></div><div class="ttdeci">PCL_EXPORT pcl_vector_t * pcl_vector_create(int capacity, size_t elemsize, pcl_vector_cleanup_t cleanup)</div><div class="ttdoc">Creates a new vector object.</div><div class="ttdef"><b>Definition:</b> <a href="a01022_source.html#l00036">vector_create.c:36</a></div></div>
-<div class="ttc" id="aa01114_html_ga8187d2e621f85fac545931bcf490a47d"><div class="ttname"><a href="a01114.html#ga8187d2e621f85fac545931bcf490a47d">pcl_vector_append_str</a></div><div class="ttdeci">PCL_EXPORT void * pcl_vector_append_str(pcl_vector_t *v, const char *s)</div><div class="ttdoc">Allocate and append a string.</div><div class="ttdef"><b>Definition:</b> <a href="a01010_source.html#l00037">vector_append_str.c:37</a></div></div>
-<div class="ttc" id="aa01114_html_gaab2be8ec6279861c6ba6bb0f20e73ccb"><div class="ttname"><a href="a01114.html#gaab2be8ec6279861c6ba6bb0f20e73ccb">pcl_vector_free</a></div><div class="ttdeci">PCL_EXPORT void pcl_vector_free(pcl_vector_t *v)</div><div class="ttdoc">Release all resources used by a vector as well as the vector itself.</div><div class="ttdef"><b>Definition:</b> <a href="a01025_source.html#l00036">vector_free.c:36</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

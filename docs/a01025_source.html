@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/vector/vector_free.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/vector/vector_create.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">vector_free.c</div>  </div>
+<div class="title">vector_create.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a01025.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,27 +101,23 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00110.html">pcl/vector.h</a>&gt;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00020.html">pcl/alloc.h</a>&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00113.html">pcl/vector.h</a>&gt;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">void</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01114.html#gaab2be8ec6279861c6ba6bb0f20e73ccb">   36</a></span>&#160;<a class="code" href="a01114.html#gaab2be8ec6279861c6ba6bb0f20e73ccb">pcl_vector_free</a>(<a class="code" href="a01182.html">pcl_vector_t</a> *v)</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<a class="code" href="a01186.html">pcl_vector_t</a> *</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01118.html#ga516a4fa37d3facd5e0d86e1eb1bbee84">   36</a></span>&#160;<a class="code" href="a01118.html#ga516a4fa37d3facd5e0d86e1eb1bbee84">pcl_vector_create</a>(<span class="keywordtype">int</span> capacity, <span class="keywordtype">size_t</span> elemsize, <a class="code" href="a01118.html#ga1ef62141a23331682c8554facd43faaa">pcl_vector_cleanup_t</a> cleanup)</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <a class="code" href="a01114.html#ga7ee744f6d4d0f6db5ce022988e9275a6">pcl_vector_clear</a>(v);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordflow">if</span>(v)</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <a class="code" href="a01097.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe</a>(v-&gt;<a class="code" href="a01182.html#a0f959190ef240e958c70d3fd28c3d856">elems</a>);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <a class="code" href="a01097.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe</a>(v);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;}</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <a class="code" href="a01186.html">pcl_vector_t</a> *v = <a class="code" href="a01100.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a>(<span class="keyword">sizeof</span>(<a class="code" href="a01186.html">pcl_vector_t</a>));</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01118.html#gafc6b9f242b8965850d48a5233d7d23ed">pcl_vector_init</a>(v, capacity, elemsize, cleanup);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00110_html"><div class="ttname"><a href="a00110.html">vector.h</a></div></div>
-<div class="ttc" id="aa01182_html_a0f959190ef240e958c70d3fd28c3d856"><div class="ttname"><a href="a01182.html#a0f959190ef240e958c70d3fd28c3d856">tag_pcl_vector::elems</a></div><div class="ttdeci">char * elems</div><div class="ttdoc">Element array.</div><div class="ttdef"><b>Definition:</b> <a href="a00110_source.html#l00102">vector.h:102</a></div></div>
-<div class="ttc" id="aa01114_html_ga7ee744f6d4d0f6db5ce022988e9275a6"><div class="ttname"><a href="a01114.html#ga7ee744f6d4d0f6db5ce022988e9275a6">pcl_vector_clear</a></div><div class="ttdeci">PCL_EXPORT pcl_vector_t * pcl_vector_clear(pcl_vector_t *v)</div><div class="ttdoc">Clear/remove all elements from a vector.</div><div class="ttdef"><b>Definition:</b> <a href="a01016_source.html#l00035">vector_clear.c:35</a></div></div>
-<div class="ttc" id="aa01097_html_ga2de1e7abd61febca9d319940c5c2bd1b"><div class="ttname"><a href="a01097.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe</a></div><div class="ttdeci">void * pcl_free_safe(void *p)</div><div class="ttdoc">Safely free memory space.</div></div>
-<div class="ttc" id="aa00020_html"><div class="ttname"><a href="a00020.html">alloc.h</a></div></div>
-<div class="ttc" id="aa01182_html"><div class="ttname"><a href="a01182.html">tag_pcl_vector</a></div><div class="ttdoc">Vector object.</div><div class="ttdef"><b>Definition:</b> <a href="a00110_source.html#l00090">vector.h:91</a></div></div>
-<div class="ttc" id="aa01114_html_gaab2be8ec6279861c6ba6bb0f20e73ccb"><div class="ttname"><a href="a01114.html#gaab2be8ec6279861c6ba6bb0f20e73ccb">pcl_vector_free</a></div><div class="ttdeci">void pcl_vector_free(pcl_vector_t *v)</div><div class="ttdoc">Release all resources used by a vector as well as the vector itself.</div><div class="ttdef"><b>Definition:</b> <a href="a01025_source.html#l00036">vector_free.c:36</a></div></div>
+<div class="ttc" id="aa01100_html_ga1df8575b9ae906470c782db9c26201e8"><div class="ttname"><a href="a01100.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a></div><div class="ttdeci">void * pcl_malloc(size_t n)</div><div class="ttdoc">Allocate dynamic memory.</div></div>
+<div class="ttc" id="aa01118_html_ga516a4fa37d3facd5e0d86e1eb1bbee84"><div class="ttname"><a href="a01118.html#ga516a4fa37d3facd5e0d86e1eb1bbee84">pcl_vector_create</a></div><div class="ttdeci">pcl_vector_t * pcl_vector_create(int capacity, size_t elemsize, pcl_vector_cleanup_t cleanup)</div><div class="ttdoc">Creates a new vector object.</div><div class="ttdef"><b>Definition:</b> <a href="a01025_source.html#l00036">vector_create.c:36</a></div></div>
+<div class="ttc" id="aa01186_html"><div class="ttname"><a href="a01186.html">tag_pcl_vector</a></div><div class="ttdoc">Vector object.</div><div class="ttdef"><b>Definition:</b> <a href="a00113_source.html#l00090">vector.h:91</a></div></div>
+<div class="ttc" id="aa00113_html"><div class="ttname"><a href="a00113.html">vector.h</a></div></div>
+<div class="ttc" id="aa01118_html_ga1ef62141a23331682c8554facd43faaa"><div class="ttname"><a href="a01118.html#ga1ef62141a23331682c8554facd43faaa">pcl_vector_cleanup_t</a></div><div class="ttdeci">void(* pcl_vector_cleanup_t)(pcl_vector_t *v, void *elem)</div><div class="ttdoc">A callback cleanup function for vector elements.</div><div class="ttdef"><b>Definition:</b> <a href="a00113_source.html#l00087">vector.h:87</a></div></div>
+<div class="ttc" id="aa01118_html_gafc6b9f242b8965850d48a5233d7d23ed"><div class="ttname"><a href="a01118.html#gafc6b9f242b8965850d48a5233d7d23ed">pcl_vector_init</a></div><div class="ttdeci">PCL_EXPORT pcl_vector_t * pcl_vector_init(pcl_vector_t *v, int capacity, size_t elemsize, pcl_vector_cleanup_t cleanup)</div><div class="ttdoc">Initialize a vector.</div><div class="ttdef"><b>Definition:</b> <a href="a01037_source.html#l00036">vector_init.c:36</a></div></div>
+<div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>
