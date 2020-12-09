@@ -208,7 +208,7 @@ PCL_EXPORT int pcl_err_vtrace(PCL_LOCATION_PARAMS, const char *format, va_list a
  * Error Mapping functions
  */
 
-/* Get the default PCL error message given an PCL error code. */
+/** Get the default PCL error message given an PCL error code. */
 PCL_EXPORT const char *pcl_err_msg(int err);
 
 /* Get the PCL error name given an PCL error code. */

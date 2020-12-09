@@ -32,6 +32,10 @@
 #ifndef LIBPCL_ERRCTX_H
 #define LIBPCL_ERRCTX_H
 
+/** @defgroup errctx Error Context Management
+ * Provides functions for managing error contexts.
+ * @{
+ */
 #include <pcl/types.h>
 
 #ifdef __cplusplus
@@ -159,4 +163,5 @@ PCL_EXPORT int pcl_err_ctx_vsprintf(pcl_err_ctx_t *ctx, char *buf, size_t size, 
 }
 #endif
 
+/** @} */
 #endif // LIBPCL_ERRCTX_H
