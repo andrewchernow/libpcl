@@ -32,7 +32,6 @@
 #include "_file.h"
 #include <pcl/alloc.h>
 #include <pcl/defs.h>
-#include <pcl/errctx.h>
 #include <pcl/error.h>
 
 void
@@ -41,10 +40,7 @@ pcl_file_close(pcl_file_t *file)
 	if(!file)
 		return;
 
-	// ignore errors during by below cleanup
-	uint32_t oserr = pcl_oserrno;
-	pcl_err_ctx_t *ctx = pcl_err_ctx();
-	ctx->frozen = true;
+	pcl_err_freeze(true);
 
 	if(file->flags & PCL_FF_FLOCK)
 		(void) pcl_file_lock(file, PCL_UNLOCK);
@@ -83,6 +79,5 @@ pcl_file_close(pcl_file_t *file)
 
 	pcl_free(file);
 
-	pcl_setoserrno(oserr);
-	ctx->frozen = false;
+	pcl_err_freeze(false);
 }

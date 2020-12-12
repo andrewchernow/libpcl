@@ -30,11 +30,31 @@
 */
 
 #include "_error.h"
-#include <pcl/errctx.h>
+#include <pcl/buf.h>
+#include <string.h>
 
 int
-pcl_err_vsprintf(char *buf, size_t size, int indent,
-	const char *format, va_list args)
+pcl_err_vsprintf(char *buf, size_t size, int indent, const char *format, va_list ap)
 {
-	return pcl_err_ctx_vsprintf(pcl_err_ctx(), buf, size, indent, format, args);
+	int r = 0;
+	pcl_err_t *err = pcl_err_get();
+
+	/* always freeze so any calls made during serialize operation don't mutate err */
+	bool was_frozen = err->frozen;
+
+	err->frozen = true;
+	pcl_buf_t *b = ipcl_err_serialize(indent, format, ap);
+	err->frozen = was_frozen;
+
+	if(b)
+	{
+		r = b->len;
+
+		if(size <= (size_t) r)
+			return -1;
+
+		memcpy(buf, b->data, r + 1);
+	}
+
+	return r;
 }

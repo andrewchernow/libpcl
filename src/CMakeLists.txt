@@ -9,7 +9,6 @@ add_subdirectory(buf)
 add_subdirectory(crypto)
 add_subdirectory(dir)
 add_subdirectory(dl)
-add_subdirectory(errctx)
 add_subdirectory(error)
 add_subdirectory(event)
 add_subdirectory(farmhash)
@@ -17,6 +16,7 @@ add_subdirectory(file)
 add_subdirectory(htable)
 add_subdirectory(init)
 add_subdirectory(io)
+add_subdirectory(json)
 add_subdirectory(log)
 add_subdirectory(net)
 add_subdirectory(process)
@@ -45,7 +45,6 @@ add_library(pcl SHARED
 	$<TARGET_OBJECTS:crypto>
 	$<TARGET_OBJECTS:dir>
 	$<TARGET_OBJECTS:dl>
-	$<TARGET_OBJECTS:errctx>
 	$<TARGET_OBJECTS:error>
 	$<TARGET_OBJECTS:event>
 	"${PROJECT_SOURCE_DIR}/libs/${PLAT}/farmhash.${OBJEXT}"
@@ -54,6 +53,7 @@ add_library(pcl SHARED
 	$<TARGET_OBJECTS:htable>
 	$<TARGET_OBJECTS:init>
 	$<TARGET_OBJECTS:io>
+	$<TARGET_OBJECTS:json>
 	$<TARGET_OBJECTS:log>
 	$<TARGET_OBJECTS:net>
 	$<TARGET_OBJECTS:process>

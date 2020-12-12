@@ -73,7 +73,6 @@ pcl_log_event_default(PCL_LOCATION_PARAMS, uint32_t level, const char *message, 
 		.when          = pcl_time(),
 		.level         = level,
 		.facility      = "libpcl",
-		.ctx           = NULL, /* use current thread's context */
 
 		/* exit config: like panic or even fatal */
 		.exit_code     = EXIT_FAILURE,

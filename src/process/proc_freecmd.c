@@ -33,12 +33,12 @@
 #include <pcl/alloc.h>
 
 void *
-pcl_proc_freeargv(int targc, pchar_t **targv)
+pcl_proc_freeargv(int argc, pchar_t **argv)
 {
 	int i;
 
-	for(i=0; i < targc; i++)
-		pcl_free_safe(targv[i]);
+	for(i=0; i < argc; i++)
+		pcl_free_safe(argv[i]);
 
-	return pcl_free_safe(targv);
+	return pcl_free_safe(argv);
 }

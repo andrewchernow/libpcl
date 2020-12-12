@@ -62,10 +62,11 @@ typedef long double pcl_clock_t; /* high-res performance counter (nanosecs) */
 /* forward declarations */
 typedef struct tag_pcl_time pcl_time_t;
 typedef struct tag_pcl_err_trace pcl_err_trace_t;
-typedef struct tag_pcl_err_ctx pcl_err_ctx_t;
+typedef struct tag_pcl_err pcl_err_t;
 typedef struct tag_pcl_digest pcl_digest_t;
 typedef struct tag_pcl_cipher pcl_cipher_t;
 typedef struct tag_pcl_file pcl_file_t;
+typedef struct tag_pcl_json_value pcl_json_value_t;
 /** Directory handle.
  * @ingroup dir
  */

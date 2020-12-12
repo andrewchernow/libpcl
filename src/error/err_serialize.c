@@ -29,30 +29,37 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "_errctx.h"
+#include "_error.h"
 #include <pcl/buf.h>
 #include <pcl/io.h>
 
 pcl_buf_t *
-ipcl_err_ctx_serialize(pcl_err_ctx_t *ctx, int indent, const char *format, va_list ap)
+ipcl_err_serialize(int indent, const char *format, va_list ap)
 {
-	pcl_err_trace_t *t = ctx->strace;
+	pcl_err_t *err = pcl_err_get();
+	pcl_err_trace_t *t = err->strace;
 
-	if(!t || ctx->err == PCL_EOKAY)
+	if(!t || err->err == PCL_EOKAY)
 		return NULL;
 
 	char line[24];
 	bool hasfile, hasfunc, hasmsg;
-	pcl_buf_t *b = ctx->buffer;
+	pcl_buf_t *b = err->buffer;
 
 	if(!b)
-		b = ctx->buffer = pcl_buf_init(NULL, 512, PclBufText);
+		b = err->buffer = pcl_buf_init(NULL, 512, PclBufText);
 	else
 		pcl_buf_reset(b); // resue it (again, per-thread)
 
+	bool panic = indent == -1;
+
+	indent = max(0, indent);
+
 	if(!strempty(format))
 	{
-		pcl_buf_putf(b, "%*sERROR: ", indent, indent ? " " : "");
+		const char *prefix = panic ? "PANIC: " : "ERROR: ";
+
+		pcl_buf_putf(b, "%*s%s", indent, indent ? " " : "", prefix);
 		pcl_buf_vputf(b, format, ap);
 
 		/* ensure message is terminated with LF */
@@ -99,8 +106,8 @@ ipcl_err_ctx_serialize(pcl_err_ctx_t *ctx, int indent, const char *format, va_li
 		hasfunc ? t->func : "",
 		line,
 		(hasfile || hasfunc || *line) ? ": " : "",
-		pcl_err_name(ctx->err),
-		pcl_err_msg(ctx->err));
+		pcl_err_name(err->err),
+		pcl_err_msg(err->err));
 
 	/* print actual error message, this could be empty if a context msg was not provided. */
 	if(!strempty(t->msg))

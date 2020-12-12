@@ -29,17 +29,17 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "../errctx/_errctx.h"
+#include "_error.h"
 
 char *
 pcl_err_lastmsg(void)
 {
 	static char empty_str[1] = {0};
 
-	pcl_err_ctx_t *ctx = pcl_err_ctx();
+	pcl_err_t *err = pcl_err_get();
 	pcl_err_trace_t *last = NULL;
 
-	for(pcl_err_trace_t *head = ctx->strace; head; head = head->next)
+	for(pcl_err_trace_t *head = err->strace; head; head = head->next)
 		last = head;
 
 	return last && last->msg ? last->msg : empty_str;

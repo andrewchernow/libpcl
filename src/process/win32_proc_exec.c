@@ -32,7 +32,6 @@
 #include "_process.h"
 #include "../win32/_win32.h"
 #include "../file/_file.h"
-#include <pcl/errctx.h>
 #include <pcl/string.h>
 #include <pcl/io.h>
 #include <pcl/alloc.h>
@@ -379,9 +378,7 @@ createprocess(pcl_proc_exec_t *exec, const pchar_t *comspec, pchar_t *command,
 		return true;
 
 	/* save exception that CreateProcessAsUser threw. */
-	pcl_err_ctx_t *ctx = pcl_err_ctx();
-
-	ctx->frozen = 1;
+	pcl_err_freeze(true);
 
 	/* Is the current process running as LocalSystem user? */
 	char sidbuf[SECURITY_MAX_SID_SIZE];
@@ -390,7 +387,7 @@ createprocess(pcl_proc_exec_t *exec, const pchar_t *comspec, pchar_t *command,
 	CreateWellKnownSid(WinLocalSystemSid, NULL, localsystem_sid, &sidsize);
 	if(!(process_sid = ipcl_win32_process_sid()))
 	{
-		ctx->frozen = 0;
+		pcl_err_freeze(false);
 		return false;
 	}
 
@@ -399,11 +396,11 @@ createprocess(pcl_proc_exec_t *exec, const pchar_t *comspec, pchar_t *command,
 	pcl_free(process_sid);
 	if(success)
 	{
-		ctx->frozen = 0;
+		pcl_err_freeze(false);
 		return false;
 	}
 
-	ctx->frozen = 0;
+	pcl_err_freeze(false);
 
 	success = CreateProcessWithLogonW(exec->user, langrp, exec->pass,
 		LOGON_WITH_PROFILE, comspec, command, crflags, NULL, exec->cwd, si, pi);

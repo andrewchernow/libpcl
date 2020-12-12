@@ -29,7 +29,7 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "../errctx/_errctx.h"
+#include "_error.h"
 #include <pcl/alloc.h>
 #include <pcl/io.h>
 #include <pcl/string.h>
@@ -37,9 +37,9 @@
 int
 pcl_err_vtrace(PCL_LOCATION_PARAMS, const char *format, va_list ap)
 {
-	pcl_err_ctx_t *ctx = pcl_err_ctx();
+	pcl_err_t *err = pcl_err_get();
 
-	if(ctx->frozen)
+	if(err->frozen)
 		return 0;
 
 	/* To avoid issues with a trace occuring in an SO or DLL that's been unloaded, we must allocate
@@ -94,8 +94,8 @@ pcl_err_vtrace(PCL_LOCATION_PARAMS, const char *format, va_list ap)
 		pcl_vsprintf(trc->msg, msg_len, format, ap);
 
 	/* add to stack (push) */
-	trc->next = ctx->strace;
-	ctx->strace = trc;
+	trc->next = err->strace;
+	err->strace = trc;
 
-	return ctx->err == PCL_EOKAY ? 0 : -1;
+	return err->err == PCL_EOKAY ? 0 : -1;
 }

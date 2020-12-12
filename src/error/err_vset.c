@@ -29,22 +29,22 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "../errctx/_errctx.h"
+#include "_error.h"
 
 int
-pcl_err_vset(PCL_LOCATION_PARAMS, int err, uint32_t oserr, const char *format, va_list ap)
+pcl_err_vset(PCL_LOCATION_PARAMS, int e, uint32_t oserr, const char *format, va_list ap)
 {
-	pcl_err_ctx_t *ctx = pcl_err_ctx();
+	pcl_err_t *err = pcl_err_get();
 
-	if(ctx->frozen)
+	if(err->frozen)
 		return 0;
 
-	pcl_err_ctx_clear(ctx);
+	pcl_err_clear();
 
-	if(err == PCL_EOKAY)
+	if(e == PCL_EOKAY)
 		return 0;
 
-	ctx->err = err;
-	ctx->oserr = oserr;
+	err->err = e;
+	err->oserr = oserr;
 	return pcl_err_vtrace(PCL_LOCATION_VALS, format, ap);
 }

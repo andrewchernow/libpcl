@@ -1,6 +1,6 @@
 /*
-  Portable C Library ("PCL")
-  Copyright (c) 1999-2020 Andrew Chernow
+  Portable C Library (PCL)
+  Copyright (c) 1999-2003, 2005-2014, 2017-2020 Andrew Chernow
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without
@@ -29,14 +29,14 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "_errctx.h"
+#include "_error.h"
 
-int
-pcl_err_ctx_fprintf(pcl_err_ctx_t *ctx, FILE *fp, int indent, const char *message, ...)
+char *
+pcl_err_json(const char *message, ...)
 {
 	va_list ap;
 	va_start(ap, message);
-	int r = pcl_err_ctx_vfprintf(ctx, fp, indent, message, ap);
+	char *json = pcl_err_vjson(message, ap);
 	va_end(ap);
-	return r;
+	return json;
 }

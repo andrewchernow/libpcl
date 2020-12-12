@@ -102,7 +102,6 @@ struct tag_pcl_log_event
 	pcl_time_t when;       /* when the event occurred */
 	uint32_t level;        /* log level OR'd with possible log trace bit */
 	const char *facility;  /* name for the app/thread/etc... that is logging the event, can be NULL */
-	pcl_err_ctx_t *ctx;    /* optional context, if NULL the current thread's context is used. */
 
 	/* EXIT CONFIG: like panic or even fatal */
 	int exit_code;         /* exit code to use by exit_handler or by logging system if

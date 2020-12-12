@@ -34,9 +34,9 @@
 int
 pcl_err_fprintf(FILE *stream, int indent, const char *format, ...)
 {
-	va_list args;
-	va_start(args, format);
-	int r = pcl_err_vfprintf(stream, indent, format, args);
-	va_end(args);
+	va_list ap;
+	va_start(ap, format);
+	int r = pcl_err_vfprintf(stream, indent, format, ap);
+	va_end(ap);
 	return r;
 }

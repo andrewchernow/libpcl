@@ -29,7 +29,7 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "../errctx/_errctx.h"
+#include "_error.h"
 
 int
 pcl_err_trace(PCL_LOCATION_PARAMS, const char *format, ...)

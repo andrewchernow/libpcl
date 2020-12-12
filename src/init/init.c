@@ -32,7 +32,7 @@
 
 #include "../time/_time.h"     // time_handler
 #include "../event/_event.h"   // ipcl_event_init
-#include "../errctx/_errctx.h" // err_ctx_handler
+#include "../error/_error.h" // err_handler
 #include <pcl/init.h>
 #include <pcl/atomic.h>
 
@@ -50,7 +50,7 @@
 #include <locale.h>
 
 static pcl_event_handler_t builtin_handlers[] = {
-	ipcl_err_ctx_handler,
+	ipcl_err_handler,
 	ipcl_time_handler,
 #ifdef PCL_WINDOWS
 	ipcl_win32_socket_handler,

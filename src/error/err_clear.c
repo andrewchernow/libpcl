@@ -29,16 +29,21 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "../errctx/_errctx.h"
+#include "_error.h"
 
 int
 pcl_err_clear(void)
 {
-	pcl_err_ctx_t *ctx = pcl_err_ctx();
+	pcl_err_t *err = pcl_err_get();
 
-	if(!ctx->frozen)
+	if(!err->frozen)
 	{
-		pcl_err_ctx_clear(ctx);
+		/* NOTE: do not clear possible err->buffer, defeats the purpose. No need to reset it
+		 * either since it's always reset before use within ipcl_err_serialize().
+		 */
+		err->err = PCL_EOKAY;
+		err->oserr = 0;
+		err->strace = ipcl_err_trace_free(err->strace);
 		pcl_err_osclear();
 	}
 

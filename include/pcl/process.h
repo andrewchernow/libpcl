@@ -275,12 +275,12 @@ PCL_EXPORT void pcl_proc_close(pcl_prochandle_t handle);
 PCL_EXPORT int pcl_proc_parsecmd(const pchar_t *shell_cmd, pchar_t ***out);
 
 /** Free an argv array.
- * @param targc number of arguments (exlcuding trailing \c NULL element)
- * @param targv pointer to an argument array
+ * @param argc number of arguments (exlcuding trailing \c NULL element)
+ * @param argv pointer to an argument array
  * @return always returns \c NULL
  * @see pcl_proc_parsecmd
  */
-PCL_EXPORT void *pcl_proc_freeargv(int targc, pchar_t **targv);
+PCL_EXPORT void *pcl_proc_freeargv(int argc, pchar_t **argv);
 
 /** Get the value of an environment variable.
  * @param name name of the environment variable

@@ -29,11 +29,11 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "../errctx/_errctx.h"
+#include "_error.h"
 
 int
 pcl_err_last(void)
 {
-	return pcl_err_ctx()->err;
+	return pcl_err_get()->err;
 }
 

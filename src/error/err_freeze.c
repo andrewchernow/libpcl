@@ -30,10 +30,9 @@
 */
 
 #include <pcl/error.h>
-#include <pcl/errctx.h>
 
 void
 pcl_err_freeze(bool freeze)
 {
-	pcl_err_ctx()->frozen = freeze;
+	pcl_err_get()->frozen = freeze;
 }

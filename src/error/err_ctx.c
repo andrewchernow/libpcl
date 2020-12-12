@@ -30,31 +30,43 @@
 */
 
 /* NOTE: the errctx.h API knows nothing about per-thread contextes. It just knows how
- * to manage and output a pcl_err_ctx_t. This is why pcl_err_ctx() is defined within
+ * to manage and output a pcl_err_t. This is why pcl_err_get() is defined within
  * the error.h API. This is the linkage.
  */
 
-#include "../errctx/_errctx.h"
+#include "_error.h"
 #include <pcl/thread.h>
 #include <pcl/event.h>
+#include <pcl/alloc.h>
+#include <pcl/buf.h>
 
-/* holds our pcl_err_ctx_t for this thread. */
+/* holds our pcl_err_t for this thread. */
 static pthread_key_t ctxkey;
 
-pcl_err_ctx_t *
-pcl_err_ctx(void)
+/* TLS callback: ignores frozen state */
+static void
+ctx_destroy(void *obj)
+{
+	pcl_err_t *err = obj;
+	ipcl_err_trace_free(err->strace);
+	pcl_buf_free(err->buffer);
+	pcl_free(err);
+}
+
+pcl_err_t *
+pcl_err_get(void)
 {
 	return pcl_tls_get(ctxkey);
 }
 
 void
-ipcl_err_ctx_handler(uint32_t which, void *data)
+ipcl_err_handler(uint32_t which, void *data)
 {
 	UNUSED(data);
 
 	if(which == PCL_EVENT_INIT)
-		pcl_tls_alloc(&ctxkey, ipcl_err_ctx_destroy);
+		pcl_tls_alloc(&ctxkey, ctx_destroy);
 
 	if(which == PCL_EVENT_INIT || which == PCL_EVENT_THREADINIT)
-		pcl_tls_set(ctxkey, pcl_err_ctx_create());
+		pcl_tls_set(ctxkey, pcl_zalloc(sizeof(pcl_err_t)));
 }

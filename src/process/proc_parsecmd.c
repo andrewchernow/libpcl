@@ -39,7 +39,7 @@ pcl_proc_parsecmd(const pchar_t *shell_cmd, pchar_t ***out)
 {
 	const pchar_t *start;
 	bool in_quote = false;
-	pchar_t **targv;
+	pchar_t **argv;
 	size_t size = 4;
 	int count = 0;
 
@@ -54,7 +54,7 @@ pcl_proc_parsecmd(const pchar_t *shell_cmd, pchar_t ***out)
 	}
 
 	start = shell_cmd;
-	targv = (pchar_t **)pcl_malloc((size + 1) * sizeof(pchar_t *));
+	argv = (pchar_t **)pcl_malloc((size + 1) * sizeof(pchar_t *));
 
 	while(true)
 	{
@@ -75,7 +75,7 @@ pcl_proc_parsecmd(const pchar_t *shell_cmd, pchar_t ***out)
 				{
 					if(!in_quote)
 					{
-						pcl_proc_freeargv(count, targv);
+						pcl_proc_freeargv(count, argv);
 						return SETERRMSG(PCL_ESYNTAX, "unescaped quote", 0);
 					}
 
@@ -85,7 +85,7 @@ pcl_proc_parsecmd(const pchar_t *shell_cmd, pchar_t ***out)
 				{
 					if(*shell_cmd == '\0')
 					{
-						pcl_proc_freeargv(count, targv);
+						pcl_proc_freeargv(count, argv);
 						return SETERRMSG(PCL_ESYNTAX, "unterminated quote", 0);
 					}
 
@@ -100,10 +100,10 @@ pcl_proc_parsecmd(const pchar_t *shell_cmd, pchar_t ***out)
 					if(count == (int)size)
 					{
 						size = (size * 3) / 2;
-						targv = (pchar_t **)pcl_realloc(targv, (size + 1) * sizeof(pchar_t *));
+						argv = (pchar_t **)pcl_realloc(argv, (size + 1) * sizeof(pchar_t *));
 					}
 
-					targv[count++] = pcl_pcsndup(start, shell_cmd - start);
+					argv[count++] = pcl_pcsndup(start, shell_cmd - start);
 				}
 
 				if(*shell_cmd == '\0')
@@ -129,9 +129,9 @@ pcl_proc_parsecmd(const pchar_t *shell_cmd, pchar_t ***out)
 
 finish:
 
-	targv[count] = NULL;
+	argv[count] = NULL;
 	if(out)
-		*out = targv;
+		*out = argv;
 
 	return count;
 }

@@ -171,7 +171,7 @@
  *
  *   // set key address to user_id
  *   for(int i = 0; i < num_users; i++)
- *     pcl_htable_put(ht, IDTOKEY(users[i]->id), users[i]->id, true);
+ *     pcl_htable_put(ht, IDTOKEY(users[i]->id), users[i], true);
  *
  *   pcl_free(users);
  *

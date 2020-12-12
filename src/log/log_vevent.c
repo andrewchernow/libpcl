@@ -32,7 +32,6 @@
 #include <pcl/log.h>
 #include <pcl/time.h>
 #include <pcl/vector.h>
-#include <pcl/errctx.h>
 #include <pcl/error.h>
 #include <pcl/io.h>
 #include <pcl/string.h>
@@ -48,9 +47,8 @@ pcl_log_vevent(pcl_log_event_t *e, const char *message, va_list ap)
 	char timestr[128];
 	char *msg = NULL;
 	char *location = NULL;
-	pcl_err_ctx_t *ctx = e->ctx ? e->ctx : pcl_err_ctx();
 
-	ctx->frozen = 1;
+	pcl_err_freeze(true);
 
 	/* format msg */
 	if(!strempty(message))
@@ -117,22 +115,19 @@ pcl_log_vevent(pcl_log_event_t *e, const char *message, va_list ap)
 		msg ? msg : "");
 
 	if(PCL_LOGLEV_HASTRACE(e->level))
-		count += pcl_err_ctx_fprintf(ctx, e->stream, 2, NULL);
+		count += pcl_err_fprintf(e->stream, 2, NULL);
 
 	fflush(e->stream);
 	pcl_free_safe(location);
 	pcl_free_safe(msg);
-	ctx->frozen = 0;
+	pcl_err_freeze(false);
 
 	/* Exit Policy: should this level cause an app `exit(3)` */
 	if(e->exit_levels & e->level)
 	{
 		/* callee provided an exit_handler */
 		if(e->exit_handler)
-		{
-			e->ctx = ctx;
 			e->exit_handler(e, e->exit_context);
-		}
 
 		/* exit_handler was NULL or provided one didn't exit. No need to free ctx. */
 		exit(e->exit_code);

@@ -36,9 +36,9 @@
  * @{
  */
 
-/** Freeze the current thread's error context while executing code.
- * This is useful when performing cleanup code and it is desired to preserve error context.
- * In addition to freezing the per-thread context, this also preserves the current OS error code.
+/** Freeze the current thread's error while executing code.
+ * This is useful when performing cleanup code and it is desired to preserve error.
+ * In addition to freezing the per-thread error, this also preserves the current OS error code.
  *
  * @code
  * FREEZE_ERR
@@ -250,7 +250,7 @@
 #define R_SETLASTERRMSG(_retval, _msgfmt, ...) \
   R_SETOSERRMSG(_retval, pcl_oserrno, _msgfmt, __VA_ARGS__)
 
-/** Adds a stack trace to the current thread's error context.
+/** Adds a stack trace to the current thread's error.
  * When a nested function fails, known to have already set an error/trace, tracing macros can
  * be used to track the call stack.
  * @code
@@ -261,7 +261,7 @@
  */
 #define TRC() TRCMSG(NULL, 0)
 
-/** Adds a stack trace to the current thread's error context with an error message.
+/** Adds a stack trace to the current thread's error with an error message.
  * When a nested function fails, known to have already set an error/trace, tracing macros can
  * be used to track the call stack.
  * @code
@@ -274,7 +274,7 @@
  */
 #define TRCMSG(_msgfmt, ...) pcl_err_trace(PCL_LOCATION_ARGS, _msgfmt, __VA_ARGS__)
 
-/** Sets the return value and adds a stack trace to the current thread's error context.
+/** Sets the return value and adds a stack trace to the current thread's error.
  * When a nested function fails, known to have already set an error/trace, tracing macros can
  * be used to track the call stack.
  * @code
@@ -286,7 +286,7 @@
  */
 #define R_TRC(_retval) R_TRCMSG(_retval, NULL, 0)
 
-/** Sets the return value and adds a stack trace to the current thread's error context with
+/** Sets the return value and adds a stack trace to the current thread's error with
  * an error message.
  * When a nested function fails, known to have already set an error/trace, tracing macros can
  * be used to track the call stack.
@@ -311,20 +311,21 @@
 }while(0)
 
 #define PANIC(_m, ...) do{ \
-  PTRACE(_m,__VA_ARGS__); \
+  TRC(); \
+  pcl_err_fprintf(stderr, -1, _m, __VA_ARGS__); \
   exit(1); \
 }while(0)
 
-/* print a debug line with a formatted message */
-#define PLNMSG(_m, ...) do{ \
+/** print a debug line with a formatted message: this always appends an LF */
+#define DEBUGMSG(_m, ...) do{ \
   fprintf(stderr, "%s:%s(%d) - ", PCL_LOCATION_ARGS); \
   fprintf(stderr, _m, __VA_ARGS__);                   \
   fprintf(stderr, "\n");                          \
   fflush(stderr); \
 }while(0)
 
-/* print a debug line */
-#define PLN do{ \
+/** print a debug line: this always appends an LF */
+#define DEBUG do{ \
   fprintf(stderr, "%s:%s(%d)\n", PCL_LOCATION_ARGS); \
   fflush(stderr); \
 }while(0)

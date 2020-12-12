@@ -1,6 +1,6 @@
 /*
-  Portable C Library ("PCL")
-  Copyright (c) 1999-2020 Andrew Chernow
+  Portable C Library (PCL)
+  Copyright (c) 1999-2003, 2005-2014, 2017-2020 Andrew Chernow
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without
@@ -29,18 +29,96 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "_errctx.h"
-#include <pcl/alloc.h>
+#include "_error.h"
+#include <pcl/buf.h>
+#include <pcl/strint.h>
+#include <string.h>
 
-pcl_err_trace_t *
-ipcl_err_ctx_trace_free(pcl_err_trace_t *head)
+int
+pcl_err_setjson(const char *json)
 {
-	while(head)
+	pcl_err_t *err = pcl_err_get();
+
+	if(err->frozen)
+		return 0;
+
+	pcl_err_clear();
+
+	pcl_buf_t b;
+
+	pcl_buf_init(&b, 512, PclBufText);
+
+	for(const char *j = json; *j; )
 	{
-		pcl_err_trace_t *node = head;
-		head = node->next;
-		pcl_free(node);
+		if(*j != '\\')
+		{
+			pcl_buf_putchar(&b, *j++);
+			continue;
+		}
+
+		switch(*++j)
+		{
+			case '\0':
+				break;
+
+			case '\\':
+			case '"':
+			case '/':
+				pcl_buf_putchar(&b, *j++);
+				break;
+
+			case 'b':
+				j++;
+				pcl_buf_putstr(&b, "\b");
+				break;
+
+			case 't':
+				j++;
+				pcl_buf_putstr(&b, "\t");
+				break;
+
+			case 'n':
+				j++;
+				pcl_buf_putstr(&b, "\n");
+				break;
+
+			case 'f':
+				j++;
+				pcl_buf_putstr(&b, "\f");
+				break;
+
+			case 'r':
+				j++;
+				pcl_buf_putstr(&b, "\r");
+				break;
+
+			case 'u':
+			{
+				const char *s = j + 1;
+
+				if(isxdigit(*s) && isxdigit(s[1]) && isxdigit(s[2]) && isxdigit(s[3]))
+				{
+					int val;
+					char buf[5];
+
+					memcpy(buf, s, 4);
+					buf[4] = 0;
+
+					if(pcl_strtoi(s, NULL, 16, &val) == 0 && val < 0x20)
+					{
+						pcl_buf_putf(&b, "%c", (char) val);
+						j += 5; // skip u0000
+						break;
+					}
+				}
+
+				// fall-through
+			}
+
+			default:
+				pcl_buf_putf(&b, "\\%c", *j++);
+		}
 	}
 
-	return head;
+	return 0;
 }

@@ -1,6 +1,6 @@
 /*
-  Portable C Library ("PCL")
-  Copyright (c) 1999-2020 Andrew Chernow
+  Portable C Library (PCL)
+  Copyright (c) 1999-2003, 2005-2014, 2017-2020 Andrew Chernow
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without
@@ -29,32 +29,34 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "_errctx.h"
-#include <pcl/buf.h>
-#include <string.h>
+#ifndef LIBPCL_JSON_H
+#define LIBPCL_JSON_H
 
-int
-pcl_err_ctx_vsprintf(pcl_err_ctx_t *ctx, char *buf, size_t size, int indent,
-	const char *message, va_list ap)
+#include <pcl/types.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+struct tag_pcl_json_value
 {
-	int r = 0;
+	/* 0=null, 'n'=number, 'b'=bool, 's'=string, 'a'=array, 'o'=object */
+	char type;
 
-	/* always freeze so any calls made during serialize operation don't mutate ctx */
-	bool was_frozen = ctx->frozen;
-
-	ctx->frozen = true;
-	pcl_buf_t *b = ipcl_err_ctx_serialize(ctx, indent, message, ap);
-	ctx->frozen = was_frozen;
-
-	if(b)
+	union
 	{
-		r = b->len;
+		bool boolean;
+		double number;
+		const char *string;
+		pcl_vector_t *array;
+		pcl_htable_t *object;
+	};
+};
 
-		if(size <= (size_t) r)
-			return -1;
+PCL_EXPORT pcl_json_value_t *pcl_json_parse(const char *json, size_t len);
 
-		memcpy(buf, b->data, r + 1);
-	}
-
-	return r;
+#ifdef __cplusplus
 }
+#endif
+
+#endif // LIBPCL_JSON_H

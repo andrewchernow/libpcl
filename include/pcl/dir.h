@@ -42,7 +42,7 @@
  * #include <pcl/dir.h>
  * #include <pcl/io.h>
  *
- * int pcl_main(int argc, pchar_t *targv)
+ * int pcl_main(int argc, pchar_t *argv)
  * {
  *   // always first
  *   pcl_init();
@@ -50,10 +50,10 @@
  *   if(argc < 2)
  *     PANIC("Missing directory argument", 0);
  *
- *   pcl_dir_t *dir = pcl_opendir(targv[1]);
+ *   pcl_dir_t *dir = pcl_opendir(argv[1]);
  *
  *   if(!dir)
- *     PANIC("Failed to open directory: '%Ps'", targv[1]);
+ *     PANIC("Failed to open directory: '%Ps'", argv[1]);
  *
  *   pcl_dirent_t ent;
  *   const pchar_t *dirpath = pcl_dir_path(dir, NULL);
@@ -81,8 +81,9 @@
  *   pcl_closedir(dir);
  *
  *   // when readdir is done, it returns false and pcl_errno is PCL_ENOMORE
+ *   // note that 'dirpath' was freed with above pcl_closedir
  *   if(pcl_errno != PCL_ENOMORE)
- *     PANIC("readdir failed: '%Ps'", dirpath);
+ *     PANIC("readdir failed: '%Ps'", argv[1]);
  *
  *   return 0;
  * }

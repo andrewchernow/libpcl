@@ -5,6 +5,7 @@ add_library(error OBJECT
 	err_ctx.c
 	err_fprintf.c
 	err_freeze.c
+	err_json.c
 	err_last.c
 	err_lastmsg.c
 	err_lastos.c
@@ -13,15 +14,18 @@ add_library(error OBJECT
 	err_os2pcl.c
 	err_osmsg.c
 	err_osname.c
+	err_serialize.c
 	err_set.c
 	err_sprintf.c
 	err_trace.c
+	err_trace_free.c
 	err_vfprintf.c
+	err_vjson.c
 	err_vset.c
 	err_vsprintf.c
 	err_vtrace.c
 	errmap.c
-	msgmap.c)
+	msgmap.c err_setjson.c)
 
 if(WINDOWS)
 	target_sources(error PRIVATE win32_err_crt2os.c win32_oserrno.c win32_setoserrno.c)

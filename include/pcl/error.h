@@ -35,7 +35,7 @@
 
 /** @defgroup error Error Management
  * Provides detailed error management functions. This includes a complete list of error mappings
- * between PCL error codes and the host OS, full stack traces, per-thread error context that
+ * between PCL error codes and the host OS, full stack traces, per-thread error that
  * can be switched in/out and frozen and large suite of error/trace set macros.
  * @{
  */
@@ -97,22 +97,74 @@
 extern "C" {
 #endif
 
-/** Gets the calling thread's error context.
- * @warning This is Thread Local Storage (TLS). Never free this or pass to ::pcl_err_ctx_free.
- * @return pointer to the thread's context
- * @see pcl_err_ctx_free, FREEZE_ERR
- */
-PCL_EXPORT pcl_err_ctx_t *pcl_err_ctx(void);
+/** Stack trace object implemented as a linked list. */
+struct tag_pcl_err_trace
+{
+	/** next trace in stack trace or NULL to indicate the end. */
+	pcl_err_trace_t *next;
+	char *file;
+	char *func;
+	int line;
 
-/** Freeze or thaw the current thread's error context.
- * @note per-thread context cannot be cleared or freed while frozen. The only exception
- * is when the thread exits.
+	/** optional user-defined message */
+	char *msg;
+
+	/** allocation size of trace structure. The trace object is a single allocation and
+	 * all string members are self-relative pointers
+	 */
+	size_t size;
+};
+
+/** Represents a PCL error, with optional stack trace. This can be thought of
+ * as Unix `errno` on steroids.
+ */
+struct tag_pcl_err
+{
+	/** Freezes error, making it immutable. It should be noted that a frozen error object
+	 * cannot be cleared.
+	 *
+	 * Internally, all printf-style error functions freeze the object before performing output
+	 * and thaw before returning.
+	 *
+	 * @see FREEZE_ERR
+	 */
+	bool frozen;
+
+	/** PCL error code: PCL_EXXX */
+	int err;
+
+	/** Platform-specific error code: Unix errno, Windows Error (ie: GetLastError, _dos_errno),
+	 * etc. This can be zero even when 'err' is not. However, if this is non-zero 'err' will
+	 * also be non-zero.
+	 */
+	uint32_t oserr;
+
+	/** Stack trace implemented as a linked list. This is NULL if there is no stack trace. */
+	pcl_err_trace_t *strace;
+
+	/** An output buffer used by output formatting functions like pcl_err_fprintf. This is
+	 * lazily-created so can be NULL. This is really just for internal use and provides for
+	 * a cached/allocated buffer to use for multiple output calls. This provides no
+	 * functionality, implementation detail.
+	 */
+	pcl_buf_t *buffer;
+};
+
+/** Gets the calling thread's error.
+ * @warning This is Thread Local Storage (TLS).
+ * @return pointer to the thread error
+ * @see FREEZE_ERR
+ */
+PCL_EXPORT pcl_err_t *pcl_err_get(void);
+
+/** Freeze or thaw the current thread's error.
+ * @note per-thread error cannot be cleared while frozen.
  * @code
  * // pcl_err_freeze is shorthand for the below
- * pcl_err_ctx_t *ctx = pcl_err_ctx();
- * ctx->frozen = true; // or false
+ * pcl_err_t *err = pcl_err_get();
+ * err->frozen = true; // or false
  * @endcode
- * @param freeze if true, the context is frozen otherwise thawed.
+ * @param freeze if true, the error is frozen otherwise thawed.
  * @see FREEZE_ERR
  */
 PCL_EXPORT void pcl_err_freeze(bool freeze);
@@ -150,19 +202,77 @@ PCL_EXPORT char *pcl_err_lastmsg(void);
  * Formatted Output API
  */
 
-/* Print error info and full stack trace to the given stream */
+/* Print error info and full stack trace to the given stream.
+ * @note if indent is -1 and format is provided, the formatted message is prefixed with
+ * "PANIC: " rather than the standard "ERROR: ".
+ */
 PCL_EXPORT int pcl_err_fprintf(FILE *stream, int indent, const char *format, ...);
 
-/* va_list version of pcl_err_fprintf */
+/* va_list version of pcl_err_fprintf
+ * @note if indent is -1 and format is provided, the formatted message is prefixed with
+ * "PANIC: " rather than the standard "ERROR: ".
+ */
 PCL_EXPORT int pcl_err_vfprintf(FILE *stream, int indent, const char *format, va_list args);
 
-/* Print error info and full stack trace to the given buffer */
+/* Print error info and full stack trace to the given buffer
+ * @note if indent is -1 and format is provided, the formatted message is prefixed with
+ * "PANIC: " rather than the standard "ERROR: ".
+ */
 PCL_EXPORT int pcl_err_sprintf(char *buf, size_t buf_size, int indent, const char *format, ...);
 
-/* va_list version of pcl_err_sprintf */
+/* va_list version of pcl_err_sprintf
+ * @note if indent is -1 and format is provided, the formatted message is prefixed with
+ * "PANIC: " rather than the standard "ERROR: ".
+ */
 PCL_EXPORT int pcl_err_vsprintf(char *buf, size_t buf_size, int indent, const char *format,
 	va_list args);
 
+/** Format the current thread's error as a JSON string. The returned JSON string
+ * has no spaces or newlines when it comes to the JSON structure itself.
+ *
+ * This function performs JSON string escaping on special characters: `\ / " \\b \\t \\n \\f \\r`
+ * and any remaining control character (\c <0x20) as \c \\u0000: eg. \c 0x1f as \c \\u001f.
+ *
+ * The below example includes spacing and newlines for demostration purposes:
+ * @code
+ * {
+ *   "err": <number>           // PCL error code
+ *   "oserr": <number>         // OS error code
+ *   "msg": <string|null>      // optional message provided to pcl_err_json
+ *   "strace": [               // array of trace objects: in stack order
+ *     {
+ *       "file": <string|null> // file name
+ *       "func": <string|null> // function name
+ *       "line": <number>      // line number
+ *       "msg": <string|null>  // optional context message
+ *     },
+ *     {
+ *       etc...
+ *     }
+ *   ]
+ * }
+ * @endcode
+ * @param message additional message to include with the JSON. This can be \c NULL.
+ * @param ... variable arguments
+ * @return pointer to an allocated string containing the JSON representation of an error.
+ * This must be freed by caller.
+ */
+PCL_EXPORT char *pcl_err_json(const char *message, ...);
+
+/** Format the current thread's error as a JSON string. The returned JSON string
+ * has no spaces or newlines when it comes to the JSON structure itself.
+ *
+ * This function performs JSON string escaping on special characters: `\ / " \\b \\t \\n \\f \\r`
+ * and any remaining control character (\c <0x20) as \c \\u0000: eg. \c 0x1f as \c \\u001f.
+ *
+ * @note see ::pcl_err_json for an example
+ * @param message additional message to include with the JSON. This can be \c NULL.
+ * @param ap variable argument list
+ * @return pointer to an allocated string containing the JSON representation of an error.
+ * This must be freed by caller.
+ * @see pcl_err_json
+ */
+PCL_EXPORT char *pcl_err_vjson(const char *message, va_list ap);
 
 /* -------------------------------------------------------------------------
  * Error Set API
@@ -195,8 +305,8 @@ PCL_EXPORT int pcl_err_set(PCL_LOCATION_PARAMS, int err, uint32_t oserr, const c
  * Stack Trace API
  */
 
-/* Adds a trace and a message to the error context's stack trace.
- * Returns -1 when the context's error is not PCL_EOKAY. See TRC* and R_TRC* macros.
+/* Adds a trace and a message to the error's stack trace.
+ * Returns -1 when the error is not PCL_EOKAY. See TRC* and R_TRC* macros.
  */
 PCL_EXPORT int pcl_err_trace(PCL_LOCATION_PARAMS, const char *format, ...);
 

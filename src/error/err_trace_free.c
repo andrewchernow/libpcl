@@ -29,25 +29,18 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef LIBPCL__ERRCTX_H
-#define LIBPCL__ERRCTX_H
+#include "_error.h"
+#include <pcl/alloc.h>
 
-#include <pcl/errctx.h>
-#include <pcl/error.h>
+pcl_err_trace_t *
+ipcl_err_trace_free(pcl_err_trace_t *head)
+{
+	while(head)
+	{
+		pcl_err_trace_t *node = head;
+		head = node->next;
+		pcl_free(node);
+	}
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-/* TLS destructor */
-void ipcl_err_ctx_destroy(void *obj);
-
-void ipcl_err_ctx_handler(uint32_t which, void *data);
-pcl_buf_t *ipcl_err_ctx_serialize(pcl_err_ctx_t *ctx, int indent, const char *format, va_list ap);
-pcl_err_trace_t *ipcl_err_ctx_trace_free(pcl_err_trace_t *head);
-
-#ifdef __cplusplus
+	return head;
 }
-#endif
-
-#endif // LIBPCL__ERRCTX_H
