@@ -7,6 +7,8 @@ endif()
 
 add_executable(ex_getopt getopt.c)
 
+add_executable(ex_json json.c)
+
 add_executable(ex_buf buf.c)
 add_executable(ex_cipher cipher.c)
 add_executable(ex_digest digest.c)

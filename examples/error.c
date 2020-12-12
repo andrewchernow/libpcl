@@ -31,8 +31,8 @@
 
 #include <pcl/init.h>
 #include <pcl/error.h>
-#include <pcl/errctx.h>
 #include <pcl/strint.h>
+#include <pcl/alloc.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -57,7 +57,7 @@ static int func_two(void)
 	FILE *fp = func_three();
 
 	if(fp == NULL)
-		return TRC(); // add a trace to error set within func_three().
+		return TRCMSG("json escapes: \\ \x1f \t \" \b", 0); // add a trace to error set within func_three().
 
 	*buf = 0;
 	(void) fgets(buf, sizeof(buf), fp);
@@ -84,20 +84,10 @@ int main(int argc, char **argv)
 		// there is also PTRACE and PANIC macros
 		pcl_err_fprintf(stderr, 0, "func_one call failed");
 
-		/* clone per-thread context */
-		pcl_err_ctx_t *new_ctx = pcl_err_ctx_clone(pcl_err_ctx());
-
-		/* clear the per-thread context */
-		pcl_err_clear();
-
-		/* print and compare to previous stack trace, ensuring it cloned properly */
-		fprintf(stderr, "\n");
-		pcl_err_ctx_fprintf(new_ctx, stderr, 0, "clone of per-thread context");
-
-		/* pcl_memory_error is called if the given context IS the per-thread context.
-		 * In the below case, we are freeing a clone.
-		 */
-		pcl_err_ctx_free(new_ctx);
+		/* output json version */
+		char *json = pcl_err_json("func_one call failed");
+		printf("\nJSON Version:\n%s\n", json);
+		pcl_free(json);
 
 		return 1;
 	}

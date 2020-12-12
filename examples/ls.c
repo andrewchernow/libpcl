@@ -51,7 +51,7 @@ int pcl_main(int argc, pchar_t **argv)
 	pcl_dir_t *dp = pcl_opendir(argv[1]);
 
 	if(!dp)
-		PANIC(NULL, 0);
+		PANIC("Failed to open directory '%Ps'", argv[1]);
 
 	pcl_stat_t st;
 	pcl_dirent_t ent;
