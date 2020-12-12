@@ -1,6 +1,6 @@
 /*
-  Portable C Library ("PCL")
-  Copyright (c) 1999-2020 Andrew Chernow
+  Portable C Library (PCL)
+  Copyright (c) 1999-2003, 2005-2014, 2017-2020 Andrew Chernow
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without
@@ -29,15 +29,29 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "_errctx.h"
+#include "_json.h"
 
-int
-pcl_err_ctx_sprintf(pcl_err_ctx_t *ctx, char *buf, size_t size, int indent,
-	const char *message, ...)
+ipcl_json_state_t *
+ipcl_json_skipws(ipcl_json_state_t *s)
 {
-	va_list ap;
-	va_start(ap, message);
-	int r = pcl_err_ctx_vsprintf(ctx, buf, size, indent, message, ap);
-	va_end(ap);
-	return r;
+	for(; s->next < s->end; s->next++)
+	{
+		if(!isspace((int) *s->next))
+			return s;
+
+		if(*s->next == '\r')
+		{
+			if(s->next[1] == '\n')
+			{
+				s->next++;
+				s->line++;
+			}
+		}
+		else if(*s->next == '\n')
+		{
+			s->line++;
+		}
+	}
+
+	JSON_THROW("unexpected end of input", 0);
 }
