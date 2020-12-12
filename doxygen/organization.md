@@ -22,7 +22,7 @@ This contains the "pcl" directory. Every header file is within the pcl directory
 installation of pcl header files without running into name conflicts. For
 example, installing into \c /usr/include would place all headers into \c /usr/include/pcl.
 When including PCL headers, use `#include <pcl/header.h>`. Any header file that begins with
-an underscroe \c _, should not be included directly.
+an underscore \c _, should not be included directly.
 
 ## Libs Directory
 This contains 3rd party libraries required for PCL to function properly. This is organized

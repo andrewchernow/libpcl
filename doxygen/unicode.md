@@ -69,7 +69,7 @@ int pcl_main(int argc, pchar_t **argv)
   	// pcl_stat expects a pchar_t string so convert the UTF-8 path to a 
   	// portable character string. On Unix, this is a fancy strdup since 
   	// the portable encoding is UTF-8.
-    pchar_t *path = pcl_utf8_to_pcs(pcl_strrtrim(buf), 0, NULL);
+    pchar_t *path = pcl_utf8_to_pcs(pcl_strrtrim(utf8path), 0, NULL);
 
     pcl_stat_t st;
 

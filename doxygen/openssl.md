@@ -5,7 +5,7 @@ PCL uses OpenSSL as the cryptography and SSL library for SSL sockets, PRNG, Mess
 Encryption. It is built to dynamically link with the OpenSSL shared objects on the system. 
 
 PCL does not distribute any resources for OpenSSL. For Unix machines, openssl is almost
-always installed. You may need to install the development packge. For windows, there are
+always installed. You may need to install the development package. For windows, there are
 instructions provided below on how to install it.
 
 Note for Unix machines, make sure that openssl header files are discoverable by GCC/Clang for

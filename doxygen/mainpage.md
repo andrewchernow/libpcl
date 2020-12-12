@@ -27,7 +27,7 @@ and the project continued to mature. Below are some of the features of PCL:
 
 * Unified character handling via pchar_t: UTF-16 on windows and UTF-8 on Unixes
 * Suite of safe string functions: unlike strcpy or sprintf
-* Robust error management: stack trace, PCL error code, per thread error context
+* Robust error management: stack trace, PCL error code, per thread error
 * Process management: exec, popen, process path, etc.
 * Asyncronous I/O: sockets, files, pipes, etc.
 * Unified file and directory management: via pcl_file_t object (portable 'fd')

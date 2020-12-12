@@ -1,12 +1,12 @@
 # Error System {#errsys}
 @brief Error code mapping, stack traces and formatted error output.
 
-The PCL error system provides a suite of functions across two modules: \ref error "error" and 
-\ref errctx "errctx". A primary design goal of PCL is to provide a robust error system.
+The PCL error system provides a suite of functions in the \ref error "error" module. 
+A primary design goal of PCL is to provide a robust error system.
 
 The error system operates per-thread. Thread local storage (TLS) is used to maintain a per-thread
-::pcl_err_ctx_t. So there is no global error context. Each thread is unique. To get the per-thread
-conetxt, use the ::pcl_err_ctx function.
+::pcl_err_t. So there is no global error. Each thread is unique. To get the per-thread
+error, use the ::pcl_err_get function.
 
 ## Error Codes
 PCL provides ~140 error codes. There are internal mapping tables to map Operating System error 
@@ -142,4 +142,70 @@ outside the PCL library, doesn't set the PCL error than use a \c SETERR* macro t
 stack trace. So, tracing is not only opt-in but it is important to know what, if any, error
 handling was implemented by the function that failed. This is normally pretty straightforward.
 
+## Formatted Output
+There are several functions for formatting an error. They are designed to output a
+formatted stack trace. 
 
+  * ::pcl_err_fprintf - outputs a stack trace to a given FILE stream
+  * ::pcl_err_sprintf - outputs a stack trace to a given buffer
+
+Each of the above functions also have \c va_list versions: \c vfprintf and \c vsprintf. The 
+\c FILE stream versions prepare the stack trace in memory and issue a single \c fwrite when 
+complete.
+
+All take an \a indent as an argument. Normally, \a indent is set to zero. Each trace is written
+to its own line starting at indent and increments by 2 every line. Below is an example
+stack trace from examples/ls.c. That example takes a directory as an argument and performs an
+`ls -l` style listing. If the example cannot open the given directory, it issues a panic: 
+```c
+51  pcl_dir_t *dp = pcl_opendir(argv[1]);
+52
+53  if(!dp)
+54    PANIC("Failed to open directory '%Ps'", argv[1])
+```
+::PANIC performs a \c TRC, outputs a stack trace to \c stderr and exits. To avoid the exit, use 
+the ::PTRACE macro instead. 
+
+Below is a sample output of running `./ex_ls file.txt`
+```
+1  PANIC: Failed to open directory 'file.txt'
+2  /Users/andrew/projects/libpcl/examples/ls.c:main(54)
+3    /Users/andrew/projects/libpcl/src/dir/opendir.c:pcl_opendir(90): PCL_ENOTDIR - Not a directory.
+4      >Cannot open directory: file.txt
+```
+@note line numbers plus two spaces are added for example purposes, not part of normal output. 
+
+__Line #1__ is the optional message passed to \c PANIC or \c pcl_err_fprintf. If the \a indent 
+parameter to \c pcl_err_fprintf and friends is set to \c -1, then this line is prefixed 
+with \c "PANIC: " rather then \c "ERROR: ". \c PANIC always sets this to \c -1. Note that 
+\c PTRACE does not set \a indent to \c -1. This line is not counted as part of the indent. 
+Meaning, after this line is outputed the indent is not incremented by 2 spaces.
+
+__Line #2__ represents the top of the stack trace. This is the last trace added and represents 
+the initial call site that caused the error at the bottom of the stack. By looking at this line, 
+we can tell that either \c TRC or \c R_TRC was used as there is no context message. Below is
+an example of what line #2 would look like if `TRCMSG("context message")` or 
+`R_TRCMSG(NULL, "context message")` were used:
+```c
+2  /Users/andrew/projects/libpcl/examples/ls.c:main(54) - context message
+```
+Both \c TRCMSG and \c R_TRCMSG take a format and variable arguments.
+
+__Line #3__ is the bottom of the stack, the error call site. This is where the error was 
+initially set via \c SETERR* or \c SETLASTERR*. Keep in mind, that there is typically more
+lines of tracing in a real application. This line always includes the error name, \c PCL_ENOTDIR,
+and the default error message for that PCL error. OS errors, if captured, are never displayed
+in PCL generated stack traces.
+
+__Line #4__ is the application-specific error message provided when setting the error. This is
+optional so it is very possible to find stack traces without the ">application message" line.
+Between setting context messages while adding traces and setting an application error message
+when setting the error, you end up with a wealth of information before examining a single line 
+of code.
+
+You can also format your own stack trace by getting a pointer to the current thread's error
+via ::pcl_err_get(). The structure contains the PCL and OS error code. It also contains the top 
+of the stack trace: pcl_err_t.strace. The OS error code is only set if it was provided during 
+a \c SETERR* macro, or the \c SETLASTERR* macros. It may very well be zero, which indicates that
+a PCL error code was directly set, verse first mapping an OS error code to PCL as \c SETLASTERR
+does.
