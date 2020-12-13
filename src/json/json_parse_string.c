@@ -53,6 +53,14 @@ hex2num(ipcl_json_state_t *s, uint32_t *codepoint)
 	return s;
 }
 
+/** Convert a UTF-16 codepoint (including possible surrogate pairs) to UTF-8. This first converts
+ * a \u0000 codepoint. If it is a surrogate, this will parse the second point in the pair.
+ * Thus, this function can consume an additional \u0000 if a surrogate pair is detected. After
+ * getting a valid unicode codepoint, it is converted to UTF-8 and stored within provided buffer.
+ * @param s pointer to a json parser state obejct
+ * @param b pointer to a buffer
+ * @return pointer to state object or NULL on error
+ */
 static ipcl_json_state_t *
 utf16_to_utf8(ipcl_json_state_t *s, pcl_buf_t *b)
 {
@@ -91,6 +99,7 @@ utf16_to_utf8(ipcl_json_state_t *s, pcl_buf_t *b)
 		code = pair[0];
 	}
 
+	/* convert to utf-8 */
 	if(code <= 0x7F) /* ascii */
 	{
 		pcl_buf_putchar(b, (char) code);
@@ -143,6 +152,7 @@ ipcl_json_parse_string(ipcl_json_state_t *s)
 			continue;
 		}
 
+		/* we have an escape sequence */
 		switch(*++s->next)
 		{
 			case '\\':
@@ -185,7 +195,7 @@ ipcl_json_parse_string(ipcl_json_state_t *s)
 				break;
 			}
 
-			/* json is very specific about valid escape sequences */
+			/* json is very specific about what constitutes a valid escape sequences */
 			default:
 				JSON_THROW("invalid escape sequence within string \\%c", *s->next);
 		}
