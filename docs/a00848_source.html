@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/string/strcatf.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/string/hex_encode.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">strcatf.c</div>  </div>
+<div class="title">hex_encode.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00848.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,46 +101,42 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00827.html">_string.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#ifdef XWIDE</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">  #undef VFUNC</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">  #define VFUNC pcl_vwcscatf</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="a00848.html#a5d3bd8cbd207b68995f598e8691752f7">   38</a></span>&#160;<span class="preprocessor">  #define VFUNC pcl_vstrcatf</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<a class="code" href="a00827.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *</div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="a00848.html#adc3988bb1a96749c3681e05a3909eb3b">   42</a></span>&#160;<a class="code" href="a00848.html#a5d3bd8cbd207b68995f598e8691752f7">VFUNC</a>(<a class="code" href="a00827.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *dest, <span class="keywordtype">size_t</span> size, <span class="keyword">const</span> <a class="code" href="a00827.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *format, va_list ap)</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;{</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keywordtype">int</span> n = (int) <a class="code" href="a00827.html#aee081742fbd47c91e70de0b86a84a1be">xstrlen</a>(dest);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  (void) <a class="code" href="a00584.html#ac0ec8bb617cda8a9e736511420c4c513">vxprintf</a>(dest + n, size - n, format, ap);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordflow">return</span> dest;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;}</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<a class="code" href="a00827.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *</div>
-<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="a00848.html#a8fecb38406f77cc20ee0bafc9d63b12f">   50</a></span>&#160;<a class="code" href="a00827.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a>(<a class="code" href="a00848.html#a8fecb38406f77cc20ee0bafc9d63b12f">catf</a>)(<a class="code" href="a00827.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *dest, <span class="keywordtype">size_t</span> size, <span class="keyword">const</span> <a class="code" href="a00827.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *format, ...)</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;{</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  va_list ap;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  va_start(ap, format);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <a class="code" href="a00827.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *res = <a class="code" href="a00848.html#a5d3bd8cbd207b68995f598e8691752f7">VFUNC</a>(dest, size, format, ap);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  va_end(ap);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordflow">return</span> res;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00089.html">pcl/string.h</a>&gt;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00044.html">pcl/error.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01121.html#ga14d0986cdffc17dd57b7044a83475816">   36</a></span>&#160;<a class="code" href="a01121.html#ga14d0986cdffc17dd57b7044a83475816">pcl_hex_encode</a>(<span class="keywordtype">char</span> *buf, <span class="keywordtype">size_t</span> size, <span class="keyword">const</span> <span class="keywordtype">void</span> *data, <span class="keywordtype">size_t</span> len)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> hex_table[] = {</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="charliteral">&#39;0&#39;</span>, <span class="charliteral">&#39;1&#39;</span>, <span class="charliteral">&#39;2&#39;</span>, <span class="charliteral">&#39;3&#39;</span>,</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="charliteral">&#39;4&#39;</span>, <span class="charliteral">&#39;5&#39;</span>, <span class="charliteral">&#39;6&#39;</span>, <span class="charliteral">&#39;7&#39;</span>,</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="charliteral">&#39;8&#39;</span>, <span class="charliteral">&#39;9&#39;</span>, <span class="charliteral">&#39;a&#39;</span>, <span class="charliteral">&#39;b&#39;</span>,</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="charliteral">&#39;c&#39;</span>, <span class="charliteral">&#39;d&#39;</span>, <span class="charliteral">&#39;e&#39;</span>, <span class="charliteral">&#39;f&#39;</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  };</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordtype">char</span> *p = buf;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keyword">const</span> uint8_t *dp = (<span class="keyword">const</span> uint8_t *) data;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keywordflow">if</span>(size &lt; (len * 2) + 1)</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01113.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a>(<a class="code" href="a01112.html#gaa07a6ea59d3098bdd4a7c95e24bca530">PCL_EBUF</a>);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <span class="keywordflow">while</span>(len--)</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    *p++ = hex_table[((*dp &amp; 0xF0) &gt;&gt; 4)];</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    *p++ = hex_table[(*dp++ &amp; 0x0F)];</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  }</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  *p = 0;</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#ifndef XWIDE</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="a00848.html#af3082199ea3ac518b87acdac953cf385">   60</a></span>&#160;<span class="preprocessor">  #define XWIDE</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">  #include &quot;<a class="code" href="a00848.html">strcatf.c</a>&quot;</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  <span class="keywordflow">return</span> (<span class="keywordtype">int</span>) (p - buf);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;}</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00584_html_ac0ec8bb617cda8a9e736511420c4c513"><div class="ttname"><a href="a00584.html#ac0ec8bb617cda8a9e736511420c4c513">vxprintf</a></div><div class="ttdeci">#define vxprintf</div><div class="ttdef"><b>Definition:</b> <a href="a00584_source.html#l00043">vprintf.c:43</a></div></div>
-<div class="ttc" id="aa00848_html_a8fecb38406f77cc20ee0bafc9d63b12f"><div class="ttname"><a href="a00848.html#a8fecb38406f77cc20ee0bafc9d63b12f">catf</a></div><div class="ttdeci">xchar *XFUNC() catf(xchar *dest, size_t size, const xchar *format,...)</div><div class="ttdef"><b>Definition:</b> <a href="a00848_source.html#l00050">strcatf.c:50</a></div></div>
-<div class="ttc" id="aa00827_html_a5c4b00cbc494339ce63882d7404bad27"><div class="ttname"><a href="a00827.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a></div><div class="ttdeci">#define XFUNC(name)</div><div class="ttdef"><b>Definition:</b> <a href="a00827_source.html#l00068">_string.h:68</a></div></div>
-<div class="ttc" id="aa00848_html_a5d3bd8cbd207b68995f598e8691752f7"><div class="ttname"><a href="a00848.html#a5d3bd8cbd207b68995f598e8691752f7">VFUNC</a></div><div class="ttdeci">#define VFUNC</div><div class="ttdef"><b>Definition:</b> <a href="a00848_source.html#l00038">strcatf.c:38</a></div></div>
-<div class="ttc" id="aa00827_html_a234f7ec71c9c19ed532c4bf11a9b9b8e"><div class="ttname"><a href="a00827.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a></div><div class="ttdeci">#define xchar</div><div class="ttdef"><b>Definition:</b> <a href="a00827_source.html#l00070">_string.h:70</a></div></div>
-<div class="ttc" id="aa00827_html_aee081742fbd47c91e70de0b86a84a1be"><div class="ttname"><a href="a00827.html#aee081742fbd47c91e70de0b86a84a1be">xstrlen</a></div><div class="ttdeci">#define xstrlen</div><div class="ttdef"><b>Definition:</b> <a href="a00827_source.html#l00071">_string.h:71</a></div></div>
-<div class="ttc" id="aa00827_html"><div class="ttname"><a href="a00827.html">_string.h</a></div></div>
-<div class="ttc" id="aa00848_html"><div class="ttname"><a href="a00848.html">strcatf.c</a></div></div>
+<div class="ttc" id="aa00044_html"><div class="ttname"><a href="a00044.html">error.h</a></div></div>
+<div class="ttc" id="aa01113_html_ga82adf6365b61d9a32021e559d9c31497"><div class="ttname"><a href="a01113.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a></div><div class="ttdeci">#define SETERR(_pclerr)</div><div class="ttdoc">Sets the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00065">_errdefs.h:65</a></div></div>
+<div class="ttc" id="aa01121_html_ga14d0986cdffc17dd57b7044a83475816"><div class="ttname"><a href="a01121.html#ga14d0986cdffc17dd57b7044a83475816">pcl_hex_encode</a></div><div class="ttdeci">int pcl_hex_encode(char *buf, size_t size, const void *data, size_t len)</div><div class="ttdoc">Encode data as a hexadecimal string.</div><div class="ttdef"><b>Definition:</b> <a href="a00848_source.html#l00036">hex_encode.c:36</a></div></div>
+<div class="ttc" id="aa00089_html"><div class="ttname"><a href="a00089.html">string.h</a></div></div>
+<div class="ttc" id="aa01112_html_gaa07a6ea59d3098bdd4a7c95e24bca530"><div class="ttname"><a href="a01112.html#gaa07a6ea59d3098bdd4a7c95e24bca530">PCL_EBUF</a></div><div class="ttdeci">#define PCL_EBUF</div><div class="ttdoc">Buffer too small.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00138">_errno.h:138</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

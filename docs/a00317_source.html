@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/errctx/err_ctx_free.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/error/err_code.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,12 +62,12 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_047e0d2443656299ad4ab68555c3785f.html">&#x202A;errctx</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_acc2056b73c4fda97caebb7ceca7df66.html">&#x202A;error</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">err_ctx_free.c</div>  </div>
+<div class="title">err_code.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00317.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,48 +101,29 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00302.html">_errctx.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00029.html">pcl/buf.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment">/* TLS callback: ignores frozen state */</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keywordtype">void</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="a00317.html#aa715f0843fde8aa43963979a6a7034ce">   38</a></span>&#160;<a class="code" href="a00317.html#aa715f0843fde8aa43963979a6a7034ce">ipcl_err_ctx_destroy</a>(<span class="keywordtype">void</span> *obj)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <a class="code" href="a01134.html">pcl_err_ctx_t</a> *ctx = obj;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <a class="code" href="a00302.html#a7957a846b8fa08a58547bf61da98cce7">ipcl_err_ctx_trace_free</a>(ctx-&gt;<a class="code" href="a01134.html#af22b89a25236c26e197118ca1652019a">strace</a>);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <a class="code" href="a01102.html#ga24846b7d3984813e0d3755f6c0f1ea44">pcl_buf_free</a>(ctx-&gt;<a class="code" href="a01134.html#a95f7673f875fad2b88002d7a10f00eb1">buffer</a>);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <a class="code" href="a01100.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(ctx);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;}</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keywordtype">void</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="a01105.html#ga857b8cc46214dbc79a5f7751620ccc5f">   47</a></span>&#160;<a class="code" href="a01105.html#ga857b8cc46214dbc79a5f7751620ccc5f">pcl_err_ctx_free</a>(<a class="code" href="a01134.html">pcl_err_ctx_t</a> *ctx)</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;{</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="keywordflow">if</span>(ctx &amp;&amp; !ctx-&gt;<a class="code" href="a01134.html#a9ec42de702ac1fcf2d7307c5a2415b94">frozen</a>)</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  {</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="comment">/* severe programming bug: trying to free per-thread context */</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">if</span>(<a class="code" href="a01106.html#gacba4bcf84db2e3237d7274aa57a30253">pcl_err_ctx</a>() == ctx)</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      <a class="code" href="a01100.html#ga423e5e1aba1eac6bc6ce929385059a49">pcl_memory_error</a>(<span class="stringliteral">&quot;err_ctx_free&quot;</span>, ctx, 0, <a class="code" href="a00035.html#ac26653ff3959b17bc17e9d32b036493d">PCL_LOCATION_ARGS</a>);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <a class="code" href="a00317.html#aa715f0843fde8aa43963979a6a7034ce">ipcl_err_ctx_destroy</a>(ctx);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  }</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00305.html">_error.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00089.html">string.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01111.html#ga6e488225c64979a7196c2b257c3c1fb0">   36</a></span>&#160;<a class="code" href="a01111.html#ga6e488225c64979a7196c2b257c3c1fb0">pcl_err_code</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *name)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordtype">int</span> i, count;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <a class="code" href="a01216.html">ipcl_err_msgmap_t</a> *map = <a class="code" href="a00305.html#a3dc06ff40b369fcec40911b141ff88cf">ipcl_err_msgmap</a>(&amp;count);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">for</span>(i = 0; i &lt; count; i++)</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">if</span>(!strcmp(name, map[i].name))</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;      <span class="keywordflow">return</span> map[i].<a class="code" href="a01216.html#a6ce68847c12434f60d1b2654a3dc3409">err</a>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01112.html#gad1c7894f1d8b51ba3fbc3a34b911242a">PCL_EUNDEF</a>;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00029_html"><div class="ttname"><a href="a00029.html">buf.h</a></div></div>
-<div class="ttc" id="aa00035_html_ac26653ff3959b17bc17e9d32b036493d"><div class="ttname"><a href="a00035.html#ac26653ff3959b17bc17e9d32b036493d">PCL_LOCATION_ARGS</a></div><div class="ttdeci">#define PCL_LOCATION_ARGS</div><div class="ttdoc">A PCL location is the file, func and line where a call occurred.</div><div class="ttdef"><b>Definition:</b> <a href="a00035_source.html#l00088">defs.h:88</a></div></div>
-<div class="ttc" id="aa00302_html"><div class="ttname"><a href="a00302.html">_errctx.h</a></div></div>
-<div class="ttc" id="aa01102_html_ga24846b7d3984813e0d3755f6c0f1ea44"><div class="ttname"><a href="a01102.html#ga24846b7d3984813e0d3755f6c0f1ea44">pcl_buf_free</a></div><div class="ttdeci">PCL_EXPORT pcl_buf_t * pcl_buf_free(pcl_buf_t *b)</div><div class="ttdoc">Free all buffer resources and the buffer object itself.</div><div class="ttdef"><b>Definition:</b> <a href="a00155_source.html#l00036">buf_free.c:36</a></div></div>
-<div class="ttc" id="aa01106_html_gacba4bcf84db2e3237d7274aa57a30253"><div class="ttname"><a href="a01106.html#gacba4bcf84db2e3237d7274aa57a30253">pcl_err_ctx</a></div><div class="ttdeci">PCL_EXPORT pcl_err_ctx_t * pcl_err_ctx(void)</div><div class="ttdoc">Gets the calling thread's error context.</div><div class="ttdef"><b>Definition:</b> <a href="a00353_source.html#l00045">err_ctx.c:45</a></div></div>
-<div class="ttc" id="aa01100_html_ga423e5e1aba1eac6bc6ce929385059a49"><div class="ttname"><a href="a01100.html#ga423e5e1aba1eac6bc6ce929385059a49">pcl_memory_error</a></div><div class="ttdeci">PCL_EXPORT void pcl_memory_error(const char *type, void *ptr, size_t siz, PCL_LOCATION_PARAMS)</div><div class="ttdoc">Execute process memory error handler.</div><div class="ttdef"><b>Definition:</b> <a href="a00122_source.html#l00057">memory_handler.c:57</a></div></div>
-<div class="ttc" id="aa01134_html_af22b89a25236c26e197118ca1652019a"><div class="ttname"><a href="a01134.html#af22b89a25236c26e197118ca1652019a">tag_pcl_err_ctx::strace</a></div><div class="ttdeci">pcl_err_trace_t * strace</div><div class="ttdoc">Stack trace implemented as a linked list.</div><div class="ttdef"><b>Definition:</b> <a href="a00044_source.html#l00093">errctx.h:93</a></div></div>
-<div class="ttc" id="aa01134_html"><div class="ttname"><a href="a01134.html">tag_pcl_err_ctx</a></div><div class="ttdoc">Represents a PCL error context, with optional stack trace.</div><div class="ttdef"><b>Definition:</b> <a href="a00044_source.html#l00066">errctx.h:67</a></div></div>
-<div class="ttc" id="aa01134_html_a95f7673f875fad2b88002d7a10f00eb1"><div class="ttname"><a href="a01134.html#a95f7673f875fad2b88002d7a10f00eb1">tag_pcl_err_ctx::buffer</a></div><div class="ttdeci">pcl_buf_t * buffer</div><div class="ttdoc">An output buffer used by output formatting functions like pcl_err_ctx_fprintf.</div><div class="ttdef"><b>Definition:</b> <a href="a00044_source.html#l00100">errctx.h:100</a></div></div>
-<div class="ttc" id="aa01134_html_a9ec42de702ac1fcf2d7307c5a2415b94"><div class="ttname"><a href="a01134.html#a9ec42de702ac1fcf2d7307c5a2415b94">tag_pcl_err_ctx::frozen</a></div><div class="ttdeci">bool frozen</div><div class="ttdoc">Freezes context, making it immutable.</div><div class="ttdef"><b>Definition:</b> <a href="a00044_source.html#l00081">errctx.h:81</a></div></div>
-<div class="ttc" id="aa00317_html_aa715f0843fde8aa43963979a6a7034ce"><div class="ttname"><a href="a00317.html#aa715f0843fde8aa43963979a6a7034ce">ipcl_err_ctx_destroy</a></div><div class="ttdeci">void ipcl_err_ctx_destroy(void *obj)</div><div class="ttdef"><b>Definition:</b> <a href="a00317_source.html#l00038">err_ctx_free.c:38</a></div></div>
-<div class="ttc" id="aa01100_html_gab88b901c82e1010555b08ff6d39490f2"><div class="ttname"><a href="a01100.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a></div><div class="ttdeci">void * pcl_free(void *p)</div><div class="ttdoc">Free memory space.</div></div>
-<div class="ttc" id="aa00302_html_a7957a846b8fa08a58547bf61da98cce7"><div class="ttname"><a href="a00302.html#a7957a846b8fa08a58547bf61da98cce7">ipcl_err_ctx_trace_free</a></div><div class="ttdeci">pcl_err_trace_t * ipcl_err_ctx_trace_free(pcl_err_trace_t *head)</div><div class="ttdef"><b>Definition:</b> <a href="a00326_source.html#l00036">err_ctx_trace_free.c:36</a></div></div>
-<div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
-<div class="ttc" id="aa01105_html_ga857b8cc46214dbc79a5f7751620ccc5f"><div class="ttname"><a href="a01105.html#ga857b8cc46214dbc79a5f7751620ccc5f">pcl_err_ctx_free</a></div><div class="ttdeci">void pcl_err_ctx_free(pcl_err_ctx_t *ctx)</div><div class="ttdoc">Release all resources held by the given context including the context itself.</div><div class="ttdef"><b>Definition:</b> <a href="a00317_source.html#l00047">err_ctx_free.c:47</a></div></div>
+<div class="ttc" id="aa01216_html"><div class="ttname"><a href="a01216.html">ipcl_err_msgmap_t</a></div><div class="ttdef"><b>Definition:</b> <a href="a00305_source.html#l00041">_error.h:42</a></div></div>
+<div class="ttc" id="aa00305_html"><div class="ttname"><a href="a00305.html">_error.h</a></div></div>
+<div class="ttc" id="aa01111_html_ga6e488225c64979a7196c2b257c3c1fb0"><div class="ttname"><a href="a01111.html#ga6e488225c64979a7196c2b257c3c1fb0">pcl_err_code</a></div><div class="ttdeci">int pcl_err_code(const char *name)</div><div class="ttdef"><b>Definition:</b> <a href="a00317_source.html#l00036">err_code.c:36</a></div></div>
+<div class="ttc" id="aa01112_html_gad1c7894f1d8b51ba3fbc3a34b911242a"><div class="ttname"><a href="a01112.html#gad1c7894f1d8b51ba3fbc3a34b911242a">PCL_EUNDEF</a></div><div class="ttdeci">#define PCL_EUNDEF</div><div class="ttdoc">Undefined error occurred.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00150">_errno.h:150</a></div></div>
+<div class="ttc" id="aa00089_html"><div class="ttname"><a href="a00089.html">string.h</a></div></div>
+<div class="ttc" id="aa00305_html_a3dc06ff40b369fcec40911b141ff88cf"><div class="ttname"><a href="a00305.html#a3dc06ff40b369fcec40911b141ff88cf">ipcl_err_msgmap</a></div><div class="ttdeci">ipcl_err_msgmap_t * ipcl_err_msgmap(int *count)</div><div class="ttdef"><b>Definition:</b> <a href="a00392_source.html#l00040">msgmap.c:40</a></div></div>
+<div class="ttc" id="aa01216_html_a6ce68847c12434f60d1b2654a3dc3409"><div class="ttname"><a href="a01216.html#a6ce68847c12434f60d1b2654a3dc3409">ipcl_err_msgmap_t::err</a></div><div class="ttdeci">int err</div><div class="ttdef"><b>Definition:</b> <a href="a00305_source.html#l00043">_error.h:43</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

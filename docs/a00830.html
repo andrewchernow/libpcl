@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/string/astrcatf.c File Reference</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/stat/win32_statent.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,150 +62,97 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_6cc8961f7f77054fb84f95c9f23f5ca0.html">&#x202A;string</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_ee66704292a99044e40788e0a7a30b7d.html">&#x202A;stat</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Data Structures</a> &#124;
 <a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">astrcatf.c File Reference</div>  </div>
+<div class="title">win32_statent.c File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="a00827_source.html">_string.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00815_source.html">_stat.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a00965_source.html">../time/_time.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="a01058_source.html">../win32/_win32.h</a>&quot;</code><br />
+<code>#include &lt;<a class="el" href="a00113_source.html">pcl/vector.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="a00047_source.html">pcl/event.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="a00098_source.html">pcl/thread.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="a00023_source.html">pcl/alloc.h</a>&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00830_source.html">astrcatf.c</a>&quot;</code><br />
+<code>#include &lt;<a class="el" href="a00053_source.html">pcl/file.h</a>&gt;</code><br />
+<code>#include &lt;Shlwapi.h&gt;</code><br />
+<code>#include &lt;<a class="el" href="a00062_source.html">io.h</a>&gt;</code><br />
 </div>
 <p><a href="a00830_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">bsize_cache_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a9f7ba7208ae5fb9cdd41f9653b737900"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00830.html#a9f7ba7208ae5fb9cdd41f9653b737900">vaxstrcatf</a>&#160;&#160;&#160;<a class="el" href="a01115.html#ga40d932f448914f07020a341b9082067f">pcl_vastrcatf</a></td></tr>
-<tr class="separator:a9f7ba7208ae5fb9cdd41f9653b737900"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad81bbf8d8799e4f274b6d381e6d595fe"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00830.html#ad81bbf8d8799e4f274b6d381e6d595fe">axstrcatf</a>&#160;&#160;&#160;<a class="el" href="a01115.html#ga5a010356a3e78074d7266e57a9598181">pcl_astrcatf</a></td></tr>
-<tr class="separator:ad81bbf8d8799e4f274b6d381e6d595fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af3082199ea3ac518b87acdac953cf385"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00830.html#af3082199ea3ac518b87acdac953cf385">XWIDE</a></td></tr>
-<tr class="separator:af3082199ea3ac518b87acdac953cf385"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa031dc6712613a6c64f5d8b26eb1baae"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00830.html#aa031dc6712613a6c64f5d8b26eb1baae">makedev</a>(x,  y)&#160;&#160;&#160;((dev_t)(((x) &lt;&lt; 24) | (y)))</td></tr>
+<tr class="separator:aa031dc6712613a6c64f5d8b26eb1baae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a811ac340f05e347d2199e5b3aada4be4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00827.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00830.html#a811ac340f05e347d2199e5b3aada4be4">vaxstrcatf</a> (const <a class="el" href="a00827.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *src, const <a class="el" href="a00827.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *format, va_list ap)</td></tr>
-<tr class="separator:a811ac340f05e347d2199e5b3aada4be4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a34125edc9c88b154a7ce78c36cd6d635"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00827.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00830.html#a34125edc9c88b154a7ce78c36cd6d635">axstrcatf</a> (const <a class="el" href="a00827.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *src, const <a class="el" href="a00827.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *format,...)</td></tr>
-<tr class="separator:a34125edc9c88b154a7ce78c36cd6d635"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ef4b25b75c63f0cf84cae92a208c8a3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00830.html#a8ef4b25b75c63f0cf84cae92a208c8a3">ipcl_win32_stat_handler</a> (uint32_t which, void *data)</td></tr>
+<tr class="separator:a8ef4b25b75c63f0cf84cae92a208c8a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a214a52ae84c5066c875e0e002266c3ba"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00830.html#a214a52ae84c5066c875e0e002266c3ba">ipcl_statent</a> (const <a class="el" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *_path, int fd, <a class="el" href="a00104.html#ad70b25324f0a743c08589d18cf141dc8">pcl_stat_t</a> *buf, int flags)</td></tr>
+<tr class="separator:a214a52ae84c5066c875e0e002266c3ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a9f7ba7208ae5fb9cdd41f9653b737900"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9f7ba7208ae5fb9cdd41f9653b737900">&#9670;&nbsp;</a></span>vaxstrcatf</h2>
+<a id="aa031dc6712613a6c64f5d8b26eb1baae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa031dc6712613a6c64f5d8b26eb1baae">&#9670;&nbsp;</a></span>makedev</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define vaxstrcatf&#160;&#160;&#160;<a class="el" href="a01115.html#ga40d932f448914f07020a341b9082067f">pcl_vastrcatf</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00830_source.html#l00041">41</a> of file <a class="el" href="a00830_source.html">astrcatf.c</a>.</p>
-
-</div>
-</div>
-<a id="ad81bbf8d8799e4f274b6d381e6d595fe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad81bbf8d8799e4f274b6d381e6d595fe">&#9670;&nbsp;</a></span>axstrcatf</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define axstrcatf&#160;&#160;&#160;<a class="el" href="a01115.html#ga5a010356a3e78074d7266e57a9598181">pcl_astrcatf</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00830_source.html#l00042">42</a> of file <a class="el" href="a00830_source.html">astrcatf.c</a>.</p>
-
-</div>
-</div>
-<a id="af3082199ea3ac518b87acdac953cf385"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af3082199ea3ac518b87acdac953cf385">&#9670;&nbsp;</a></span>XWIDE</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define XWIDE</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00830_source.html#l00088">88</a> of file <a class="el" href="a00830_source.html">astrcatf.c</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a811ac340f05e347d2199e5b3aada4be4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a811ac340f05e347d2199e5b3aada4be4">&#9670;&nbsp;</a></span>vaxstrcatf()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a00827.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a>* vaxstrcatf </td>
+          <td class="memname">#define makedev</td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="a00827.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *&#160;</td>
-          <td class="paramname"><em>src</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="a00827.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *&#160;</td>
-          <td class="paramname"><em>format</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">va_list&#160;</td>
-          <td class="paramname"><em>ap</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00830_source.html#l00046">46</a> of file <a class="el" href="a00830_source.html">astrcatf.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a01100.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free()</a>, <a class="el" href="a01100.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc()</a>, <a class="el" href="a00017_source.html#l00287">R_TRC</a>, <a class="el" href="a00017_source.html#l00262">TRC</a>, <a class="el" href="a00584_source.html#l00043">vxprintf</a>, <a class="el" href="a00827_source.html#l00070">xchar</a>, and <a class="el" href="a00827_source.html#l00071">xstrlen</a>.</p>
-
-</div>
-</div>
-<a id="a34125edc9c88b154a7ce78c36cd6d635"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a34125edc9c88b154a7ce78c36cd6d635">&#9670;&nbsp;</a></span>axstrcatf()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a00827.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a>* axstrcatf </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="a00827.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *&#160;</td>
-          <td class="paramname"><em>src</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="a00827.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *&#160;</td>
-          <td class="paramname"><em>format</em>, </td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">x, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em>&#160;</td>
+          <td class="paramname">y&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;((dev_t)(((x) &lt;&lt; 24) | (y)))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="a00830_source.html#l00043">43</a> of file <a class="el" href="a00830_source.html">win32_statent.c</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a8ef4b25b75c63f0cf84cae92a208c8a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ef4b25b75c63f0cf84cae92a208c8a3">&#9670;&nbsp;</a></span>ipcl_win32_stat_handler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ipcl_win32_stat_handler </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>which</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -215,9 +162,55 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="a00830_source.html#l00078">78</a> of file <a class="el" href="a00830_source.html">astrcatf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00830_source.html#l00070">70</a> of file <a class="el" href="a00830_source.html">win32_statent.c</a>.</p>
 
-<p class="reference">References <a class="el" href="a00830_source.html#l00041">vaxstrcatf</a>, and <a class="el" href="a00827_source.html#l00070">xchar</a>.</p>
+<p class="reference">References <a class="el" href="a00047_source.html#l00044">PCL_EVENT_INIT</a>, <a class="el" href="a00953_source.html#l00036">pcl_tls_alloc()</a>, and <a class="el" href="a00035_source.html#l00102">UNUSED</a>.</p>
+
+</div>
+</div>
+<a id="a214a52ae84c5066c875e0e002266c3ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a214a52ae84c5066c875e0e002266c3ba">&#9670;&nbsp;</a></span>ipcl_statent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ipcl_statent </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
+          <td class="paramname"><em>_path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>fd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a00104.html#ad70b25324f0a743c08589d18cf141dc8">pcl_stat_t</a> *&#160;</td>
+          <td class="paramname"><em>buf</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>flags</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="a00830_source.html#l00082">82</a> of file <a class="el" href="a00830_source.html">win32_statent.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00017_source.html#l00306">BADARG</a>, <a class="el" href="a00017_source.html#l00125">SETLASTERR</a>, and <a class="el" href="a00035_source.html#l00124">strempty</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00818_source.html#l00039">pcl_statent()</a>.</p>
 
 </div>
 </div>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;pcl/event.h Source File</title>
+<title>&#x202A;libpcl: &#x202A;pcl/farmhash.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,12 +67,12 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">event.h</div>  </div>
+<div class="title">farmhash.h</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00050.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (PCL)</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2003, 2005-2014, 2017-2020 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,71 +101,78 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#ifndef LIBPCL_EVENT_H__</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#define LIBPCL_EVENT_H__</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#ifndef LIBPCL_FARMHASH_H</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#define LIBPCL_FARMHASH_H</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment">/** @defgroup event Events</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment"> * Definitions for managing synchronous events.</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="comment"> * @{</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="comment">/** Passed to a pcl_event_handler_t function to indicate that the PCL library is being initialized.</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment"> * @internal only used by builtin event handlers</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="a01109.html#ga60d1bf6bac043a65b2188b0c13a1b9d3">   44</a></span>&#160;<span class="preprocessor">#define PCL_EVENT_INIT 0</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment">/** Passed to a pcl_event_handler_t function to indicate that a thread is being initialized. This</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment"> * is automatically triggered by pcl_thread_create. If a thread is created by other means, call</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment"> * pcl_event_dispatch manually within the thread start routine.</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment"> * @see pcl_init_thread</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="a01109.html#ga3146683f8619c24b5aa15044b635b380">   51</a></span>&#160;<span class="preprocessor">#define PCL_EVENT_THREADINIT 1</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment">/** @defgroup farmhash FarmHash Hashing Algorithm</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment"> * This is Google&#39;s FarmHash Library: https://github.com/google/farmhash. It is designed for</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="comment"> * use with hash tables and is the default hash code function for ::pcl_htable_t.</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment"> * @{</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00104.html">pcl/types.h</a>&gt;</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment">/** Get a 32-bit farmhash hash code.</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment">* @param data pointer to a NUL-terminated string to hash</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment">* @return 32-bit hash code</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment">*/</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="a01115.html#gac6ef693d4e7f33f33730217fb4174d67">   51</a></span>&#160;PCL_EXPORT uint64_t <a class="code" href="a01115.html#gac6ef693d4e7f33f33730217fb4174d67">pcl_farmhash32</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *data);</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment">/** User-defined events should be greater than or equal to this value */</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="a01109.html#ga99b6baf34fba0ff454244de2b7db0eca">   54</a></span>&#160;<span class="preprocessor">#define PCL_EVENT_USERBASE 10</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment">/** Event handler prototype.</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment"> * @param event the event identifier</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment"> * @param data optional pointer to event data</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="a01109.html#ga04ab8867aacede25175c89e51a3e206d">   64</a></span>&#160;<span class="keyword">typedef</span> void (*<a class="code" href="a01109.html#ga04ab8867aacede25175c89e51a3e206d">pcl_event_handler_t</a>)(uint32_t event, <span class="keywordtype">void</span> *data);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment">/** Dispatches an event to the calling thread.</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment"> * @note dispatching is a per-thread synchronous operation. This function won&#39;t return until</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment"> * all event handlers have completed.</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment"> * @param event event id to dispatch. The internal event_handlers ignore all events except</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="comment"> * PCL_EVENT_INIT and PCL_EVENT_THREADINIT. However, applications can create custom events</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment"> * and respond accordingly.</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="comment"> * @param data event data. PCL_EVENT_INIT and PCL_EVENT_THREADINIT do not use event data</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;PCL_EXPORT <span class="keywordtype">void</span> <a class="code" href="a01109.html#gab1bac8e0eaa04a8ca90a0ce4e03d5f26">pcl_event_dispatch</a>(uint32_t event, <span class="keywordtype">void</span> *data);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment">/** Registers a new event handler.</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="comment"> * @param handler event handler</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment">/** Get a 32-bit farmhash hash code.</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment"> * @param data pointer to a NUL-terminated string to hash</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment"> * @param len  byte length of \a data</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="comment"> * @param seed 32-bit seed value</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment"> * @return 32-bit hash code</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="a01115.html#ga86c037124776fd7ae38b93a88c3b3ae5">   59</a></span>&#160;PCL_EXPORT uint64_t <a class="code" href="a01115.html#ga86c037124776fd7ae38b93a88c3b3ae5">pcl_farmhash32_seed</a>(<span class="keyword">const</span> <span class="keywordtype">void</span> *data, <span class="keywordtype">size_t</span> len, uint32_t seed);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment">/** Get a 64-bit farmhash hash code.</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment"> * @param data pointer to a NUL-terminated string to hash</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment"> * @return 64-bit hash code</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="a01115.html#ga7713d617e90e6122e6062eafac3810d5">   65</a></span>&#160;PCL_EXPORT uint64_t <a class="code" href="a01115.html#ga7713d617e90e6122e6062eafac3810d5">pcl_farmhash64</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *data);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment">/** Get a 64-bit farmhash hash code.</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment"> * @param data pointer to a NUL-terminated string to hash</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment"> * @param len  byte length of \a data</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="comment"> * @param seed 64-bit seed value</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment"> * @return 64-bit hash code</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="a01115.html#gac57afe978f740ba65dcf85064b31ebba">   73</a></span>&#160;PCL_EXPORT uint64_t <a class="code" href="a01115.html#gac57afe978f740ba65dcf85064b31ebba">pcl_farmhash64_seed</a>(<span class="keyword">const</span> <span class="keywordtype">void</span> *data, <span class="keywordtype">size_t</span> len, uint64_t seed);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="comment">/** Get a 128-bit farmhash hash code.</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment"> * @param data pointer to a NUL-terminated string to hash</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="comment"> * @return 128-bit hash code</span></div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;PCL_EXPORT <span class="keywordtype">void</span> <a class="code" href="a01109.html#gabcb84af3f1e27f35e9b8cf93abd09ee8">pcl_event_register</a>(<a class="code" href="a01109.html#ga04ab8867aacede25175c89e51a3e206d">pcl_event_handler_t</a> handler);</div>
+<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="a01115.html#ga88648cf50d60d7a406249f963f44d3ad">   79</a></span>&#160;PCL_EXPORT <a class="code" href="a01196.html">uint128_t</a> <a class="code" href="a01115.html#ga88648cf50d60d7a406249f963f44d3ad">pcl_farmhash128</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *data);</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="comment">/** Unregisters a previously registered event handler.</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="comment"> * @param handler event handler</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;PCL_EXPORT <span class="keywordtype">void</span> <a class="code" href="a01109.html#ga5e48475a04701c77022079a13e4c98ce">pcl_event_unregister</a>(<a class="code" href="a01109.html#ga04ab8867aacede25175c89e51a3e206d">pcl_event_handler_t</a> handler);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;}</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="comment">/** @} */</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="preprocessor">#endif //LIBPCL_EVENT_H__</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="comment">/** Get a 128-bit farmhash hash code.</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="comment"> * @param data pointer to a NUL-terminated string to hash</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="comment"> * @param len  byte length of \a data</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="comment"> * @param seed 128-bit seed value</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="comment"> * @return 128-bit hash code</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="a01115.html#ga92f55057d0296ae143b0eb3a743ad617">   87</a></span>&#160;PCL_EXPORT <a class="code" href="a01196.html">uint128_t</a> <a class="code" href="a01115.html#ga92f55057d0296ae143b0eb3a743ad617">pcl_farmhash128_seed</a>(<span class="keyword">const</span> <span class="keywordtype">void</span> *data, <span class="keywordtype">size_t</span> len, <a class="code" href="a01196.html">uint128_t</a> seed);</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;}</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="comment">/** @} */</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="preprocessor">#endif // LIBPCL_FARMHASH_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01109_html_ga5e48475a04701c77022079a13e4c98ce"><div class="ttname"><a href="a01109.html#ga5e48475a04701c77022079a13e4c98ce">pcl_event_unregister</a></div><div class="ttdeci">PCL_EXPORT void pcl_event_unregister(pcl_event_handler_t handler)</div><div class="ttdoc">Unregisters a previously registered event handler.</div><div class="ttdef"><b>Definition:</b> <a href="a00434_source.html#l00036">event_unregister.c:36</a></div></div>
-<div class="ttc" id="aa01109_html_gab1bac8e0eaa04a8ca90a0ce4e03d5f26"><div class="ttname"><a href="a01109.html#gab1bac8e0eaa04a8ca90a0ce4e03d5f26">pcl_event_dispatch</a></div><div class="ttdeci">PCL_EXPORT void pcl_event_dispatch(uint32_t event, void *data)</div><div class="ttdoc">Dispatches an event to the calling thread.</div><div class="ttdef"><b>Definition:</b> <a href="a00428_source.html#l00035">event_dispatch.c:35</a></div></div>
-<div class="ttc" id="aa01109_html_ga04ab8867aacede25175c89e51a3e206d"><div class="ttname"><a href="a01109.html#ga04ab8867aacede25175c89e51a3e206d">pcl_event_handler_t</a></div><div class="ttdeci">void(* pcl_event_handler_t)(uint32_t event, void *data)</div><div class="ttdoc">Event handler prototype.</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00064">event.h:64</a></div></div>
-<div class="ttc" id="aa01109_html_gabcb84af3f1e27f35e9b8cf93abd09ee8"><div class="ttname"><a href="a01109.html#gabcb84af3f1e27f35e9b8cf93abd09ee8">pcl_event_register</a></div><div class="ttdeci">PCL_EXPORT void pcl_event_register(pcl_event_handler_t handler)</div><div class="ttdoc">Registers a new event handler.</div><div class="ttdef"><b>Definition:</b> <a href="a00431_source.html#l00036">event_register.c:36</a></div></div>
+<div class="ttc" id="aa01115_html_ga86c037124776fd7ae38b93a88c3b3ae5"><div class="ttname"><a href="a01115.html#ga86c037124776fd7ae38b93a88c3b3ae5">pcl_farmhash32_seed</a></div><div class="ttdeci">PCL_EXPORT uint64_t pcl_farmhash32_seed(const void *data, size_t len, uint32_t seed)</div><div class="ttdoc">Get a 32-bit farmhash hash code.</div></div>
+<div class="ttc" id="aa01115_html_gac6ef693d4e7f33f33730217fb4174d67"><div class="ttname"><a href="a01115.html#gac6ef693d4e7f33f33730217fb4174d67">pcl_farmhash32</a></div><div class="ttdeci">PCL_EXPORT uint64_t pcl_farmhash32(const char *data)</div><div class="ttdoc">Get a 32-bit farmhash hash code.</div></div>
+<div class="ttc" id="aa00104_html"><div class="ttname"><a href="a00104.html">types.h</a></div></div>
+<div class="ttc" id="aa01115_html_gac57afe978f740ba65dcf85064b31ebba"><div class="ttname"><a href="a01115.html#gac57afe978f740ba65dcf85064b31ebba">pcl_farmhash64_seed</a></div><div class="ttdeci">PCL_EXPORT uint64_t pcl_farmhash64_seed(const void *data, size_t len, uint64_t seed)</div><div class="ttdoc">Get a 64-bit farmhash hash code.</div></div>
+<div class="ttc" id="aa01196_html"><div class="ttname"><a href="a01196.html">uint128_t</a></div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00086">types.h:87</a></div></div>
+<div class="ttc" id="aa01115_html_ga7713d617e90e6122e6062eafac3810d5"><div class="ttname"><a href="a01115.html#ga7713d617e90e6122e6062eafac3810d5">pcl_farmhash64</a></div><div class="ttdeci">PCL_EXPORT uint64_t pcl_farmhash64(const char *data)</div><div class="ttdoc">Get a 64-bit farmhash hash code.</div></div>
+<div class="ttc" id="aa01115_html_ga92f55057d0296ae143b0eb3a743ad617"><div class="ttname"><a href="a01115.html#ga92f55057d0296ae143b0eb3a743ad617">pcl_farmhash128_seed</a></div><div class="ttdeci">PCL_EXPORT uint128_t pcl_farmhash128_seed(const void *data, size_t len, uint128_t seed)</div><div class="ttdoc">Get a 128-bit farmhash hash code.</div></div>
+<div class="ttc" id="aa01115_html_ga88648cf50d60d7a406249f963f44d3ad"><div class="ttname"><a href="a01115.html#ga88648cf50d60d7a406249f963f44d3ad">pcl_farmhash128</a></div><div class="ttdeci">PCL_EXPORT uint128_t pcl_farmhash128(const char *data)</div><div class="ttdoc">Get a 128-bit farmhash hash code.</div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

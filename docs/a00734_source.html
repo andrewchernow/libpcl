@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/socket/socket_setkeepalive.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/socket/socket_ispassive.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">socket_setkeepalive.c</div>  </div>
+<div class="title">socket_ispassive.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00734.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,73 +101,31 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00674.html">_socket.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor"># include &lt;winsock2.h&gt;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor"># include &lt;mstcpip.h&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00680.html">_socket.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00044.html">pcl/error.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor"># include &lt;ws2tcpip.h&gt;</span></div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keywordtype">void</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="a00734.html#aee2f5c9601cdf253bcea0b58397df4dc">   40</a></span>&#160;<a class="code" href="a00734.html#aee2f5c9601cdf253bcea0b58397df4dc">pcl_socket_setkeepalive</a>(<a class="code" href="a01222.html">pcl_socket_t</a> *sock, <a class="code" href="a01158.html">pcl_keepalive_t</a> *ka)</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keywordtype">bool</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="a00734.html#a48b586c0161718930b7ff4113fe25c24">   40</a></span>&#160;<a class="code" href="a00734.html#a48b586c0161718930b7ff4113fe25c24">pcl_ispassive</a>(<a class="code" href="a01240.html">pcl_socket_t</a> *sock)</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;{</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordflow">if</span>(!sock || !ka)</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordtype">int</span> val = 0;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  socklen_t len = <span class="keyword">sizeof</span>(val);</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  DWORD dw;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keyword">struct </span>tcp_keepalive buf = {0, 0, 0};</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="comment">/* enable or disable (same as SO_KEEPALIVE) */</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  buf.onoff = ka-&gt;<a class="code" href="a01158.html#ac842b6c1dcb3b1f11b611620199dc55c">enable</a>;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="keywordflow">if</span>(ka-&gt;<a class="code" href="a01158.html#ac842b6c1dcb3b1f11b611620199dc55c">enable</a>)</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  {</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="comment">/* milliseconds (same as TCP_KEEPIDLE) */</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    buf.keepalivetime = ka-&gt;<a class="code" href="a01158.html#a49b20c6f7baade4b9d4a15088a7b9ac2">idle</a> * 1000;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="comment">/* milliseconds (same as TCP_KEEPINTVL) */</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    buf.keepaliveinterval = ka-&gt;<a class="code" href="a01158.html#ae0c690118932b32ef40a74bb6a259acd">interval</a> * 1000;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  }</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  <span class="comment">/* configure keep-alives for &#39;conn&#39; */</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  WSAIoctl(sock-&gt;<a class="code" href="a01222.html#a8a04492110d683cd4b6119648e1584d6">fd</a>, SIO_KEEPALIVE_VALS, &amp;buf, (DWORD)<span class="keyword">sizeof</span>(buf),</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    NULL, 0, &amp;dw, NULL, NULL);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor">#elif defined(SO_KEEPALIVE)</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <span class="keywordtype">int</span> v = ka-&gt;<a class="code" href="a01158.html#ac842b6c1dcb3b1f11b611620199dc55c">enable</a> ? 1 : 0;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  v = setsockopt(sock-&gt;<a class="code" href="a01222.html#a8a04492110d683cd4b6119648e1584d6">fd</a>, SOL_SOCKET, SO_KEEPALIVE, (<span class="keyword">const</span> <span class="keywordtype">char</span> *) &amp;v, <span class="keyword">sizeof</span>(<span class="keywordtype">int</span>));</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  <span class="keywordflow">if</span>(v == -1 || !ka-&gt;<a class="code" href="a01158.html#ac842b6c1dcb3b1f11b611620199dc55c">enable</a>)</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="preprocessor">  #ifdef TCP_KEEPIDLE </span><span class="comment">/* how long to wait before sending a keepalive */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  <span class="keywordflow">if</span>(ka-&gt;<a class="code" href="a01158.html#a49b20c6f7baade4b9d4a15088a7b9ac2">idle</a> &gt; 0)</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    setsockopt(sock-&gt;<a class="code" href="a01222.html#a8a04492110d683cd4b6119648e1584d6">fd</a>, IPPROTO_TCP, TCP_KEEPIDLE, (<span class="keyword">const</span> <span class="keywordtype">char</span> *)&amp;ka-&gt;<a class="code" href="a01158.html#a49b20c6f7baade4b9d4a15088a7b9ac2">idle</a>, <span class="keyword">sizeof</span>(<span class="keywordtype">int</span>));</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="preprocessor">  #endif</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor">  #ifdef TCP_KEEPINTVL </span><span class="comment">/* interval between keepalive probes */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  <span class="keywordflow">if</span>(ka-&gt;<a class="code" href="a01158.html#ae0c690118932b32ef40a74bb6a259acd">interval</a> &gt; 0)</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    setsockopt(sock-&gt;<a class="code" href="a01222.html#a8a04492110d683cd4b6119648e1584d6">fd</a>, IPPROTO_TCP, TCP_KEEPINTVL, (<span class="keyword">const</span> <span class="keywordtype">char</span> *) &amp;ka-&gt;<a class="code" href="a01158.html#ae0c690118932b32ef40a74bb6a259acd">interval</a>, <span class="keyword">sizeof</span>(<span class="keywordtype">int</span>));</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="preprocessor">  #endif</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="preprocessor">  #ifdef TCP_KEEPCNT </span><span class="comment">/* how many probes before giving up */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  <span class="keywordflow">if</span>(ka-&gt;<a class="code" href="a01158.html#af9f885037d863f26e3326ae360883ff3">probes</a> &gt; 0)</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    setsockopt(sock-&gt;<a class="code" href="a01222.html#a8a04492110d683cd4b6119648e1584d6">fd</a>, IPPROTO_TCP, TCP_KEEPCNT, (<span class="keyword">const</span> <span class="keywordtype">char</span> *) &amp;ka-&gt;<a class="code" href="a01158.html#af9f885037d863f26e3326ae360883ff3">probes</a>, <span class="keyword">sizeof</span>(<span class="keywordtype">int</span>));</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor">  #endif</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;}</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordflow">if</span>(getsockopt(sock-&gt;<a class="code" href="a01240.html#a8a04492110d683cd4b6119648e1584d6">fd</a>, SOL_SOCKET, SO_ACCEPTCONN, (<span class="keywordtype">char</span> *) &amp;val, &amp;len) == -1)</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01113.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keywordflow">return</span> val != 0;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01158_html_ac842b6c1dcb3b1f11b611620199dc55c"><div class="ttname"><a href="a01158.html#ac842b6c1dcb3b1f11b611620199dc55c">pcl_keepalive_t::enable</a></div><div class="ttdeci">bool enable</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00080">socket.h:80</a></div></div>
-<div class="ttc" id="aa00674_html"><div class="ttname"><a href="a00674.html">_socket.h</a></div></div>
-<div class="ttc" id="aa01158_html"><div class="ttname"><a href="a01158.html">pcl_keepalive_t</a></div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00078">socket.h:79</a></div></div>
-<div class="ttc" id="aa01158_html_a49b20c6f7baade4b9d4a15088a7b9ac2"><div class="ttname"><a href="a01158.html#a49b20c6f7baade4b9d4a15088a7b9ac2">pcl_keepalive_t::idle</a></div><div class="ttdeci">int idle</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00081">socket.h:81</a></div></div>
-<div class="ttc" id="aa01222_html_a8a04492110d683cd4b6119648e1584d6"><div class="ttname"><a href="a01222.html#a8a04492110d683cd4b6119648e1584d6">tag_pcl_socket::fd</a></div><div class="ttdeci">pcl_socketfd_t fd</div><div class="ttdef"><b>Definition:</b> <a href="a00674_source.html#l00053">_socket.h:53</a></div></div>
-<div class="ttc" id="aa01158_html_ae0c690118932b32ef40a74bb6a259acd"><div class="ttname"><a href="a01158.html#ae0c690118932b32ef40a74bb6a259acd">pcl_keepalive_t::interval</a></div><div class="ttdeci">int interval</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00082">socket.h:82</a></div></div>
-<div class="ttc" id="aa01222_html"><div class="ttname"><a href="a01222.html">tag_pcl_socket</a></div><div class="ttdef"><b>Definition:</b> <a href="a00674_source.html#l00047">_socket.h:48</a></div></div>
-<div class="ttc" id="aa01158_html_af9f885037d863f26e3326ae360883ff3"><div class="ttname"><a href="a01158.html#af9f885037d863f26e3326ae360883ff3">pcl_keepalive_t::probes</a></div><div class="ttdeci">int probes</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00083">socket.h:83</a></div></div>
-<div class="ttc" id="aa00734_html_aee2f5c9601cdf253bcea0b58397df4dc"><div class="ttname"><a href="a00734.html#aee2f5c9601cdf253bcea0b58397df4dc">pcl_socket_setkeepalive</a></div><div class="ttdeci">void pcl_socket_setkeepalive(pcl_socket_t *sock, pcl_keepalive_t *ka)</div><div class="ttdef"><b>Definition:</b> <a href="a00734_source.html#l00040">socket_setkeepalive.c:40</a></div></div>
+<div class="ttc" id="aa00044_html"><div class="ttname"><a href="a00044.html">error.h</a></div></div>
+<div class="ttc" id="aa01240_html_a8a04492110d683cd4b6119648e1584d6"><div class="ttname"><a href="a01240.html#a8a04492110d683cd4b6119648e1584d6">tag_pcl_socket::fd</a></div><div class="ttdeci">pcl_socketfd_t fd</div><div class="ttdef"><b>Definition:</b> <a href="a00680_source.html#l00053">_socket.h:53</a></div></div>
+<div class="ttc" id="aa00734_html_a48b586c0161718930b7ff4113fe25c24"><div class="ttname"><a href="a00734.html#a48b586c0161718930b7ff4113fe25c24">pcl_ispassive</a></div><div class="ttdeci">bool pcl_ispassive(pcl_socket_t *sock)</div><div class="ttdef"><b>Definition:</b> <a href="a00734_source.html#l00040">socket_ispassive.c:40</a></div></div>
+<div class="ttc" id="aa00680_html"><div class="ttname"><a href="a00680.html">_socket.h</a></div></div>
+<div class="ttc" id="aa01113_html_ga89b8bfbe17595305872551a1caaa5702"><div class="ttname"><a href="a01113.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a></div><div class="ttdeci">#define SETLASTERR()</div><div class="ttdoc">Sets the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00125">_errdefs.h:125</a></div></div>
+<div class="ttc" id="aa01240_html"><div class="ttname"><a href="a01240.html">tag_pcl_socket</a></div><div class="ttdef"><b>Definition:</b> <a href="a00680_source.html#l00047">_socket.h:48</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

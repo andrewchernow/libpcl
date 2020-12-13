@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/ssl/ssl_accept.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/ssl/_ssl.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">ssl_accept.c</div>  </div>
+<div class="title">_ssl.h</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00755.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,53 +101,52 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00749.html">_ssl.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00080.html">pcl/socket.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<a class="code" href="a01226.html">pcl_ssl_t</a> *</div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="a00755.html#a35b7edeb0148219bfada6318f11276dd">   37</a></span>&#160;<a class="code" href="a00755.html#a35b7edeb0148219bfada6318f11276dd">pcl_ssl_accept</a>(<a class="code" href="a01226.html">pcl_ssl_t</a> *server)</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <a class="code" href="a01226.html">pcl_ssl_t</a> *client;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <a class="code" href="a01222.html">pcl_socket_t</a> *sock;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#ifndef LIBPCL__SSL_H</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#define LIBPCL__SSL_H</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00083.html">pcl/ssl.h</a>&gt;</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00044.html">pcl/error.h</a>&gt;</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &lt;openssl/ssl.h&gt;</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="comment">/* internal use, used with SETERRMSG() like macros */</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="a00755.html#ae75efb7e804f39cdb19f0d77ebfe0b19">   40</a></span>&#160;<span class="preprocessor">#define sslerror(_ssl) pcl_ssl_error(_ssl)-&gt;msg</span></div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordflow">if</span>(!server || !(server-&gt;<a class="code" href="a01226.html#ac8bf36fe0577cba66bccda3a6f7e80a4">flags</a> &amp; <a class="code" href="a00083.html#aac1e8cec89765d61bb9a8ea4bc332782">PCL_SSL_PASSIVE</a>))</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01108.html#ga275b0cc5367d35bf8d2873fe5e15878b">R_SETERRMSG</a>(NULL, <a class="code" href="a01107.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>, <span class="stringliteral">&quot;Not a passive SSL socket&quot;</span>, 0);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordflow">if</span>(!(sock = <a class="code" href="a00080.html#ac35fe5869e3a8c1898e04d165b9ee14f">pcl_accept</a>(server-&gt;<a class="code" href="a01226.html#a940bf91f14cd0c9d944272e8336077ee">sock</a>)))</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01108.html#gaa978c8c7faa5fc2f69a6641e054e519d">R_TRC</a>(NULL);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  client = <a class="code" href="a01100.html#ga8f4cbae7a9d6191bceec2d2d1f04eb5d">pcl_zalloc</a>(<span class="keyword">sizeof</span>(<a class="code" href="a01226.html">pcl_ssl_t</a>));</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  client-&gt;<a class="code" href="a01226.html#ac8bf36fe0577cba66bccda3a6f7e80a4">flags</a> = <a class="code" href="a00083.html#a11dfb1daed272b37c90070f4ea6c6919">PCL_SSL_SERVER</a> | (server-&gt;<a class="code" href="a01226.html#ac8bf36fe0577cba66bccda3a6f7e80a4">flags</a> &amp; <a class="code" href="a00080.html#a0b9ee24d653ed3d56acdd7deea798b3c">PCL_SOCK_NONBLOCK</a>);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  client-&gt;<a class="code" href="a01226.html#a940bf91f14cd0c9d944272e8336077ee">sock</a> = sock;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <a class="code" href="a00749.html#a909b0f002581946d1308c06d1ad1871c">ipcl_ssl_configure_socket</a>(client, NULL, 0);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  client-&gt;<a class="code" href="a01226.html#ae7c0417fa2881f3546920311fee80311">ssl</a> = SSL_new(server-&gt;<a class="code" href="a01226.html#ad5433bcc8a463fb4df3ce5912bb11fe3">ctx</a>);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  SSL_set_fd(client-&gt;<a class="code" href="a01226.html#ae7c0417fa2881f3546920311fee80311">ssl</a>, (<span class="keywordtype">int</span>) <a class="code" href="a00080.html#a7e9cfa84011f73eff1e3f46e7104f1fb">pcl_socket_fd</a>(client-&gt;<a class="code" href="a01226.html#a940bf91f14cd0c9d944272e8336077ee">sock</a>));</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordflow">return</span> client;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;}</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="a01244.html">   46</a></span>&#160;<span class="keyword">struct </span><a class="code" href="a01244.html">tag_pcl_ssl</a></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;{</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="comment">/* PCL_SSL_xxx, should not be modified by applications.  The PCL_SOCK_NONBLOCK flag is copied to</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment">   * clients during http_accept(). Thus, the values configured on passive objects (PCL_SSL_PASSIVE)</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment">   * dictate how new clients are configured.</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment">   */</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="a01244.html#ac8bf36fe0577cba66bccda3a6f7e80a4">   52</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="a01244.html#ac8bf36fe0577cba66bccda3a6f7e80a4">flags</a>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="a01244.html#a940bf91f14cd0c9d944272e8336077ee">   53</a></span>&#160;  <a class="code" href="a01240.html">pcl_socket_t</a> *<a class="code" href="a01244.html#a940bf91f14cd0c9d944272e8336077ee">sock</a>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="a01244.html#ad5433bcc8a463fb4df3ce5912bb11fe3">   54</a></span>&#160;  SSL_CTX *<a class="code" href="a01244.html#ad5433bcc8a463fb4df3ce5912bb11fe3">ctx</a>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="a01244.html#ae7c0417fa2881f3546920311fee80311">   55</a></span>&#160;  SSL *<a class="code" href="a01244.html#ae7c0417fa2881f3546920311fee80311">ssl</a>;</div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="a01244.html#a6473a038c16b59727d5b2195046e0498">   56</a></span>&#160;  <a class="code" href="a01176.html">pcl_openssl_error_t</a> <a class="code" href="a01244.html#a6473a038c16b59727d5b2195046e0498">err</a>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;};</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keywordtype">int</span> <a class="code" href="a00755.html#a909b0f002581946d1308c06d1ad1871c">ipcl_ssl_configure_socket</a>(<a class="code" href="a01244.html">pcl_ssl_t</a> *ssl, <span class="keyword">const</span> <span class="keywordtype">char</span> *host, <span class="keywordtype">int</span> port);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;}</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor">#endif // LIBPCL__SSL_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00083_html_aac1e8cec89765d61bb9a8ea4bc332782"><div class="ttname"><a href="a00083.html#aac1e8cec89765d61bb9a8ea4bc332782">PCL_SSL_PASSIVE</a></div><div class="ttdeci">#define PCL_SSL_PASSIVE</div><div class="ttdef"><b>Definition:</b> <a href="a00083_source.html#l00050">ssl.h:50</a></div></div>
-<div class="ttc" id="aa01108_html_gaa978c8c7faa5fc2f69a6641e054e519d"><div class="ttname"><a href="a01108.html#gaa978c8c7faa5fc2f69a6641e054e519d">R_TRC</a></div><div class="ttdeci">#define R_TRC(_retval)</div><div class="ttdoc">Sets the return value and adds a stack trace to the current thread's error context.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00287">_errdefs.h:287</a></div></div>
-<div class="ttc" id="aa00749_html"><div class="ttname"><a href="a00749.html">_ssl.h</a></div></div>
-<div class="ttc" id="aa01226_html_ad5433bcc8a463fb4df3ce5912bb11fe3"><div class="ttname"><a href="a01226.html#ad5433bcc8a463fb4df3ce5912bb11fe3">tag_pcl_ssl::ctx</a></div><div class="ttdeci">SSL_CTX * ctx</div><div class="ttdef"><b>Definition:</b> <a href="a00749_source.html#l00054">_ssl.h:54</a></div></div>
-<div class="ttc" id="aa00080_html"><div class="ttname"><a href="a00080.html">socket.h</a></div></div>
-<div class="ttc" id="aa01226_html_a940bf91f14cd0c9d944272e8336077ee"><div class="ttname"><a href="a01226.html#a940bf91f14cd0c9d944272e8336077ee">tag_pcl_ssl::sock</a></div><div class="ttdeci">pcl_socket_t * sock</div><div class="ttdef"><b>Definition:</b> <a href="a00749_source.html#l00053">_ssl.h:53</a></div></div>
-<div class="ttc" id="aa01222_html"><div class="ttname"><a href="a01222.html">tag_pcl_socket</a></div><div class="ttdef"><b>Definition:</b> <a href="a00674_source.html#l00047">_socket.h:48</a></div></div>
-<div class="ttc" id="aa00083_html_a11dfb1daed272b37c90070f4ea6c6919"><div class="ttname"><a href="a00083.html#a11dfb1daed272b37c90070f4ea6c6919">PCL_SSL_SERVER</a></div><div class="ttdeci">#define PCL_SSL_SERVER</div><div class="ttdef"><b>Definition:</b> <a href="a00083_source.html#l00049">ssl.h:49</a></div></div>
-<div class="ttc" id="aa01108_html_ga275b0cc5367d35bf8d2873fe5e15878b"><div class="ttname"><a href="a01108.html#ga275b0cc5367d35bf8d2873fe5e15878b">R_SETERRMSG</a></div><div class="ttdeci">#define R_SETERRMSG(_retval, _pclerr, _msgfmt,...)</div><div class="ttdoc">Sets the return value and the current thread's PCL error code and error message.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00174">_errdefs.h:174</a></div></div>
-<div class="ttc" id="aa00080_html_a0b9ee24d653ed3d56acdd7deea798b3c"><div class="ttname"><a href="a00080.html#a0b9ee24d653ed3d56acdd7deea798b3c">PCL_SOCK_NONBLOCK</a></div><div class="ttdeci">#define PCL_SOCK_NONBLOCK</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00053">socket.h:53</a></div></div>
-<div class="ttc" id="aa00749_html_a909b0f002581946d1308c06d1ad1871c"><div class="ttname"><a href="a00749.html#a909b0f002581946d1308c06d1ad1871c">ipcl_ssl_configure_socket</a></div><div class="ttdeci">int ipcl_ssl_configure_socket(pcl_ssl_t *ssl, const char *host, int port)</div><div class="ttdef"><b>Definition:</b> <a href="a00764_source.html#l00036">ssl_configure_socket.c:36</a></div></div>
-<div class="ttc" id="aa01100_html_ga8f4cbae7a9d6191bceec2d2d1f04eb5d"><div class="ttname"><a href="a01100.html#ga8f4cbae7a9d6191bceec2d2d1f04eb5d">pcl_zalloc</a></div><div class="ttdeci">void * pcl_zalloc(size_t n)</div><div class="ttdoc">Allocate and zero dynamic memory.</div></div>
-<div class="ttc" id="aa01226_html_ac8bf36fe0577cba66bccda3a6f7e80a4"><div class="ttname"><a href="a01226.html#ac8bf36fe0577cba66bccda3a6f7e80a4">tag_pcl_ssl::flags</a></div><div class="ttdeci">int flags</div><div class="ttdef"><b>Definition:</b> <a href="a00749_source.html#l00052">_ssl.h:52</a></div></div>
-<div class="ttc" id="aa00080_html_ac35fe5869e3a8c1898e04d165b9ee14f"><div class="ttname"><a href="a00080.html#ac35fe5869e3a8c1898e04d165b9ee14f">pcl_accept</a></div><div class="ttdeci">PCL_EXPORT pcl_socket_t * pcl_accept(pcl_socket_t *sock)</div><div class="ttdef"><b>Definition:</b> <a href="a00677_source.html#l00041">accept.c:41</a></div></div>
-<div class="ttc" id="aa01226_html"><div class="ttname"><a href="a01226.html">tag_pcl_ssl</a></div><div class="ttdef"><b>Definition:</b> <a href="a00749_source.html#l00046">_ssl.h:47</a></div></div>
-<div class="ttc" id="aa01107_html_gae0cd5c5a7fae36cd480176bda17e77ca"><div class="ttname"><a href="a01107.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a></div><div class="ttdeci">#define PCL_EINVAL</div><div class="ttdoc">Invalid argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00078">_errno.h:78</a></div></div>
-<div class="ttc" id="aa01226_html_ae7c0417fa2881f3546920311fee80311"><div class="ttname"><a href="a01226.html#ae7c0417fa2881f3546920311fee80311">tag_pcl_ssl::ssl</a></div><div class="ttdeci">SSL * ssl</div><div class="ttdef"><b>Definition:</b> <a href="a00749_source.html#l00055">_ssl.h:55</a></div></div>
-<div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
-<div class="ttc" id="aa00080_html_a7e9cfa84011f73eff1e3f46e7104f1fb"><div class="ttname"><a href="a00080.html#a7e9cfa84011f73eff1e3f46e7104f1fb">pcl_socket_fd</a></div><div class="ttdeci">PCL_EXPORT pcl_socketfd_t pcl_socket_fd(pcl_socket_t *sock)</div><div class="ttdef"><b>Definition:</b> <a href="a00719_source.html#l00036">socket_fd.c:36</a></div></div>
-<div class="ttc" id="aa00755_html_a35b7edeb0148219bfada6318f11276dd"><div class="ttname"><a href="a00755.html#a35b7edeb0148219bfada6318f11276dd">pcl_ssl_accept</a></div><div class="ttdeci">pcl_ssl_t * pcl_ssl_accept(pcl_ssl_t *server)</div><div class="ttdef"><b>Definition:</b> <a href="a00755_source.html#l00037">ssl_accept.c:37</a></div></div>
+<div class="ttc" id="aa00044_html"><div class="ttname"><a href="a00044.html">error.h</a></div></div>
+<div class="ttc" id="aa01244_html"><div class="ttname"><a href="a01244.html">tag_pcl_ssl</a></div><div class="ttdef"><b>Definition:</b> <a href="a00755_source.html#l00046">_ssl.h:47</a></div></div>
+<div class="ttc" id="aa01244_html_ad5433bcc8a463fb4df3ce5912bb11fe3"><div class="ttname"><a href="a01244.html#ad5433bcc8a463fb4df3ce5912bb11fe3">tag_pcl_ssl::ctx</a></div><div class="ttdeci">SSL_CTX * ctx</div><div class="ttdef"><b>Definition:</b> <a href="a00755_source.html#l00054">_ssl.h:54</a></div></div>
+<div class="ttc" id="aa00083_html"><div class="ttname"><a href="a00083.html">ssl.h</a></div></div>
+<div class="ttc" id="aa01244_html_a940bf91f14cd0c9d944272e8336077ee"><div class="ttname"><a href="a01244.html#a940bf91f14cd0c9d944272e8336077ee">tag_pcl_ssl::sock</a></div><div class="ttdeci">pcl_socket_t * sock</div><div class="ttdef"><b>Definition:</b> <a href="a00755_source.html#l00053">_ssl.h:53</a></div></div>
+<div class="ttc" id="aa01176_html"><div class="ttname"><a href="a01176.html">pcl_openssl_error_t</a></div><div class="ttdef"><b>Definition:</b> <a href="a00083_source.html#l00057">ssl.h:58</a></div></div>
+<div class="ttc" id="aa01244_html_ac8bf36fe0577cba66bccda3a6f7e80a4"><div class="ttname"><a href="a01244.html#ac8bf36fe0577cba66bccda3a6f7e80a4">tag_pcl_ssl::flags</a></div><div class="ttdeci">int flags</div><div class="ttdef"><b>Definition:</b> <a href="a00755_source.html#l00052">_ssl.h:52</a></div></div>
+<div class="ttc" id="aa01244_html_a6473a038c16b59727d5b2195046e0498"><div class="ttname"><a href="a01244.html#a6473a038c16b59727d5b2195046e0498">tag_pcl_ssl::err</a></div><div class="ttdeci">pcl_openssl_error_t err</div><div class="ttdef"><b>Definition:</b> <a href="a00755_source.html#l00056">_ssl.h:56</a></div></div>
+<div class="ttc" id="aa01240_html"><div class="ttname"><a href="a01240.html">tag_pcl_socket</a></div><div class="ttdef"><b>Definition:</b> <a href="a00680_source.html#l00047">_socket.h:48</a></div></div>
+<div class="ttc" id="aa01244_html_ae7c0417fa2881f3546920311fee80311"><div class="ttname"><a href="a01244.html#ae7c0417fa2881f3546920311fee80311">tag_pcl_ssl::ssl</a></div><div class="ttdeci">SSL * ssl</div><div class="ttdef"><b>Definition:</b> <a href="a00755_source.html#l00055">_ssl.h:55</a></div></div>
+<div class="ttc" id="aa00755_html_a909b0f002581946d1308c06d1ad1871c"><div class="ttname"><a href="a00755.html#a909b0f002581946d1308c06d1ad1871c">ipcl_ssl_configure_socket</a></div><div class="ttdeci">int ipcl_ssl_configure_socket(pcl_ssl_t *ssl, const char *host, int port)</div><div class="ttdef"><b>Definition:</b> <a href="a00770_source.html#l00036">ssl_configure_socket.c:36</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

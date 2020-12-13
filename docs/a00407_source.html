@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/error/errmap.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/event/event_context.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,12 +62,12 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_acc2056b73c4fda97caebb7ceca7df66.html">&#x202A;error</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_f278fbcf62338d746f20818c09b59427.html">&#x202A;event</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">errmap.c</div>  </div>
+<div class="title">event_context.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00407.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,39 +101,40 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00338.html">_error.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor"># include &lt;winerror.h&gt;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor"># include &lt;winsock2.h&gt;</span> <span class="comment">// stupid, need this JUST for WSANO_ADDRESS</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="comment">/* used by included errmap files */</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="a00407.html#aa1884e85009d9b89d82ee9fad3c2d454">   40</a></span>&#160;<span class="preprocessor">#define _errmap(oserr, errnum) {(uint32_t)oserr, errnum, #oserr},</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment">/* map windows/unix errors to pcl errors */</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">static</span> <a class="code" href="a01206.html">ipcl_err_map_t</a> error_map[] = {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  {0, 0, <span class="stringliteral">&quot;PCL_EOKAY&quot;</span>},</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor"># include &quot;<a class="code" href="a00344.html">_win32_errmap.h</a>&quot;</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor"># include &quot;<a class="code" href="a00341.html">_unix_errmap.h</a>&quot;</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;};</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<a class="code" href="a01206.html">ipcl_err_map_t</a> *</div>
-<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="a00407.html#a8cc175fee492e877753d94a4ede7afc3">   53</a></span>&#160;<a class="code" href="a00407.html#a8cc175fee492e877753d94a4ede7afc3">ipcl_err_map</a>(<span class="keywordtype">int</span> *count)</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;{</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  *count = <a class="code" href="a00035.html#a9941e62482da843b972636008fd80e56">countof</a>(error_map);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordflow">return</span> error_map;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00404.html">_event.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00098.html">pcl/thread.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">static</span> pthread_mutex_t event_context_lock;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">static</span> <a class="code" href="a01224.html">ipcl_event_context_t</a> event_context;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keywordtype">void</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="a00407.html#a71cd1c871ecd0b1bbe986009b375e1ed">   39</a></span>&#160;<a class="code" href="a00407.html#a71cd1c871ecd0b1bbe986009b375e1ed">ipcl_event_init</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <a class="code" href="a00098.html#a1b8ccddcfc0b295192808c446a544e4d">pcl_mutex_init</a>(&amp;event_context_lock);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;}</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<a class="code" href="a01224.html">ipcl_event_context_t</a> *</div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="a00407.html#a420caa65d73df927f9b9458d4b694f34">   45</a></span>&#160;<a class="code" href="a00407.html#a420caa65d73df927f9b9458d4b694f34">ipcl_event_context</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;{</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <a class="code" href="a00098.html#a6ae027ed507b26c94d659e0e8ecf6805">pcl_mutex_lock</a>(&amp;event_context_lock);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keywordflow">return</span> &amp;event_context;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keywordtype">void</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="a00407.html#a2e5925633da0861508d7c8eb742e48cf">   52</a></span>&#160;<a class="code" href="a00407.html#a2e5925633da0861508d7c8eb742e48cf">ipcl_event_context_release</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;{</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <a class="code" href="a00098.html#a28100f964ac6a4a0d9c5548d9ebbf3b0">pcl_mutex_unlock</a>(&amp;event_context_lock);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00344_html"><div class="ttname"><a href="a00344.html">_win32_errmap.h</a></div></div>
-<div class="ttc" id="aa00407_html_a8cc175fee492e877753d94a4ede7afc3"><div class="ttname"><a href="a00407.html#a8cc175fee492e877753d94a4ede7afc3">ipcl_err_map</a></div><div class="ttdeci">ipcl_err_map_t * ipcl_err_map(int *count)</div><div class="ttdef"><b>Definition:</b> <a href="a00407_source.html#l00053">errmap.c:53</a></div></div>
-<div class="ttc" id="aa00035_html_a9941e62482da843b972636008fd80e56"><div class="ttname"><a href="a00035.html#a9941e62482da843b972636008fd80e56">countof</a></div><div class="ttdeci">#define countof(buffer)</div><div class="ttdef"><b>Definition:</b> <a href="a00035_source.html#l00127">defs.h:127</a></div></div>
-<div class="ttc" id="aa00338_html"><div class="ttname"><a href="a00338.html">_error.h</a></div></div>
-<div class="ttc" id="aa01206_html"><div class="ttname"><a href="a01206.html">ipcl_err_map_t</a></div><div class="ttdef"><b>Definition:</b> <a href="a00338_source.html#l00048">_error.h:49</a></div></div>
-<div class="ttc" id="aa00341_html"><div class="ttname"><a href="a00341.html">_unix_errmap.h</a></div></div>
+<div class="ttc" id="aa00407_html_a2e5925633da0861508d7c8eb742e48cf"><div class="ttname"><a href="a00407.html#a2e5925633da0861508d7c8eb742e48cf">ipcl_event_context_release</a></div><div class="ttdeci">void ipcl_event_context_release(void)</div><div class="ttdef"><b>Definition:</b> <a href="a00407_source.html#l00052">event_context.c:52</a></div></div>
+<div class="ttc" id="aa00404_html"><div class="ttname"><a href="a00404.html">_event.h</a></div></div>
+<div class="ttc" id="aa01224_html"><div class="ttname"><a href="a01224.html">ipcl_event_context_t</a></div><div class="ttdef"><b>Definition:</b> <a href="a00404_source.html#l00041">_event.h:42</a></div></div>
+<div class="ttc" id="aa00098_html_a28100f964ac6a4a0d9c5548d9ebbf3b0"><div class="ttname"><a href="a00098.html#a28100f964ac6a4a0d9c5548d9ebbf3b0">pcl_mutex_unlock</a></div><div class="ttdeci">PCL_EXPORT int pcl_mutex_unlock(pthread_mutex_t *m)</div><div class="ttdef"><b>Definition:</b> <a href="a00944_source.html#l00036">mutex_unlock.c:36</a></div></div>
+<div class="ttc" id="aa00098_html_a6ae027ed507b26c94d659e0e8ecf6805"><div class="ttname"><a href="a00098.html#a6ae027ed507b26c94d659e0e8ecf6805">pcl_mutex_lock</a></div><div class="ttdeci">PCL_EXPORT int pcl_mutex_lock(pthread_mutex_t *m)</div><div class="ttdef"><b>Definition:</b> <a href="a00938_source.html#l00036">mutex_lock.c:36</a></div></div>
+<div class="ttc" id="aa00098_html_a1b8ccddcfc0b295192808c446a544e4d"><div class="ttname"><a href="a00098.html#a1b8ccddcfc0b295192808c446a544e4d">pcl_mutex_init</a></div><div class="ttdeci">PCL_EXPORT int pcl_mutex_init(pthread_mutex_t *m)</div><div class="ttdef"><b>Definition:</b> <a href="a00935_source.html#l00036">mutex_init.c:36</a></div></div>
+<div class="ttc" id="aa00407_html_a71cd1c871ecd0b1bbe986009b375e1ed"><div class="ttname"><a href="a00407.html#a71cd1c871ecd0b1bbe986009b375e1ed">ipcl_event_init</a></div><div class="ttdeci">void ipcl_event_init(void)</div><div class="ttdef"><b>Definition:</b> <a href="a00407_source.html#l00039">event_context.c:39</a></div></div>
+<div class="ttc" id="aa00098_html"><div class="ttname"><a href="a00098.html">thread.h</a></div></div>
+<div class="ttc" id="aa00407_html_a420caa65d73df927f9b9458d4b694f34"><div class="ttname"><a href="a00407.html#a420caa65d73df927f9b9458d4b694f34">ipcl_event_context</a></div><div class="ttdeci">ipcl_event_context_t * ipcl_event_context(void)</div><div class="ttdef"><b>Definition:</b> <a href="a00407_source.html#l00045">event_context.c:45</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

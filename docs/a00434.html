@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/event/event_unregister.c File Reference</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/file/file_lock.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,27 +62,72 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_f278fbcf62338d746f20818c09b59427.html">&#x202A;event</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_f17c642dae9e225ab953fe9c6da2e34a.html">&#x202A;file</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">event_unregister.c File Reference</div>  </div>
+<div class="title">file_lock.c File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="a00422_source.html">_event.h</a>&quot;</code><br />
-<code>#include &lt;<a class="el" href="a00089_source.html">string.h</a>&gt;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a00419_source.html">_file.h</a>&quot;</code><br />
+<code>#include &lt;<a class="el" href="a00044_source.html">pcl/error.h</a>&gt;</code><br />
 </div>
 <p><a href="a00434_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga5e48475a04701c77022079a13e4c98ce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01109.html#ga5e48475a04701c77022079a13e4c98ce">pcl_event_unregister</a> (<a class="el" href="a01109.html#ga04ab8867aacede25175c89e51a3e206d">pcl_event_handler_t</a> handler)</td></tr>
-<tr class="memdesc:ga5e48475a04701c77022079a13e4c98ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Unregisters a previously registered event handler.  <a href="a01109.html#ga5e48475a04701c77022079a13e4c98ce">More...</a><br /></td></tr>
-<tr class="separator:ga5e48475a04701c77022079a13e4c98ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f32eaf31e6aebb90169c55a4dcf8fb5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00434.html#a4f32eaf31e6aebb90169c55a4dcf8fb5">pcl_file_lock</a> (<a class="el" href="a00104.html#ad9cada4fd6c46abc8fbf45fea3416a66">pcl_file_t</a> *file, int operation)</td></tr>
+<tr class="memdesc:a4f32eaf31e6aebb90169c55a4dcf8fb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Lock a file with exclusive or shared access or unlock a file.  <a href="a00434.html#a4f32eaf31e6aebb90169c55a4dcf8fb5">More...</a><br /></td></tr>
+<tr class="separator:a4f32eaf31e6aebb90169c55a4dcf8fb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a4f32eaf31e6aebb90169c55a4dcf8fb5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f32eaf31e6aebb90169c55a4dcf8fb5">&#9670;&nbsp;</a></span>pcl_file_lock()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int pcl_file_lock </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a00104.html#ad9cada4fd6c46abc8fbf45fea3416a66">pcl_file_t</a> *&#160;</td>
+          <td class="paramname"><em>file</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>operation</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>&#x202A;Lock a file with exclusive or shared access or unlock a file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">file</td><td></td></tr>
+    <tr><td class="paramname">operation</td><td>&#x202A;PCL_WRLOCK exclusive, PCL_RDLOCK shared, PCL_UNLOCK unlock </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;0 for success and -1 on error </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00434_source.html#l00036">36</a> of file <a class="el" href="a00434_source.html">file_lock.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00017_source.html#l00306">BADARG</a>, <a class="el" href="a00419_source.html#l00064">tag_pcl_file::fd</a>, <a class="el" href="a00419_source.html#l00063">tag_pcl_file::flags</a>, <a class="el" href="a00035_source.html#l00133">PCL_BADFD</a>, <a class="el" href="a00020_source.html#l00048">PCL_EAGAIN</a>, <a class="el" href="a00020_source.html#l00078">PCL_EINVAL</a>, <a class="el" href="a00053_source.html#l00080">PCL_FF_FLOCK</a>, <a class="el" href="a00053_source.html#l00081">PCL_FF_NONBLOCK</a>, <a class="el" href="a00044_source.html#l00185">pcl_oserrno</a>, <a class="el" href="a00053_source.html#l00042">PCL_RDLOCK</a>, <a class="el" href="a00053_source.html#l00043">PCL_UNLOCK</a>, <a class="el" href="a00053_source.html#l00044">PCL_WRLOCK</a>, <a class="el" href="a00017_source.html#l00065">SETERR</a>, <a class="el" href="a00017_source.html#l00087">SETERRMSG</a>, and <a class="el" href="a00017_source.html#l00125">SETLASTERR</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00455_source.html#l00037">ipcl_file_open()</a>, and <a class="el" href="a00428_source.html#l00038">pcl_file_close()</a>.</p>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->

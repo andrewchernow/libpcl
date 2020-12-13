@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/socket/socket_fd.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/socket/socket_close.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">socket_fd.c</div>  </div>
+<div class="title">socket_close.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00719.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,26 +101,41 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00674.html">_socket.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/error.h</a>&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00680.html">_socket.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<a class="code" href="a00104.html#a35d4d11068f60efd5365b31e315c18eb">pcl_socketfd_t</a></div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a00719.html#a71c8db49930974a5d1eee9705c9e8d9e">   36</a></span>&#160;<a class="code" href="a00719.html#a71c8db49930974a5d1eee9705c9e8d9e">pcl_socket_fd</a>(<a class="code" href="a01222.html">pcl_socket_t</a> *sock)</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">if</span>(!sock)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01108.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a>(<a class="code" href="a00080.html#a26769957ec1a2beaf223f33b66ee64ab">INVALID_SOCKET</a>, <a class="code" href="a01107.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordflow">return</span> sock-&gt;<a class="code" href="a01222.html#a8a04492110d683cd4b6119648e1584d6">fd</a>;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;}</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#ifdef PCL_UNIX</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor"># include &lt;unistd.h&gt;</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keywordtype">void</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="a00719.html#a3fb33397548e00112f5dd8ee39dacf89">   40</a></span>&#160;<a class="code" href="a00719.html#a3fb33397548e00112f5dd8ee39dacf89">pcl_socket_close</a>(<a class="code" href="a01240.html">pcl_socket_t</a> *sock)</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;{</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordflow">if</span>(!sock)</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordflow">if</span>(sock-&gt;<a class="code" href="a01240.html#a8a04492110d683cd4b6119648e1584d6">fd</a> != <a class="code" href="a00080.html#a26769957ec1a2beaf223f33b66ee64ab">INVALID_SOCKET</a>)</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  {</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    closesocket(sock-&gt;<a class="code" href="a01240.html#a8a04492110d683cd4b6119648e1584d6">fd</a>);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    close(sock-&gt;<a class="code" href="a01240.html#a8a04492110d683cd4b6119648e1584d6">fd</a>);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  }</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <a class="code" href="a01106.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe</a>(sock-&gt;<a class="code" href="a01240.html#ad540706412769097e113feb208f0b6bf">ipaddr</a>);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <a class="code" href="a01106.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(sock);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00674_html"><div class="ttname"><a href="a00674.html">_socket.h</a></div></div>
-<div class="ttc" id="aa00104_html_a35d4d11068f60efd5365b31e315c18eb"><div class="ttname"><a href="a00104.html#a35d4d11068f60efd5365b31e315c18eb">pcl_socketfd_t</a></div><div class="ttdeci">int pcl_socketfd_t</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00055">types.h:55</a></div></div>
-<div class="ttc" id="aa01222_html_a8a04492110d683cd4b6119648e1584d6"><div class="ttname"><a href="a01222.html#a8a04492110d683cd4b6119648e1584d6">tag_pcl_socket::fd</a></div><div class="ttdeci">pcl_socketfd_t fd</div><div class="ttdef"><b>Definition:</b> <a href="a00674_source.html#l00053">_socket.h:53</a></div></div>
-<div class="ttc" id="aa01222_html"><div class="ttname"><a href="a01222.html">tag_pcl_socket</a></div><div class="ttdef"><b>Definition:</b> <a href="a00674_source.html#l00047">_socket.h:48</a></div></div>
+<div class="ttc" id="aa01106_html_ga2de1e7abd61febca9d319940c5c2bd1b"><div class="ttname"><a href="a01106.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe</a></div><div class="ttdeci">void * pcl_free_safe(void *p)</div><div class="ttdoc">Safely free memory space.</div></div>
+<div class="ttc" id="aa01240_html_a8a04492110d683cd4b6119648e1584d6"><div class="ttname"><a href="a01240.html#a8a04492110d683cd4b6119648e1584d6">tag_pcl_socket::fd</a></div><div class="ttdeci">pcl_socketfd_t fd</div><div class="ttdef"><b>Definition:</b> <a href="a00680_source.html#l00053">_socket.h:53</a></div></div>
+<div class="ttc" id="aa00680_html"><div class="ttname"><a href="a00680.html">_socket.h</a></div></div>
+<div class="ttc" id="aa00719_html_a3fb33397548e00112f5dd8ee39dacf89"><div class="ttname"><a href="a00719.html#a3fb33397548e00112f5dd8ee39dacf89">pcl_socket_close</a></div><div class="ttdeci">void pcl_socket_close(pcl_socket_t *sock)</div><div class="ttdef"><b>Definition:</b> <a href="a00719_source.html#l00040">socket_close.c:40</a></div></div>
 <div class="ttc" id="aa00080_html_a26769957ec1a2beaf223f33b66ee64ab"><div class="ttname"><a href="a00080.html#a26769957ec1a2beaf223f33b66ee64ab">INVALID_SOCKET</a></div><div class="ttdeci">#define INVALID_SOCKET</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00057">socket.h:57</a></div></div>
-<div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">error.h</a></div></div>
-<div class="ttc" id="aa00719_html_a71c8db49930974a5d1eee9705c9e8d9e"><div class="ttname"><a href="a00719.html#a71c8db49930974a5d1eee9705c9e8d9e">pcl_socket_fd</a></div><div class="ttdeci">pcl_socketfd_t pcl_socket_fd(pcl_socket_t *sock)</div><div class="ttdef"><b>Definition:</b> <a href="a00719_source.html#l00036">socket_fd.c:36</a></div></div>
-<div class="ttc" id="aa01108_html_gae8eaed12aa57a2870ad8e45cc2306318"><div class="ttname"><a href="a01108.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a></div><div class="ttdeci">#define R_SETERR(_retval, _pclerr)</div><div class="ttdoc">Sets the return value and the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00145">_errdefs.h:145</a></div></div>
-<div class="ttc" id="aa01107_html_gae0cd5c5a7fae36cd480176bda17e77ca"><div class="ttname"><a href="a01107.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a></div><div class="ttdeci">#define PCL_EINVAL</div><div class="ttdoc">Invalid argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00078">_errno.h:78</a></div></div>
+<div class="ttc" id="aa01106_html_gab88b901c82e1010555b08ff6d39490f2"><div class="ttname"><a href="a01106.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a></div><div class="ttdeci">void * pcl_free(void *p)</div><div class="ttdoc">Free memory space.</div></div>
+<div class="ttc" id="aa01240_html"><div class="ttname"><a href="a01240.html">tag_pcl_socket</a></div><div class="ttdef"><b>Definition:</b> <a href="a00680_source.html#l00047">_socket.h:48</a></div></div>
+<div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
+<div class="ttc" id="aa01240_html_ad540706412769097e113feb208f0b6bf"><div class="ttname"><a href="a01240.html#ad540706412769097e113feb208f0b6bf">tag_pcl_socket::ipaddr</a></div><div class="ttdeci">char * ipaddr</div><div class="ttdef"><b>Definition:</b> <a href="a00680_source.html#l00062">_socket.h:62</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

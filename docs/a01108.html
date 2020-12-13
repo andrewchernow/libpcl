@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;Error Macros</title>
+<title>&#x202A;libpcl: &#x202A;Dynamic Buffer</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -63,1092 +63,796 @@ $(function() {
 
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a>  </div>
+<a href="#nested-classes">Data Structures</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">Error Macros<div class="ingroups"><a class="el" href="a01106.html">Error Management</a></div></div>  </div>
+<div class="title">Dynamic Buffer</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>&#x202A;Error macros allow for easily settting errors and adding traces to the per-thread stack trace.  
+<p>&#x202A;The buffer API provides a dynamically sized buffer for putting text and/or binary data.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:ga5d0d174193729a18bb8a57d35a255229"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#ga5d0d174193729a18bb8a57d35a255229">FREEZE_ERR</a>(code_fragment)</td></tr>
-<tr class="memdesc:ga5d0d174193729a18bb8a57d35a255229"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Freeze the current thread's error context while executing code.  <a href="a01108.html#ga5d0d174193729a18bb8a57d35a255229">More...</a><br /></td></tr>
-<tr class="separator:ga5d0d174193729a18bb8a57d35a255229"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga82adf6365b61d9a32021e559d9c31497"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a>(_pclerr)&#160;&#160;&#160;<a class="el" href="a01108.html#gaac6caa6459e4fae267aba35a8a24783b">SETERRMSG_OS</a>(_pclerr, 0, NULL, 0)</td></tr>
-<tr class="memdesc:ga82adf6365b61d9a32021e559d9c31497"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Sets the current thread's PCL error code.  <a href="a01108.html#ga82adf6365b61d9a32021e559d9c31497">More...</a><br /></td></tr>
-<tr class="separator:ga82adf6365b61d9a32021e559d9c31497"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga954df7afdee633aed0beba08add17f8c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#ga954df7afdee633aed0beba08add17f8c">SETERR_OS</a>(_pclerr,  _oserr)&#160;&#160;&#160;<a class="el" href="a01108.html#gaac6caa6459e4fae267aba35a8a24783b">SETERRMSG_OS</a>(_pclerr, _oserr, NULL, 0)</td></tr>
-<tr class="memdesc:ga954df7afdee633aed0beba08add17f8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Sets the current thread's PCL error code and OS error code.  <a href="a01108.html#ga954df7afdee633aed0beba08add17f8c">More...</a><br /></td></tr>
-<tr class="separator:ga954df7afdee633aed0beba08add17f8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga7859a0a1a544c581d53bd7d44ab6805d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a>(_pclerr,  _msgfmt, ...)&#160;&#160;&#160;<a class="el" href="a01108.html#gaac6caa6459e4fae267aba35a8a24783b">SETERRMSG_OS</a>(_pclerr, 0, _msgfmt, __VA_ARGS__)</td></tr>
-<tr class="memdesc:ga7859a0a1a544c581d53bd7d44ab6805d"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Sets the current thread's PCL error code and error message.  <a href="a01108.html#ga7859a0a1a544c581d53bd7d44ab6805d">More...</a><br /></td></tr>
-<tr class="separator:ga7859a0a1a544c581d53bd7d44ab6805d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaac6caa6459e4fae267aba35a8a24783b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#gaac6caa6459e4fae267aba35a8a24783b">SETERRMSG_OS</a>(_pclerr,  _oserr,  _msgfmt, ...)&#160;&#160;&#160;  <a class="el" href="a01106.html#ga1fae5bebcb3cd7fc3fe889689f0c86a7">pcl_err_set</a>(<a class="el" href="a00035.html#ac26653ff3959b17bc17e9d32b036493d">PCL_LOCATION_ARGS</a>, _pclerr, _oserr, _msgfmt, __VA_ARGS__)</td></tr>
-<tr class="memdesc:gaac6caa6459e4fae267aba35a8a24783b"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Sets the current thread's PCL error code, OS error code and error message.  <a href="a01108.html#gaac6caa6459e4fae267aba35a8a24783b">More...</a><br /></td></tr>
-<tr class="separator:gaac6caa6459e4fae267aba35a8a24783b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaadc76b147014f17dcc08fa3c2f110a25"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#gaadc76b147014f17dcc08fa3c2f110a25">SETOSERR</a>(_oserr)&#160;&#160;&#160;<a class="el" href="a01108.html#ga2098ca75aa487e29880f176b7c717e98">SETOSERRMSG</a>(_oserr, NULL, 0)</td></tr>
-<tr class="memdesc:gaadc76b147014f17dcc08fa3c2f110a25"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Sets the current thread's OS error code and maps code to PCL error code.  <a href="a01108.html#gaadc76b147014f17dcc08fa3c2f110a25">More...</a><br /></td></tr>
-<tr class="separator:gaadc76b147014f17dcc08fa3c2f110a25"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga2098ca75aa487e29880f176b7c717e98"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#ga2098ca75aa487e29880f176b7c717e98">SETOSERRMSG</a>(_oserr,  _msgfmt, ...)&#160;&#160;&#160;  <a class="el" href="a01108.html#gaac6caa6459e4fae267aba35a8a24783b">SETERRMSG_OS</a>(<a class="el" href="a01106.html#ga3ff5c98b765df74bd305d2e56e9b4f31">pcl_err_os2pcl</a>(_oserr), _oserr, _msgfmt, __VA_ARGS__)</td></tr>
-<tr class="memdesc:ga2098ca75aa487e29880f176b7c717e98"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Sets the current thread's OS error code, error message and maps code to PCL error code.  <a href="a01108.html#ga2098ca75aa487e29880f176b7c717e98">More...</a><br /></td></tr>
-<tr class="separator:ga2098ca75aa487e29880f176b7c717e98"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga89b8bfbe17595305872551a1caaa5702"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>()&#160;&#160;&#160;<a class="el" href="a01108.html#ga2098ca75aa487e29880f176b7c717e98">SETOSERRMSG</a>(<a class="el" href="a01106.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a>, NULL, 0)</td></tr>
-<tr class="memdesc:ga89b8bfbe17595305872551a1caaa5702"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Sets the current thread's last OS error code and maps code to PCL error code.  <a href="a01108.html#ga89b8bfbe17595305872551a1caaa5702">More...</a><br /></td></tr>
-<tr class="separator:ga89b8bfbe17595305872551a1caaa5702"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga405f0945f1e605ded867422c553c78cf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#ga405f0945f1e605ded867422c553c78cf">SETLASTERRMSG</a>(_msgfmt, ...)&#160;&#160;&#160;<a class="el" href="a01108.html#ga2098ca75aa487e29880f176b7c717e98">SETOSERRMSG</a>(<a class="el" href="a01106.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a>, _msgfmt, __VA_ARGS__)</td></tr>
-<tr class="memdesc:ga405f0945f1e605ded867422c553c78cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Sets the current thread's last OS error code.  <a href="a01108.html#ga405f0945f1e605ded867422c553c78cf">More...</a><br /></td></tr>
-<tr class="separator:ga405f0945f1e605ded867422c553c78cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae8eaed12aa57a2870ad8e45cc2306318"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a>(_retval,  _pclerr)&#160;&#160;&#160;<a class="el" href="a01108.html#ga5da70a3315463f36f3b4c4daa494d9b2">R_SETERRMSG_OS</a>(_retval, _pclerr, 0, NULL, 0)</td></tr>
-<tr class="memdesc:gae8eaed12aa57a2870ad8e45cc2306318"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Sets the return value and the current thread's PCL error code.  <a href="a01108.html#gae8eaed12aa57a2870ad8e45cc2306318">More...</a><br /></td></tr>
-<tr class="separator:gae8eaed12aa57a2870ad8e45cc2306318"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab3d2384717efb5bfed5705cddc35b614"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#gab3d2384717efb5bfed5705cddc35b614">R_SETERR_OS</a>(_retval,  _pclerr,  _oserr)&#160;&#160;&#160;<a class="el" href="a01108.html#ga5da70a3315463f36f3b4c4daa494d9b2">R_SETERRMSG_OS</a>(_retval, _pclerr, _oserr, NULL, 0)</td></tr>
-<tr class="memdesc:gab3d2384717efb5bfed5705cddc35b614"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Sets the return value and the current thread's PCL error code and OS error code.  <a href="a01108.html#gab3d2384717efb5bfed5705cddc35b614">More...</a><br /></td></tr>
-<tr class="separator:gab3d2384717efb5bfed5705cddc35b614"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga275b0cc5367d35bf8d2873fe5e15878b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#ga275b0cc5367d35bf8d2873fe5e15878b">R_SETERRMSG</a>(_retval,  _pclerr,  _msgfmt, ...)&#160;&#160;&#160;  <a class="el" href="a01108.html#ga5da70a3315463f36f3b4c4daa494d9b2">R_SETERRMSG_OS</a>(_retval, _pclerr, 0, _msgfmt, __VA_ARGS__)</td></tr>
-<tr class="memdesc:ga275b0cc5367d35bf8d2873fe5e15878b"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Sets the return value and the current thread's PCL error code and error message.  <a href="a01108.html#ga275b0cc5367d35bf8d2873fe5e15878b">More...</a><br /></td></tr>
-<tr class="separator:ga275b0cc5367d35bf8d2873fe5e15878b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga5da70a3315463f36f3b4c4daa494d9b2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#ga5da70a3315463f36f3b4c4daa494d9b2">R_SETERRMSG_OS</a>(_retval,  _pclerr,  _oserr,  _msgfmt, ...)&#160;&#160;&#160;  (<a class="el" href="a01106.html#ga1fae5bebcb3cd7fc3fe889689f0c86a7">pcl_err_set</a>(<a class="el" href="a00035.html#ac26653ff3959b17bc17e9d32b036493d">PCL_LOCATION_ARGS</a>, _pclerr, _oserr, _msgfmt, __VA_ARGS__),  (_retval))</td></tr>
-<tr class="memdesc:ga5da70a3315463f36f3b4c4daa494d9b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Sets the return value and the current thread's PCL error code, OS error code and error message.  <a href="a01108.html#ga5da70a3315463f36f3b4c4daa494d9b2">More...</a><br /></td></tr>
-<tr class="separator:ga5da70a3315463f36f3b4c4daa494d9b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga2ed57a6d91a13ee617ab5b7143338070"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#ga2ed57a6d91a13ee617ab5b7143338070">R_SETOSERR</a>(_retval,  _oserr)&#160;&#160;&#160;<a class="el" href="a01108.html#ga3a42f7583ad2457610b11adb83db5925">R_SETOSERRMSG</a>(_retval, _oserr, NULL, 0)</td></tr>
-<tr class="memdesc:ga2ed57a6d91a13ee617ab5b7143338070"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Sets the return value and the current thread's OS error code and maps code to PCL error code.  <a href="a01108.html#ga2ed57a6d91a13ee617ab5b7143338070">More...</a><br /></td></tr>
-<tr class="separator:ga2ed57a6d91a13ee617ab5b7143338070"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3a42f7583ad2457610b11adb83db5925"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#ga3a42f7583ad2457610b11adb83db5925">R_SETOSERRMSG</a>(_retval,  _oserr,  _msgfmt, ...)&#160;&#160;&#160;  <a class="el" href="a01108.html#ga5da70a3315463f36f3b4c4daa494d9b2">R_SETERRMSG_OS</a>(_retval, <a class="el" href="a01106.html#ga3ff5c98b765df74bd305d2e56e9b4f31">pcl_err_os2pcl</a>(_oserr), _oserr, _msgfmt, __VA_ARGS__)</td></tr>
-<tr class="memdesc:ga3a42f7583ad2457610b11adb83db5925"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Sets the return value and the current thread's OS error code, error message and maps code to PCL error code.  <a href="a01108.html#ga3a42f7583ad2457610b11adb83db5925">More...</a><br /></td></tr>
-<tr class="separator:ga3a42f7583ad2457610b11adb83db5925"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad08a56aa55af3716a251ced9f780686d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#gad08a56aa55af3716a251ced9f780686d">R_SETLASTERR</a>(_retval)&#160;&#160;&#160;<a class="el" href="a01108.html#ga3a42f7583ad2457610b11adb83db5925">R_SETOSERRMSG</a>(_retval, <a class="el" href="a01106.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a>, NULL, 0)</td></tr>
-<tr class="memdesc:gad08a56aa55af3716a251ced9f780686d"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Sets the return value and the current thread's last OS error code and maps code to PCL error code.  <a href="a01108.html#gad08a56aa55af3716a251ced9f780686d">More...</a><br /></td></tr>
-<tr class="separator:gad08a56aa55af3716a251ced9f780686d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa3ee6ecf696e2a52777f47b0cba755cc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#gaa3ee6ecf696e2a52777f47b0cba755cc">R_SETLASTERRMSG</a>(_retval,  _msgfmt, ...)&#160;&#160;&#160;  <a class="el" href="a01108.html#ga3a42f7583ad2457610b11adb83db5925">R_SETOSERRMSG</a>(_retval, <a class="el" href="a01106.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a>, _msgfmt, __VA_ARGS__)</td></tr>
-<tr class="memdesc:gaa3ee6ecf696e2a52777f47b0cba755cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Sets the return value and the current thread's last OS error code, error message and maps code to PCL error code.  <a href="a01108.html#gaa3ee6ecf696e2a52777f47b0cba755cc">More...</a><br /></td></tr>
-<tr class="separator:gaa3ee6ecf696e2a52777f47b0cba755cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga9ad3ef2339f58a873bc7bace5ad9c9df"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a>()&#160;&#160;&#160;<a class="el" href="a01108.html#gac647173422caf7372229621b0aab81cd">TRCMSG</a>(NULL, 0)</td></tr>
-<tr class="memdesc:ga9ad3ef2339f58a873bc7bace5ad9c9df"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Adds a stack trace to the current thread's error context.  <a href="a01108.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">More...</a><br /></td></tr>
-<tr class="separator:ga9ad3ef2339f58a873bc7bace5ad9c9df"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac647173422caf7372229621b0aab81cd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#gac647173422caf7372229621b0aab81cd">TRCMSG</a>(_msgfmt, ...)&#160;&#160;&#160;<a class="el" href="a01106.html#ga30a9020e52ca985edcbd86e5b0676191">pcl_err_trace</a>(<a class="el" href="a00035.html#ac26653ff3959b17bc17e9d32b036493d">PCL_LOCATION_ARGS</a>, _msgfmt, __VA_ARGS__)</td></tr>
-<tr class="memdesc:gac647173422caf7372229621b0aab81cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Adds a stack trace to the current thread's error context with an error message.  <a href="a01108.html#gac647173422caf7372229621b0aab81cd">More...</a><br /></td></tr>
-<tr class="separator:gac647173422caf7372229621b0aab81cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa978c8c7faa5fc2f69a6641e054e519d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#gaa978c8c7faa5fc2f69a6641e054e519d">R_TRC</a>(_retval)&#160;&#160;&#160;<a class="el" href="a01108.html#gab7c6f91e3dd42d314f529e2177930dc3">R_TRCMSG</a>(_retval, NULL, 0)</td></tr>
-<tr class="memdesc:gaa978c8c7faa5fc2f69a6641e054e519d"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Sets the return value and adds a stack trace to the current thread's error context.  <a href="a01108.html#gaa978c8c7faa5fc2f69a6641e054e519d">More...</a><br /></td></tr>
-<tr class="separator:gaa978c8c7faa5fc2f69a6641e054e519d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab7c6f91e3dd42d314f529e2177930dc3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#gab7c6f91e3dd42d314f529e2177930dc3">R_TRCMSG</a>(_retval,  _msgfmt, ...)&#160;&#160;&#160;  (<a class="el" href="a01106.html#ga30a9020e52ca985edcbd86e5b0676191">pcl_err_trace</a>(<a class="el" href="a00035.html#ac26653ff3959b17bc17e9d32b036493d">PCL_LOCATION_ARGS</a>, _msgfmt, __VA_ARGS__),  (_retval))</td></tr>
-<tr class="memdesc:gab7c6f91e3dd42d314f529e2177930dc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Sets the return value and adds a stack trace to the current thread's error context with an error message.  <a href="a01108.html#gab7c6f91e3dd42d314f529e2177930dc3">More...</a><br /></td></tr>
-<tr class="separator:gab7c6f91e3dd42d314f529e2177930dc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab052d4faa8fd25e1a13e86ecd4aafa38"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a>()&#160;&#160;&#160;<a class="el" href="a01108.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a>(<a class="el" href="a01107.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>)</td></tr>
-<tr class="separator:gab052d4faa8fd25e1a13e86ecd4aafa38"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga72c5d5554c6045bad5e2d599589e105d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#ga72c5d5554c6045bad5e2d599589e105d">PTRACE</a>(_m, ...)</td></tr>
-<tr class="separator:ga72c5d5554c6045bad5e2d599589e105d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaaaa31d344c49095dfc3f6051ec2fbfca"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#gaaaa31d344c49095dfc3f6051ec2fbfca">PANIC</a>(_m, ...)</td></tr>
-<tr class="separator:gaaaa31d344c49095dfc3f6051ec2fbfca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga046aeb7c31bf01e70e6cb64e32671c1f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#ga046aeb7c31bf01e70e6cb64e32671c1f">PLNMSG</a>(_m, ...)</td></tr>
-<tr class="separator:ga046aeb7c31bf01e70e6cb64e32671c1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac9da69b921e0cee478ab00eeaf1e5a33"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#gac9da69b921e0cee478ab00eeaf1e5a33">PLN</a></td></tr>
-<tr class="separator:gac9da69b921e0cee478ab00eeaf1e5a33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01128.html">tag_pcl_buf</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:gaeaa2d03b07aa775cfd1986f0f303151b"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="a01128.html">tag_pcl_buf</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a></td></tr>
+<tr class="separator:gaeaa2d03b07aa775cfd1986f0f303151b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:gafcd56f00f1c963d6f6f844f1df84f0f9"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#gafcd56f00f1c963d6f6f844f1df84f0f9">pcl_buf_mode</a> { <br />
+&#160;&#160;<a class="el" href="a01108.html#ggafcd56f00f1c963d6f6f844f1df84f0f9aabe00de48aebc854e4ff2254b21988dc">PclBufBinary</a>, 
+<br />
+&#160;&#160;<a class="el" href="a01108.html#ggafcd56f00f1c963d6f6f844f1df84f0f9a5dec0673e40b9d374a62eaef1d17e5a1">PclBufText</a>, 
+<br />
+&#160;&#160;<a class="el" href="a01108.html#ggafcd56f00f1c963d6f6f844f1df84f0f9a72a3443f734b7b04084de1140c61bbdc">PclBufTextW</a>, 
+<br />
+&#160;&#160;<a class="el" href="a01108.html#ggafcd56f00f1c963d6f6f844f1df84f0f9ada2a55dd60b09f32bf78413045de4bcc">PclBufTextP</a> =PclBufText
+<br />
+ }</td></tr>
+<tr class="separator:gafcd56f00f1c963d6f6f844f1df84f0f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:gadd174ca0fea61e0f3be87c9d12b5e2f3"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#gadd174ca0fea61e0f3be87c9d12b5e2f3">pcl_buf_init</a> (<a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *b, size_t size, enum <a class="el" href="a01108.html#gafcd56f00f1c963d6f6f844f1df84f0f9">pcl_buf_mode</a> mode)</td></tr>
+<tr class="memdesc:gadd174ca0fea61e0f3be87c9d12b5e2f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Initializes a buffer object.  <a href="a01108.html#gadd174ca0fea61e0f3be87c9d12b5e2f3">More...</a><br /></td></tr>
+<tr class="separator:gadd174ca0fea61e0f3be87c9d12b5e2f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa7cd1d50ccaa35388606b43d73973366"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#gaa7cd1d50ccaa35388606b43d73973366">pcl_buf_grow</a> (<a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *b, int len)</td></tr>
+<tr class="memdesc:gaa7cd1d50ccaa35388606b43d73973366"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Grow a buffer.  <a href="a01108.html#gaa7cd1d50ccaa35388606b43d73973366">More...</a><br /></td></tr>
+<tr class="separator:gaa7cd1d50ccaa35388606b43d73973366"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga689e8c411b15e4ef700a56e3ca353037"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#ga689e8c411b15e4ef700a56e3ca353037">pcl_buf_reset</a> (<a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *b)</td></tr>
+<tr class="memdesc:ga689e8c411b15e4ef700a56e3ca353037"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Reset a buffer to its initial state.  <a href="a01108.html#ga689e8c411b15e4ef700a56e3ca353037">More...</a><br /></td></tr>
+<tr class="separator:ga689e8c411b15e4ef700a56e3ca353037"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga60cc80b080cfda8e6f958fe23f44f634"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#ga60cc80b080cfda8e6f958fe23f44f634">pcl_buf_clear</a> (<a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *b)</td></tr>
+<tr class="memdesc:ga60cc80b080cfda8e6f958fe23f44f634"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Clear a buffer.  <a href="a01108.html#ga60cc80b080cfda8e6f958fe23f44f634">More...</a><br /></td></tr>
+<tr class="separator:ga60cc80b080cfda8e6f958fe23f44f634"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabd62b0a898857ae6364878487e787e84"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#gabd62b0a898857ae6364878487e787e84">pcl_buf_copy</a> (<a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *dest, const <a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *src)</td></tr>
+<tr class="memdesc:gabd62b0a898857ae6364878487e787e84"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Copy a buffer.  <a href="a01108.html#gabd62b0a898857ae6364878487e787e84">More...</a><br /></td></tr>
+<tr class="separator:gabd62b0a898857ae6364878487e787e84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga24846b7d3984813e0d3755f6c0f1ea44"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#ga24846b7d3984813e0d3755f6c0f1ea44">pcl_buf_free</a> (<a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *b)</td></tr>
+<tr class="memdesc:ga24846b7d3984813e0d3755f6c0f1ea44"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Free all buffer resources and the buffer object itself.  <a href="a01108.html#ga24846b7d3984813e0d3755f6c0f1ea44">More...</a><br /></td></tr>
+<tr class="separator:ga24846b7d3984813e0d3755f6c0f1ea44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa753cac8202932d5aefa84a136fe3d45"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#gaa753cac8202932d5aefa84a136fe3d45">pcl_buf_put</a> (<a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *b, const void *data, int len)</td></tr>
+<tr class="memdesc:gaa753cac8202932d5aefa84a136fe3d45"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Put a blob into a buffer.  <a href="a01108.html#gaa753cac8202932d5aefa84a136fe3d45">More...</a><br /></td></tr>
+<tr class="separator:gaa753cac8202932d5aefa84a136fe3d45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf5543b8db978f1e0726bad5725b09e38"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#gaf5543b8db978f1e0726bad5725b09e38">pcl_buf_putstr</a> (<a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *b, const void *s)</td></tr>
+<tr class="memdesc:gaf5543b8db978f1e0726bad5725b09e38"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Put a string into a buffer.  <a href="a01108.html#gaf5543b8db978f1e0726bad5725b09e38">More...</a><br /></td></tr>
+<tr class="separator:gaf5543b8db978f1e0726bad5725b09e38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga48e936cee3defdf5fcb6e9904aff0d75"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#ga48e936cee3defdf5fcb6e9904aff0d75">pcl_buf_putchar</a> (<a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *b, uint32_t c)</td></tr>
+<tr class="memdesc:ga48e936cee3defdf5fcb6e9904aff0d75"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Put a character into a buffer.  <a href="a01108.html#ga48e936cee3defdf5fcb6e9904aff0d75">More...</a><br /></td></tr>
+<tr class="separator:ga48e936cee3defdf5fcb6e9904aff0d75"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0c1e15f9aaafb95cf776802a5370d0c6"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#ga0c1e15f9aaafb95cf776802a5370d0c6">pcl_buf_putint8</a> (<a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *b, uint8_t i)</td></tr>
+<tr class="memdesc:ga0c1e15f9aaafb95cf776802a5370d0c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Put an 8-bit integer into a buffer.  <a href="a01108.html#ga0c1e15f9aaafb95cf776802a5370d0c6">More...</a><br /></td></tr>
+<tr class="separator:ga0c1e15f9aaafb95cf776802a5370d0c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6e4ad4db8cb20638547f03aff97d762a"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#ga6e4ad4db8cb20638547f03aff97d762a">pcl_buf_putint16</a> (<a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *b, uint16_t i)</td></tr>
+<tr class="memdesc:ga6e4ad4db8cb20638547f03aff97d762a"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Puts a 16-bit integer into a buffer in network-byte order.  <a href="a01108.html#ga6e4ad4db8cb20638547f03aff97d762a">More...</a><br /></td></tr>
+<tr class="separator:ga6e4ad4db8cb20638547f03aff97d762a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9bf250160d7b553a52360f6f2cf380b8"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#ga9bf250160d7b553a52360f6f2cf380b8">pcl_buf_putint32</a> (<a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *b, uint32_t i)</td></tr>
+<tr class="memdesc:ga9bf250160d7b553a52360f6f2cf380b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Puts a 32-bit integer into a buffer in network-byte order.  <a href="a01108.html#ga9bf250160d7b553a52360f6f2cf380b8">More...</a><br /></td></tr>
+<tr class="separator:ga9bf250160d7b553a52360f6f2cf380b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0ee361a93adbfe5aef9aa3e6f54dc70e"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#ga0ee361a93adbfe5aef9aa3e6f54dc70e">pcl_buf_putint64</a> (<a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *b, uint64_t i)</td></tr>
+<tr class="memdesc:ga0ee361a93adbfe5aef9aa3e6f54dc70e"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Puts a 64-bit integer into a buffer in network-byte order.  <a href="a01108.html#ga0ee361a93adbfe5aef9aa3e6f54dc70e">More...</a><br /></td></tr>
+<tr class="separator:ga0ee361a93adbfe5aef9aa3e6f54dc70e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2ba3b09bc046d8c5af670b8e73697087"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#ga2ba3b09bc046d8c5af670b8e73697087">pcl_buf_putf</a> (<a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *b, const void *format,...)</td></tr>
+<tr class="memdesc:ga2ba3b09bc046d8c5af670b8e73697087"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Put a formatted string into a buffer.  <a href="a01108.html#ga2ba3b09bc046d8c5af670b8e73697087">More...</a><br /></td></tr>
+<tr class="separator:ga2ba3b09bc046d8c5af670b8e73697087"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga83ed6123d3f2421baca12357736191aa"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#ga83ed6123d3f2421baca12357736191aa">pcl_buf_vputf</a> (<a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *b, const void *format, va_list ap)</td></tr>
+<tr class="memdesc:ga83ed6123d3f2421baca12357736191aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Put a formatted string into a buffer.  <a href="a01108.html#ga83ed6123d3f2421baca12357736191aa">More...</a><br /></td></tr>
+<tr class="separator:ga83ed6123d3f2421baca12357736191aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga310ef6a2f1e1b43aa4e405c40701d7af"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#ga310ef6a2f1e1b43aa4e405c40701d7af">pcl_buf_get</a> (<a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *b, void *buf, int len)</td></tr>
+<tr class="memdesc:ga310ef6a2f1e1b43aa4e405c40701d7af"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Get a blob from a buffer.  <a href="a01108.html#ga310ef6a2f1e1b43aa4e405c40701d7af">More...</a><br /></td></tr>
+<tr class="separator:ga310ef6a2f1e1b43aa4e405c40701d7af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga66f9b327e8bf94bae53cdaee2ca6e7c1"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#ga66f9b327e8bf94bae53cdaee2ca6e7c1">pcl_buf_getstr</a> (<a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *b, char *buf, int len)</td></tr>
+<tr class="memdesc:ga66f9b327e8bf94bae53cdaee2ca6e7c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Get a string from a buffer.  <a href="a01108.html#ga66f9b327e8bf94bae53cdaee2ca6e7c1">More...</a><br /></td></tr>
+<tr class="separator:ga66f9b327e8bf94bae53cdaee2ca6e7c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8bcebb4f7d8cbb6c4944e3246bf048a9"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#ga8bcebb4f7d8cbb6c4944e3246bf048a9">pcl_buf_getchar</a> (<a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *b, uint32_t *c)</td></tr>
+<tr class="memdesc:ga8bcebb4f7d8cbb6c4944e3246bf048a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Get a character from a buffer.  <a href="a01108.html#ga8bcebb4f7d8cbb6c4944e3246bf048a9">More...</a><br /></td></tr>
+<tr class="separator:ga8bcebb4f7d8cbb6c4944e3246bf048a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga95a7d3b059e883cde543111b560445cc"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#ga95a7d3b059e883cde543111b560445cc">pcl_buf_getint8</a> (<a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *b, uint8_t *i)</td></tr>
+<tr class="memdesc:ga95a7d3b059e883cde543111b560445cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Get an 8-bit integer a the buffer.  <a href="a01108.html#ga95a7d3b059e883cde543111b560445cc">More...</a><br /></td></tr>
+<tr class="separator:ga95a7d3b059e883cde543111b560445cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga09991c532270a617d837635d66f25a0b"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#ga09991c532270a617d837635d66f25a0b">pcl_buf_getint16</a> (<a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *b, uint16_t *i)</td></tr>
+<tr class="memdesc:ga09991c532270a617d837635d66f25a0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Get a 16-bit integer from a buffer in host-byte order.  <a href="a01108.html#ga09991c532270a617d837635d66f25a0b">More...</a><br /></td></tr>
+<tr class="separator:ga09991c532270a617d837635d66f25a0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga370b9458731e778b8985145738675a12"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#ga370b9458731e778b8985145738675a12">pcl_buf_getint32</a> (<a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *b, uint32_t *i)</td></tr>
+<tr class="memdesc:ga370b9458731e778b8985145738675a12"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Get a 32-bit integer from a buffer in host-byte order.  <a href="a01108.html#ga370b9458731e778b8985145738675a12">More...</a><br /></td></tr>
+<tr class="separator:ga370b9458731e778b8985145738675a12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac7a09315d9b3610a6b3178d1511d110c"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01108.html#gac7a09315d9b3610a6b3178d1511d110c">pcl_buf_getint64</a> (<a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *b, uint64_t *i)</td></tr>
+<tr class="memdesc:gac7a09315d9b3610a6b3178d1511d110c"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Get a 64-bit integer from a buffer in host-byte order.  <a href="a01108.html#gac7a09315d9b3610a6b3178d1511d110c">More...</a><br /></td></tr>
+<tr class="separator:gac7a09315d9b3610a6b3178d1511d110c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p class="DocNodeLTR">Error macros allow for easily settting errors and adding traces to the per-thread stack trace. </p>
-<p class="DocNodeLTR">The error functions to set an error or add a trace, are cumbersome to interact with directly. They have many parameters, all of which can be easily abstracted away within macros. Note that all SET* and TRC* macros return -1 in all cases unless the error being set or traced is <code><a class="el" href="a01107.html#gad3b43ba0f3d97d535a1a3cf7fd8b35c2" title="&#x202A;The operation was successful.">PCL_EOKAY(0)</a></code>. </p><div class="fragment"><div class="line"><span class="comment">// when a native function fails</span></div>
-<div class="line">FILE *fp = fopen(path, <span class="stringliteral">&quot;r&quot;</span>);</div>
+<p class="DocNodeLTR">The buffer API provides a dynamically sized buffer for putting text and/or binary data. </p>
+<p class="DocNodeLTR">When a buffer is created, a buffer mode must be provided: one of <a class="el" href="a01108.html#ggafcd56f00f1c963d6f6f844f1df84f0f9aabe00de48aebc854e4ff2254b21988dc" title="&#x202A;Binary buffer mode.">PclBufBinary</a>, <a class="el" href="a01108.html#ggafcd56f00f1c963d6f6f844f1df84f0f9a5dec0673e40b9d374a62eaef1d17e5a1" title="&#x202A;Text buffer mode.">PclBufText</a>, <a class="el" href="a01108.html#ggafcd56f00f1c963d6f6f844f1df84f0f9a72a3443f734b7b04084de1140c61bbdc" title="&#x202A;Wide-text buffer mode.">PclBufTextW</a> or <a class="el" href="a01108.html#ggafcd56f00f1c963d6f6f844f1df84f0f9ada2a55dd60b09f32bf78413045de4bcc" title="&#x202A;portable-text buffer mode.">PclBufTextP</a>. Regardless of a buffer's mode, a trailing NUL is added on every put. The space is reserved internally and it not represented in the buffer's current position or length. The buffer thinks in "characters", not bytes. When in binary mode, it still performs character calculations but based on a one byte character.</p>
+<h3 class="DocNodeLTR"><a class="anchor" id="autotoc_md23"></a>
+Binary Mode</h3>
+<p class="DocNodeLTR">A binary buffer is an array of data types: integers, strings and blobs. A binary string is written to the buffer with a trailing NUL, avoiding the need for a length prefix. Integers are written in network-byte order and blobs are written as is. For blobs, if they are variable length, do <a class="el" href="a01108.html#ga9bf250160d7b553a52360f6f2cf380b8" title="&#x202A;Puts a 32-bit integer into a buffer in network-byte order.">pcl_buf_putint32</a> followed by <a class="el" href="a01108.html#gaa753cac8202932d5aefa84a136fe3d45" title="&#x202A;Put a blob into a buffer.">pcl_buf_put</a>. There is also int8, int16 and int64.</p>
+<p class="DocNodeLTR">All buffer functions are available to <a class="el" href="a01108.html#ggafcd56f00f1c963d6f6f844f1df84f0f9aabe00de48aebc854e4ff2254b21988dc" title="&#x202A;Binary buffer mode.">PclBufBinary</a>. Again, this mode deals with bytes but treats them as one byte characters.</p>
+<div class="fragment"><div class="line"><a class="code" href="a01128.html">pcl_buf_t</a> *buf = <a class="code" href="a01108.html#gadd174ca0fea61e0f3be87c9d12b5e2f3">pcl_buf_init</a>(NULL, 64, <a class="code" href="a01108.html#ggafcd56f00f1c963d6f6f844f1df84f0f9aabe00de48aebc854e4ff2254b21988dc">PclBufBinary</a>);</div>
 <div class="line"> </div>
-<div class="line"><span class="comment">// set last err means last OS error: typically errno or GetLastError. In addition,</span></div>
-<div class="line"><span class="comment">// we elect to set a message (MSG) as well.</span></div>
-<div class="line"><span class="keywordflow">if</span>(fp == NULL)</div>
-<div class="line">  <a class="code" href="a01108.html#ga405f0945f1e605ded867422c553c78cf">SETLASTERRMSG</a>(<span class="stringliteral">&quot;cannot open &#39;%s&#39;&quot;</span>, path);</div>
+<div class="line"><a class="code" href="a01108.html#gaf5543b8db978f1e0726bad5725b09e38">pcl_buf_putstr</a>(buf, <span class="stringliteral">&quot;Hello&quot;</span>); <span class="comment">// buffer contents: &quot;Hello\0\0&quot;</span></div>
 <div class="line"> </div>
-<div class="line"><span class="comment">// when a PCL function fails, or any function known to utilize PCL error</span></div>
-<div class="line">FILE *fp = <a class="code" href="a01113.html#gaa0e860f8c527c6cdcd47c80ed1f0b081">pcl_fopen</a>(path, <a class="code" href="a00035.html#a1df9ab18a5e5dd2e6d6d3977c35e976c">_P</a>(<span class="stringliteral">&quot;r&quot;</span>)); <span class="comment">// pcl_fopen uses pchar_t</span></div>
+<div class="line"><span class="comment">// no trailing NUL for single characters</span></div>
+<div class="line"><a class="code" href="a01108.html#ga48e936cee3defdf5fcb6e9904aff0d75">pcl_buf_putchar</a>(buf, <span class="charliteral">&#39; &#39;</span>);    <span class="comment">// buffer contents: &quot;Hello\0 \0&quot;</span></div>
 <div class="line"> </div>
-<div class="line"><span class="comment">// instead of setting an error, we add a trace and include a message.</span></div>
-<div class="line"><span class="keywordflow">if</span>(fp == NULL)</div>
-<div class="line">  <a class="code" href="a01108.html#gac647173422caf7372229621b0aab81cd">TRCMSG</a>(<span class="stringliteral">&quot;cannot open &#39;%Ps&#39;&quot;</span>, path);</div>
+<div class="line"><span class="comment">// it may appear that the space is joined to World. However, when getting data back</span></div>
+<div class="line"><span class="comment">// out of the buffer, the idea is to call the same set of functions to deserialize.</span></div>
+<div class="line"><span class="comment">// Thus, pcl_buf_getchar gets the space and pcl_buf_getstr gets &quot;World&quot;</span></div>
+<div class="line"><a class="code" href="a01108.html#gaf5543b8db978f1e0726bad5725b09e38">pcl_buf_putstr</a>(buf, <span class="stringliteral">&quot;World&quot;</span>); <span class="comment">// buffer contents: &quot;Hello\0 World\0\0&quot;</span></div>
 <div class="line"> </div>
-<div class="line"><span class="comment">// or, add a trace and return. In the PCL library, as well as</span></div>
-<div class="line"><span class="comment">// most unix libraries, -1 indicates an error while 0 is for success.</span></div>
-<div class="line"><span class="comment">// This is why all SET* and TRC* macros return -1.</span></div>
-<div class="line"><span class="keywordflow">if</span>(fp == NULL)</div>
-<div class="line">  <span class="keywordflow">return</span> <a class="code" href="a01108.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a>(); <span class="comment">// no message set here</span></div>
+<div class="line"><span class="comment">// be careful with the raw put function, it won&#39;t add a NUL for strings</span></div>
+<div class="line"><span class="comment">// unless you include the NUL in the length argument.</span></div>
+<div class="line"><a class="code" href="a01108.html#gaa753cac8202932d5aefa84a136fe3d45">pcl_buf_put</a>(buf, <span class="stringliteral">&quot;abc&quot;</span>, 3); <span class="comment">// No trailing NUL put. Pass 4 or use pcl_buf_putstr</span></div>
 <div class="line"> </div>
-<div class="line"><span class="comment">// If the function has a specific return value, use the R_SET* or R_TRC* macros</span></div>
-<div class="line"><span class="keywordflow">if</span>(fp == NULL)</div>
-<div class="line">  <span class="keywordflow">return</span> <a class="code" href="a01108.html#gaa978c8c7faa5fc2f69a6641e054e519d">R_TRC</a>(NULL);    <span class="comment">// return NULL instead of -1</span></div>
-<div class="line">  <span class="keywordflow">return</span> <a class="code" href="a01108.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a>(NULL); <span class="comment">// return NULL instead of -1</span></div>
+<div class="line"><span class="comment">// binary mode only, &quot;Hello\0 World\0abc[32 bits in network-byte order]\0&quot;</span></div>
+<div class="line"><span class="comment">// note the &quot;abc&quot; string without a NUL. pcl_buf_getstr cannot be used, one</span></div>
+<div class="line"><span class="comment">// must use pcl_buf_getchar 3 times or pcl_buf_get with a length of 3.</span></div>
+<div class="line"><a class="code" href="a01108.html#ga9bf250160d7b553a52360f6f2cf380b8">pcl_buf_putint32</a>(buf, 3897463623);</div>
 <div class="line"> </div>
-<div class="line"><span class="comment">// example of a PCL stack trace</span></div>
-<div class="line"><a class="code" href="a01106.html#gac9db573a481c66387f100e67ed9f1e5a">pcl_err_fprintf</a>(stdout, 0, NULL); <span class="comment">// indent=0, format_msg=NULL</span></div>
+<div class="line"><a class="code" href="a01108.html#ga24846b7d3984813e0d3755f6c0f1ea44">pcl_buf_free</a>(buf);</div>
+</div><!-- fragment --><h3 class="DocNodeLTR"><a class="anchor" id="autotoc_md24"></a>
+Text Mode</h3>
+<p class="DocNodeLTR">In text mode, the buffer is an array of characters with the always present NUL at the end. Text mode buffers are limited to put, putstr, putchar, putf and putvf. Get functions aren't needed in text mode since one can simply access <a class="el" href="a01128.html#a91a70b77df95bd8b0830b49a094c2acb" title="&#x202A;buffer bytes, always chrsize * size wide.">pcl_buf_t.data</a>, which will be a NUL-terminated string. Directly accessing <a class="el" href="a01128.html#a91a70b77df95bd8b0830b49a094c2acb" title="&#x202A;buffer bytes, always chrsize * size wide.">pcl_buf_t.data</a>, means you must properly cast it if using <a class="el" href="a01108.html#ggafcd56f00f1c963d6f6f844f1df84f0f9a72a3443f734b7b04084de1140c61bbdc" title="&#x202A;Wide-text buffer mode.">PclBufTextW</a> or <a class="el" href="a01108.html#ggafcd56f00f1c963d6f6f844f1df84f0f9ada2a55dd60b09f32bf78413045de4bcc" title="&#x202A;portable-text buffer mode.">PclBufTextP</a>.</p>
+<div class="fragment"><div class="line"><a class="code" href="a01128.html">pcl_buf_t</a> buf; <span class="comment">// use stack memory</span></div>
 <div class="line"> </div>
-<div class="line">some.c:func(463): optional trace message              &lt;- last trace added w/msg</div>
-<div class="line">  another.c:getuserid(2029)                           &lt;- trace no msg</div>
-<div class="line">    query.c:select(99): <a class="code" href="a01107.html#gaa07a6ea59d3098bdd4a7c95e24bca530">PCL_EBUF</a> - buffer too small   &lt;- error site w/name and default msg</div>
-<div class="line">      &gt;An optional user message goes here             &lt;- context msg set at call site</div>
-</div><!-- fragment --> <h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="ga5d0d174193729a18bb8a57d35a255229"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga5d0d174193729a18bb8a57d35a255229">&#9670;&nbsp;</a></span>FREEZE_ERR</h2>
+<div class="line"><a class="code" href="a01108.html#gadd174ca0fea61e0f3be87c9d12b5e2f3">pcl_buf_init</a>(&amp;buf, 64, <a class="code" href="a01108.html#ggafcd56f00f1c963d6f6f844f1df84f0f9a5dec0673e40b9d374a62eaef1d17e5a1">PclBufText</a>);</div>
+<div class="line"><a class="code" href="a01108.html#gaf5543b8db978f1e0726bad5725b09e38">pcl_buf_putstr</a>(&amp;buf, <span class="stringliteral">&quot;Hello&quot;</span>); <span class="comment">// buffer contents: &quot;Hello\0&quot;</span></div>
+<div class="line"><a class="code" href="a01108.html#gaf5543b8db978f1e0726bad5725b09e38">pcl_buf_putstr</a>(&amp;buf, <span class="stringliteral">&quot;World&quot;</span>); <span class="comment">// buffer contains: &quot;HelloWorld\0&quot;</span></div>
+<div class="line">printf(<span class="stringliteral">&quot;%d] %s\n&quot;</span>, buf.<a class="code" href="a01128.html#afed088663f8704004425cdae2120b9b3">len</a>, buf.<a class="code" href="a01128.html#a91a70b77df95bd8b0830b49a094c2acb">data</a>); <span class="comment">// 10] HelloWorld</span></div>
+<div class="line"><a class="code" href="a01108.html#ga60cc80b080cfda8e6f958fe23f44f634">pcl_buf_clear</a>(&amp;buf); <span class="comment">// not pcl_buf_free!</span></div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// For PclBufTextW (PclBufTextP is identical but use _P(&quot;&quot;) and pchar_t)</span></div>
+<div class="line"><a class="code" href="a01108.html#gadd174ca0fea61e0f3be87c9d12b5e2f3">pcl_buf_init</a>(&amp;buf, 64, <a class="code" href="a01108.html#ggafcd56f00f1c963d6f6f844f1df84f0f9a72a3443f734b7b04084de1140c61bbdc">PclBufTextW</a>);</div>
+<div class="line"><a class="code" href="a01108.html#gaf5543b8db978f1e0726bad5725b09e38">pcl_buf_putstr</a>(&amp;buf, L<span class="stringliteral">&quot;Hello&quot;</span>);</div>
+<div class="line">printf(<span class="stringliteral">&quot;%ls\n&quot;</span>, (<span class="keywordtype">wchar_t</span> *)buf.<a class="code" href="a01128.html#a91a70b77df95bd8b0830b49a094c2acb">data</a>);</div>
+</div><!-- fragment --> <h2 class="groupheader">Typedef Documentation</h2>
+<a id="gaeaa2d03b07aa775cfd1986f0f303151b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaeaa2d03b07aa775cfd1986f0f303151b">&#9670;&nbsp;</a></span>pcl_buf_t</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define FREEZE_ERR</td>
+          <td class="memname">typedef struct <a class="el" href="a01128.html">tag_pcl_buf</a> <a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00104.html">pcl/types.h</a>&gt;</code></p>
+
+<p class="definition">Definition at line <a class="el" href="a00104_source.html#l00060">60</a> of file <a class="el" href="a00104_source.html">types.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="gafcd56f00f1c963d6f6f844f1df84f0f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gafcd56f00f1c963d6f6f844f1df84f0f9">&#9670;&nbsp;</a></span>pcl_buf_mode</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="a01108.html#gafcd56f00f1c963d6f6f844f1df84f0f9">pcl_buf_mode</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00029.html">pcl/buf.h</a>&gt;</code></p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ggafcd56f00f1c963d6f6f844f1df84f0f9aabe00de48aebc854e4ff2254b21988dc"></a>PclBufBinary&#160;</td><td class="fielddoc"><p class="DocNodeLTR">Binary buffer mode. </p>
+<p class="DocNodeLTR">Single byte characters and all put and get functions are available. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggafcd56f00f1c963d6f6f844f1df84f0f9a5dec0673e40b9d374a62eaef1d17e5a1"></a>PclBufText&#160;</td><td class="fielddoc"><p class="DocNodeLTR">Text buffer mode. </p>
+<p class="DocNodeLTR">This is a <code>char</code> buffer with limited access to functions. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggafcd56f00f1c963d6f6f844f1df84f0f9a72a3443f734b7b04084de1140c61bbdc"></a>PclBufTextW&#160;</td><td class="fielddoc"><p class="DocNodeLTR">Wide-text buffer mode. </p>
+<p class="DocNodeLTR">This is a <code>wchar_t</code> buffer with limited acccess to functions. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggafcd56f00f1c963d6f6f844f1df84f0f9ada2a55dd60b09f32bf78413045de4bcc"></a>PclBufTextP&#160;</td><td class="fielddoc"><p class="DocNodeLTR">portable-text buffer mode. </p>
+<p class="DocNodeLTR">This is a <code>pchar_t</code> buffer with limited acccess to functions. </p>
+</td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="a00029_source.html#l00108">108</a> of file <a class="el" href="a00029_source.html">buf.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="gadd174ca0fea61e0f3be87c9d12b5e2f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gadd174ca0fea61e0f3be87c9d12b5e2f3">&#9670;&nbsp;</a></span>pcl_buf_init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PCL_EXPORT <a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a>* pcl_buf_init </td>
           <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">code_fragment</td><td>)</td>
+          <td class="paramtype"><a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
         </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00017.html">pcl/_errdefs.h</a>&gt;</code></p>
-<b>Value:</b><div class="fragment"><div class="line">  <span class="keywordflow">do</span>{ \</div>
-<div class="line">  pcl_err_freeze(<span class="keyword">true</span>); \</div>
-<div class="line">  uint32_t __save_oserr__ = <a class="code" href="a01106.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a>; \</div>
-<div class="line">  { code_fragment; }; \</div>
-<div class="line">  pcl_setoserrno(__save_oserr__);    \</div>
-<div class="line">  pcl_err_freeze(<span class="keyword">false</span>); \</div>
-<div class="line">}<span class="keywordflow">while</span>(0)</div>
-</div><!-- fragment -->
-<p>&#x202A;Freeze the current thread's error context while executing code. </p>
-<p class="DocNodeLTR">This is useful when performing cleanup code and it is desired to preserve error context. In addition to freezing the per-thread context, this also preserves the current OS error code.</p>
-<div class="fragment"><div class="line"><a class="code" href="a01108.html#ga5d0d174193729a18bb8a57d35a255229">FREEZE_ERR</a></div>
-<div class="line">(</div>
-<div class="line">  cleanup_files(files_arr);</div>
-<div class="line">  cleanup_memory(table);</div>
-<div class="line">  etc...</div>
-<div class="line">);</div>
-</div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">code_fragment</td><td>&#x202A;one or more statments to execute </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p class="definition">Definition at line <a class="el" href="a00017_source.html#l00053">53</a> of file <a class="el" href="a00017_source.html">_errdefs.h</a>.</p>
-
-</div>
-</div>
-<a id="ga82adf6365b61d9a32021e559d9c31497"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga82adf6365b61d9a32021e559d9c31497">&#9670;&nbsp;</a></span>SETERR</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
         <tr>
-          <td class="memname">#define SETERR</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_pclerr</td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="a01108.html#gaac6caa6459e4fae267aba35a8a24783b">SETERRMSG_OS</a>(_pclerr, 0, NULL, 0)</td>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">enum <a class="el" href="a01108.html#gafcd56f00f1c963d6f6f844f1df84f0f9">pcl_buf_mode</a>&#160;</td>
+          <td class="paramname"><em>mode</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00017.html">pcl/_errdefs.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="a00029.html">pcl/buf.h</a>&gt;</code></p>
 
-<p>&#x202A;Sets the current thread's PCL error code. </p>
+<p>&#x202A;Initializes a buffer object. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">_pclerr</td><td>&#x202A;PCL error code </td></tr>
+    <tr><td class="paramname">b</td><td>&#x202A;pointer to a buffer. If this is <code>NULL</code>, a buffer will be allocated </td></tr>
+    <tr><td class="paramname">size</td><td>&#x202A;intial size in characters </td></tr>
+    <tr><td class="paramname">mode</td><td>&#x202A;the buffer mode </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;-1 if PCL error code is not PCL_OKAY(0), 0 otherwise </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to <em>b</em> if it was not <code>NULL</code> or a pointer to a newly allocated buffer. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="a00017_source.html#l00065">65</a> of file <a class="el" href="a00017_source.html">_errdefs.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00182_source.html#l00037">37</a> of file <a class="el" href="a00182_source.html">buf_init.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00029_source.html#l00135">tag_pcl_buf::chrsize</a>, <a class="el" href="a00029_source.html#l00147">tag_pcl_buf::data</a>, <a class="el" href="a00029_source.html#l00141">tag_pcl_buf::len</a>, <a class="el" href="a00029_source.html#l00130">tag_pcl_buf::mode</a>, <a class="el" href="a00020_source.html#l00078">PCL_EINVAL</a>, <a class="el" href="a01106.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc()</a>, <a class="el" href="a00029_source.html#l00111">PclBufBinary</a>, <a class="el" href="a00029_source.html#l00114">PclBufText</a>, <a class="el" href="a00029_source.html#l00117">PclBufTextW</a>, <a class="el" href="a00029_source.html#l00138">tag_pcl_buf::pos</a>, <a class="el" href="a00017_source.html#l00174">R_SETERRMSG</a>, and <a class="el" href="a00029_source.html#l00144">tag_pcl_buf::size</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00356_source.html#l00037">ipcl_err_serialize()</a>, <a class="el" href="a00584_source.html#l00134">ipcl_json_parse_string()</a>, <a class="el" href="a00152_source.html#l00037">pcl_buf_copy()</a>, <a class="el" href="a00362_source.html#l00038">pcl_err_setjson()</a>, <a class="el" href="a00377_source.html#l00093">pcl_err_vjson()</a>, and <a class="el" href="a00758_source.html#l00054">pcl_openssl_error()</a>.</p>
 
 </div>
 </div>
-<a id="ga954df7afdee633aed0beba08add17f8c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga954df7afdee633aed0beba08add17f8c">&#9670;&nbsp;</a></span>SETERR_OS</h2>
+<a id="gaa7cd1d50ccaa35388606b43d73973366"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa7cd1d50ccaa35388606b43d73973366">&#9670;&nbsp;</a></span>pcl_buf_grow()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define SETERR_OS</td>
+          <td class="memname">PCL_EXPORT <a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a>* pcl_buf_grow </td>
           <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_pclerr, </td>
+          <td class="paramtype"><a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_oserr&#160;</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>len</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;<a class="el" href="a01108.html#gaac6caa6459e4fae267aba35a8a24783b">SETERRMSG_OS</a>(_pclerr, _oserr, NULL, 0)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00017.html">pcl/_errdefs.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="a00029.html">pcl/buf.h</a>&gt;</code></p>
 
-<p>&#x202A;Sets the current thread's PCL error code and OS error code. </p>
-<p class="DocNodeLTR">Setting both PCL and OS error codes can be useful in situations where preserving the OS error code provides more insight: </p><div class="fragment"><div class="line"><span class="comment">// indicate badarg but preserve why it is bad (ENOENT, ERROR_FILE_NOT_FOUND, etc)</span></div>
-<div class="line"><span class="keywordflow">if</span>(stat(<span class="stringliteral">&quot;does not exist&quot;</span>, &amp;st))</div>
-<div class="line">  <a class="code" href="a01108.html#ga954df7afdee633aed0beba08add17f8c">SETERR_OS</a>(<a class="code" href="a01107.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>, <a class="code" href="a01106.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a>);</div>
-</div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
+<p>&#x202A;Grow a buffer. </p>
+<p class="DocNodeLTR">Given a <em>len</em>, this ensures that writing <em>len</em> bytes won't overflow the buffer by reallocating the buffer's internal memory. This is used by all buffer put functions before attempting to write data. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">_pclerr</td><td>&#x202A;PCL error code </td></tr>
-    <tr><td class="paramname">_oserr</td><td>&#x202A;OS error code </td></tr>
+    <tr><td class="paramname">b</td><td>&#x202A;pointer to a buffer </td></tr>
+    <tr><td class="paramname">len</td><td>&#x202A;number of new characters to be added to the buffer </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;-1 if PCL error code is not PCL_OKAY(0), 0 otherwise </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to <em>b</em> or <code>NULL</code> on error </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="a00017_source.html#l00079">79</a> of file <a class="el" href="a00017_source.html">_errdefs.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00179_source.html#l00036">36</a> of file <a class="el" href="a00179_source.html">buf_grow.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00029_source.html#l00135">tag_pcl_buf::chrsize</a>, <a class="el" href="a00029_source.html#l00147">tag_pcl_buf::data</a>, <a class="el" href="a00020_source.html#l00078">PCL_EINVAL</a>, <a class="el" href="a01106.html#ga8ed2d8a28dde302fa8eac0d2e9ce8ea4">pcl_realloc()</a>, <a class="el" href="a00029_source.html#l00138">tag_pcl_buf::pos</a>, <a class="el" href="a00017_source.html#l00145">R_SETERR</a>, and <a class="el" href="a00029_source.html#l00144">tag_pcl_buf::size</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00185_source.html#l00036">pcl_buf_put()</a>, and <a class="el" href="a00212_source.html#l00037">pcl_buf_vputf()</a>.</p>
 
 </div>
 </div>
-<a id="ga7859a0a1a544c581d53bd7d44ab6805d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga7859a0a1a544c581d53bd7d44ab6805d">&#9670;&nbsp;</a></span>SETERRMSG</h2>
+<a id="ga689e8c411b15e4ef700a56e3ca353037"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga689e8c411b15e4ef700a56e3ca353037">&#9670;&nbsp;</a></span>pcl_buf_reset()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define SETERRMSG</td>
+          <td class="memname">PCL_EXPORT <a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a>* pcl_buf_reset </td>
           <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_pclerr, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype"><a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *&#160;</td>
+          <td class="paramname"><em>b</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_msgfmt, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td>&#160;&#160;&#160;<a class="el" href="a01108.html#gaac6caa6459e4fae267aba35a8a24783b">SETERRMSG_OS</a>(_pclerr, 0, _msgfmt, __VA_ARGS__)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00017.html">pcl/_errdefs.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="a00029.html">pcl/buf.h</a>&gt;</code></p>
 
-<p>&#x202A;Sets the current thread's PCL error code and error message. </p>
+<p>&#x202A;Reset a buffer to its initial state. </p>
+<p class="DocNodeLTR">This sets the buffer's position and length to zero. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">b</td><td>&#x202A;pointer to a buffer </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to the <em>b</em> argument </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00209_source.html#l00036">36</a> of file <a class="el" href="a00209_source.html">buf_reset.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00029_source.html#l00135">tag_pcl_buf::chrsize</a>, <a class="el" href="a00029_source.html#l00147">tag_pcl_buf::data</a>, <a class="el" href="a00029_source.html#l00141">tag_pcl_buf::len</a>, and <a class="el" href="a00029_source.html#l00138">tag_pcl_buf::pos</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00356_source.html#l00037">ipcl_err_serialize()</a>, and <a class="el" href="a00377_source.html#l00093">pcl_err_vjson()</a>.</p>
+
+</div>
+</div>
+<a id="ga60cc80b080cfda8e6f958fe23f44f634"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga60cc80b080cfda8e6f958fe23f44f634">&#9670;&nbsp;</a></span>pcl_buf_clear()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PCL_EXPORT <a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a>* pcl_buf_clear </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *&#160;</td>
+          <td class="paramname"><em>b</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00029.html">pcl/buf.h</a>&gt;</code></p>
+
+<p>&#x202A;Clear a buffer. </p>
+<p class="DocNodeLTR">This is similar to a reset but also releases all resources used by the buffer. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">b</td><td>&#x202A;pointer to a buffer </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to the <em>b</em> argument </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00149_source.html#l00036">36</a> of file <a class="el" href="a00149_source.html">buf_clear.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00029_source.html#l00147">tag_pcl_buf::data</a>, <a class="el" href="a00029_source.html#l00141">tag_pcl_buf::len</a>, <a class="el" href="a00020_source.html#l00078">PCL_EINVAL</a>, <a class="el" href="a01106.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe()</a>, <a class="el" href="a00029_source.html#l00138">tag_pcl_buf::pos</a>, <a class="el" href="a00017_source.html#l00145">R_SETERR</a>, and <a class="el" href="a00029_source.html#l00144">tag_pcl_buf::size</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00155_source.html#l00036">pcl_buf_free()</a>.</p>
+
+</div>
+</div>
+<a id="gabd62b0a898857ae6364878487e787e84"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gabd62b0a898857ae6364878487e787e84">&#9670;&nbsp;</a></span>pcl_buf_copy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PCL_EXPORT <a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a>* pcl_buf_copy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *&#160;</td>
+          <td class="paramname"><em>dest</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *&#160;</td>
+          <td class="paramname"><em>src</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00029.html">pcl/buf.h</a>&gt;</code></p>
+
+<p>&#x202A;Copy a buffer. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">_pclerr</td><td>&#x202A;PCL error code </td></tr>
-    <tr><td class="paramname">_msgfmt</td><td>&#x202A;error message as a printf-style format string </td></tr>
-    <tr><td class="paramname">...</td><td>&#x202A;optional variable arguments for the printf-style _msgfmt </td></tr>
+    <tr><td class="paramname">dest</td><td>&#x202A;pointer to a buffer or <code>NULL</code> in which case this is allocated. </td></tr>
+    <tr><td class="paramname">src</td><td>&#x202A;pointer to the buffer to copy </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;-1 if PCL error code is not PCL_OKAY(0), 0 otherwise </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to <em>dest</em> or, if <em>dest</em> is <code>NULL</code>, a newly allocated buffer </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="a00017_source.html#l00087">87</a> of file <a class="el" href="a00017_source.html">_errdefs.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00152_source.html#l00037">37</a> of file <a class="el" href="a00152_source.html">buf_copy.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00029_source.html#l00135">tag_pcl_buf::chrsize</a>, <a class="el" href="a00029_source.html#l00147">tag_pcl_buf::data</a>, <a class="el" href="a00029_source.html#l00141">tag_pcl_buf::len</a>, <a class="el" href="a00029_source.html#l00130">tag_pcl_buf::mode</a>, <a class="el" href="a00182_source.html#l00037">pcl_buf_init()</a>, <a class="el" href="a00020_source.html#l00078">PCL_EINVAL</a>, <a class="el" href="a01106.html#ga8ed2d8a28dde302fa8eac0d2e9ce8ea4">pcl_realloc()</a>, <a class="el" href="a00029_source.html#l00138">tag_pcl_buf::pos</a>, <a class="el" href="a00017_source.html#l00145">R_SETERR</a>, and <a class="el" href="a00029_source.html#l00144">tag_pcl_buf::size</a>.</p>
 
 </div>
 </div>
-<a id="gaac6caa6459e4fae267aba35a8a24783b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaac6caa6459e4fae267aba35a8a24783b">&#9670;&nbsp;</a></span>SETERRMSG_OS</h2>
+<a id="ga24846b7d3984813e0d3755f6c0f1ea44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga24846b7d3984813e0d3755f6c0f1ea44">&#9670;&nbsp;</a></span>pcl_buf_free()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define SETERRMSG_OS</td>
+          <td class="memname">PCL_EXPORT <a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a>* pcl_buf_free </td>
           <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_pclerr, </td>
+          <td class="paramtype"><a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *&#160;</td>
+          <td class="paramname"><em>b</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00029.html">pcl/buf.h</a>&gt;</code></p>
+
+<p>&#x202A;Free all buffer resources and the buffer object itself. </p>
+<p class="DocNodeLTR">Do not pass stack memory to this function. Instead, use <a class="el" href="a01108.html#ga60cc80b080cfda8e6f958fe23f44f634" title="&#x202A;Clear a buffer.">pcl_buf_clear</a>. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">b</td><td>&#x202A;pointer to a buffer </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;always NULL </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00155_source.html#l00036">36</a> of file <a class="el" href="a00155_source.html">buf_free.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00149_source.html#l00036">pcl_buf_clear()</a>, and <a class="el" href="a01106.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free()</a>.</p>
+
+</div>
+</div>
+<a id="gaa753cac8202932d5aefa84a136fe3d45"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa753cac8202932d5aefa84a136fe3d45">&#9670;&nbsp;</a></span>pcl_buf_put()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PCL_EXPORT int pcl_buf_put </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_oserr, </td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_msgfmt, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em>&#160;</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>len</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;  <a class="el" href="a01106.html#ga1fae5bebcb3cd7fc3fe889689f0c86a7">pcl_err_set</a>(<a class="el" href="a00035.html#ac26653ff3959b17bc17e9d32b036493d">PCL_LOCATION_ARGS</a>, _pclerr, _oserr, _msgfmt, __VA_ARGS__)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00017.html">pcl/_errdefs.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="a00029.html">pcl/buf.h</a>&gt;</code></p>
 
-<p>&#x202A;Sets the current thread's PCL error code, OS error code and error message. </p>
-<p class="DocNodeLTR">Setting both PCL and OS error codes can be useful in situations where preserving the OS error code provides more insight: </p><div class="fragment"><div class="line"><span class="comment">// indicate badarg but preserve why it is bad (ENOENT, ERROR_FILE_NOT_FOUND, etc)</span></div>
-<div class="line"><span class="keywordflow">if</span>(stat(<span class="stringliteral">&quot;does not exist&quot;</span>, &amp;st))</div>
-<div class="line">  <a class="code" href="a01108.html#gaac6caa6459e4fae267aba35a8a24783b">SETERRMSG_OS</a>(<a class="code" href="a01107.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>, <a class="code" href="a01106.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a>, <span class="stringliteral">&quot;missing conf file&quot;</span>, 0);</div>
-</div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">_pclerr</td><td>&#x202A;PCL error code </td></tr>
-    <tr><td class="paramname">_oserr</td><td>&#x202A;OS error code </td></tr>
-    <tr><td class="paramname">_msgfmt</td><td>&#x202A;error message as a printf-style format string </td></tr>
-    <tr><td class="paramname">...</td><td>&#x202A;optional variable arguments for the printf-style _msgfmt </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;-1 if PCL error code is not PCL_OKAY(0), 0 otherwise </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="a00017_source.html#l00103">103</a> of file <a class="el" href="a00017_source.html">_errdefs.h</a>.</p>
-
-</div>
-</div>
-<a id="gaadc76b147014f17dcc08fa3c2f110a25"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaadc76b147014f17dcc08fa3c2f110a25">&#9670;&nbsp;</a></span>SETOSERR</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define SETOSERR</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_oserr</td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="a01108.html#ga2098ca75aa487e29880f176b7c717e98">SETOSERRMSG</a>(_oserr, NULL, 0)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00017.html">pcl/_errdefs.h</a>&gt;</code></p>
-
-<p>&#x202A;Sets the current thread's OS error code and maps code to PCL error code. </p>
+<p>&#x202A;Put a blob into a buffer. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">_oserr</td><td>&#x202A;OS error code </td></tr>
+    <tr><td class="paramname">b</td><td>&#x202A;pointer to a buffer </td></tr>
+    <tr><td class="paramname">data</td><td>&#x202A;pointer to the data to write to the buffer </td></tr>
+    <tr><td class="paramname">len</td><td>&#x202A;number of characters to put </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;-1 if PCL error code is not PCL_OKAY(0), 0 otherwise </dd></dl>
-<dl class="section see DocNodeLTR"><dt>See also</dt><dd>&#x202A;<a class="el" href="a01106.html#ga3ff5c98b765df74bd305d2e56e9b4f31">pcl_err_os2pcl</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;number of characters written or -1 on error </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="a00017_source.html#l00111">111</a> of file <a class="el" href="a00017_source.html">_errdefs.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00185_source.html#l00036">36</a> of file <a class="el" href="a00185_source.html">buf_put.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00017_source.html#l00306">BADARG</a>, <a class="el" href="a00029_source.html#l00135">tag_pcl_buf::chrsize</a>, <a class="el" href="a00029_source.html#l00147">tag_pcl_buf::data</a>, <a class="el" href="a00029_source.html#l00141">tag_pcl_buf::len</a>, <a class="el" href="a00179_source.html#l00036">pcl_buf_grow()</a>, and <a class="el" href="a00029_source.html#l00138">tag_pcl_buf::pos</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00188_source.html#l00035">pcl_buf_putchar()</a>, <a class="el" href="a00194_source.html#l00036">pcl_buf_putint16()</a>, <a class="el" href="a00197_source.html#l00036">pcl_buf_putint32()</a>, <a class="el" href="a00200_source.html#l00041">pcl_buf_putint64()</a>, <a class="el" href="a00203_source.html#l00035">pcl_buf_putint8()</a>, and <a class="el" href="a00206_source.html#l00036">pcl_buf_putstr()</a>.</p>
 
 </div>
 </div>
-<a id="ga2098ca75aa487e29880f176b7c717e98"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga2098ca75aa487e29880f176b7c717e98">&#9670;&nbsp;</a></span>SETOSERRMSG</h2>
+<a id="gaf5543b8db978f1e0726bad5725b09e38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf5543b8db978f1e0726bad5725b09e38">&#9670;&nbsp;</a></span>pcl_buf_putstr()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define SETOSERRMSG</td>
+          <td class="memname">PCL_EXPORT int pcl_buf_putstr </td>
           <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_oserr, </td>
+          <td class="paramtype"><a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_msgfmt, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em>&#160;</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>s</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;  <a class="el" href="a01108.html#gaac6caa6459e4fae267aba35a8a24783b">SETERRMSG_OS</a>(<a class="el" href="a01106.html#ga3ff5c98b765df74bd305d2e56e9b4f31">pcl_err_os2pcl</a>(_oserr), _oserr, _msgfmt, __VA_ARGS__)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00017.html">pcl/_errdefs.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="a00029.html">pcl/buf.h</a>&gt;</code></p>
 
-<p>&#x202A;Sets the current thread's OS error code, error message and maps code to PCL error code. </p>
+<p>&#x202A;Put a string into a buffer. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">_oserr</td><td>&#x202A;OS error code </td></tr>
-    <tr><td class="paramname">_msgfmt</td><td>&#x202A;error message as a printf-style format string </td></tr>
-    <tr><td class="paramname">...</td><td>&#x202A;optional variable arguments for the printf-style _msgfmt </td></tr>
+    <tr><td class="paramname">b</td><td>&#x202A;pointer to a buffer </td></tr>
+    <tr><td class="paramname">s</td><td>&#x202A;pointer to a string </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;-1 if PCL error code is not PCL_OKAY(0), 0 otherwise </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;number of characters written (including NUL if in binary mode) or -1 on error </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="a00017_source.html#l00119">119</a> of file <a class="el" href="a00017_source.html">_errdefs.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00206_source.html#l00036">36</a> of file <a class="el" href="a00206_source.html">buf_putstr.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00017_source.html#l00306">BADARG</a>, <a class="el" href="a00029_source.html#l00135">tag_pcl_buf::chrsize</a>, <a class="el" href="a00029_source.html#l00130">tag_pcl_buf::mode</a>, <a class="el" href="a00185_source.html#l00036">pcl_buf_put()</a>, and <a class="el" href="a00029_source.html#l00111">PclBufBinary</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00362_source.html#l00038">pcl_err_setjson()</a>, and <a class="el" href="a00377_source.html#l00093">pcl_err_vjson()</a>.</p>
 
 </div>
 </div>
-<a id="ga89b8bfbe17595305872551a1caaa5702"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga89b8bfbe17595305872551a1caaa5702">&#9670;&nbsp;</a></span>SETLASTERR</h2>
+<a id="ga48e936cee3defdf5fcb6e9904aff0d75"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga48e936cee3defdf5fcb6e9904aff0d75">&#9670;&nbsp;</a></span>pcl_buf_putchar()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define SETLASTERR</td>
+          <td class="memname">PCL_EXPORT int pcl_buf_putchar </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="a01108.html#ga2098ca75aa487e29880f176b7c717e98">SETOSERRMSG</a>(<a class="el" href="a01106.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a>, NULL, 0)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00017.html">pcl/_errdefs.h</a>&gt;</code></p>
-
-<p>&#x202A;Sets the current thread's last OS error code and maps code to PCL error code. </p>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;-1 if PCL error code is not PCL_OKAY(0), 0 otherwise </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="a00017_source.html#l00125">125</a> of file <a class="el" href="a00017_source.html">_errdefs.h</a>.</p>
-
-</div>
-</div>
-<a id="ga405f0945f1e605ded867422c553c78cf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga405f0945f1e605ded867422c553c78cf">&#9670;&nbsp;</a></span>SETLASTERRMSG</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define SETLASTERRMSG</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_msgfmt, </td>
+          <td class="paramtype"><a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em>&#160;</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>c</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;<a class="el" href="a01108.html#ga2098ca75aa487e29880f176b7c717e98">SETOSERRMSG</a>(<a class="el" href="a01106.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a>, _msgfmt, __VA_ARGS__)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00017.html">pcl/_errdefs.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="a00029.html">pcl/buf.h</a>&gt;</code></p>
 
-<p>&#x202A;Sets the current thread's last OS error code. </p>
-<p class="DocNodeLTR">error message and maps code to PCL error code. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>&#x202A;Put a character into a buffer. </p>
+<p class="DocNodeLTR">No NUL is added when putting a char. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">_msgfmt</td><td>&#x202A;error message as a printf-style format string </td></tr>
-    <tr><td class="paramname">...</td><td>&#x202A;optional variable arguments for the printf-style _msgfmt </td></tr>
+    <tr><td class="paramname">b</td><td>&#x202A;pointer to a buffer </td></tr>
+    <tr><td class="paramname">c</td><td>&#x202A;character </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;-1 if PCL error code is not PCL_OKAY(0), 0 otherwise </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;number of bytes written or -1 on error </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="a00017_source.html#l00132">132</a> of file <a class="el" href="a00017_source.html">_errdefs.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00188_source.html#l00035">35</a> of file <a class="el" href="a00188_source.html">buf_putchar.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00017_source.html#l00306">BADARG</a>, and <a class="el" href="a00185_source.html#l00036">pcl_buf_put()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00356_source.html#l00037">ipcl_err_serialize()</a>, <a class="el" href="a00584_source.html#l00134">ipcl_json_parse_string()</a>, and <a class="el" href="a00362_source.html#l00038">pcl_err_setjson()</a>.</p>
 
 </div>
 </div>
-<a id="gae8eaed12aa57a2870ad8e45cc2306318"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gae8eaed12aa57a2870ad8e45cc2306318">&#9670;&nbsp;</a></span>R_SETERR</h2>
+<a id="ga0c1e15f9aaafb95cf776802a5370d0c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0c1e15f9aaafb95cf776802a5370d0c6">&#9670;&nbsp;</a></span>pcl_buf_putint8()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define R_SETERR</td>
+          <td class="memname">PCL_EXPORT int pcl_buf_putint8 </td>
           <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_retval, </td>
+          <td class="paramtype"><a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_pclerr&#160;</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>i</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;<a class="el" href="a01108.html#ga5da70a3315463f36f3b4c4daa494d9b2">R_SETERRMSG_OS</a>(_retval, _pclerr, 0, NULL, 0)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00017.html">pcl/_errdefs.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="a00029.html">pcl/buf.h</a>&gt;</code></p>
 
-<p>&#x202A;Sets the return value and the current thread's PCL error code. </p>
-<p class="DocNodeLTR">The return (R_) macros can be used to select a different return value (macro expansion value) than the default of -1 or 0. This allows for: </p><div class="fragment"><div class="line"><span class="keywordflow">return</span> <a class="code" href="a01108.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a>(NULL, <a class="code" href="a01107.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>); <span class="comment">// returns NULL</span></div>
-<div class="line"><span class="keywordflow">return</span> <a class="code" href="a01108.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a>(<a class="code" href="a01107.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>);         <span class="comment">// instead of this which returns -1</span></div>
-</div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
+<p>&#x202A;Put an 8-bit integer into a buffer. </p>
+<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;PclBufBinary mode only </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">_retval</td><td>&#x202A;the value as the result of macro substitution. </td></tr>
-    <tr><td class="paramname">_pclerr</td><td>&#x202A;PCL error code </td></tr>
+    <tr><td class="paramname">b</td><td>&#x202A;pointer to a buffer </td></tr>
+    <tr><td class="paramname">i</td><td>&#x202A;8-bit integer to put </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;the value of _retval regardless of the PCL error code </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;number of bytes written or -1 on error </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="a00017_source.html#l00145">145</a> of file <a class="el" href="a00017_source.html">_errdefs.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00203_source.html#l00035">35</a> of file <a class="el" href="a00203_source.html">buf_putint8.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00017_source.html#l00306">BADARG</a>, <a class="el" href="a00029_source.html#l00130">tag_pcl_buf::mode</a>, <a class="el" href="a00185_source.html#l00036">pcl_buf_put()</a>, and <a class="el" href="a00029_source.html#l00111">PclBufBinary</a>.</p>
 
 </div>
 </div>
-<a id="gab3d2384717efb5bfed5705cddc35b614"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gab3d2384717efb5bfed5705cddc35b614">&#9670;&nbsp;</a></span>R_SETERR_OS</h2>
+<a id="ga6e4ad4db8cb20638547f03aff97d762a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6e4ad4db8cb20638547f03aff97d762a">&#9670;&nbsp;</a></span>pcl_buf_putint16()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define R_SETERR_OS</td>
+          <td class="memname">PCL_EXPORT int pcl_buf_putint16 </td>
           <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_retval, </td>
+          <td class="paramtype"><a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_pclerr, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_oserr&#160;</td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>i</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;<a class="el" href="a01108.html#ga5da70a3315463f36f3b4c4daa494d9b2">R_SETERRMSG_OS</a>(_retval, _pclerr, _oserr, NULL, 0)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00017.html">pcl/_errdefs.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="a00029.html">pcl/buf.h</a>&gt;</code></p>
 
-<p>&#x202A;Sets the return value and the current thread's PCL error code and OS error code. </p>
-<p class="DocNodeLTR">The return (R_) macros can be used to select a different return value (macro expansion value) than the default of -1 or 0. This allows for: </p><div class="fragment"><div class="line"><span class="keywordflow">return</span> <a class="code" href="a01108.html#gab3d2384717efb5bfed5705cddc35b614">R_SETERR_OS</a>(NULL, <a class="code" href="a01107.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>, ENOENT); <span class="comment">// returns NULL</span></div>
-<div class="line"><span class="keywordflow">return</span> <a class="code" href="a01108.html#ga954df7afdee633aed0beba08add17f8c">SETERR_OS</a>(<a class="code" href="a01107.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>, ENOENT);         <span class="comment">// instead of this which returns -1</span></div>
-</div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
+<p>&#x202A;Puts a 16-bit integer into a buffer in network-byte order. </p>
+<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;PclBufBinary mode only </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">_retval</td><td>&#x202A;the value as the result of macro substitution. </td></tr>
-    <tr><td class="paramname">_pclerr</td><td>&#x202A;PCL error code </td></tr>
-    <tr><td class="paramname">_oserr</td><td>&#x202A;OS error code </td></tr>
+    <tr><td class="paramname">b</td><td>&#x202A;pointer to a buffer </td></tr>
+    <tr><td class="paramname">i</td><td>&#x202A;16-bit integer to put </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;the value of _retval regardless of the PCL error code </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;number of bytes written or -1 on error </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="a00017_source.html#l00159">159</a> of file <a class="el" href="a00017_source.html">_errdefs.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00194_source.html#l00036">36</a> of file <a class="el" href="a00194_source.html">buf_putint16.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00017_source.html#l00306">BADARG</a>, <a class="el" href="a00029_source.html#l00130">tag_pcl_buf::mode</a>, <a class="el" href="a00185_source.html#l00036">pcl_buf_put()</a>, and <a class="el" href="a00029_source.html#l00111">PclBufBinary</a>.</p>
 
 </div>
 </div>
-<a id="ga275b0cc5367d35bf8d2873fe5e15878b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga275b0cc5367d35bf8d2873fe5e15878b">&#9670;&nbsp;</a></span>R_SETERRMSG</h2>
+<a id="ga9bf250160d7b553a52360f6f2cf380b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9bf250160d7b553a52360f6f2cf380b8">&#9670;&nbsp;</a></span>pcl_buf_putint32()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define R_SETERRMSG</td>
+          <td class="memname">PCL_EXPORT int pcl_buf_putint32 </td>
           <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_retval, </td>
+          <td class="paramtype"><a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_pclerr, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_msgfmt, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em>&#160;</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>i</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;  <a class="el" href="a01108.html#ga5da70a3315463f36f3b4c4daa494d9b2">R_SETERRMSG_OS</a>(_retval, _pclerr, 0, _msgfmt, __VA_ARGS__)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00017.html">pcl/_errdefs.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="a00029.html">pcl/buf.h</a>&gt;</code></p>
 
-<p>&#x202A;Sets the return value and the current thread's PCL error code and error message. </p>
-<p class="DocNodeLTR">The return (R_) macros can be used to select a different return value (macro expansion value) than the default of -1 or 0. This allows for: </p><div class="fragment"><div class="line"><span class="keywordflow">return</span> <a class="code" href="a01108.html#ga275b0cc5367d35bf8d2873fe5e15878b">R_SETERRMSG</a>(NULL, <a class="code" href="a01107.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>, <span class="stringliteral">&quot;name cannot be NULL&quot;</span>, 0); <span class="comment">// returns NULL</span></div>
-<div class="line"><span class="keywordflow">return</span> <a class="code" href="a01108.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a>(<a class="code" href="a01107.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>, <span class="stringliteral">&quot;name cannot be NULL&quot;</span>, 0);         <span class="comment">// instead of this which returns -1</span></div>
-</div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
+<p>&#x202A;Puts a 32-bit integer into a buffer in network-byte order. </p>
+<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;PclBufBinary mode only </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">_retval</td><td>&#x202A;the value as the result of macro substitution. </td></tr>
-    <tr><td class="paramname">_pclerr</td><td>&#x202A;PCL error code </td></tr>
-    <tr><td class="paramname">_msgfmt</td><td>&#x202A;error message as a printf-style format string </td></tr>
-    <tr><td class="paramname">...</td><td>&#x202A;optional variable arguments for the printf-style _msgfmt </td></tr>
+    <tr><td class="paramname">b</td><td>&#x202A;pointer to a buffer </td></tr>
+    <tr><td class="paramname">i</td><td>&#x202A;32-bit integer to put </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;the value of _retval regardless of the PCL error code </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;number of bytes written or -1 on error </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="a00017_source.html#l00174">174</a> of file <a class="el" href="a00017_source.html">_errdefs.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00197_source.html#l00036">36</a> of file <a class="el" href="a00197_source.html">buf_putint32.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00017_source.html#l00306">BADARG</a>, <a class="el" href="a00029_source.html#l00130">tag_pcl_buf::mode</a>, <a class="el" href="a00185_source.html#l00036">pcl_buf_put()</a>, and <a class="el" href="a00029_source.html#l00111">PclBufBinary</a>.</p>
 
 </div>
 </div>
-<a id="ga5da70a3315463f36f3b4c4daa494d9b2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga5da70a3315463f36f3b4c4daa494d9b2">&#9670;&nbsp;</a></span>R_SETERRMSG_OS</h2>
+<a id="ga0ee361a93adbfe5aef9aa3e6f54dc70e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0ee361a93adbfe5aef9aa3e6f54dc70e">&#9670;&nbsp;</a></span>pcl_buf_putint64()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define R_SETERRMSG_OS</td>
+          <td class="memname">PCL_EXPORT int pcl_buf_putint64 </td>
           <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_retval, </td>
+          <td class="paramtype"><a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_pclerr, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_oserr, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_msgfmt, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em>&#160;</td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>i</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;  (<a class="el" href="a01106.html#ga1fae5bebcb3cd7fc3fe889689f0c86a7">pcl_err_set</a>(<a class="el" href="a00035.html#ac26653ff3959b17bc17e9d32b036493d">PCL_LOCATION_ARGS</a>, _pclerr, _oserr, _msgfmt, __VA_ARGS__),  (_retval))</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00017.html">pcl/_errdefs.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="a00029.html">pcl/buf.h</a>&gt;</code></p>
 
-<p>&#x202A;Sets the return value and the current thread's PCL error code, OS error code and error message. </p>
-<p class="DocNodeLTR">The return (R_) macros can be used to select a different return value (macro expansion value) than the default of -1 or 0. This allows for: </p><div class="fragment"><div class="line"><span class="keywordflow">return</span> <a class="code" href="a01108.html#ga5da70a3315463f36f3b4c4daa494d9b2">R_SETERRMSG_OS</a>(NULL, <a class="code" href="a01107.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>, ENOTDIR, <span class="stringliteral">&quot;missing file&quot;</span>, 0); <span class="comment">// returns NULL</span></div>
-<div class="line"><span class="keywordflow">return</span> <a class="code" href="a01108.html#gaac6caa6459e4fae267aba35a8a24783b">SETERRMSG_OS</a>(<a class="code" href="a01107.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>, ENOTDIR, <span class="stringliteral">&quot;missing file&quot;</span>, 0);         <span class="comment">// instead of this which returns -1</span></div>
-</div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
+<p>&#x202A;Puts a 64-bit integer into a buffer in network-byte order. </p>
+<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;PclBufBinary mode only </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">_retval</td><td>&#x202A;the value as the result of macro substitution. </td></tr>
-    <tr><td class="paramname">_pclerr</td><td>&#x202A;PCL error code </td></tr>
-    <tr><td class="paramname">_oserr</td><td>&#x202A;OS error code </td></tr>
-    <tr><td class="paramname">_msgfmt</td><td>&#x202A;error message as a printf-style format string </td></tr>
-    <tr><td class="paramname">...</td><td>&#x202A;optional variable arguments for the printf-style _msgfmt </td></tr>
+    <tr><td class="paramname">b</td><td>&#x202A;pointer to a buffer </td></tr>
+    <tr><td class="paramname">i</td><td>&#x202A;64-bit integer to put </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;the value of _retval regardless of the PCL error code </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;number of bytes written or -1 on error </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="a00017_source.html#l00191">191</a> of file <a class="el" href="a00017_source.html">_errdefs.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a00200_source.html#l00041">41</a> of file <a class="el" href="a00200_source.html">buf_putint64.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00017_source.html#l00306">BADARG</a>, <a class="el" href="a00029_source.html#l00130">tag_pcl_buf::mode</a>, <a class="el" href="a00185_source.html#l00036">pcl_buf_put()</a>, and <a class="el" href="a00029_source.html#l00111">PclBufBinary</a>.</p>
 
 </div>
 </div>
-<a id="ga2ed57a6d91a13ee617ab5b7143338070"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga2ed57a6d91a13ee617ab5b7143338070">&#9670;&nbsp;</a></span>R_SETOSERR</h2>
+<a id="ga2ba3b09bc046d8c5af670b8e73697087"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga2ba3b09bc046d8c5af670b8e73697087">&#9670;&nbsp;</a></span>pcl_buf_putf()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define R_SETOSERR</td>
+          <td class="memname">PCL_EXPORT int pcl_buf_putf </td>
           <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_retval, </td>
+          <td class="paramtype"><a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_oserr&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td>&#160;&#160;&#160;<a class="el" href="a01108.html#ga3a42f7583ad2457610b11adb83db5925">R_SETOSERRMSG</a>(_retval, _oserr, NULL, 0)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00017.html">pcl/_errdefs.h</a>&gt;</code></p>
-
-<p>&#x202A;Sets the return value and the current thread's OS error code and maps code to PCL error code. </p>
-<p class="DocNodeLTR">The return (R_) macros can be used to select a different return value (macro expansion value) than the default of -1 or 0. This allows for: </p><div class="fragment"><div class="line"><span class="keywordflow">return</span> <a class="code" href="a01108.html#ga2ed57a6d91a13ee617ab5b7143338070">R_SETOSERR</a>(NULL, EINVAL); <span class="comment">// returns NULL</span></div>
-<div class="line"><span class="keywordflow">return</span> <a class="code" href="a01108.html#gaadc76b147014f17dcc08fa3c2f110a25">SETOSERR</a>(EINVAL);         <span class="comment">// instead of this which returns -1</span></div>
-</div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">_retval</td><td>&#x202A;the value as the result of macro substitution. </td></tr>
-    <tr><td class="paramname">_oserr</td><td>&#x202A;OS error code </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;the value of _retval regardless of the PCL error code </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="a00017_source.html#l00205">205</a> of file <a class="el" href="a00017_source.html">_errdefs.h</a>.</p>
-
-</div>
-</div>
-<a id="ga3a42f7583ad2457610b11adb83db5925"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga3a42f7583ad2457610b11adb83db5925">&#9670;&nbsp;</a></span>R_SETOSERRMSG</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define R_SETOSERRMSG</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_retval, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_oserr, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_msgfmt, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td>&#160;&#160;&#160;  <a class="el" href="a01108.html#ga5da70a3315463f36f3b4c4daa494d9b2">R_SETERRMSG_OS</a>(_retval, <a class="el" href="a01106.html#ga3ff5c98b765df74bd305d2e56e9b4f31">pcl_err_os2pcl</a>(_oserr), _oserr, _msgfmt, __VA_ARGS__)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00017.html">pcl/_errdefs.h</a>&gt;</code></p>
-
-<p>&#x202A;Sets the return value and the current thread's OS error code, error message and maps code to PCL error code. </p>
-<p class="DocNodeLTR">The return (R_) macros can be used to select a different return value (macro expansion value) than the default of -1 or 0. This allows for: </p><div class="fragment"><div class="line"><span class="keywordflow">return</span> <a class="code" href="a01108.html#ga3a42f7583ad2457610b11adb83db5925">R_SETOSERRMSG</a>(NULL, ENOENT, <span class="stringliteral">&quot;missing &#39;%s&#39;&quot;</span>, file); <span class="comment">// returns NULL</span></div>
-<div class="line"><span class="keywordflow">return</span> <a class="code" href="a01108.html#ga2098ca75aa487e29880f176b7c717e98">SETOSERRMSG</a>(ENOENT, <span class="stringliteral">&quot;missing &#39;%s&#39;&quot;</span>, file);         <span class="comment">// instead of this which returns -1</span></div>
-</div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">_retval</td><td>&#x202A;the value as the result of macro substitution. </td></tr>
-    <tr><td class="paramname">_oserr</td><td>&#x202A;OS error code </td></tr>
-    <tr><td class="paramname">_msgfmt</td><td>&#x202A;error message as a printf-style format string </td></tr>
-    <tr><td class="paramname">...</td><td>&#x202A;optional variable arguments for the printf-style _msgfmt </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;the value of _retval regardless of the PCL error code </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="a00017_source.html#l00221">221</a> of file <a class="el" href="a00017_source.html">_errdefs.h</a>.</p>
-
-</div>
-</div>
-<a id="gad08a56aa55af3716a251ced9f780686d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gad08a56aa55af3716a251ced9f780686d">&#9670;&nbsp;</a></span>R_SETLASTERR</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define R_SETLASTERR</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_retval</td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="a01108.html#ga3a42f7583ad2457610b11adb83db5925">R_SETOSERRMSG</a>(_retval, <a class="el" href="a01106.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a>, NULL, 0)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00017.html">pcl/_errdefs.h</a>&gt;</code></p>
-
-<p>&#x202A;Sets the return value and the current thread's last OS error code and maps code to PCL error code. </p>
-<p class="DocNodeLTR">The return (R_) macros can be used to select a different return value (macro expansion value) than the default of -1 or 0. This allows for: </p><div class="fragment"><div class="line"><span class="keywordflow">return</span> <a class="code" href="a01108.html#gad08a56aa55af3716a251ced9f780686d">R_SETLASTERR</a>(NULL); <span class="comment">// returns NULL</span></div>
-<div class="line"><span class="keywordflow">return</span> <a class="code" href="a01108.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();       <span class="comment">// instead of this which returns -1</span></div>
-</div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">_retval</td><td>&#x202A;the value as the result of macro substitution. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;the value of _retval regardless of the PCL error code </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="a00017_source.html#l00235">235</a> of file <a class="el" href="a00017_source.html">_errdefs.h</a>.</p>
-
-</div>
-</div>
-<a id="gaa3ee6ecf696e2a52777f47b0cba755cc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaa3ee6ecf696e2a52777f47b0cba755cc">&#9670;&nbsp;</a></span>R_SETLASTERRMSG</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define R_SETLASTERRMSG</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_retval, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_msgfmt, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td>&#160;&#160;&#160;  <a class="el" href="a01108.html#ga3a42f7583ad2457610b11adb83db5925">R_SETOSERRMSG</a>(_retval, <a class="el" href="a01106.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a>, _msgfmt, __VA_ARGS__)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00017.html">pcl/_errdefs.h</a>&gt;</code></p>
-
-<p>&#x202A;Sets the return value and the current thread's last OS error code, error message and maps code to PCL error code. </p>
-<p class="DocNodeLTR">The return (R_) macros can be used to select a different return value (macro expansion value) than the default of -1 or 0. This allows for: </p><div class="fragment"><div class="line"><span class="keywordflow">return</span> <a class="code" href="a01108.html#gaa3ee6ecf696e2a52777f47b0cba755cc">R_SETLASTERRMSG</a>(NULL, <span class="stringliteral">&quot;problem&quot;</span>, 0); <span class="comment">// returns NULL</span></div>
-<div class="line"><span class="keywordflow">return</span> <a class="code" href="a01108.html#ga405f0945f1e605ded867422c553c78cf">SETLASTERRMSG</a>(<span class="stringliteral">&quot;problem&quot;</span>, 0);         <span class="comment">// instead of this which returns -1</span></div>
-</div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">_retval</td><td>&#x202A;the value as the result of macro substitution. </td></tr>
-    <tr><td class="paramname">_msgfmt</td><td>&#x202A;error message as a printf-style format string </td></tr>
-    <tr><td class="paramname">...</td><td>&#x202A;optional variable arguments for the printf-style _msgfmt </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;the value of _retval regardless of the PCL error code </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="a00017_source.html#l00250">250</a> of file <a class="el" href="a00017_source.html">_errdefs.h</a>.</p>
-
-</div>
-</div>
-<a id="ga9ad3ef2339f58a873bc7bace5ad9c9df"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga9ad3ef2339f58a873bc7bace5ad9c9df">&#9670;&nbsp;</a></span>TRC</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define TRC</td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="a01108.html#gac647173422caf7372229621b0aab81cd">TRCMSG</a>(NULL, 0)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00017.html">pcl/_errdefs.h</a>&gt;</code></p>
-
-<p>&#x202A;Adds a stack trace to the current thread's error context. </p>
-<p class="DocNodeLTR">When a nested function fails, known to have already set an error/trace, tracing macros can be used to track the call stack. </p><div class="fragment"><div class="line"><span class="keywordflow">if</span>(func_sets_pcl_error() &lt; 0)</div>
-<div class="line">  <span class="keywordflow">return</span> <a class="code" href="a01108.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a>();</div>
-</div><!-- fragment --> <dl class="section return"><dt>Returns</dt><dd>&#x202A;-1 if PCL error code is not PCL_OKAY(0), 0 otherwise </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="a00017_source.html#l00262">262</a> of file <a class="el" href="a00017_source.html">_errdefs.h</a>.</p>
-
-</div>
-</div>
-<a id="gac647173422caf7372229621b0aab81cd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gac647173422caf7372229621b0aab81cd">&#9670;&nbsp;</a></span>TRCMSG</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define TRCMSG</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_msgfmt, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td>&#160;&#160;&#160;<a class="el" href="a01106.html#ga30a9020e52ca985edcbd86e5b0676191">pcl_err_trace</a>(<a class="el" href="a00035.html#ac26653ff3959b17bc17e9d32b036493d">PCL_LOCATION_ARGS</a>, _msgfmt, __VA_ARGS__)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00017.html">pcl/_errdefs.h</a>&gt;</code></p>
-
-<p>&#x202A;Adds a stack trace to the current thread's error context with an error message. </p>
-<p class="DocNodeLTR">When a nested function fails, known to have already set an error/trace, tracing macros can be used to track the call stack. </p><div class="fragment"><div class="line"><span class="keywordflow">if</span>(func_sets_pcl_error(value) &lt; 0)</div>
-<div class="line">  <span class="keywordflow">return</span> <a class="code" href="a01108.html#gac647173422caf7372229621b0aab81cd">TRCMSG</a>(<span class="stringliteral">&quot;bad value: %d&quot;</span>, value);</div>
-</div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">_msgfmt</td><td>&#x202A;error message as a printf-style format string </td></tr>
-    <tr><td class="paramname">...</td><td>&#x202A;optional variable arguments for the printf-style _msgfmt </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;-1 if PCL error code is not PCL_OKAY(0), 0 otherwise </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="a00017_source.html#l00275">275</a> of file <a class="el" href="a00017_source.html">_errdefs.h</a>.</p>
-
-</div>
-</div>
-<a id="gaa978c8c7faa5fc2f69a6641e054e519d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaa978c8c7faa5fc2f69a6641e054e519d">&#9670;&nbsp;</a></span>R_TRC</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define R_TRC</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_retval</td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="a01108.html#gab7c6f91e3dd42d314f529e2177930dc3">R_TRCMSG</a>(_retval, NULL, 0)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00017.html">pcl/_errdefs.h</a>&gt;</code></p>
-
-<p>&#x202A;Sets the return value and adds a stack trace to the current thread's error context. </p>
-<p class="DocNodeLTR">When a nested function fails, known to have already set an error/trace, tracing macros can be used to track the call stack. </p><div class="fragment"><div class="line"><span class="keywordflow">if</span>(func_sets_pcl_error() &lt; 0)</div>
-<div class="line">  <span class="keywordflow">return</span> <a class="code" href="a01108.html#gaa978c8c7faa5fc2f69a6641e054e519d">R_TRC</a>(NULL); <span class="comment">// return NULL, not -1: ie TRC()</span></div>
-</div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">_retval</td><td>&#x202A;the value as the result of macro substitution. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;the value of _retval regardless of the PCL error code </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="a00017_source.html#l00287">287</a> of file <a class="el" href="a00017_source.html">_errdefs.h</a>.</p>
-
-</div>
-</div>
-<a id="gab7c6f91e3dd42d314f529e2177930dc3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gab7c6f91e3dd42d314f529e2177930dc3">&#9670;&nbsp;</a></span>R_TRCMSG</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define R_TRCMSG</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_retval, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_msgfmt, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td>&#160;&#160;&#160;  (<a class="el" href="a01106.html#ga30a9020e52ca985edcbd86e5b0676191">pcl_err_trace</a>(<a class="el" href="a00035.html#ac26653ff3959b17bc17e9d32b036493d">PCL_LOCATION_ARGS</a>, _msgfmt, __VA_ARGS__),  (_retval))</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00017.html">pcl/_errdefs.h</a>&gt;</code></p>
-
-<p>&#x202A;Sets the return value and adds a stack trace to the current thread's error context with an error message. </p>
-<p class="DocNodeLTR">When a nested function fails, known to have already set an error/trace, tracing macros can be used to track the call stack. </p><div class="fragment"><div class="line"><span class="keywordflow">if</span>(func_sets_pcl_error(value) &lt; 0)</div>
-<div class="line">  <span class="keywordflow">return</span> <a class="code" href="a01108.html#gab7c6f91e3dd42d314f529e2177930dc3">R_TRCMSG</a>(NULL, <span class="stringliteral">&quot;bad value: %d&quot;</span>, value); <span class="comment">// return NULL, not -1: ie TRCMSG(&quot;&quot;)</span></div>
-</div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">_retval</td><td>&#x202A;the value as the result of macro substitution. </td></tr>
-    <tr><td class="paramname">_msgfmt</td><td>&#x202A;error message as a printf-style format string </td></tr>
-    <tr><td class="paramname">...</td><td>&#x202A;optional variable arguments for the printf-style _msgfmt </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;the value of _retval regardless of the PCL error code </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="a00017_source.html#l00302">302</a> of file <a class="el" href="a00017_source.html">_errdefs.h</a>.</p>
-
-</div>
-</div>
-<a id="gab052d4faa8fd25e1a13e86ecd4aafa38"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gab052d4faa8fd25e1a13e86ecd4aafa38">&#9670;&nbsp;</a></span>BADARG</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BADARG</td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="a01108.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a>(<a class="el" href="a01107.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00017.html">pcl/_errdefs.h</a>&gt;</code></p>
-
-<p class="definition">Definition at line <a class="el" href="a00017_source.html#l00306">306</a> of file <a class="el" href="a00017_source.html">_errdefs.h</a>.</p>
-
-</div>
-</div>
-<a id="ga72c5d5554c6045bad5e2d599589e105d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga72c5d5554c6045bad5e2d599589e105d">&#9670;&nbsp;</a></span>PTRACE</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define PTRACE</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_m, </td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>format</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -1164,33 +868,50 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00017.html">pcl/_errdefs.h</a>&gt;</code></p>
-<b>Value:</b><div class="fragment"><div class="line">  <span class="keywordflow">do</span>{ \</div>
-<div class="line">  TRC(); \</div>
-<div class="line">  pcl_err_fprintf(stderr, 0, _m, __VA_ARGS__); \</div>
-<div class="line">}<span class="keywordflow">while</span>(0)</div>
-</div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="a00017_source.html#l00308">308</a> of file <a class="el" href="a00017_source.html">_errdefs.h</a>.</p>
+<p><code>#include &lt;<a class="el" href="a00029.html">pcl/buf.h</a>&gt;</code></p>
+
+<p>&#x202A;Put a formatted string into a buffer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">b</td><td>&#x202A;pointer to a buffer </td></tr>
+    <tr><td class="paramname">format</td><td>&#x202A;PCL format string. The string must match the buffer mode. PclBufText uses <code>char*</code>, PclBufTextW uses <code>wchar_t*</code> and PclBufTextP uses <code>pchar_t*</code> . </td></tr>
+    <tr><td class="paramname">...</td><td>&#x202A;variable arguments </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;number of characters written (including NUL if in binary mode) or -1 on error </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00191_source.html#l00035">35</a> of file <a class="el" href="a00191_source.html">buf_putf.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00212_source.html#l00037">pcl_buf_vputf()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00356_source.html#l00037">ipcl_err_serialize()</a>, <a class="el" href="a00362_source.html#l00038">pcl_err_setjson()</a>, and <a class="el" href="a00377_source.html#l00093">pcl_err_vjson()</a>.</p>
 
 </div>
 </div>
-<a id="gaaaa31d344c49095dfc3f6051ec2fbfca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaaaa31d344c49095dfc3f6051ec2fbfca">&#9670;&nbsp;</a></span>PANIC</h2>
+<a id="ga83ed6123d3f2421baca12357736191aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga83ed6123d3f2421baca12357736191aa">&#9670;&nbsp;</a></span>pcl_buf_vputf()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define PANIC</td>
+          <td class="memname">PCL_EXPORT int pcl_buf_vputf </td>
           <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_m, </td>
+          <td class="paramtype"><a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em>&#160;</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">va_list&#160;</td>
+          <td class="paramname"><em>ap</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1200,33 +921,50 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00017.html">pcl/_errdefs.h</a>&gt;</code></p>
-<b>Value:</b><div class="fragment"><div class="line">  <span class="keywordflow">do</span>{ \</div>
-<div class="line">  PTRACE(_m,__VA_ARGS__); \</div>
-<div class="line">  exit(1); \</div>
-<div class="line">}<span class="keywordflow">while</span>(0)</div>
-</div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="a00017_source.html#l00313">313</a> of file <a class="el" href="a00017_source.html">_errdefs.h</a>.</p>
+<p><code>#include &lt;<a class="el" href="a00029.html">pcl/buf.h</a>&gt;</code></p>
+
+<p>&#x202A;Put a formatted string into a buffer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">b</td><td>&#x202A;pointer to a buffer </td></tr>
+    <tr><td class="paramname">format</td><td>&#x202A;PCL format string. The string must match the buffer mode. PclBufText uses <code>char*</code>, PclBufTextW uses <code>wchar_t*</code> and PclBufTextP uses <code>pchar_t*</code> . </td></tr>
+    <tr><td class="paramname">ap</td><td>&#x202A;variable arguments </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;number of characters written (including NUL if in binary mode) or -1 on error </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00212_source.html#l00037">37</a> of file <a class="el" href="a00212_source.html">buf_vputf.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00029_source.html#l00135">tag_pcl_buf::chrsize</a>, <a class="el" href="a00029_source.html#l00147">tag_pcl_buf::data</a>, <a class="el" href="a00029_source.html#l00141">tag_pcl_buf::len</a>, <a class="el" href="a00029_source.html#l00130">tag_pcl_buf::mode</a>, <a class="el" href="a00179_source.html#l00036">pcl_buf_grow()</a>, <a class="el" href="a01118.html#gacabe8fd13aa180b4c36b1d55d9e3605f">pcl_vsprintf()</a>, <a class="el" href="a01118.html#ga46ccfd259e51f2c7f0daf21eb337e111">pcl_vswprintf()</a>, <a class="el" href="a00029_source.html#l00111">PclBufBinary</a>, <a class="el" href="a00029_source.html#l00138">tag_pcl_buf::pos</a>, <a class="el" href="a00017_source.html#l00065">SETERR</a>, and <a class="el" href="a00029_source.html#l00144">tag_pcl_buf::size</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00356_source.html#l00037">ipcl_err_serialize()</a>, and <a class="el" href="a00191_source.html#l00035">pcl_buf_putf()</a>.</p>
 
 </div>
 </div>
-<a id="ga046aeb7c31bf01e70e6cb64e32671c1f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga046aeb7c31bf01e70e6cb64e32671c1f">&#9670;&nbsp;</a></span>PLNMSG</h2>
+<a id="ga310ef6a2f1e1b43aa4e405c40701d7af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga310ef6a2f1e1b43aa4e405c40701d7af">&#9670;&nbsp;</a></span>pcl_buf_get()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define PLNMSG</td>
+          <td class="memname">PCL_EXPORT int pcl_buf_get </td>
           <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">_m, </td>
+          <td class="paramtype"><a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em>&#160;</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>buf</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>len</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1236,69 +974,319 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00017.html">pcl/_errdefs.h</a>&gt;</code></p>
-<b>Value:</b><div class="fragment"><div class="line">  <span class="keywordflow">do</span>{ \</div>
-<div class="line">  fprintf(stderr, <span class="stringliteral">&quot;%s:%s(%d) - &quot;</span>, <a class="code" href="a00035.html#ac26653ff3959b17bc17e9d32b036493d">PCL_LOCATION_ARGS</a>); \</div>
-<div class="line">  fprintf(stderr, _m, __VA_ARGS__);                   \</div>
-<div class="line">  fprintf(stderr, <span class="stringliteral">&quot;\n&quot;</span>);                          \</div>
-<div class="line">  fflush(stderr); \</div>
-<div class="line">}<span class="keywordflow">while</span>(0)</div>
-</div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="a00017_source.html#l00319">319</a> of file <a class="el" href="a00017_source.html">_errdefs.h</a>.</p>
+<p><code>#include &lt;<a class="el" href="a00029.html">pcl/buf.h</a>&gt;</code></p>
+
+<p>&#x202A;Get a blob from a buffer. </p>
+<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;PclBufBinary mode only </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">b</td><td>&#x202A;pointer to a buffer </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">buf</td><td>&#x202A;a buffer used to store the result </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">len</td><td>&#x202A;length in bytes of <em>buf</em> if in binary mode, otherwise character length </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;number of bytes read or -1 on error </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00158_source.html#l00036">36</a> of file <a class="el" href="a00158_source.html">buf_get.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00029_source.html#l00135">tag_pcl_buf::chrsize</a>, <a class="el" href="a00029_source.html#l00147">tag_pcl_buf::data</a>, <a class="el" href="a00029_source.html#l00141">tag_pcl_buf::len</a>, <a class="el" href="a00029_source.html#l00130">tag_pcl_buf::mode</a>, <a class="el" href="a00020_source.html#l00078">PCL_EINVAL</a>, <a class="el" href="a00020_source.html#l00154">PCL_EOF</a>, <a class="el" href="a00029_source.html#l00111">PclBufBinary</a>, <a class="el" href="a00029_source.html#l00138">tag_pcl_buf::pos</a>, and <a class="el" href="a00017_source.html#l00065">SETERR</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00161_source.html#l00035">pcl_buf_getchar()</a>, <a class="el" href="a00164_source.html#l00036">pcl_buf_getint16()</a>, <a class="el" href="a00167_source.html#l00036">pcl_buf_getint32()</a>, <a class="el" href="a00170_source.html#l00041">pcl_buf_getint64()</a>, <a class="el" href="a00173_source.html#l00035">pcl_buf_getint8()</a>, and <a class="el" href="a00176_source.html#l00036">pcl_buf_getstr()</a>.</p>
 
 </div>
 </div>
-<a id="gac9da69b921e0cee478ab00eeaf1e5a33"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gac9da69b921e0cee478ab00eeaf1e5a33">&#9670;&nbsp;</a></span>PLN</h2>
+<a id="ga66f9b327e8bf94bae53cdaee2ca6e7c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga66f9b327e8bf94bae53cdaee2ca6e7c1">&#9670;&nbsp;</a></span>pcl_buf_getstr()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define PLN</td>
+          <td class="memname">PCL_EXPORT int pcl_buf_getstr </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>buf</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00017.html">pcl/_errdefs.h</a>&gt;</code></p>
-<b>Value:</b><div class="fragment"><div class="line">  <span class="keywordflow">do</span>{ \</div>
-<div class="line">  fprintf(stderr, <span class="stringliteral">&quot;%s:%s(%d)\n&quot;</span>, <a class="code" href="a00035.html#ac26653ff3959b17bc17e9d32b036493d">PCL_LOCATION_ARGS</a>); \</div>
-<div class="line">  fflush(stderr); \</div>
-<div class="line">}<span class="keywordflow">while</span>(0)</div>
-</div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="a00017_source.html#l00327">327</a> of file <a class="el" href="a00017_source.html">_errdefs.h</a>.</p>
+<p><code>#include &lt;<a class="el" href="a00029.html">pcl/buf.h</a>&gt;</code></p>
+
+<p>&#x202A;Get a string from a buffer. </p>
+<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;PclBufBinary mode only </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">b</td><td>&#x202A;pointer to a buffer </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">buf</td><td>&#x202A;a buffer used to store the result </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">len</td><td>&#x202A;length in bytes of <em>buf</em> </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;number of bytes read (including NUL if in binary mode) or -1 on error </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00176_source.html#l00036">36</a> of file <a class="el" href="a00176_source.html">buf_getstr.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00017_source.html#l00306">BADARG</a>, <a class="el" href="a00029_source.html#l00147">tag_pcl_buf::data</a>, <a class="el" href="a00029_source.html#l00130">tag_pcl_buf::mode</a>, <a class="el" href="a00158_source.html#l00036">pcl_buf_get()</a>, <a class="el" href="a00020_source.html#l00138">PCL_EBUF</a>, <a class="el" href="a00029_source.html#l00111">PclBufBinary</a>, <a class="el" href="a00029_source.html#l00138">tag_pcl_buf::pos</a>, and <a class="el" href="a00017_source.html#l00065">SETERR</a>.</p>
+
+</div>
+</div>
+<a id="ga8bcebb4f7d8cbb6c4944e3246bf048a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8bcebb4f7d8cbb6c4944e3246bf048a9">&#9670;&nbsp;</a></span>pcl_buf_getchar()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PCL_EXPORT int pcl_buf_getchar </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t *&#160;</td>
+          <td class="paramname"><em>c</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00029.html">pcl/buf.h</a>&gt;</code></p>
+
+<p>&#x202A;Get a character from a buffer. </p>
+<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;PclBufBinary mode only </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">b</td><td>&#x202A;pointer to a buffer </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">c</td><td>&#x202A;pointer to a character </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;number of bytes read or -1 on error </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00161_source.html#l00035">35</a> of file <a class="el" href="a00161_source.html">buf_getchar.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00158_source.html#l00036">pcl_buf_get()</a>.</p>
+
+</div>
+</div>
+<a id="ga95a7d3b059e883cde543111b560445cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga95a7d3b059e883cde543111b560445cc">&#9670;&nbsp;</a></span>pcl_buf_getint8()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PCL_EXPORT int pcl_buf_getint8 </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>i</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00029.html">pcl/buf.h</a>&gt;</code></p>
+
+<p>&#x202A;Get an 8-bit integer a the buffer. </p>
+<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;PclBufBinary mode only </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">b</td><td>&#x202A;pointer to a buffer </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">i</td><td>&#x202A;pointer to a 8-bit integer </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;number of bytes read or -1 on error </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00173_source.html#l00035">35</a> of file <a class="el" href="a00173_source.html">buf_getint8.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00017_source.html#l00306">BADARG</a>, <a class="el" href="a00029_source.html#l00130">tag_pcl_buf::mode</a>, <a class="el" href="a00158_source.html#l00036">pcl_buf_get()</a>, and <a class="el" href="a00029_source.html#l00111">PclBufBinary</a>.</p>
+
+</div>
+</div>
+<a id="ga09991c532270a617d837635d66f25a0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga09991c532270a617d837635d66f25a0b">&#9670;&nbsp;</a></span>pcl_buf_getint16()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PCL_EXPORT int pcl_buf_getint16 </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t *&#160;</td>
+          <td class="paramname"><em>i</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00029.html">pcl/buf.h</a>&gt;</code></p>
+
+<p>&#x202A;Get a 16-bit integer from a buffer in host-byte order. </p>
+<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;PclBufBinary mode only </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">b</td><td>&#x202A;pointer to a buffer </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">i</td><td>&#x202A;pointer to a 16-bit integer </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;number of bytes read or -1 on error </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00164_source.html#l00036">36</a> of file <a class="el" href="a00164_source.html">buf_getint16.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00017_source.html#l00306">BADARG</a>, <a class="el" href="a00029_source.html#l00130">tag_pcl_buf::mode</a>, <a class="el" href="a00158_source.html#l00036">pcl_buf_get()</a>, <a class="el" href="a00029_source.html#l00111">PclBufBinary</a>, and <a class="el" href="a00017_source.html#l00262">TRC</a>.</p>
+
+</div>
+</div>
+<a id="ga370b9458731e778b8985145738675a12"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga370b9458731e778b8985145738675a12">&#9670;&nbsp;</a></span>pcl_buf_getint32()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PCL_EXPORT int pcl_buf_getint32 </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t *&#160;</td>
+          <td class="paramname"><em>i</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00029.html">pcl/buf.h</a>&gt;</code></p>
+
+<p>&#x202A;Get a 32-bit integer from a buffer in host-byte order. </p>
+<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;PclBufBinary mode only </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">b</td><td>&#x202A;pointer to a buffer </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">i</td><td>&#x202A;pointer to a 32-bit integer </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;number of bytes read or -1 on error </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00167_source.html#l00036">36</a> of file <a class="el" href="a00167_source.html">buf_getint32.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00017_source.html#l00306">BADARG</a>, <a class="el" href="a00029_source.html#l00130">tag_pcl_buf::mode</a>, <a class="el" href="a00158_source.html#l00036">pcl_buf_get()</a>, <a class="el" href="a00029_source.html#l00111">PclBufBinary</a>, and <a class="el" href="a00017_source.html#l00262">TRC</a>.</p>
+
+</div>
+</div>
+<a id="gac7a09315d9b3610a6b3178d1511d110c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac7a09315d9b3610a6b3178d1511d110c">&#9670;&nbsp;</a></span>pcl_buf_getint64()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PCL_EXPORT int pcl_buf_getint64 </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01108.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t *&#160;</td>
+          <td class="paramname"><em>i</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00029.html">pcl/buf.h</a>&gt;</code></p>
+
+<p>&#x202A;Get a 64-bit integer from a buffer in host-byte order. </p>
+<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;PclBufBinary mode only </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">b</td><td>&#x202A;pointer to a buffer </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">i</td><td>&#x202A;pointer to a 64bit integer </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;number of bytes read or -1 on error </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00170_source.html#l00041">41</a> of file <a class="el" href="a00170_source.html">buf_getint64.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00017_source.html#l00306">BADARG</a>, <a class="el" href="a00029_source.html#l00130">tag_pcl_buf::mode</a>, <a class="el" href="a00158_source.html#l00036">pcl_buf_get()</a>, <a class="el" href="a00029_source.html#l00111">PclBufBinary</a>, and <a class="el" href="a00017_source.html#l00262">TRC</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
-<div class="ttc" id="aa01108_html_ga7859a0a1a544c581d53bd7d44ab6805d"><div class="ttname"><a href="a01108.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a></div><div class="ttdeci">#define SETERRMSG(_pclerr, _msgfmt,...)</div><div class="ttdoc">Sets the current thread's PCL error code and error message.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00087">_errdefs.h:87</a></div></div>
-<div class="ttc" id="aa01108_html_ga89b8bfbe17595305872551a1caaa5702"><div class="ttname"><a href="a01108.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a></div><div class="ttdeci">#define SETLASTERR()</div><div class="ttdoc">Sets the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00125">_errdefs.h:125</a></div></div>
-<div class="ttc" id="aa01106_html_gac9db573a481c66387f100e67ed9f1e5a"><div class="ttname"><a href="a01106.html#gac9db573a481c66387f100e67ed9f1e5a">pcl_err_fprintf</a></div><div class="ttdeci">PCL_EXPORT int pcl_err_fprintf(FILE *stream, int indent, const char *format,...)</div><div class="ttdef"><b>Definition:</b> <a href="a00356_source.html#l00035">err_fprintf.c:35</a></div></div>
-<div class="ttc" id="aa01108_html_gaa978c8c7faa5fc2f69a6641e054e519d"><div class="ttname"><a href="a01108.html#gaa978c8c7faa5fc2f69a6641e054e519d">R_TRC</a></div><div class="ttdeci">#define R_TRC(_retval)</div><div class="ttdoc">Sets the return value and adds a stack trace to the current thread's error context.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00287">_errdefs.h:287</a></div></div>
-<div class="ttc" id="aa01108_html_gad08a56aa55af3716a251ced9f780686d"><div class="ttname"><a href="a01108.html#gad08a56aa55af3716a251ced9f780686d">R_SETLASTERR</a></div><div class="ttdeci">#define R_SETLASTERR(_retval)</div><div class="ttdoc">Sets the return value and the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00235">_errdefs.h:235</a></div></div>
-<div class="ttc" id="aa01106_html_ga3646b2825d51326a06f25e597f883555"><div class="ttname"><a href="a01106.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a></div><div class="ttdeci">#define pcl_oserrno</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00133">error.h:133</a></div></div>
-<div class="ttc" id="aa01108_html_gac647173422caf7372229621b0aab81cd"><div class="ttname"><a href="a01108.html#gac647173422caf7372229621b0aab81cd">TRCMSG</a></div><div class="ttdeci">#define TRCMSG(_msgfmt,...)</div><div class="ttdoc">Adds a stack trace to the current thread's error context with an error message.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00275">_errdefs.h:275</a></div></div>
-<div class="ttc" id="aa01108_html_ga5d0d174193729a18bb8a57d35a255229"><div class="ttname"><a href="a01108.html#ga5d0d174193729a18bb8a57d35a255229">FREEZE_ERR</a></div><div class="ttdeci">#define FREEZE_ERR(code_fragment)</div><div class="ttdoc">Freeze the current thread's error context while executing code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00053">_errdefs.h:53</a></div></div>
-<div class="ttc" id="aa00035_html_ac26653ff3959b17bc17e9d32b036493d"><div class="ttname"><a href="a00035.html#ac26653ff3959b17bc17e9d32b036493d">PCL_LOCATION_ARGS</a></div><div class="ttdeci">#define PCL_LOCATION_ARGS</div><div class="ttdoc">A PCL location is the file, func and line where a call occurred.</div><div class="ttdef"><b>Definition:</b> <a href="a00035_source.html#l00088">defs.h:88</a></div></div>
-<div class="ttc" id="aa01108_html_gab7c6f91e3dd42d314f529e2177930dc3"><div class="ttname"><a href="a01108.html#gab7c6f91e3dd42d314f529e2177930dc3">R_TRCMSG</a></div><div class="ttdeci">#define R_TRCMSG(_retval, _msgfmt,...)</div><div class="ttdoc">Sets the return value and adds a stack trace to the current thread's error context with an error mess...</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00302">_errdefs.h:302</a></div></div>
-<div class="ttc" id="aa01108_html_ga2ed57a6d91a13ee617ab5b7143338070"><div class="ttname"><a href="a01108.html#ga2ed57a6d91a13ee617ab5b7143338070">R_SETOSERR</a></div><div class="ttdeci">#define R_SETOSERR(_retval, _oserr)</div><div class="ttdoc">Sets the return value and the current thread's OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00205">_errdefs.h:205</a></div></div>
-<div class="ttc" id="aa01108_html_ga82adf6365b61d9a32021e559d9c31497"><div class="ttname"><a href="a01108.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a></div><div class="ttdeci">#define SETERR(_pclerr)</div><div class="ttdoc">Sets the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00065">_errdefs.h:65</a></div></div>
-<div class="ttc" id="aa01108_html_ga2098ca75aa487e29880f176b7c717e98"><div class="ttname"><a href="a01108.html#ga2098ca75aa487e29880f176b7c717e98">SETOSERRMSG</a></div><div class="ttdeci">#define SETOSERRMSG(_oserr, _msgfmt,...)</div><div class="ttdoc">Sets the current thread's OS error code, error message and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00119">_errdefs.h:119</a></div></div>
-<div class="ttc" id="aa01108_html_gab3d2384717efb5bfed5705cddc35b614"><div class="ttname"><a href="a01108.html#gab3d2384717efb5bfed5705cddc35b614">R_SETERR_OS</a></div><div class="ttdeci">#define R_SETERR_OS(_retval, _pclerr, _oserr)</div><div class="ttdoc">Sets the return value and the current thread's PCL error code and OS error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00159">_errdefs.h:159</a></div></div>
-<div class="ttc" id="aa01108_html_ga275b0cc5367d35bf8d2873fe5e15878b"><div class="ttname"><a href="a01108.html#ga275b0cc5367d35bf8d2873fe5e15878b">R_SETERRMSG</a></div><div class="ttdeci">#define R_SETERRMSG(_retval, _pclerr, _msgfmt,...)</div><div class="ttdoc">Sets the return value and the current thread's PCL error code and error message.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00174">_errdefs.h:174</a></div></div>
-<div class="ttc" id="aa01108_html_ga954df7afdee633aed0beba08add17f8c"><div class="ttname"><a href="a01108.html#ga954df7afdee633aed0beba08add17f8c">SETERR_OS</a></div><div class="ttdeci">#define SETERR_OS(_pclerr, _oserr)</div><div class="ttdoc">Sets the current thread's PCL error code and OS error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00079">_errdefs.h:79</a></div></div>
-<div class="ttc" id="aa01108_html_gaac6caa6459e4fae267aba35a8a24783b"><div class="ttname"><a href="a01108.html#gaac6caa6459e4fae267aba35a8a24783b">SETERRMSG_OS</a></div><div class="ttdeci">#define SETERRMSG_OS(_pclerr, _oserr, _msgfmt,...)</div><div class="ttdoc">Sets the current thread's PCL error code, OS error code and error message.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00103">_errdefs.h:103</a></div></div>
-<div class="ttc" id="aa01108_html_gaadc76b147014f17dcc08fa3c2f110a25"><div class="ttname"><a href="a01108.html#gaadc76b147014f17dcc08fa3c2f110a25">SETOSERR</a></div><div class="ttdeci">#define SETOSERR(_oserr)</div><div class="ttdoc">Sets the current thread's OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00111">_errdefs.h:111</a></div></div>
-<div class="ttc" id="aa01108_html_ga9ad3ef2339f58a873bc7bace5ad9c9df"><div class="ttname"><a href="a01108.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a></div><div class="ttdeci">#define TRC()</div><div class="ttdoc">Adds a stack trace to the current thread's error context.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00262">_errdefs.h:262</a></div></div>
-<div class="ttc" id="aa01108_html_gae8eaed12aa57a2870ad8e45cc2306318"><div class="ttname"><a href="a01108.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a></div><div class="ttdeci">#define R_SETERR(_retval, _pclerr)</div><div class="ttdoc">Sets the return value and the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00145">_errdefs.h:145</a></div></div>
-<div class="ttc" id="aa01108_html_gaa3ee6ecf696e2a52777f47b0cba755cc"><div class="ttname"><a href="a01108.html#gaa3ee6ecf696e2a52777f47b0cba755cc">R_SETLASTERRMSG</a></div><div class="ttdeci">#define R_SETLASTERRMSG(_retval, _msgfmt,...)</div><div class="ttdoc">Sets the return value and the current thread's last OS error code, error message and maps code to PCL...</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00250">_errdefs.h:250</a></div></div>
-<div class="ttc" id="aa01108_html_ga3a42f7583ad2457610b11adb83db5925"><div class="ttname"><a href="a01108.html#ga3a42f7583ad2457610b11adb83db5925">R_SETOSERRMSG</a></div><div class="ttdeci">#define R_SETOSERRMSG(_retval, _oserr, _msgfmt,...)</div><div class="ttdoc">Sets the return value and the current thread's OS error code, error message and maps code to PCL erro...</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00221">_errdefs.h:221</a></div></div>
-<div class="ttc" id="aa01108_html_ga405f0945f1e605ded867422c553c78cf"><div class="ttname"><a href="a01108.html#ga405f0945f1e605ded867422c553c78cf">SETLASTERRMSG</a></div><div class="ttdeci">#define SETLASTERRMSG(_msgfmt,...)</div><div class="ttdoc">Sets the current thread's last OS error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00132">_errdefs.h:132</a></div></div>
-<div class="ttc" id="aa01108_html_ga5da70a3315463f36f3b4c4daa494d9b2"><div class="ttname"><a href="a01108.html#ga5da70a3315463f36f3b4c4daa494d9b2">R_SETERRMSG_OS</a></div><div class="ttdeci">#define R_SETERRMSG_OS(_retval, _pclerr, _oserr, _msgfmt,...)</div><div class="ttdoc">Sets the return value and the current thread's PCL error code, OS error code and error message.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00191">_errdefs.h:191</a></div></div>
-<div class="ttc" id="aa01107_html_gae0cd5c5a7fae36cd480176bda17e77ca"><div class="ttname"><a href="a01107.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a></div><div class="ttdeci">#define PCL_EINVAL</div><div class="ttdoc">Invalid argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00078">_errno.h:78</a></div></div>
-<div class="ttc" id="aa00035_html_a1df9ab18a5e5dd2e6d6d3977c35e976c"><div class="ttname"><a href="a00035.html#a1df9ab18a5e5dd2e6d6d3977c35e976c">_P</a></div><div class="ttdeci">#define _P(quote)</div><div class="ttdef"><b>Definition:</b> <a href="a00035_source.html#l00078">defs.h:78</a></div></div>
-<div class="ttc" id="aa01113_html_gaa0e860f8c527c6cdcd47c80ed1f0b081"><div class="ttname"><a href="a01113.html#gaa0e860f8c527c6cdcd47c80ed1f0b081">pcl_fopen</a></div><div class="ttdeci">PCL_EXPORT FILE * pcl_fopen(const pchar_t *path, const pchar_t *mode)</div><div class="ttdoc">Opens a FILE stream for reading and/or writing.</div><div class="ttdef"><b>Definition:</b> <a href="a00563_source.html#l00037">fopen.c:37</a></div></div>
-<div class="ttc" id="aa01107_html_gaa07a6ea59d3098bdd4a7c95e24bca530"><div class="ttname"><a href="a01107.html#gaa07a6ea59d3098bdd4a7c95e24bca530">PCL_EBUF</a></div><div class="ttdeci">#define PCL_EBUF</div><div class="ttdoc">Buffer too small.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00138">_errno.h:138</a></div></div>
+<div class="ttc" id="aa01108_html_ggafcd56f00f1c963d6f6f844f1df84f0f9a72a3443f734b7b04084de1140c61bbdc"><div class="ttname"><a href="a01108.html#ggafcd56f00f1c963d6f6f844f1df84f0f9a72a3443f734b7b04084de1140c61bbdc">PclBufTextW</a></div><div class="ttdeci">@ PclBufTextW</div><div class="ttdoc">Wide-text buffer mode.</div><div class="ttdef"><b>Definition:</b> <a href="a00029_source.html#l00117">buf.h:117</a></div></div>
+<div class="ttc" id="aa01108_html_ga48e936cee3defdf5fcb6e9904aff0d75"><div class="ttname"><a href="a01108.html#ga48e936cee3defdf5fcb6e9904aff0d75">pcl_buf_putchar</a></div><div class="ttdeci">PCL_EXPORT int pcl_buf_putchar(pcl_buf_t *b, uint32_t c)</div><div class="ttdoc">Put a character into a buffer.</div><div class="ttdef"><b>Definition:</b> <a href="a00188_source.html#l00035">buf_putchar.c:35</a></div></div>
+<div class="ttc" id="aa01128_html"><div class="ttname"><a href="a01128.html">tag_pcl_buf</a></div><div class="ttdef"><b>Definition:</b> <a href="a00029_source.html#l00127">buf.h:128</a></div></div>
+<div class="ttc" id="aa01128_html_a91a70b77df95bd8b0830b49a094c2acb"><div class="ttname"><a href="a01128.html#a91a70b77df95bd8b0830b49a094c2acb">tag_pcl_buf::data</a></div><div class="ttdeci">char * data</div><div class="ttdoc">buffer bytes, always chrsize * size wide.</div><div class="ttdef"><b>Definition:</b> <a href="a00029_source.html#l00147">buf.h:147</a></div></div>
+<div class="ttc" id="aa01108_html_ggafcd56f00f1c963d6f6f844f1df84f0f9aabe00de48aebc854e4ff2254b21988dc"><div class="ttname"><a href="a01108.html#ggafcd56f00f1c963d6f6f844f1df84f0f9aabe00de48aebc854e4ff2254b21988dc">PclBufBinary</a></div><div class="ttdeci">@ PclBufBinary</div><div class="ttdoc">Binary buffer mode.</div><div class="ttdef"><b>Definition:</b> <a href="a00029_source.html#l00111">buf.h:111</a></div></div>
+<div class="ttc" id="aa01108_html_gaf5543b8db978f1e0726bad5725b09e38"><div class="ttname"><a href="a01108.html#gaf5543b8db978f1e0726bad5725b09e38">pcl_buf_putstr</a></div><div class="ttdeci">PCL_EXPORT int pcl_buf_putstr(pcl_buf_t *b, const void *s)</div><div class="ttdoc">Put a string into a buffer.</div><div class="ttdef"><b>Definition:</b> <a href="a00206_source.html#l00036">buf_putstr.c:36</a></div></div>
+<div class="ttc" id="aa01108_html_ga9bf250160d7b553a52360f6f2cf380b8"><div class="ttname"><a href="a01108.html#ga9bf250160d7b553a52360f6f2cf380b8">pcl_buf_putint32</a></div><div class="ttdeci">PCL_EXPORT int pcl_buf_putint32(pcl_buf_t *b, uint32_t i)</div><div class="ttdoc">Puts a 32-bit integer into a buffer in network-byte order.</div><div class="ttdef"><b>Definition:</b> <a href="a00197_source.html#l00036">buf_putint32.c:36</a></div></div>
+<div class="ttc" id="aa01108_html_ggafcd56f00f1c963d6f6f844f1df84f0f9a5dec0673e40b9d374a62eaef1d17e5a1"><div class="ttname"><a href="a01108.html#ggafcd56f00f1c963d6f6f844f1df84f0f9a5dec0673e40b9d374a62eaef1d17e5a1">PclBufText</a></div><div class="ttdeci">@ PclBufText</div><div class="ttdoc">Text buffer mode.</div><div class="ttdef"><b>Definition:</b> <a href="a00029_source.html#l00114">buf.h:114</a></div></div>
+<div class="ttc" id="aa01108_html_gaa753cac8202932d5aefa84a136fe3d45"><div class="ttname"><a href="a01108.html#gaa753cac8202932d5aefa84a136fe3d45">pcl_buf_put</a></div><div class="ttdeci">PCL_EXPORT int pcl_buf_put(pcl_buf_t *b, const void *data, int len)</div><div class="ttdoc">Put a blob into a buffer.</div><div class="ttdef"><b>Definition:</b> <a href="a00185_source.html#l00036">buf_put.c:36</a></div></div>
+<div class="ttc" id="aa01108_html_gadd174ca0fea61e0f3be87c9d12b5e2f3"><div class="ttname"><a href="a01108.html#gadd174ca0fea61e0f3be87c9d12b5e2f3">pcl_buf_init</a></div><div class="ttdeci">PCL_EXPORT pcl_buf_t * pcl_buf_init(pcl_buf_t *b, size_t size, enum pcl_buf_mode mode)</div><div class="ttdoc">Initializes a buffer object.</div><div class="ttdef"><b>Definition:</b> <a href="a00182_source.html#l00037">buf_init.c:37</a></div></div>
+<div class="ttc" id="aa01128_html_afed088663f8704004425cdae2120b9b3"><div class="ttname"><a href="a01128.html#afed088663f8704004425cdae2120b9b3">tag_pcl_buf::len</a></div><div class="ttdeci">int len</div><div class="ttdoc">number of characters in the buffer</div><div class="ttdef"><b>Definition:</b> <a href="a00029_source.html#l00141">buf.h:141</a></div></div>
+<div class="ttc" id="aa01108_html_ga60cc80b080cfda8e6f958fe23f44f634"><div class="ttname"><a href="a01108.html#ga60cc80b080cfda8e6f958fe23f44f634">pcl_buf_clear</a></div><div class="ttdeci">PCL_EXPORT pcl_buf_t * pcl_buf_clear(pcl_buf_t *b)</div><div class="ttdoc">Clear a buffer.</div><div class="ttdef"><b>Definition:</b> <a href="a00149_source.html#l00036">buf_clear.c:36</a></div></div>
+<div class="ttc" id="aa01108_html_ga24846b7d3984813e0d3755f6c0f1ea44"><div class="ttname"><a href="a01108.html#ga24846b7d3984813e0d3755f6c0f1ea44">pcl_buf_free</a></div><div class="ttdeci">PCL_EXPORT pcl_buf_t * pcl_buf_free(pcl_buf_t *b)</div><div class="ttdoc">Free all buffer resources and the buffer object itself.</div><div class="ttdef"><b>Definition:</b> <a href="a00155_source.html#l00036">buf_free.c:36</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

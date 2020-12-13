@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['kib_2570',['KiB',['../a00851.html#ab31885b38f74d67aeb15713693437591',1,'strfbytes.c']]]
+  ['json_5fthrow_2594',['JSON_THROW',['../a00572.html#ab7b7bb456a60280dffb95071148e54f1',1,'_json.h']]]
 ];

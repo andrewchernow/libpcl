@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/io/fdopen.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/io/printf.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">fdopen.c</div>  </div>
+<div class="title">printf.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00554.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,91 +101,43 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;../file/_file.h&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00065.html">pcl/io.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/error.h</a>&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">  #include &lt;<a class="code" href="a00065.html">io.h</a>&gt;</span> <span class="comment">// _open_osfhandle</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;FILE *</div>
-<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="a01113.html#ga41052c5894a0beed897fd999c69262a9">   41</a></span>&#160;<a class="code" href="a01113.html#ga41052c5894a0beed897fd999c69262a9">pcl_fdopen</a>(<a class="code" href="a01214.html">pcl_file_t</a> *file)</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  FILE *stream;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">char</span> *mode;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordflow">if</span>(!file)</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  {</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="a01108.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a>(<a class="code" href="a01107.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  }</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="keywordflow">if</span>((file-&gt;<a class="code" href="a01214.html#a773b39d480759f67926cb18ae2219281">flags</a> &amp; <a class="code" href="a00056.html#adb74d22cf7d668ffbb5336e4a4da66ec">PCL_FF_RDWR</a>) == <a class="code" href="a00056.html#adb74d22cf7d668ffbb5336e4a4da66ec">PCL_FF_RDWR</a>)</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    mode = <span class="stringliteral">&quot;w+&quot;</span>;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="keywordflow">else</span> <span class="keywordflow">if</span>(file-&gt;<a class="code" href="a01214.html#a773b39d480759f67926cb18ae2219281">flags</a> &amp; <a class="code" href="a00056.html#a6a07e4d4ac7139bd3ce0c0d99486438d">PCL_FF_WRITE</a>)</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    mode = <span class="stringliteral">&quot;w&quot;</span>;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    mode = <span class="stringliteral">&quot;r&quot;</span>;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;../string/_string.h&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#undef xprintf</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#undef vfxprintf</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#ifdef XWIDE</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">  #define vfxprintf pcl_vfwprintf</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">  #define xprintf pcl_wprintf</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="a00554.html#a22ba11b26d207dfd1e473d9692cfe919">   41</a></span>&#160;<span class="preprocessor">  #define vfxprintf pcl_vfprintf</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="a00554.html#ae2caab0fdd2fdec986ec56d8fb64049c">   42</a></span>&#160;<span class="preprocessor">  #define xprintf pcl_printf</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="a00554.html#a331b8cde669d3dc38dd69d6b93dc4ff7">   46</a></span>&#160;<a class="code" href="a00554.html#ae2caab0fdd2fdec986ec56d8fb64049c">xprintf</a>(<span class="keyword">const</span> <a class="code" href="a00833.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *format, ...)</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;{</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keywordflow">if</span>(!format)</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">return</span> -<a class="code" href="a01112.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  va_list ap;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  va_start(ap, format);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <span class="keywordtype">int</span> r = <a class="code" href="a00554.html#a22ba11b26d207dfd1e473d9692cfe919">vfxprintf</a>(stdout, format, ap);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  va_end(ap);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordflow">return</span> r;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;}</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  <span class="comment">/* convert HANDLE to an &#39;fd&#39; */</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  <span class="keywordtype">int</span> fd = _open_osfhandle((intptr_t)file-&gt;<a class="code" href="a01214.html#aea2da8bf318182f7770734b14f9202b2">fd</a>, 0);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  <span class="keywordflow">if</span>(fd == -1)</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01108.html#ga2ed57a6d91a13ee617ab5b7143338070">R_SETOSERR</a>(NULL, <a class="code" href="a00413.html#a4c357e9c33e3ffa2fab31c76adc1eb03">pcl_err_crt2os</a>(errno));</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <span class="comment">/* convert an fd to a &#39;FILE*&#39;, stream */</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  <span class="keywordflow">if</span>(!(stream = _fdopen(fd, mode)))</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  {</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    HANDLE h = file-&gt;<a class="code" href="a01214.html#aea2da8bf318182f7770734b14f9202b2">fd</a>;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <a class="code" href="a01108.html#ga5d0d174193729a18bb8a57d35a255229">FREEZE_ERR</a></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    (</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      <span class="comment">/* CRT _close() will pass our handle to CloseHandle().  Need to</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="comment">       * increase its ref count so we can safely cleanup the CRT fd</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="comment">       * w/o closing file-&gt;fd (which is the file&#39;s win32 HANDLE).</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment">       */</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;      DuplicateHandle(GetCurrentProcess(), h, GetCurrentProcess(), &amp;file-&gt;<a class="code" href="a01214.html#aea2da8bf318182f7770734b14f9202b2">fd</a>,</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        0, <span class="keyword">false</span>, DUPLICATE_SAME_ACCESS);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;      _close(fd);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    );</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01108.html#ga2ed57a6d91a13ee617ab5b7143338070">R_SETOSERR</a>(NULL, <a class="code" href="a00413.html#a4c357e9c33e3ffa2fab31c76adc1eb03">pcl_err_crt2os</a>(errno));</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  }</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  <span class="keywordflow">if</span>(!(stream = fdopen(file-&gt;<a class="code" href="a01214.html#aea2da8bf318182f7770734b14f9202b2">fd</a>, mode)))</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;  {</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <a class="code" href="a01108.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;  }</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;  <span class="comment">/* stole the handle, nuke the file */</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  file-&gt;<a class="code" href="a01214.html#aea2da8bf318182f7770734b14f9202b2">fd</a> = <a class="code" href="a00035.html#a68a5c06e5c119af1fbb32970a866cb2c">PCL_BADFD</a>;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;  <a class="code" href="a00056.html#a4e888a5a186ccc8fff3176665d01720a">pcl_file_close</a>(file);</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  <span class="keywordflow">return</span> stream;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;}</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#ifndef XWIDE</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="a00554.html#af3082199ea3ac518b87acdac953cf385">   60</a></span>&#160;<span class="preprocessor">  #define XWIDE</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">  #include &quot;<a class="code" href="a00554.html">printf.c</a>&quot;</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01108_html_ga89b8bfbe17595305872551a1caaa5702"><div class="ttname"><a href="a01108.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a></div><div class="ttdeci">#define SETLASTERR()</div><div class="ttdoc">Sets the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00125">_errdefs.h:125</a></div></div>
-<div class="ttc" id="aa00035_html_a68a5c06e5c119af1fbb32970a866cb2c"><div class="ttname"><a href="a00035.html#a68a5c06e5c119af1fbb32970a866cb2c">PCL_BADFD</a></div><div class="ttdeci">#define PCL_BADFD</div><div class="ttdef"><b>Definition:</b> <a href="a00035_source.html#l00133">defs.h:133</a></div></div>
-<div class="ttc" id="aa01214_html_a773b39d480759f67926cb18ae2219281"><div class="ttname"><a href="a01214.html#a773b39d480759f67926cb18ae2219281">tag_pcl_file::flags</a></div><div class="ttdeci">uint32_t flags</div><div class="ttdef"><b>Definition:</b> <a href="a00437_source.html#l00063">_file.h:63</a></div></div>
-<div class="ttc" id="aa00413_html_a4c357e9c33e3ffa2fab31c76adc1eb03"><div class="ttname"><a href="a00413.html#a4c357e9c33e3ffa2fab31c76adc1eb03">pcl_err_crt2os</a></div><div class="ttdeci">unsigned long pcl_err_crt2os(int err)</div><div class="ttdef"><b>Definition:</b> <a href="a00413_source.html#l00043">win32_err_crt2os.c:43</a></div></div>
-<div class="ttc" id="aa01113_html_ga41052c5894a0beed897fd999c69262a9"><div class="ttname"><a href="a01113.html#ga41052c5894a0beed897fd999c69262a9">pcl_fdopen</a></div><div class="ttdeci">FILE * pcl_fdopen(pcl_file_t *file)</div><div class="ttdoc">Open a file handle as a stream.</div><div class="ttdef"><b>Definition:</b> <a href="a00554_source.html#l00041">fdopen.c:41</a></div></div>
-<div class="ttc" id="aa01108_html_ga5d0d174193729a18bb8a57d35a255229"><div class="ttname"><a href="a01108.html#ga5d0d174193729a18bb8a57d35a255229">FREEZE_ERR</a></div><div class="ttdeci">#define FREEZE_ERR(code_fragment)</div><div class="ttdoc">Freeze the current thread's error context while executing code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00053">_errdefs.h:53</a></div></div>
-<div class="ttc" id="aa00056_html_adb74d22cf7d668ffbb5336e4a4da66ec"><div class="ttname"><a href="a00056.html#adb74d22cf7d668ffbb5336e4a4da66ec">PCL_FF_RDWR</a></div><div class="ttdeci">#define PCL_FF_RDWR</div><div class="ttdef"><b>Definition:</b> <a href="a00056_source.html#l00086">file.h:86</a></div></div>
-<div class="ttc" id="aa01108_html_ga2ed57a6d91a13ee617ab5b7143338070"><div class="ttname"><a href="a01108.html#ga2ed57a6d91a13ee617ab5b7143338070">R_SETOSERR</a></div><div class="ttdeci">#define R_SETOSERR(_retval, _oserr)</div><div class="ttdoc">Sets the return value and the current thread's OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00205">_errdefs.h:205</a></div></div>
-<div class="ttc" id="aa01108_html_ga82adf6365b61d9a32021e559d9c31497"><div class="ttname"><a href="a01108.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a></div><div class="ttdeci">#define SETERR(_pclerr)</div><div class="ttdoc">Sets the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00065">_errdefs.h:65</a></div></div>
-<div class="ttc" id="aa00056_html_a4e888a5a186ccc8fff3176665d01720a"><div class="ttname"><a href="a00056.html#a4e888a5a186ccc8fff3176665d01720a">pcl_file_close</a></div><div class="ttdeci">PCL_EXPORT void pcl_file_close(pcl_file_t *file)</div><div class="ttdef"><b>Definition:</b> <a href="a00446_source.html#l00039">file_close.c:39</a></div></div>
-<div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">error.h</a></div></div>
-<div class="ttc" id="aa01214_html"><div class="ttname"><a href="a01214.html">tag_pcl_file</a></div><div class="ttdef"><b>Definition:</b> <a href="a00437_source.html#l00061">_file.h:62</a></div></div>
-<div class="ttc" id="aa01107_html_gae0cd5c5a7fae36cd480176bda17e77ca"><div class="ttname"><a href="a01107.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a></div><div class="ttdeci">#define PCL_EINVAL</div><div class="ttdoc">Invalid argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00078">_errno.h:78</a></div></div>
-<div class="ttc" id="aa00065_html"><div class="ttname"><a href="a00065.html">io.h</a></div></div>
-<div class="ttc" id="aa00056_html_a6a07e4d4ac7139bd3ce0c0d99486438d"><div class="ttname"><a href="a00056.html#a6a07e4d4ac7139bd3ce0c0d99486438d">PCL_FF_WRITE</a></div><div class="ttdeci">#define PCL_FF_WRITE</div><div class="ttdef"><b>Definition:</b> <a href="a00056_source.html#l00084">file.h:84</a></div></div>
-<div class="ttc" id="aa01214_html_aea2da8bf318182f7770734b14f9202b2"><div class="ttname"><a href="a01214.html#aea2da8bf318182f7770734b14f9202b2">tag_pcl_file::fd</a></div><div class="ttdeci">pcl_fd_t fd</div><div class="ttdef"><b>Definition:</b> <a href="a00437_source.html#l00064">_file.h:64</a></div></div>
+<div class="ttc" id="aa01112_html_gae0cd5c5a7fae36cd480176bda17e77ca"><div class="ttname"><a href="a01112.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a></div><div class="ttdeci">#define PCL_EINVAL</div><div class="ttdoc">Invalid argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00078">_errno.h:78</a></div></div>
+<div class="ttc" id="aa00833_html_a234f7ec71c9c19ed532c4bf11a9b9b8e"><div class="ttname"><a href="a00833.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a></div><div class="ttdeci">#define xchar</div><div class="ttdef"><b>Definition:</b> <a href="a00833_source.html#l00070">_string.h:70</a></div></div>
+<div class="ttc" id="aa00554_html"><div class="ttname"><a href="a00554.html">printf.c</a></div></div>
+<div class="ttc" id="aa00554_html_ae2caab0fdd2fdec986ec56d8fb64049c"><div class="ttname"><a href="a00554.html#ae2caab0fdd2fdec986ec56d8fb64049c">xprintf</a></div><div class="ttdeci">#define xprintf</div><div class="ttdef"><b>Definition:</b> <a href="a00554_source.html#l00042">printf.c:42</a></div></div>
+<div class="ttc" id="aa00554_html_a22ba11b26d207dfd1e473d9692cfe919"><div class="ttname"><a href="a00554.html#a22ba11b26d207dfd1e473d9692cfe919">vfxprintf</a></div><div class="ttdeci">#define vfxprintf</div><div class="ttdef"><b>Definition:</b> <a href="a00554_source.html#l00041">printf.c:41</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

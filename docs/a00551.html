@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/io/asprintf.c File Reference</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/io/popen.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,160 +67,26 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">asprintf.c File Reference</div>  </div>
+<div class="title">popen.c File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="a00827_source.html">../string/_string.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;<a class="el" href="a00077_source.html">pcl/process.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="a00053_source.html">pcl/file.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="a00044_source.html">pcl/error.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="a00062_source.html">pcl/io.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="a00023_source.html">pcl/alloc.h</a>&gt;</code><br />
-<code>#include &quot;<a class="el" href="a00551_source.html">asprintf.c</a>&quot;</code><br />
+<code>#include &lt;ctype.h&gt;</code><br />
 </div>
 <p><a href="a00551_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a7eba5d85b6798b8f4931b132d6f6fb9d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00551.html#a7eba5d85b6798b8f4931b132d6f6fb9d">vaxprintf</a>&#160;&#160;&#160;<a class="el" href="a01113.html#gabd252f8aab48f550e7018f8b0378b798">pcl_vasprintf</a></td></tr>
-<tr class="separator:a7eba5d85b6798b8f4931b132d6f6fb9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a995bd6432e17c8b95e8649ed3b33670e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00551.html#a995bd6432e17c8b95e8649ed3b33670e">axprintf</a>&#160;&#160;&#160;<a class="el" href="a01113.html#ga35c70f23bfbefc79939a31bd1410c5bc">pcl_asprintf</a></td></tr>
-<tr class="separator:a995bd6432e17c8b95e8649ed3b33670e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af3082199ea3ac518b87acdac953cf385"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00551.html#af3082199ea3ac518b87acdac953cf385">XWIDE</a></td></tr>
-<tr class="separator:af3082199ea3ac518b87acdac953cf385"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a5962e7350807a4d5e27e1a3d1174dc64"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00551.html#a5962e7350807a4d5e27e1a3d1174dc64">vaxprintf</a> (<a class="el" href="a00827.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> **out, const <a class="el" href="a00827.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *format, va_list ap)</td></tr>
-<tr class="separator:a5962e7350807a4d5e27e1a3d1174dc64"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aed783474cae6bf1fb16e5cbc36aaff1a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00551.html#aed783474cae6bf1fb16e5cbc36aaff1a">axprintf</a> (<a class="el" href="a00827.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> **out, const <a class="el" href="a00827.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *format,...)</td></tr>
-<tr class="separator:aed783474cae6bf1fb16e5cbc36aaff1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga458cd341e1cb2e0fa130b150ff41dece"><td class="memItemLeft" align="right" valign="top">FILE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01118.html#ga458cd341e1cb2e0fa130b150ff41dece">pcl_popen</a> (const <a class="el" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *command,...)</td></tr>
+<tr class="memdesc:ga458cd341e1cb2e0fa130b150ff41dece"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Pipe a stream to or from a process.  <a href="a01118.html#ga458cd341e1cb2e0fa130b150ff41dece">More...</a><br /></td></tr>
+<tr class="separator:ga458cd341e1cb2e0fa130b150ff41dece"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a7eba5d85b6798b8f4931b132d6f6fb9d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7eba5d85b6798b8f4931b132d6f6fb9d">&#9670;&nbsp;</a></span>vaxprintf</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define vaxprintf&#160;&#160;&#160;<a class="el" href="a01113.html#gabd252f8aab48f550e7018f8b0378b798">pcl_vasprintf</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00551_source.html#l00041">41</a> of file <a class="el" href="a00551_source.html">asprintf.c</a>.</p>
-
-</div>
-</div>
-<a id="a995bd6432e17c8b95e8649ed3b33670e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a995bd6432e17c8b95e8649ed3b33670e">&#9670;&nbsp;</a></span>axprintf</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define axprintf&#160;&#160;&#160;<a class="el" href="a01113.html#ga35c70f23bfbefc79939a31bd1410c5bc">pcl_asprintf</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00551_source.html#l00042">42</a> of file <a class="el" href="a00551_source.html">asprintf.c</a>.</p>
-
-</div>
-</div>
-<a id="af3082199ea3ac518b87acdac953cf385"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af3082199ea3ac518b87acdac953cf385">&#9670;&nbsp;</a></span>XWIDE</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define XWIDE</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00551_source.html#l00086">86</a> of file <a class="el" href="a00551_source.html">asprintf.c</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a5962e7350807a4d5e27e1a3d1174dc64"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5962e7350807a4d5e27e1a3d1174dc64">&#9670;&nbsp;</a></span>vaxprintf()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int vaxprintf </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00827.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> **&#160;</td>
-          <td class="paramname"><em>out</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="a00827.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *&#160;</td>
-          <td class="paramname"><em>format</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">va_list&#160;</td>
-          <td class="paramname"><em>ap</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00551_source.html#l00046">46</a> of file <a class="el" href="a00551_source.html">asprintf.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a00020_source.html#l00078">PCL_EINVAL</a>, <a class="el" href="a01100.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free()</a>, <a class="el" href="a01100.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc()</a>, <a class="el" href="a00584_source.html#l00043">vxprintf</a>, and <a class="el" href="a00827_source.html#l00070">xchar</a>.</p>
-
-</div>
-</div>
-<a id="aed783474cae6bf1fb16e5cbc36aaff1a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aed783474cae6bf1fb16e5cbc36aaff1a">&#9670;&nbsp;</a></span>axprintf()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int axprintf </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00827.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> **&#160;</td>
-          <td class="paramname"><em>out</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="a00827.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *&#160;</td>
-          <td class="paramname"><em>format</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="a00551_source.html#l00072">72</a> of file <a class="el" href="a00551_source.html">asprintf.c</a>.</p>
-
-<p class="reference">References <a class="el" href="a00020_source.html#l00078">PCL_EINVAL</a>, and <a class="el" href="a00551_source.html#l00041">vaxprintf</a>.</p>
-
-</div>
-</div>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/socket/accept.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/process/win32_proc_path.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,17 +62,17 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_9ad1227260954e346101f3844f0abb3d.html">&#x202A;socket</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_c0cd66d8ddae4fc5bc5dc2f24e29763b.html">&#x202A;process</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">accept.c</div>  </div>
+<div class="title">win32_proc_path.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00677.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (PCL)</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2003, 2005-2014, 2017-2020 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,99 +101,128 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00674.html">_socket.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/error.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00089.html">string.h</a>&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor"># include &lt;ws2tcpip.h&gt;</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<a class="code" href="a01222.html">pcl_socket_t</a> *</div>
-<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="a00677.html#aa894397117467f0fa2608e2373f71bfc">   41</a></span>&#160;<a class="code" href="a00677.html#aa894397117467f0fa2608e2373f71bfc">pcl_accept</a>(<a class="code" href="a01222.html">pcl_socket_t</a> *sock)</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordtype">int</span> val = 0;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <a class="code" href="a01222.html">pcl_socket_t</a> *cli = <a class="code" href="a00674.html#a0da3c043a0f5ad72d611329132d08619">ipcl_socket_alloc</a>();</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#if defined(PCL_LINUX) &amp;&amp; defined(SOCK_NONBLOCK)</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="comment">/* Saves a fcntl call to accept the socket and set it to nonblock</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment">   * in a single call, only available on linux.</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment">   */</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  val = sock-&gt;<a class="code" href="a01222.html#ac8bf36fe0577cba66bccda3a6f7e80a4">flags</a> &amp; <a class="code" href="a00080.html#a0b9ee24d653ed3d56acdd7deea798b3c">PCL_SOCK_NONBLOCK</a> ? SOCK_NONBLOCK : 0;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  cli-&gt;<a class="code" href="a01222.html#a8a04492110d683cd4b6119648e1584d6">fd</a> = accept4(sock-&gt;<a class="code" href="a01222.html#a8a04492110d683cd4b6119648e1584d6">fd</a>, (<span class="keyword">struct</span> sockaddr *)cli-&gt;<a class="code" href="a01222.html#a4863f5b8767cd19fe6ea4db75456e5df">addr</a>, (socklen_t *)&amp;cli-&gt;<a class="code" href="a01222.html#a98d04694e72bc10426574eeec5bff1a1">sa_len</a>, val);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="keywordflow">if</span>(cli-&gt;<a class="code" href="a01222.html#a8a04492110d683cd4b6119648e1584d6">fd</a> != <a class="code" href="a00080.html#a26769957ec1a2beaf223f33b66ee64ab">INVALID_SOCKET</a> &amp;&amp; val == SOCK_NONBLOCK)</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    cli-&gt;<a class="code" href="a01222.html#ac8bf36fe0577cba66bccda3a6f7e80a4">flags</a> |= <a class="code" href="a00080.html#a0b9ee24d653ed3d56acdd7deea798b3c">PCL_SOCK_NONBLOCK</a>;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  cli-&gt;<a class="code" href="a01222.html#a8a04492110d683cd4b6119648e1584d6">fd</a> = accept(sock-&gt;<a class="code" href="a01222.html#a8a04492110d683cd4b6119648e1584d6">fd</a>, (<span class="keyword">struct</span> sockaddr *) cli-&gt;<a class="code" href="a01222.html#a4863f5b8767cd19fe6ea4db75456e5df">addr</a>, (socklen_t *) &amp;cli-&gt;<a class="code" href="a01222.html#a98d04694e72bc10426574eeec5bff1a1">sa_len</a>);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  <span class="keywordflow">if</span>(cli-&gt;<a class="code" href="a01222.html#a8a04492110d683cd4b6119648e1584d6">fd</a> == <a class="code" href="a00080.html#a26769957ec1a2beaf223f33b66ee64ab">INVALID_SOCKET</a>)</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  {</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">int</span> err = <a class="code" href="a01106.html#ga3ff5c98b765df74bd305d2e56e9b4f31">pcl_err_os2pcl</a>(<a class="code" href="a01106.html#ga4926f863ec8fe31588c707f0b69bbe9a">pcl_sockerrno</a>);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <a class="code" href="a00080.html#ac7838dea49e81078e1ae5bde9319005d">pcl_socket_close</a>(cli);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordflow">switch</span>(err)</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    {</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      <span class="keywordflow">case</span> <a class="code" href="a01107.html#gae8d8c032afaa7fd7fe25abdb520331e2">PCL_EAGAIN</a>:      <span class="comment">/* same as EINPROGRESS, PCL_EWOULDBLOCK */</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      <span class="keywordflow">case</span> <a class="code" href="a01107.html#ga5d8d645b84c1aa23bf8cb2b94882092c">PCL_EINPROGRESS</a>: <span class="comment">/* connect would block, try again */</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      <span class="keywordflow">case</span> <a class="code" href="a01107.html#gabd98a45fef9d002ccb21c347b2c0b4e0">PCL_EINTR</a>:       <span class="comment">/* interrupted */</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        err = <a class="code" href="a01107.html#gae8d8c032afaa7fd7fe25abdb520331e2">PCL_EAGAIN</a>;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      <span class="keywordflow">default</span>:</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    }</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01108.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a>(NULL, err);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  }</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  <span class="comment">/* For some reason, accept doesn&#39;t properly populate the AF_UNIX sun_path.  So, manually</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="comment">   * copy it from server sock.</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="comment">   */</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  <span class="keywordflow">if</span>(cli-&gt;<a class="code" href="a01222.html#a4863f5b8767cd19fe6ea4db75456e5df">addr</a>-&gt;sa_family == AF_UNIX)</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  {</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    memcpy(cli-&gt;<a class="code" href="a01222.html#a4863f5b8767cd19fe6ea4db75456e5df">addr</a>, sock-&gt;<a class="code" href="a01222.html#a4863f5b8767cd19fe6ea4db75456e5df">addr</a>, sock-&gt;<a class="code" href="a01222.html#a98d04694e72bc10426574eeec5bff1a1">sa_len</a>);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    cli-&gt;<a class="code" href="a01222.html#a98d04694e72bc10426574eeec5bff1a1">sa_len</a> = sock-&gt;<a class="code" href="a01222.html#a98d04694e72bc10426574eeec5bff1a1">sa_len</a>;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  }</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;  cli-&gt;<a class="code" href="a01222.html#a860df8b34725443e6edae72ec9b14e2a">sa_protocol</a> = sock-&gt;<a class="code" href="a01222.html#a860df8b34725443e6edae72ec9b14e2a">sa_protocol</a>;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  cli-&gt;<a class="code" href="a01222.html#abb10baf920bd1954936155d4b2bc76a4">sa_socktype</a> = sock-&gt;<a class="code" href="a01222.html#abb10baf920bd1954936155d4b2bc76a4">sa_socktype</a>;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;  cli-&gt;<a class="code" href="a01222.html#ac8bf36fe0577cba66bccda3a6f7e80a4">flags</a> |= <a class="code" href="a00080.html#aa2021c1f54b94b4ec01dd6d44d9b53ac">PCL_SOCK_CONNECTED</a>;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;  <span class="comment">/* if accept4 was used, pcl_socket_setnonblocking does nothing since &#39;cli&#39; is already</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="comment">   * flagged as nonblocking.</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="comment">   */</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  <span class="keywordflow">if</span>(sock-&gt;<a class="code" href="a01222.html#ac8bf36fe0577cba66bccda3a6f7e80a4">flags</a> &amp; <a class="code" href="a00080.html#a0b9ee24d653ed3d56acdd7deea798b3c">PCL_SOCK_NONBLOCK</a>)</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <a class="code" href="a00080.html#a13c9c1bf545cf9e9cf9c7ed464c7c605">pcl_socket_setnonblocking</a>(cli, <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  setsockopt(cli-&gt;<a class="code" href="a01222.html#a8a04492110d683cd4b6119648e1584d6">fd</a>, SOL_SOCKET, SO_LINGER, (<span class="keywordtype">char</span> *) &amp;val, <span class="keyword">sizeof</span>(val));</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;  <span class="keywordflow">return</span> cli;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00638.html">_process.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00044.html">pcl/error.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00068.html">pcl/limits.h</a>&gt;</span> <span class="comment">// PCL_MAXLONGPATH</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00089.html">pcl/string.h</a>&gt;</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment">/* Ofcourse, Windows requires a mini program with two completely different implementations:</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="comment"> * one for the current process and another for the remote process. Uh vey. Like getting a</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="comment"> * process&#39;s image path is some kind of top secret operation.</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">static</span> <a class="code" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;remote_proc_path(pid_t pid)</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;{</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <a class="code" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *path = NULL;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="comment">/* ignore error. Setting this allows access to local system processes. However, if we</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment">   * can&#39;t enable it, we can still open many other remote processes.</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment">   */</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <span class="keywordtype">bool</span> enabled_priv = <a class="code" href="a01120.html#ga25ee01ddb7701aa34ac2b1f8ec3b9b1c">pcl_proc_setpriv</a>(<a class="code" href="a01120.html#gad3cfd4e4da6ba6cf312dea115834d381">PRIV_PROCESS</a>, <span class="keyword">true</span>) == 0;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <span class="comment">/* Open the remote process */</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  HANDLE hproc = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, <span class="keyword">false</span>, pid);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordflow">if</span>(!hproc)</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  {</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <a class="code" href="a01113.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordflow">goto</span> <a class="code" href="a01085.html#a922674bf1f621eb8d7cfc67d2fc870b3">CLEANUP</a>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  }</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  <span class="keywordflow">for</span>(DWORD size = 64; size &lt;= <a class="code" href="a00068.html#add6b6e80b41ca7cf7104ac005e354298">PCL_MAXLONGPATH</a> + 1; size *= 2)</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  {</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    path = <a class="code" href="a01106.html#ga98426c1755adc75922d1f15c331e6133">pcl_prealloc</a>(path, size);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    DWORD len = size;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    BOOL ok = QueryFullProcessImageName(hproc, 0, path, &amp;len);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordflow">if</span>(ok)</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordflow">if</span>(<a class="code" href="a01111.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a> != ERROR_INSUFFICIENT_BUFFER)</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    {</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      <a class="code" href="a01113.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      path = <a class="code" href="a01106.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(path);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;      <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    }</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  }</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<a class="code" href="a01085.html#a922674bf1f621eb8d7cfc67d2fc870b3">CLEANUP</a>:</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  <span class="keywordflow">if</span>(hproc)</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    CloseHandle(hproc);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  <span class="keywordflow">if</span>(enabled_priv)</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <a class="code" href="a01113.html#ga5d0d174193729a18bb8a57d35a255229">FREEZE_ERR</a>(<a class="code" href="a01120.html#ga25ee01ddb7701aa34ac2b1f8ec3b9b1c">pcl_proc_setpriv</a>(<a class="code" href="a01120.html#gad3cfd4e4da6ba6cf312dea115834d381">PRIV_PROCESS</a>, <span class="keyword">false</span>));</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  <span class="keywordflow">return</span> path;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;}</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="keyword">static</span> <a class="code" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;current_proc_path()</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;{</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;  <a class="code" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *path = NULL;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  <span class="keywordflow">for</span>(DWORD size = 64; size &lt;= <a class="code" href="a00068.html#add6b6e80b41ca7cf7104ac005e354298">PCL_MAXLONGPATH</a> + 1; size *= 2)</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;  {</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    path = <a class="code" href="a01106.html#ga98426c1755adc75922d1f15c331e6133">pcl_prealloc</a>(path, size);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    DWORD len = GetModuleFileName(NULL, path, size);</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="comment">/* Docs indicate a return of zero is a bust */</span></div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordflow">if</span>(len == 0)</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;      <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="comment">/* Docs state if function succeeds, it returns char len excluding NUL. If buf is too small,</span></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="comment">     * it returns size and sets ERROR_INSUFFICIENT_BUFFER. Thus, if return value is greater than</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="comment">     * zero but less than size, it worked.</span></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="comment">     */</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keywordflow">if</span>(len &lt; size)</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;      <span class="keywordflow">return</span> path;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="comment">/* &#39;len&#39; MUST be size here, only remaining possibility. In this case, last os error</span></div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="comment">     * should be ERROR_INSUFFICIENT_BUFFER. If not, GetModuleFileName docs are wrong.</span></div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="comment">     * This is a sanity check and should never happen.</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="comment">     */</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="keywordflow">if</span>(<a class="code" href="a01111.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a> != ERROR_INSUFFICIENT_BUFFER)</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;      <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;  }</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160; </div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;  <a class="code" href="a01106.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe</a>(path);</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01113.html#gad08a56aa55af3716a251ced9f780686d">R_SETLASTERR</a>(NULL);</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;}</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160; </div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<a class="code" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *</div>
+<div class="line"><a name="l00125"></a><span class="lineno"><a class="line" href="a01120.html#gaa625964173add23831431d1ab1d48ffc">  125</a></span>&#160;<a class="code" href="a01120.html#gaa625964173add23831431d1ab1d48ffc">pcl_proc_path</a>(pid_t pid)</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;{</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;  <a class="code" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *path = pid &lt; 0 ? current_proc_path() : remote_proc_path(pid);</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;  <span class="keywordflow">if</span>(!path)</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <a class="code" href="a01113.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a>();</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;  <span class="keywordflow">return</span> path;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01107_html_gabd98a45fef9d002ccb21c347b2c0b4e0"><div class="ttname"><a href="a01107.html#gabd98a45fef9d002ccb21c347b2c0b4e0">PCL_EINTR</a></div><div class="ttdeci">#define PCL_EINTR</div><div class="ttdoc">Interrupted system call.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00076">_errno.h:76</a></div></div>
-<div class="ttc" id="aa00674_html"><div class="ttname"><a href="a00674.html">_socket.h</a></div></div>
-<div class="ttc" id="aa01222_html_a98d04694e72bc10426574eeec5bff1a1"><div class="ttname"><a href="a01222.html#a98d04694e72bc10426574eeec5bff1a1">tag_pcl_socket::sa_len</a></div><div class="ttdeci">int sa_len</div><div class="ttdef"><b>Definition:</b> <a href="a00674_source.html#l00068">_socket.h:68</a></div></div>
-<div class="ttc" id="aa01107_html_gae8d8c032afaa7fd7fe25abdb520331e2"><div class="ttname"><a href="a01107.html#gae8d8c032afaa7fd7fe25abdb520331e2">PCL_EAGAIN</a></div><div class="ttdeci">#define PCL_EAGAIN</div><div class="ttdoc">Try again.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00048">_errno.h:48</a></div></div>
-<div class="ttc" id="aa01222_html_a8a04492110d683cd4b6119648e1584d6"><div class="ttname"><a href="a01222.html#a8a04492110d683cd4b6119648e1584d6">tag_pcl_socket::fd</a></div><div class="ttdeci">pcl_socketfd_t fd</div><div class="ttdef"><b>Definition:</b> <a href="a00674_source.html#l00053">_socket.h:53</a></div></div>
-<div class="ttc" id="aa01222_html_a860df8b34725443e6edae72ec9b14e2a"><div class="ttname"><a href="a01222.html#a860df8b34725443e6edae72ec9b14e2a">tag_pcl_socket::sa_protocol</a></div><div class="ttdeci">int sa_protocol</div><div class="ttdef"><b>Definition:</b> <a href="a00674_source.html#l00056">_socket.h:56</a></div></div>
-<div class="ttc" id="aa01222_html"><div class="ttname"><a href="a01222.html">tag_pcl_socket</a></div><div class="ttdef"><b>Definition:</b> <a href="a00674_source.html#l00047">_socket.h:48</a></div></div>
-<div class="ttc" id="aa00080_html_aa2021c1f54b94b4ec01dd6d44d9b53ac"><div class="ttname"><a href="a00080.html#aa2021c1f54b94b4ec01dd6d44d9b53ac">PCL_SOCK_CONNECTED</a></div><div class="ttdeci">#define PCL_SOCK_CONNECTED</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00054">socket.h:54</a></div></div>
-<div class="ttc" id="aa01222_html_abb10baf920bd1954936155d4b2bc76a4"><div class="ttname"><a href="a01222.html#abb10baf920bd1954936155d4b2bc76a4">tag_pcl_socket::sa_socktype</a></div><div class="ttdeci">int sa_socktype</div><div class="ttdef"><b>Definition:</b> <a href="a00674_source.html#l00059">_socket.h:59</a></div></div>
-<div class="ttc" id="aa00080_html_a0b9ee24d653ed3d56acdd7deea798b3c"><div class="ttname"><a href="a00080.html#a0b9ee24d653ed3d56acdd7deea798b3c">PCL_SOCK_NONBLOCK</a></div><div class="ttdeci">#define PCL_SOCK_NONBLOCK</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00053">socket.h:53</a></div></div>
-<div class="ttc" id="aa00080_html_a13c9c1bf545cf9e9cf9c7ed464c7c605"><div class="ttname"><a href="a00080.html#a13c9c1bf545cf9e9cf9c7ed464c7c605">pcl_socket_setnonblocking</a></div><div class="ttdeci">PCL_EXPORT int pcl_socket_setnonblocking(pcl_socket_t *sock, bool enable)</div><div class="ttdef"><b>Definition:</b> <a href="a00737_source.html#l00040">socket_setnonblocking.c:40</a></div></div>
-<div class="ttc" id="aa00080_html_a26769957ec1a2beaf223f33b66ee64ab"><div class="ttname"><a href="a00080.html#a26769957ec1a2beaf223f33b66ee64ab">INVALID_SOCKET</a></div><div class="ttdeci">#define INVALID_SOCKET</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00057">socket.h:57</a></div></div>
-<div class="ttc" id="aa01107_html_ga5d8d645b84c1aa23bf8cb2b94882092c"><div class="ttname"><a href="a01107.html#ga5d8d645b84c1aa23bf8cb2b94882092c">PCL_EINPROGRESS</a></div><div class="ttdeci">#define PCL_EINPROGRESS</div><div class="ttdoc">Operation is now in progress.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00050">_errno.h:50</a></div></div>
-<div class="ttc" id="aa00080_html_ac7838dea49e81078e1ae5bde9319005d"><div class="ttname"><a href="a00080.html#ac7838dea49e81078e1ae5bde9319005d">pcl_socket_close</a></div><div class="ttdeci">PCL_EXPORT void pcl_socket_close(pcl_socket_t *sock)</div><div class="ttdef"><b>Definition:</b> <a href="a00713_source.html#l00040">socket_close.c:40</a></div></div>
-<div class="ttc" id="aa00674_html_a0da3c043a0f5ad72d611329132d08619"><div class="ttname"><a href="a00674.html#a0da3c043a0f5ad72d611329132d08619">ipcl_socket_alloc</a></div><div class="ttdeci">pcl_socket_t * ipcl_socket_alloc(void)</div><div class="ttdef"><b>Definition:</b> <a href="a00710_source.html#l00036">socket_alloc.c:36</a></div></div>
-<div class="ttc" id="aa01106_html_ga3ff5c98b765df74bd305d2e56e9b4f31"><div class="ttname"><a href="a01106.html#ga3ff5c98b765df74bd305d2e56e9b4f31">pcl_err_os2pcl</a></div><div class="ttdeci">PCL_EXPORT int pcl_err_os2pcl(uint32_t oserr)</div><div class="ttdef"><b>Definition:</b> <a href="a00377_source.html#l00035">err_os2pcl.c:35</a></div></div>
-<div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">error.h</a></div></div>
+<div class="ttc" id="aa00044_html"><div class="ttname"><a href="a00044.html">error.h</a></div></div>
+<div class="ttc" id="aa01085_html_a922674bf1f621eb8d7cfc67d2fc870b3"><div class="ttname"><a href="a01085.html#a922674bf1f621eb8d7cfc67d2fc870b3">CLEANUP</a></div><div class="ttdeci">#define CLEANUP</div><div class="ttdef"><b>Definition:</b> <a href="a01085_source.html#l00036">win32_sd_create.c:36</a></div></div>
+<div class="ttc" id="aa00104_html_ac114b2b1527c8ae241d37cc15ca7d122"><div class="ttname"><a href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a></div><div class="ttdeci">char pchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00053">types.h:53</a></div></div>
+<div class="ttc" id="aa01106_html_ga2de1e7abd61febca9d319940c5c2bd1b"><div class="ttname"><a href="a01106.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe</a></div><div class="ttdeci">void * pcl_free_safe(void *p)</div><div class="ttdoc">Safely free memory space.</div></div>
+<div class="ttc" id="aa01106_html_ga98426c1755adc75922d1f15c331e6133"><div class="ttname"><a href="a01106.html#ga98426c1755adc75922d1f15c331e6133">pcl_prealloc</a></div><div class="ttdeci">pchar_t * pcl_prealloc(void *p, size_t n)</div><div class="ttdoc">Re-allocate dynamic memory.</div></div>
+<div class="ttc" id="aa01111_html_ga3646b2825d51326a06f25e597f883555"><div class="ttname"><a href="a01111.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a></div><div class="ttdeci">#define pcl_oserrno</div><div class="ttdef"><b>Definition:</b> <a href="a00044_source.html#l00185">error.h:185</a></div></div>
+<div class="ttc" id="aa00068_html_add6b6e80b41ca7cf7104ac005e354298"><div class="ttname"><a href="a00068.html#add6b6e80b41ca7cf7104ac005e354298">PCL_MAXLONGPATH</a></div><div class="ttdeci">#define PCL_MAXLONGPATH</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00053">limits.h:53</a></div></div>
+<div class="ttc" id="aa00638_html"><div class="ttname"><a href="a00638.html">_process.h</a></div></div>
+<div class="ttc" id="aa01120_html_gaa625964173add23831431d1ab1d48ffc"><div class="ttname"><a href="a01120.html#gaa625964173add23831431d1ab1d48ffc">pcl_proc_path</a></div><div class="ttdeci">pchar_t * pcl_proc_path(pid_t pid)</div><div class="ttdoc">Get a process's path.</div><div class="ttdef"><b>Definition:</b> <a href="a00677_source.html#l00125">win32_proc_path.c:125</a></div></div>
+<div class="ttc" id="aa01113_html_gad08a56aa55af3716a251ced9f780686d"><div class="ttname"><a href="a01113.html#gad08a56aa55af3716a251ced9f780686d">R_SETLASTERR</a></div><div class="ttdeci">#define R_SETLASTERR(_retval)</div><div class="ttdoc">Sets the return value and the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00235">_errdefs.h:235</a></div></div>
+<div class="ttc" id="aa01113_html_ga9ad3ef2339f58a873bc7bace5ad9c9df"><div class="ttname"><a href="a01113.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a></div><div class="ttdeci">#define TRC()</div><div class="ttdoc">Adds a stack trace to the current thread's error.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00262">_errdefs.h:262</a></div></div>
+<div class="ttc" id="aa01113_html_ga5d0d174193729a18bb8a57d35a255229"><div class="ttname"><a href="a01113.html#ga5d0d174193729a18bb8a57d35a255229">FREEZE_ERR</a></div><div class="ttdeci">#define FREEZE_ERR(code_fragment)</div><div class="ttdoc">Freeze the current thread's error while executing code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00053">_errdefs.h:53</a></div></div>
+<div class="ttc" id="aa00068_html"><div class="ttname"><a href="a00068.html">limits.h</a></div></div>
+<div class="ttc" id="aa01120_html_gad3cfd4e4da6ba6cf312dea115834d381"><div class="ttname"><a href="a01120.html#gad3cfd4e4da6ba6cf312dea115834d381">PRIV_PROCESS</a></div><div class="ttdeci">#define PRIV_PROCESS</div><div class="ttdoc">Grant all access to processes owned by other accounts.</div><div class="ttdef"><b>Definition:</b> <a href="a00077_source.html#l00146">process.h:146</a></div></div>
+<div class="ttc" id="aa01120_html_ga25ee01ddb7701aa34ac2b1f8ec3b9b1c"><div class="ttname"><a href="a01120.html#ga25ee01ddb7701aa34ac2b1f8ec3b9b1c">pcl_proc_setpriv</a></div><div class="ttdeci">PCL_EXPORT int pcl_proc_setpriv(const pchar_t *priv, bool enable)</div><div class="ttdoc">Enables or disables a process privilege.</div><div class="ttdef"><b>Definition:</b> <a href="a00659_source.html#l00036">proc_setpriv.c:36</a></div></div>
+<div class="ttc" id="aa01106_html_gab88b901c82e1010555b08ff6d39490f2"><div class="ttname"><a href="a01106.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a></div><div class="ttdeci">void * pcl_free(void *p)</div><div class="ttdoc">Free memory space.</div></div>
+<div class="ttc" id="aa01113_html_ga89b8bfbe17595305872551a1caaa5702"><div class="ttname"><a href="a01113.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a></div><div class="ttdeci">#define SETLASTERR()</div><div class="ttdoc">Sets the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00125">_errdefs.h:125</a></div></div>
 <div class="ttc" id="aa00089_html"><div class="ttname"><a href="a00089.html">string.h</a></div></div>
-<div class="ttc" id="aa01222_html_a4863f5b8767cd19fe6ea4db75456e5df"><div class="ttname"><a href="a01222.html#a4863f5b8767cd19fe6ea4db75456e5df">tag_pcl_socket::addr</a></div><div class="ttdeci">struct sockaddr * addr</div><div class="ttdef"><b>Definition:</b> <a href="a00674_source.html#l00071">_socket.h:71</a></div></div>
-<div class="ttc" id="aa01106_html_ga4926f863ec8fe31588c707f0b69bbe9a"><div class="ttname"><a href="a01106.html#ga4926f863ec8fe31588c707f0b69bbe9a">pcl_sockerrno</a></div><div class="ttdeci">#define pcl_sockerrno</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00135">error.h:135</a></div></div>
-<div class="ttc" id="aa01108_html_gae8eaed12aa57a2870ad8e45cc2306318"><div class="ttname"><a href="a01108.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a></div><div class="ttdeci">#define R_SETERR(_retval, _pclerr)</div><div class="ttdoc">Sets the return value and the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00145">_errdefs.h:145</a></div></div>
-<div class="ttc" id="aa00677_html_aa894397117467f0fa2608e2373f71bfc"><div class="ttname"><a href="a00677.html#aa894397117467f0fa2608e2373f71bfc">pcl_accept</a></div><div class="ttdeci">pcl_socket_t * pcl_accept(pcl_socket_t *sock)</div><div class="ttdef"><b>Definition:</b> <a href="a00677_source.html#l00041">accept.c:41</a></div></div>
-<div class="ttc" id="aa01222_html_ac8bf36fe0577cba66bccda3a6f7e80a4"><div class="ttname"><a href="a01222.html#ac8bf36fe0577cba66bccda3a6f7e80a4">tag_pcl_socket::flags</a></div><div class="ttdeci">int flags</div><div class="ttdef"><b>Definition:</b> <a href="a00674_source.html#l00050">_socket.h:50</a></div></div>
+<div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

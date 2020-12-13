@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/htable/htable_free.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/htable/htable_remove.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">htable_free.c</div>  </div>
+<div class="title">htable_remove.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00515.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,30 +101,52 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00503.html">_htable.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">void</span> *</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01111.html#ga8b9f6df4376aac1c35a5d87ebcff93dc">   36</a></span>&#160;<a class="code" href="a01111.html#ga8b9f6df4376aac1c35a5d87ebcff93dc">pcl_htable_free</a>(<a class="code" href="a01142.html">pcl_htable_t</a> *ht)</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">if</span>(ht)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="a01111.html#ga8b25b5955d6abd1ef508a4106df9cfe2">pcl_htable_clear</a>(ht, <span class="keyword">false</span>);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <a class="code" href="a01100.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe</a>(ht-&gt;<a class="code" href="a01142.html#a402260327e4c06cbf3b7105a81a4731e">entries</a>);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="a01100.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(ht);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  }</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00485.html">_htable.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">void</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01116.html#ga68c69681ce29a21e3dd823479f8c5f98">   35</a></span>&#160;<a class="code" href="a01116.html#ga68c69681ce29a21e3dd823479f8c5f98">pcl_htable_remove</a>(<a class="code" href="a01148.html">pcl_htable_t</a> *ht, <span class="keyword">const</span> <span class="keywordtype">void</span> *key)</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordflow">if</span>(!(ht &amp;&amp; key))</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordtype">int</span> index = (int) (ht-&gt;<a class="code" href="a01148.html#a7e9adab84c43d9a11a7a2ca0ff70b81e">hashcode</a>(key, ht-&gt;<a class="code" href="a01148.html#aaa2dc552577da2bba064c4d36d971c26">key_len</a>, ht-&gt;<a class="code" href="a01148.html#a7b5ec388916c74aa0010ca29022c72d2">userp</a>) % ht-&gt;<a class="code" href="a01148.html#adbe66a087ac3fd4a5b0566f64ca2d12b">capacity</a>);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <a class="code" href="a01144.html">pcl_htable_entry_t</a> *prev, *e = ht-&gt;<a class="code" href="a01148.html#a402260327e4c06cbf3b7105a81a4731e">entries</a>[index];</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordflow">if</span>(!e)</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="comment">/* special case when matches head */</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordflow">if</span>(ht-&gt;<a class="code" href="a01148.html#a57cdb09719a1350e1f053c01139eb363">key_equals</a>(e-&gt;<a class="code" href="a01144.html#a9eb073a4e7f31790de2c4f6b2ea74081">key</a>, key, ht-&gt;<a class="code" href="a01148.html#aaa2dc552577da2bba064c4d36d971c26">key_len</a>, ht-&gt;<a class="code" href="a01148.html#a7b5ec388916c74aa0010ca29022c72d2">userp</a>))</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  {</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    ht-&gt;<a class="code" href="a01148.html#a402260327e4c06cbf3b7105a81a4731e">entries</a>[index] = e-&gt;<a class="code" href="a01144.html#a24db4f5d81913feb7c4c07aaadc61e1b">next</a>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="a00485.html#a2b06bb69df19fb756190fa5feef83862">ipcl_htable_remove_entry</a>(ht, e, <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  }</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="keywordflow">for</span>(prev = e, e = e-&gt;<a class="code" href="a01144.html#a24db4f5d81913feb7c4c07aaadc61e1b">next</a>; e; prev = e, e = e-&gt;<a class="code" href="a01144.html#a24db4f5d81913feb7c4c07aaadc61e1b">next</a>)</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  {</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">if</span>(ht-&gt;<a class="code" href="a01148.html#a57cdb09719a1350e1f053c01139eb363">key_equals</a>(e-&gt;<a class="code" href="a01144.html#a9eb073a4e7f31790de2c4f6b2ea74081">key</a>, key, ht-&gt;<a class="code" href="a01148.html#aaa2dc552577da2bba064c4d36d971c26">key_len</a>, ht-&gt;<a class="code" href="a01148.html#a7b5ec388916c74aa0010ca29022c72d2">userp</a>))</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    {</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      prev-&gt;<a class="code" href="a01144.html#a24db4f5d81913feb7c4c07aaadc61e1b">next</a> = e-&gt;<a class="code" href="a01144.html#a24db4f5d81913feb7c4c07aaadc61e1b">next</a>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;      <a class="code" href="a00485.html#a2b06bb69df19fb756190fa5feef83862">ipcl_htable_remove_entry</a>(ht, e, <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    }</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  }</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00503_html"><div class="ttname"><a href="a00503.html">_htable.h</a></div></div>
-<div class="ttc" id="aa01111_html_ga8b25b5955d6abd1ef508a4106df9cfe2"><div class="ttname"><a href="a01111.html#ga8b25b5955d6abd1ef508a4106df9cfe2">pcl_htable_clear</a></div><div class="ttdeci">PCL_EXPORT void pcl_htable_clear(pcl_htable_t *ht, bool shrink)</div><div class="ttdoc">Clear all entries from the table.</div><div class="ttdef"><b>Definition:</b> <a href="a00509_source.html#l00037">htable_clear.c:37</a></div></div>
-<div class="ttc" id="aa01142_html"><div class="ttname"><a href="a01142.html">tag_pcl_htable</a></div><div class="ttdef"><b>Definition:</b> <a href="a00059_source.html#l00213">htable.h:214</a></div></div>
-<div class="ttc" id="aa01100_html_ga2de1e7abd61febca9d319940c5c2bd1b"><div class="ttname"><a href="a01100.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe</a></div><div class="ttdeci">void * pcl_free_safe(void *p)</div><div class="ttdoc">Safely free memory space.</div></div>
-<div class="ttc" id="aa01111_html_ga8b9f6df4376aac1c35a5d87ebcff93dc"><div class="ttname"><a href="a01111.html#ga8b9f6df4376aac1c35a5d87ebcff93dc">pcl_htable_free</a></div><div class="ttdeci">void * pcl_htable_free(pcl_htable_t *ht)</div><div class="ttdoc">Release all resources used by the given hash table.</div><div class="ttdef"><b>Definition:</b> <a href="a00515_source.html#l00036">htable_free.c:36</a></div></div>
-<div class="ttc" id="aa01100_html_gab88b901c82e1010555b08ff6d39490f2"><div class="ttname"><a href="a01100.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a></div><div class="ttdeci">void * pcl_free(void *p)</div><div class="ttdoc">Free memory space.</div></div>
-<div class="ttc" id="aa01142_html_a402260327e4c06cbf3b7105a81a4731e"><div class="ttname"><a href="a01142.html#a402260327e4c06cbf3b7105a81a4731e">tag_pcl_htable::entries</a></div><div class="ttdeci">pcl_htable_entry_t ** entries</div><div class="ttdoc">table of entries, each bucket is a linked list of collisions</div><div class="ttdef"><b>Definition:</b> <a href="a00059_source.html#l00230">htable.h:230</a></div></div>
-<div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
+<div class="ttc" id="aa01148_html"><div class="ttname"><a href="a01148.html">tag_pcl_htable</a></div><div class="ttdef"><b>Definition:</b> <a href="a00056_source.html#l00213">htable.h:214</a></div></div>
+<div class="ttc" id="aa01148_html_adbe66a087ac3fd4a5b0566f64ca2d12b"><div class="ttname"><a href="a01148.html#adbe66a087ac3fd4a5b0566f64ca2d12b">tag_pcl_htable::capacity</a></div><div class="ttdeci">int capacity</div><div class="ttdoc">current table capacity</div><div class="ttdef"><b>Definition:</b> <a href="a00056_source.html#l00225">htable.h:225</a></div></div>
+<div class="ttc" id="aa01148_html_a57cdb09719a1350e1f053c01139eb363"><div class="ttname"><a href="a01148.html#a57cdb09719a1350e1f053c01139eb363">tag_pcl_htable::key_equals</a></div><div class="ttdeci">bool(* key_equals)(const void *key1, const void *key2, size_t key_len, void *userp)</div><div class="ttdoc">Determine if two keys are equal.</div><div class="ttdef"><b>Definition:</b> <a href="a00056_source.html#l00283">htable.h:283</a></div></div>
+<div class="ttc" id="aa01148_html_a7b5ec388916c74aa0010ca29022c72d2"><div class="ttname"><a href="a01148.html#a7b5ec388916c74aa0010ca29022c72d2">tag_pcl_htable::userp</a></div><div class="ttdeci">void * userp</div><div class="ttdoc">User pointer passed to callbacks.</div><div class="ttdef"><b>Definition:</b> <a href="a00056_source.html#l00264">htable.h:264</a></div></div>
+<div class="ttc" id="aa01144_html"><div class="ttname"><a href="a01144.html">tag_pcl_htable_entry</a></div><div class="ttdoc">Hash table entry object.</div><div class="ttdef"><b>Definition:</b> <a href="a00056_source.html#l00198">htable.h:199</a></div></div>
+<div class="ttc" id="aa01144_html_a9eb073a4e7f31790de2c4f6b2ea74081"><div class="ttname"><a href="a01144.html#a9eb073a4e7f31790de2c4f6b2ea74081">tag_pcl_htable_entry::key</a></div><div class="ttdeci">const void * key</div><div class="ttdoc">entry key</div><div class="ttdef"><b>Definition:</b> <a href="a00056_source.html#l00207">htable.h:207</a></div></div>
+<div class="ttc" id="aa01148_html_aaa2dc552577da2bba064c4d36d971c26"><div class="ttname"><a href="a01148.html#aaa2dc552577da2bba064c4d36d971c26">tag_pcl_htable::key_len</a></div><div class="ttdeci">size_t key_len</div><div class="ttdoc">Key length in bytes.</div><div class="ttdef"><b>Definition:</b> <a href="a00056_source.html#l00243">htable.h:243</a></div></div>
+<div class="ttc" id="aa01148_html_a7e9adab84c43d9a11a7a2ca0ff70b81e"><div class="ttname"><a href="a01148.html#a7e9adab84c43d9a11a7a2ca0ff70b81e">tag_pcl_htable::hashcode</a></div><div class="ttdeci">uintptr_t(* hashcode)(const void *key, size_t key_len, void *userp)</div><div class="ttdoc">Compute a hash code for the given key.</div><div class="ttdef"><b>Definition:</b> <a href="a00056_source.html#l00296">htable.h:296</a></div></div>
+<div class="ttc" id="aa01116_html_ga68c69681ce29a21e3dd823479f8c5f98"><div class="ttname"><a href="a01116.html#ga68c69681ce29a21e3dd823479f8c5f98">pcl_htable_remove</a></div><div class="ttdeci">void pcl_htable_remove(pcl_htable_t *ht, const void *key)</div><div class="ttdoc">Remove an entry from the table.</div><div class="ttdef"><b>Definition:</b> <a href="a00515_source.html#l00035">htable_remove.c:35</a></div></div>
+<div class="ttc" id="aa00485_html_a2b06bb69df19fb756190fa5feef83862"><div class="ttname"><a href="a00485.html#a2b06bb69df19fb756190fa5feef83862">ipcl_htable_remove_entry</a></div><div class="ttdeci">void ipcl_htable_remove_entry(pcl_htable_t *ht, pcl_htable_entry_t *ent, bool allow_rehash)</div><div class="ttdef"><b>Definition:</b> <a href="a00518_source.html#l00036">htable_remove_entry.c:36</a></div></div>
+<div class="ttc" id="aa01144_html_a24db4f5d81913feb7c4c07aaadc61e1b"><div class="ttname"><a href="a01144.html#a24db4f5d81913feb7c4c07aaadc61e1b">tag_pcl_htable_entry::next</a></div><div class="ttdeci">struct tag_pcl_htable_entry * next</div><div class="ttdoc">leave me alone (collision list)</div><div class="ttdef"><b>Definition:</b> <a href="a00056_source.html#l00201">htable.h:201</a></div></div>
+<div class="ttc" id="aa01148_html_a402260327e4c06cbf3b7105a81a4731e"><div class="ttname"><a href="a01148.html#a402260327e4c06cbf3b7105a81a4731e">tag_pcl_htable::entries</a></div><div class="ttdeci">pcl_htable_entry_t ** entries</div><div class="ttdoc">table of entries, each bucket is a linked list of collisions</div><div class="ttdef"><b>Definition:</b> <a href="a00056_source.html#l00230">htable.h:230</a></div></div>
+<div class="ttc" id="aa00485_html"><div class="ttname"><a href="a00485.html">_htable.h</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

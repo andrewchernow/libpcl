@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/error/err_code.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/error/err_osmsg.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">err_code.c</div>  </div>
+<div class="title">err_osmsg.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00350.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,29 +101,80 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00338.html">_error.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00089.html">string.h</a>&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00305.html">_error.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00089.html">pcl/string.h</a>&gt;</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01106.html#ga6e488225c64979a7196c2b257c3c1fb0">   36</a></span>&#160;<a class="code" href="a01106.html#ga6e488225c64979a7196c2b257c3c1fb0">pcl_err_code</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *name)</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordtype">int</span> i, count;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <a class="code" href="a01202.html">ipcl_err_msgmap_t</a> *map = <a class="code" href="a00338.html#a3dc06ff40b369fcec40911b141ff88cf">ipcl_err_msgmap</a>(&amp;count);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">for</span>(i = 0; i &lt; count; i++)</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">if</span>(!strcmp(name, map[i].name))</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;      <span class="keywordflow">return</span> map[i].<a class="code" href="a01202.html#a6ce68847c12434f60d1b2654a3dc3409">err</a>;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor"># include &lt;windows.h&gt;</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="a01111.html#gac570ccdd8657267d758ed671b307bffd">   40</a></span>&#160;<a class="code" href="a01111.html#gac570ccdd8657267d758ed671b307bffd">pcl_err_osmsg</a>(uint32_t oserr, <span class="keywordtype">char</span> *buf, <span class="keywordtype">size_t</span> size)</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;{</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordflow">if</span>(!buf || !size)</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01107.html#gad1c7894f1d8b51ba3fbc3a34b911242a">PCL_EUNDEF</a>;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;}</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  *buf = 0;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordflow">if</span>(oserr == 0)</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  DWORD save_err = GetLastError();</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  DWORD flags = FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  DWORD len = FormatMessageA(flags, NULL, oserr, 0, buf, (DWORD)<a class="code" href="a00035.html#ac6afabdc09a49a433ee19d8a9486056d">min</a>(size, 65535), NULL);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="comment">/* Not in system table, try looking up error in Ntdsbmsg.dll. */</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keywordflow">if</span>(len == 0)</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  {</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    HMODULE hinst = LoadLibraryA(<span class="stringliteral">&quot;ntdsbmsg.dll&quot;</span>);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordflow">if</span>(hinst)</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    {</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      flags = FORMAT_MESSAGE_FROM_HMODULE | FORMAT_MESSAGE_IGNORE_INSERTS;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      len = FormatMessageA(flags, hinst, oserr, 0, buf, (DWORD)size, NULL);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      FreeLibrary(hinst);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    }</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  }</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  SetLastError(save_err);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <span class="keywordflow">if</span>(len &gt; 0)</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  {</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="comment">/* remove possible CRLF or LF */</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordflow">if</span>(len &gt;= 2 &amp;&amp; buf[len - 2] == <span class="charliteral">&#39;\r&#39;</span>)</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      len-=2, buf[len] = 0;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span>(len &gt;= 1 &amp;&amp; buf[len - 1] == <span class="charliteral">&#39;\n&#39;</span>)</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      buf[--len] = 0;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  }</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  <span class="keywordtype">int</span> e = errno; <span class="comment">// ignore possible errors of strerror_r</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor"># ifdef PCL_DARWIN</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  <span class="comment">// XSI-compliant version</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  (void) strerror_r(oserr, buf, size);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="preprocessor"># else</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  <span class="comment">// linux has XSI-compliant but not when _GUN_SOURCE is defined, which PCL defines</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  <span class="keywordtype">char</span> *x = strerror_r(oserr, buf, size);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  <span class="comment">/* Oddly enough, strerror_r can return its own static or thread_local pointer and never use</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="comment">   * the provided user buffer. Easy enough to test by comparing pointers.</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="comment">   */</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;  <span class="keywordflow">if</span>(x != buf)</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <a class="code" href="a01121.html#ga25f17052163749bc3e0d31ae8741a47b">pcl_strcpy</a>(buf, size, x);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="preprocessor"># endif</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;  errno = e;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  <span class="keywordtype">size_t</span> len = strlen(buf);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  <span class="keywordflow">return</span> (<span class="keywordtype">int</span>) len;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01107_html_gad1c7894f1d8b51ba3fbc3a34b911242a"><div class="ttname"><a href="a01107.html#gad1c7894f1d8b51ba3fbc3a34b911242a">PCL_EUNDEF</a></div><div class="ttdeci">#define PCL_EUNDEF</div><div class="ttdoc">Undefined error occurred.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00150">_errno.h:150</a></div></div>
-<div class="ttc" id="aa00338_html_a3dc06ff40b369fcec40911b141ff88cf"><div class="ttname"><a href="a00338.html#a3dc06ff40b369fcec40911b141ff88cf">ipcl_err_msgmap</a></div><div class="ttdeci">ipcl_err_msgmap_t * ipcl_err_msgmap(int *count)</div><div class="ttdef"><b>Definition:</b> <a href="a00410_source.html#l00040">msgmap.c:40</a></div></div>
-<div class="ttc" id="aa01106_html_ga6e488225c64979a7196c2b257c3c1fb0"><div class="ttname"><a href="a01106.html#ga6e488225c64979a7196c2b257c3c1fb0">pcl_err_code</a></div><div class="ttdeci">int pcl_err_code(const char *name)</div><div class="ttdef"><b>Definition:</b> <a href="a00350_source.html#l00036">err_code.c:36</a></div></div>
-<div class="ttc" id="aa00338_html"><div class="ttname"><a href="a00338.html">_error.h</a></div></div>
-<div class="ttc" id="aa01202_html"><div class="ttname"><a href="a01202.html">ipcl_err_msgmap_t</a></div><div class="ttdef"><b>Definition:</b> <a href="a00338_source.html#l00041">_error.h:42</a></div></div>
-<div class="ttc" id="aa01202_html_a6ce68847c12434f60d1b2654a3dc3409"><div class="ttname"><a href="a01202.html#a6ce68847c12434f60d1b2654a3dc3409">ipcl_err_msgmap_t::err</a></div><div class="ttdeci">int err</div><div class="ttdef"><b>Definition:</b> <a href="a00338_source.html#l00043">_error.h:43</a></div></div>
+<div class="ttc" id="aa01111_html_gac570ccdd8657267d758ed671b307bffd"><div class="ttname"><a href="a01111.html#gac570ccdd8657267d758ed671b307bffd">pcl_err_osmsg</a></div><div class="ttdeci">int pcl_err_osmsg(uint32_t oserr, char *buf, size_t size)</div><div class="ttdef"><b>Definition:</b> <a href="a00350_source.html#l00040">err_osmsg.c:40</a></div></div>
+<div class="ttc" id="aa00305_html"><div class="ttname"><a href="a00305.html">_error.h</a></div></div>
+<div class="ttc" id="aa01121_html_ga25f17052163749bc3e0d31ae8741a47b"><div class="ttname"><a href="a01121.html#ga25f17052163749bc3e0d31ae8741a47b">pcl_strcpy</a></div><div class="ttdeci">char * pcl_strcpy(char *dest, size_t size, const char *src)</div><div class="ttdoc">Copy a string.</div></div>
 <div class="ttc" id="aa00089_html"><div class="ttname"><a href="a00089.html">string.h</a></div></div>
+<div class="ttc" id="aa00035_html_ac6afabdc09a49a433ee19d8a9486056d"><div class="ttname"><a href="a00035.html#ac6afabdc09a49a433ee19d8a9486056d">min</a></div><div class="ttdeci">#define min(a, b)</div><div class="ttdef"><b>Definition:</b> <a href="a00035_source.html#l00119">defs.h:119</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>
