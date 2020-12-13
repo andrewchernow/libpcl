@@ -29,59 +29,65 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include <pcl/init.h>
-#include <pcl/json.h>
-#include <pcl/error.h>
-#include <pcl/htable.h>
-#include <pcl/vector.h>
-#include <stdlib.h>
+#include "_json.h"
 
-int main(int argc, char **argv)
+pcl_buf_t *
+ipcl_json_encode_string(ipcl_json_encode_t *enc, const char *s)
 {
-	pcl_init();
+	pcl_buf_t *b = enc->b;
 
-	UNUSED(argc || argv);
+	pcl_buf_putchar(b, '"');
 
-	FILE *fp = fopen("examples/test.json", "r");
-	char buf[8192];
-
-	int n = (int) fread(buf, 1, sizeof(buf), fp);
-	buf[n] = 0;
-
-	fwrite(buf, 1, n, stdout);
-	printf("\n");
-
-	const char *end;
-	pcl_json_value_t *root = pcl_json_decode(buf, n, &end);
-
-	if(!root)
-		PANIC(NULL, 0);
-
-	printf("END = %s\n", end);
-
-	pcl_json_value_t *jv = pcl_htable_get(root->object, "cities");
-
-	printf("array-count=%d\n", jv->array->count);
-
-	jv = pcl_vector_get(jv->array, 0);
-
-	pcl_vector_t *keys = pcl_htable_keys(jv->object);
-
-	for(int i = 0; i < keys->count; i++)
+	for(; *s; s++)
 	{
-		char *key = pcl_vector_getptr(keys, i);
-		pcl_json_value_t *elem = pcl_htable_get(jv->object, key);
-		if(elem->type == 's')
-			printf("KEY = %s, VALUE = %s\n", key, elem->string);
+		switch(*s)
+		{
+			case '\\':
+				pcl_buf_putstr(b, "\\\\");
+				break;
+
+			case '/':
+				pcl_buf_putstr(b, "\\/");
+				break;
+
+			case '"':
+				pcl_buf_putstr(b, "\\\"");
+				break;
+
+			case '\b':
+				pcl_buf_putstr(b, "\\b");
+				break;
+
+			case '\t':
+				pcl_buf_putstr(b, "\\t");
+				break;
+
+			case '\n':
+				pcl_buf_putstr(b, "\\n");
+				break;
+
+			case '\f':
+				pcl_buf_putstr(b, "\\f");
+				break;
+
+			case '\r':
+				pcl_buf_putstr(b, "\\r");
+				break;
+
+			default:
+			{
+				unsigned char c = (unsigned char) *s;
+
+				/* control characters */
+				if(c < 0x20)
+					pcl_buf_putf(b, "\\u%04hhx", c);
+				else
+					pcl_buf_putchar(b, c);
+			}
+		}
 	}
 
-	printf("type = %c\n", jv->type);
-	printf("%s\n", ((pcl_json_value_t *) pcl_htable_get(jv->object, "name"))->string);
+	pcl_buf_putchar(b, '"');
 
-	char *out = pcl_json_encode(root, true);
-
-	printf("%s\n", out);
-	return 0;
+	return b;
 }
-
-

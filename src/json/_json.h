@@ -34,9 +34,14 @@
 
 #include <pcl/json.h>
 #include <pcl/error.h>
+#include <pcl/buf.h>
 
 #define JSON_THROW(message, ...) \
 	return R_SETERRMSG(NULL, PCL_ESYNTAX, message, __VA_ARGS__)
+
+#define PRINT_TABS(_enc) \
+	for(int __i = 0; __i < (enc)->tabs; __i++) \
+		pcl_buf_putchar((enc)->b, '\t')
 
 #ifdef __cplusplus
 extern "C" {
@@ -50,12 +55,24 @@ typedef struct
 	int line;
 } ipcl_json_state_t;
 
+typedef struct
+{
+	int tabs;
+	bool format;
+	pcl_buf_t *b;
+} ipcl_json_encode_t;
+
 pcl_json_value_t *ipcl_json_parse_value(ipcl_json_state_t *s, pcl_json_value_t *valbuf);
 ipcl_json_state_t *ipcl_json_skipws(ipcl_json_state_t *s);
 char *ipcl_json_parse_string(ipcl_json_state_t *s);
 pcl_vector_t *ipcl_json_parse_array(ipcl_json_state_t *s);
 void ipcl_json_value_clear(pcl_json_value_t *v);
 pcl_htable_t *ipcl_json_parse_object(ipcl_json_state_t *s);
+
+pcl_buf_t *ipcl_json_encode_value(ipcl_json_encode_t *enc, pcl_json_value_t *value);
+pcl_buf_t *ipcl_json_encode_string(ipcl_json_encode_t *enc, const char *string);
+pcl_buf_t *ipcl_json_encode_array(ipcl_json_encode_t *enc, pcl_vector_t *array);
+pcl_buf_t *ipcl_json_encode_object(ipcl_json_encode_t *enc, pcl_htable_t *obj);
 
 #ifdef __cplusplus
 }

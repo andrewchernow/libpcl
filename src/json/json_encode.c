@@ -29,59 +29,24 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include <pcl/init.h>
-#include <pcl/json.h>
-#include <pcl/error.h>
-#include <pcl/htable.h>
-#include <pcl/vector.h>
-#include <stdlib.h>
+#include "_json.h"
+#include <pcl/buf.h>
 
-int main(int argc, char **argv)
+char *
+pcl_json_encode(pcl_json_value_t *value, bool format)
 {
-	pcl_init();
+	pcl_buf_t buf;
+	ipcl_json_encode_t enc;
 
-	UNUSED(argc || argv);
+	enc.tabs = 0;
+	enc.format = format;
+	enc.b = pcl_buf_init(&buf, 256, PclBufText);
 
-	FILE *fp = fopen("examples/test.json", "r");
-	char buf[8192];
-
-	int n = (int) fread(buf, 1, sizeof(buf), fp);
-	buf[n] = 0;
-
-	fwrite(buf, 1, n, stdout);
-	printf("\n");
-
-	const char *end;
-	pcl_json_value_t *root = pcl_json_decode(buf, n, &end);
-
-	if(!root)
-		PANIC(NULL, 0);
-
-	printf("END = %s\n", end);
-
-	pcl_json_value_t *jv = pcl_htable_get(root->object, "cities");
-
-	printf("array-count=%d\n", jv->array->count);
-
-	jv = pcl_vector_get(jv->array, 0);
-
-	pcl_vector_t *keys = pcl_htable_keys(jv->object);
-
-	for(int i = 0; i < keys->count; i++)
+	if(!ipcl_json_encode_value(&enc, value))
 	{
-		char *key = pcl_vector_getptr(keys, i);
-		pcl_json_value_t *elem = pcl_htable_get(jv->object, key);
-		if(elem->type == 's')
-			printf("KEY = %s, VALUE = %s\n", key, elem->string);
+		pcl_buf_clear(&buf);
+		return NULL;
 	}
 
-	printf("type = %c\n", jv->type);
-	printf("%s\n", ((pcl_json_value_t *) pcl_htable_get(jv->object, "name"))->string);
-
-	char *out = pcl_json_encode(root, true);
-
-	printf("%s\n", out);
-	return 0;
+	return buf.data;
 }
-
-

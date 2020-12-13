@@ -29,59 +29,92 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include <pcl/init.h>
-#include <pcl/json.h>
+#include "_json.h"
 #include <pcl/error.h>
-#include <pcl/htable.h>
-#include <pcl/vector.h>
-#include <stdlib.h>
+#include <string.h>
 
-int main(int argc, char **argv)
+pcl_json_value_t *
+pcl_json_decode(const char *json, size_t len, const char **end)
 {
-	pcl_init();
+	if(!json)
+		return R_SETERR(NULL, PCL_EINVAL);
 
-	UNUSED(argc || argv);
+	if(len == 0)
+		len = strlen(json);
 
-	FILE *fp = fopen("examples/test.json", "r");
-	char buf[8192];
+	if(len == 0)
+		return R_SETERRMSG(NULL, PCL_EINVAL, "empty json string", 0);
 
-	int n = (int) fread(buf, 1, sizeof(buf), fp);
-	buf[n] = 0;
-
-	fwrite(buf, 1, n, stdout);
-	printf("\n");
-
-	const char *end;
-	pcl_json_value_t *root = pcl_json_decode(buf, n, &end);
-
-	if(!root)
-		PANIC(NULL, 0);
-
-	printf("END = %s\n", end);
-
-	pcl_json_value_t *jv = pcl_htable_get(root->object, "cities");
-
-	printf("array-count=%d\n", jv->array->count);
-
-	jv = pcl_vector_get(jv->array, 0);
-
-	pcl_vector_t *keys = pcl_htable_keys(jv->object);
-
-	for(int i = 0; i < keys->count; i++)
+	/* skip utf8 BOM byte order mark */
+	if(len >= 3 && memcmp(json, "\xEF\xBB\xBF", 3) == 0)
 	{
-		char *key = pcl_vector_getptr(keys, i);
-		pcl_json_value_t *elem = pcl_htable_get(jv->object, key);
-		if(elem->type == 's')
-			printf("KEY = %s, VALUE = %s\n", key, elem->string);
+		len -= 3;
+		json += 3;
 	}
 
-	printf("type = %c\n", jv->type);
-	printf("%s\n", ((pcl_json_value_t *) pcl_htable_get(jv->object, "name"))->string);
+	if(len == 0)
+		return R_SETERRMSG(NULL, PCL_EINVAL, "empty json string", 0);
 
-	char *out = pcl_json_encode(root, true);
+	ipcl_json_state_t state = {
+		.next = json,
+		.end = json + len,
+		.ctx = json,
+		.line = 1
+	};
 
-	printf("%s\n", out);
-	return 0;
+	/* implemented as a recursive descent parser, this kicks off the recursion */
+	pcl_json_value_t *val = ipcl_json_parse_value(&state, NULL);
+
+	if(val)
+	{
+		if(end)
+			*end = state.next;
+		return val;
+	}
+
+	/* prepare error: try to show some context around the error site */
+	len = state.end - state.ctx;
+	state.end = state.ctx + min(len, 16);
+
+	char ctxbuf[40];
+	char *ctx = ctxbuf;
+
+	/* avoid special characters messing up stack trace */
+	for(; state.ctx < state.end; state.ctx++)
+	{
+		switch(*state.ctx)
+		{
+			case '\f':
+				*ctx++ = '\\';
+				*ctx++ = 'f';
+				break;
+
+			case '\t':
+				*ctx++ = '\\';
+				*ctx++ = 't';
+				break;
+
+			case '\r':
+				*ctx++ = '\\';
+				*ctx++ = 'r';
+				break;
+
+			case '\n':
+				*ctx++ = '\\';
+				*ctx++ = 'n';
+				break;
+
+			case '\b':
+				*ctx++ = '\\';
+				*ctx++ = 'b';
+				break;
+
+			default:
+				*ctx++ = *state.ctx;
+		}
+	}
+
+	*ctx = 0;
+
+	return R_TRCMSG(NULL, "line=%d, context=%s", state.line, ctxbuf);
 }
-
-

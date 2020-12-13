@@ -30,7 +30,6 @@
 */
 
 #include "_json.h"
-#include <pcl/buf.h>
 #include <pcl/strint.h>
 #include <string.h>
 

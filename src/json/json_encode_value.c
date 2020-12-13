@@ -30,91 +30,50 @@
 */
 
 #include "_json.h"
-#include <pcl/error.h>
-#include <string.h>
+#include <math.h>
 
-pcl_json_value_t *
-pcl_json_parse(const char *json, size_t len, const char **end)
+pcl_buf_t *
+ipcl_json_encode_value(ipcl_json_encode_t *enc, pcl_json_value_t *value)
 {
-	if(!json)
-		return R_SETERR(NULL, PCL_EINVAL);
+	pcl_buf_t *b = enc->b;
 
-	if(len == 0)
-		len = strlen(json);
-
-	if(len == 0)
-		return R_SETERRMSG(NULL, PCL_EINVAL, "empty json string", 0);
-
-	/* skip utf8 BOM byte order mark */
-	if(len >= 3 && memcmp(json, "\xEF\xBB\xBF", 3) == 0)
+	switch(value->type)
 	{
-		len -= 3;
-		json += 3;
-	}
+		case 0:
+			pcl_buf_putstr(b, "null");
+			break;
 
-	if(len == 0)
-		return R_SETERRMSG(NULL, PCL_EINVAL, "empty json string", 0);
+		case 'o':
+			if(!ipcl_json_encode_object(enc, value->object))
+				return NULL;
+			break;
 
-	ipcl_json_state_t state = {
-		.next = json,
-		.end = json + len,
-		.ctx = json,
-		.line = 1
-	};
+		case 'a':
+			if(!ipcl_json_encode_array(enc, value->array))
+				return NULL;
+			break;
 
-	/* implemented as a recursive descent parser, this kicks off the recursion */
-	pcl_json_value_t *val = ipcl_json_parse_value(&state, NULL);
+		case 'b':
+			pcl_buf_putstr(b, value->boolean ? "true" : "false");
+			break;
 
-	if(val)
-	{
-		if(end)
-			*end = state.next;
-		return val;
-	}
+		case 's':
+			if(!ipcl_json_encode_string(enc, value->string))
+				return NULL;
+			break;
 
-	/* prepare error: try to show some context around the error site */
-	len = state.end - state.ctx;
-	state.end = state.ctx + min(len, 16);
-
-	char ctxbuf[40];
-	char *ctx = ctxbuf;
-
-	/* avoid special characters messing up stack trace */
-	for(; state.ctx < state.end; state.ctx++)
-	{
-		switch(*state.ctx)
+		case 'n':
 		{
-			case '\f':
-				*ctx++ = '\\';
-				*ctx++ = 'f';
-				break;
+			if(isnan(value->number) || isinf(value->number))
+				pcl_buf_putstr(b, "null");
+			else if((value->number - (double) ((long long) value->number)) == 0)
+				pcl_buf_putf(b, "%lld", (long long) value->number);
+			else
+				pcl_buf_putf(b, "%1.15g", value->number);
 
-			case '\t':
-				*ctx++ = '\\';
-				*ctx++ = 't';
-				break;
-
-			case '\r':
-				*ctx++ = '\\';
-				*ctx++ = 'r';
-				break;
-
-			case '\n':
-				*ctx++ = '\\';
-				*ctx++ = 'n';
-				break;
-
-			case '\b':
-				*ctx++ = '\\';
-				*ctx++ = 'b';
-				break;
-
-			default:
-				*ctx++ = *state.ctx;
+			break;
 		}
 	}
 
-	*ctx = 0;
-
-	return R_TRCMSG(NULL, "line=%d, context=%s", state.line, ctxbuf);
+	return b;
 }
