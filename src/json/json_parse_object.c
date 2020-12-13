@@ -45,10 +45,8 @@ remove_entry(const void *key, void *value, void *userp)
 pcl_htable_t *
 ipcl_json_parse_object(ipcl_json_state_t *s)
 {
-	if(*s->next != '{')
+	if(*s->next++ != '{')
 		JSON_THROW("expected opening object '{'", 0);
-
-	s->next++;
 
 	if(!ipcl_json_skipws(s))
 		return NULL;
@@ -82,14 +80,13 @@ ipcl_json_parse_object(ipcl_json_state_t *s)
 			return NULL;
 		}
 
-		if(*s->next != ':')
+		if(*s->next++ != ':')
 		{
 			pcl_htable_free(obj);
 			pcl_free(key);
 			JSON_THROW("expected value ':' separator", 0);
 		}
 
-		s->next++;
 		pcl_json_value_t *jv = ipcl_json_parse_value(s, NULL);
 
 		if(!jv)
@@ -125,13 +122,11 @@ ipcl_json_parse_object(ipcl_json_state_t *s)
 			return obj;
 		}
 
-		if(*s->next != ',')
+		if(*s->next++ != ',')
 		{
 			pcl_htable_free(obj);
 			JSON_THROW("missing comma after value", 0);
 		}
-
-		s->next++;
 
 		if(!ipcl_json_skipws(s))
 		{

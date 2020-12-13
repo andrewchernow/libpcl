@@ -42,10 +42,9 @@ value_cleanup(pcl_vector_t *v, void *elem)
 pcl_vector_t *
 ipcl_json_parse_array(ipcl_json_state_t *s)
 {
-	if(*s->next != '[')
+	if(*s->next++ != '[')
 		JSON_THROW("expected opening array '['", 0);
 
-	s->next++;
 	ipcl_json_skipws(s);
 	s->ctx = s->next;
 
@@ -71,10 +70,9 @@ ipcl_json_parse_array(ipcl_json_state_t *s)
 
 		if(!pcl_vector_append(arr, val))
 		{
-			TRCMSG("failed to add value to array", 0);
 			pcl_vector_free(arr);
 			ipcl_json_value_clear(val); // not managed by vector
-			return NULL;
+			return R_TRCMSG(NULL, "failed to add value to array", 0);
 		}
 
 		if(!ipcl_json_skipws(s))
@@ -89,13 +87,11 @@ ipcl_json_parse_array(ipcl_json_state_t *s)
 			return arr;
 		}
 
-		if(*s->next != ',')
+		if(*s->next++ != ',')
 		{
 			pcl_vector_free(arr);
 			JSON_THROW("missing comma after value", 0);
 		}
-
-		s->next++;
 
 		if(!ipcl_json_skipws(s))
 		{
