@@ -34,7 +34,7 @@
 #include <string.h>
 
 pcl_json_value_t *
-pcl_json_parse(const char *json, size_t len)
+pcl_json_parse(const char *json, size_t len, const char **end)
 {
 	if(!json)
 		return R_SETERR(NULL, PCL_EINVAL);
@@ -66,7 +66,11 @@ pcl_json_parse(const char *json, size_t len)
 	pcl_json_value_t *val = ipcl_json_parse_value(&state, NULL);
 
 	if(val)
+	{
+		if(end)
+			*end = state.next;
 		return val;
+	}
 
 	/* prepare error: try to show some context around the error site */
 	len = state.end - state.ctx;

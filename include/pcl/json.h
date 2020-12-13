@@ -32,6 +32,10 @@
 #ifndef LIBPCL_JSON_H
 #define LIBPCL_JSON_H
 
+/** @defgroup json JSON Parser
+ * A JSON parser.
+ * @{
+ */
 #include <pcl/types.h>
 
 #ifdef __cplusplus
@@ -40,7 +44,7 @@ extern "C" {
 
 struct tag_pcl_json_value
 {
-	/* 0=null, 'n'=number, 'b'=bool, 's'=string, 'a'=array, 'o'=object */
+	/** JSON value type: 0=null, 'n'=number, 'b'=bool, 's'=string, 'a'=array, 'o'=object */
 	char type;
 
 	union
@@ -53,10 +57,32 @@ struct tag_pcl_json_value
 	};
 };
 
-PCL_EXPORT pcl_json_value_t *pcl_json_parse(const char *json, size_t len);
+/** Parse a JSON string. This parses a JSON string that represents a JSON value. A JSON value
+ * can be an object \c {}, array \c [], string \c "", number \c -102.84, boolean \c true or
+ * \c false or a null value \c null. Parsing stops when the parsing of the JSON value at \a json
+ * is complete, regardless of the \a len argument. However, if a complete JSON object is not found
+ * between \a json \c + \a len, an error occurs. The \a json string can contain bogus data
+ * after the value being parsed, since the parser stops at the end of the value. For example:
+ * @code
+ * {
+ *   "name": "Henry Ford"
+ * }#invalid json here
+ * @endcode
+ * The above is completely valid, since a valid JSON object exists and ends before any invalid
+ * JSON text is encountered. When the \a end argument is supplied, it would be pointing at
+ * the '#' in the above example. This is very useful if a string contains multiple JSON values.
+ * pcl_json_parse can be called a multiple times passing the value of \a end as \a json.
+ *
+ * @param json pointer to a json string. This must be NUL terminated if \a len is 0.
+ * @param len number of bytes within \a json argument. If 0, \a json must be NUL terminated.
+ * @param pointer to the first character not parsed. This can be \c NULL.
+ * @return pointer to a json value or \c NULL on error
+ */
+PCL_EXPORT pcl_json_value_t *pcl_json_parse(const char *json, size_t len, const char **end);
 
 #ifdef __cplusplus
 }
 #endif
 
+/** @} */
 #endif // LIBPCL_JSON_H

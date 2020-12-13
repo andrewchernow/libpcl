@@ -48,9 +48,13 @@ int main(int argc, char **argv)
 	int n = (int) fread(buf, 1, sizeof(buf), fp);
 	buf[n] = 0;
 
-	pcl_json_value_t *root = pcl_json_parse(buf, n);
+	const char *end;
+	pcl_json_value_t *root = pcl_json_parse(buf, n, &end);
+
 	if(!root)
 		PANIC(NULL, 0);
+
+	printf("END = %s\n", end);
 
 	pcl_json_value_t *jv = pcl_htable_get(root->object, "cities");
 
