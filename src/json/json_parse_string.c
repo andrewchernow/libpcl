@@ -31,6 +31,95 @@
 
 #include "_json.h"
 #include <pcl/buf.h>
+#include <pcl/strint.h>
+#include <string.h>
+
+static ipcl_json_state_t *
+hex2num(ipcl_json_state_t *s, uint32_t *codepoint)
+{
+	char *end, num[5];
+
+	memcpy(num, s->next, 4);
+	num[4] = 0;
+
+	if(pcl_strtoi(num, &end, 16, (int *) codepoint) < 0)
+		return R_TRCMSG(NULL, "parsing \\u sequence '%s'", num);
+
+	/* not all characters were decoded, bogus \u0000 input */
+	if(*end)
+		JSON_THROW("invalid unicode character: '%s'", num);
+
+	s->next += 4;
+	return s;
+}
+
+static ipcl_json_state_t *
+utf16_to_utf8(ipcl_json_state_t *s, pcl_buf_t *b)
+{
+	uint32_t pair[2], code;
+
+	if(s->end - s->next < 4)
+		JSON_THROW("unexpected end of input: \\u0000 encoding missing digits", 0);
+
+	if(!hex2num(s, &pair[0]))
+		return NULL;
+
+	/* UTF-16 surrogate pair */
+	if(pair[0] >= 0xd800 && pair[0] <= 0xdbff)
+	{
+		if(s->end - s->next < 6)
+			JSON_THROW("unexpected end of input: \\u0000 encoding missing digits", 0);
+
+		if(*s->next != '\\' || s->next[1] != 'u')
+			JSON_THROW("invalid unicode character: missing UTF-16 surrogate '%.12s'", s->next - 6);
+
+		s->next += 2;
+
+		if(!hex2num(s, &pair[1]))
+			return NULL;
+
+		/* invalid UTF-16 surrogate */
+		if(pair[1] < 0xdc00 || pair[1] > 0xdfff)
+			JSON_THROW("invalid unicode character: surrogate '%.6s'", s->next - 6);
+
+		code = 0x10000;
+		code += (pair[0] & 0x03ff) << 10;
+		code += (pair[1] & 0x03ff);
+	}
+	else
+	{
+		code = pair[0];
+	}
+
+	if(code <= 0x7F) /* ascii */
+	{
+		pcl_buf_putchar(b, (char) code);
+	}
+	else if(code <= 0x07FF) /* 2-byte sequence */
+	{
+		pcl_buf_putchar(b, (char) (((code >> 6) & 0x1F) | 0xC0));
+		pcl_buf_putchar(b, (char) (((code >> 0) & 0x3F) | 0x80));
+	}
+	else if(code <= 0xFFFF) /* 3-byte sequence */
+	{
+		pcl_buf_putchar(b, (char) (((code >> 12) & 0x0F) | 0xE0));
+		pcl_buf_putchar(b, (((code >> 6) & 0x3F) | 0x80));
+		pcl_buf_putchar(b, (char) (((code >> 0) & 0x3F) | 0x80));
+	}
+	else if(code <= 0x10FFFF) /* 4-byte sequence */
+	{
+		pcl_buf_putchar(b, (char) (((code >> 18) & 0x07) | 0xF0));
+		pcl_buf_putchar(b, (char) (((code >> 12) & 0x3F) | 0x80));
+		pcl_buf_putchar(b, (char) (((code >> 6) & 0x3F) | 0x80));
+		pcl_buf_putchar(b, (char) (((code >> 0) & 0x3F) | 0x80));
+	}
+	else
+	{
+		JSON_THROW("invalid unicode character: 0x%08x", code);
+	}
+
+	return s;
+}
 
 char *
 ipcl_json_parse_string(ipcl_json_state_t *s)
@@ -83,10 +172,22 @@ ipcl_json_parse_string(ipcl_json_state_t *s)
 				break;
 
 			case 'u':
-				break;
+			{
+				s->next++;
 
+				if(!utf16_to_utf8(s, b))
+				{
+					pcl_buf_clear(b);
+					return NULL;
+				}
+
+				s->next--;
+				break;
+			}
+
+			/* json is very specific about valid escape sequences */
 			default:
-				pcl_buf_putf(b, "\\%c", *s->next);
+				JSON_THROW("invalid escape sequence within string \\%c", *s->next);
 		}
 	}
 
