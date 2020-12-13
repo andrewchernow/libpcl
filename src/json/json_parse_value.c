@@ -153,6 +153,7 @@ ipcl_json_parse_value(ipcl_json_state_t *s, pcl_json_value_t *valbuf)
 			JSON_THROW("expected json value", 0);
 	}
 
+	/* valbuf is only passed in by ipcl_json_parse_array since vector copies elements */
 	pcl_json_value_t *v = valbuf ? valbuf : pcl_malloc(sizeof(pcl_json_value_t));
 
 	return memcpy(v, &val, sizeof(val));
