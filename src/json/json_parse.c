@@ -62,7 +62,7 @@ pcl_json_parse(const char *json, size_t len)
 		.line = 1
 	};
 
-	/* implemented as a recursive decent parser, this kicks off the recursion */
+	/* implemented as a recursive descent parser, this kicks off the recursion */
 	pcl_json_value_t *val = ipcl_json_parse_value(&state, NULL);
 
 	if(val)
