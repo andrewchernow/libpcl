@@ -30,16 +30,8 @@
 */
 
 #include "_json.h"
-#include <pcl/vector.h>
-
-static void
-value_cleanup(pcl_vector_t *v, void *elem)
-{
-	UNUSED(v);
-	ipcl_json_value_clear(elem);
-}
-
-pcl_vector_t *
+#include <pcl/array.h>
+pcl_json_t *
 ipcl_json_parse_array(ipcl_json_state_t *s)
 {
 	if(*s->next++ != '[')
@@ -48,7 +40,7 @@ ipcl_json_parse_array(ipcl_json_state_t *s)
 	ipcl_json_skipws(s);
 	s->ctx = s->next;
 
-	pcl_vector_t *arr = pcl_vector_create(8, sizeof(pcl_json_value_t), value_cleanup);
+	pcl_json_t *arr = pcl_json_array();
 
 	/* empty array */
 	if(*s->next == ']')
@@ -59,25 +51,24 @@ ipcl_json_parse_array(ipcl_json_state_t *s)
 
 	do
 	{
-		pcl_json_value_t valbuf;
-		pcl_json_value_t *val = ipcl_json_parse_value(s, &valbuf);
+		pcl_json_t *val = ipcl_json_parse_value(s);
 
 		if(!val)
 		{
-			pcl_vector_free(arr);
+			pcl_json_free(arr);
 			return NULL;
 		}
 
-		if(!pcl_vector_append(arr, val))
+		if(pcl_json_array_add(arr, val) < 0)
 		{
-			pcl_vector_free(arr);
-			ipcl_json_value_clear(val); // not managed by vector
+			pcl_json_free(arr);
+			pcl_json_free(val); // not managed by array cuz add failed
 			return R_TRCMSG(NULL, "failed to add value to array", 0);
 		}
 
 		if(!ipcl_json_skipws(s))
 		{
-			pcl_vector_free(arr);
+			pcl_json_free(arr);
 			return NULL;
 		}
 
@@ -89,18 +80,18 @@ ipcl_json_parse_array(ipcl_json_state_t *s)
 
 		if(*s->next++ != ',')
 		{
-			pcl_vector_free(arr);
+			pcl_json_free(arr);
 			JSON_THROW("missing comma after value", 0);
 		}
 
 		if(!ipcl_json_skipws(s))
 		{
-			pcl_vector_free(arr);
+			pcl_json_free(arr);
 			return NULL;
 		}
 	}
 	while(s->next < s->end);
 
-	pcl_vector_free(arr);
+	pcl_json_free(arr);
 	JSON_THROW("unexpected end of input", 0);
 }

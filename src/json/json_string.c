@@ -30,24 +30,46 @@
 */
 
 #include "_json.h"
-#include <pcl/buf.h>
-#include <string.h>
+#include <pcl/string.h>
+#include <pcl/alloc.h>
 
-char *
-pcl_json_encode(pcl_json_t *value, bool format)
+pcl_json_t *
+pcl_json_string(char *str, size_t len, uint32_t flags)
 {
-	pcl_buf_t buf;
-	ipcl_json_encode_t enc;
+	if(!str)
+		return R_SETERR(NULL, PCL_EINVAL);
 
-	enc.tabs = 0;
-	enc.format = format;
-	enc.b = pcl_buf_init(&buf, 256, PclBufText);
+	if(!(flags & PCL_JSON_SKIPUTF8CHK) && ipcl_json_utf8check(str, len) < 0)
+		return R_TRC(NULL);
 
-	if(!ipcl_json_encode_value(&enc, value))
+	pcl_json_t *val = pcl_malloc(sizeof(pcl_json_t));
+
+	val->type = 's';
+
+	if(flags & PCL_JSON_SHALLOW)
 	{
-		pcl_buf_clear(&buf);
-		return NULL;
+		/* must be NUL-terminated, documented as such */
+		if(len == 0)
+		{
+			val->string = str;
+		}
+		else
+		{
+			/* json strings MUST be NUL-terminated, ensure we can add a NUL. In many cases,
+			 * the realloc is a no-op since most string allocations are larger than "len".
+			 */
+			val->string = pcl_realloc(str, len + 1);
+			val->string[len] = 0;
+		}
+	}
+	else if(len == 0)
+	{
+		val->string = pcl_strdup(str);
+	}
+	else
+	{
+		val->string = pcl_strndup(str, len);
 	}
 
-	return buf.data;
+	return val;
 }

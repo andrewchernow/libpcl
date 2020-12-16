@@ -30,10 +30,10 @@
 */
 
 #include "_json.h"
-#include <pcl/vector.h>
+#include <pcl/array.h>
 
 pcl_buf_t *
-ipcl_json_encode_array(ipcl_json_encode_t *enc, pcl_vector_t *arr)
+ipcl_json_encode_array(ipcl_json_encode_t *enc, pcl_array_t *arr)
 {
 	pcl_buf_t *b = enc->b;
 
@@ -49,7 +49,7 @@ ipcl_json_encode_array(ipcl_json_encode_t *enc, pcl_vector_t *arr)
 		if(enc->format)
 			PRINT_TABS(enc);
 
-		if(!ipcl_json_encode_value(enc, pcl_vector_get(arr, i)))
+		if(!ipcl_json_encode_value(enc, arr->elements[i]))
 			return NULL;
 
 		if(i + 1 < arr->count)

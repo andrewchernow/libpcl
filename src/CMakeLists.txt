@@ -4,6 +4,7 @@
 
 # sub targets
 add_subdirectory(alloc)
+add_subdirectory(array)
 add_subdirectory(atomic)
 add_subdirectory(buf)
 add_subdirectory(crypto)
@@ -40,6 +41,7 @@ endif()
 # pcl library target and all sources
 add_library(pcl SHARED
 	$<TARGET_OBJECTS:alloc>
+	$<TARGET_OBJECTS:array>
 	$<TARGET_OBJECTS:atomic>
 	$<TARGET_OBJECTS:buf>
 	$<TARGET_OBJECTS:crypto>

@@ -33,16 +33,7 @@
 #include <pcl/htable.h>
 #include <pcl/alloc.h>
 
-static void
-remove_entry(const void *key, void *value, void *userp)
-{
-	UNUSED(userp);
-	pcl_free(key);
-	ipcl_json_value_clear(value);
-	pcl_free(value);
-}
-
-pcl_htable_t *
+pcl_json_t *
 ipcl_json_parse_object(ipcl_json_state_t *s)
 {
 	if(*s->next++ != '{')
@@ -53,8 +44,7 @@ ipcl_json_parse_object(ipcl_json_state_t *s)
 
 	s->ctx = s->next;
 
-	pcl_htable_t *obj = pcl_htable_create(0);
-	obj->remove_entry = remove_entry;
+	pcl_json_t *obj = pcl_json_object();
 
 	/* empty object */
 	if(*s->next == '}')
@@ -69,42 +59,39 @@ ipcl_json_parse_object(ipcl_json_state_t *s)
 
 		if(!key)
 		{
-			pcl_htable_free(obj);
+			pcl_json_free(obj);
 			return NULL;
 		}
 
 		if(!ipcl_json_skipws(s))
 		{
-			pcl_htable_free(obj);
+			pcl_json_free(obj);
 			pcl_free(key);
 			return NULL;
 		}
 
 		if(*s->next++ != ':')
 		{
-			pcl_htable_free(obj);
+			pcl_json_free(obj);
 			pcl_free(key);
 			JSON_THROW("expected value ':' separator", 0);
 		}
 
-		pcl_json_value_t *jv = ipcl_json_parse_value(s, NULL);
+		pcl_json_t *val = ipcl_json_parse_value(s);
 
-		if(!jv)
+		if(!val)
 		{
-			pcl_htable_free(obj);
+			pcl_json_free(obj);
 			pcl_free(key);
 			return NULL;
 		}
 
-		if(pcl_htable_put(obj, key, jv, true) < 0)
+		if(pcl_json_object_put(obj, key, val) < 0)
 		{
-			TRCMSG("object '%s' put failed", key);
+			pcl_json_free(obj);
 
-			pcl_htable_free(obj);
-
-			/* 'jv' and 'key' are not managed by 'obj' cuz put failed */
-			ipcl_json_value_clear(jv);
-			pcl_free(jv);
+			/* 'val' and 'key' are not managed by 'obj' cuz put failed */
+			pcl_json_free(val);
 			pcl_free(key);
 
 			return NULL;
@@ -112,7 +99,7 @@ ipcl_json_parse_object(ipcl_json_state_t *s)
 
 		if(!ipcl_json_skipws(s))
 		{
-			pcl_htable_free(obj);
+			pcl_json_free(obj);
 			return NULL;
 		}
 
@@ -124,18 +111,18 @@ ipcl_json_parse_object(ipcl_json_state_t *s)
 
 		if(*s->next++ != ',')
 		{
-			pcl_htable_free(obj);
+			pcl_json_free(obj);
 			JSON_THROW("missing comma after value", 0);
 		}
 
 		if(!ipcl_json_skipws(s))
 		{
-			pcl_htable_free(obj);
+			pcl_json_free(obj);
 			return NULL;
 		}
 	}
 	while(s->next < s->end);
 
-	pcl_htable_free(obj);
+	pcl_json_free(obj);
 	JSON_THROW("unexpected end of input", 0);
 }

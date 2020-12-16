@@ -30,24 +30,18 @@
 */
 
 #include "_json.h"
-#include <pcl/buf.h>
-#include <string.h>
+#include <pcl/array.h>
 
-char *
-pcl_json_encode(pcl_json_t *value, bool format)
+pcl_json_t *
+pcl_json_array_get(pcl_json_t *arr, int index)
 {
-	pcl_buf_t buf;
-	ipcl_json_encode_t enc;
+	if(!arr)
+		return R_SETERR(NULL, PCL_EINVAL);
 
-	enc.tabs = 0;
-	enc.format = format;
-	enc.b = pcl_buf_init(&buf, 256, PclBufText);
+	pcl_json_t *elem = pcl_array_get(arr->array, index);
 
-	if(!ipcl_json_encode_value(&enc, value))
-	{
-		pcl_buf_clear(&buf);
-		return NULL;
-	}
+	if(!elem)
+		return R_TRC(NULL);
 
-	return buf.data;
+	return elem;
 }

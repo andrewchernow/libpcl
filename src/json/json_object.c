@@ -30,24 +30,25 @@
 */
 
 #include "_json.h"
-#include <pcl/buf.h>
-#include <string.h>
+#include <pcl/htable.h>
+#include <pcl/alloc.h>
 
-char *
-pcl_json_encode(pcl_json_t *value, bool format)
+static void
+remove_entry(const void *key, void *value, void *userp)
 {
-	pcl_buf_t buf;
-	ipcl_json_encode_t enc;
+	UNUSED(userp);
+	pcl_free(key);
+	pcl_json_free(value);
+}
 
-	enc.tabs = 0;
-	enc.format = format;
-	enc.b = pcl_buf_init(&buf, 256, PclBufText);
+pcl_json_t *
+pcl_json_object(void)
+{
+	pcl_json_t *val = pcl_malloc(sizeof(pcl_json_t));
 
-	if(!ipcl_json_encode_value(&enc, value))
-	{
-		pcl_buf_clear(&buf);
-		return NULL;
-	}
+	val->type = 'o';
+	val->object = pcl_htable_create(0);
+	val->object->remove_entry = remove_entry;
 
-	return buf.data;
+	return val;
 }

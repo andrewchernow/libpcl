@@ -30,24 +30,21 @@
 */
 
 #include "_json.h"
-#include <pcl/buf.h>
-#include <string.h>
+#include <pcl/htable.h>
 
-char *
-pcl_json_encode(pcl_json_t *value, bool format)
+pcl_json_t *
+pcl_json_object_get(pcl_json_t *obj, const char *key)
 {
-	pcl_buf_t buf;
-	ipcl_json_encode_t enc;
+	if(!obj || !key)
+		return R_SETERR(NULL, PCL_EINVAL);
 
-	enc.tabs = 0;
-	enc.format = format;
-	enc.b = pcl_buf_init(&buf, 256, PclBufText);
+	if(obj->type != 'o')
+		return R_SETERRMSG(NULL, PCL_ETYPE, "expected type 'o', got '%c'", obj->type);
 
-	if(!ipcl_json_encode_value(&enc, value))
-	{
-		pcl_buf_clear(&buf);
-		return NULL;
-	}
+	pcl_json_t *val = pcl_htable_get(obj->object, key);
 
-	return buf.data;
+	if(!val && pcl_errno)
+		return R_TRC(NULL);
+
+	return val;
 }

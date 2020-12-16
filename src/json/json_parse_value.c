@@ -31,13 +31,12 @@
 
 #include "_json.h"
 #include <pcl/alloc.h>
-#include <stdlib.h>
 #include <string.h>
 
-pcl_json_value_t *
-ipcl_json_parse_value(ipcl_json_state_t *s, pcl_json_value_t *valbuf)
+pcl_json_t *
+ipcl_json_parse_value(ipcl_json_state_t *s)
 {
-	pcl_json_value_t val;
+	pcl_json_t *val;
 
 	s->ctx = s->next;
 
@@ -50,31 +49,27 @@ ipcl_json_parse_value(ipcl_json_state_t *s, pcl_json_value_t *valbuf)
 	{
 		case '{':
 		{
-			val.type = 'o';
-
-			if(!(val.object = ipcl_json_parse_object(s)))
+			if(!(val = ipcl_json_parse_object(s)))
 				return NULL;
-
 			break;
 		}
 
 		case '[':
 		{
-			val.type = 'a';
-
-			if(!(val.array = ipcl_json_parse_array(s)))
+			if(!(val = ipcl_json_parse_array(s)))
 				return NULL;
-
 			break;
 		}
 
 		case '"':
 		{
-			val.type = 's';
+			char *str = ipcl_json_parse_string(s);
 
-			if(!(val.string = ipcl_json_parse_string(s)))
+			if(!str)
 				return NULL;
 
+			/* ipcl_json_parse_string already did UTF-8 check */
+			val = pcl_json_string(str, 0, PCL_JSON_SKIPUTF8CHK | PCL_JSON_SHALLOW);
 			break;
 		}
 
@@ -84,8 +79,7 @@ ipcl_json_parse_value(ipcl_json_state_t *s, pcl_json_value_t *valbuf)
 				JSON_THROW("invalid json value", 0);
 
 			s->next += 4;
-			val.type = 'b';
-			val.boolean = true;
+			val = pcl_json_true();
 			break;
 		}
 
@@ -95,8 +89,7 @@ ipcl_json_parse_value(ipcl_json_state_t *s, pcl_json_value_t *valbuf)
 				JSON_THROW("invalid json value", 0);
 
 			s->next += 5;
-			val.type = 'b';
-			val.boolean = false;
+			val = pcl_json_false();
 			break;
 		}
 
@@ -106,18 +99,12 @@ ipcl_json_parse_value(ipcl_json_state_t *s, pcl_json_value_t *valbuf)
 				JSON_THROW("invalid json value", 0);
 
 			s->next += 4;
-			val.type = 0;
+			val = pcl_json_null();
 			break;
 		}
 
 		case '0':
-			/* 00, 01, 02, etc. is invalid: 0.0 or just 0 is fine */
-			if(isdigit(s->next[1]))
-				JSON_THROW("invalid number value: begins with 0", 0);
-			/* fall-through */
-
 		case '-':
-		case '.':
 		case '1':
 		case '2':
 		case '3':
@@ -128,24 +115,8 @@ ipcl_json_parse_value(ipcl_json_state_t *s, pcl_json_value_t *valbuf)
 		case '8':
 		case '9':
 		{
-			char *end;
-
-			errno = 0;
-			val.number = strtod(s->next, &end);
-
-			/* ERANGE issues */
-			if(errno && val.number)
-			{
-				pcl_err_set(PCL_LOCATION_ARGS, pcl_err_crt2pcl(errno), 0, "invalid number value");
+			if(!(val = ipcl_json_parse_number(s)))
 				return NULL;
-			}
-
-			/* strtod raises an EINVAL. in this case, it means p->next was just "-" or "." */
-			if(s->next == end)
-				JSON_THROW("invalid number value: no digits found", 0);
-
-			s->next = end;
-			val.type = 'n';
 			break;
 		}
 
@@ -153,8 +124,5 @@ ipcl_json_parse_value(ipcl_json_state_t *s, pcl_json_value_t *valbuf)
 			JSON_THROW("expected json value", 0);
 	}
 
-	/* valbuf is only passed in by ipcl_json_parse_array since vector copies elements */
-	pcl_json_value_t *v = valbuf ? valbuf : pcl_malloc(sizeof(pcl_json_value_t));
-
-	return memcpy(v, &val, sizeof(val));
+	return val;
 }

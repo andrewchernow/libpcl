@@ -30,91 +30,94 @@
 */
 
 #include "_json.h"
-#include <pcl/error.h>
-#include <string.h>
+#include <pcl/strint.h>
+#include <stdlib.h>
 
 pcl_json_t *
-pcl_json_decode(const char *json, size_t len, const char **end)
+ipcl_json_parse_number(ipcl_json_state_t *s)
 {
-	if(!json)
-		return R_SETERR(NULL, PCL_EINVAL);
+	const char *p = s->next;
+	bool decimal = false;
+	bool exp = false;
+	bool expsign = false;
 
-	if(len == 0)
-		len = strlen(json);
+	if(*p == '-')
+		p++;
 
-	if(len == 0)
-		return R_SETERRMSG(NULL, PCL_EINVAL, "empty json string", 0);
-
-	/* skip utf8 BOM byte order mark */
-	if(len >= 3 && memcmp(json, "\xEF\xBB\xBF", 3) == 0)
+	for(; p < s->end; p++)
 	{
-		len -= 3;
-		json += 3;
-	}
+		unsigned char c = *p;
 
-	if(len == 0)
-		return R_SETERRMSG(NULL, PCL_EINVAL, "empty json string", 0);
-
-	ipcl_json_state_t state = {
-		.next = json,
-		.end = json + len,
-		.ctx = json,
-		.line = 1
-	};
-
-	/* implemented as a recursive descent parser, this kicks off the recursion */
-	pcl_json_t *val = ipcl_json_parse_value(&state);
-
-	if(val)
-	{
-		if(end)
-			*end = state.next;
-		return val;
-	}
-
-	/* prepare error: try to show some context around the error site */
-	len = state.end - state.ctx;
-	state.end = state.ctx + min(len, 20);
-
-	char ctxbuf[64];
-	char *ctx = ctxbuf;
-
-	/* avoid special characters messing up stack trace */
-	for(; state.ctx < state.end; state.ctx++)
-	{
-		switch(*state.ctx)
+		if(c == 'e' || c == 'E')
 		{
-			case '\f':
-				*ctx++ = '\\';
-				*ctx++ = 'f';
-				break;
+			if(exp)
+				JSON_THROW("invalid number format: multiple exponents '%c'", c);
 
-			case '\t':
-				*ctx++ = '\\';
-				*ctx++ = 't';
-				break;
+			exp = true;
+		}
+		else if(c == '.')
+		{
+			if(decimal)
+				JSON_THROW("invalid number format: multiple decimal signs", 0);
 
-			case '\r':
-				*ctx++ = '\\';
-				*ctx++ = 'r';
-				break;
+			decimal = true;
+		}
+		else if(c == '-' || c == '+')
+		{
+			if(!exp)
+				JSON_THROW("invalid number format: sign '%c' in wrong position", c);
 
-			case '\n':
-				*ctx++ = '\\';
-				*ctx++ = 'n';
-				break;
+			if(expsign)
+				JSON_THROW("invalid number format: multiple exponent signs", 0);
 
-			case '\b':
-				*ctx++ = '\\';
-				*ctx++ = 'b';
-				break;
-
-			default:
-				*ctx++ = *state.ctx;
+			expsign = true;
+		}
+		/* done, no more digits */
+		else if(c < '0' || c > '9')
+		{
+			break;
 		}
 	}
 
-	*ctx = 0;
+	if(p == s->end)
+		JSON_THROW("unexpected end of input parsing number", 0);
 
-	return R_TRCMSG(NULL, "line=%d, context=%s", state.line, ctxbuf);
+	if(*s->next == '0' && isdigit(s->next[1]))
+		JSON_THROW("invalid number value: begins with 0", 0);
+
+	char *end;
+	pcl_json_t *val;
+
+	if(exp || decimal)
+	{
+		errno = 0;
+
+		double num = strtod(s->next, &end);
+
+		/* ERANGE issues */
+		if(errno && num)
+		{
+			pcl_err_set(PCL_LOCATION_ARGS, pcl_err_crt2pcl(errno), 0, "invalid number value");
+			return NULL;
+		}
+
+		/* strtod raises an EINVAL. in this case, it means p->next was just "-" or "." */
+		if(s->next == end)
+			JSON_THROW("invalid number value: no digits found", 0);
+
+		val = pcl_json_real(num);
+	}
+	else
+	{
+		long long num;
+
+		if(pcl_strtoll(s->next, &end, 10, &num) < 0)
+			return R_TRC(NULL);
+
+		val = pcl_json_integer(num);
+	}
+
+	s->next = end;
+
+	return val;
 }

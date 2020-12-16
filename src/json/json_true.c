@@ -30,24 +30,10 @@
 */
 
 #include "_json.h"
-#include <pcl/buf.h>
-#include <string.h>
 
-char *
-pcl_json_encode(pcl_json_t *value, bool format)
+pcl_json_t *
+pcl_json_true(void)
 {
-	pcl_buf_t buf;
-	ipcl_json_encode_t enc;
-
-	enc.tabs = 0;
-	enc.format = format;
-	enc.b = pcl_buf_init(&buf, 256, PclBufText);
-
-	if(!ipcl_json_encode_value(&enc, value))
-	{
-		pcl_buf_clear(&buf);
-		return NULL;
-	}
-
-	return buf.data;
+	static pcl_json_t jtrue = {.type = 'b', .boolean = true};
+	return &jtrue;
 }

@@ -33,7 +33,7 @@
 #include <math.h>
 
 pcl_buf_t *
-ipcl_json_encode_value(ipcl_json_encode_t *enc, pcl_json_value_t *value)
+ipcl_json_encode_value(ipcl_json_encode_t *enc, pcl_json_t *value)
 {
 	pcl_buf_t *b = enc->b;
 
@@ -62,17 +62,22 @@ ipcl_json_encode_value(ipcl_json_encode_t *enc, pcl_json_value_t *value)
 				return NULL;
 			break;
 
-		case 'n':
+		case 'i':
+			pcl_buf_putf(b, "%lld", value->integer);
+			break;
+
+		case 'r':
 		{
-			if(isnan(value->number) || isinf(value->number))
+			if(isnan(value->real) || isinf(value->real))
 				pcl_buf_putstr(b, "null");
-			else if((value->number - (double) ((long long) value->number)) == 0)
-				pcl_buf_putf(b, "%lld", (long long) value->number);
 			else
-				pcl_buf_putf(b, "%1.15g", value->number);
+				pcl_buf_putf(b, "%1.15g", value->real);
 
 			break;
 		}
+
+		default:
+			return R_SETERRMSG(NULL, PCL_ETYPE, "invalid json type '%c'", value->type);
 	}
 
 	return b;

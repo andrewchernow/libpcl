@@ -30,28 +30,19 @@
 */
 
 #include "_json.h"
-#include <pcl/htable.h>
-#include <pcl/vector.h>
-#include <pcl/alloc.h>
+#include <pcl/array.h>
 
-void
-ipcl_json_value_clear(pcl_json_value_t *v)
+int
+pcl_json_array_add(pcl_json_t *arr, pcl_json_t *elem)
 {
-	if(!v)
-		return;
+	if(!arr || !elem)
+		return BADARG();
 
-	switch(v->type)
-	{
-		case 's':
-			pcl_free(v->string);
-			break;
+	if(arr->type != 'a')
+		return SETERRMSG(PCL_ETYPE, "expected type 'a', got '%c'", arr->type);
 
-		case 'a':
-			pcl_vector_free(v->array);
-			break;
+	if(pcl_array_add(arr->array, elem) < 0)
+		return TRCMSG("failed to add array element", 0);
 
-		case 'o':
-			pcl_htable_free(v->object);
-			break;
-	}
+	return arr->array->count;
 }

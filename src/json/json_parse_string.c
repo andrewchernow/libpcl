@@ -140,6 +140,7 @@ ipcl_json_parse_string(ipcl_json_state_t *s)
 
 	s->ctx = s->next++;
 
+	/* first encode any escapes */
 	for(; *s->next; s->next++)
 	{
 		if(*s->next != '\\')
@@ -194,7 +195,7 @@ ipcl_json_parse_string(ipcl_json_state_t *s)
 				break;
 			}
 
-			/* json is very specific about what constitutes a valid escape sequences */
+			/* json is very specific about what constitutes a valid escape sequence */
 			default:
 				JSON_THROW("invalid escape sequence within string \\%c", *s->next);
 		}
@@ -207,6 +208,10 @@ ipcl_json_parse_string(ipcl_json_state_t *s)
 	}
 
 	s->next++;
+
+	/* now check that the string is valid utf8, which the above unescaping did not do */
+	if(ipcl_json_utf8check(b->data, b->len) < 0)
+		return R_TRC(NULL);
 
 	return b->data;
 }
