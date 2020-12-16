@@ -1,6 +1,6 @@
 /*
-  Portable C Library ("PCL")
-  Copyright (c) 1999-2020 Andrew Chernow
+  Portable C Library (PCL)
+  Copyright (c) 1999-2003, 2005-2014, 2017-2020 Andrew Chernow
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without
@@ -29,20 +29,28 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "_htable.h"
 #include <pcl/array.h>
+#include <pcl/error.h>
+#include <string.h>
 
-pcl_array_t *
-pcl_htable_keys(pcl_htable_t *ht)
+int
+pcl_array_remove(pcl_array_t *arr, int index)
 {
-	pcl_array_t *keys = pcl_array_create(ht ? ht->count : 0, NULL);
+	if(!arr)
+		return SETERR(PCL_EINVAL);
 
-	if(ht && ht->count)
-	{
-		for(int i = 0; i < ht->capacity; i++)
-			for(pcl_htable_entry_t *e = ht->entries[i]; e; e = e->next)
-				pcl_array_add(keys, (void *) e->key);
-	}
+	if(index < 0 || index >= arr->count)
+		return SETERR(PCL_EINDEX);
 
-	return keys;
+	void *elem = arr->elements[index];
+
+	if(elem && arr->cleanup)
+		arr->cleanup(arr, elem);
+
+	/* no memmove required if removing last element */
+	if(index < arr->count - 1)
+		memmove(arr->elements + index, arr->elements + index + 1,
+			(arr->count - index - 1) * sizeof(void*));
+
+	return --arr->count;
 }

@@ -66,7 +66,7 @@ typedef struct tag_pcl_err pcl_err_t;
 typedef struct tag_pcl_digest pcl_digest_t;
 typedef struct tag_pcl_cipher pcl_cipher_t;
 typedef struct tag_pcl_file pcl_file_t;
-typedef struct tag_pcl_json_value pcl_json_value_t;
+typedef struct tag_pcl_json pcl_json_t;
 /** Directory handle.
  * @ingroup dir
  */
@@ -77,6 +77,7 @@ typedef struct tag_pcl_ssl pcl_ssl_t;
  * @copydoc tag_pcl_vector
  */
 typedef struct tag_pcl_vector pcl_vector_t;
+typedef struct tag_pcl_array pcl_array_t;
 typedef struct tag_pcl_stat pcl_stat_t;
 /** @ingroup buf */
 typedef struct tag_pcl_buf pcl_buf_t;

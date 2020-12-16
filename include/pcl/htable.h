@@ -336,13 +336,12 @@ PCL_EXPORT int pcl_htable_put(pcl_htable_t *ht, const void *key, void *value, bo
  */
 PCL_EXPORT void pcl_htable_remove(pcl_htable_t *ht, const void *key);
 
-/** Get hash table keys as a vector. Note, each element is a \c void** so ensure to use
- * pcl_vector_getptr or _getptr_s to retreive the keys from the vector.
+/** Get hash table keys as an array.
  * @param ht pointer to hash table object
- * @return vector on success and NULL on error. An empty table produces an empty vector. This
- * vector must be freed by caller.
+ * @return array on success and \c NULL on error. An empty table produces an empty array. This
+ * array must be freed by caller.
  */
-PCL_EXPORT pcl_vector_t *pcl_htable_keys(pcl_htable_t *ht);
+PCL_EXPORT pcl_array_t *pcl_htable_keys(pcl_htable_t *ht);
 
 /** Clear all entries from the table.
  * @param ht pointer to hash table object

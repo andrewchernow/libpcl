@@ -1,6 +1,6 @@
 /*
-  Portable C Library ("PCL")
-  Copyright (c) 1999-2020 Andrew Chernow
+  Portable C Library (PCL)
+  Copyright (c) 1999-2003, 2005-2014, 2017-2020 Andrew Chernow
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without
@@ -29,20 +29,23 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "_htable.h"
 #include <pcl/array.h>
+#include <pcl/error.h>
+#include <pcl/alloc.h>
 
-pcl_array_t *
-pcl_htable_keys(pcl_htable_t *ht)
+int
+pcl_array_add(pcl_array_t *arr, void *elem)
 {
-	pcl_array_t *keys = pcl_array_create(ht ? ht->count : 0, NULL);
+	if(!arr)
+		return SETERR(PCL_EINVAL);
 
-	if(ht && ht->count)
+	if(arr->count == arr->capacity)
 	{
-		for(int i = 0; i < ht->capacity; i++)
-			for(pcl_htable_entry_t *e = ht->entries[i]; e; e = e->next)
-				pcl_array_add(keys, (void *) e->key);
+		arr->capacity = arr->capacity > 0 ? arr->capacity * 2 : 8;
+		arr->elements = pcl_realloc(arr->elements, arr->capacity * sizeof(void*));
 	}
 
-	return keys;
+	arr->elements[arr->count++] = elem;
+
+	return arr->count;
 }
