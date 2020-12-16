@@ -33,8 +33,9 @@
 #include <pcl/json.h>
 #include <pcl/error.h>
 #include <pcl/htable.h>
-#include <pcl/vector.h>
+#include <pcl/array.h>
 #include <stdlib.h>
+#include <string.h>
 
 int main(int argc, char **argv)
 {
@@ -42,41 +43,50 @@ int main(int argc, char **argv)
 
 	UNUSED(argc || argv);
 
-	FILE *fp = fopen("examples/test.json", "r");
-	char buf[8192];
+	FILE *fp = fopen("examples/x.json", "r");
+	char buf[16 * 1024];
 
-	int n = (int) fread(buf, 1, sizeof(buf), fp);
-	buf[n] = 0;
+	int n = 0;
 
-	fwrite(buf, 1, n, stdout);
-	printf("\n");
+	//buf[n++] = '"';
+
+	n += (int) fread(buf, 1, sizeof(buf), fp);
+
+	//buf[n++] = '"';
+
+	//fwrite(buf, 1, n, stdout);
+	//printf("\n");
 
 	const char *end;
-	pcl_json_value_t *root = pcl_json_decode(buf, n, &end);
+	pcl_json_t *root = pcl_json_decode(buf, n, &end);
 
 	if(!root)
 		PANIC(NULL, 0);
 
+	printf("%c: %1.15f\n", root->type, root->real);
+	exit(0);
 	printf("END = %s\n", end);
 
-	pcl_json_value_t *jv = pcl_htable_get(root->object, "cities");
+	pcl_json_t *jv = pcl_json_object_get(root, "stuff");
 
 	printf("array-count=%d\n", jv->array->count);
 
-	jv = pcl_vector_get(jv->array, 0);
+	jv = pcl_json_array_get(jv, 0);
 
-	pcl_vector_t *keys = pcl_htable_keys(jv->object);
+	pcl_array_t *keys = pcl_htable_keys(jv->object);
 
 	for(int i = 0; i < keys->count; i++)
 	{
-		char *key = pcl_vector_getptr(keys, i);
-		pcl_json_value_t *elem = pcl_htable_get(jv->object, key);
+		char *key = keys->elements[i];
+		pcl_json_t *elem = pcl_htable_get(jv->object, key);
 		if(elem->type == 's')
 			printf("KEY = %s, VALUE = %s\n", key, elem->string);
 	}
 
+	pcl_array_free(keys);
+
 	printf("type = %c\n", jv->type);
-	printf("%s\n", ((pcl_json_value_t *) pcl_htable_get(jv->object, "name"))->string);
+	printf("%s\n", ((pcl_json_t *) pcl_htable_get(jv->object, "name"))->string);
 
 	char *out = pcl_json_encode(root, true);
 

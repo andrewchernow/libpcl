@@ -36,7 +36,7 @@
 #include <pcl/htable.h>
 #include <pcl/error.h>
 #include <pcl/farmhash.h>
-#include <pcl/vector.h>
+#include <pcl/array.h>
 #include <stdlib.h>
 
 typedef struct
@@ -141,13 +141,11 @@ int main(int argc, char **argv)
 	printf("Found key=%s, value: name=%s, age=%d\n", (char *) ent->key, p->name, p->age);
 
 	/* vector of keys, char** in this example */
-	pcl_vector_t *keys = pcl_htable_keys(ht);
+	pcl_array_t *keys = pcl_htable_keys(ht);
 
 	for(int i = 0; i < keys->count; i++)
 	{
-		// avoid derefencing element by using pcl_vector_getptr
-		//char **key = pcl_vector_get(keys, i);
-		char *key = pcl_vector_getptr(keys, i);
+		char *key = keys->elements[i];
 
 		ent = pcl_htable_lookup(ht, key);
 
@@ -158,7 +156,7 @@ int main(int argc, char **argv)
 		printf("%s is %d years old\n", p->name, p->age);
 	}
 
-	pcl_vector_free(keys);
+	pcl_array_free(keys);
 
 	p = pcl_malloc(sizeof(person_t));
 	p->name = pcl_strdup("Michael");
