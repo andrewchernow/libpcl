@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/win32/win32_process_token.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/time/win32_ftime_to_pcl.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,12 +62,12 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_7dc28ed10c1e0aa99689948e6211576b.html">&#x202A;win32</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_798ee6f4f5cd9c6410c07a649b7662ec.html">&#x202A;time</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">win32_process_token.c</div>  </div>
+<div class="title">win32_ftime_to_pcl.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a01076.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,31 +101,27 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a01058.html">_win32.h</a>&quot;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a01049.html">_time.h</a>&quot;</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01076.html#aa2e6fad1f9cae00b92f120929499825c">   35</a></span>&#160;<a class="code" href="a01076.html#aa2e6fad1f9cae00b92f120929499825c">ipcl_win32_process_token</a>(HANDLE *htok)</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<a class="code" href="a01277.html">pcl_time_t</a></div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01076.html#a4d87dd088227edcbe0d048eac92ce31e">   35</a></span>&#160;<a class="code" href="a01076.html#a4d87dd088227edcbe0d048eac92ce31e">ipcl_win32_ftime_to_pcl</a>(FILETIME *ft)</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordflow">if</span>(!OpenThreadToken(GetCurrentThread(), TOKEN_QUERY, <span class="keyword">true</span>, htok))</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="comment">/* no_token means there is no impersonation token for the calling</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="comment">     * thread, fallback to process token.</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="comment">     */</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">if</span>(<a class="code" href="a01111.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a> != ERROR_NO_TOKEN)</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01113.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  LARGE_INTEGER li;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <a class="code" href="a01277.html">pcl_time_t</a> buf;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  li.LowPart = (DWORD) ft-&gt;dwLowDateTime;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  li.HighPart = (LONG) ft-&gt;dwHighDateTime;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  buf.<a class="code" href="a01277.html#a4c17f3941fd29561d689e4e03f18db46">sec</a> = (li.QuadPart / 10000000) - SECS_1601_1970;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  buf.<a class="code" href="a01277.html#a67abf16c44712c2f6eacfce2da5aa5b4">nsec</a> = (int) ((li.QuadPart % 10000000) * 100);</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="comment">/* try process token */</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordflow">if</span>(!OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, htok))</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01113.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  }</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;}</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordflow">return</span> buf;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01058_html"><div class="ttname"><a href="a01058.html">_win32.h</a></div></div>
-<div class="ttc" id="aa01111_html_ga3646b2825d51326a06f25e597f883555"><div class="ttname"><a href="a01111.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a></div><div class="ttdeci">#define pcl_oserrno</div><div class="ttdef"><b>Definition:</b> <a href="a00044_source.html#l00185">error.h:185</a></div></div>
-<div class="ttc" id="aa01076_html_aa2e6fad1f9cae00b92f120929499825c"><div class="ttname"><a href="a01076.html#aa2e6fad1f9cae00b92f120929499825c">ipcl_win32_process_token</a></div><div class="ttdeci">int ipcl_win32_process_token(HANDLE *htok)</div><div class="ttdef"><b>Definition:</b> <a href="a01076_source.html#l00035">win32_process_token.c:35</a></div></div>
-<div class="ttc" id="aa01113_html_ga89b8bfbe17595305872551a1caaa5702"><div class="ttname"><a href="a01113.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a></div><div class="ttdeci">#define SETLASTERR()</div><div class="ttdoc">Sets the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00125">_errdefs.h:125</a></div></div>
+<div class="ttc" id="aa01277_html_a67abf16c44712c2f6eacfce2da5aa5b4"><div class="ttname"><a href="a01277.html#a67abf16c44712c2f6eacfce2da5aa5b4">tag_pcl_time::nsec</a></div><div class="ttdeci">int nsec</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00060">time.h:60</a></div></div>
+<div class="ttc" id="aa01049_html"><div class="ttname"><a href="a01049.html">_time.h</a></div></div>
+<div class="ttc" id="aa01277_html_a4c17f3941fd29561d689e4e03f18db46"><div class="ttname"><a href="a01277.html#a4c17f3941fd29561d689e4e03f18db46">tag_pcl_time::sec</a></div><div class="ttdeci">long long sec</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00059">time.h:59</a></div></div>
+<div class="ttc" id="aa01277_html"><div class="ttname"><a href="a01277.html">tag_pcl_time</a></div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00057">time.h:58</a></div></div>
+<div class="ttc" id="aa01076_html_a4d87dd088227edcbe0d048eac92ce31e"><div class="ttname"><a href="a01076.html#a4d87dd088227edcbe0d048eac92ce31e">ipcl_win32_ftime_to_pcl</a></div><div class="ttdeci">pcl_time_t ipcl_win32_ftime_to_pcl(FILETIME *ft)</div><div class="ttdef"><b>Definition:</b> <a href="a01076_source.html#l00035">win32_ftime_to_pcl.c:35</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/io/fdopen.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/htable/htable_rehash.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,12 +62,12 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_c184e51c84f2c3f0345bbc8a0d75d3e1.html">&#x202A;io</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_b7d637e3591c140b5c5f63237dc79ee0.html">&#x202A;htable</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">fdopen.c</div>  </div>
+<div class="title">htable_rehash.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00536.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,91 +101,62 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;../file/_file.h&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00062.html">pcl/io.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00044.html">pcl/error.h</a>&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00509.html">_htable.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/error.h</a>&gt;</span></div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">  #include &lt;<a class="code" href="a00062.html">io.h</a>&gt;</span> <span class="comment">// _open_osfhandle</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;FILE *</div>
-<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="a01118.html#ga41052c5894a0beed897fd999c69262a9">   41</a></span>&#160;<a class="code" href="a01118.html#ga41052c5894a0beed897fd999c69262a9">pcl_fdopen</a>(<a class="code" href="a01228.html">pcl_file_t</a> *file)</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  FILE *stream;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">char</span> *mode;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="a00536.html#aa7d6ea47969bab2ecd2e3d9ce4488d01">   37</a></span>&#160;<a class="code" href="a00536.html#aa7d6ea47969bab2ecd2e3d9ce4488d01">ipcl_htable_rehash</a>(<a class="code" href="a01237.html">pcl_htable_t</a> *ht, <span class="keywordtype">bool</span> grow)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordtype">int</span> new_capacity = <a class="code" href="a00509.html#ad4c4e804762da7fd8ddc913bce0797ff">ipcl_htable_capacity</a>(grow ? ht-&gt;<a class="code" href="a01237.html#adbe66a087ac3fd4a5b0566f64ca2d12b">capacity</a> * 2 : ht-&gt;<a class="code" href="a01237.html#adbe66a087ac3fd4a5b0566f64ca2d12b">capacity</a> / 2);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">if</span>(new_capacity &lt; 0)</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01198.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a>();</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <a class="code" href="a01233.html">pcl_htable_entry_t</a> **new_entries = <a class="code" href="a01190.html#ga8f4cbae7a9d6191bceec2d2d1f04eb5d">pcl_zalloc</a>(<span class="keyword">sizeof</span>(<span class="keywordtype">void</span>*) * new_capacity);</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordflow">if</span>(!file)</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; ht-&gt;<a class="code" href="a01237.html#adbe66a087ac3fd4a5b0566f64ca2d12b">capacity</a>; i++)</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  {</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="a01113.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a>(<a class="code" href="a01112.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  }</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="keywordflow">if</span>((file-&gt;<a class="code" href="a01228.html#a773b39d480759f67926cb18ae2219281">flags</a> &amp; <a class="code" href="a00053.html#adb74d22cf7d668ffbb5336e4a4da66ec">PCL_FF_RDWR</a>) == <a class="code" href="a00053.html#adb74d22cf7d668ffbb5336e4a4da66ec">PCL_FF_RDWR</a>)</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    mode = <span class="stringliteral">&quot;w+&quot;</span>;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="keywordflow">else</span> <span class="keywordflow">if</span>(file-&gt;<a class="code" href="a01228.html#a773b39d480759f67926cb18ae2219281">flags</a> &amp; <a class="code" href="a00053.html#a6a07e4d4ac7139bd3ce0c0d99486438d">PCL_FF_WRITE</a>)</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    mode = <span class="stringliteral">&quot;w&quot;</span>;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    mode = <span class="stringliteral">&quot;r&quot;</span>;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  <span class="comment">/* convert HANDLE to an &#39;fd&#39; */</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  <span class="keywordtype">int</span> fd = _open_osfhandle((intptr_t)file-&gt;<a class="code" href="a01228.html#aea2da8bf318182f7770734b14f9202b2">fd</a>, 0);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  <span class="keywordflow">if</span>(fd == -1)</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01113.html#ga2ed57a6d91a13ee617ab5b7143338070">R_SETOSERR</a>(NULL, <a class="code" href="a00395.html#a4c357e9c33e3ffa2fab31c76adc1eb03">pcl_err_crt2os</a>(errno));</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <span class="comment">/* convert an fd to a &#39;FILE*&#39;, stream */</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  <span class="keywordflow">if</span>(!(stream = _fdopen(fd, mode)))</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  {</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    HANDLE h = file-&gt;<a class="code" href="a01228.html#aea2da8bf318182f7770734b14f9202b2">fd</a>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="a01233.html">pcl_htable_entry_t</a> *oldent = ht-&gt;<a class="code" href="a01237.html#a402260327e4c06cbf3b7105a81a4731e">entries</a>[i];</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="comment">/* populate new table */</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordflow">while</span>(oldent)</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      <span class="keywordtype">int</span> index = (int) (oldent-&gt;<a class="code" href="a01233.html#abede96ae68047d0d7dca084c0ded2f1d">code</a> % new_capacity);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      <a class="code" href="a01233.html">pcl_htable_entry_t</a> *head = new_entries[index], *oldent_next = oldent-&gt;<a class="code" href="a01233.html#a24db4f5d81913feb7c4c07aaadc61e1b">next</a>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      <span class="comment">/* prepend oldent */</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      new_entries[index] = oldent;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      oldent-&gt;<a class="code" href="a01233.html#a24db4f5d81913feb7c4c07aaadc61e1b">next</a> = head;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      <span class="comment">/* advance search */</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      oldent = oldent_next;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    }</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  }</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  <span class="comment">/* we stole all of the entry objects, free old table */</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <a class="code" href="a01190.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe</a>(ht-&gt;<a class="code" href="a01237.html#a402260327e4c06cbf3b7105a81a4731e">entries</a>);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  ht-&gt;<a class="code" href="a01237.html#adbe66a087ac3fd4a5b0566f64ca2d12b">capacity</a> = new_capacity;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  ht-&gt;<a class="code" href="a01237.html#a402260327e4c06cbf3b7105a81a4731e">entries</a> = new_entries;</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <a class="code" href="a01113.html#ga5d0d174193729a18bb8a57d35a255229">FREEZE_ERR</a></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    (</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      <span class="comment">/* CRT _close() will pass our handle to CloseHandle().  Need to</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="comment">       * increase its ref count so we can safely cleanup the CRT fd</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="comment">       * w/o closing file-&gt;fd (which is the file&#39;s win32 HANDLE).</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment">       */</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;      DuplicateHandle(GetCurrentProcess(), h, GetCurrentProcess(), &amp;file-&gt;<a class="code" href="a01228.html#aea2da8bf318182f7770734b14f9202b2">fd</a>,</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        0, <span class="keyword">false</span>, DUPLICATE_SAME_ACCESS);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;      _close(fd);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    );</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01113.html#ga2ed57a6d91a13ee617ab5b7143338070">R_SETOSERR</a>(NULL, <a class="code" href="a00395.html#a4c357e9c33e3ffa2fab31c76adc1eb03">pcl_err_crt2os</a>(errno));</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  }</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  <span class="keywordflow">if</span>(!(stream = fdopen(file-&gt;<a class="code" href="a01228.html#aea2da8bf318182f7770734b14f9202b2">fd</a>, mode)))</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;  {</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <a class="code" href="a01113.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;  }</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;  <span class="comment">/* stole the handle, nuke the file */</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  file-&gt;<a class="code" href="a01228.html#aea2da8bf318182f7770734b14f9202b2">fd</a> = <a class="code" href="a00035.html#a68a5c06e5c119af1fbb32970a866cb2c">PCL_BADFD</a>;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;  <a class="code" href="a00053.html#a4e888a5a186ccc8fff3176665d01720a">pcl_file_close</a>(file);</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  <span class="keywordflow">return</span> stream;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;}</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00035_html_a68a5c06e5c119af1fbb32970a866cb2c"><div class="ttname"><a href="a00035.html#a68a5c06e5c119af1fbb32970a866cb2c">PCL_BADFD</a></div><div class="ttdeci">#define PCL_BADFD</div><div class="ttdef"><b>Definition:</b> <a href="a00035_source.html#l00133">defs.h:133</a></div></div>
-<div class="ttc" id="aa00053_html_a4e888a5a186ccc8fff3176665d01720a"><div class="ttname"><a href="a00053.html#a4e888a5a186ccc8fff3176665d01720a">pcl_file_close</a></div><div class="ttdeci">PCL_EXPORT void pcl_file_close(pcl_file_t *file)</div><div class="ttdef"><b>Definition:</b> <a href="a00428_source.html#l00038">file_close.c:38</a></div></div>
-<div class="ttc" id="aa00053_html_a6a07e4d4ac7139bd3ce0c0d99486438d"><div class="ttname"><a href="a00053.html#a6a07e4d4ac7139bd3ce0c0d99486438d">PCL_FF_WRITE</a></div><div class="ttdeci">#define PCL_FF_WRITE</div><div class="ttdef"><b>Definition:</b> <a href="a00053_source.html#l00084">file.h:84</a></div></div>
-<div class="ttc" id="aa00044_html"><div class="ttname"><a href="a00044.html">error.h</a></div></div>
-<div class="ttc" id="aa01113_html_ga82adf6365b61d9a32021e559d9c31497"><div class="ttname"><a href="a01113.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a></div><div class="ttdeci">#define SETERR(_pclerr)</div><div class="ttdoc">Sets the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00065">_errdefs.h:65</a></div></div>
-<div class="ttc" id="aa01228_html"><div class="ttname"><a href="a01228.html">tag_pcl_file</a></div><div class="ttdef"><b>Definition:</b> <a href="a00419_source.html#l00061">_file.h:62</a></div></div>
-<div class="ttc" id="aa01112_html_gae0cd5c5a7fae36cd480176bda17e77ca"><div class="ttname"><a href="a01112.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a></div><div class="ttdeci">#define PCL_EINVAL</div><div class="ttdoc">Invalid argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00078">_errno.h:78</a></div></div>
-<div class="ttc" id="aa01118_html_ga41052c5894a0beed897fd999c69262a9"><div class="ttname"><a href="a01118.html#ga41052c5894a0beed897fd999c69262a9">pcl_fdopen</a></div><div class="ttdeci">FILE * pcl_fdopen(pcl_file_t *file)</div><div class="ttdoc">Open a file handle as a stream.</div><div class="ttdef"><b>Definition:</b> <a href="a00536_source.html#l00041">fdopen.c:41</a></div></div>
-<div class="ttc" id="aa00053_html_adb74d22cf7d668ffbb5336e4a4da66ec"><div class="ttname"><a href="a00053.html#adb74d22cf7d668ffbb5336e4a4da66ec">PCL_FF_RDWR</a></div><div class="ttdeci">#define PCL_FF_RDWR</div><div class="ttdef"><b>Definition:</b> <a href="a00053_source.html#l00086">file.h:86</a></div></div>
-<div class="ttc" id="aa00395_html_a4c357e9c33e3ffa2fab31c76adc1eb03"><div class="ttname"><a href="a00395.html#a4c357e9c33e3ffa2fab31c76adc1eb03">pcl_err_crt2os</a></div><div class="ttdeci">unsigned long pcl_err_crt2os(int err)</div><div class="ttdef"><b>Definition:</b> <a href="a00395_source.html#l00043">win32_err_crt2os.c:43</a></div></div>
-<div class="ttc" id="aa01228_html_a773b39d480759f67926cb18ae2219281"><div class="ttname"><a href="a01228.html#a773b39d480759f67926cb18ae2219281">tag_pcl_file::flags</a></div><div class="ttdeci">uint32_t flags</div><div class="ttdef"><b>Definition:</b> <a href="a00419_source.html#l00063">_file.h:63</a></div></div>
-<div class="ttc" id="aa01113_html_ga5d0d174193729a18bb8a57d35a255229"><div class="ttname"><a href="a01113.html#ga5d0d174193729a18bb8a57d35a255229">FREEZE_ERR</a></div><div class="ttdeci">#define FREEZE_ERR(code_fragment)</div><div class="ttdoc">Freeze the current thread's error while executing code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00053">_errdefs.h:53</a></div></div>
-<div class="ttc" id="aa01113_html_ga89b8bfbe17595305872551a1caaa5702"><div class="ttname"><a href="a01113.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a></div><div class="ttdeci">#define SETLASTERR()</div><div class="ttdoc">Sets the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00125">_errdefs.h:125</a></div></div>
-<div class="ttc" id="aa00062_html"><div class="ttname"><a href="a00062.html">io.h</a></div></div>
-<div class="ttc" id="aa01228_html_aea2da8bf318182f7770734b14f9202b2"><div class="ttname"><a href="a01228.html#aea2da8bf318182f7770734b14f9202b2">tag_pcl_file::fd</a></div><div class="ttdeci">pcl_fd_t fd</div><div class="ttdef"><b>Definition:</b> <a href="a00419_source.html#l00064">_file.h:64</a></div></div>
-<div class="ttc" id="aa01113_html_ga2ed57a6d91a13ee617ab5b7143338070"><div class="ttname"><a href="a01113.html#ga2ed57a6d91a13ee617ab5b7143338070">R_SETOSERR</a></div><div class="ttdeci">#define R_SETOSERR(_retval, _oserr)</div><div class="ttdoc">Sets the return value and the current thread's OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00205">_errdefs.h:205</a></div></div>
+<div class="ttc" id="aa01190_html_ga8f4cbae7a9d6191bceec2d2d1f04eb5d"><div class="ttname"><a href="a01190.html#ga8f4cbae7a9d6191bceec2d2d1f04eb5d">pcl_zalloc</a></div><div class="ttdeci">void * pcl_zalloc(size_t n)</div><div class="ttdoc">Allocate and zero dynamic memory.</div></div>
+<div class="ttc" id="aa01190_html_ga2de1e7abd61febca9d319940c5c2bd1b"><div class="ttname"><a href="a01190.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe</a></div><div class="ttdeci">void * pcl_free_safe(void *p)</div><div class="ttdoc">Safely free memory space.</div></div>
+<div class="ttc" id="aa01237_html"><div class="ttname"><a href="a01237.html">tag_pcl_htable</a></div><div class="ttdef"><b>Definition:</b> <a href="a00059_source.html#l00213">htable.h:214</a></div></div>
+<div class="ttc" id="aa00509_html"><div class="ttname"><a href="a00509.html">_htable.h</a></div></div>
+<div class="ttc" id="aa00536_html_aa7d6ea47969bab2ecd2e3d9ce4488d01"><div class="ttname"><a href="a00536.html#aa7d6ea47969bab2ecd2e3d9ce4488d01">ipcl_htable_rehash</a></div><div class="ttdeci">int ipcl_htable_rehash(pcl_htable_t *ht, bool grow)</div><div class="ttdef"><b>Definition:</b> <a href="a00536_source.html#l00037">htable_rehash.c:37</a></div></div>
+<div class="ttc" id="aa01233_html"><div class="ttname"><a href="a01233.html">tag_pcl_htable_entry</a></div><div class="ttdoc">Hash table entry object.</div><div class="ttdef"><b>Definition:</b> <a href="a00059_source.html#l00198">htable.h:199</a></div></div>
+<div class="ttc" id="aa01237_html_adbe66a087ac3fd4a5b0566f64ca2d12b"><div class="ttname"><a href="a01237.html#adbe66a087ac3fd4a5b0566f64ca2d12b">tag_pcl_htable::capacity</a></div><div class="ttdeci">int capacity</div><div class="ttdoc">current table capacity</div><div class="ttdef"><b>Definition:</b> <a href="a00059_source.html#l00225">htable.h:225</a></div></div>
+<div class="ttc" id="aa00509_html_ad4c4e804762da7fd8ddc913bce0797ff"><div class="ttname"><a href="a00509.html#ad4c4e804762da7fd8ddc913bce0797ff">ipcl_htable_capacity</a></div><div class="ttdeci">int ipcl_htable_capacity(int capacity)</div><div class="ttdef"><b>Definition:</b> <a href="a00512_source.html#l00036">htable_capacity.c:36</a></div></div>
+<div class="ttc" id="aa01233_html_a24db4f5d81913feb7c4c07aaadc61e1b"><div class="ttname"><a href="a01233.html#a24db4f5d81913feb7c4c07aaadc61e1b">tag_pcl_htable_entry::next</a></div><div class="ttdeci">struct tag_pcl_htable_entry * next</div><div class="ttdoc">leave me alone (collision list)</div><div class="ttdef"><b>Definition:</b> <a href="a00059_source.html#l00201">htable.h:201</a></div></div>
+<div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">error.h</a></div></div>
+<div class="ttc" id="aa01233_html_abede96ae68047d0d7dca084c0ded2f1d"><div class="ttname"><a href="a01233.html#abede96ae68047d0d7dca084c0ded2f1d">tag_pcl_htable_entry::code</a></div><div class="ttdeci">uintptr_t code</div><div class="ttdoc">hash code of entry key, 4 bytes on 32-bit and 8 bytes on 64-bit</div><div class="ttdef"><b>Definition:</b> <a href="a00059_source.html#l00204">htable.h:204</a></div></div>
+<div class="ttc" id="aa01198_html_ga9ad3ef2339f58a873bc7bace5ad9c9df"><div class="ttname"><a href="a01198.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a></div><div class="ttdeci">#define TRC()</div><div class="ttdoc">Adds a stack trace to the current thread's error.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00262">_errdefs.h:262</a></div></div>
+<div class="ttc" id="aa01237_html_a402260327e4c06cbf3b7105a81a4731e"><div class="ttname"><a href="a01237.html#a402260327e4c06cbf3b7105a81a4731e">tag_pcl_htable::entries</a></div><div class="ttdeci">pcl_htable_entry_t ** entries</div><div class="ttdoc">table of entries, each bucket is a linked list of collisions</div><div class="ttdef"><b>Definition:</b> <a href="a00059_source.html#l00230">htable.h:230</a></div></div>
+<div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

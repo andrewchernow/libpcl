@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/crypto/digest.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/crypto/_crypto.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">digest.c</div>  </div>
+<div class="title">_crypto.h</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00239.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,45 +101,47 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00215.html">_crypto.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">void</span> *</div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01109.html#ga8bb148aca9b249ecac33f4f1593413af">   35</a></span>&#160;<a class="code" href="a01109.html#ga8bb148aca9b249ecac33f4f1593413af">pcl_digest</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *algo, <span class="keyword">const</span> <span class="keywordtype">void</span> *data, <span class="keywordtype">size_t</span> *len)</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordflow">if</span>(!data || !len)</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01113.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a>(NULL, <a class="code" href="a01112.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#ifndef LIBPCL__CRYPTO_H</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#define LIBPCL__CRYPTO_H</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00035.html">pcl/crypto.h</a>&gt;</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/error.h</a>&gt;</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#include &lt;openssl/evp.h&gt;</span></div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <a class="code" href="a01208.html">pcl_digest_t</a> *d = <a class="code" href="a01109.html#gabb20e0a708dda4ec255acb03f0369bf2">pcl_digest_create</a>(algo);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordflow">if</span>(!d)</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01113.html#gaa978c8c7faa5fc2f69a6641e054e519d">R_TRC</a>(NULL);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a01109.html#ga36514cd9aac96e158d5d26126d259728">pcl_digest_update</a>(d, data, *len))</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01113.html#gaa978c8c7faa5fc2f69a6641e054e519d">R_TRC</a>(NULL);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keywordtype">int</span> mdlen;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="keywordtype">void</span> *digest = <a class="code" href="a01109.html#gafee7772ad4618e66f21ab13722198689">pcl_digest_final</a>(d, &amp;mdlen);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <a class="code" href="a01109.html#ga56d47188edee01dc1f42af9eb37e4ae7">pcl_digest_free</a>(d);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <span class="keywordflow">if</span>(!digest)</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01113.html#gaa978c8c7faa5fc2f69a6641e054e519d">R_TRC</a>(NULL);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  *len = mdlen;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <span class="keywordflow">return</span> digest;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="a01293.html">   44</a></span>&#160;<span class="keyword">struct </span><a class="code" href="a01293.html">tag_pcl_cipher</a></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;{</div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="a01293.html#a8b0e08a9c8eb05578c35571f2f2767ab">   46</a></span>&#160;  EVP_CIPHER_CTX *<a class="code" href="a01293.html#a8b0e08a9c8eb05578c35571f2f2767ab">ctx</a>;</div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="a01293.html#a47b93ea34665686e1ff9a7256106f85e">   47</a></span>&#160;  <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="a01293.html#a47b93ea34665686e1ff9a7256106f85e">algo</a>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;};</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="a01297.html">   50</a></span>&#160;<span class="keyword">struct </span><a class="code" href="a01297.html">tag_pcl_digest</a></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;{</div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="a01297.html#abb7f2f40445a754241e3a2c1ebcd52b6">   52</a></span>&#160;  <span class="keyword">const</span> EVP_MD *<a class="code" href="a01297.html#abb7f2f40445a754241e3a2c1ebcd52b6">md</a>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="a01297.html#ab96dd86ce4a562051102939f8e524798">   53</a></span>&#160;  EVP_MD_CTX *<a class="code" href="a01297.html#ab96dd86ce4a562051102939f8e524798">ctx</a>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="a01297.html#a47b93ea34665686e1ff9a7256106f85e">   54</a></span>&#160;  <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="a01297.html#a47b93ea34665686e1ff9a7256106f85e">algo</a>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;};</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">#endif // LIBPCL__CRYPTO_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01109_html_gafee7772ad4618e66f21ab13722198689"><div class="ttname"><a href="a01109.html#gafee7772ad4618e66f21ab13722198689">pcl_digest_final</a></div><div class="ttdeci">PCL_EXPORT void * pcl_digest_final(pcl_digest_t *d, int *lenp)</div><div class="ttdoc">Finalize a digest operation.</div><div class="ttdef"><b>Definition:</b> <a href="a00245_source.html#l00036">digest_final.c:36</a></div></div>
-<div class="ttc" id="aa01112_html_gae0cd5c5a7fae36cd480176bda17e77ca"><div class="ttname"><a href="a01112.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a></div><div class="ttdeci">#define PCL_EINVAL</div><div class="ttdoc">Invalid argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00078">_errno.h:78</a></div></div>
-<div class="ttc" id="aa01208_html"><div class="ttname"><a href="a01208.html">tag_pcl_digest</a></div><div class="ttdef"><b>Definition:</b> <a href="a00215_source.html#l00050">_crypto.h:51</a></div></div>
-<div class="ttc" id="aa01109_html_ga8bb148aca9b249ecac33f4f1593413af"><div class="ttname"><a href="a01109.html#ga8bb148aca9b249ecac33f4f1593413af">pcl_digest</a></div><div class="ttdeci">void * pcl_digest(const char *algo, const void *data, size_t *len)</div><div class="ttdoc">Create a message digest.</div><div class="ttdef"><b>Definition:</b> <a href="a00239_source.html#l00035">digest.c:35</a></div></div>
-<div class="ttc" id="aa01109_html_ga36514cd9aac96e158d5d26126d259728"><div class="ttname"><a href="a01109.html#ga36514cd9aac96e158d5d26126d259728">pcl_digest_update</a></div><div class="ttdeci">PCL_EXPORT int pcl_digest_update(pcl_digest_t *d, const void *data, size_t len)</div><div class="ttdoc">Update the data of a digest operation.</div><div class="ttdef"><b>Definition:</b> <a href="a00257_source.html#l00035">digest_update.c:35</a></div></div>
-<div class="ttc" id="aa01109_html_ga56d47188edee01dc1f42af9eb37e4ae7"><div class="ttname"><a href="a01109.html#ga56d47188edee01dc1f42af9eb37e4ae7">pcl_digest_free</a></div><div class="ttdeci">PCL_EXPORT void * pcl_digest_free(pcl_digest_t *d)</div><div class="ttdoc">Free a message digest.</div><div class="ttdef"><b>Definition:</b> <a href="a00248_source.html#l00035">digest_free.c:35</a></div></div>
-<div class="ttc" id="aa01113_html_gaa978c8c7faa5fc2f69a6641e054e519d"><div class="ttname"><a href="a01113.html#gaa978c8c7faa5fc2f69a6641e054e519d">R_TRC</a></div><div class="ttdeci">#define R_TRC(_retval)</div><div class="ttdoc">Sets the return value and adds a stack trace to the current thread's error.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00287">_errdefs.h:287</a></div></div>
-<div class="ttc" id="aa01109_html_gabb20e0a708dda4ec255acb03f0369bf2"><div class="ttname"><a href="a01109.html#gabb20e0a708dda4ec255acb03f0369bf2">pcl_digest_create</a></div><div class="ttdeci">PCL_EXPORT pcl_digest_t * pcl_digest_create(const char *algo)</div><div class="ttdoc">Create a message digest object.</div><div class="ttdef"><b>Definition:</b> <a href="a00242_source.html#l00036">digest_create.c:36</a></div></div>
-<div class="ttc" id="aa00215_html"><div class="ttname"><a href="a00215.html">_crypto.h</a></div></div>
-<div class="ttc" id="aa01113_html_gae8eaed12aa57a2870ad8e45cc2306318"><div class="ttname"><a href="a01113.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a></div><div class="ttdeci">#define R_SETERR(_retval, _pclerr)</div><div class="ttdoc">Sets the return value and the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00145">_errdefs.h:145</a></div></div>
+<div class="ttc" id="aa01297_html_a47b93ea34665686e1ff9a7256106f85e"><div class="ttname"><a href="a01297.html#a47b93ea34665686e1ff9a7256106f85e">tag_pcl_digest::algo</a></div><div class="ttdeci">const char * algo</div><div class="ttdef"><b>Definition:</b> <a href="a00239_source.html#l00054">_crypto.h:54</a></div></div>
+<div class="ttc" id="aa01293_html_a47b93ea34665686e1ff9a7256106f85e"><div class="ttname"><a href="a01293.html#a47b93ea34665686e1ff9a7256106f85e">tag_pcl_cipher::algo</a></div><div class="ttdeci">const char * algo</div><div class="ttdef"><b>Definition:</b> <a href="a00239_source.html#l00047">_crypto.h:47</a></div></div>
+<div class="ttc" id="aa01297_html_abb7f2f40445a754241e3a2c1ebcd52b6"><div class="ttname"><a href="a01297.html#abb7f2f40445a754241e3a2c1ebcd52b6">tag_pcl_digest::md</a></div><div class="ttdeci">const EVP_MD * md</div><div class="ttdef"><b>Definition:</b> <a href="a00239_source.html#l00052">_crypto.h:52</a></div></div>
+<div class="ttc" id="aa01297_html_ab96dd86ce4a562051102939f8e524798"><div class="ttname"><a href="a01297.html#ab96dd86ce4a562051102939f8e524798">tag_pcl_digest::ctx</a></div><div class="ttdeci">EVP_MD_CTX * ctx</div><div class="ttdef"><b>Definition:</b> <a href="a00239_source.html#l00053">_crypto.h:53</a></div></div>
+<div class="ttc" id="aa01293_html_a8b0e08a9c8eb05578c35571f2f2767ab"><div class="ttname"><a href="a01293.html#a8b0e08a9c8eb05578c35571f2f2767ab">tag_pcl_cipher::ctx</a></div><div class="ttdeci">EVP_CIPHER_CTX * ctx</div><div class="ttdef"><b>Definition:</b> <a href="a00239_source.html#l00046">_crypto.h:46</a></div></div>
+<div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">error.h</a></div></div>
+<div class="ttc" id="aa00035_html"><div class="ttname"><a href="a00035.html">crypto.h</a></div></div>
+<div class="ttc" id="aa01297_html"><div class="ttname"><a href="a01297.html">tag_pcl_digest</a></div><div class="ttdef"><b>Definition:</b> <a href="a00239_source.html#l00050">_crypto.h:51</a></div></div>
+<div class="ttc" id="aa01293_html"><div class="ttname"><a href="a01293.html">tag_pcl_cipher</a></div><div class="ttdef"><b>Definition:</b> <a href="a00239_source.html#l00044">_crypto.h:45</a></div></div>
+<div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

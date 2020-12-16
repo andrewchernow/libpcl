@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;Error System</title>
+<title>&#x202A;libpcl: &#x202A;tag_pcl_log_event Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -61,133 +61,247 @@ $(function() {
 </div>
 
 </div><!-- top -->
-<div class="PageDoc PageDocLTR-title"><div class="header">
+<div class="header">
+  <div class="summary">
+<a href="#pub-attribs">Data Fields</a>  </div>
   <div class="headertitle">
-<div class="title">&#x202A;Error System </div>  </div>
+<div class="title">tag_pcl_log_event Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p class="DocNodeLTR">Error code mapping, stack traces and formatted error output.</p>
-<p><a class="anchor" id="md__Users_andrew_projects_libpcl_doxygen_error"></a></p>
-<p class="DocNodeLTR">The PCL error system provides a suite of functions in the <a class="el" href="a01111.html">error</a> module. A primary design goal of PCL is to provide a robust error system.</p>
-<p class="DocNodeLTR">The error system operates per-thread. Thread local storage (TLS) is used to maintain a per-thread <a class="el" href="a00104.html#a707d0d1b299b57d38a44ddc42b4de8ba">pcl_err_t</a>. So there is no global error. Each thread is unique. To get the per-thread error, use the <a class="el" href="a01111.html#gaefd22094c926adb72077ca72f907a318" title="&#x202A;Gets the calling thread&#39;s error.">pcl_err_get</a> function.</p>
-<h1 class="DocNodeLTR"><a class="anchor" id="autotoc_md0"></a>
-Error Codes</h1>
-<p class="DocNodeLTR">PCL provides ~140 error codes. There are internal mapping tables to map Operating System error codes (oserr) to PCL. On unix systems, these mapping tables include all error codes defined in <code>errno.h</code>. On Windows, ~350 Win32 codes are mapped. In addition, there are also mappings for Windows CRT (POSIX errno.h support) to Win32.</p>
-<p class="DocNodeLTR">All error code names begin with <code>PCL_E</code>. Most errors use the same naming as one would find in <code>errno.h:</code> <code>PCL_EINVAL</code>, <code>PCL_ENOENT</code>, <code>PCL_ERANGE</code>, <code>PCL_ENETRESET</code>, etc.</p>
-<p class="DocNodeLTR">There are several public functions that leverage these mapping tables:</p>
-<ul class="DocNodeLTR">
-<li>&#x202A;<a class="el" href="a01111.html#gab532e2f49c5ec111bfc7e51575fa1b2d" title="&#x202A;Get the default PCL error message given an PCL error code.">pcl_err_msg</a> - looks up a PCL error code and returns the default error message</li>
-<li>&#x202A;<a class="el" href="a01111.html#gad0fee080b336ed7ff879b61e72e0b8a9">pcl_err_name</a> - looks up a PCL error code and returns its name: <code>"PCL_EISDIR"</code> </li>
-<li>&#x202A;<a class="el" href="a01111.html#ga6e488225c64979a7196c2b257c3c1fb0">pcl_err_code</a> - looks up a PCL error name and returns the PCL error code <br  />
-</li>
-<li>&#x202A;<a class="el" href="a01111.html#ga3ff5c98b765df74bd305d2e56e9b4f31">pcl_err_os2pcl</a> - looks up an OS error code and returns the PCL code</li>
-<li>&#x202A;<a class="el" href="a01111.html#ga95d80f184621efe0108ec35ca590cd84">pcl_err_osname</a> - looks up an OS error code and returns its name: like Win32 <code>"ERROR_FILE_NOT_FOUND"</code> or Unix <code>"ENOENT"</code> </li>
-<li>&#x202A;<a class="el" href="a01111.html#gac570ccdd8657267d758ed671b307bffd">pcl_err_osmsg</a> - looks up an OS error code and returns the default OS error message</li>
-<li>&#x202A;<a class="el" href="a01111.html#ga3f3b9ad587c9b9160b1baaf06d5ffa12">pcl_err_crt2pcl</a> - For Windows, takes a CRT error code, like <code>EINTR</code>, and returns the PCL code, like <code>PCL_EINTR</code>. On Unix, the CRT error code is identical to the OS error code</li>
-<li>&#x202A;<a class="el" href="a00395.html#a4c357e9c33e3ffa2fab31c76adc1eb03">pcl_err_crt2os</a> - For Windows, takes a CRT error code, like <code>EEXIST</code>, and returns the OS error code, like <code>ERROR_ALREADY_EXISTS</code>. On Unix, the CRT error code is identical to the OS error code</li>
+
+<p><code>#include &lt;<a class="el" href="a00074_source.html">pcl/log.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Data Fields</h2></td></tr>
+<tr class="memitem:a867a8cb54d3231f2acbfaa44fb31d6c4"><td class="memItemLeft" align="right" valign="top">FILE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01253.html#a867a8cb54d3231f2acbfaa44fb31d6c4">stream</a></td></tr>
+<tr class="separator:a867a8cb54d3231f2acbfaa44fb31d6c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0baa3ccdd9d2a6adf03b72e2bea5789"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01253.html#af0baa3ccdd9d2a6adf03b72e2bea5789">file</a></td></tr>
+<tr class="separator:af0baa3ccdd9d2a6adf03b72e2bea5789"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc4e949c7b7d0ab565ecfb62c3380171"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01253.html#afc4e949c7b7d0ab565ecfb62c3380171">func</a></td></tr>
+<tr class="separator:afc4e949c7b7d0ab565ecfb62c3380171"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41ebd28ef1d7c6ade45642cb6acc1039"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01253.html#a41ebd28ef1d7c6ade45642cb6acc1039">line</a></td></tr>
+<tr class="separator:a41ebd28ef1d7c6ade45642cb6acc1039"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18b79ec3119b764f72fce15b9429715c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00107.html#a85e373aa6072539bbecaeb4b26cb7525">pcl_time_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01253.html#a18b79ec3119b764f72fce15b9429715c">when</a></td></tr>
+<tr class="separator:a18b79ec3119b764f72fce15b9429715c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a330c3b2adf87bfa27e9a9450d8bc40"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01253.html#a6a330c3b2adf87bfa27e9a9450d8bc40">level</a></td></tr>
+<tr class="separator:a6a330c3b2adf87bfa27e9a9450d8bc40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a221bc94f5e121329a736bf8d4483cb0c"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01253.html#a221bc94f5e121329a736bf8d4483cb0c">facility</a></td></tr>
+<tr class="separator:a221bc94f5e121329a736bf8d4483cb0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1729158be557ef60548f7b7575ea4dd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01253.html#ab1729158be557ef60548f7b7575ea4dd">exit_code</a></td></tr>
+<tr class="separator:ab1729158be557ef60548f7b7575ea4dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a374a8b67f3133d49c54e401d3933fe80"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01253.html#a374a8b67f3133d49c54e401d3933fe80">exit_context</a></td></tr>
+<tr class="separator:a374a8b67f3133d49c54e401d3933fe80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91cc79b0d0c45f78adbc4ad852ef2745"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01253.html#a91cc79b0d0c45f78adbc4ad852ef2745">exit_levels</a></td></tr>
+<tr class="separator:a91cc79b0d0c45f78adbc4ad852ef2745"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3af6a32b5c322268e7f5e4946fa842b"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01253.html#ad3af6a32b5c322268e7f5e4946fa842b">exit_handler</a> )(<a class="el" href="a00074.html#a5d480eda7e8dd10fbd479144d54e5483">pcl_log_event_t</a> *e, void *context)</td></tr>
+<tr class="separator:ad3af6a32b5c322268e7f5e4946fa842b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock">
+<p class="definition">Definition at line <a class="el" href="a00074_source.html#l00092">92</a> of file <a class="el" href="a00074_source.html">log.h</a>.</p>
+</div><h2 class="groupheader">Field Documentation</h2>
+<a id="a867a8cb54d3231f2acbfaa44fb31d6c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a867a8cb54d3231f2acbfaa44fb31d6c4">&#9670;&nbsp;</a></span>stream</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">FILE* stream</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="a00074_source.html#l00094">94</a> of file <a class="el" href="a00074_source.html">log.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00683_source.html#l00052">pcl_log_event_default()</a>, and <a class="el" href="a00686_source.html#l00042">pcl_log_vevent()</a>.</p>
+
+</div>
+</div>
+<a id="af0baa3ccdd9d2a6adf03b72e2bea5789"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af0baa3ccdd9d2a6adf03b72e2bea5789">&#9670;&nbsp;</a></span>file</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char* file</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="a00074_source.html#l00097">97</a> of file <a class="el" href="a00074_source.html">log.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00686_source.html#l00042">pcl_log_vevent()</a>.</p>
+
+</div>
+</div>
+<a id="afc4e949c7b7d0ab565ecfb62c3380171"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc4e949c7b7d0ab565ecfb62c3380171">&#9670;&nbsp;</a></span>func</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char* func</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="a00074_source.html#l00098">98</a> of file <a class="el" href="a00074_source.html">log.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00686_source.html#l00042">pcl_log_vevent()</a>.</p>
+
+</div>
+</div>
+<a id="a41ebd28ef1d7c6ade45642cb6acc1039"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a41ebd28ef1d7c6ade45642cb6acc1039">&#9670;&nbsp;</a></span>line</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int line</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="a00074_source.html#l00099">99</a> of file <a class="el" href="a00074_source.html">log.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00686_source.html#l00042">pcl_log_vevent()</a>.</p>
+
+</div>
+</div>
+<a id="a18b79ec3119b764f72fce15b9429715c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18b79ec3119b764f72fce15b9429715c">&#9670;&nbsp;</a></span>when</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a00107.html#a85e373aa6072539bbecaeb4b26cb7525">pcl_time_t</a> when</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="a00074_source.html#l00102">102</a> of file <a class="el" href="a00074_source.html">log.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00686_source.html#l00042">pcl_log_vevent()</a>.</p>
+
+</div>
+</div>
+<a id="a6a330c3b2adf87bfa27e9a9450d8bc40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a330c3b2adf87bfa27e9a9450d8bc40">&#9670;&nbsp;</a></span>level</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t level</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="a00074_source.html#l00103">103</a> of file <a class="el" href="a00074_source.html">log.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00686_source.html#l00042">pcl_log_vevent()</a>.</p>
+
+</div>
+</div>
+<a id="a221bc94f5e121329a736bf8d4483cb0c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a221bc94f5e121329a736bf8d4483cb0c">&#9670;&nbsp;</a></span>facility</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char* facility</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="a00074_source.html#l00104">104</a> of file <a class="el" href="a00074_source.html">log.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00686_source.html#l00042">pcl_log_vevent()</a>.</p>
+
+</div>
+</div>
+<a id="ab1729158be557ef60548f7b7575ea4dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1729158be557ef60548f7b7575ea4dd">&#9670;&nbsp;</a></span>exit_code</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int exit_code</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="a00074_source.html#l00107">107</a> of file <a class="el" href="a00074_source.html">log.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00686_source.html#l00042">pcl_log_vevent()</a>.</p>
+
+</div>
+</div>
+<a id="a374a8b67f3133d49c54e401d3933fe80"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a374a8b67f3133d49c54e401d3933fe80">&#9670;&nbsp;</a></span>exit_context</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void* exit_context</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="a00074_source.html#l00109">109</a> of file <a class="el" href="a00074_source.html">log.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00686_source.html#l00042">pcl_log_vevent()</a>.</p>
+
+</div>
+</div>
+<a id="a91cc79b0d0c45f78adbc4ad852ef2745"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91cc79b0d0c45f78adbc4ad852ef2745">&#9670;&nbsp;</a></span>exit_levels</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int exit_levels</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="a00074_source.html#l00110">110</a> of file <a class="el" href="a00074_source.html">log.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00686_source.html#l00042">pcl_log_vevent()</a>.</p>
+
+</div>
+</div>
+<a id="ad3af6a32b5c322268e7f5e4946fa842b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3af6a32b5c322268e7f5e4946fa842b">&#9670;&nbsp;</a></span>exit_handler</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void(* exit_handler) ( <a class="el" href="a00074.html#a5d480eda7e8dd10fbd479144d54e5483">pcl_log_event_t</a> *e, void *context)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="a00074_source.html#l00115">115</a> of file <a class="el" href="a00074_source.html">log.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00686_source.html#l00042">pcl_log_vevent()</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li>pcl/<a class="el" href="a00074_source.html">log.h</a></li>
 </ul>
-<h1 class="DocNodeLTR"><a class="anchor" id="autotoc_md1"></a>
-Setting Errors</h1>
-<p class="DocNodeLTR">Setting PCL errors typically involves using one of many macros. These macros all wrap the <a class="el" href="a01111.html#ga1fae5bebcb3cd7fc3fe889689f0c86a7">pcl_err_set</a> function, which internally uses the <a class="el" href="a01111.html#ga02bbc67e4c31e51f3f3b6ad389ba11a8">pcl_err_vset</a> function. These set functions are almost never used directly: they take many arguments including __FILE__, __func__, __LINE__, pcl error, os error, format string and variable arguments. The error set macros make setting an error easy. The set error macros all begin with <code>SETERR:</code> </p>
-<ul class="DocNodeLTR">
-<li>&#x202A;<a class="el" href="a01113.html#ga82adf6365b61d9a32021e559d9c31497" title="&#x202A;Sets the current thread&#39;s PCL error code.">SETERR</a> - sets the pcl error code</li>
-<li>&#x202A;<a class="el" href="a01113.html#ga954df7afdee633aed0beba08add17f8c" title="&#x202A;Sets the current thread&#39;s PCL error code and OS error code.">SETERR_OS</a> - same as <code>SETERR</code> but also sets OS error code</li>
-<li>&#x202A;<a class="el" href="a01113.html#ga7859a0a1a544c581d53bd7d44ab6805d" title="&#x202A;Sets the current thread&#39;s PCL error code and error message.">SETERRMSG</a> - sets the pcl error code and a formatted message</li>
-<li>&#x202A;<a class="el" href="a01113.html#gaac6caa6459e4fae267aba35a8a24783b" title="&#x202A;Sets the current thread&#39;s PCL error code, OS error code and error message.">SETERRMSG_OS</a> - same as <code>SETERRMSG</code> but also sets OS error code</li>
-<li>&#x202A;<a class="el" href="a01113.html#gaadc76b147014f17dcc08fa3c2f110a25" title="&#x202A;Sets the current thread&#39;s OS error code and maps code to PCL error code.">SETOSERR</a> - sets the os error code, internally mapped to PCL error code</li>
-<li>&#x202A;<a class="el" href="a01113.html#ga2098ca75aa487e29880f176b7c717e98" title="&#x202A;Sets the current thread&#39;s OS error code, error message and maps code to PCL error code.">SETOSERRMSG</a> - same as <code>SETOSMSG</code> but includes formatted message</li>
-<li>&#x202A;<a class="el" href="a01113.html#ga89b8bfbe17595305872551a1caaa5702" title="&#x202A;Sets the current thread&#39;s last OS error code and maps code to PCL error code.">SETLASTERR</a> - very common, sets the last OS error code. The os error code is the current Unix <code>errno</code> or for Windows, <code>GetLastError</code>, _doserrno or CRT <code>errno</code>. For any platform, you can use <a class="el" href="a01111.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a> to get the last OS error</li>
-<li>&#x202A;<a class="el" href="a01113.html#ga405f0945f1e605ded867422c553c78cf" title="&#x202A;Sets the current thread&#39;s last OS error code.">SETLASTERRMSG</a> - same as <code>SETLASTERR</code> but includes a formatted message <br  />
-</li>
-</ul>
-<p class="DocNodeLTR">All <code>SETERR*</code> macros expand to -1. If the error set is <a class="el" href="a01112.html#gad3b43ba0f3d97d535a1a3cf7fd8b35c2" title="&#x202A;The operation was successful.">PCL_EOKAY</a> (0), they expand to zero (almost never happens). By expanding to -1, <code>SETERR*</code> macros can be used with a <code>return</code> statement. This is by design, since most PCL functions return -1 to indicate an error. </p><div class="fragment"><div class="line"><span class="keywordtype">int</span> some_func(<span class="keyword">const</span> <span class="keywordtype">char</span> *str)</div>
-<div class="line">{</div>
-<div class="line">  <span class="keywordflow">if</span>(str == NULL)</div>
-<div class="line">    <span class="keywordflow">return</span> <a class="code" href="a01113.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a>(<a class="code" href="a01112.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>); <span class="comment">// can also use BADARG() macro</span></div>
-<div class="line">  <span class="keywordflow">return</span> (<span class="keywordtype">int</span>) strlen(str);</div>
-<div class="line">}</div>
-</div><!-- fragment --><p class="DocNodeLTR">As common as a -1 return value is to indicate an error, this is not always the case. A function may return any number of values or data types to indicate an error. For this reason, every <code>SETERR*</code> macro has a cooresponding <code>R_SETERR*</code> macro. These macros allowing setting the return value as the first argument to something other than -1. </p><div class="fragment"><div class="line"><span class="keywordtype">char</span> *some_func(<span class="keyword">const</span> <span class="keywordtype">char</span> *str)</div>
-<div class="line">{</div>
-<div class="line">  <span class="keywordflow">if</span>(str == NULL)</div>
-<div class="line">    <span class="keywordflow">return</span> <a class="code" href="a01113.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a>(NULL, <a class="code" href="a01112.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>); </div>
-<div class="line">  <span class="keywordflow">return</span> strdup(str);</div>
-<div class="line">}</div>
-</div><!-- fragment --><p class="DocNodeLTR">In the above case, we are not only setting the error but also indicating what value the macro should expand to &ndash; which is designed to be the return value; <code>R_</code> for return.</p>
-<p class="DocNodeLTR">There are cases where after detecting an error, a set of cleanup functions need to be executed. In some cases, those cleanup functions may set the OS error code or even the PCL error code. The problem is that setting the error and returning may be the wrong error. To solve this issue, you can freeze the PCL error system using the <a class="el" href="a01113.html#ga5d0d174193729a18bb8a57d35a255229" title="&#x202A;Freeze the current thread&#39;s error while executing code.">FREEZE_ERR</a> macro: </p><div class="fragment"><div class="line"><a class="code" href="a01228.html">pcl_file_t</a> *some_func(<a class="code" href="a01228.html">pcl_file_t</a> *file)</div>
-<div class="line">{</div>
-<div class="line">  <span class="comment">// another_func uses a SETERR* macro  </span></div>
-<div class="line">  <span class="keywordflow">if</span>(another_func(file) &lt; 0)</div>
-<div class="line">  {</div>
-<div class="line">    <span class="comment">// preserve error set by another_func</span></div>
-<div class="line">    <a class="code" href="a01113.html#ga5d0d174193729a18bb8a57d35a255229">FREEZE_ERR</a></div>
-<div class="line">    (</div>
-<div class="line">      <a class="code" href="a00053.html#ae06c73e0e7627c0e295c027c36d46442">pcl_file_seek</a>(file, 0, SEEK_SET); <span class="comment">// could set PCL error </span></div>
-<div class="line">      etc..</div>
-<div class="line">    );</div>
-<div class="line">    </div>
-<div class="line">    <span class="keywordflow">return</span> NULL;</div>
-<div class="line">  }</div>
-<div class="line"> </div>
-<div class="line">  <span class="keywordflow">return</span> file;</div>
-<div class="line">}</div>
-</div><!-- fragment --><h1 class="DocNodeLTR"><a class="anchor" id="autotoc_md2"></a>
-Stack Trace</h1>
-<p class="DocNodeLTR">PCL provides stack trace support, implemented as a linked list stack. When an error is set, PCL also adds a trace to the stack. There are two functions for adding to the current stack trace: <a class="el" href="a01111.html#ga30a9020e52ca985edcbd86e5b0676191">pcl_err_trace</a> and <a class="el" href="a01111.html#ga86913f06e1be53427513e88d829651ad">pcl_err_vtrace</a>. It is uncommon to use these functions directly for the same reason as the pcl error set functions: they are a pain to call directly. For this reason, there are four macros for adding a trace item to the stack: <a class="el" href="a01113.html#ga9ad3ef2339f58a873bc7bace5ad9c9df" title="&#x202A;Adds a stack trace to the current thread&#39;s error.">TRC</a>, <a class="el" href="a01113.html#gac647173422caf7372229621b0aab81cd" title="&#x202A;Adds a stack trace to the current thread&#39;s error with an error message.">TRCMSG</a>, <a class="el" href="a01113.html#gaa978c8c7faa5fc2f69a6641e054e519d" title="&#x202A;Sets the return value and adds a stack trace to the current thread&#39;s error.">R_TRC</a> and <a class="el" href="a01113.html#gab7c6f91e3dd42d314f529e2177930dc3" title="&#x202A;Sets the return value and adds a stack trace to the current thread&#39;s error with an error message.">R_TRCMSG</a>. The <code>TRC</code> macro takes no arguments and expands to -1. <code>TRCMSG</code> is identical to <code>TRC</code> but allows setting a formatted trace message; great for adding context to the stack trace. The <code>R_TRC</code> and <code>R_TRCMSG</code> macros are identical to the non-R versions but just like <code>R_SETERR*</code> macros, take the expand/return value as the first argument.</p>
-<p class="DocNodeLTR">In the previous example, <a class="el" href="a01113.html#ga5d0d174193729a18bb8a57d35a255229" title="&#x202A;Freeze the current thread&#39;s error while executing code.">FREEZE_ERR</a> was used to avoid cleanup functions from overwriting the actual error. One thing that example failed to do, was add a trace. It can be rewritten as: </p><div class="fragment"><div class="line"><a class="code" href="a01228.html">pcl_file_t</a> *some_func(<a class="code" href="a01228.html">pcl_file_t</a> *file)</div>
-<div class="line">{</div>
-<div class="line">  <span class="comment">// another_func uses a SETERR* macro  </span></div>
-<div class="line">  <span class="keywordflow">if</span>(another_func(file) &lt; 0)</div>
-<div class="line">  {</div>
-<div class="line">    <span class="comment">// preserve error set by another_func</span></div>
-<div class="line">    <a class="code" href="a01113.html#ga5d0d174193729a18bb8a57d35a255229">FREEZE_ERR</a></div>
-<div class="line">    (</div>
-<div class="line">      <a class="code" href="a00053.html#ae06c73e0e7627c0e295c027c36d46442">pcl_file_seek</a>(file, 0, SEEK_SET); <span class="comment">// could set PCL error </span></div>
-<div class="line">      etc..</div>
-<div class="line">    );</div>
-<div class="line">    </div>
-<div class="line">    <span class="keywordflow">return</span> <a class="code" href="a01113.html#gaa978c8c7faa5fc2f69a6641e054e519d">R_TRC</a>(NULL); <span class="comment">// add to stack trace</span></div>
-<div class="line">  }</div>
-<div class="line"> </div>
-<div class="line">  <span class="keywordflow">return</span> file;</div>
-<div class="line">}</div>
-</div><!-- fragment --><p class="DocNodeLTR">This is very useful, especially if <code>another_func</code> is called from many different places. Adding a trace via <code><a class="el" href="a01113.html#gaa978c8c7faa5fc2f69a6641e054e519d" title="&#x202A;Sets the return value and adds a stack trace to the current thread&#39;s error.">R_TRC(NULL)</a></code>, tells us exactly how we got to the error call site.</p>
-<p class="DocNodeLTR">Stack tracing is obviously opt-in. If you don't use the tracing macros, then you will only get the error call site trace information. A rule of thumb is, if the function you are calling is known to set the PCL error, then you want to set a trace. If the function, such as a function outside the PCL library, doesn't set the PCL error than use a <code>SETERR*</code> macro to begin the stack trace. So, tracing is not only opt-in but it is important to know what, if any, error handling was implemented by the function that failed. This is normally pretty straightforward.</p>
-<h1 class="DocNodeLTR"><a class="anchor" id="autotoc_md3"></a>
-Formatted Output</h1>
-<p class="DocNodeLTR">There are several functions for formatting an error. They are designed to output a formatted stack trace.</p>
-<ul class="DocNodeLTR">
-<li>&#x202A;<a class="el" href="a01111.html#gac9db573a481c66387f100e67ed9f1e5a">pcl_err_fprintf</a> - outputs a stack trace to a given FILE stream</li>
-<li>&#x202A;<a class="el" href="a01111.html#ga1d7837205ac9632ff7f63034f901d85c">pcl_err_sprintf</a> - outputs a stack trace to a given buffer</li>
-</ul>
-<p class="DocNodeLTR">Each of the above functions also have <code>va_list</code> versions: <code>vfprintf</code> and <code>vsprintf</code>. The <code>FILE</code> stream versions prepare the stack trace in memory and issue a single <code>fwrite</code> when complete.</p>
-<p class="DocNodeLTR">All take an <em>indent</em> as an argument. Normally, <em>indent</em> is set to zero. Each trace is written to its own line starting at indent and increments by 2 every line. Below is an example stack trace from examples/ls.c. That example takes a directory as an argument and performs an <code>ls -l</code> style listing. If the example cannot open the given directory, it issues a panic: </p><div class="fragment"><div class="line">51  <a class="code" href="a01212.html">pcl_dir_t</a> *dp = <a class="code" href="a01110.html#ga13533f63ec03a1abb3f72c93695e0746">pcl_opendir</a>(argv[1]);</div>
-<div class="line">52</div>
-<div class="line">53  <span class="keywordflow">if</span>(!dp)</div>
-<div class="line">54    <a class="code" href="a01113.html#gaaaa31d344c49095dfc3f6051ec2fbfca">PANIC</a>(<span class="stringliteral">&quot;Failed to open directory &#39;%Ps&#39;&quot;</span>, argv[1])</div>
-</div><!-- fragment --><p class="DocNodeLTR"><a class="el" href="a01113.html#gaaaa31d344c49095dfc3f6051ec2fbfca">PANIC</a> performs a <code>TRC</code>, outputs a stack trace to <code>stderr</code> and exits. To avoid the exit, use the <a class="el" href="a01113.html#ga72c5d5554c6045bad5e2d599589e105d">PTRACE</a> macro instead.</p>
-<p class="DocNodeLTR">Below is a sample output of running <code>./ex_ls file.txt</code> </p><div class="fragment"><div class="line">1  PANIC: Failed to open directory &#39;file.txt&#39;</div>
-<div class="line">2  /Users/andrew/projects/libpcl/examples/ls.c:main(54)</div>
-<div class="line">3    /Users/andrew/projects/libpcl/src/dir/opendir.c:pcl_opendir(90): PCL_ENOTDIR - Not a directory.</div>
-<div class="line">4      &gt;Cannot open directory: file.txt</div>
-</div><!-- fragment --><dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;line numbers plus two spaces are added for example purposes, not part of normal output.</dd></dl>
-<p class="DocNodeLTR"><b>Line #1</b> is the optional message passed to <code>PANIC</code> or <code>pcl_err_fprintf</code>. If the <em>indent</em> parameter to <code>pcl_err_fprintf</code> and friends is set to <code>-1</code>, then this line is prefixed with <code>"PANIC: "</code> rather then <code>"ERROR: "</code>. <code>PANIC</code> always sets this to <code>-1</code>. Note that <code>PTRACE</code> does not set <em>indent</em> to <code>-1</code>. This line is not counted as part of the indent. Meaning, after this line is outputed the indent is not incremented by 2 spaces.</p>
-<p class="DocNodeLTR"><b>Line #2</b> represents the top of the stack trace. This is the last trace added and represents the initial call site that caused the error at the bottom of the stack. By looking at this line, we can tell that either <code>TRC</code> or <code>R_TRC</code> was used as there is no context message. Below is an example of what line #2 would look like if <code>TRCMSG("context message")</code> or <code>R_TRCMSG(NULL, "context message")</code> were used: </p><div class="fragment"><div class="line">2  /Users/andrew/projects/libpcl/examples/ls.c:main(54) - context message</div>
-</div><!-- fragment --><p class="DocNodeLTR">Both <code>TRCMSG</code> and <code>R_TRCMSG</code> take a format and variable arguments.</p>
-<p class="DocNodeLTR"><b>Line #3</b> is the bottom of the stack, the error call site. This is where the error was initially set via <code>SETERR*</code> or <code>SETLASTERR*</code>. Keep in mind, that there is typically more lines of tracing in a real application. This line always includes the error name, <code>PCL_ENOTDIR</code>, and the default error message for that PCL error. OS errors, if captured, are never displayed in PCL generated stack traces.</p>
-<p class="DocNodeLTR"><b>Line #4</b> is the application-specific error message provided when setting the error. This is optional so it is very possible to find stack traces without the "&gt;application message" line. Between setting context messages while adding traces and setting an application error message when setting the error, you end up with a wealth of information before examining a single line of code.</p>
-<p class="DocNodeLTR">You can also format your own stack trace by getting a pointer to the current thread's error via <a class="el" href="a01111.html#gaefd22094c926adb72077ca72f907a318" title="&#x202A;Gets the calling thread&#39;s error.">pcl_err_get()</a>. The structure contains the PCL and OS error code. It also contains the top of the stack trace: <a class="el" href="a01140.html#af22b89a25236c26e197118ca1652019a" title="&#x202A;Stack trace implemented as a linked list.">pcl_err_t.strace</a>. The OS error code is only set if it was provided during a <code>SETERR*</code> macro, or the <code>SETLASTERR*</code> macros. It may very well be zero, which indicates that a PCL error code was directly set, verse first mapping an OS error code to PCL as <code>SETLASTERR</code> does. </p>
-</div></div><!-- contents -->
-</div><!-- PageDoc -->
-<div class="ttc" id="aa01113_html_ga82adf6365b61d9a32021e559d9c31497"><div class="ttname"><a href="a01113.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a></div><div class="ttdeci">#define SETERR(_pclerr)</div><div class="ttdoc">Sets the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00065">_errdefs.h:65</a></div></div>
-<div class="ttc" id="aa01228_html"><div class="ttname"><a href="a01228.html">tag_pcl_file</a></div><div class="ttdef"><b>Definition:</b> <a href="a00419_source.html#l00061">_file.h:62</a></div></div>
-<div class="ttc" id="aa00053_html_ae06c73e0e7627c0e295c027c36d46442"><div class="ttname"><a href="a00053.html#ae06c73e0e7627c0e295c027c36d46442">pcl_file_seek</a></div><div class="ttdeci">PCL_EXPORT off_t pcl_file_seek(pcl_file_t *file, off_t offset, int whence)</div><div class="ttdef"><b>Definition:</b> <a href="a00440_source.html#l00036">file_seek.c:36</a></div></div>
-<div class="ttc" id="aa01112_html_gae0cd5c5a7fae36cd480176bda17e77ca"><div class="ttname"><a href="a01112.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a></div><div class="ttdeci">#define PCL_EINVAL</div><div class="ttdoc">Invalid argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00078">_errno.h:78</a></div></div>
-<div class="ttc" id="aa01113_html_ga5d0d174193729a18bb8a57d35a255229"><div class="ttname"><a href="a01113.html#ga5d0d174193729a18bb8a57d35a255229">FREEZE_ERR</a></div><div class="ttdeci">#define FREEZE_ERR(code_fragment)</div><div class="ttdoc">Freeze the current thread's error while executing code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00053">_errdefs.h:53</a></div></div>
-<div class="ttc" id="aa01212_html"><div class="ttname"><a href="a01212.html">tag_pcl_dir</a></div><div class="ttdef"><b>Definition:</b> <a href="a00263_source.html#l00048">_dir.h:49</a></div></div>
-<div class="ttc" id="aa01113_html_gaa978c8c7faa5fc2f69a6641e054e519d"><div class="ttname"><a href="a01113.html#gaa978c8c7faa5fc2f69a6641e054e519d">R_TRC</a></div><div class="ttdeci">#define R_TRC(_retval)</div><div class="ttdoc">Sets the return value and adds a stack trace to the current thread's error.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00287">_errdefs.h:287</a></div></div>
-<div class="ttc" id="aa01113_html_gaaaa31d344c49095dfc3f6051ec2fbfca"><div class="ttname"><a href="a01113.html#gaaaa31d344c49095dfc3f6051ec2fbfca">PANIC</a></div><div class="ttdeci">#define PANIC(_m,...)</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00313">_errdefs.h:313</a></div></div>
-<div class="ttc" id="aa01110_html_ga13533f63ec03a1abb3f72c93695e0746"><div class="ttname"><a href="a01110.html#ga13533f63ec03a1abb3f72c93695e0746">pcl_opendir</a></div><div class="ttdeci">PCL_EXPORT pcl_dir_t * pcl_opendir(const pchar_t *path)</div><div class="ttdoc">Open a directory.</div><div class="ttdef"><b>Definition:</b> <a href="a00281_source.html#l00042">opendir.c:42</a></div></div>
-<div class="ttc" id="aa01113_html_gae8eaed12aa57a2870ad8e45cc2306318"><div class="ttname"><a href="a01113.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a></div><div class="ttdeci">#define R_SETERR(_retval, _pclerr)</div><div class="ttdoc">Sets the return value and the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00145">_errdefs.h:145</a></div></div>
+</div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

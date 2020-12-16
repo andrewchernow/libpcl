@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/socket/socket_setrcvtimeo.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/process/setenv.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,17 +62,17 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_9ad1227260954e346101f3844f0abb3d.html">&#x202A;socket</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_c0cd66d8ddae4fc5bc5dc2f24e29763b.html">&#x202A;process</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">socket_setrcvtimeo.c</div>  </div>
+<div class="title">setenv.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00746.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (PCL)</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2003, 2005-2014, 2017-2020 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,36 +101,39 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00680.html">_socket.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00044.html">pcl/error.h</a>&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00722.html">_process.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/error.h</a>&gt;</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a00746.html#abeb1f6a18fae13b2442b5ce37e53b4c8">   36</a></span>&#160;<a class="code" href="a00746.html#abeb1f6a18fae13b2442b5ce37e53b4c8">pcl_socket_setrcvtimeo</a>(<a class="code" href="a01240.html">pcl_socket_t</a> *sock, uint32_t msecs)</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01205.html#gace0c6222678a363bdcf34a792caf2605">   36</a></span>&#160;<a class="code" href="a01205.html#gace0c6222678a363bdcf34a792caf2605">pcl_setenv</a>(<span class="keyword">const</span> <a class="code" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *name, <span class="keyword">const</span> <a class="code" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *value, <span class="keywordtype">bool</span> overwrite)</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  DWORD timeout = msecs;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keyword">struct </span>timeval timeout;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  timeout.tv_sec = msecs ? msecs / 1000 : 0;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  timeout.tv_usec = msecs ? (msecs % 1000) * 1000 : 0;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordtype">int</span> r = setsockopt(sock-&gt;<a class="code" href="a01240.html#a8a04492110d683cd4b6119648e1584d6">fd</a>, SOL_SOCKET, SO_RCVTIMEO,</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    (<span class="keyword">const</span> <span class="keywordtype">char</span> *) &amp;timeout, <span class="keyword">sizeof</span>(timeout));</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordtype">int</span> r;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="comment">/* on linux and darwin, a NULL value seg faulted */</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a00038.html#a8278668d120afdd0e47def881845559d">strempty</a>(name) || !value)</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01198.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a>();</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="comment">/* reads (!overwrite &amp;&amp; exists) */</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordflow">if</span>(!overwrite &amp;&amp; GetEnvironmentVariable(name, NULL, 0) != 0)</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="keywordflow">if</span>(r)</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01113.html#gaadc76b147014f17dcc08fa3c2f110a25">SETOSERR</a>(<a class="code" href="a01111.html#ga4926f863ec8fe31588c707f0b69bbe9a">pcl_sockerrno</a>);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;}</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  r = SetEnvironmentVariable(name, value) ? 0 : -1;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  r = setenv(name, value, overwrite);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keywordflow">return</span> r ? <a class="code" href="a01198.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>() : 0;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00044_html"><div class="ttname"><a href="a00044.html">error.h</a></div></div>
-<div class="ttc" id="aa01240_html_a8a04492110d683cd4b6119648e1584d6"><div class="ttname"><a href="a01240.html#a8a04492110d683cd4b6119648e1584d6">tag_pcl_socket::fd</a></div><div class="ttdeci">pcl_socketfd_t fd</div><div class="ttdef"><b>Definition:</b> <a href="a00680_source.html#l00053">_socket.h:53</a></div></div>
-<div class="ttc" id="aa00680_html"><div class="ttname"><a href="a00680.html">_socket.h</a></div></div>
-<div class="ttc" id="aa01113_html_gaadc76b147014f17dcc08fa3c2f110a25"><div class="ttname"><a href="a01113.html#gaadc76b147014f17dcc08fa3c2f110a25">SETOSERR</a></div><div class="ttdeci">#define SETOSERR(_oserr)</div><div class="ttdoc">Sets the current thread's OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00111">_errdefs.h:111</a></div></div>
-<div class="ttc" id="aa00746_html_abeb1f6a18fae13b2442b5ce37e53b4c8"><div class="ttname"><a href="a00746.html#abeb1f6a18fae13b2442b5ce37e53b4c8">pcl_socket_setrcvtimeo</a></div><div class="ttdeci">int pcl_socket_setrcvtimeo(pcl_socket_t *sock, uint32_t msecs)</div><div class="ttdef"><b>Definition:</b> <a href="a00746_source.html#l00036">socket_setrcvtimeo.c:36</a></div></div>
-<div class="ttc" id="aa01111_html_ga4926f863ec8fe31588c707f0b69bbe9a"><div class="ttname"><a href="a01111.html#ga4926f863ec8fe31588c707f0b69bbe9a">pcl_sockerrno</a></div><div class="ttdeci">#define pcl_sockerrno</div><div class="ttdef"><b>Definition:</b> <a href="a00044_source.html#l00187">error.h:187</a></div></div>
-<div class="ttc" id="aa01240_html"><div class="ttname"><a href="a01240.html">tag_pcl_socket</a></div><div class="ttdef"><b>Definition:</b> <a href="a00680_source.html#l00047">_socket.h:48</a></div></div>
+<div class="ttc" id="aa01198_html_gab052d4faa8fd25e1a13e86ecd4aafa38"><div class="ttname"><a href="a01198.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a></div><div class="ttdeci">#define BADARG()</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00306">_errdefs.h:306</a></div></div>
+<div class="ttc" id="aa00722_html"><div class="ttname"><a href="a00722.html">_process.h</a></div></div>
+<div class="ttc" id="aa00038_html_a8278668d120afdd0e47def881845559d"><div class="ttname"><a href="a00038.html#a8278668d120afdd0e47def881845559d">strempty</a></div><div class="ttdeci">#define strempty(str)</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00124">defs.h:124</a></div></div>
+<div class="ttc" id="aa00107_html_ac114b2b1527c8ae241d37cc15ca7d122"><div class="ttname"><a href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a></div><div class="ttdeci">char pchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00107_source.html#l00053">types.h:53</a></div></div>
+<div class="ttc" id="aa01198_html_ga89b8bfbe17595305872551a1caaa5702"><div class="ttname"><a href="a01198.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a></div><div class="ttdeci">#define SETLASTERR()</div><div class="ttdoc">Sets the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00125">_errdefs.h:125</a></div></div>
+<div class="ttc" id="aa01205_html_gace0c6222678a363bdcf34a792caf2605"><div class="ttname"><a href="a01205.html#gace0c6222678a363bdcf34a792caf2605">pcl_setenv</a></div><div class="ttdeci">int pcl_setenv(const pchar_t *name, const pchar_t *value, bool overwrite)</div><div class="ttdoc">Set the value of an environment variable.</div><div class="ttdef"><b>Definition:</b> <a href="a00746_source.html#l00036">setenv.c:36</a></div></div>
+<div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">error.h</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/vector/vector_qsort.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/time/_time.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,12 +62,12 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_0baa9f3d984dd29d1429171590d769d6.html">&#x202A;vector</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_798ee6f4f5cd9c6410c07a649b7662ec.html">&#x202A;time</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">vector_qsort.c</div>  </div>
+<div class="title">_time.h</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a01049.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,30 +101,65 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00113.html">pcl/vector.h</a>&gt;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor"># include &lt;stdio.h&gt;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor"># include &lt;search.h&gt;</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor"># include &lt;stdlib.h&gt;</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<a class="code" href="a01200.html">pcl_vector_t</a> *</div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="a01124.html#gad92337c015e78779ec762315b25866a2">   42</a></span>&#160;<a class="code" href="a01124.html#gad92337c015e78779ec762315b25866a2">pcl_vector_sort</a>(<a class="code" href="a01200.html">pcl_vector_t</a> *v, <span class="keywordtype">int</span> (*cmp)(<span class="keyword">const</span> <span class="keywordtype">void</span> *, <span class="keyword">const</span> <span class="keywordtype">void</span> *))</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;{</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keywordflow">if</span>(v &amp;&amp; v-&gt;<a class="code" href="a01200.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a> &gt; 1)</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    qsort(v-&gt;<a class="code" href="a01200.html#a0f959190ef240e958c70d3fd28c3d856">elems</a>, v-&gt;<a class="code" href="a01200.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a>, v-&gt;<a class="code" href="a01200.html#a854352f53b148adc24983a58a1866d66">size</a>, cmp);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordflow">return</span> v;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#ifndef LIBPCL__TIME_H</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#define LIBPCL__TIME_H</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00104.html">pcl/time.h</a>&gt;</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">  #define TIME_HAVE_CONTEXT</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">  #include &lt;windows.h&gt;</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">  #include &lt;sys/stat.h&gt;</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">  #define SECS_1601_1970 11644473600LL </span><span class="comment">/* seconds between 1601 and 1970 */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#elif defined(PCL_LINUX)</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">  #ifdef CLOCK_MONOTONIC_RAW</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">    #define CLOCK_MONO CLOCK_MONOTONIC_RAW</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">  #else</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">    #define CLOCK_MONO CLOCK_MONOTONIC</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">  #endif</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#elif defined(PCL_DARWIN)</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">  #define TIME_HAVE_CONTEXT</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">  #include &lt;mach/mach.h&gt;</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">  #include &lt;mach/mach_time.h&gt;</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor">#ifdef TIME_HAVE_CONTEXT</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;{</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">  #ifdef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  <span class="keywordtype">double</span> win_freq;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">  #else</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  mach_timebase_info_data_t mach_tbase; <span class="comment">/* numer, demon */</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  <span class="keyword">struct </span>timespec inittime;             <span class="comment">/* nanoseconds since 1-Jan-1970 to init() */</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  uint64_t initclock;                   <span class="comment">/* ticks since boot to init() */</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="preprocessor">  #endif</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;} ipcl_time_context_t;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;ipcl_time_context_t *ipcl_time_context(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keywordtype">void</span> <a class="code" href="a01049.html#a60494d86085e2eab1b30602841a5c448">ipcl_time_handler</a>(uint32_t which, <span class="keywordtype">void</span> *data);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<a class="code" href="a01277.html">pcl_time_t</a> <a class="code" href="a01076.html#a4d87dd088227edcbe0d048eac92ce31e">ipcl_win32_ftime_to_pcl</a>(FILETIME *ft); <span class="comment">/* FILETIME to pcl_time_t */</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;FILETIME <a class="code" href="a01079.html#aa22495bcf1c21126bb3b7de9af99eb9a">ipcl_win32_pcl_to_ftime</a>(<a class="code" href="a01277.html">pcl_time_t</a> t);   <span class="comment">/* pcl_time_t to FILETIME */</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;}</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="preprocessor">#endif //LIBPCL__TIME_H__</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01200_html_ad43c3812e6d13e0518d9f8b8f463ffcf"><div class="ttname"><a href="a01200.html#ad43c3812e6d13e0518d9f8b8f463ffcf">tag_pcl_vector::count</a></div><div class="ttdeci">int count</div><div class="ttdoc">number of elements in vector</div><div class="ttdef"><b>Definition:</b> <a href="a00113_source.html#l00093">vector.h:93</a></div></div>
-<div class="ttc" id="aa01200_html_a0f959190ef240e958c70d3fd28c3d856"><div class="ttname"><a href="a01200.html#a0f959190ef240e958c70d3fd28c3d856">tag_pcl_vector::elems</a></div><div class="ttdeci">char * elems</div><div class="ttdoc">Element array.</div><div class="ttdef"><b>Definition:</b> <a href="a00113_source.html#l00102">vector.h:102</a></div></div>
-<div class="ttc" id="aa01124_html_gad92337c015e78779ec762315b25866a2"><div class="ttname"><a href="a01124.html#gad92337c015e78779ec762315b25866a2">pcl_vector_sort</a></div><div class="ttdeci">pcl_vector_t * pcl_vector_sort(pcl_vector_t *v, int(*cmp)(const void *, const void *))</div><div class="ttdoc">Sort a vector using qsort.</div><div class="ttdef"><b>Definition:</b> <a href="a01049_source.html#l00042">vector_qsort.c:42</a></div></div>
-<div class="ttc" id="aa01200_html_a854352f53b148adc24983a58a1866d66"><div class="ttname"><a href="a01200.html#a854352f53b148adc24983a58a1866d66">tag_pcl_vector::size</a></div><div class="ttdeci">size_t size</div><div class="ttdoc">byte size of an element</div><div class="ttdef"><b>Definition:</b> <a href="a00113_source.html#l00099">vector.h:99</a></div></div>
-<div class="ttc" id="aa00113_html"><div class="ttname"><a href="a00113.html">vector.h</a></div></div>
-<div class="ttc" id="aa01200_html"><div class="ttname"><a href="a01200.html">tag_pcl_vector</a></div><div class="ttdoc">Vector object.</div><div class="ttdef"><b>Definition:</b> <a href="a00113_source.html#l00090">vector.h:91</a></div></div>
+<div class="ttc" id="aa00104_html"><div class="ttname"><a href="a00104.html">time.h</a></div></div>
+<div class="ttc" id="aa01049_html_a60494d86085e2eab1b30602841a5c448"><div class="ttname"><a href="a01049.html#a60494d86085e2eab1b30602841a5c448">ipcl_time_handler</a></div><div class="ttdeci">void ipcl_time_handler(uint32_t which, void *data)</div><div class="ttdef"><b>Definition:</b> <a href="a01058_source.html#l00041">context.c:41</a></div></div>
+<div class="ttc" id="aa01277_html"><div class="ttname"><a href="a01277.html">tag_pcl_time</a></div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00057">time.h:58</a></div></div>
+<div class="ttc" id="aa01079_html_aa22495bcf1c21126bb3b7de9af99eb9a"><div class="ttname"><a href="a01079.html#aa22495bcf1c21126bb3b7de9af99eb9a">ipcl_win32_pcl_to_ftime</a></div><div class="ttdeci">FILETIME ipcl_win32_pcl_to_ftime(pcl_time_t t)</div><div class="ttdef"><b>Definition:</b> <a href="a01079_source.html#l00035">win32_pcl_to_ftime.c:35</a></div></div>
+<div class="ttc" id="aa01076_html_a4d87dd088227edcbe0d048eac92ce31e"><div class="ttname"><a href="a01076.html#a4d87dd088227edcbe0d048eac92ce31e">ipcl_win32_ftime_to_pcl</a></div><div class="ttdeci">pcl_time_t ipcl_win32_ftime_to_pcl(FILETIME *ft)</div><div class="ttdef"><b>Definition:</b> <a href="a01076_source.html#l00035">win32_ftime_to_pcl.c:35</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/win32/win32_logon.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/time/sleep.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,12 +62,12 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_7dc28ed10c1e0aa99689948e6211576b.html">&#x202A;win32</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_798ee6f4f5cd9c6410c07a649b7662ec.html">&#x202A;time</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">win32_logon.c</div>  </div>
+<div class="title">sleep.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a01064.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,50 +101,106 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a01058.html">_win32.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00089.html">pcl/string.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01064.html#a71d9a34fee3b62d9f9b3bc0285754cb3">   36</a></span>&#160;<a class="code" href="a01064.html#a71d9a34fee3b62d9f9b3bc0285754cb3">ipcl_win32_logon</a>(<span class="keyword">const</span> <a class="code" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *username, <span class="keyword">const</span> <a class="code" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *domain,</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keyword">const</span> <a class="code" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *password, HANDLE *htok)</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordflow">if</span>(!htok)</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01113.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a>(<a class="code" href="a01112.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="comment">/*</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="comment">   * When on a workgroup trying to logon as a domain account, you must</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="comment">   * use LOGON32_LOGON_NEW_CREDENTIALS with provider set to</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment">   * LOGON32_PROVIDER_WINNT50.  When on a domain using a domain</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment">   * account, LOGON32_LOGON_INTERACTIVE or LOGON32_LOGON_BATCH with</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment">   * provider set to LOGON32_PROVIDER_DEFAULT.  The latter also applies</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment">   * to any situation (workgroup, domain, stand-alone server) where the</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment">   * account is a local account ... not a remote domain account.</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment">   *</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment">   * We try both since determining all of the above is much more expensive</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment">   * than trying LogonUser two times.</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment">   */</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="keywordflow">if</span>(!LogonUser(username, domain, password, LOGON32_LOGON_INTERACTIVE,</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    LOGON32_PROVIDER_DEFAULT, htok))</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  {</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordflow">if</span>(!LogonUser(username, domain, password, LOGON32_LOGON_NEW_CREDENTIALS,</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      LOGON32_PROVIDER_WINNT50, htok))</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    {</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01113.html#ga405f0945f1e605ded867422c553c78cf">SETLASTERRMSG</a>(<span class="stringliteral">&quot;Cannot logon account &#39;%Ps\\%Ps&#39;&quot;</span>,</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        domain ? domain : <a class="code" href="a00035.html#a1df9ab18a5e5dd2e6d6d3977c35e976c">_P</a>(<span class="stringliteral">&quot;&quot;</span>), username);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    }</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  }</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a01049.html">_time.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/error.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00092.html">string.h</a>&gt;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01064.html#ab7cefb5b9d38083de73801bf0f073615">   36</a></span>&#160;<span class="preprocessor">#define COND_INTERVAL 10000000 // nanoseconds (10 milliseconds)</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">static</span> <span class="keywordtype">int</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;win32_nanosleep(uint64_t ns)</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;{</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  HANDLE timer;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  LARGE_INTEGER li;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordflow">if</span>(!(timer = CreateWaitableTimer(NULL, TRUE, NULL)))</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01198.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="comment">/* windows uses 100ns intervals, value must be negative -- see docs */</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  li.QuadPart = - (LONGLONG) (ns / 100);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <span class="keywordflow">if</span>(!SetWaitableTimer(timer, &amp;li, 0, NULL, NULL, FALSE))</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <a class="code" href="a01198.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    CloseHandle(timer);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">return</span> -1;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  }</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  DWORD r = WaitForSingleObject(timer, INFINITE);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  CloseHandle(timer);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  <span class="keywordflow">return</span> r == WAIT_OBJECT_0 ? 0 : <a class="code" href="a01198.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;}</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;}</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="keyword">static</span> <span class="keywordtype">bool</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;sleep_cond(uint64_t nsecs, <span class="keywordtype">bool</span> (*cond)(<span class="keywordtype">void</span>), uint32_t cond_interval)</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;{</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <span class="keywordflow">if</span>(cond())</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  <span class="keywordflow">if</span>(cond_interval == 0)</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    cond_interval = <a class="code" href="a01064.html#ab7cefb5b9d38083de73801bf0f073615">COND_INTERVAL</a>;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  <span class="keywordflow">do</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  {</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    uint64_t s = <a class="code" href="a00038.html#ac6afabdc09a49a433ee19d8a9486056d">min</a>(nsecs, cond_interval);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="comment">/* recurse but with NULL cond callback */</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordflow">if</span>(<a class="code" href="a01064.html#ac084ccbe5efaebff297e94e9f65adc8b">pcl_sleep</a>(s, NULL, 0))</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01198.html#gaa978c8c7faa5fc2f69a6641e054e519d">R_TRC</a>(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    nsecs -= s;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordflow">if</span>(cond())</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;      <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  }</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  <span class="keywordflow">while</span>(nsecs &gt; 0);</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;}</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="keywordtype">bool</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno"><a class="line" href="a01064.html#ac084ccbe5efaebff297e94e9f65adc8b">   93</a></span>&#160;<a class="code" href="a01064.html#ac084ccbe5efaebff297e94e9f65adc8b">pcl_sleep</a>(uint64_t nsecs, <span class="keywordtype">bool</span> (*cond)(<span class="keywordtype">void</span>), uint32_t cond_interval)</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;{</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  <span class="keywordflow">if</span>(cond)</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordflow">return</span> sleep_cond(nsecs, cond, cond_interval);</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;  <span class="keywordflow">if</span>(win32_nanosleep(nsecs))</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01198.html#gaa978c8c7faa5fc2f69a6641e054e519d">R_TRC</a>(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;  <span class="keyword">struct </span>timespec amt, remaining_amt;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  amt.tv_sec = (time_t) (nsecs / <a class="code" href="a00104.html#a86b7875cd6dfe1745c07e12ac648542b">PCL_NSECS</a>);</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;  amt.tv_nsec = (long) (nsecs % <a class="code" href="a00104.html#a86b7875cd6dfe1745c07e12ac648542b">PCL_NSECS</a>);</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;  <span class="keywordflow">while</span>(nanosleep(&amp;amt, &amp;remaining_amt))</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;  {</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="comment">/* failed (very unlikely) */</span></div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keywordflow">if</span>(errno != EINTR)</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01198.html#gad08a56aa55af3716a251ced9f780686d">R_SETLASTERR</a>(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="comment">/* EINTR, continue sleeping for the remaining amount */</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    memcpy(&amp;amt, &amp;remaining_amt, <span class="keyword">sizeof</span>(amt));</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;  }</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160; </div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;  <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01113_html_ga82adf6365b61d9a32021e559d9c31497"><div class="ttname"><a href="a01113.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a></div><div class="ttdeci">#define SETERR(_pclerr)</div><div class="ttdoc">Sets the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00065">_errdefs.h:65</a></div></div>
-<div class="ttc" id="aa00104_html_ac114b2b1527c8ae241d37cc15ca7d122"><div class="ttname"><a href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a></div><div class="ttdeci">char pchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00053">types.h:53</a></div></div>
-<div class="ttc" id="aa01112_html_gae0cd5c5a7fae36cd480176bda17e77ca"><div class="ttname"><a href="a01112.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a></div><div class="ttdeci">#define PCL_EINVAL</div><div class="ttdoc">Invalid argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00078">_errno.h:78</a></div></div>
-<div class="ttc" id="aa01058_html"><div class="ttname"><a href="a01058.html">_win32.h</a></div></div>
-<div class="ttc" id="aa01064_html_a71d9a34fee3b62d9f9b3bc0285754cb3"><div class="ttname"><a href="a01064.html#a71d9a34fee3b62d9f9b3bc0285754cb3">ipcl_win32_logon</a></div><div class="ttdeci">int ipcl_win32_logon(const pchar_t *username, const pchar_t *domain, const pchar_t *password, HANDLE *htok)</div><div class="ttdef"><b>Definition:</b> <a href="a01064_source.html#l00036">win32_logon.c:36</a></div></div>
-<div class="ttc" id="aa01113_html_ga405f0945f1e605ded867422c553c78cf"><div class="ttname"><a href="a01113.html#ga405f0945f1e605ded867422c553c78cf">SETLASTERRMSG</a></div><div class="ttdeci">#define SETLASTERRMSG(_msgfmt,...)</div><div class="ttdoc">Sets the current thread's last OS error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00132">_errdefs.h:132</a></div></div>
-<div class="ttc" id="aa00089_html"><div class="ttname"><a href="a00089.html">string.h</a></div></div>
-<div class="ttc" id="aa00035_html_a1df9ab18a5e5dd2e6d6d3977c35e976c"><div class="ttname"><a href="a00035.html#a1df9ab18a5e5dd2e6d6d3977c35e976c">_P</a></div><div class="ttdeci">#define _P(quote)</div><div class="ttdef"><b>Definition:</b> <a href="a00035_source.html#l00078">defs.h:78</a></div></div>
+<div class="ttc" id="aa01064_html_ac084ccbe5efaebff297e94e9f65adc8b"><div class="ttname"><a href="a01064.html#ac084ccbe5efaebff297e94e9f65adc8b">pcl_sleep</a></div><div class="ttdeci">bool pcl_sleep(uint64_t nsecs, bool(*cond)(void), uint32_t cond_interval)</div><div class="ttdoc">Pause execution of the current thread for the given number of nanoseconds.</div><div class="ttdef"><b>Definition:</b> <a href="a01064_source.html#l00093">sleep.c:93</a></div></div>
+<div class="ttc" id="aa00104_html_a86b7875cd6dfe1745c07e12ac648542b"><div class="ttname"><a href="a00104.html#a86b7875cd6dfe1745c07e12ac648542b">PCL_NSECS</a></div><div class="ttdeci">#define PCL_NSECS</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00047">time.h:47</a></div></div>
+<div class="ttc" id="aa01049_html"><div class="ttname"><a href="a01049.html">_time.h</a></div></div>
+<div class="ttc" id="aa01064_html_ab7cefb5b9d38083de73801bf0f073615"><div class="ttname"><a href="a01064.html#ab7cefb5b9d38083de73801bf0f073615">COND_INTERVAL</a></div><div class="ttdeci">#define COND_INTERVAL</div><div class="ttdef"><b>Definition:</b> <a href="a01064_source.html#l00036">sleep.c:36</a></div></div>
+<div class="ttc" id="aa01198_html_ga89b8bfbe17595305872551a1caaa5702"><div class="ttname"><a href="a01198.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a></div><div class="ttdeci">#define SETLASTERR()</div><div class="ttdoc">Sets the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00125">_errdefs.h:125</a></div></div>
+<div class="ttc" id="aa00038_html_ac6afabdc09a49a433ee19d8a9486056d"><div class="ttname"><a href="a00038.html#ac6afabdc09a49a433ee19d8a9486056d">min</a></div><div class="ttdeci">#define min(a, b)</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00119">defs.h:119</a></div></div>
+<div class="ttc" id="aa01198_html_gad08a56aa55af3716a251ced9f780686d"><div class="ttname"><a href="a01198.html#gad08a56aa55af3716a251ced9f780686d">R_SETLASTERR</a></div><div class="ttdeci">#define R_SETLASTERR(_retval)</div><div class="ttdoc">Sets the return value and the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00235">_errdefs.h:235</a></div></div>
+<div class="ttc" id="aa01198_html_gaa978c8c7faa5fc2f69a6641e054e519d"><div class="ttname"><a href="a01198.html#gaa978c8c7faa5fc2f69a6641e054e519d">R_TRC</a></div><div class="ttdeci">#define R_TRC(_retval)</div><div class="ttdoc">Sets the return value and adds a stack trace to the current thread's error.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00287">_errdefs.h:287</a></div></div>
+<div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">error.h</a></div></div>
+<div class="ttc" id="aa00092_html"><div class="ttname"><a href="a00092.html">string.h</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

@@ -1,13 +1,21 @@
 var searchData=
 [
-  ['accept_2ec_1565',['accept.c',['../a00683.html',1,'']]],
-  ['alloc_2eh_1566',['alloc.h',['../a00023.html',1,'']]],
-  ['asprintf_2ec_1567',['asprintf.c',['../a00533.html',1,'']]],
-  ['astrcatf_2ec_1568',['astrcatf.c',['../a00836.html',1,'']]],
-  ['atomic_2eh_1569',['atomic.h',['../a00026.html',1,'']]],
-  ['atomic_5fadd_5ffetch_2ec_1570',['atomic_add_fetch.c',['../a00131.html',1,'']]],
-  ['atomic_5fcompare_5fexchange_2ec_1571',['atomic_compare_exchange.c',['../a00134.html',1,'']]],
-  ['atomic_5fexchange_2ec_1572',['atomic_exchange.c',['../a00137.html',1,'']]],
-  ['atomic_5ffetch_2ec_1573',['atomic_fetch.c',['../a00140.html',1,'']]],
-  ['atomic_5ffetch_5fadd_2ec_1574',['atomic_fetch_add.c',['../a00143.html',1,'']]]
+  ['accept_2ec_1634',['accept.c',['../a00767.html',1,'']]],
+  ['alloc_2eh_1635',['alloc.h',['../a00023.html',1,'']]],
+  ['array_2eh_1636',['array.h',['../a00026.html',1,'']]],
+  ['array_5fadd_2ec_1637',['array_add.c',['../a00134.html',1,'']]],
+  ['array_5fcleanup_5fptr_2ec_1638',['array_cleanup_ptr.c',['../a00137.html',1,'']]],
+  ['array_5fcreate_2ec_1639',['array_create.c',['../a00140.html',1,'']]],
+  ['array_5ffree_2ec_1640',['array_free.c',['../a00143.html',1,'']]],
+  ['array_5fget_2ec_1641',['array_get.c',['../a00146.html',1,'']]],
+  ['array_5fremove_2ec_1642',['array_remove.c',['../a00149.html',1,'']]],
+  ['array_5fset_2ec_1643',['array_set.c',['../a00152.html',1,'']]],
+  ['asprintf_2ec_1644',['asprintf.c',['../a00557.html',1,'']]],
+  ['astrcatf_2ec_1645',['astrcatf.c',['../a00920.html',1,'']]],
+  ['atomic_2eh_1646',['atomic.h',['../a00029.html',1,'']]],
+  ['atomic_5fadd_5ffetch_2ec_1647',['atomic_add_fetch.c',['../a00155.html',1,'']]],
+  ['atomic_5fcompare_5fexchange_2ec_1648',['atomic_compare_exchange.c',['../a00158.html',1,'']]],
+  ['atomic_5fexchange_2ec_1649',['atomic_exchange.c',['../a00161.html',1,'']]],
+  ['atomic_5ffetch_2ec_1650',['atomic_fetch.c',['../a00164.html',1,'']]],
+  ['atomic_5ffetch_5fadd_2ec_1651',['atomic_fetch_add.c',['../a00167.html',1,'']]]
 ];

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/string/strslice.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/ssl/ssl_recv.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,17 +62,17 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_6cc8961f7f77054fb84f95c9f23f5ca0.html">&#x202A;string</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_d2a61888f140676dde113ce903a488e2.html">&#x202A;ssl</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">strslice.c</div>  </div>
+<div class="title">ssl_recv.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00881.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (PCL)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2003, 2005-2014, 2017-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,35 +101,79 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00833.html">_string.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<a class="code" href="a00833.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *</div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a00881.html#a24b5b10b636d8e216507381f1cf855b9">   35</a></span>&#160;<a class="code" href="a00833.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a>(<a class="code" href="a00881.html#a24b5b10b636d8e216507381f1cf855b9">slice</a>)(<span class="keyword">const</span> <a class="code" href="a00833.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *s, <span class="keywordtype">size_t</span> pos, <span class="keywordtype">size_t</span> len)</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordflow">if</span>(!s)</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01113.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a>(NULL, <a class="code" href="a01112.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordflow">if</span>(pos + len &gt; <a class="code" href="a00833.html#aee081742fbd47c91e70de0b86a84a1be">xstrlen</a>(s))</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01113.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a>(NULL, <a class="code" href="a01112.html#gab1d57edeccc8cf297a126a1988813e99">PCL_EINDEX</a>);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00839.html">_ssl.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;openssl/err.h&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a00881.html#a1341ddc754b748b327a96cf7faa79a7e">   36</a></span>&#160;<a class="code" href="a00881.html#a1341ddc754b748b327a96cf7faa79a7e">pcl_ssl_recv</a>(<a class="code" href="a01337.html">pcl_ssl_t</a> *ssl, <span class="keywordtype">void</span> *buf, <span class="keywordtype">size_t</span> len)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <a class="code" href="a01196.html#gac8691a6cb0b78f419bce11402af34356">pcl_err_clear</a>();</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  ERR_clear_error();</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordtype">int</span> r = SSL_read(ssl-&gt;<a class="code" href="a01337.html#ae7c0417fa2881f3546920311fee80311">ssl</a>, buf, (<span class="keywordtype">int</span>)len);</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a00833.html#a9d17cf03330b1d6492341e039f8edd64">xstrndup</a>(s + pos, len);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;}</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#ifndef XWIDE</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="a00881.html#af3082199ea3ac518b87acdac953cf385">   47</a></span>&#160;<span class="preprocessor">#define XWIDE</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00881.html">strslice.c</a>&quot;</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordflow">switch</span>(SSL_get_error(ssl-&gt;<a class="code" href="a01337.html#ae7c0417fa2881f3546920311fee80311">ssl</a>, r))</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordflow">case</span> SSL_ERROR_NONE:</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;      <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;      <span class="comment">/* read() returned zero, throw a connreset */</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">case</span> SSL_ERROR_ZERO_RETURN:</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      <a class="code" href="a00086.html#a8632d30d5f4898a9db396c79c1dfaeab">pcl_ssl_close</a>(ssl);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01198.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a>(<a class="code" href="a01197.html#gaf3090d2fafc0cfb5eebcf12e0453c482">PCL_ECONNRESET</a>);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordflow">case</span> SSL_ERROR_WANT_READ:</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01198.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a>(<a class="code" href="a01197.html#gae8d8c032afaa7fd7fe25abdb520331e2">PCL_EAGAIN</a>);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      <span class="comment">/* We don&#39;t support renegotiations.  Indicate conn aborted. */</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordflow">case</span> SSL_ERROR_WANT_WRITE:</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      <a class="code" href="a00086.html#a8632d30d5f4898a9db396c79c1dfaeab">pcl_ssl_close</a>(ssl);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01198.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a>(<a class="code" href="a01197.html#gafc00d5a870e48d1eff9ca4f7c703942f">PCL_ECONNABORTED</a>, <span class="stringliteral">&quot;Write request during read&quot;</span>, 0);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      <span class="comment">/* Consult errno or GetLasterr() */</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordflow">case</span> SSL_ERROR_SYSCALL:</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    {</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;      <span class="keyword">const</span> <span class="keywordtype">char</span> *msg;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      <span class="keywordtype">int</span> err = <a class="code" href="a01196.html#ga3ff5c98b765df74bd305d2e56e9b4f31">pcl_err_os2pcl</a>(<a class="code" href="a01196.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a>);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;      <span class="keywordflow">if</span>(err == <a class="code" href="a01197.html#gad3b43ba0f3d97d535a1a3cf7fd8b35c2">PCL_EOKAY</a> || err == <a class="code" href="a01197.html#gad1c7894f1d8b51ba3fbc3a34b911242a">PCL_EUNDEF</a>)</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        err = <a class="code" href="a01197.html#gaf3090d2fafc0cfb5eebcf12e0453c482">PCL_ECONNRESET</a>;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      <span class="keywordflow">if</span>((msg = <a class="code" href="a00839.html#ae75efb7e804f39cdb19f0d77ebfe0b19">sslerror</a>(ssl)))</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <a class="code" href="a01198.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a>(err, <span class="stringliteral">&quot;%s&quot;</span>, msg);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <a class="code" href="a01198.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a>(err);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      <a class="code" href="a00086.html#a8632d30d5f4898a9db396c79c1dfaeab">pcl_ssl_close</a>(ssl);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;      <span class="keywordflow">return</span> -1;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    }</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordflow">default</span>:</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;      <a class="code" href="a01198.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a>(<a class="code" href="a01197.html#gab7e706ae69b42289fbd70f1734a4fb35">PCL_ESSL</a>, <span class="stringliteral">&quot;%s&quot;</span>, <a class="code" href="a00839.html#ae75efb7e804f39cdb19f0d77ebfe0b19">sslerror</a>(ssl));</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;      <a class="code" href="a00086.html#a8632d30d5f4898a9db396c79c1dfaeab">pcl_ssl_close</a>(ssl);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;      <span class="keywordflow">return</span> -1;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  }</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  <span class="keywordflow">return</span> r;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01112_html_gab1d57edeccc8cf297a126a1988813e99"><div class="ttname"><a href="a01112.html#gab1d57edeccc8cf297a126a1988813e99">PCL_EINDEX</a></div><div class="ttdeci">#define PCL_EINDEX</div><div class="ttdoc">Invalid index.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00136">_errno.h:136</a></div></div>
-<div class="ttc" id="aa01112_html_gae0cd5c5a7fae36cd480176bda17e77ca"><div class="ttname"><a href="a01112.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a></div><div class="ttdeci">#define PCL_EINVAL</div><div class="ttdoc">Invalid argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00078">_errno.h:78</a></div></div>
-<div class="ttc" id="aa00833_html_a234f7ec71c9c19ed532c4bf11a9b9b8e"><div class="ttname"><a href="a00833.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a></div><div class="ttdeci">#define xchar</div><div class="ttdef"><b>Definition:</b> <a href="a00833_source.html#l00070">_string.h:70</a></div></div>
-<div class="ttc" id="aa00881_html_a24b5b10b636d8e216507381f1cf855b9"><div class="ttname"><a href="a00881.html#a24b5b10b636d8e216507381f1cf855b9">slice</a></div><div class="ttdeci">xchar *XFUNC() slice(const xchar *s, size_t pos, size_t len)</div><div class="ttdef"><b>Definition:</b> <a href="a00881_source.html#l00035">strslice.c:35</a></div></div>
-<div class="ttc" id="aa00833_html"><div class="ttname"><a href="a00833.html">_string.h</a></div></div>
-<div class="ttc" id="aa00881_html"><div class="ttname"><a href="a00881.html">strslice.c</a></div></div>
-<div class="ttc" id="aa00833_html_a5c4b00cbc494339ce63882d7404bad27"><div class="ttname"><a href="a00833.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a></div><div class="ttdeci">#define XFUNC(name)</div><div class="ttdef"><b>Definition:</b> <a href="a00833_source.html#l00068">_string.h:68</a></div></div>
-<div class="ttc" id="aa00833_html_aee081742fbd47c91e70de0b86a84a1be"><div class="ttname"><a href="a00833.html#aee081742fbd47c91e70de0b86a84a1be">xstrlen</a></div><div class="ttdeci">#define xstrlen</div><div class="ttdef"><b>Definition:</b> <a href="a00833_source.html#l00071">_string.h:71</a></div></div>
-<div class="ttc" id="aa00833_html_a9d17cf03330b1d6492341e039f8edd64"><div class="ttname"><a href="a00833.html#a9d17cf03330b1d6492341e039f8edd64">xstrndup</a></div><div class="ttdeci">#define xstrndup</div><div class="ttdef"><b>Definition:</b> <a href="a00833_source.html#l00075">_string.h:75</a></div></div>
-<div class="ttc" id="aa01113_html_gae8eaed12aa57a2870ad8e45cc2306318"><div class="ttname"><a href="a01113.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a></div><div class="ttdeci">#define R_SETERR(_retval, _pclerr)</div><div class="ttdoc">Sets the return value and the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00145">_errdefs.h:145</a></div></div>
+<div class="ttc" id="aa01198_html_ga7859a0a1a544c581d53bd7d44ab6805d"><div class="ttname"><a href="a01198.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a></div><div class="ttdeci">#define SETERRMSG(_pclerr, _msgfmt,...)</div><div class="ttdoc">Sets the current thread's PCL error code and error message.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00087">_errdefs.h:87</a></div></div>
+<div class="ttc" id="aa01197_html_gae8d8c032afaa7fd7fe25abdb520331e2"><div class="ttname"><a href="a01197.html#gae8d8c032afaa7fd7fe25abdb520331e2">PCL_EAGAIN</a></div><div class="ttdeci">#define PCL_EAGAIN</div><div class="ttdoc">Try again.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00048">_errno.h:48</a></div></div>
+<div class="ttc" id="aa01196_html_gac8691a6cb0b78f419bce11402af34356"><div class="ttname"><a href="a01196.html#gac8691a6cb0b78f419bce11402af34356">pcl_err_clear</a></div><div class="ttdeci">PCL_EXPORT int pcl_err_clear(void)</div><div class="ttdef"><b>Definition:</b> <a href="a00338_source.html#l00035">err_clear.c:35</a></div></div>
+<div class="ttc" id="aa01337_html"><div class="ttname"><a href="a01337.html">tag_pcl_ssl</a></div><div class="ttdef"><b>Definition:</b> <a href="a00839_source.html#l00046">_ssl.h:47</a></div></div>
+<div class="ttc" id="aa01197_html_gad3b43ba0f3d97d535a1a3cf7fd8b35c2"><div class="ttname"><a href="a01197.html#gad3b43ba0f3d97d535a1a3cf7fd8b35c2">PCL_EOKAY</a></div><div class="ttdeci">#define PCL_EOKAY</div><div class="ttdoc">The operation was successful.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00042">_errno.h:42</a></div></div>
+<div class="ttc" id="aa01197_html_gafc00d5a870e48d1eff9ca4f7c703942f"><div class="ttname"><a href="a01197.html#gafc00d5a870e48d1eff9ca4f7c703942f">PCL_ECONNABORTED</a></div><div class="ttdeci">#define PCL_ECONNABORTED</div><div class="ttdoc">Software caused connection abort.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00229">_errno.h:229</a></div></div>
+<div class="ttc" id="aa01197_html_gab7e706ae69b42289fbd70f1734a4fb35"><div class="ttname"><a href="a01197.html#gab7e706ae69b42289fbd70f1734a4fb35">PCL_ESSL</a></div><div class="ttdeci">#define PCL_ESSL</div><div class="ttdoc">SSL error.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00200">_errno.h:200</a></div></div>
+<div class="ttc" id="aa00839_html_ae75efb7e804f39cdb19f0d77ebfe0b19"><div class="ttname"><a href="a00839.html#ae75efb7e804f39cdb19f0d77ebfe0b19">sslerror</a></div><div class="ttdeci">#define sslerror(_ssl)</div><div class="ttdef"><b>Definition:</b> <a href="a00839_source.html#l00040">_ssl.h:40</a></div></div>
+<div class="ttc" id="aa00881_html_a1341ddc754b748b327a96cf7faa79a7e"><div class="ttname"><a href="a00881.html#a1341ddc754b748b327a96cf7faa79a7e">pcl_ssl_recv</a></div><div class="ttdeci">int pcl_ssl_recv(pcl_ssl_t *ssl, void *buf, size_t len)</div><div class="ttdef"><b>Definition:</b> <a href="a00881_source.html#l00036">ssl_recv.c:36</a></div></div>
+<div class="ttc" id="aa00839_html"><div class="ttname"><a href="a00839.html">_ssl.h</a></div></div>
+<div class="ttc" id="aa01337_html_ae7c0417fa2881f3546920311fee80311"><div class="ttname"><a href="a01337.html#ae7c0417fa2881f3546920311fee80311">tag_pcl_ssl::ssl</a></div><div class="ttdeci">SSL * ssl</div><div class="ttdef"><b>Definition:</b> <a href="a00839_source.html#l00055">_ssl.h:55</a></div></div>
+<div class="ttc" id="aa01197_html_gad1c7894f1d8b51ba3fbc3a34b911242a"><div class="ttname"><a href="a01197.html#gad1c7894f1d8b51ba3fbc3a34b911242a">PCL_EUNDEF</a></div><div class="ttdeci">#define PCL_EUNDEF</div><div class="ttdoc">Undefined error occurred.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00150">_errno.h:150</a></div></div>
+<div class="ttc" id="aa01196_html_ga3646b2825d51326a06f25e597f883555"><div class="ttname"><a href="a01196.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a></div><div class="ttdeci">#define pcl_oserrno</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00185">error.h:185</a></div></div>
+<div class="ttc" id="aa01196_html_ga3ff5c98b765df74bd305d2e56e9b4f31"><div class="ttname"><a href="a01196.html#ga3ff5c98b765df74bd305d2e56e9b4f31">pcl_err_os2pcl</a></div><div class="ttdeci">PCL_EXPORT int pcl_err_os2pcl(uint32_t oserr)</div><div class="ttdef"><b>Definition:</b> <a href="a00371_source.html#l00035">err_os2pcl.c:35</a></div></div>
+<div class="ttc" id="aa01197_html_gaf3090d2fafc0cfb5eebcf12e0453c482"><div class="ttname"><a href="a01197.html#gaf3090d2fafc0cfb5eebcf12e0453c482">PCL_ECONNRESET</a></div><div class="ttdeci">#define PCL_ECONNRESET</div><div class="ttdoc">Connection reset by peer.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00233">_errno.h:233</a></div></div>
+<div class="ttc" id="aa01198_html_ga82adf6365b61d9a32021e559d9c31497"><div class="ttname"><a href="a01198.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a></div><div class="ttdeci">#define SETERR(_pclerr)</div><div class="ttdoc">Sets the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00065">_errdefs.h:65</a></div></div>
+<div class="ttc" id="aa00086_html_a8632d30d5f4898a9db396c79c1dfaeab"><div class="ttname"><a href="a00086.html#a8632d30d5f4898a9db396c79c1dfaeab">pcl_ssl_close</a></div><div class="ttdeci">PCL_EXPORT void pcl_ssl_close(pcl_ssl_t *ssl)</div><div class="ttdef"><b>Definition:</b> <a href="a00851_source.html#l00037">ssl_close.c:37</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

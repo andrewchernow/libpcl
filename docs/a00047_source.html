@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;pcl/event.h Source File</title>
+<title>&#x202A;libpcl: &#x202A;pcl/error.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,105 +67,408 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">event.h</div>  </div>
+<div class="title">error.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="a00047.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">  modification, are permitted provided that the following conditions are met:</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">  * Redistributions of source code must retain the above copyright notice, this</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">    list of conditions and the following disclaimer.</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">  * Redistributions in binary form must reproduce the above copyright notice,</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">    this list of conditions and the following disclaimer in the documentation</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">    and/or other materials provided with the distribution.</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">  * Neither the name of the copyright holder nor the names of its</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">    contributors may be used to endorse or promote products derived from</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">    this software without specific prior written permission.</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#ifndef LIBPCL_EVENT_H__</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#define LIBPCL_EVENT_H__</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment">/** @defgroup event Events</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment"> * Definitions for managing synchronous events.</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="comment"> * @{</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="comment">/** Passed to a pcl_event_handler_t function to indicate that the PCL library is being initialized.</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment"> * @internal only used by builtin event handlers</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="a01114.html#ga60d1bf6bac043a65b2188b0c13a1b9d3">   44</a></span>&#160;<span class="preprocessor">#define PCL_EVENT_INIT 0</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment">/** Passed to a pcl_event_handler_t function to indicate that a thread is being initialized. This</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment"> * is automatically triggered by pcl_thread_create. If a thread is created by other means, call</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment"> * pcl_event_dispatch manually within the thread start routine.</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment"> * @see pcl_init_thread</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="a01114.html#ga3146683f8619c24b5aa15044b635b380">   51</a></span>&#160;<span class="preprocessor">#define PCL_EVENT_THREADINIT 1</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment">/** User-defined events should be greater than or equal to this value */</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="a01114.html#ga99b6baf34fba0ff454244de2b7db0eca">   54</a></span>&#160;<span class="preprocessor">#define PCL_EVENT_USERBASE 10</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment">/** Event handler prototype.</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment"> * @param event the event identifier</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment"> * @param data optional pointer to event data</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="a01114.html#ga04ab8867aacede25175c89e51a3e206d">   64</a></span>&#160;<span class="keyword">typedef</span> void (*<a class="code" href="a01114.html#ga04ab8867aacede25175c89e51a3e206d">pcl_event_handler_t</a>)(uint32_t event, <span class="keywordtype">void</span> *data);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment">/** Dispatches an event to the calling thread.</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment"> * @note dispatching is a per-thread synchronous operation. This function won&#39;t return until</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment"> * all event handlers have completed.</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment"> * @param event event id to dispatch. The internal event_handlers ignore all events except</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="comment"> * PCL_EVENT_INIT and PCL_EVENT_THREADINIT. However, applications can create custom events</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment"> * and respond accordingly.</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="comment"> * @param data event data. PCL_EVENT_INIT and PCL_EVENT_THREADINIT do not use event data</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;PCL_EXPORT <span class="keywordtype">void</span> <a class="code" href="a01114.html#gab1bac8e0eaa04a8ca90a0ce4e03d5f26">pcl_event_dispatch</a>(uint32_t event, <span class="keywordtype">void</span> *data);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment">/** Registers a new event handler.</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="comment"> * @param handler event handler</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;PCL_EXPORT <span class="keywordtype">void</span> <a class="code" href="a01114.html#gabcb84af3f1e27f35e9b8cf93abd09ee8">pcl_event_register</a>(<a class="code" href="a01114.html#ga04ab8867aacede25175c89e51a3e206d">pcl_event_handler_t</a> handler);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="comment">/** Unregisters a previously registered event handler.</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="comment"> * @param handler event handler</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;PCL_EXPORT <span class="keywordtype">void</span> <a class="code" href="a01114.html#ga5e48475a04701c77022079a13e4c98ce">pcl_event_unregister</a>(<a class="code" href="a01114.html#ga04ab8867aacede25175c89e51a3e206d">pcl_event_handler_t</a> handler);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;}</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="comment">/** @} */</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="preprocessor">#endif //LIBPCL_EVENT_H__</span></div>
+<a href="a00047.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">  All rights reserved.</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">  modification, are permitted provided that the following conditions are met:</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">  * Redistributions of source code must retain the above copyright notice, this</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">    list of conditions and the following disclaimer.</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">  * Redistributions in binary form must reproduce the above copyright notice,</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">    this list of conditions and the following disclaimer in the documentation</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">    and/or other materials provided with the distribution.</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">  * Neither the name of the copyright holder nor the names of its</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">    contributors may be used to endorse or promote products derived from</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">    this software without specific prior written permission.</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">*/</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#ifndef LIBPCL_ERROR_H</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#define LIBPCL_ERROR_H</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment">/** @defgroup error Error Management</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="comment"> * Provides detailed error management functions. This includes a complete list of error mappings</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment"> * between PCL error codes and the host OS, full stack traces, per-thread error that</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="comment"> * can be switched in/out and frozen and large suite of error/trace set macros.</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="comment"> * @{</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="comment">/** @defgroup errno Error Codes</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="comment"> * A list of all PCL error codes.</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment">/** @defgroup errmac Error Macros</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment"> * Error macros allow for easily settting errors and adding traces to the per-thread stack trace.</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment"> * The error functions to set an error or add a trace, are cumbersome to interact with directly.</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment"> * They have many parameters, all of which can be easily abstracted away within macros. Note that</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment"> * all SET* and TRC* macros return -1 in all cases unless the error being set or traced is</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment"> * \c PCL_EOKAY(0).</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment"> * @code</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment"> * // when a native function fails</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment"> * FILE *fp = fopen(path, &quot;r&quot;);</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment"> * // set last err means last OS error: typically errno or GetLastError. In addition,</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment"> * // we elect to set a message (MSG) as well.</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment"> * if(fp == NULL)</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment"> *  SETLASTERRMSG(&quot;cannot open &#39;%s&#39;&quot;, path);</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment"> * // when a PCL function fails, or any function known to utilize PCL error</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment"> * FILE *fp = pcl_fopen(path, _P(&quot;r&quot;)); // pcl_fopen uses pchar_t</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment"> * // instead of setting an error, we add a trace and include a message.</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment"> * if(fp == NULL)</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment"> *   TRCMSG(&quot;cannot open &#39;%Ps&#39;&quot;, path);</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment"> * // or, add a trace and return. In the PCL library, as well as</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="comment"> * // most unix libraries, -1 indicates an error while 0 is for success.</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment"> * // This is why all SET* and TRC* macros return -1.</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="comment"> * if(fp == NULL)</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="comment"> *   return TRC(); // no message set here</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="comment"> * // If the function has a specific return value, use the R_SET* or R_TRC* macros</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment"> * if(fp == NULL)</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="comment"> *   return R_TRC(NULL);    // return NULL instead of -1</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="comment"> *   return R_SETERR(NULL); // return NULL instead of -1</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="comment"> * // example of a PCL stack trace</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="comment"> * pcl_err_fprintf(stdout, 0, NULL); // indent=0, format_msg=NULL</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="comment"> * some.c:func(463): optional trace message              &lt;- last trace added w/msg</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="comment"> *   another.c:getuserid(2029)                           &lt;- trace no msg</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="comment"> *     query.c:select(99): PCL_EBUF - buffer too small   &lt;- error site w/name and default msg</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="comment"> *       &gt;An optional user message goes here             &lt;- context msg set at call site</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="comment"> * @endcode</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00107.html">pcl/types.h</a>&gt;</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00038.html">pcl/defs.h</a>&gt;</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00020.html">pcl/_errno.h</a>&gt;</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00017.html">pcl/_errdefs.h</a>&gt;</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="comment">/** Stack trace object implemented as a linked list. */</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno"><a class="line" href="a01225.html">  101</a></span>&#160;<span class="keyword">struct </span><a class="code" href="a01225.html">tag_pcl_err_trace</a></div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;{<span class="comment"></span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="comment">  /** next trace in stack trace or NULL to indicate the end. */</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno"><a class="line" href="a01225.html#a365f8bd3193b20fc56c910edb668a93b">  104</a></span>&#160;  <a class="code" href="a01225.html">pcl_err_trace_t</a> *<a class="code" href="a01225.html#a365f8bd3193b20fc56c910edb668a93b">next</a>;</div>
+<div class="line"><a name="l00105"></a><span class="lineno"><a class="line" href="a01225.html#adf16cd437526a5c5e0e0af87745acbb8">  105</a></span>&#160;  <span class="keywordtype">char</span> *<a class="code" href="a01225.html#adf16cd437526a5c5e0e0af87745acbb8">file</a>;</div>
+<div class="line"><a name="l00106"></a><span class="lineno"><a class="line" href="a01225.html#adf9a36a42a9dc6f127512f5ff82b01e3">  106</a></span>&#160;  <span class="keywordtype">char</span> *<a class="code" href="a01225.html#adf9a36a42a9dc6f127512f5ff82b01e3">func</a>;</div>
+<div class="line"><a name="l00107"></a><span class="lineno"><a class="line" href="a01225.html#a41ebd28ef1d7c6ade45642cb6acc1039">  107</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="a01225.html#a41ebd28ef1d7c6ade45642cb6acc1039">line</a>;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="comment">  /** optional user-defined message */</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno"><a class="line" href="a01225.html#a32d2f5216cddb59c7cc8fb2806a7e727">  110</a></span>&#160;  <span class="keywordtype">char</span> *<a class="code" href="a01225.html#a32d2f5216cddb59c7cc8fb2806a7e727">msg</a>;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="comment">  /** allocation size of trace structure. The trace object is a single allocation and</span></div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="comment">   * all string members are self-relative pointers</span></div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="comment">   */</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno"><a class="line" href="a01225.html#a854352f53b148adc24983a58a1866d66">  115</a></span>&#160;  <span class="keywordtype">size_t</span> <a class="code" href="a01225.html#a854352f53b148adc24983a58a1866d66">size</a>;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;};</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="comment">/** Represents a PCL error, with optional stack trace. This can be thought of</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="comment"> * as Unix `errno` on steroids.</span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno"><a class="line" href="a01229.html">  121</a></span>&#160;<span class="keyword">struct </span><a class="code" href="a01229.html">tag_pcl_err</a></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;{<span class="comment"></span></div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="comment">  /** Freezes error, making it immutable. It should be noted that a frozen error object</span></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="comment">   * cannot be cleared.</span></div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="comment">   *</span></div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="comment">   * Internally, all printf-style error functions freeze the object before performing output</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="comment">   * and thaw before returning.</span></div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="comment">   *</span></div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="comment">   * @see FREEZE_ERR</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="comment">   */</span></div>
+<div class="line"><a name="l00131"></a><span class="lineno"><a class="line" href="a01229.html#a9ec42de702ac1fcf2d7307c5a2415b94">  131</a></span>&#160;  <span class="keywordtype">bool</span> <a class="code" href="a01229.html#a9ec42de702ac1fcf2d7307c5a2415b94">frozen</a>;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="comment">  /** PCL error code: PCL_EXXX */</span></div>
+<div class="line"><a name="l00134"></a><span class="lineno"><a class="line" href="a01229.html#a6ce68847c12434f60d1b2654a3dc3409">  134</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="a01229.html#a6ce68847c12434f60d1b2654a3dc3409">err</a>;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<span class="comment">  /** Platform-specific error code: Unix errno, Windows Error (ie: GetLastError, _dos_errno),</span></div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;<span class="comment">   * etc. This can be zero even when &#39;err&#39; is not. However, if this is non-zero &#39;err&#39; will</span></div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;<span class="comment">   * also be non-zero.</span></div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;<span class="comment">   */</span></div>
+<div class="line"><a name="l00140"></a><span class="lineno"><a class="line" href="a01229.html#a99097cbbdd873a91579ae1e543195926">  140</a></span>&#160;  uint32_t <a class="code" href="a01229.html#a99097cbbdd873a91579ae1e543195926">oserr</a>;</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;<span class="comment">  /** Stack trace implemented as a linked list. This is NULL if there is no stack trace. */</span></div>
+<div class="line"><a name="l00143"></a><span class="lineno"><a class="line" href="a01229.html#af22b89a25236c26e197118ca1652019a">  143</a></span>&#160;  <a class="code" href="a01225.html">pcl_err_trace_t</a> *<a class="code" href="a01229.html#af22b89a25236c26e197118ca1652019a">strace</a>;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<span class="comment">  /** An output buffer used by output formatting functions like pcl_err_fprintf. This is</span></div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<span class="comment">   * lazily-created so can be NULL. This is really just for internal use and provides for</span></div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="comment">   * a cached/allocated buffer to use for multiple output calls. This provides no</span></div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="comment">   * functionality, implementation detail.</span></div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;<span class="comment">   */</span></div>
+<div class="line"><a name="l00150"></a><span class="lineno"><a class="line" href="a01229.html#a95f7673f875fad2b88002d7a10f00eb1">  150</a></span>&#160;  <a class="code" href="a01217.html">pcl_buf_t</a> *<a class="code" href="a01229.html#a95f7673f875fad2b88002d7a10f00eb1">buffer</a>;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;};</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;<span class="comment">/** Gets the calling thread&#39;s error.</span></div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;<span class="comment"> * @warning This is Thread Local Storage (TLS).</span></div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;<span class="comment"> * @return pointer to the thread error</span></div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;<span class="comment"> * @see FREEZE_ERR</span></div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;PCL_EXPORT <a class="code" href="a01229.html">pcl_err_t</a> *<a class="code" href="a01196.html#gaefd22094c926adb72077ca72f907a318">pcl_err_get</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;<span class="comment">/** Freeze or thaw the current thread&#39;s error.</span></div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;<span class="comment"> * @note per-thread error cannot be cleared while frozen.</span></div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;<span class="comment"> * @code</span></div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;<span class="comment"> * // pcl_err_freeze is shorthand for the below</span></div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;<span class="comment"> * pcl_err_t *err = pcl_err_get();</span></div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;<span class="comment"> * err-&gt;frozen = true; // or false</span></div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;<span class="comment"> * @endcode</span></div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;<span class="comment"> * @param freeze if true, the error is frozen otherwise thawed.</span></div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;<span class="comment"> * @see FREEZE_ERR</span></div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;PCL_EXPORT <span class="keywordtype">void</span> <a class="code" href="a01196.html#ga2628c5da9608c57b7a196a6834a1d4bb">pcl_err_freeze</a>(<span class="keywordtype">bool</span> freeze);</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160; </div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="comment">/* -------------------------------------------------------------------------</span></div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;<span class="comment"> * Last Error API</span></div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;<span class="comment">/** Gets the last PCL error, mimics &#39;errno&#39;. */</span></div>
+<div class="line"><a name="l00177"></a><span class="lineno"><a class="line" href="a01196.html#ga4fdb8ad5d33758ac2c7bcc1cc0ce6d41">  177</a></span>&#160;<span class="preprocessor">#define pcl_errno pcl_err_last()</span></div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160; </div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;<span class="preprocessor"># define pcl_oserrno pcl_win32_oserrno()</span></div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;  PCL_EXPORT uint32_t <a class="code" href="a00422.html#a364c5ccdb90cb93c34f33f8d39858ce4">pcl_win32_oserrno</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;<span class="preprocessor"># define pcl_crterrno errno</span></div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;<span class="preprocessor"># define pcl_sockerrno WSAGetLastError()</span></div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00185"></a><span class="lineno"><a class="line" href="a01196.html#ga3646b2825d51326a06f25e597f883555">  185</a></span>&#160;<span class="preprocessor"># define pcl_oserrno errno</span></div>
+<div class="line"><a name="l00186"></a><span class="lineno"><a class="line" href="a01196.html#ga6e2d0baa0ca77d87fa51660a494a3cbe">  186</a></span>&#160;<span class="preprocessor"># define pcl_crterrno errno</span></div>
+<div class="line"><a name="l00187"></a><span class="lineno"><a class="line" href="a01196.html#ga4926f863ec8fe31588c707f0b69bbe9a">  187</a></span>&#160;<span class="preprocessor"># define pcl_sockerrno errno</span></div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;<span class="comment">/** Gets the last PCL err code. This is typically accessed through the pcl_errno macro.</span></div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;<span class="comment"> * @return last PCL error code</span></div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a01196.html#gaf94439668882484a21c517ed2d855615">pcl_err_last</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;<span class="comment">/** Get the last error message, stack trace tail.</span></div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;<span class="comment"> * @return pointer to the last error message</span></div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;PCL_EXPORT <span class="keywordtype">char</span> *<a class="code" href="a01196.html#ga84bacea2f9a9e0defe3f8c8bf75db011">pcl_err_lastmsg</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160; </div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160; </div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;<span class="comment">/* -------------------------------------------------------------------------</span></div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;<span class="comment"> * Formatted Output API</span></div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160; </div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;<span class="comment">/* Print error info and full stack trace to the given stream.</span></div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;<span class="comment"> * @note if indent is -1 and format is provided, the formatted message is prefixed with</span></div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;<span class="comment"> * &quot;PANIC: &quot; rather than the standard &quot;ERROR: &quot;.</span></div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a01196.html#gac9db573a481c66387f100e67ed9f1e5a">pcl_err_fprintf</a>(FILE *stream, <span class="keywordtype">int</span> indent, <span class="keyword">const</span> <span class="keywordtype">char</span> *format, ...);</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160; </div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;<span class="comment">/* va_list version of pcl_err_fprintf</span></div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;<span class="comment"> * @note if indent is -1 and format is provided, the formatted message is prefixed with</span></div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;<span class="comment"> * &quot;PANIC: &quot; rather than the standard &quot;ERROR: &quot;.</span></div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a01196.html#gae5822fbf0ae8754ffb680d04146d1f8a">pcl_err_vfprintf</a>(FILE *stream, <span class="keywordtype">int</span> indent, <span class="keyword">const</span> <span class="keywordtype">char</span> *format, va_list args);</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160; </div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;<span class="comment">/* Print error info and full stack trace to the given buffer</span></div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;<span class="comment"> * @note if indent is -1 and format is provided, the formatted message is prefixed with</span></div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;<span class="comment"> * &quot;PANIC: &quot; rather than the standard &quot;ERROR: &quot;.</span></div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a01196.html#ga1d7837205ac9632ff7f63034f901d85c">pcl_err_sprintf</a>(<span class="keywordtype">char</span> *buf, <span class="keywordtype">size_t</span> buf_size, <span class="keywordtype">int</span> indent, <span class="keyword">const</span> <span class="keywordtype">char</span> *format, ...);</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160; </div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;<span class="comment">/* va_list version of pcl_err_sprintf</span></div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;<span class="comment"> * @note if indent is -1 and format is provided, the formatted message is prefixed with</span></div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;<span class="comment"> * &quot;PANIC: &quot; rather than the standard &quot;ERROR: &quot;.</span></div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a01196.html#ga831abab4c892fe6f99eb8a39174119c8">pcl_err_vsprintf</a>(<span class="keywordtype">char</span> *buf, <span class="keywordtype">size_t</span> buf_size, <span class="keywordtype">int</span> indent, <span class="keyword">const</span> <span class="keywordtype">char</span> *format,</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;  va_list args);</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;<span class="comment">/** Format the current thread&#39;s error as a JSON string. The returned JSON string</span></div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;<span class="comment"> * has no spaces or newlines when it comes to the JSON structure itself.</span></div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;<span class="comment"> * This function performs JSON string escaping on special characters: `\ / &quot; \\b \\t \\n \\f \\r`</span></div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;<span class="comment"> * and any remaining control character (\c &lt;0x20) as \c \\u0000: eg. \c 0x1f as \c \\u001f.</span></div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;<span class="comment"> * The below example includes spacing and newlines for demostration purposes:</span></div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;<span class="comment"> * @code</span></div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;<span class="comment"> * {</span></div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;<span class="comment"> *   &quot;err&quot;: &lt;number&gt;           // PCL error code</span></div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;<span class="comment"> *   &quot;oserr&quot;: &lt;number&gt;         // OS error code</span></div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;<span class="comment"> *   &quot;msg&quot;: &lt;string|null&gt;      // optional message provided to pcl_err_json</span></div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;<span class="comment"> *   &quot;strace&quot;: [               // array of trace objects: in stack order</span></div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;<span class="comment"> *     {</span></div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;<span class="comment"> *       &quot;file&quot;: &lt;string|null&gt; // file name</span></div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;<span class="comment"> *       &quot;func&quot;: &lt;string|null&gt; // function name</span></div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;<span class="comment"> *       &quot;line&quot;: &lt;number&gt;      // line number</span></div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;<span class="comment"> *       &quot;msg&quot;: &lt;string|null&gt;  // optional context message</span></div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;<span class="comment"> *     },</span></div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;<span class="comment"> *     {</span></div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;<span class="comment"> *       etc...</span></div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;<span class="comment"> *     }</span></div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;<span class="comment"> *   ]</span></div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;<span class="comment"> * }</span></div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;<span class="comment"> * @endcode</span></div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;<span class="comment"> * @param message additional message to include with the JSON. This can be \c NULL.</span></div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;<span class="comment"> * @param ... variable arguments</span></div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;<span class="comment"> * @return pointer to an allocated string containing the JSON representation of an error.</span></div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;<span class="comment"> * This must be freed by caller.</span></div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;PCL_EXPORT <span class="keywordtype">char</span> *<a class="code" href="a01196.html#ga249863196bbad5751c7fc79aea69a9ba">pcl_err_json</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *message, ...);</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;<span class="comment">/** Format the current thread&#39;s error as a JSON string. The returned JSON string</span></div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;<span class="comment"> * has no spaces or newlines when it comes to the JSON structure itself.</span></div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;<span class="comment"> * This function performs JSON string escaping on special characters: `\ / &quot; \\b \\t \\n \\f \\r`</span></div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;<span class="comment"> * and any remaining control character (\c &lt;0x20) as \c \\u0000: eg. \c 0x1f as \c \\u001f.</span></div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;<span class="comment"> * @note see ::pcl_err_json for an example</span></div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;<span class="comment"> * @param message additional message to include with the JSON. This can be \c NULL.</span></div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;<span class="comment"> * @param ap variable argument list</span></div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;<span class="comment"> * @return pointer to an allocated string containing the JSON representation of an error.</span></div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;<span class="comment"> * This must be freed by caller.</span></div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;<span class="comment"> * @see pcl_err_json</span></div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;PCL_EXPORT <span class="keywordtype">char</span> *<a class="code" href="a01196.html#ga660920c3558af262b715bf6a2551f570">pcl_err_vjson</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *message, va_list ap);</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160; </div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;<span class="comment">/* -------------------------------------------------------------------------</span></div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;<span class="comment"> * Error Set API</span></div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160; </div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;<span class="preprocessor"># define pcl_setoserrno(e) pcl_win32_setoserrno(e)</span></div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;  PCL_EXPORT uint32_t <a class="code" href="a00425.html#a48ecd492579a74e1398d2b2dcfd51ae7">pcl_win32_setoserrno</a>(uint32_t e);</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;<span class="preprocessor"># define pcl_setcrterrno(e) (_set_errno(e), (e))</span></div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00286"></a><span class="lineno"><a class="line" href="a01196.html#gaaf0676e4689e759582950cc9ec15359e">  286</a></span>&#160;<span class="preprocessor"># define pcl_setoserrno(e) errno = (int) (e)</span></div>
+<div class="line"><a name="l00287"></a><span class="lineno"><a class="line" href="a01196.html#ga072e9b165ae6004aa61ef8151a5212c6">  287</a></span>&#160;<span class="preprocessor"># define pcl_setcrterrno(e) pcl_setoserrno(e)</span></div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160; </div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a01196.html#gac8691a6cb0b78f419bce11402af34356">pcl_err_clear</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160; </div>
+<div class="line"><a name="l00292"></a><span class="lineno"><a class="line" href="a01196.html#gad0d37471eadcb33fa2238273a6c5cf9f">  292</a></span>&#160;<span class="preprocessor">#define pcl_err_osclear() (pcl_setoserrno(0), pcl_setcrterrno(0))</span></div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160; </div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;<span class="comment">/* va_list version of pcl_err_set */</span></div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a01196.html#ga02bbc67e4c31e51f3f3b6ad389ba11a8">pcl_err_vset</a>(<a class="code" href="a00038.html#acaae4a70e5707a94c3ea8e9da14fcab6">PCL_LOCATION_PARAMS</a>, <span class="keywordtype">int</span> err, uint32_t oserr,</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">char</span> *format, va_list ap);</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160; </div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;<span class="comment">/* Sets the PCL error, adds a trace and message.  Returns -1 when error</span></div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;<span class="comment"> * is not PCL_EOKAY.  Normally not called directly, see SETERRxxx macros.</span></div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a01196.html#ga1fae5bebcb3cd7fc3fe889689f0c86a7">pcl_err_set</a>(<a class="code" href="a00038.html#acaae4a70e5707a94c3ea8e9da14fcab6">PCL_LOCATION_PARAMS</a>, <span class="keywordtype">int</span> err, uint32_t oserr, <span class="keyword">const</span> <span class="keywordtype">char</span> *format, ...);</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160; </div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160; </div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;<span class="comment">/* -------------------------------------------------------------------------</span></div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;<span class="comment"> * Stack Trace API</span></div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160; </div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;<span class="comment">/* Adds a trace and a message to the error&#39;s stack trace.</span></div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;<span class="comment"> * Returns -1 when the error is not PCL_EOKAY. See TRC* and R_TRC* macros.</span></div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a01196.html#ga30a9020e52ca985edcbd86e5b0676191">pcl_err_trace</a>(<a class="code" href="a00038.html#acaae4a70e5707a94c3ea8e9da14fcab6">PCL_LOCATION_PARAMS</a>, <span class="keyword">const</span> <span class="keywordtype">char</span> *format, ...);</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160; </div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;<span class="comment">/* va_list version of pcl_err_trace */</span></div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a01196.html#ga86913f06e1be53427513e88d829651ad">pcl_err_vtrace</a>(<a class="code" href="a00038.html#acaae4a70e5707a94c3ea8e9da14fcab6">PCL_LOCATION_PARAMS</a>, <span class="keyword">const</span> <span class="keywordtype">char</span> *format, va_list ap);</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160; </div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160; </div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;<span class="comment">/* -------------------------------------------------------------------------</span></div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;<span class="comment"> * Error Mapping functions</span></div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;<span class="comment">/** Get the default PCL error message given an PCL error code. */</span></div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;PCL_EXPORT <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="a01196.html#gab532e2f49c5ec111bfc7e51575fa1b2d">pcl_err_msg</a>(<span class="keywordtype">int</span> err);</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160; </div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;<span class="comment">/* Get the PCL error name given an PCL error code. */</span></div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;PCL_EXPORT <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="a01196.html#gad0fee080b336ed7ff879b61e72e0b8a9">pcl_err_name</a>(<span class="keywordtype">int</span> err);</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160; </div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;<span class="comment">/* Get the PCL error code given an PCL error name. */</span></div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a01196.html#ga6e488225c64979a7196c2b257c3c1fb0">pcl_err_code</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *pclname);</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160; </div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;<span class="comment">/* Get the PCL error code given an OS error code. */</span></div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a01196.html#ga3ff5c98b765df74bd305d2e56e9b4f31">pcl_err_os2pcl</a>(uint32_t oserr);</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160; </div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;<span class="comment">/* Get the OS error name given an OS error code. */</span></div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;PCL_EXPORT <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="a01196.html#ga95d80f184621efe0108ec35ca590cd84">pcl_err_osname</a>(uint32_t oserr);</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160; </div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;<span class="comment">/* Get the default OS error message given an OS error code (like strerror).</span></div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;<span class="comment"> * Returns the number of chars written to the osmsg buffer. If oserr is 0,</span></div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;<span class="comment"> * this returns 0 and terminates buf at index 0.</span></div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a01196.html#gac570ccdd8657267d758ed671b307bffd">pcl_err_osmsg</a>(uint32_t oserr, <span class="keywordtype">char</span> *osmsg, <span class="keywordtype">size_t</span> size);</div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160; </div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;<span class="preprocessor">  #define pcl_err_crt2pcl(_crt_errno) pcl_err_os2pcl(pcl_err_crt2os(_crt_errno))</span></div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;PCL_EXPORT <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <a class="code" href="a01196.html#ga65136e5d6e16546f25500fa16e5e44d6">pcl_err_crt2os</a>(<span class="keywordtype">int</span> err);</div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00346"></a><span class="lineno"><a class="line" href="a01196.html#ga3f3b9ad587c9b9160b1baaf06d5ffa12">  346</a></span>&#160;<span class="preprocessor">  #define pcl_err_crt2pcl(_crt_errno) pcl_err_os2pcl(_crt_errno)</span></div>
+<div class="line"><a name="l00347"></a><span class="lineno"><a class="line" href="a01196.html#ga65136e5d6e16546f25500fa16e5e44d6">  347</a></span>&#160;<span class="preprocessor">  #define pcl_err_crt2os(_crt_errno) _crt_errno</span></div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160; </div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;}</div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;<span class="comment">/** @} */</span></div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01114_html_ga04ab8867aacede25175c89e51a3e206d"><div class="ttname"><a href="a01114.html#ga04ab8867aacede25175c89e51a3e206d">pcl_event_handler_t</a></div><div class="ttdeci">void(* pcl_event_handler_t)(uint32_t event, void *data)</div><div class="ttdoc">Event handler prototype.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00064">event.h:64</a></div></div>
-<div class="ttc" id="aa01114_html_gab1bac8e0eaa04a8ca90a0ce4e03d5f26"><div class="ttname"><a href="a01114.html#gab1bac8e0eaa04a8ca90a0ce4e03d5f26">pcl_event_dispatch</a></div><div class="ttdeci">PCL_EXPORT void pcl_event_dispatch(uint32_t event, void *data)</div><div class="ttdoc">Dispatches an event to the calling thread.</div><div class="ttdef"><b>Definition:</b> <a href="a00410_source.html#l00035">event_dispatch.c:35</a></div></div>
-<div class="ttc" id="aa01114_html_gabcb84af3f1e27f35e9b8cf93abd09ee8"><div class="ttname"><a href="a01114.html#gabcb84af3f1e27f35e9b8cf93abd09ee8">pcl_event_register</a></div><div class="ttdeci">PCL_EXPORT void pcl_event_register(pcl_event_handler_t handler)</div><div class="ttdoc">Registers a new event handler.</div><div class="ttdef"><b>Definition:</b> <a href="a00413_source.html#l00036">event_register.c:36</a></div></div>
-<div class="ttc" id="aa01114_html_ga5e48475a04701c77022079a13e4c98ce"><div class="ttname"><a href="a01114.html#ga5e48475a04701c77022079a13e4c98ce">pcl_event_unregister</a></div><div class="ttdeci">PCL_EXPORT void pcl_event_unregister(pcl_event_handler_t handler)</div><div class="ttdoc">Unregisters a previously registered event handler.</div><div class="ttdef"><b>Definition:</b> <a href="a00416_source.html#l00036">event_unregister.c:36</a></div></div>
+<div class="ttc" id="aa00425_html_a48ecd492579a74e1398d2b2dcfd51ae7"><div class="ttname"><a href="a00425.html#a48ecd492579a74e1398d2b2dcfd51ae7">pcl_win32_setoserrno</a></div><div class="ttdeci">uint32_t pcl_win32_setoserrno(uint32_t e)</div><div class="ttdef"><b>Definition:</b> <a href="a00425_source.html#l00039">win32_setoserrno.c:39</a></div></div>
+<div class="ttc" id="aa01196_html_gae5822fbf0ae8754ffb680d04146d1f8a"><div class="ttname"><a href="a01196.html#gae5822fbf0ae8754ffb680d04146d1f8a">pcl_err_vfprintf</a></div><div class="ttdeci">PCL_EXPORT int pcl_err_vfprintf(FILE *stream, int indent, const char *format, va_list args)</div><div class="ttdef"><b>Definition:</b> <a href="a00398_source.html#l00036">err_vfprintf.c:36</a></div></div>
+<div class="ttc" id="aa01229_html_a6ce68847c12434f60d1b2654a3dc3409"><div class="ttname"><a href="a01229.html#a6ce68847c12434f60d1b2654a3dc3409">tag_pcl_err::err</a></div><div class="ttdeci">int err</div><div class="ttdoc">PCL error code: PCL_EXXX.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00134">error.h:134</a></div></div>
+<div class="ttc" id="aa01196_html_ga1fae5bebcb3cd7fc3fe889689f0c86a7"><div class="ttname"><a href="a01196.html#ga1fae5bebcb3cd7fc3fe889689f0c86a7">pcl_err_set</a></div><div class="ttdeci">PCL_EXPORT int pcl_err_set(PCL_LOCATION_PARAMS, int err, uint32_t oserr, const char *format,...)</div><div class="ttdef"><b>Definition:</b> <a href="a00383_source.html#l00035">err_set.c:35</a></div></div>
+<div class="ttc" id="aa01196_html_ga02bbc67e4c31e51f3f3b6ad389ba11a8"><div class="ttname"><a href="a01196.html#ga02bbc67e4c31e51f3f3b6ad389ba11a8">pcl_err_vset</a></div><div class="ttdeci">PCL_EXPORT int pcl_err_vset(PCL_LOCATION_PARAMS, int err, uint32_t oserr, const char *format, va_list ap)</div><div class="ttdef"><b>Definition:</b> <a href="a00404_source.html#l00035">err_vset.c:35</a></div></div>
+<div class="ttc" id="aa01229_html_a99097cbbdd873a91579ae1e543195926"><div class="ttname"><a href="a01229.html#a99097cbbdd873a91579ae1e543195926">tag_pcl_err::oserr</a></div><div class="ttdeci">uint32_t oserr</div><div class="ttdoc">Platform-specific error code: Unix errno, Windows Error (ie: GetLastError, _dos_errno),...</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00140">error.h:140</a></div></div>
+<div class="ttc" id="aa01196_html_ga65136e5d6e16546f25500fa16e5e44d6"><div class="ttname"><a href="a01196.html#ga65136e5d6e16546f25500fa16e5e44d6">pcl_err_crt2os</a></div><div class="ttdeci">#define pcl_err_crt2os(_crt_errno)</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00347">error.h:347</a></div></div>
+<div class="ttc" id="aa01225_html_a854352f53b148adc24983a58a1866d66"><div class="ttname"><a href="a01225.html#a854352f53b148adc24983a58a1866d66">tag_pcl_err_trace::size</a></div><div class="ttdeci">size_t size</div><div class="ttdoc">allocation size of trace structure.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00115">error.h:115</a></div></div>
+<div class="ttc" id="aa00017_html"><div class="ttname"><a href="a00017.html">_errdefs.h</a></div></div>
+<div class="ttc" id="aa01196_html_gac8691a6cb0b78f419bce11402af34356"><div class="ttname"><a href="a01196.html#gac8691a6cb0b78f419bce11402af34356">pcl_err_clear</a></div><div class="ttdeci">PCL_EXPORT int pcl_err_clear(void)</div><div class="ttdef"><b>Definition:</b> <a href="a00338_source.html#l00035">err_clear.c:35</a></div></div>
+<div class="ttc" id="aa01196_html_ga30a9020e52ca985edcbd86e5b0676191"><div class="ttname"><a href="a01196.html#ga30a9020e52ca985edcbd86e5b0676191">pcl_err_trace</a></div><div class="ttdeci">PCL_EXPORT int pcl_err_trace(PCL_LOCATION_PARAMS, const char *format,...)</div><div class="ttdef"><b>Definition:</b> <a href="a00392_source.html#l00035">err_trace.c:35</a></div></div>
+<div class="ttc" id="aa01229_html_a95f7673f875fad2b88002d7a10f00eb1"><div class="ttname"><a href="a01229.html#a95f7673f875fad2b88002d7a10f00eb1">tag_pcl_err::buffer</a></div><div class="ttdeci">pcl_buf_t * buffer</div><div class="ttdoc">An output buffer used by output formatting functions like pcl_err_fprintf.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00150">error.h:150</a></div></div>
+<div class="ttc" id="aa01196_html_ga660920c3558af262b715bf6a2551f570"><div class="ttname"><a href="a01196.html#ga660920c3558af262b715bf6a2551f570">pcl_err_vjson</a></div><div class="ttdeci">PCL_EXPORT char * pcl_err_vjson(const char *message, va_list ap)</div><div class="ttdoc">Format the current thread's error as a JSON string.</div><div class="ttdef"><b>Definition:</b> <a href="a00401_source.html#l00093">err_vjson.c:93</a></div></div>
+<div class="ttc" id="aa01196_html_ga2628c5da9608c57b7a196a6834a1d4bb"><div class="ttname"><a href="a01196.html#ga2628c5da9608c57b7a196a6834a1d4bb">pcl_err_freeze</a></div><div class="ttdeci">PCL_EXPORT void pcl_err_freeze(bool freeze)</div><div class="ttdoc">Freeze or thaw the current thread's error.</div><div class="ttdef"><b>Definition:</b> <a href="a00350_source.html#l00035">err_freeze.c:35</a></div></div>
+<div class="ttc" id="aa01196_html_gac570ccdd8657267d758ed671b307bffd"><div class="ttname"><a href="a01196.html#gac570ccdd8657267d758ed671b307bffd">pcl_err_osmsg</a></div><div class="ttdeci">PCL_EXPORT int pcl_err_osmsg(uint32_t oserr, char *osmsg, size_t size)</div><div class="ttdef"><b>Definition:</b> <a href="a00374_source.html#l00040">err_osmsg.c:40</a></div></div>
+<div class="ttc" id="aa01229_html"><div class="ttname"><a href="a01229.html">tag_pcl_err</a></div><div class="ttdoc">Represents a PCL error, with optional stack trace.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00121">error.h:122</a></div></div>
+<div class="ttc" id="aa00038_html"><div class="ttname"><a href="a00038.html">defs.h</a></div></div>
+<div class="ttc" id="aa01217_html"><div class="ttname"><a href="a01217.html">tag_pcl_buf</a></div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00127">buf.h:128</a></div></div>
+<div class="ttc" id="aa01225_html_adf9a36a42a9dc6f127512f5ff82b01e3"><div class="ttname"><a href="a01225.html#adf9a36a42a9dc6f127512f5ff82b01e3">tag_pcl_err_trace::func</a></div><div class="ttdeci">char * func</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00106">error.h:106</a></div></div>
+<div class="ttc" id="aa00038_html_acaae4a70e5707a94c3ea8e9da14fcab6"><div class="ttname"><a href="a00038.html#acaae4a70e5707a94c3ea8e9da14fcab6">PCL_LOCATION_PARAMS</a></div><div class="ttdeci">#define PCL_LOCATION_PARAMS</div><div class="ttdoc">PCL_LOCATION_PARAMS expands to a function/macro declaration's parameter list: ie.</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00097">defs.h:97</a></div></div>
+<div class="ttc" id="aa01225_html_a41ebd28ef1d7c6ade45642cb6acc1039"><div class="ttname"><a href="a01225.html#a41ebd28ef1d7c6ade45642cb6acc1039">tag_pcl_err_trace::line</a></div><div class="ttdeci">int line</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00107">error.h:107</a></div></div>
+<div class="ttc" id="aa01229_html_af22b89a25236c26e197118ca1652019a"><div class="ttname"><a href="a01229.html#af22b89a25236c26e197118ca1652019a">tag_pcl_err::strace</a></div><div class="ttdeci">pcl_err_trace_t * strace</div><div class="ttdoc">Stack trace implemented as a linked list.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00143">error.h:143</a></div></div>
+<div class="ttc" id="aa01225_html"><div class="ttname"><a href="a01225.html">tag_pcl_err_trace</a></div><div class="ttdoc">Stack trace object implemented as a linked list.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00101">error.h:102</a></div></div>
+<div class="ttc" id="aa01225_html_adf16cd437526a5c5e0e0af87745acbb8"><div class="ttname"><a href="a01225.html#adf16cd437526a5c5e0e0af87745acbb8">tag_pcl_err_trace::file</a></div><div class="ttdeci">char * file</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00105">error.h:105</a></div></div>
+<div class="ttc" id="aa01196_html_ga84bacea2f9a9e0defe3f8c8bf75db011"><div class="ttname"><a href="a01196.html#ga84bacea2f9a9e0defe3f8c8bf75db011">pcl_err_lastmsg</a></div><div class="ttdeci">PCL_EXPORT char * pcl_err_lastmsg(void)</div><div class="ttdoc">Get the last error message, stack trace tail.</div><div class="ttdef"><b>Definition:</b> <a href="a00359_source.html#l00035">err_lastmsg.c:35</a></div></div>
+<div class="ttc" id="aa01196_html_ga86913f06e1be53427513e88d829651ad"><div class="ttname"><a href="a01196.html#ga86913f06e1be53427513e88d829651ad">pcl_err_vtrace</a></div><div class="ttdeci">PCL_EXPORT int pcl_err_vtrace(PCL_LOCATION_PARAMS, const char *format, va_list ap)</div><div class="ttdef"><b>Definition:</b> <a href="a00410_source.html#l00038">err_vtrace.c:38</a></div></div>
+<div class="ttc" id="aa01196_html_gaefd22094c926adb72077ca72f907a318"><div class="ttname"><a href="a01196.html#gaefd22094c926adb72077ca72f907a318">pcl_err_get</a></div><div class="ttdeci">PCL_EXPORT pcl_err_t * pcl_err_get(void)</div><div class="ttdoc">Gets the calling thread's error.</div><div class="ttdef"><b>Definition:</b> <a href="a00344_source.html#l00057">err_ctx.c:57</a></div></div>
+<div class="ttc" id="aa01196_html_ga1d7837205ac9632ff7f63034f901d85c"><div class="ttname"><a href="a01196.html#ga1d7837205ac9632ff7f63034f901d85c">pcl_err_sprintf</a></div><div class="ttdeci">PCL_EXPORT int pcl_err_sprintf(char *buf, size_t buf_size, int indent, const char *format,...)</div><div class="ttdef"><b>Definition:</b> <a href="a00389_source.html#l00035">err_sprintf.c:35</a></div></div>
+<div class="ttc" id="aa01196_html_gad0fee080b336ed7ff879b61e72e0b8a9"><div class="ttname"><a href="a01196.html#gad0fee080b336ed7ff879b61e72e0b8a9">pcl_err_name</a></div><div class="ttdeci">PCL_EXPORT const char * pcl_err_name(int err)</div><div class="ttdef"><b>Definition:</b> <a href="a00368_source.html#l00035">err_name.c:35</a></div></div>
+<div class="ttc" id="aa01196_html_gac9db573a481c66387f100e67ed9f1e5a"><div class="ttname"><a href="a01196.html#gac9db573a481c66387f100e67ed9f1e5a">pcl_err_fprintf</a></div><div class="ttdeci">PCL_EXPORT int pcl_err_fprintf(FILE *stream, int indent, const char *format,...)</div><div class="ttdef"><b>Definition:</b> <a href="a00347_source.html#l00035">err_fprintf.c:35</a></div></div>
+<div class="ttc" id="aa01196_html_ga249863196bbad5751c7fc79aea69a9ba"><div class="ttname"><a href="a01196.html#ga249863196bbad5751c7fc79aea69a9ba">pcl_err_json</a></div><div class="ttdeci">PCL_EXPORT char * pcl_err_json(const char *message,...)</div><div class="ttdoc">Format the current thread's error as a JSON string.</div><div class="ttdef"><b>Definition:</b> <a href="a00353_source.html#l00035">err_json.c:35</a></div></div>
+<div class="ttc" id="aa01225_html_a365f8bd3193b20fc56c910edb668a93b"><div class="ttname"><a href="a01225.html#a365f8bd3193b20fc56c910edb668a93b">tag_pcl_err_trace::next</a></div><div class="ttdeci">pcl_err_trace_t * next</div><div class="ttdoc">next trace in stack trace or NULL to indicate the end.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00104">error.h:104</a></div></div>
+<div class="ttc" id="aa01196_html_gab532e2f49c5ec111bfc7e51575fa1b2d"><div class="ttname"><a href="a01196.html#gab532e2f49c5ec111bfc7e51575fa1b2d">pcl_err_msg</a></div><div class="ttdeci">PCL_EXPORT const char * pcl_err_msg(int err)</div><div class="ttdoc">Get the default PCL error message given an PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00365_source.html#l00035">err_msg.c:35</a></div></div>
+<div class="ttc" id="aa01196_html_ga3ff5c98b765df74bd305d2e56e9b4f31"><div class="ttname"><a href="a01196.html#ga3ff5c98b765df74bd305d2e56e9b4f31">pcl_err_os2pcl</a></div><div class="ttdeci">PCL_EXPORT int pcl_err_os2pcl(uint32_t oserr)</div><div class="ttdef"><b>Definition:</b> <a href="a00371_source.html#l00035">err_os2pcl.c:35</a></div></div>
+<div class="ttc" id="aa00020_html"><div class="ttname"><a href="a00020.html">_errno.h</a></div></div>
+<div class="ttc" id="aa01196_html_ga95d80f184621efe0108ec35ca590cd84"><div class="ttname"><a href="a01196.html#ga95d80f184621efe0108ec35ca590cd84">pcl_err_osname</a></div><div class="ttdeci">PCL_EXPORT const char * pcl_err_osname(uint32_t oserr)</div><div class="ttdef"><b>Definition:</b> <a href="a00377_source.html#l00035">err_osname.c:35</a></div></div>
+<div class="ttc" id="aa01196_html_gaf94439668882484a21c517ed2d855615"><div class="ttname"><a href="a01196.html#gaf94439668882484a21c517ed2d855615">pcl_err_last</a></div><div class="ttdeci">PCL_EXPORT int pcl_err_last(void)</div><div class="ttdoc">Gets the last PCL err code.</div><div class="ttdef"><b>Definition:</b> <a href="a00356_source.html#l00035">err_last.c:35</a></div></div>
+<div class="ttc" id="aa01196_html_ga831abab4c892fe6f99eb8a39174119c8"><div class="ttname"><a href="a01196.html#ga831abab4c892fe6f99eb8a39174119c8">pcl_err_vsprintf</a></div><div class="ttdeci">PCL_EXPORT int pcl_err_vsprintf(char *buf, size_t buf_size, int indent, const char *format, va_list args)</div><div class="ttdef"><b>Definition:</b> <a href="a00407_source.html#l00037">err_vsprintf.c:37</a></div></div>
+<div class="ttc" id="aa01196_html_ga6e488225c64979a7196c2b257c3c1fb0"><div class="ttname"><a href="a01196.html#ga6e488225c64979a7196c2b257c3c1fb0">pcl_err_code</a></div><div class="ttdeci">PCL_EXPORT int pcl_err_code(const char *pclname)</div><div class="ttdef"><b>Definition:</b> <a href="a00341_source.html#l00036">err_code.c:36</a></div></div>
+<div class="ttc" id="aa01225_html_a32d2f5216cddb59c7cc8fb2806a7e727"><div class="ttname"><a href="a01225.html#a32d2f5216cddb59c7cc8fb2806a7e727">tag_pcl_err_trace::msg</a></div><div class="ttdeci">char * msg</div><div class="ttdoc">optional user-defined message</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00110">error.h:110</a></div></div>
+<div class="ttc" id="aa00422_html_a364c5ccdb90cb93c34f33f8d39858ce4"><div class="ttname"><a href="a00422.html#a364c5ccdb90cb93c34f33f8d39858ce4">pcl_win32_oserrno</a></div><div class="ttdeci">uint32_t pcl_win32_oserrno(void)</div><div class="ttdef"><b>Definition:</b> <a href="a00422_source.html#l00039">win32_oserrno.c:39</a></div></div>
+<div class="ttc" id="aa00107_html"><div class="ttname"><a href="a00107.html">types.h</a></div></div>
+<div class="ttc" id="aa01229_html_a9ec42de702ac1fcf2d7307c5a2415b94"><div class="ttname"><a href="a01229.html#a9ec42de702ac1fcf2d7307c5a2415b94">tag_pcl_err::frozen</a></div><div class="ttdeci">bool frozen</div><div class="ttdoc">Freezes error, making it immutable.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00131">error.h:131</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/process/proc_freecmd.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/json/json_object_put.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,17 +62,17 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_c0cd66d8ddae4fc5bc5dc2f24e29763b.html">&#x202A;process</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_da4c9dd239018fe26269ba2e1cf7c9a1.html">&#x202A;json</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">proc_freecmd.c</div>  </div>
+<div class="title">json_object_put.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00647.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (PCL)</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2003, 2005-2014, 2017-2020 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,25 +101,35 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00638.html">_process.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00596.html">_json.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00059.html">pcl/htable.h</a>&gt;</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">void</span> *</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01120.html#ga39a064d197e5a1c85f7b2d40875745ee">   36</a></span>&#160;<a class="code" href="a01120.html#ga39a064d197e5a1c85f7b2d40875745ee">pcl_proc_freeargv</a>(<span class="keywordtype">int</span> argc, <a class="code" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> **argv)</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01204.html#ga84ccde370eb502241abda79be5fd1b59">   36</a></span>&#160;<a class="code" href="a01204.html#ga84ccde370eb502241abda79be5fd1b59">pcl_json_object_put</a>(<a class="code" href="a01245.html">pcl_json_t</a> *obj, <span class="keywordtype">char</span> *key, <a class="code" href="a01245.html">pcl_json_t</a> *value)</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordtype">int</span> i;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordflow">for</span>(i=0; i &lt; argc; i++)</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <a class="code" href="a01106.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe</a>(argv[i]);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01106.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe</a>(argv);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;}</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">if</span>(!obj || !key || !value)</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01198.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a>();</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">if</span>(obj-&gt;<a class="code" href="a01245.html#aff17911edc8208aa8ddb1c7c52c78389">type</a> != <span class="charliteral">&#39;o&#39;</span>)</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01198.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a>(<a class="code" href="a01197.html#ga4416795bd50c57cfad774c42154bbc9f">PCL_ETYPE</a>, <span class="stringliteral">&quot;expected type &#39;o&#39;, got &#39;%c&#39;&quot;</span>, obj-&gt;<a class="code" href="a01245.html#aff17911edc8208aa8ddb1c7c52c78389">type</a>);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a01201.html#gad1264b974c59d4df60f955234778a5e6">pcl_htable_put</a>(obj-&gt;<a class="code" href="a01245.html#a926796bc0ae65775bd2a503ab54823cf">object</a>, key, value, <span class="keyword">true</span>) &lt; 0)</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01198.html#gac647173422caf7372229621b0aab81cd">TRCMSG</a>(<span class="stringliteral">&quot;failed to put &#39;%s&#39; key&quot;</span>, key);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00104_html_ac114b2b1527c8ae241d37cc15ca7d122"><div class="ttname"><a href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a></div><div class="ttdeci">char pchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00053">types.h:53</a></div></div>
-<div class="ttc" id="aa01106_html_ga2de1e7abd61febca9d319940c5c2bd1b"><div class="ttname"><a href="a01106.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe</a></div><div class="ttdeci">void * pcl_free_safe(void *p)</div><div class="ttdoc">Safely free memory space.</div></div>
-<div class="ttc" id="aa00638_html"><div class="ttname"><a href="a00638.html">_process.h</a></div></div>
-<div class="ttc" id="aa01120_html_ga39a064d197e5a1c85f7b2d40875745ee"><div class="ttname"><a href="a01120.html#ga39a064d197e5a1c85f7b2d40875745ee">pcl_proc_freeargv</a></div><div class="ttdeci">void * pcl_proc_freeargv(int argc, pchar_t **argv)</div><div class="ttdoc">Free an argv array.</div><div class="ttdef"><b>Definition:</b> <a href="a00647_source.html#l00036">proc_freecmd.c:36</a></div></div>
-<div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
+<div class="ttc" id="aa01197_html_ga4416795bd50c57cfad774c42154bbc9f"><div class="ttname"><a href="a01197.html#ga4416795bd50c57cfad774c42154bbc9f">PCL_ETYPE</a></div><div class="ttdeci">#define PCL_ETYPE</div><div class="ttdoc">Invalid type.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00142">_errno.h:142</a></div></div>
+<div class="ttc" id="aa01198_html_ga7859a0a1a544c581d53bd7d44ab6805d"><div class="ttname"><a href="a01198.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a></div><div class="ttdeci">#define SETERRMSG(_pclerr, _msgfmt,...)</div><div class="ttdoc">Sets the current thread's PCL error code and error message.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00087">_errdefs.h:87</a></div></div>
+<div class="ttc" id="aa01198_html_gab052d4faa8fd25e1a13e86ecd4aafa38"><div class="ttname"><a href="a01198.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a></div><div class="ttdeci">#define BADARG()</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00306">_errdefs.h:306</a></div></div>
+<div class="ttc" id="aa01198_html_gac647173422caf7372229621b0aab81cd"><div class="ttname"><a href="a01198.html#gac647173422caf7372229621b0aab81cd">TRCMSG</a></div><div class="ttdeci">#define TRCMSG(_msgfmt,...)</div><div class="ttdoc">Adds a stack trace to the current thread's error with an error message.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00275">_errdefs.h:275</a></div></div>
+<div class="ttc" id="aa01245_html_aff17911edc8208aa8ddb1c7c52c78389"><div class="ttname"><a href="a01245.html#aff17911edc8208aa8ddb1c7c52c78389">tag_pcl_json::type</a></div><div class="ttdeci">char type</div><div class="ttdoc">JSON type: 0=null, 'r'=real, 'i'=integer, 'b'=bool, 's'=string, 'a'=array, 'o'=object Both real and i...</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00064">json.h:64</a></div></div>
+<div class="ttc" id="aa01204_html_ga84ccde370eb502241abda79be5fd1b59"><div class="ttname"><a href="a01204.html#ga84ccde370eb502241abda79be5fd1b59">pcl_json_object_put</a></div><div class="ttdeci">int pcl_json_object_put(pcl_json_t *obj, char *key, pcl_json_t *value)</div><div class="ttdef"><b>Definition:</b> <a href="a00647_source.html#l00036">json_object_put.c:36</a></div></div>
+<div class="ttc" id="aa00059_html"><div class="ttname"><a href="a00059.html">htable.h</a></div></div>
+<div class="ttc" id="aa01245_html"><div class="ttname"><a href="a01245.html">tag_pcl_json</a></div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00059">json.h:60</a></div></div>
+<div class="ttc" id="aa00596_html"><div class="ttname"><a href="a00596.html">_json.h</a></div></div>
+<div class="ttc" id="aa01245_html_a926796bc0ae65775bd2a503ab54823cf"><div class="ttname"><a href="a01245.html#a926796bc0ae65775bd2a503ab54823cf">tag_pcl_json::object</a></div><div class="ttdeci">pcl_htable_t * object</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00073">json.h:73</a></div></div>
+<div class="ttc" id="aa01201_html_gad1264b974c59d4df60f955234778a5e6"><div class="ttname"><a href="a01201.html#gad1264b974c59d4df60f955234778a5e6">pcl_htable_put</a></div><div class="ttdeci">PCL_EXPORT int pcl_htable_put(pcl_htable_t *ht, const void *key, void *value, bool unique)</div><div class="ttdoc">Puts a key/value pair into the table.</div><div class="ttdef"><b>Definition:</b> <a href="a00533_source.html#l00037">htable_put.c:37</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

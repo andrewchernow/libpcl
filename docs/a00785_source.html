@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/ssl/ssl_free.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/socket/select.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,12 +62,12 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_d2a61888f140676dde113ce903a488e2.html">&#x202A;ssl</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_9ad1227260954e346101f3844f0abb3d.html">&#x202A;socket</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">ssl_free.c</div>  </div>
+<div class="title">select.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00785.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,31 +101,63 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00755.html">_ssl.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">void</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a00785.html#a7181d5df2c41925f88191d1e310ecb89">   36</a></span>&#160;<a class="code" href="a00785.html#a7181d5df2c41925f88191d1e310ecb89">pcl_ssl_free</a>(<a class="code" href="a01244.html">pcl_ssl_t</a> *ssl)</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">if</span>(!ssl)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <a class="code" href="a00083.html#a8632d30d5f4898a9db396c79c1dfaeab">pcl_ssl_close</a>(ssl);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  SSL_CTX_free(ssl-&gt;<a class="code" href="a01244.html#ad5433bcc8a463fb4df3ce5912bb11fe3">ctx</a>);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <a class="code" href="a01106.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe</a>(ssl-&gt;<a class="code" href="a01244.html#a6473a038c16b59727d5b2195046e0498">err</a>.<a class="code" href="a01176.html#a32d2f5216cddb59c7cc8fb2806a7e727">msg</a>);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <a class="code" href="a01106.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(ssl);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00764.html">_socket.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00104.html">pcl/time.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/error.h</a>&gt;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="a00785.html#a0e415cddb336095985fe5da394e93075">   37</a></span>&#160;<a class="code" href="a00785.html#a0e415cddb336095985fe5da394e93075">pcl_select</a>(<span class="keywordtype">int</span> fds, fd_set *rset, fd_set *wset, fd_set *eset, <span class="keyword">struct</span> timeval *tv)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordtype">int</span> n;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <a class="code" href="a00107.html#a05032dd43160d7b24f8ded03431fc748">pcl_clock_t</a> start = 0;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keyword">struct </span>timeval tv_orig = {0, 0};</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordflow">if</span>(tv)</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    tv_orig = *tv;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    start = <a class="code" href="a00104.html#a830f82e1c662586f44299fc0979713c9">pcl_clock</a>();</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  }</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  n = select(fds, rset, wset, eset, tv);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <span class="comment">/* update timeval. */</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="keywordflow">if</span>(tv)</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  {</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="comment">/* success or failure, update timeval in either case */</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">if</span>(n != 0)</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    {</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      int64_t diff = (int64_t) <a class="code" href="a00104.html#ae544805a2554b9ff227f9aa0621c991a">pcl_usecdiff</a>(start, <a class="code" href="a00104.html#a830f82e1c662586f44299fc0979713c9">pcl_clock</a>());</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      tv-&gt;tv_sec = (long) (tv_orig.tv_sec - (diff / <a class="code" href="a00104.html#a44fad6f0051928cde82c0515fc783e3d">PCL_USECS</a>));</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;      tv-&gt;tv_usec = (long) (tv_orig.tv_usec - (diff % <a class="code" href="a00104.html#a44fad6f0051928cde82c0515fc783e3d">PCL_USECS</a>));</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    }</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      <span class="comment">/* timeout, set to zero */</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    {</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;      tv-&gt;tv_sec = tv-&gt;tv_usec = 0;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    }</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  }</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <span class="keywordflow">if</span>(n == 0)</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01198.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a>(0, <a class="code" href="a01197.html#ga62b676c68db3b95ff4b28cbe5a4083e1">PCL_ETIMEOUT</a>);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  <span class="keywordflow">if</span>(n &gt; 0)</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordflow">return</span> n;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  <span class="comment">/* failed */</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01198.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00083_html_a8632d30d5f4898a9db396c79c1dfaeab"><div class="ttname"><a href="a00083.html#a8632d30d5f4898a9db396c79c1dfaeab">pcl_ssl_close</a></div><div class="ttdeci">PCL_EXPORT void pcl_ssl_close(pcl_ssl_t *ssl)</div><div class="ttdef"><b>Definition:</b> <a href="a00767_source.html#l00037">ssl_close.c:37</a></div></div>
-<div class="ttc" id="aa01106_html_ga2de1e7abd61febca9d319940c5c2bd1b"><div class="ttname"><a href="a01106.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe</a></div><div class="ttdeci">void * pcl_free_safe(void *p)</div><div class="ttdoc">Safely free memory space.</div></div>
-<div class="ttc" id="aa01244_html"><div class="ttname"><a href="a01244.html">tag_pcl_ssl</a></div><div class="ttdef"><b>Definition:</b> <a href="a00755_source.html#l00046">_ssl.h:47</a></div></div>
-<div class="ttc" id="aa01244_html_ad5433bcc8a463fb4df3ce5912bb11fe3"><div class="ttname"><a href="a01244.html#ad5433bcc8a463fb4df3ce5912bb11fe3">tag_pcl_ssl::ctx</a></div><div class="ttdeci">SSL_CTX * ctx</div><div class="ttdef"><b>Definition:</b> <a href="a00755_source.html#l00054">_ssl.h:54</a></div></div>
-<div class="ttc" id="aa00755_html"><div class="ttname"><a href="a00755.html">_ssl.h</a></div></div>
-<div class="ttc" id="aa01176_html_a32d2f5216cddb59c7cc8fb2806a7e727"><div class="ttname"><a href="a01176.html#a32d2f5216cddb59c7cc8fb2806a7e727">pcl_openssl_error_t::msg</a></div><div class="ttdeci">char * msg</div><div class="ttdef"><b>Definition:</b> <a href="a00083_source.html#l00060">ssl.h:60</a></div></div>
-<div class="ttc" id="aa01106_html_gab88b901c82e1010555b08ff6d39490f2"><div class="ttname"><a href="a01106.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a></div><div class="ttdeci">void * pcl_free(void *p)</div><div class="ttdoc">Free memory space.</div></div>
-<div class="ttc" id="aa01244_html_a6473a038c16b59727d5b2195046e0498"><div class="ttname"><a href="a01244.html#a6473a038c16b59727d5b2195046e0498">tag_pcl_ssl::err</a></div><div class="ttdeci">pcl_openssl_error_t err</div><div class="ttdef"><b>Definition:</b> <a href="a00755_source.html#l00056">_ssl.h:56</a></div></div>
-<div class="ttc" id="aa00785_html_a7181d5df2c41925f88191d1e310ecb89"><div class="ttname"><a href="a00785.html#a7181d5df2c41925f88191d1e310ecb89">pcl_ssl_free</a></div><div class="ttdeci">void pcl_ssl_free(pcl_ssl_t *ssl)</div><div class="ttdef"><b>Definition:</b> <a href="a00785_source.html#l00036">ssl_free.c:36</a></div></div>
-<div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
+<div class="ttc" id="aa00104_html"><div class="ttname"><a href="a00104.html">time.h</a></div></div>
+<div class="ttc" id="aa01198_html_gae8eaed12aa57a2870ad8e45cc2306318"><div class="ttname"><a href="a01198.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a></div><div class="ttdeci">#define R_SETERR(_retval, _pclerr)</div><div class="ttdoc">Sets the return value and the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00145">_errdefs.h:145</a></div></div>
+<div class="ttc" id="aa00107_html_a05032dd43160d7b24f8ded03431fc748"><div class="ttname"><a href="a00107.html#a05032dd43160d7b24f8ded03431fc748">pcl_clock_t</a></div><div class="ttdeci">long double pcl_clock_t</div><div class="ttdef"><b>Definition:</b> <a href="a00107_source.html#l00060">types.h:60</a></div></div>
+<div class="ttc" id="aa00104_html_a44fad6f0051928cde82c0515fc783e3d"><div class="ttname"><a href="a00104.html#a44fad6f0051928cde82c0515fc783e3d">PCL_USECS</a></div><div class="ttdeci">#define PCL_USECS</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00046">time.h:46</a></div></div>
+<div class="ttc" id="aa01198_html_ga89b8bfbe17595305872551a1caaa5702"><div class="ttname"><a href="a01198.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a></div><div class="ttdeci">#define SETLASTERR()</div><div class="ttdoc">Sets the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00125">_errdefs.h:125</a></div></div>
+<div class="ttc" id="aa01197_html_ga62b676c68db3b95ff4b28cbe5a4083e1"><div class="ttname"><a href="a01197.html#ga62b676c68db3b95ff4b28cbe5a4083e1">PCL_ETIMEOUT</a></div><div class="ttdeci">#define PCL_ETIMEOUT</div><div class="ttdoc">Operation timed out.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00158">_errno.h:158</a></div></div>
+<div class="ttc" id="aa00104_html_ae544805a2554b9ff227f9aa0621c991a"><div class="ttname"><a href="a00104.html#ae544805a2554b9ff227f9aa0621c991a">pcl_usecdiff</a></div><div class="ttdeci">PCL_INLINE pcl_clock_t pcl_usecdiff(pcl_clock_t start, pcl_clock_t end)</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00146">time.h:146</a></div></div>
+<div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">error.h</a></div></div>
+<div class="ttc" id="aa00764_html"><div class="ttname"><a href="a00764.html">_socket.h</a></div></div>
+<div class="ttc" id="aa00104_html_a830f82e1c662586f44299fc0979713c9"><div class="ttname"><a href="a00104.html#a830f82e1c662586f44299fc0979713c9">pcl_clock</a></div><div class="ttdeci">PCL_EXPORT pcl_clock_t pcl_clock(void)</div><div class="ttdef"><b>Definition:</b> <a href="a01055_source.html#l00036">clock.c:36</a></div></div>
+<div class="ttc" id="aa00785_html_a0e415cddb336095985fe5da394e93075"><div class="ttname"><a href="a00785.html#a0e415cddb336095985fe5da394e93075">pcl_select</a></div><div class="ttdeci">int pcl_select(int fds, fd_set *rset, fd_set *wset, fd_set *eset, struct timeval *tv)</div><div class="ttdef"><b>Definition:</b> <a href="a00785_source.html#l00037">select.c:37</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/htable/htable_create.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/file/unlink.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,12 +62,12 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_b7d637e3591c140b5c5f63237dc79ee0.html">&#x202A;htable</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_f17c642dae9e225ab953fe9c6da2e34a.html">&#x202A;file</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">htable_create.c</div>  </div>
+<div class="title">unlink.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00494.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,79 +101,44 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00485.html">_htable.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00044.html">pcl/error.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00050.html">pcl/farmhash.h</a>&gt;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00089.html">string.h</a>&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor"># include &lt;windows.h&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor"># include &lt;unistd.h&gt;</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">static</span> <span class="keywordtype">bool</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;default_key_equals(<span class="keyword">const</span> <span class="keywordtype">void</span> *a, <span class="keyword">const</span> <span class="keywordtype">void</span> *b, <span class="keywordtype">size_t</span> key_len, <span class="keywordtype">void</span> *u)</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <a class="code" href="a00035.html#a9b58a1294d89c976dfbe4dc480e9dfb8">UNUSED</a>(u);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordflow">return</span> key_len ? !memcmp(a, b, key_len) : !strcmp((const char*) a, (const char*) b);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;}</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/error.h</a>&gt;</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="a00494.html#a888c3f09abd512ec1aa4640f19feff26">   41</a></span>&#160;<a class="code" href="a00494.html#a888c3f09abd512ec1aa4640f19feff26">pcl_unlink</a>(<span class="keyword">const</span> <a class="code" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *path)</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <a class="code" href="a01196.html#gad0d37471eadcb33fa2238273a6c5cf9f">pcl_err_osclear</a>();</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment">/* Default hashfunc is Google&#39;s farmhash: https://github.com/google/farmhash */</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">static</span> uintptr_t</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;default_hashcode(<span class="keyword">const</span> <span class="keywordtype">void</span> *key, <span class="keywordtype">size_t</span> key_len, <span class="keywordtype">void</span> *userp)</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;{</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <a class="code" href="a00035.html#a9b58a1294d89c976dfbe4dc480e9dfb8">UNUSED</a>(userp);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <span class="keywordflow">if</span>(!key_len)</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    key_len = strlen((<span class="keyword">const</span> <span class="keywordtype">char</span> *) key);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#ifdef PCL_64BIT</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keywordflow">return</span> (uintptr_t) <a class="code" href="a01115.html#gac57afe978f740ba65dcf85064b31ebba">pcl_farmhash64_seed</a>(key, key_len, 0);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordflow">if</span>(!DeleteFile(path))</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  {</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="comment">/* try to adjust file attrs for access denied */</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">if</span>(<a class="code" href="a01196.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a> != ERROR_ACCESS_DENIED ||</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      !SetFileAttributes(path, FILE_ATTRIBUTE_NORMAL) ||</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      !DeleteFile(path))</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01198.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    }</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  }</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <span class="keywordflow">return</span> (uintptr_t) <a class="code" href="a01115.html#ga86c037124776fd7ae38b93a88c3b3ae5">pcl_farmhash32_seed</a>(key, key_len, 0);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;}</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <span class="keywordflow">if</span>(unlink(path) &lt; 0)</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01198.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<a class="code" href="a01148.html">pcl_htable_t</a> *</div>
-<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="a01116.html#gae469981bef26363606b65a93189234ce">   62</a></span>&#160;<a class="code" href="a01116.html#gae469981bef26363606b65a93189234ce">pcl_htable_create</a>(<span class="keywordtype">int</span> capacity)</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;{</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  capacity = <a class="code" href="a00485.html#ad4c4e804762da7fd8ddc913bce0797ff">ipcl_htable_capacity</a>(<a class="code" href="a00035.html#affe776513b24d84b39af8ab0930fef7f">max</a>(capacity, 0));</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <span class="keywordflow">if</span>(capacity &lt; 0)</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01113.html#gaa978c8c7faa5fc2f69a6641e054e519d">R_TRC</a>(NULL);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  <a class="code" href="a01148.html">pcl_htable_t</a> *ht = <a class="code" href="a01106.html#ga8f4cbae7a9d6191bceec2d2d1f04eb5d">pcl_zalloc</a>(<span class="keyword">sizeof</span>(<a class="code" href="a01148.html">pcl_htable_t</a>));</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  ht-&gt;<a class="code" href="a01148.html#aaa2dc552577da2bba064c4d36d971c26">key_len</a> = 0;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  ht-&gt;<a class="code" href="a01148.html#adbe66a087ac3fd4a5b0566f64ca2d12b">capacity</a> = capacity;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  ht-&gt;<a class="code" href="a01148.html#a208ae7a4b8b33d282ba214243f46d425">min_loadfac</a> = <a class="code" href="a00485.html#ad83cf4743461de00b5243a832b08c2d6">MIN_LOADFAC</a>;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  ht-&gt;<a class="code" href="a01148.html#a9bbb1d295613e17dcc57d0b4e15e128c">max_loadfac</a> = <a class="code" href="a00485.html#af350412720da789b997757b9ae621474">MAX_LOADFAC</a>;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  ht-&gt;<a class="code" href="a01148.html#a57cdb09719a1350e1f053c01139eb363">key_equals</a> = default_key_equals;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  ht-&gt;<a class="code" href="a01148.html#a7e9adab84c43d9a11a7a2ca0ff70b81e">hashcode</a> = default_hashcode;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  ht-&gt;<a class="code" href="a01148.html#a402260327e4c06cbf3b7105a81a4731e">entries</a> = <a class="code" href="a01106.html#ga8f4cbae7a9d6191bceec2d2d1f04eb5d">pcl_zalloc</a>(ht-&gt;<a class="code" href="a01148.html#adbe66a087ac3fd4a5b0566f64ca2d12b">capacity</a> * <span class="keyword">sizeof</span>(<span class="keywordtype">void</span> *));</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  <span class="keywordflow">return</span> ht;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;}</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00044_html"><div class="ttname"><a href="a00044.html">error.h</a></div></div>
-<div class="ttc" id="aa01148_html"><div class="ttname"><a href="a01148.html">tag_pcl_htable</a></div><div class="ttdef"><b>Definition:</b> <a href="a00056_source.html#l00213">htable.h:214</a></div></div>
-<div class="ttc" id="aa01115_html_ga86c037124776fd7ae38b93a88c3b3ae5"><div class="ttname"><a href="a01115.html#ga86c037124776fd7ae38b93a88c3b3ae5">pcl_farmhash32_seed</a></div><div class="ttdeci">PCL_EXPORT uint64_t pcl_farmhash32_seed(const void *data, size_t len, uint32_t seed)</div><div class="ttdoc">Get a 32-bit farmhash hash code.</div></div>
-<div class="ttc" id="aa01148_html_adbe66a087ac3fd4a5b0566f64ca2d12b"><div class="ttname"><a href="a01148.html#adbe66a087ac3fd4a5b0566f64ca2d12b">tag_pcl_htable::capacity</a></div><div class="ttdeci">int capacity</div><div class="ttdoc">current table capacity</div><div class="ttdef"><b>Definition:</b> <a href="a00056_source.html#l00225">htable.h:225</a></div></div>
-<div class="ttc" id="aa00485_html_ad4c4e804762da7fd8ddc913bce0797ff"><div class="ttname"><a href="a00485.html#ad4c4e804762da7fd8ddc913bce0797ff">ipcl_htable_capacity</a></div><div class="ttdeci">int ipcl_htable_capacity(int capacity)</div><div class="ttdef"><b>Definition:</b> <a href="a00488_source.html#l00036">htable_capacity.c:36</a></div></div>
-<div class="ttc" id="aa01148_html_a57cdb09719a1350e1f053c01139eb363"><div class="ttname"><a href="a01148.html#a57cdb09719a1350e1f053c01139eb363">tag_pcl_htable::key_equals</a></div><div class="ttdeci">bool(* key_equals)(const void *key1, const void *key2, size_t key_len, void *userp)</div><div class="ttdoc">Determine if two keys are equal.</div><div class="ttdef"><b>Definition:</b> <a href="a00056_source.html#l00283">htable.h:283</a></div></div>
-<div class="ttc" id="aa00485_html_af350412720da789b997757b9ae621474"><div class="ttname"><a href="a00485.html#af350412720da789b997757b9ae621474">MAX_LOADFAC</a></div><div class="ttdeci">#define MAX_LOADFAC</div><div class="ttdef"><b>Definition:</b> <a href="a00485_source.html#l00037">_htable.h:37</a></div></div>
-<div class="ttc" id="aa01148_html_a208ae7a4b8b33d282ba214243f46d425"><div class="ttname"><a href="a01148.html#a208ae7a4b8b33d282ba214243f46d425">tag_pcl_htable::min_loadfac</a></div><div class="ttdeci">float min_loadfac</div><div class="ttdoc">The minimun load factor of the table.</div><div class="ttdef"><b>Definition:</b> <a href="a00056_source.html#l00252">htable.h:252</a></div></div>
-<div class="ttc" id="aa00035_html_a9b58a1294d89c976dfbe4dc480e9dfb8"><div class="ttname"><a href="a00035.html#a9b58a1294d89c976dfbe4dc480e9dfb8">UNUSED</a></div><div class="ttdeci">#define UNUSED(...)</div><div class="ttdef"><b>Definition:</b> <a href="a00035_source.html#l00102">defs.h:102</a></div></div>
-<div class="ttc" id="aa01115_html_gac57afe978f740ba65dcf85064b31ebba"><div class="ttname"><a href="a01115.html#gac57afe978f740ba65dcf85064b31ebba">pcl_farmhash64_seed</a></div><div class="ttdeci">PCL_EXPORT uint64_t pcl_farmhash64_seed(const void *data, size_t len, uint64_t seed)</div><div class="ttdoc">Get a 64-bit farmhash hash code.</div></div>
-<div class="ttc" id="aa01148_html_a9bbb1d295613e17dcc57d0b4e15e128c"><div class="ttname"><a href="a01148.html#a9bbb1d295613e17dcc57d0b4e15e128c">tag_pcl_htable::max_loadfac</a></div><div class="ttdeci">float max_loadfac</div><div class="ttdoc">The maximum load factor of the table.</div><div class="ttdef"><b>Definition:</b> <a href="a00056_source.html#l00261">htable.h:261</a></div></div>
-<div class="ttc" id="aa00485_html_ad83cf4743461de00b5243a832b08c2d6"><div class="ttname"><a href="a00485.html#ad83cf4743461de00b5243a832b08c2d6">MIN_LOADFAC</a></div><div class="ttdeci">#define MIN_LOADFAC</div><div class="ttdef"><b>Definition:</b> <a href="a00485_source.html#l00038">_htable.h:38</a></div></div>
-<div class="ttc" id="aa01148_html_aaa2dc552577da2bba064c4d36d971c26"><div class="ttname"><a href="a01148.html#aaa2dc552577da2bba064c4d36d971c26">tag_pcl_htable::key_len</a></div><div class="ttdeci">size_t key_len</div><div class="ttdoc">Key length in bytes.</div><div class="ttdef"><b>Definition:</b> <a href="a00056_source.html#l00243">htable.h:243</a></div></div>
-<div class="ttc" id="aa00035_html_affe776513b24d84b39af8ab0930fef7f"><div class="ttname"><a href="a00035.html#affe776513b24d84b39af8ab0930fef7f">max</a></div><div class="ttdeci">#define max(a, b)</div><div class="ttdef"><b>Definition:</b> <a href="a00035_source.html#l00112">defs.h:112</a></div></div>
-<div class="ttc" id="aa01148_html_a7e9adab84c43d9a11a7a2ca0ff70b81e"><div class="ttname"><a href="a01148.html#a7e9adab84c43d9a11a7a2ca0ff70b81e">tag_pcl_htable::hashcode</a></div><div class="ttdeci">uintptr_t(* hashcode)(const void *key, size_t key_len, void *userp)</div><div class="ttdoc">Compute a hash code for the given key.</div><div class="ttdef"><b>Definition:</b> <a href="a00056_source.html#l00296">htable.h:296</a></div></div>
-<div class="ttc" id="aa00089_html"><div class="ttname"><a href="a00089.html">string.h</a></div></div>
-<div class="ttc" id="aa00050_html"><div class="ttname"><a href="a00050.html">farmhash.h</a></div></div>
-<div class="ttc" id="aa01113_html_gaa978c8c7faa5fc2f69a6641e054e519d"><div class="ttname"><a href="a01113.html#gaa978c8c7faa5fc2f69a6641e054e519d">R_TRC</a></div><div class="ttdeci">#define R_TRC(_retval)</div><div class="ttdoc">Sets the return value and adds a stack trace to the current thread's error.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00287">_errdefs.h:287</a></div></div>
-<div class="ttc" id="aa01148_html_a402260327e4c06cbf3b7105a81a4731e"><div class="ttname"><a href="a01148.html#a402260327e4c06cbf3b7105a81a4731e">tag_pcl_htable::entries</a></div><div class="ttdeci">pcl_htable_entry_t ** entries</div><div class="ttdoc">table of entries, each bucket is a linked list of collisions</div><div class="ttdef"><b>Definition:</b> <a href="a00056_source.html#l00230">htable.h:230</a></div></div>
-<div class="ttc" id="aa00485_html"><div class="ttname"><a href="a00485.html">_htable.h</a></div></div>
-<div class="ttc" id="aa01106_html_ga8f4cbae7a9d6191bceec2d2d1f04eb5d"><div class="ttname"><a href="a01106.html#ga8f4cbae7a9d6191bceec2d2d1f04eb5d">pcl_zalloc</a></div><div class="ttdeci">void * pcl_zalloc(size_t n)</div><div class="ttdoc">Allocate and zero dynamic memory.</div></div>
-<div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
-<div class="ttc" id="aa01116_html_gae469981bef26363606b65a93189234ce"><div class="ttname"><a href="a01116.html#gae469981bef26363606b65a93189234ce">pcl_htable_create</a></div><div class="ttdeci">pcl_htable_t * pcl_htable_create(int capacity)</div><div class="ttdoc">Creates a new hash table object.</div><div class="ttdef"><b>Definition:</b> <a href="a00494_source.html#l00062">htable_create.c:62</a></div></div>
+<div class="ttc" id="aa00107_html_ac114b2b1527c8ae241d37cc15ca7d122"><div class="ttname"><a href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a></div><div class="ttdeci">char pchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00107_source.html#l00053">types.h:53</a></div></div>
+<div class="ttc" id="aa00494_html_a888c3f09abd512ec1aa4640f19feff26"><div class="ttname"><a href="a00494.html#a888c3f09abd512ec1aa4640f19feff26">pcl_unlink</a></div><div class="ttdeci">int pcl_unlink(const pchar_t *path)</div><div class="ttdoc">Delete a file.</div><div class="ttdef"><b>Definition:</b> <a href="a00494_source.html#l00041">unlink.c:41</a></div></div>
+<div class="ttc" id="aa01196_html_gad0d37471eadcb33fa2238273a6c5cf9f"><div class="ttname"><a href="a01196.html#gad0d37471eadcb33fa2238273a6c5cf9f">pcl_err_osclear</a></div><div class="ttdeci">#define pcl_err_osclear()</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00292">error.h:292</a></div></div>
+<div class="ttc" id="aa01198_html_ga89b8bfbe17595305872551a1caaa5702"><div class="ttname"><a href="a01198.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a></div><div class="ttdeci">#define SETLASTERR()</div><div class="ttdoc">Sets the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00125">_errdefs.h:125</a></div></div>
+<div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">error.h</a></div></div>
+<div class="ttc" id="aa01196_html_ga3646b2825d51326a06f25e597f883555"><div class="ttname"><a href="a01196.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a></div><div class="ttdeci">#define pcl_oserrno</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00185">error.h:185</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

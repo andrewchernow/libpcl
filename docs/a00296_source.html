@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/dl/dlopen.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/dir/dir_path.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,17 +62,17 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_fc4f64794af458b8b860bb6698813ce3.html">&#x202A;dl</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_aacfdc579ef92091b0373a93a3aa9008.html">&#x202A;dir</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">dlopen.c</div>  </div>
+<div class="title">dir_path.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00296.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (PCL)</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2003, 2005-2014, 2017-2020 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,47 +101,30 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00041.html">pcl/dl.h</a>&gt;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00044.html">pcl/error.h</a>&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00287.html">_dir.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/error.h</a>&gt;</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#ifndef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">  #include &lt;dlfcn.h&gt;</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor"># include &lt;windows.h&gt;</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">const</span> <a class="code" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01195.html#ga07cef549518b08252f6d4c33c91aad09">   36</a></span>&#160;<a class="code" href="a01195.html#ga07cef549518b08252f6d4c33c91aad09">pcl_dir_path</a>(<a class="code" href="a01301.html">pcl_dir_t</a> *dir, <span class="keywordtype">int</span> *lenp)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">if</span>(!dir)</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01198.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a>(NULL, <a class="code" href="a01197.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>);</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="a00296.html#a5dfac3339474fcec6d8374fc8ecb0f93">   42</a></span>&#160;<a class="code" href="a00296.html#a5dfac3339474fcec6d8374fc8ecb0f93">pcl_dlopen</a>(<span class="keyword">const</span> <a class="code" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *filename, <span class="keywordtype">void</span> * *out)</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;{</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keywordflow">if</span>(!out)</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01113.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a>();</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  *out = NULL;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  *out = filename ? LoadLibrary(filename) : GetModuleHandle(NULL);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="keywordflow">if</span>(!*out)</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01113.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  *out = dlopen(filename, RTLD_LAZY);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <span class="keywordflow">if</span>(!*out)</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01113.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a>(<a class="code" href="a01112.html#ga80f7834ff96ed17ad37427b17f3e74b4">PCL_EIO</a>, <span class="stringliteral">&quot;%s&quot;</span>, dlerror());</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;}</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">if</span>(lenp)</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    *lenp = dir-&gt;<a class="code" href="a01301.html#afea5b40f9ee84337323ee7ad71ff0369">pathlen</a>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keywordflow">return</span> (<span class="keyword">const</span> <a class="code" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *) dir-&gt;<a class="code" href="a01301.html#add22ec2e43063b6317388252dce13d9c">path</a>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00044_html"><div class="ttname"><a href="a00044.html">error.h</a></div></div>
-<div class="ttc" id="aa00104_html_ac114b2b1527c8ae241d37cc15ca7d122"><div class="ttname"><a href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a></div><div class="ttdeci">char pchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00053">types.h:53</a></div></div>
-<div class="ttc" id="aa00296_html_a5dfac3339474fcec6d8374fc8ecb0f93"><div class="ttname"><a href="a00296.html#a5dfac3339474fcec6d8374fc8ecb0f93">pcl_dlopen</a></div><div class="ttdeci">int pcl_dlopen(const pchar_t *filename, void **out)</div><div class="ttdef"><b>Definition:</b> <a href="a00296_source.html#l00042">dlopen.c:42</a></div></div>
-<div class="ttc" id="aa01113_html_gab052d4faa8fd25e1a13e86ecd4aafa38"><div class="ttname"><a href="a01113.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a></div><div class="ttdeci">#define BADARG()</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00306">_errdefs.h:306</a></div></div>
-<div class="ttc" id="aa01113_html_ga89b8bfbe17595305872551a1caaa5702"><div class="ttname"><a href="a01113.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a></div><div class="ttdeci">#define SETLASTERR()</div><div class="ttdoc">Sets the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00125">_errdefs.h:125</a></div></div>
-<div class="ttc" id="aa01113_html_ga7859a0a1a544c581d53bd7d44ab6805d"><div class="ttname"><a href="a01113.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a></div><div class="ttdeci">#define SETERRMSG(_pclerr, _msgfmt,...)</div><div class="ttdoc">Sets the current thread's PCL error code and error message.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00087">_errdefs.h:87</a></div></div>
-<div class="ttc" id="aa00041_html"><div class="ttname"><a href="a00041.html">dl.h</a></div></div>
-<div class="ttc" id="aa01112_html_ga80f7834ff96ed17ad37427b17f3e74b4"><div class="ttname"><a href="a01112.html#ga80f7834ff96ed17ad37427b17f3e74b4">PCL_EIO</a></div><div class="ttdeci">#define PCL_EIO</div><div class="ttdoc">I/O error.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00080">_errno.h:80</a></div></div>
+<div class="ttc" id="aa01301_html"><div class="ttname"><a href="a01301.html">tag_pcl_dir</a></div><div class="ttdef"><b>Definition:</b> <a href="a00287_source.html#l00048">_dir.h:49</a></div></div>
+<div class="ttc" id="aa00287_html"><div class="ttname"><a href="a00287.html">_dir.h</a></div></div>
+<div class="ttc" id="aa01301_html_afea5b40f9ee84337323ee7ad71ff0369"><div class="ttname"><a href="a01301.html#afea5b40f9ee84337323ee7ad71ff0369">tag_pcl_dir::pathlen</a></div><div class="ttdeci">int pathlen</div><div class="ttdef"><b>Definition:</b> <a href="a00287_source.html#l00051">_dir.h:51</a></div></div>
+<div class="ttc" id="aa01198_html_gae8eaed12aa57a2870ad8e45cc2306318"><div class="ttname"><a href="a01198.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a></div><div class="ttdeci">#define R_SETERR(_retval, _pclerr)</div><div class="ttdoc">Sets the return value and the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00145">_errdefs.h:145</a></div></div>
+<div class="ttc" id="aa00107_html_ac114b2b1527c8ae241d37cc15ca7d122"><div class="ttname"><a href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a></div><div class="ttdeci">char pchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00107_source.html#l00053">types.h:53</a></div></div>
+<div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">error.h</a></div></div>
+<div class="ttc" id="aa01301_html_add22ec2e43063b6317388252dce13d9c"><div class="ttname"><a href="a01301.html#add22ec2e43063b6317388252dce13d9c">tag_pcl_dir::path</a></div><div class="ttdeci">pchar_t * path</div><div class="ttdef"><b>Definition:</b> <a href="a00287_source.html#l00050">_dir.h:50</a></div></div>
+<div class="ttc" id="aa01197_html_gae0cd5c5a7fae36cd480176bda17e77ca"><div class="ttname"><a href="a01197.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a></div><div class="ttdeci">#define PCL_EINVAL</div><div class="ttdoc">Invalid argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00078">_errno.h:78</a></div></div>
+<div class="ttc" id="aa01195_html_ga07cef549518b08252f6d4c33c91aad09"><div class="ttname"><a href="a01195.html#ga07cef549518b08252f6d4c33c91aad09">pcl_dir_path</a></div><div class="ttdeci">const pchar_t * pcl_dir_path(pcl_dir_t *dir, int *lenp)</div><div class="ttdoc">Get a directory handle's path.</div><div class="ttdef"><b>Definition:</b> <a href="a00296_source.html#l00036">dir_path.c:36</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

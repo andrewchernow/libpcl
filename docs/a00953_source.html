@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/thread/tls_alloc.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/string/strncpy.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,12 +62,12 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_bfedb72b9d87795234454f6223b9ab1e.html">&#x202A;thread</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_6cc8961f7f77054fb84f95c9f23f5ca0.html">&#x202A;string</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">tls_alloc.c</div>  </div>
+<div class="title">strncpy.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00953.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,21 +101,43 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00098.html">pcl/thread.h</a>&gt;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00044.html">pcl/error.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a00953.html#a8689d43ec6895bef45ab977fcc4c96b4">   36</a></span>&#160;<a class="code" href="a00953.html#a8689d43ec6895bef45ab977fcc4c96b4">pcl_tls_alloc</a>(pthread_key_t *key, <span class="keywordtype">void</span> (*destructor)(<span class="keywordtype">void</span>*))</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordtype">int</span> err = pthread_key_create(key, destructor);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordflow">return</span> err ? <a class="code" href="a01113.html#gaadc76b147014f17dcc08fa3c2f110a25">SETOSERR</a>(err) : 0;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;}</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00917.html">_string.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<a class="code" href="a00917.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *</div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a00953.html#a11c311c581c703f4fc0020d2598d765e">   35</a></span>&#160;<a class="code" href="a00917.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a>(<a class="code" href="a00953.html#a11c311c581c703f4fc0020d2598d765e">ncpy</a>)(<a class="code" href="a00917.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *dest, <span class="keywordtype">size_t</span> size, <span class="keyword">const</span> <a class="code" href="a00917.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *src, <span class="keywordtype">size_t</span> len)</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordflow">if</span>(!dest || !size)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01198.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a>(NULL, <a class="code" href="a01197.html#gaa07a6ea59d3098bdd4a7c95e24bca530">PCL_EBUF</a>);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  *dest = 0;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">if</span>(!src)</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keywordflow">if</span>(!len &amp;&amp; !(len = <a class="code" href="a00917.html#aee081742fbd47c91e70de0b86a84a1be">xstrlen</a>(src)))</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordflow">return</span> dest;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordflow">if</span>(len &gt;= size)</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01198.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a>(NULL, <a class="code" href="a01197.html#gaa07a6ea59d3098bdd4a7c95e24bca530">PCL_EBUF</a>);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  memcpy(dest, src, len * <span class="keyword">sizeof</span>(<a class="code" href="a00917.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a>));</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  dest[len] = 0;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <span class="keywordflow">return</span> dest;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;}</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#ifndef XWIDE</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="a00953.html#af3082199ea3ac518b87acdac953cf385">   57</a></span>&#160;<span class="preprocessor">  #define XWIDE</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor">  #include &quot;<a class="code" href="a00953.html">strncpy.c</a>&quot;</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00044_html"><div class="ttname"><a href="a00044.html">error.h</a></div></div>
-<div class="ttc" id="aa01113_html_gaadc76b147014f17dcc08fa3c2f110a25"><div class="ttname"><a href="a01113.html#gaadc76b147014f17dcc08fa3c2f110a25">SETOSERR</a></div><div class="ttdeci">#define SETOSERR(_oserr)</div><div class="ttdoc">Sets the current thread's OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00111">_errdefs.h:111</a></div></div>
-<div class="ttc" id="aa00098_html"><div class="ttname"><a href="a00098.html">thread.h</a></div></div>
-<div class="ttc" id="aa00953_html_a8689d43ec6895bef45ab977fcc4c96b4"><div class="ttname"><a href="a00953.html#a8689d43ec6895bef45ab977fcc4c96b4">pcl_tls_alloc</a></div><div class="ttdeci">int pcl_tls_alloc(pthread_key_t *key, void(*destructor)(void *))</div><div class="ttdef"><b>Definition:</b> <a href="a00953_source.html#l00036">tls_alloc.c:36</a></div></div>
+<div class="ttc" id="aa00953_html_a11c311c581c703f4fc0020d2598d765e"><div class="ttname"><a href="a00953.html#a11c311c581c703f4fc0020d2598d765e">ncpy</a></div><div class="ttdeci">xchar *XFUNC() ncpy(xchar *dest, size_t size, const xchar *src, size_t len)</div><div class="ttdef"><b>Definition:</b> <a href="a00953_source.html#l00035">strncpy.c:35</a></div></div>
+<div class="ttc" id="aa00917_html"><div class="ttname"><a href="a00917.html">_string.h</a></div></div>
+<div class="ttc" id="aa01198_html_gae8eaed12aa57a2870ad8e45cc2306318"><div class="ttname"><a href="a01198.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a></div><div class="ttdeci">#define R_SETERR(_retval, _pclerr)</div><div class="ttdoc">Sets the return value and the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00145">_errdefs.h:145</a></div></div>
+<div class="ttc" id="aa01197_html_gaa07a6ea59d3098bdd4a7c95e24bca530"><div class="ttname"><a href="a01197.html#gaa07a6ea59d3098bdd4a7c95e24bca530">PCL_EBUF</a></div><div class="ttdeci">#define PCL_EBUF</div><div class="ttdoc">Buffer too small.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00138">_errno.h:138</a></div></div>
+<div class="ttc" id="aa00917_html_a5c4b00cbc494339ce63882d7404bad27"><div class="ttname"><a href="a00917.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a></div><div class="ttdeci">#define XFUNC(name)</div><div class="ttdef"><b>Definition:</b> <a href="a00917_source.html#l00068">_string.h:68</a></div></div>
+<div class="ttc" id="aa00917_html_aee081742fbd47c91e70de0b86a84a1be"><div class="ttname"><a href="a00917.html#aee081742fbd47c91e70de0b86a84a1be">xstrlen</a></div><div class="ttdeci">#define xstrlen</div><div class="ttdef"><b>Definition:</b> <a href="a00917_source.html#l00071">_string.h:71</a></div></div>
+<div class="ttc" id="aa00917_html_a234f7ec71c9c19ed532c4bf11a9b9b8e"><div class="ttname"><a href="a00917.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a></div><div class="ttdeci">#define xchar</div><div class="ttdef"><b>Definition:</b> <a href="a00917_source.html#l00070">_string.h:70</a></div></div>
+<div class="ttc" id="aa00953_html"><div class="ttname"><a href="a00953.html">strncpy.c</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

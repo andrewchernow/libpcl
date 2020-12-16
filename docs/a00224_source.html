@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/crypto/cipher_free.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/buf/buf_putint64.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,17 +62,17 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_4261af1259721e3e39e0d2dd7354b511.html">&#x202A;crypto</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_c75ab398b767e7b486366c424da2e3a8.html">&#x202A;buf</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">cipher_free.c</div>  </div>
+<div class="title">buf_putint64.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00224.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (PCL)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2003, 2005-2014, 2017-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,23 +101,32 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00215.html">_crypto.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">void</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01109.html#ga797e2d34e0ed272c3c74c580e1891747">   35</a></span>&#160;<a class="code" href="a01109.html#ga797e2d34e0ed272c3c74c580e1891747">pcl_cipher_free</a>(<a class="code" href="a01204.html">pcl_cipher_t</a> *ciph)</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordflow">if</span>(ciph)</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    EVP_CIPHER_CTX_free(ciph-&gt;<a class="code" href="a01204.html#a8b0e08a9c8eb05578c35571f2f2767ab">ctx</a>);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="a01106.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(ciph);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  }</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00170.html">_buf.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00077.html">pcl/net.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#ifdef PCL_LINUX</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor"># include &lt;endian.h&gt;</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor"># define htonll htobe64</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="a01193.html#ga0ee361a93adbfe5aef9aa3e6f54dc70e">   41</a></span>&#160;<a class="code" href="a01193.html#ga0ee361a93adbfe5aef9aa3e6f54dc70e">pcl_buf_putint64</a>(<a class="code" href="a01217.html">pcl_buf_t</a> *b, uint64_t i)</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordflow">if</span>(!b || b-&gt;<a class="code" href="a01217.html#aa3c645ba44135114a8900bfa8a0b9407">mode</a> != <a class="code" href="a01193.html#ggafcd56f00f1c963d6f6f844f1df84f0f9aabe00de48aebc854e4ff2254b21988dc">PclBufBinary</a>)</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01198.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a>();</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  i = htonll(i);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01193.html#gaa753cac8202932d5aefa84a136fe3d45">pcl_buf_put</a>(b, &amp;i, <span class="keyword">sizeof</span>(uint64_t));</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01204_html_a8b0e08a9c8eb05578c35571f2f2767ab"><div class="ttname"><a href="a01204.html#a8b0e08a9c8eb05578c35571f2f2767ab">tag_pcl_cipher::ctx</a></div><div class="ttdeci">EVP_CIPHER_CTX * ctx</div><div class="ttdef"><b>Definition:</b> <a href="a00215_source.html#l00046">_crypto.h:46</a></div></div>
-<div class="ttc" id="aa01204_html"><div class="ttname"><a href="a01204.html">tag_pcl_cipher</a></div><div class="ttdef"><b>Definition:</b> <a href="a00215_source.html#l00044">_crypto.h:45</a></div></div>
-<div class="ttc" id="aa01106_html_gab88b901c82e1010555b08ff6d39490f2"><div class="ttname"><a href="a01106.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a></div><div class="ttdeci">void * pcl_free(void *p)</div><div class="ttdoc">Free memory space.</div></div>
-<div class="ttc" id="aa01109_html_ga797e2d34e0ed272c3c74c580e1891747"><div class="ttname"><a href="a01109.html#ga797e2d34e0ed272c3c74c580e1891747">pcl_cipher_free</a></div><div class="ttdeci">void pcl_cipher_free(pcl_cipher_t *ciph)</div><div class="ttdoc">Release all resources used by a cipher object.</div><div class="ttdef"><b>Definition:</b> <a href="a00224_source.html#l00035">cipher_free.c:35</a></div></div>
-<div class="ttc" id="aa00215_html"><div class="ttname"><a href="a00215.html">_crypto.h</a></div></div>
+<div class="ttc" id="aa01217_html_aa3c645ba44135114a8900bfa8a0b9407"><div class="ttname"><a href="a01217.html#aa3c645ba44135114a8900bfa8a0b9407">tag_pcl_buf::mode</a></div><div class="ttdeci">enum pcl_buf_mode mode</div><div class="ttdoc">buffer mode, see pcl_buf_mode</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00322">buf.h:130</a></div></div>
+<div class="ttc" id="aa01198_html_gab052d4faa8fd25e1a13e86ecd4aafa38"><div class="ttname"><a href="a01198.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a></div><div class="ttdeci">#define BADARG()</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00306">_errdefs.h:306</a></div></div>
+<div class="ttc" id="aa01193_html_gaa753cac8202932d5aefa84a136fe3d45"><div class="ttname"><a href="a01193.html#gaa753cac8202932d5aefa84a136fe3d45">pcl_buf_put</a></div><div class="ttdeci">PCL_EXPORT int pcl_buf_put(pcl_buf_t *b, const void *data, int len)</div><div class="ttdoc">Put a blob into a buffer.</div><div class="ttdef"><b>Definition:</b> <a href="a00209_source.html#l00036">buf_put.c:36</a></div></div>
+<div class="ttc" id="aa01217_html"><div class="ttname"><a href="a01217.html">tag_pcl_buf</a></div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00127">buf.h:128</a></div></div>
+<div class="ttc" id="aa01193_html_ga0ee361a93adbfe5aef9aa3e6f54dc70e"><div class="ttname"><a href="a01193.html#ga0ee361a93adbfe5aef9aa3e6f54dc70e">pcl_buf_putint64</a></div><div class="ttdeci">int pcl_buf_putint64(pcl_buf_t *b, uint64_t i)</div><div class="ttdoc">Puts a 64-bit integer into a buffer in network-byte order.</div><div class="ttdef"><b>Definition:</b> <a href="a00224_source.html#l00041">buf_putint64.c:41</a></div></div>
+<div class="ttc" id="aa01193_html_ggafcd56f00f1c963d6f6f844f1df84f0f9aabe00de48aebc854e4ff2254b21988dc"><div class="ttname"><a href="a01193.html#ggafcd56f00f1c963d6f6f844f1df84f0f9aabe00de48aebc854e4ff2254b21988dc">PclBufBinary</a></div><div class="ttdeci">@ PclBufBinary</div><div class="ttdoc">Binary buffer mode.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00111">buf.h:111</a></div></div>
+<div class="ttc" id="aa00170_html"><div class="ttname"><a href="a00170.html">_buf.h</a></div></div>
+<div class="ttc" id="aa00077_html"><div class="ttname"><a href="a00077.html">net.h</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

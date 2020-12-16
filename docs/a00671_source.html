@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/process/unsetenv.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/json/json_string.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,12 +62,12 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_c0cd66d8ddae4fc5bc5dc2f24e29763b.html">&#x202A;process</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_da4c9dd239018fe26269ba2e1cf7c9a1.html">&#x202A;json</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">unsetenv.c</div>  </div>
+<div class="title">json_string.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00671.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,33 +101,68 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00638.html">_process.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00044.html">pcl/error.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01120.html#ga664ead6ff59373f6eb600298c26837c2">   36</a></span>&#160;<a class="code" href="a01120.html#ga664ead6ff59373f6eb600298c26837c2">pcl_unsetenv</a>(<span class="keyword">const</span> <a class="code" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *name)</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordtype">int</span> r;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a00035.html#a8278668d120afdd0e47def881845559d">strempty</a>(name))</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01113.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a>();</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  r = SetEnvironmentVariable(name, NULL) ? 0 : -1;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  r = unsetenv(name);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00596.html">_json.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00092.html">pcl/string.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<a class="code" href="a01245.html">pcl_json_t</a> *</div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="a01204.html#ga0299d82951fb7cc27947eba6b4f0a926">   37</a></span>&#160;<a class="code" href="a01204.html#ga0299d82951fb7cc27947eba6b4f0a926">pcl_json_string</a>(<span class="keywordtype">char</span> *str, <span class="keywordtype">size_t</span> len, uint32_t flags)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordflow">if</span>(!str)</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01198.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a>(NULL, <a class="code" href="a01197.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordflow">if</span>(!(flags &amp; <a class="code" href="a01204.html#ga93241fc744b23f871f23a05d0685068f">PCL_JSON_SKIPUTF8CHK</a>) &amp;&amp; <a class="code" href="a00596.html#a5b3d3670d7b39a5c0e895c1f20f1929d">ipcl_json_utf8check</a>(str, len) &lt; 0)</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01198.html#gaa978c8c7faa5fc2f69a6641e054e519d">R_TRC</a>(NULL);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <a class="code" href="a01245.html">pcl_json_t</a> *val = <a class="code" href="a01190.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a>(<span class="keyword">sizeof</span>(<a class="code" href="a01245.html">pcl_json_t</a>));</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  val-&gt;<a class="code" href="a01245.html#aff17911edc8208aa8ddb1c7c52c78389">type</a> = <span class="charliteral">&#39;s&#39;</span>;</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="keywordflow">return</span> r ? <a class="code" href="a01113.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>() : 0;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;}</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="keywordflow">if</span>(flags &amp; <a class="code" href="a01204.html#ga8e0e1d42b45f580263ecef865b1fbf5e">PCL_JSON_SHALLOW</a>)</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  {</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="comment">/* must be NUL-terminated, documented as such */</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">if</span>(len == 0)</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    {</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      val-&gt;<a class="code" href="a01245.html#aed1cfb225a5fb77461e7972691e68a72">string</a> = str;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    }</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    {</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      <span class="comment">/* json strings MUST be NUL-terminated, ensure we can add a NUL. In many cases,</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment">       * the realloc is a no-op since most string allocations are larger than &quot;len&quot;.</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment">       */</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      val-&gt;<a class="code" href="a01245.html#aed1cfb225a5fb77461e7972691e68a72">string</a> = <a class="code" href="a01190.html#ga8ed2d8a28dde302fa8eac0d2e9ce8ea4">pcl_realloc</a>(str, len + 1);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      val-&gt;<a class="code" href="a01245.html#aed1cfb225a5fb77461e7972691e68a72">string</a>[len] = 0;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    }</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  }</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  <span class="keywordflow">else</span> <span class="keywordflow">if</span>(len == 0)</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  {</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    val-&gt;<a class="code" href="a01245.html#aed1cfb225a5fb77461e7972691e68a72">string</a> = <a class="code" href="a01206.html#ga046608776c880d7d3bf39943e692f064">pcl_strdup</a>(str);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  }</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  {</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    val-&gt;<a class="code" href="a01245.html#aed1cfb225a5fb77461e7972691e68a72">string</a> = <a class="code" href="a01206.html#ga76ffbaececfd9e912d39e6e69bfa4b7d">pcl_strndup</a>(str, len);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  }</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  <span class="keywordflow">return</span> val;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00044_html"><div class="ttname"><a href="a00044.html">error.h</a></div></div>
-<div class="ttc" id="aa00104_html_ac114b2b1527c8ae241d37cc15ca7d122"><div class="ttname"><a href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a></div><div class="ttdeci">char pchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00053">types.h:53</a></div></div>
-<div class="ttc" id="aa01120_html_ga664ead6ff59373f6eb600298c26837c2"><div class="ttname"><a href="a01120.html#ga664ead6ff59373f6eb600298c26837c2">pcl_unsetenv</a></div><div class="ttdeci">int pcl_unsetenv(const pchar_t *name)</div><div class="ttdoc">Unset an environment variable.</div><div class="ttdef"><b>Definition:</b> <a href="a00671_source.html#l00036">unsetenv.c:36</a></div></div>
-<div class="ttc" id="aa00035_html_a8278668d120afdd0e47def881845559d"><div class="ttname"><a href="a00035.html#a8278668d120afdd0e47def881845559d">strempty</a></div><div class="ttdeci">#define strempty(str)</div><div class="ttdef"><b>Definition:</b> <a href="a00035_source.html#l00124">defs.h:124</a></div></div>
-<div class="ttc" id="aa00638_html"><div class="ttname"><a href="a00638.html">_process.h</a></div></div>
-<div class="ttc" id="aa01113_html_gab052d4faa8fd25e1a13e86ecd4aafa38"><div class="ttname"><a href="a01113.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a></div><div class="ttdeci">#define BADARG()</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00306">_errdefs.h:306</a></div></div>
-<div class="ttc" id="aa01113_html_ga89b8bfbe17595305872551a1caaa5702"><div class="ttname"><a href="a01113.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a></div><div class="ttdeci">#define SETLASTERR()</div><div class="ttdoc">Sets the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00125">_errdefs.h:125</a></div></div>
+<div class="ttc" id="aa01245_html_aff17911edc8208aa8ddb1c7c52c78389"><div class="ttname"><a href="a01245.html#aff17911edc8208aa8ddb1c7c52c78389">tag_pcl_json::type</a></div><div class="ttdeci">char type</div><div class="ttdoc">JSON type: 0=null, 'r'=real, 'i'=integer, 'b'=bool, 's'=string, 'a'=array, 'o'=object Both real and i...</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00064">json.h:64</a></div></div>
+<div class="ttc" id="aa01204_html_ga8e0e1d42b45f580263ecef865b1fbf5e"><div class="ttname"><a href="a01204.html#ga8e0e1d42b45f580263ecef865b1fbf5e">PCL_JSON_SHALLOW</a></div><div class="ttdeci">#define PCL_JSON_SHALLOW</div><div class="ttdoc">Shallow copy string.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00052">json.h:52</a></div></div>
+<div class="ttc" id="aa01198_html_gae8eaed12aa57a2870ad8e45cc2306318"><div class="ttname"><a href="a01198.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a></div><div class="ttdeci">#define R_SETERR(_retval, _pclerr)</div><div class="ttdoc">Sets the return value and the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00145">_errdefs.h:145</a></div></div>
+<div class="ttc" id="aa01204_html_ga93241fc744b23f871f23a05d0685068f"><div class="ttname"><a href="a01204.html#ga93241fc744b23f871f23a05d0685068f">PCL_JSON_SKIPUTF8CHK</a></div><div class="ttdeci">#define PCL_JSON_SKIPUTF8CHK</div><div class="ttdoc">Skip UTF-8 validation.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00046">json.h:46</a></div></div>
+<div class="ttc" id="aa00596_html_a5b3d3670d7b39a5c0e895c1f20f1929d"><div class="ttname"><a href="a00596.html#a5b3d3670d7b39a5c0e895c1f20f1929d">ipcl_json_utf8check</a></div><div class="ttdeci">int ipcl_json_utf8check(const char *s, size_t len)</div><div class="ttdef"><b>Definition:</b> <a href="a00677_source.html#l00051">json_utf8check.c:51</a></div></div>
+<div class="ttc" id="aa01245_html"><div class="ttname"><a href="a01245.html">tag_pcl_json</a></div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00059">json.h:60</a></div></div>
+<div class="ttc" id="aa00596_html"><div class="ttname"><a href="a00596.html">_json.h</a></div></div>
+<div class="ttc" id="aa01206_html_ga76ffbaececfd9e912d39e6e69bfa4b7d"><div class="ttname"><a href="a01206.html#ga76ffbaececfd9e912d39e6e69bfa4b7d">pcl_strndup</a></div><div class="ttdeci">PCL_EXPORT char * pcl_strndup(const char *s, size_t len)</div><div class="ttdoc">Duplicate a portion of a string.</div></div>
+<div class="ttc" id="aa01204_html_ga0299d82951fb7cc27947eba6b4f0a926"><div class="ttname"><a href="a01204.html#ga0299d82951fb7cc27947eba6b4f0a926">pcl_json_string</a></div><div class="ttdeci">pcl_json_t * pcl_json_string(char *str, size_t len, uint32_t flags)</div><div class="ttdef"><b>Definition:</b> <a href="a00671_source.html#l00037">json_string.c:37</a></div></div>
+<div class="ttc" id="aa01190_html_ga1df8575b9ae906470c782db9c26201e8"><div class="ttname"><a href="a01190.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a></div><div class="ttdeci">void * pcl_malloc(size_t n)</div><div class="ttdoc">Allocate dynamic memory.</div></div>
+<div class="ttc" id="aa01198_html_gaa978c8c7faa5fc2f69a6641e054e519d"><div class="ttname"><a href="a01198.html#gaa978c8c7faa5fc2f69a6641e054e519d">R_TRC</a></div><div class="ttdeci">#define R_TRC(_retval)</div><div class="ttdoc">Sets the return value and adds a stack trace to the current thread's error.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00287">_errdefs.h:287</a></div></div>
+<div class="ttc" id="aa01245_html_aed1cfb225a5fb77461e7972691e68a72"><div class="ttname"><a href="a01245.html#aed1cfb225a5fb77461e7972691e68a72">tag_pcl_json::string</a></div><div class="ttdeci">char * string</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00071">json.h:71</a></div></div>
+<div class="ttc" id="aa01197_html_gae0cd5c5a7fae36cd480176bda17e77ca"><div class="ttname"><a href="a01197.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a></div><div class="ttdeci">#define PCL_EINVAL</div><div class="ttdoc">Invalid argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00078">_errno.h:78</a></div></div>
+<div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
+<div class="ttc" id="aa01190_html_ga8ed2d8a28dde302fa8eac0d2e9ce8ea4"><div class="ttname"><a href="a01190.html#ga8ed2d8a28dde302fa8eac0d2e9ce8ea4">pcl_realloc</a></div><div class="ttdeci">void * pcl_realloc(void *p, size_t n)</div><div class="ttdoc">Re-allocate dynamic memory.</div></div>
+<div class="ttc" id="aa00092_html"><div class="ttname"><a href="a00092.html">string.h</a></div></div>
+<div class="ttc" id="aa01206_html_ga046608776c880d7d3bf39943e692f064"><div class="ttname"><a href="a01206.html#ga046608776c880d7d3bf39943e692f064">pcl_strdup</a></div><div class="ttdeci">char * pcl_strdup(const char *s)</div><div class="ttdoc">Duplicate a string.</div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

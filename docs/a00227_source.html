@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/crypto/cipher_isaead.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/buf/buf_putint8.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,12 +62,12 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_4261af1259721e3e39e0d2dd7354b511.html">&#x202A;crypto</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_c75ab398b767e7b486366c424da2e3a8.html">&#x202A;buf</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">cipher_isaead.c</div>  </div>
+<div class="title">buf_putint8.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00227.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,21 +101,23 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00215.html">_crypto.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00089.html">pcl/string.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">bool</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01109.html#gaf700e3bca6f3926a52d44950ec37373a">   36</a></span>&#160;<a class="code" href="a01109.html#gaf700e3bca6f3926a52d44950ec37373a">pcl_cipher_isaead</a>(<a class="code" href="a01204.html">pcl_cipher_t</a> *ciph)</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">return</span> ciph &amp;&amp; <a class="code" href="a01121.html#ga418e36a6f95e23978919f855c1ee3e03">pcl_stristr</a>(ciph-&gt;<a class="code" href="a01204.html#a47b93ea34665686e1ff9a7256106f85e">algo</a>, <span class="stringliteral">&quot;-cbc&quot;</span>) == NULL;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00170.html">_buf.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01193.html#ga0c1e15f9aaafb95cf776802a5370d0c6">   35</a></span>&#160;<a class="code" href="a01193.html#ga0c1e15f9aaafb95cf776802a5370d0c6">pcl_buf_putint8</a>(<a class="code" href="a01217.html">pcl_buf_t</a> *b, uint8_t i)</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordflow">if</span>(b &amp;&amp; b-&gt;<a class="code" href="a01217.html#aa3c645ba44135114a8900bfa8a0b9407">mode</a> == <a class="code" href="a01193.html#ggafcd56f00f1c963d6f6f844f1df84f0f9aabe00de48aebc854e4ff2254b21988dc">PclBufBinary</a>)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01193.html#gaa753cac8202932d5aefa84a136fe3d45">pcl_buf_put</a>(b, &amp;i, <span class="keyword">sizeof</span>(uint8_t));</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01198.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a>();</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01109_html_gaf700e3bca6f3926a52d44950ec37373a"><div class="ttname"><a href="a01109.html#gaf700e3bca6f3926a52d44950ec37373a">pcl_cipher_isaead</a></div><div class="ttdeci">bool pcl_cipher_isaead(pcl_cipher_t *ciph)</div><div class="ttdoc">I this an AEAD cipher.</div><div class="ttdef"><b>Definition:</b> <a href="a00227_source.html#l00036">cipher_isaead.c:36</a></div></div>
-<div class="ttc" id="aa01204_html"><div class="ttname"><a href="a01204.html">tag_pcl_cipher</a></div><div class="ttdef"><b>Definition:</b> <a href="a00215_source.html#l00044">_crypto.h:45</a></div></div>
-<div class="ttc" id="aa01204_html_a47b93ea34665686e1ff9a7256106f85e"><div class="ttname"><a href="a01204.html#a47b93ea34665686e1ff9a7256106f85e">tag_pcl_cipher::algo</a></div><div class="ttdeci">const char * algo</div><div class="ttdef"><b>Definition:</b> <a href="a00215_source.html#l00047">_crypto.h:47</a></div></div>
-<div class="ttc" id="aa01121_html_ga418e36a6f95e23978919f855c1ee3e03"><div class="ttname"><a href="a01121.html#ga418e36a6f95e23978919f855c1ee3e03">pcl_stristr</a></div><div class="ttdeci">char * pcl_stristr(const char *haystack, const char *needle)</div><div class="ttdoc">Locate a substring ignoring case.</div></div>
-<div class="ttc" id="aa00089_html"><div class="ttname"><a href="a00089.html">string.h</a></div></div>
-<div class="ttc" id="aa00215_html"><div class="ttname"><a href="a00215.html">_crypto.h</a></div></div>
+<div class="ttc" id="aa01193_html_ga0c1e15f9aaafb95cf776802a5370d0c6"><div class="ttname"><a href="a01193.html#ga0c1e15f9aaafb95cf776802a5370d0c6">pcl_buf_putint8</a></div><div class="ttdeci">int pcl_buf_putint8(pcl_buf_t *b, uint8_t i)</div><div class="ttdoc">Put an 8-bit integer into a buffer.</div><div class="ttdef"><b>Definition:</b> <a href="a00227_source.html#l00035">buf_putint8.c:35</a></div></div>
+<div class="ttc" id="aa01217_html_aa3c645ba44135114a8900bfa8a0b9407"><div class="ttname"><a href="a01217.html#aa3c645ba44135114a8900bfa8a0b9407">tag_pcl_buf::mode</a></div><div class="ttdeci">enum pcl_buf_mode mode</div><div class="ttdoc">buffer mode, see pcl_buf_mode</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00322">buf.h:130</a></div></div>
+<div class="ttc" id="aa01198_html_gab052d4faa8fd25e1a13e86ecd4aafa38"><div class="ttname"><a href="a01198.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a></div><div class="ttdeci">#define BADARG()</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00306">_errdefs.h:306</a></div></div>
+<div class="ttc" id="aa01193_html_gaa753cac8202932d5aefa84a136fe3d45"><div class="ttname"><a href="a01193.html#gaa753cac8202932d5aefa84a136fe3d45">pcl_buf_put</a></div><div class="ttdeci">PCL_EXPORT int pcl_buf_put(pcl_buf_t *b, const void *data, int len)</div><div class="ttdoc">Put a blob into a buffer.</div><div class="ttdef"><b>Definition:</b> <a href="a00209_source.html#l00036">buf_put.c:36</a></div></div>
+<div class="ttc" id="aa01217_html"><div class="ttname"><a href="a01217.html">tag_pcl_buf</a></div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00127">buf.h:128</a></div></div>
+<div class="ttc" id="aa01193_html_ggafcd56f00f1c963d6f6f844f1df84f0f9aabe00de48aebc854e4ff2254b21988dc"><div class="ttname"><a href="a01193.html#ggafcd56f00f1c963d6f6f844f1df84f0f9aabe00de48aebc854e4ff2254b21988dc">PclBufBinary</a></div><div class="ttdeci">@ PclBufBinary</div><div class="ttdoc">Binary buffer mode.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00111">buf.h:111</a></div></div>
+<div class="ttc" id="aa00170_html"><div class="ttname"><a href="a00170.html">_buf.h</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

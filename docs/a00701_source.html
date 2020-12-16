@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/socket/select.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/net/net_dns2pcl.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,12 +62,12 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_9ad1227260954e346101f3844f0abb3d.html">&#x202A;socket</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_c72b25b75abe208498b36a3e44a3726c.html">&#x202A;net</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">select.c</div>  </div>
+<div class="title">net_dns2pcl.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00701.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,63 +101,31 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00680.html">_socket.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00101.html">pcl/time.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00044.html">pcl/error.h</a>&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="a00701.html#a0e415cddb336095985fe5da394e93075">   37</a></span>&#160;<a class="code" href="a00701.html#a0e415cddb336095985fe5da394e93075">pcl_select</a>(<span class="keywordtype">int</span> fds, fd_set *rset, fd_set *wset, fd_set *eset, <span class="keyword">struct</span> timeval *tv)</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordtype">int</span> n;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <a class="code" href="a00104.html#a05032dd43160d7b24f8ded03431fc748">pcl_clock_t</a> start = 0;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keyword">struct </span>timeval tv_orig = {0, 0};</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordflow">if</span>(tv)</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  {</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    tv_orig = *tv;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    start = <a class="code" href="a00101.html#a830f82e1c662586f44299fc0979713c9">pcl_clock</a>();</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  }</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  n = select(fds, rset, wset, eset, tv);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <span class="comment">/* update timeval. */</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="keywordflow">if</span>(tv)</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  {</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="comment">/* success or failure, update timeval in either case */</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">if</span>(n != 0)</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    {</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      int64_t diff = (int64_t) <a class="code" href="a00101.html#ae544805a2554b9ff227f9aa0621c991a">pcl_usecdiff</a>(start, <a class="code" href="a00101.html#a830f82e1c662586f44299fc0979713c9">pcl_clock</a>());</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      tv-&gt;tv_sec = (long) (tv_orig.tv_sec - (diff / <a class="code" href="a00101.html#a44fad6f0051928cde82c0515fc783e3d">PCL_USECS</a>));</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;      tv-&gt;tv_usec = (long) (tv_orig.tv_usec - (diff % <a class="code" href="a00101.html#a44fad6f0051928cde82c0515fc783e3d">PCL_USECS</a>));</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    }</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      <span class="comment">/* timeout, set to zero */</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    {</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;      tv-&gt;tv_sec = tv-&gt;tv_usec = 0;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    }</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  }</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <span class="keywordflow">if</span>(n == 0)</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01113.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a>(0, <a class="code" href="a01112.html#ga62b676c68db3b95ff4b28cbe5a4083e1">PCL_ETIMEOUT</a>);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  <span class="keywordflow">if</span>(n &gt; 0)</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordflow">return</span> n;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  <span class="comment">/* failed */</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01113.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00689.html">_net.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a00701.html#a82e8a662e9b4bac96c10a6538d7778aa">   35</a></span>&#160;<a class="code" href="a00701.html#a82e8a662e9b4bac96c10a6538d7778aa">pcl_net_dns2pcl</a>(<span class="keywordtype">int</span> err)</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordflow">switch</span>(err)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  {</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">case</span> HOST_NOT_FOUND: <span class="keywordflow">return</span> <a class="code" href="a01197.html#ga055e984046a3aadd432d343396b9c73a">PCL_EHOSTNOTFOUND</a>;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordflow">case</span> TRY_AGAIN:      <span class="keywordflow">return</span> <a class="code" href="a01197.html#gae8d8c032afaa7fd7fe25abdb520331e2">PCL_EAGAIN</a>;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">case</span> NO_RECOVERY:    <span class="keywordflow">return</span> <a class="code" href="a01197.html#ga61f92b6ed6e604812075f590f28f8f99">PCL_ENORECOVERY</a>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">case</span> NO_DATA:        <span class="keywordflow">return</span> <a class="code" href="a01197.html#gaf558edfaee713005b685551cd684b433">PCL_ENODATA</a>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  }</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="comment">/* likely this is NETDB_INTERNAL on Unixes */</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01196.html#ga3ff5c98b765df74bd305d2e56e9b4f31">pcl_err_os2pcl</a>(<a class="code" href="a01196.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a>);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00101_html_a44fad6f0051928cde82c0515fc783e3d"><div class="ttname"><a href="a00101.html#a44fad6f0051928cde82c0515fc783e3d">PCL_USECS</a></div><div class="ttdeci">#define PCL_USECS</div><div class="ttdef"><b>Definition:</b> <a href="a00101_source.html#l00046">time.h:46</a></div></div>
-<div class="ttc" id="aa00044_html"><div class="ttname"><a href="a00044.html">error.h</a></div></div>
-<div class="ttc" id="aa00101_html"><div class="ttname"><a href="a00101.html">time.h</a></div></div>
-<div class="ttc" id="aa00680_html"><div class="ttname"><a href="a00680.html">_socket.h</a></div></div>
-<div class="ttc" id="aa00104_html_a05032dd43160d7b24f8ded03431fc748"><div class="ttname"><a href="a00104.html#a05032dd43160d7b24f8ded03431fc748">pcl_clock_t</a></div><div class="ttdeci">long double pcl_clock_t</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00060">types.h:60</a></div></div>
-<div class="ttc" id="aa00701_html_a0e415cddb336095985fe5da394e93075"><div class="ttname"><a href="a00701.html#a0e415cddb336095985fe5da394e93075">pcl_select</a></div><div class="ttdeci">int pcl_select(int fds, fd_set *rset, fd_set *wset, fd_set *eset, struct timeval *tv)</div><div class="ttdef"><b>Definition:</b> <a href="a00701_source.html#l00037">select.c:37</a></div></div>
-<div class="ttc" id="aa00101_html_a830f82e1c662586f44299fc0979713c9"><div class="ttname"><a href="a00101.html#a830f82e1c662586f44299fc0979713c9">pcl_clock</a></div><div class="ttdeci">PCL_EXPORT pcl_clock_t pcl_clock(void)</div><div class="ttdef"><b>Definition:</b> <a href="a00971_source.html#l00036">clock.c:36</a></div></div>
-<div class="ttc" id="aa00101_html_ae544805a2554b9ff227f9aa0621c991a"><div class="ttname"><a href="a00101.html#ae544805a2554b9ff227f9aa0621c991a">pcl_usecdiff</a></div><div class="ttdeci">PCL_INLINE pcl_clock_t pcl_usecdiff(pcl_clock_t start, pcl_clock_t end)</div><div class="ttdef"><b>Definition:</b> <a href="a00101_source.html#l00146">time.h:146</a></div></div>
-<div class="ttc" id="aa01113_html_ga89b8bfbe17595305872551a1caaa5702"><div class="ttname"><a href="a01113.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a></div><div class="ttdeci">#define SETLASTERR()</div><div class="ttdoc">Sets the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00125">_errdefs.h:125</a></div></div>
-<div class="ttc" id="aa01112_html_ga62b676c68db3b95ff4b28cbe5a4083e1"><div class="ttname"><a href="a01112.html#ga62b676c68db3b95ff4b28cbe5a4083e1">PCL_ETIMEOUT</a></div><div class="ttdeci">#define PCL_ETIMEOUT</div><div class="ttdoc">Operation timed out.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00158">_errno.h:158</a></div></div>
-<div class="ttc" id="aa01113_html_gae8eaed12aa57a2870ad8e45cc2306318"><div class="ttname"><a href="a01113.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a></div><div class="ttdeci">#define R_SETERR(_retval, _pclerr)</div><div class="ttdoc">Sets the return value and the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00145">_errdefs.h:145</a></div></div>
+<div class="ttc" id="aa01197_html_gae8d8c032afaa7fd7fe25abdb520331e2"><div class="ttname"><a href="a01197.html#gae8d8c032afaa7fd7fe25abdb520331e2">PCL_EAGAIN</a></div><div class="ttdeci">#define PCL_EAGAIN</div><div class="ttdoc">Try again.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00048">_errno.h:48</a></div></div>
+<div class="ttc" id="aa01197_html_ga61f92b6ed6e604812075f590f28f8f99"><div class="ttname"><a href="a01197.html#ga61f92b6ed6e604812075f590f28f8f99">PCL_ENORECOVERY</a></div><div class="ttdeci">#define PCL_ENORECOVERY</div><div class="ttdoc">Non recoverable errors, FORMERR, REFUSED, NOTIMP.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00287">_errno.h:287</a></div></div>
+<div class="ttc" id="aa01197_html_ga055e984046a3aadd432d343396b9c73a"><div class="ttname"><a href="a01197.html#ga055e984046a3aadd432d343396b9c73a">PCL_EHOSTNOTFOUND</a></div><div class="ttdeci">#define PCL_EHOSTNOTFOUND</div><div class="ttdoc">Authoritative Answer: Host not found.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00283">_errno.h:283</a></div></div>
+<div class="ttc" id="aa00701_html_a82e8a662e9b4bac96c10a6538d7778aa"><div class="ttname"><a href="a00701.html#a82e8a662e9b4bac96c10a6538d7778aa">pcl_net_dns2pcl</a></div><div class="ttdeci">int pcl_net_dns2pcl(int err)</div><div class="ttdef"><b>Definition:</b> <a href="a00701_source.html#l00035">net_dns2pcl.c:35</a></div></div>
+<div class="ttc" id="aa01196_html_ga3646b2825d51326a06f25e597f883555"><div class="ttname"><a href="a01196.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a></div><div class="ttdeci">#define pcl_oserrno</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00185">error.h:185</a></div></div>
+<div class="ttc" id="aa01196_html_ga3ff5c98b765df74bd305d2e56e9b4f31"><div class="ttname"><a href="a01196.html#ga3ff5c98b765df74bd305d2e56e9b4f31">pcl_err_os2pcl</a></div><div class="ttdeci">PCL_EXPORT int pcl_err_os2pcl(uint32_t oserr)</div><div class="ttdef"><b>Definition:</b> <a href="a00371_source.html#l00035">err_os2pcl.c:35</a></div></div>
+<div class="ttc" id="aa00689_html"><div class="ttname"><a href="a00689.html">_net.h</a></div></div>
+<div class="ttc" id="aa01197_html_gaf558edfaee713005b685551cd684b433"><div class="ttname"><a href="a01197.html#gaf558edfaee713005b685551cd684b433">PCL_ENODATA</a></div><div class="ttdeci">#define PCL_ENODATA</div><div class="ttdoc">The requested name is valid but does not have an IP address.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00289">_errno.h:289</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

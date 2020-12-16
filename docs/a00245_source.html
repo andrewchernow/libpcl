@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/crypto/digest_final.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/crypto/cipher_final.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">digest_final.c</div>  </div>
+<div class="title">cipher_final.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00245.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,43 +101,44 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00215.html">_crypto.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00089.html">string.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">void</span> *</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01109.html#gafee7772ad4618e66f21ab13722198689">   36</a></span>&#160;<a class="code" href="a01109.html#gafee7772ad4618e66f21ab13722198689">pcl_digest_final</a>(<a class="code" href="a01208.html">pcl_digest_t</a> *d, <span class="keywordtype">int</span> *lenp)</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">if</span>(!d)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01113.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a>(NULL, <a class="code" href="a01112.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> mdlen;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> buf[EVP_MAX_MD_SIZE];</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keywordtype">int</span> r = EVP_DigestFinal_ex(d-&gt;<a class="code" href="a01208.html#ab96dd86ce4a562051102939f8e524798">ctx</a>, buf, &amp;mdlen);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordflow">if</span>(r == 0)</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01113.html#ga275b0cc5367d35bf8d2873fe5e15878b">R_SETERRMSG</a>(NULL, <a class="code" href="a01112.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>, <span class="stringliteral">&quot;Finalizing digest failed: &#39;%s&#39;&quot;</span>, d-&gt;<a class="code" href="a01208.html#a47b93ea34665686e1ff9a7256106f85e">algo</a>);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="keywordflow">if</span>(lenp)</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    *lenp = (int) mdlen;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00239.html">_crypto.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01194.html#ga66bdb7a39c0dc153e756a723689b8b2c">   35</a></span>&#160;<a class="code" href="a01194.html#ga66bdb7a39c0dc153e756a723689b8b2c">pcl_cipher_final</a>(<a class="code" href="a01293.html">pcl_cipher_t</a> *ciph, <span class="keywordtype">char</span> *out, <span class="keywordtype">char</span> *tag)</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordflow">if</span>(!ciph || !out)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01198.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a>();</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordtype">int</span> out_len;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordtype">int</span> enc = EVP_CIPHER_CTX_encrypting(ciph-&gt;<a class="code" href="a01293.html#a8b0e08a9c8eb05578c35571f2f2767ab">ctx</a>);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="comment">/* when given a tag on decrypt, using an AEAD cipher, set the tag value */</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keywordflow">if</span>(tag &amp;&amp; !enc &amp;&amp; <a class="code" href="a01194.html#gaf700e3bca6f3926a52d44950ec37373a">pcl_cipher_isaead</a>(ciph))</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordflow">if</span>(EVP_CIPHER_CTX_ctrl(ciph-&gt;<a class="code" href="a01293.html#a8b0e08a9c8eb05578c35571f2f2767ab">ctx</a>, EVP_CTRL_AEAD_SET_TAG, <a class="code" href="a01194.html#ga615f2fdc1db28d631f5750b835cc1147">PCL_AEAD_TAGLEN</a>, tag) == 0)</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01198.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a>(<a class="code" href="a01197.html#gaff9e807ddf8cadf26cd1c7218f8f24d6">PCL_ECRYPT</a>, <span class="stringliteral">&quot;Failed to set %s decrypt tag value&quot;</span>, ciph-&gt;<a class="code" href="a01293.html#a47b93ea34665686e1ff9a7256106f85e">algo</a>);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keywordflow">if</span>(EVP_CipherFinal_ex(ciph-&gt;<a class="code" href="a01293.html#a8b0e08a9c8eb05578c35571f2f2767ab">ctx</a>, (<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> *) out, &amp;out_len) == 0)</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01198.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a>(<a class="code" href="a01197.html#gaff9e807ddf8cadf26cd1c7218f8f24d6">PCL_ECRYPT</a>, <span class="stringliteral">&quot;Failed to %s %s final block&quot;</span>, ciph-&gt;<a class="code" href="a01293.html#a47b93ea34665686e1ff9a7256106f85e">algo</a>,</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      enc ? <span class="stringliteral">&quot;encrypt&quot;</span> : <span class="stringliteral">&quot;decrypt&quot;</span>);</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="comment">/* re-initialize so caller can start a new digest: update calls and final */</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  (void) EVP_DigestInit_ex(d-&gt;<a class="code" href="a01208.html#ab96dd86ce4a562051102939f8e524798">ctx</a>, d-&gt;<a class="code" href="a01208.html#abb7f2f40445a754241e3a2c1ebcd52b6">md</a>, NULL);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keywordflow">return</span> memcpy(<a class="code" href="a01106.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a>(mdlen), buf, mdlen);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;}</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="comment">/* when given a tag, using an AEAD cipher, get the generated tag value */</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <span class="keywordflow">if</span>(tag &amp;&amp; enc &amp;&amp; <a class="code" href="a01194.html#gaf700e3bca6f3926a52d44950ec37373a">pcl_cipher_isaead</a>(ciph))</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordflow">if</span>(EVP_CIPHER_CTX_ctrl(ciph-&gt;<a class="code" href="a01293.html#a8b0e08a9c8eb05578c35571f2f2767ab">ctx</a>, EVP_CTRL_AEAD_GET_TAG, <a class="code" href="a01194.html#ga615f2fdc1db28d631f5750b835cc1147">PCL_AEAD_TAGLEN</a>, tag) == 0)</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01198.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a>(<a class="code" href="a01197.html#gaff9e807ddf8cadf26cd1c7218f8f24d6">PCL_ECRYPT</a>, <span class="stringliteral">&quot;Failed to get %s encrypt tag value&quot;</span>, ciph-&gt;<a class="code" href="a01293.html#a47b93ea34665686e1ff9a7256106f85e">algo</a>);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <span class="keywordflow">return</span> out_len;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01109_html_gafee7772ad4618e66f21ab13722198689"><div class="ttname"><a href="a01109.html#gafee7772ad4618e66f21ab13722198689">pcl_digest_final</a></div><div class="ttdeci">void * pcl_digest_final(pcl_digest_t *d, int *lenp)</div><div class="ttdoc">Finalize a digest operation.</div><div class="ttdef"><b>Definition:</b> <a href="a00245_source.html#l00036">digest_final.c:36</a></div></div>
-<div class="ttc" id="aa01112_html_gae0cd5c5a7fae36cd480176bda17e77ca"><div class="ttname"><a href="a01112.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a></div><div class="ttdeci">#define PCL_EINVAL</div><div class="ttdoc">Invalid argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00078">_errno.h:78</a></div></div>
-<div class="ttc" id="aa01208_html_a47b93ea34665686e1ff9a7256106f85e"><div class="ttname"><a href="a01208.html#a47b93ea34665686e1ff9a7256106f85e">tag_pcl_digest::algo</a></div><div class="ttdeci">const char * algo</div><div class="ttdef"><b>Definition:</b> <a href="a00215_source.html#l00054">_crypto.h:54</a></div></div>
-<div class="ttc" id="aa01208_html"><div class="ttname"><a href="a01208.html">tag_pcl_digest</a></div><div class="ttdef"><b>Definition:</b> <a href="a00215_source.html#l00050">_crypto.h:51</a></div></div>
-<div class="ttc" id="aa01106_html_ga1df8575b9ae906470c782db9c26201e8"><div class="ttname"><a href="a01106.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a></div><div class="ttdeci">void * pcl_malloc(size_t n)</div><div class="ttdoc">Allocate dynamic memory.</div></div>
-<div class="ttc" id="aa01208_html_ab96dd86ce4a562051102939f8e524798"><div class="ttname"><a href="a01208.html#ab96dd86ce4a562051102939f8e524798">tag_pcl_digest::ctx</a></div><div class="ttdeci">EVP_MD_CTX * ctx</div><div class="ttdef"><b>Definition:</b> <a href="a00215_source.html#l00053">_crypto.h:53</a></div></div>
-<div class="ttc" id="aa00089_html"><div class="ttname"><a href="a00089.html">string.h</a></div></div>
-<div class="ttc" id="aa01113_html_ga275b0cc5367d35bf8d2873fe5e15878b"><div class="ttname"><a href="a01113.html#ga275b0cc5367d35bf8d2873fe5e15878b">R_SETERRMSG</a></div><div class="ttdeci">#define R_SETERRMSG(_retval, _pclerr, _msgfmt,...)</div><div class="ttdoc">Sets the return value and the current thread's PCL error code and error message.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00174">_errdefs.h:174</a></div></div>
-<div class="ttc" id="aa01208_html_abb7f2f40445a754241e3a2c1ebcd52b6"><div class="ttname"><a href="a01208.html#abb7f2f40445a754241e3a2c1ebcd52b6">tag_pcl_digest::md</a></div><div class="ttdeci">const EVP_MD * md</div><div class="ttdef"><b>Definition:</b> <a href="a00215_source.html#l00052">_crypto.h:52</a></div></div>
-<div class="ttc" id="aa00215_html"><div class="ttname"><a href="a00215.html">_crypto.h</a></div></div>
-<div class="ttc" id="aa01113_html_gae8eaed12aa57a2870ad8e45cc2306318"><div class="ttname"><a href="a01113.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a></div><div class="ttdeci">#define R_SETERR(_retval, _pclerr)</div><div class="ttdoc">Sets the return value and the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00145">_errdefs.h:145</a></div></div>
+<div class="ttc" id="aa01198_html_ga7859a0a1a544c581d53bd7d44ab6805d"><div class="ttname"><a href="a01198.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a></div><div class="ttdeci">#define SETERRMSG(_pclerr, _msgfmt,...)</div><div class="ttdoc">Sets the current thread's PCL error code and error message.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00087">_errdefs.h:87</a></div></div>
+<div class="ttc" id="aa01198_html_gab052d4faa8fd25e1a13e86ecd4aafa38"><div class="ttname"><a href="a01198.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a></div><div class="ttdeci">#define BADARG()</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00306">_errdefs.h:306</a></div></div>
+<div class="ttc" id="aa01194_html_ga615f2fdc1db28d631f5750b835cc1147"><div class="ttname"><a href="a01194.html#ga615f2fdc1db28d631f5750b835cc1147">PCL_AEAD_TAGLEN</a></div><div class="ttdeci">#define PCL_AEAD_TAGLEN</div><div class="ttdef"><b>Definition:</b> <a href="a00035_source.html#l00042">crypto.h:42</a></div></div>
+<div class="ttc" id="aa01293_html_a47b93ea34665686e1ff9a7256106f85e"><div class="ttname"><a href="a01293.html#a47b93ea34665686e1ff9a7256106f85e">tag_pcl_cipher::algo</a></div><div class="ttdeci">const char * algo</div><div class="ttdef"><b>Definition:</b> <a href="a00239_source.html#l00047">_crypto.h:47</a></div></div>
+<div class="ttc" id="aa01197_html_gaff9e807ddf8cadf26cd1c7218f8f24d6"><div class="ttname"><a href="a01197.html#gaff9e807ddf8cadf26cd1c7218f8f24d6">PCL_ECRYPT</a></div><div class="ttdeci">#define PCL_ECRYPT</div><div class="ttdoc">Encryption or decryption failed.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00156">_errno.h:156</a></div></div>
+<div class="ttc" id="aa01194_html_gaf700e3bca6f3926a52d44950ec37373a"><div class="ttname"><a href="a01194.html#gaf700e3bca6f3926a52d44950ec37373a">pcl_cipher_isaead</a></div><div class="ttdeci">PCL_EXPORT bool pcl_cipher_isaead(pcl_cipher_t *ciph)</div><div class="ttdoc">I this an AEAD cipher.</div><div class="ttdef"><b>Definition:</b> <a href="a00251_source.html#l00036">cipher_isaead.c:36</a></div></div>
+<div class="ttc" id="aa00239_html"><div class="ttname"><a href="a00239.html">_crypto.h</a></div></div>
+<div class="ttc" id="aa01293_html_a8b0e08a9c8eb05578c35571f2f2767ab"><div class="ttname"><a href="a01293.html#a8b0e08a9c8eb05578c35571f2f2767ab">tag_pcl_cipher::ctx</a></div><div class="ttdeci">EVP_CIPHER_CTX * ctx</div><div class="ttdef"><b>Definition:</b> <a href="a00239_source.html#l00046">_crypto.h:46</a></div></div>
+<div class="ttc" id="aa01293_html"><div class="ttname"><a href="a01293.html">tag_pcl_cipher</a></div><div class="ttdef"><b>Definition:</b> <a href="a00239_source.html#l00044">_crypto.h:45</a></div></div>
+<div class="ttc" id="aa01194_html_ga66bdb7a39c0dc153e756a723689b8b2c"><div class="ttname"><a href="a01194.html#ga66bdb7a39c0dc153e756a723689b8b2c">pcl_cipher_final</a></div><div class="ttdeci">int pcl_cipher_final(pcl_cipher_t *ciph, char *out, char *tag)</div><div class="ttdoc">Finalize encrypt or decrypt process.</div><div class="ttdef"><b>Definition:</b> <a href="a00245_source.html#l00035">cipher_final.c:35</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

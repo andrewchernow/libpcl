@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/process/unix_proc_path.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/json/json_skipws.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,12 +62,12 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_c0cd66d8ddae4fc5bc5dc2f24e29763b.html">&#x202A;process</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_da4c9dd239018fe26269ba2e1cf7c9a1.html">&#x202A;json</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">unix_proc_path.c</div>  </div>
+<div class="title">json_skipws.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00668.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,52 +101,40 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00638.html">_process.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00044.html">pcl/error.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00089.html">pcl/string.h</a>&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#ifdef PCL_DARWIN</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor"># include &lt;libproc.h&gt;</span> <span class="comment">// proc_pidpath</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<a class="code" href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *</div>
-<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="a01120.html#gaa625964173add23831431d1ab1d48ffc">   41</a></span>&#160;<a class="code" href="a01120.html#gaa625964173add23831431d1ab1d48ffc">pcl_proc_path</a>(pid_t pid)</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordflow">if</span>(pid &lt; 0)</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    pid = <a class="code" href="a01120.html#ga403317a17754c52687615448d3752786">pcl_proc_self</a>();</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#ifdef PCL_LINUX</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordtype">char</span> exe[80];</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keywordtype">char</span> path[4096];</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  sprintf(exe, <span class="stringliteral">&quot;/proc/%d/exe&quot;</span>, pid);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="comment">/* readlink doesn&#39;t terminate buffer, so reserve a NUL */</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <span class="keywordtype">int</span> len = (int) readlink(exe, path, <span class="keyword">sizeof</span>(path) - 1);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">#else // darwin</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordtype">char</span> path[PROC_PIDPATHINFO_SIZE]; <span class="comment">/* proc_pidpath is very picky about buf sizes! */</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <span class="keywordtype">int</span> len = proc_pidpath(pid, path, PROC_PIDPATHINFO_SIZE);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  <span class="keywordflow">if</span>(len == 0)</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    len = -1;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  <span class="keywordflow">if</span>(len &lt; 0)</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01113.html#gad08a56aa55af3716a251ced9f780686d">R_SETLASTERR</a>(NULL);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01122.html#ga906f8952991b7313cb6b4bcbc3ab4545">pcl_pcsndup</a>(path, len);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;}</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00596.html">_json.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<a class="code" href="a01325.html">ipcl_json_state_t</a> *</div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a00668.html#a7ce8fd230485234e556f94fb608416a4">   35</a></span>&#160;<a class="code" href="a00668.html#a7ce8fd230485234e556f94fb608416a4">ipcl_json_skipws</a>(<a class="code" href="a01325.html">ipcl_json_state_t</a> *s)</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordflow">for</span>(; s-&gt;<a class="code" href="a01325.html#aea37660d73e9a421394b12cca4288917">next</a> &lt; s-&gt;<a class="code" href="a01325.html#aa0c4bdeda46c4ae639e086c22fe5eed6">end</a>; s-&gt;<a class="code" href="a01325.html#aea37660d73e9a421394b12cca4288917">next</a>++)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  {</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">if</span>(!isspace((<span class="keywordtype">int</span>) *s-&gt;<a class="code" href="a01325.html#aea37660d73e9a421394b12cca4288917">next</a>))</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;      <span class="keywordflow">return</span> s;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">if</span>(*s-&gt;<a class="code" href="a01325.html#aea37660d73e9a421394b12cca4288917">next</a> == <span class="charliteral">&#39;\r&#39;</span>)</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    {</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;      <span class="keywordflow">if</span>(s-&gt;<a class="code" href="a01325.html#aea37660d73e9a421394b12cca4288917">next</a>[1] == <span class="charliteral">&#39;\n&#39;</span>)</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;      {</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        s-&gt;<a class="code" href="a01325.html#aea37660d73e9a421394b12cca4288917">next</a>++;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        s-&gt;<a class="code" href="a01325.html#a41ebd28ef1d7c6ade45642cb6acc1039">line</a>++;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;      }</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    }</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span>(*s-&gt;<a class="code" href="a01325.html#aea37660d73e9a421394b12cca4288917">next</a> == <span class="charliteral">&#39;\n&#39;</span>)</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    {</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;      s-&gt;<a class="code" href="a01325.html#a41ebd28ef1d7c6ade45642cb6acc1039">line</a>++;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    }</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  }</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <a class="code" href="a00596.html#ab7b7bb456a60280dffb95071148e54f1">JSON_THROW</a>(<span class="stringliteral">&quot;unexpected end of input&quot;</span>, 0);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00044_html"><div class="ttname"><a href="a00044.html">error.h</a></div></div>
-<div class="ttc" id="aa00104_html_ac114b2b1527c8ae241d37cc15ca7d122"><div class="ttname"><a href="a00104.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a></div><div class="ttdeci">char pchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00053">types.h:53</a></div></div>
-<div class="ttc" id="aa01120_html_ga403317a17754c52687615448d3752786"><div class="ttname"><a href="a01120.html#ga403317a17754c52687615448d3752786">pcl_proc_self</a></div><div class="ttdeci">PCL_EXPORT pid_t pcl_proc_self(void)</div><div class="ttdoc">Gets the Process ID of the calling process (PID).</div><div class="ttdef"><b>Definition:</b> <a href="a00656_source.html#l00035">proc_self.c:35</a></div></div>
-<div class="ttc" id="aa00638_html"><div class="ttname"><a href="a00638.html">_process.h</a></div></div>
-<div class="ttc" id="aa01120_html_gaa625964173add23831431d1ab1d48ffc"><div class="ttname"><a href="a01120.html#gaa625964173add23831431d1ab1d48ffc">pcl_proc_path</a></div><div class="ttdeci">pchar_t * pcl_proc_path(pid_t pid)</div><div class="ttdoc">Get a process's path.</div><div class="ttdef"><b>Definition:</b> <a href="a00668_source.html#l00041">unix_proc_path.c:41</a></div></div>
-<div class="ttc" id="aa01113_html_gad08a56aa55af3716a251ced9f780686d"><div class="ttname"><a href="a01113.html#gad08a56aa55af3716a251ced9f780686d">R_SETLASTERR</a></div><div class="ttdeci">#define R_SETLASTERR(_retval)</div><div class="ttdoc">Sets the return value and the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00235">_errdefs.h:235</a></div></div>
-<div class="ttc" id="aa00089_html"><div class="ttname"><a href="a00089.html">string.h</a></div></div>
-<div class="ttc" id="aa01122_html_ga906f8952991b7313cb6b4bcbc3ab4545"><div class="ttname"><a href="a01122.html#ga906f8952991b7313cb6b4bcbc3ab4545">pcl_pcsndup</a></div><div class="ttdeci">pchar_t * pcl_pcsndup(const pchar_t *s, size_t len)</div><div class="ttdoc">Duplicate a portion of a string.</div></div>
+<div class="ttc" id="aa01325_html_a41ebd28ef1d7c6ade45642cb6acc1039"><div class="ttname"><a href="a01325.html#a41ebd28ef1d7c6ade45642cb6acc1039">ipcl_json_state_t::line</a></div><div class="ttdeci">int line</div><div class="ttdef"><b>Definition:</b> <a href="a00596_source.html#l00055">_json.h:55</a></div></div>
+<div class="ttc" id="aa00596_html_ab7b7bb456a60280dffb95071148e54f1"><div class="ttname"><a href="a00596.html#ab7b7bb456a60280dffb95071148e54f1">JSON_THROW</a></div><div class="ttdeci">#define JSON_THROW(message,...)</div><div class="ttdef"><b>Definition:</b> <a href="a00596_source.html#l00039">_json.h:39</a></div></div>
+<div class="ttc" id="aa00596_html"><div class="ttname"><a href="a00596.html">_json.h</a></div></div>
+<div class="ttc" id="aa01325_html"><div class="ttname"><a href="a01325.html">ipcl_json_state_t</a></div><div class="ttdef"><b>Definition:</b> <a href="a00596_source.html#l00050">_json.h:51</a></div></div>
+<div class="ttc" id="aa01325_html_aa0c4bdeda46c4ae639e086c22fe5eed6"><div class="ttname"><a href="a01325.html#aa0c4bdeda46c4ae639e086c22fe5eed6">ipcl_json_state_t::end</a></div><div class="ttdeci">const char * end</div><div class="ttdef"><b>Definition:</b> <a href="a00596_source.html#l00053">_json.h:53</a></div></div>
+<div class="ttc" id="aa01325_html_aea37660d73e9a421394b12cca4288917"><div class="ttname"><a href="a01325.html#aea37660d73e9a421394b12cca4288917">ipcl_json_state_t::next</a></div><div class="ttdeci">const char * next</div><div class="ttdef"><b>Definition:</b> <a href="a00596_source.html#l00052">_json.h:52</a></div></div>
+<div class="ttc" id="aa00668_html_a7ce8fd230485234e556f94fb608416a4"><div class="ttname"><a href="a00668.html#a7ce8fd230485234e556f94fb608416a4">ipcl_json_skipws</a></div><div class="ttdeci">ipcl_json_state_t * ipcl_json_skipws(ipcl_json_state_t *s)</div><div class="ttdef"><b>Definition:</b> <a href="a00668_source.html#l00035">json_skipws.c:35</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/time/mktime.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/string/strupper.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,12 +62,12 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_798ee6f4f5cd9c6410c07a649b7662ec.html">&#x202A;time</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_6cc8961f7f77054fb84f95c9f23f5ca0.html">&#x202A;string</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">mktime.c</div>  </div>
+<div class="title">strupper.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00977.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,50 +101,46 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00965.html">_time.h</a>&quot;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00917.html">_string.h</a>&quot;</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<a class="code" href="a01188.html">pcl_time_t</a></div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a00977.html#ab93724505d16d64b074477916c4b906d">   35</a></span>&#160;<a class="code" href="a00977.html#ab93724505d16d64b074477916c4b906d">pcl_mktime</a>(<a class="code" href="a01192.html">pcl_tm_t</a> *tu)</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <a class="code" href="a01188.html">pcl_time_t</a> t;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keyword">struct </span>tm tm;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  tm.tm_sec = tu-&gt;<a class="code" href="a01192.html#a18df301c1a10c8d493da86ce5c2aea78">tm_sec</a>;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  tm.tm_min = tu-&gt;<a class="code" href="a01192.html#a987fa9280fe4cd6c6b8f77409f1c1504">tm_min</a>;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  tm.tm_hour = tu-&gt;<a class="code" href="a01192.html#a4d171061df9e012fcfbd1172b8440d5f">tm_hour</a>;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  tm.tm_mday = tu-&gt;<a class="code" href="a01192.html#a02048604d30b880033311cf542d63f92">tm_mday</a>;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  tm.tm_mon = tu-&gt;<a class="code" href="a01192.html#ada983deda100b604bee5716512453658">tm_mon</a>;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  tm.tm_year = tu-&gt;<a class="code" href="a01192.html#a994c4f4519ba57e186580d21cc86f9e5">tm_year</a>;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  tm.tm_wday = tu-&gt;<a class="code" href="a01192.html#a4412571b90746a85cae9b8841c44c59c">tm_wday</a>;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  tm.tm_yday = tu-&gt;<a class="code" href="a01192.html#a74938de584345413d1bf87c4d78d697c">tm_yday</a>;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  tm.tm_isdst = tu-&gt;<a class="code" href="a01192.html#a7d102a87f898878ebf37ebd87504e099">tm_isdst</a>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  t.<a class="code" href="a01188.html#a4c17f3941fd29561d689e4e03f18db46">sec</a> = _mktime64(&amp;tm);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  t.<a class="code" href="a01188.html#a4c17f3941fd29561d689e4e03f18db46">sec</a> = mktime(&amp;tm);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#undef isxlower</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#undef toxupper</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#ifdef XWIDE</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor"># include &lt;wctype.h&gt;</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor"># define isxlower iswlower</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor"># define toxupper towupper</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor"># include &lt;ctype.h&gt;</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="a00977.html#ac8cfef18aad855648b6d9766239f0f1e">   43</a></span>&#160;<span class="preprocessor"># define isxlower islower</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="a00977.html#afcf9e18397349db8513bde47100b537d">   44</a></span>&#160;<span class="preprocessor"># define toxupper toupper</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<a class="code" href="a00917.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *</div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="a00977.html#a26970f39a0cd35ab29634dc9f61a4d2e">   48</a></span>&#160;<a class="code" href="a00917.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a>(<a class="code" href="a00977.html#a26970f39a0cd35ab29634dc9f61a4d2e">upper</a>)(<a class="code" href="a00917.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *s)</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;{</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <a class="code" href="a00917.html#acccab69d0e95cc5047e7fdd343603c90">xint</a> ch;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="keywordflow">for</span>(<a class="code" href="a00917.html#acccab69d0e95cc5047e7fdd343603c90">xint</a> *p = (<a class="code" href="a00917.html#acccab69d0e95cc5047e7fdd343603c90">xint</a> *)s; (ch = *p); p++)</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordflow">if</span>(<a class="code" href="a00977.html#ac8cfef18aad855648b6d9766239f0f1e">isxlower</a>(ch))</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      *p = <a class="code" href="a00977.html#afcf9e18397349db8513bde47100b537d">toxupper</a>(ch);</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  t.<a class="code" href="a01188.html#a67abf16c44712c2f6eacfce2da5aa5b4">nsec</a> = tu-&gt;<a class="code" href="a01192.html#ace9d15b139822be8f2990e3b05871059">tm_nsec</a>;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <span class="keywordflow">return</span> t;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordflow">return</span> s;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;}</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#ifndef XWIDE</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="a00977.html#af3082199ea3ac518b87acdac953cf385">   60</a></span>&#160;<span class="preprocessor"># define XWIDE</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor"># include &quot;<a class="code" href="a00977.html">strupper.c</a>&quot;</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01192_html_a7d102a87f898878ebf37ebd87504e099"><div class="ttname"><a href="a01192.html#a7d102a87f898878ebf37ebd87504e099">pcl_tm_t::tm_isdst</a></div><div class="ttdeci">int tm_isdst</div><div class="ttdef"><b>Definition:</b> <a href="a00101_source.html#l00073">time.h:73</a></div></div>
-<div class="ttc" id="aa01192_html"><div class="ttname"><a href="a01192.html">pcl_tm_t</a></div><div class="ttdef"><b>Definition:</b> <a href="a00101_source.html#l00063">time.h:64</a></div></div>
-<div class="ttc" id="aa01188_html_a67abf16c44712c2f6eacfce2da5aa5b4"><div class="ttname"><a href="a01188.html#a67abf16c44712c2f6eacfce2da5aa5b4">tag_pcl_time::nsec</a></div><div class="ttdeci">int nsec</div><div class="ttdef"><b>Definition:</b> <a href="a00101_source.html#l00060">time.h:60</a></div></div>
-<div class="ttc" id="aa01192_html_ada983deda100b604bee5716512453658"><div class="ttname"><a href="a01192.html#ada983deda100b604bee5716512453658">pcl_tm_t::tm_mon</a></div><div class="ttdeci">int tm_mon</div><div class="ttdef"><b>Definition:</b> <a href="a00101_source.html#l00069">time.h:69</a></div></div>
-<div class="ttc" id="aa01192_html_a18df301c1a10c8d493da86ce5c2aea78"><div class="ttname"><a href="a01192.html#a18df301c1a10c8d493da86ce5c2aea78">pcl_tm_t::tm_sec</a></div><div class="ttdeci">int tm_sec</div><div class="ttdef"><b>Definition:</b> <a href="a00101_source.html#l00065">time.h:65</a></div></div>
-<div class="ttc" id="aa01192_html_a987fa9280fe4cd6c6b8f77409f1c1504"><div class="ttname"><a href="a01192.html#a987fa9280fe4cd6c6b8f77409f1c1504">pcl_tm_t::tm_min</a></div><div class="ttdeci">int tm_min</div><div class="ttdef"><b>Definition:</b> <a href="a00101_source.html#l00066">time.h:66</a></div></div>
-<div class="ttc" id="aa01192_html_a4d171061df9e012fcfbd1172b8440d5f"><div class="ttname"><a href="a01192.html#a4d171061df9e012fcfbd1172b8440d5f">pcl_tm_t::tm_hour</a></div><div class="ttdeci">int tm_hour</div><div class="ttdef"><b>Definition:</b> <a href="a00101_source.html#l00067">time.h:67</a></div></div>
-<div class="ttc" id="aa01188_html_a4c17f3941fd29561d689e4e03f18db46"><div class="ttname"><a href="a01188.html#a4c17f3941fd29561d689e4e03f18db46">tag_pcl_time::sec</a></div><div class="ttdeci">long long sec</div><div class="ttdef"><b>Definition:</b> <a href="a00101_source.html#l00059">time.h:59</a></div></div>
-<div class="ttc" id="aa00977_html_ab93724505d16d64b074477916c4b906d"><div class="ttname"><a href="a00977.html#ab93724505d16d64b074477916c4b906d">pcl_mktime</a></div><div class="ttdeci">pcl_time_t pcl_mktime(pcl_tm_t *tu)</div><div class="ttdoc">Converts broken-down time to epoch nanoseconds.</div><div class="ttdef"><b>Definition:</b> <a href="a00977_source.html#l00035">mktime.c:35</a></div></div>
-<div class="ttc" id="aa01192_html_a994c4f4519ba57e186580d21cc86f9e5"><div class="ttname"><a href="a01192.html#a994c4f4519ba57e186580d21cc86f9e5">pcl_tm_t::tm_year</a></div><div class="ttdeci">int tm_year</div><div class="ttdef"><b>Definition:</b> <a href="a00101_source.html#l00070">time.h:70</a></div></div>
-<div class="ttc" id="aa01188_html"><div class="ttname"><a href="a01188.html">tag_pcl_time</a></div><div class="ttdef"><b>Definition:</b> <a href="a00101_source.html#l00057">time.h:58</a></div></div>
-<div class="ttc" id="aa01192_html_a74938de584345413d1bf87c4d78d697c"><div class="ttname"><a href="a01192.html#a74938de584345413d1bf87c4d78d697c">pcl_tm_t::tm_yday</a></div><div class="ttdeci">int tm_yday</div><div class="ttdef"><b>Definition:</b> <a href="a00101_source.html#l00072">time.h:72</a></div></div>
-<div class="ttc" id="aa01192_html_a02048604d30b880033311cf542d63f92"><div class="ttname"><a href="a01192.html#a02048604d30b880033311cf542d63f92">pcl_tm_t::tm_mday</a></div><div class="ttdeci">int tm_mday</div><div class="ttdef"><b>Definition:</b> <a href="a00101_source.html#l00068">time.h:68</a></div></div>
-<div class="ttc" id="aa01192_html_ace9d15b139822be8f2990e3b05871059"><div class="ttname"><a href="a01192.html#ace9d15b139822be8f2990e3b05871059">pcl_tm_t::tm_nsec</a></div><div class="ttdeci">int tm_nsec</div><div class="ttdef"><b>Definition:</b> <a href="a00101_source.html#l00088">time.h:88</a></div></div>
-<div class="ttc" id="aa01192_html_a4412571b90746a85cae9b8841c44c59c"><div class="ttname"><a href="a01192.html#a4412571b90746a85cae9b8841c44c59c">pcl_tm_t::tm_wday</a></div><div class="ttdeci">int tm_wday</div><div class="ttdef"><b>Definition:</b> <a href="a00101_source.html#l00071">time.h:71</a></div></div>
-<div class="ttc" id="aa00965_html"><div class="ttname"><a href="a00965.html">_time.h</a></div></div>
+<div class="ttc" id="aa00917_html"><div class="ttname"><a href="a00917.html">_string.h</a></div></div>
+<div class="ttc" id="aa00917_html_acccab69d0e95cc5047e7fdd343603c90"><div class="ttname"><a href="a00917.html#acccab69d0e95cc5047e7fdd343603c90">xint</a></div><div class="ttdeci">#define xint</div><div class="ttdef"><b>Definition:</b> <a href="a00917_source.html#l00081">_string.h:81</a></div></div>
+<div class="ttc" id="aa00977_html_ac8cfef18aad855648b6d9766239f0f1e"><div class="ttname"><a href="a00977.html#ac8cfef18aad855648b6d9766239f0f1e">isxlower</a></div><div class="ttdeci">#define isxlower</div><div class="ttdef"><b>Definition:</b> <a href="a00977_source.html#l00043">strupper.c:43</a></div></div>
+<div class="ttc" id="aa00917_html_a5c4b00cbc494339ce63882d7404bad27"><div class="ttname"><a href="a00917.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a></div><div class="ttdeci">#define XFUNC(name)</div><div class="ttdef"><b>Definition:</b> <a href="a00917_source.html#l00068">_string.h:68</a></div></div>
+<div class="ttc" id="aa00977_html_afcf9e18397349db8513bde47100b537d"><div class="ttname"><a href="a00977.html#afcf9e18397349db8513bde47100b537d">toxupper</a></div><div class="ttdeci">#define toxupper</div><div class="ttdef"><b>Definition:</b> <a href="a00977_source.html#l00044">strupper.c:44</a></div></div>
+<div class="ttc" id="aa00977_html"><div class="ttname"><a href="a00977.html">strupper.c</a></div></div>
+<div class="ttc" id="aa00917_html_a234f7ec71c9c19ed532c4bf11a9b9b8e"><div class="ttname"><a href="a00917.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a></div><div class="ttdeci">#define xchar</div><div class="ttdef"><b>Definition:</b> <a href="a00917_source.html#l00070">_string.h:70</a></div></div>
+<div class="ttc" id="aa00977_html_a26970f39a0cd35ab29634dc9f61a4d2e"><div class="ttname"><a href="a00977.html#a26970f39a0cd35ab29634dc9f61a4d2e">upper</a></div><div class="ttdeci">xchar *XFUNC() upper(xchar *s)</div><div class="ttdef"><b>Definition:</b> <a href="a00977_source.html#l00048">strupper.c:48</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

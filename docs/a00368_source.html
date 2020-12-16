@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/error/err_trace.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/error/err_name.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">err_trace.c</div>  </div>
+<div class="title">err_name.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00368.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,23 +101,26 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00305.html">_error.h</a>&quot;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00329.html">_error.h</a>&quot;</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01111.html#ga30a9020e52ca985edcbd86e5b0676191">   35</a></span>&#160;<a class="code" href="a01111.html#ga30a9020e52ca985edcbd86e5b0676191">pcl_err_trace</a>(<a class="code" href="a00035.html#acaae4a70e5707a94c3ea8e9da14fcab6">PCL_LOCATION_PARAMS</a>, <span class="keyword">const</span> <span class="keywordtype">char</span> *format, ...)</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">const</span> <span class="keywordtype">char</span> *</div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01196.html#gad0fee080b336ed7ff879b61e72e0b8a9">   35</a></span>&#160;<a class="code" href="a01196.html#gad0fee080b336ed7ff879b61e72e0b8a9">pcl_err_name</a>(<span class="keywordtype">int</span> err)</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  va_list ap;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  va_start(ap, format);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordtype">int</span> n = <a class="code" href="a01111.html#ga86913f06e1be53427513e88d829651ad">pcl_err_vtrace</a>(<a class="code" href="a00035.html#abd6d80b4c77b949a990416b0ff19ae75">PCL_LOCATION_VALS</a>, format, ap);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  va_end(ap);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">return</span> n;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;}</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordtype">int</span> i, count;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <a class="code" href="a01305.html">ipcl_err_msgmap_t</a> *map = <a class="code" href="a00329.html#a3dc06ff40b369fcec40911b141ff88cf">ipcl_err_msgmap</a>(&amp;count);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordflow">for</span>(i = 0; i &lt; count; i++)</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">if</span>(err == map[i].err)</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;      <span class="keywordflow">return</span> map[i].<a class="code" href="a01305.html#a8f8f80d37794cde9472343e4487ba3eb">name</a>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keywordflow">return</span> <span class="stringliteral">&quot;PCL_EUNDEF&quot;</span>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01111_html_ga30a9020e52ca985edcbd86e5b0676191"><div class="ttname"><a href="a01111.html#ga30a9020e52ca985edcbd86e5b0676191">pcl_err_trace</a></div><div class="ttdeci">int pcl_err_trace(PCL_LOCATION_PARAMS, const char *format,...)</div><div class="ttdef"><b>Definition:</b> <a href="a00368_source.html#l00035">err_trace.c:35</a></div></div>
-<div class="ttc" id="aa00035_html_acaae4a70e5707a94c3ea8e9da14fcab6"><div class="ttname"><a href="a00035.html#acaae4a70e5707a94c3ea8e9da14fcab6">PCL_LOCATION_PARAMS</a></div><div class="ttdeci">#define PCL_LOCATION_PARAMS</div><div class="ttdoc">PCL_LOCATION_PARAMS expands to a function/macro declaration's parameter list: ie.</div><div class="ttdef"><b>Definition:</b> <a href="a00035_source.html#l00097">defs.h:97</a></div></div>
-<div class="ttc" id="aa01111_html_ga86913f06e1be53427513e88d829651ad"><div class="ttname"><a href="a01111.html#ga86913f06e1be53427513e88d829651ad">pcl_err_vtrace</a></div><div class="ttdeci">PCL_EXPORT int pcl_err_vtrace(PCL_LOCATION_PARAMS, const char *format, va_list ap)</div><div class="ttdef"><b>Definition:</b> <a href="a00386_source.html#l00038">err_vtrace.c:38</a></div></div>
-<div class="ttc" id="aa00305_html"><div class="ttname"><a href="a00305.html">_error.h</a></div></div>
-<div class="ttc" id="aa00035_html_abd6d80b4c77b949a990416b0ff19ae75"><div class="ttname"><a href="a00035.html#abd6d80b4c77b949a990416b0ff19ae75">PCL_LOCATION_VALS</a></div><div class="ttdeci">#define PCL_LOCATION_VALS</div><div class="ttdef"><b>Definition:</b> <a href="a00035_source.html#l00099">defs.h:99</a></div></div>
+<div class="ttc" id="aa01305_html_a8f8f80d37794cde9472343e4487ba3eb"><div class="ttname"><a href="a01305.html#a8f8f80d37794cde9472343e4487ba3eb">ipcl_err_msgmap_t::name</a></div><div class="ttdeci">const char * name</div><div class="ttdef"><b>Definition:</b> <a href="a00329_source.html#l00044">_error.h:44</a></div></div>
+<div class="ttc" id="aa00329_html_a3dc06ff40b369fcec40911b141ff88cf"><div class="ttname"><a href="a00329.html#a3dc06ff40b369fcec40911b141ff88cf">ipcl_err_msgmap</a></div><div class="ttdeci">ipcl_err_msgmap_t * ipcl_err_msgmap(int *count)</div><div class="ttdef"><b>Definition:</b> <a href="a00416_source.html#l00040">msgmap.c:40</a></div></div>
+<div class="ttc" id="aa00329_html"><div class="ttname"><a href="a00329.html">_error.h</a></div></div>
+<div class="ttc" id="aa01196_html_gad0fee080b336ed7ff879b61e72e0b8a9"><div class="ttname"><a href="a01196.html#gad0fee080b336ed7ff879b61e72e0b8a9">pcl_err_name</a></div><div class="ttdeci">const char * pcl_err_name(int err)</div><div class="ttdef"><b>Definition:</b> <a href="a00368_source.html#l00035">err_name.c:35</a></div></div>
+<div class="ttc" id="aa01305_html"><div class="ttname"><a href="a01305.html">ipcl_err_msgmap_t</a></div><div class="ttdef"><b>Definition:</b> <a href="a00329_source.html#l00041">_error.h:42</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>
