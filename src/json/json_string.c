@@ -55,11 +55,9 @@ pcl_json_string(char *str, size_t len, uint32_t flags)
 		}
 		else
 		{
-			/* json strings MUST be NUL-terminated, ensure we can add a NUL. In many cases,
-			 * the realloc is a no-op since most string allocations are larger than "len".
-			 */
-			val->string = pcl_realloc(str, len + 1);
-			val->string[len] = 0;
+			/* json strings MUST be NUL-terminated, so we have to copy it. */
+			val->string = pcl_strndup(str, len);
+			pcl_free(str);
 		}
 	}
 	else if(len == 0)

@@ -141,8 +141,8 @@ PCL_EXPORT pcl_json_t *pcl_json_array_get(pcl_json_t *arr, int index);
  * @param str pointer to a string
  * @param len number of bytes. If this is zero, \a str MUST be NUL-terminated
  * @param flags a bitmask of flags. If PCL_JSON_SHALLOW is set, \a str will not be copied. In
- * this case, do not free \a str after this call! If PCL_JSON_SKIPUTF8CHK is set, this will
- * skip UTF-8 validation.
+ * this case, do not directly interact with or free \a str after this call! Only interact
+ * through pcl_json_t. If PCL_JSON_SKIPUTF8CHK  is set, this will skip UTF-8 validation.
  * @return
  */
 PCL_EXPORT pcl_json_t *pcl_json_string(char *str, size_t len, uint32_t flags);
