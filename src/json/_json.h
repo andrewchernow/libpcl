@@ -68,6 +68,13 @@ pcl_json_t *ipcl_json_parse_array(ipcl_json_state_t *s);
 pcl_json_t *ipcl_json_parse_object(ipcl_json_state_t *s);
 pcl_json_t *ipcl_json_parse_number(ipcl_json_state_t *s);
 ipcl_json_state_t *ipcl_json_skipws(ipcl_json_state_t *s);
+
+/**
+ *
+ * @param s
+ * @param len if zero, strlen is used so \a s must be NUL-terminated in this case
+ * @return
+ */
 int ipcl_json_utf8check(const char *s, size_t len);
 
 pcl_buf_t *ipcl_json_encode_value(ipcl_json_encode_t *enc, pcl_json_t *value);

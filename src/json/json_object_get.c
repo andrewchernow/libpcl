@@ -38,7 +38,7 @@ pcl_json_object_get(pcl_json_t *obj, const char *key)
 	if(!obj || !key)
 		return R_SETERR(NULL, PCL_EINVAL);
 
-	if(obj->type != 'o')
+	if(!pcl_json_isobject(obj))
 		return R_SETERRMSG(NULL, PCL_ETYPE, "expected type 'o', got '%c'", obj->type);
 
 	pcl_json_t *val = pcl_htable_get(obj->object, key);

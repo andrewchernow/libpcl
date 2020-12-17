@@ -38,6 +38,9 @@ pcl_json_array_get(pcl_json_t *arr, int index)
 	if(!arr)
 		return R_SETERR(NULL, PCL_EINVAL);
 
+	if(!pcl_json_isarray(arr))
+		return R_SETERRMSG(NULL, PCL_ETYPE, "expected type 'a', got '%c'", arr->type);
+
 	pcl_json_t *elem = pcl_array_get(arr->array, index);
 
 	if(!elem)

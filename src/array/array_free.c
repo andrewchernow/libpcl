@@ -43,7 +43,7 @@ pcl_array_free(pcl_array_t *arr)
 				arr->cleanup(arr, arr->elements[i]);
 		}
 
-		pcl_free(arr->elements);
+		pcl_free_safe(arr->elements);
 		pcl_free(arr);
 	}
 }

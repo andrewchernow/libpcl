@@ -31,10 +31,17 @@
 
 #include "_json.h"
 #include <pcl/alloc.h>
+#include <math.h>
 
 pcl_json_t *
 pcl_json_real(double real)
 {
+	if(isnan(real))
+		return R_SETERRMSG(NULL, PCL_EINVAL, "NaN not supported", 0);
+
+	if(isinf(real))
+		return R_SETERRMSG(NULL, PCL_EINVAL, "Infinity not supported", 0);
+
 	pcl_json_t *val = pcl_malloc(sizeof(pcl_json_t));
 
 	val->type = 'r';

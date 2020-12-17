@@ -86,7 +86,7 @@ ipcl_json_parse_object(ipcl_json_state_t *s)
 			return NULL;
 		}
 
-		if(pcl_json_object_put(obj, key, val) < 0)
+		if(pcl_json_object_put(obj, key, val, PCL_JSON_SKIPUTF8CHK | PCL_JSON_SHALLOW) < 0)
 		{
 			pcl_json_free(obj);
 

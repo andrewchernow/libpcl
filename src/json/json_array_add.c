@@ -33,16 +33,33 @@
 #include <pcl/array.h>
 
 int
-pcl_json_array_add(pcl_json_t *arr, pcl_json_t *elem)
+pcl_json_array_add(pcl_json_t *arr, pcl_json_t *elem, uint32_t flags)
 {
-	if(!arr || !elem)
-		return BADARG();
+	uint32_t freeval = flags & PCL_JSON_FREEVALONERR;
 
-	if(arr->type != 'a')
+	if(!arr || !elem)
+	{
+		if(elem && freeval)
+			pcl_json_free(elem);
+
+		return BADARG();
+	}
+
+	if(!pcl_json_isarray(arr))
+	{
+		if(freeval)
+			pcl_json_free(elem);
+
 		return SETERRMSG(PCL_ETYPE, "expected type 'a', got '%c'", arr->type);
+	}
 
 	if(pcl_array_add(arr->array, elem) < 0)
+	{
+		if(freeval)
+			pcl_json_free(elem);
+
 		return TRCMSG("failed to add array element", 0);
+	}
 
 	return arr->array->count;
 }

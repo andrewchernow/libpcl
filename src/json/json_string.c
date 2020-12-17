@@ -34,40 +34,28 @@
 #include <pcl/alloc.h>
 
 pcl_json_t *
-pcl_json_string(char *str, size_t len, uint32_t flags)
+pcl_json_string(char *str, uint32_t flags)
 {
 	if(!str)
+	{
+		if(flags & PCL_JSON_ALLOWNULL)
+			return pcl_json_null();
+
 		return R_SETERR(NULL, PCL_EINVAL);
+	}
+
+	size_t len = strlen(str);
 
 	if(!(flags & PCL_JSON_SKIPUTF8CHK) && ipcl_json_utf8check(str, len) < 0)
 		return R_TRC(NULL);
 
+	if((flags & PCL_JSON_EMPTYASNULL) && len == 0)
+		return pcl_json_null();
+
 	pcl_json_t *val = pcl_malloc(sizeof(pcl_json_t));
 
 	val->type = 's';
-
-	if(flags & PCL_JSON_SHALLOW)
-	{
-		/* must be NUL-terminated, documented as such */
-		if(len == 0)
-		{
-			val->string = str;
-		}
-		else
-		{
-			/* json strings MUST be NUL-terminated, so we have to copy it. */
-			val->string = pcl_strndup(str, len);
-			pcl_free(str);
-		}
-	}
-	else if(len == 0)
-	{
-		val->string = pcl_strdup(str);
-	}
-	else
-	{
-		val->string = pcl_strndup(str, len);
-	}
+	val->string = (flags & PCL_JSON_SHALLOW) ? str : pcl_strndup(str, len);
 
 	return val;
 }

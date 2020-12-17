@@ -59,10 +59,9 @@ ipcl_json_parse_array(ipcl_json_state_t *s)
 			return NULL;
 		}
 
-		if(pcl_json_array_add(arr, val) < 0)
+		if(pcl_json_array_add(arr, val, PCL_JSON_FREEVALONERR) < 0)
 		{
 			pcl_json_free(arr);
-			pcl_json_free(val); // not managed by array cuz add failed
 			return R_TRCMSG(NULL, "failed to add value to array", 0);
 		}
 

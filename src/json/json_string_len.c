@@ -31,98 +31,29 @@
 
 #include "_json.h"
 #include <pcl/alloc.h>
-#include <string.h>
+#include <pcl/string.h>
 
 pcl_json_t *
-ipcl_json_parse_value(ipcl_json_state_t *s)
+pcl_json_string_len(const char *str, size_t len, uint32_t flags)
 {
-	pcl_json_t *val;
-
-	s->ctx = s->next;
-
-	if(!ipcl_json_skipws(s))
-		return NULL;
-
-	s->ctx = s->next;
-
-	switch(*s->next)
+	if(!str)
 	{
-		case '{':
-		{
-			if(!(val = ipcl_json_parse_object(s)))
-				return NULL;
-			break;
-		}
+		if(flags & PCL_JSON_ALLOWNULL)
+			return pcl_json_null();
 
-		case '[':
-		{
-			if(!(val = ipcl_json_parse_array(s)))
-				return NULL;
-			break;
-		}
-
-		case '"':
-		{
-			char *str = ipcl_json_parse_string(s);
-
-			if(!str)
-				return NULL;
-
-			/* ipcl_json_parse_string already did UTF-8 check */
-			val = pcl_json_string(str, PCL_JSON_SKIPUTF8CHK | PCL_JSON_SHALLOW);
-			break;
-		}
-
-		case 't':
-		{
-			if(s->end - s->next < 4 || strncmp(s->next + 1, "rue", 3) != 0)
-				JSON_THROW("invalid json value", 0);
-
-			s->next += 4;
-			val = pcl_json_true();
-			break;
-		}
-
-		case 'f':
-		{
-			if(s->end - s->next < 5 || strncmp(s->next + 1, "alse", 4) != 0)
-				JSON_THROW("invalid json value", 0);
-
-			s->next += 5;
-			val = pcl_json_false();
-			break;
-		}
-
-		case 'n':
-		{
-			if(s->end - s->next < 4 || strncmp(s->next + 1, "ull", 3) != 0)
-				JSON_THROW("invalid json value", 0);
-
-			s->next += 4;
-			val = pcl_json_null();
-			break;
-		}
-
-		case '0':
-		case '-':
-		case '1':
-		case '2':
-		case '3':
-		case '4':
-		case '5':
-		case '6':
-		case '7':
-		case '8':
-		case '9':
-		{
-			if(!(val = ipcl_json_parse_number(s)))
-				return NULL;
-			break;
-		}
-
-		default:
-			JSON_THROW("expected json value", 0);
+		return R_SETERR(NULL, PCL_EINVAL);
 	}
+
+	if(!(flags & PCL_JSON_SKIPUTF8CHK) && ipcl_json_utf8check(str, len) < 0)
+		return R_TRC(NULL);
+
+	if((flags & PCL_JSON_EMPTYASNULL) && len == 0)
+		return pcl_json_null();
+
+	pcl_json_t *val = pcl_malloc(sizeof(pcl_json_t));
+
+	val->type = 's';
+	val->string = pcl_strndup(str, len);
 
 	return val;
 }
