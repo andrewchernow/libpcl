@@ -121,31 +121,31 @@ $(function() {
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    *lenp = 0;</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a00038.html#a8278668d120afdd0e47def881845559d">strempty</a>(path))</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01198.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a>(NULL, <a class="code" href="a01197.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01201.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a>(NULL, <a class="code" href="a01200.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>);</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="comment">/* query for size: len will include NUL byte in this case */</span></div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  DWORD len = GetFullPathName(path, 0, NULL, NULL);</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <span class="keywordflow">if</span>(len == 0)</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01198.html#gad08a56aa55af3716a251ced9f780686d">R_SETLASTERR</a>(NULL);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01201.html#gad08a56aa55af3716a251ced9f780686d">R_SETLASTERR</a>(NULL);</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  fullpath = <a class="code" href="a01190.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a>(len * <span class="keyword">sizeof</span>(<a class="code" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>));</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  fullpath = <a class="code" href="a01193.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a>(len * <span class="keyword">sizeof</span>(<a class="code" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>));</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  <span class="comment">/* call again with allocated buffer */</span></div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  len = GetFullPathName(path, len, fullpath, NULL);</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <span class="keywordflow">if</span>(len == 0)</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01198.html#gad08a56aa55af3716a251ced9f780686d">R_SETLASTERR</a>(NULL);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01201.html#gad08a56aa55af3716a251ced9f780686d">R_SETLASTERR</a>(NULL);</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="preprocessor">#else</span></div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  <span class="keywordtype">char</span> pbuf[PATH_MAX];</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  <span class="keywordflow">if</span>(!realpath((<span class="keywordtype">char</span> *) path, pbuf))</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01198.html#gad08a56aa55af3716a251ced9f780686d">R_SETLASTERR</a>(NULL);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01201.html#gad08a56aa55af3716a251ced9f780686d">R_SETLASTERR</a>(NULL);</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  <span class="keywordtype">size_t</span> len = strlen(pbuf);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  fullpath = <a class="code" href="a01206.html#ga76ffbaececfd9e912d39e6e69bfa4b7d">pcl_strndup</a>(pbuf, len);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  fullpath = <a class="code" href="a01209.html#ga76ffbaececfd9e912d39e6e69bfa4b7d">pcl_strndup</a>(pbuf, len);</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  <span class="keywordflow">if</span>(lenp)</div>
@@ -155,14 +155,14 @@ $(function() {
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aa00470_html_a6bf3a33892b2688b5e88e663e1dbe5e5"><div class="ttname"><a href="a00470.html#a6bf3a33892b2688b5e88e663e1dbe5e5">pcl_realpath</a></div><div class="ttdeci">pchar_t * pcl_realpath(const pchar_t *path, int *lenp)</div><div class="ttdoc">Gets the canonicalized absolute pathname.</div><div class="ttdef"><b>Definition:</b> <a href="a00470_source.html#l00044">realpath.c:44</a></div></div>
+<div class="ttc" id="aa01193_html_ga1df8575b9ae906470c782db9c26201e8"><div class="ttname"><a href="a01193.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a></div><div class="ttdeci">void * pcl_malloc(size_t n)</div><div class="ttdoc">Allocate dynamic memory.</div></div>
+<div class="ttc" id="aa01209_html_ga76ffbaececfd9e912d39e6e69bfa4b7d"><div class="ttname"><a href="a01209.html#ga76ffbaececfd9e912d39e6e69bfa4b7d">pcl_strndup</a></div><div class="ttdeci">PCL_EXPORT char * pcl_strndup(const char *s, size_t len)</div><div class="ttdoc">Duplicate a portion of a string.</div></div>
 <div class="ttc" id="aa00038_html_a8278668d120afdd0e47def881845559d"><div class="ttname"><a href="a00038.html#a8278668d120afdd0e47def881845559d">strempty</a></div><div class="ttdeci">#define strempty(str)</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00124">defs.h:124</a></div></div>
-<div class="ttc" id="aa01198_html_gae8eaed12aa57a2870ad8e45cc2306318"><div class="ttname"><a href="a01198.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a></div><div class="ttdeci">#define R_SETERR(_retval, _pclerr)</div><div class="ttdoc">Sets the return value and the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00145">_errdefs.h:145</a></div></div>
 <div class="ttc" id="aa00107_html_ac114b2b1527c8ae241d37cc15ca7d122"><div class="ttname"><a href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a></div><div class="ttdeci">char pchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00107_source.html#l00053">types.h:53</a></div></div>
-<div class="ttc" id="aa01206_html_ga76ffbaececfd9e912d39e6e69bfa4b7d"><div class="ttname"><a href="a01206.html#ga76ffbaececfd9e912d39e6e69bfa4b7d">pcl_strndup</a></div><div class="ttdeci">PCL_EXPORT char * pcl_strndup(const char *s, size_t len)</div><div class="ttdoc">Duplicate a portion of a string.</div></div>
-<div class="ttc" id="aa01190_html_ga1df8575b9ae906470c782db9c26201e8"><div class="ttname"><a href="a01190.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a></div><div class="ttdeci">void * pcl_malloc(size_t n)</div><div class="ttdoc">Allocate dynamic memory.</div></div>
-<div class="ttc" id="aa01198_html_gad08a56aa55af3716a251ced9f780686d"><div class="ttname"><a href="a01198.html#gad08a56aa55af3716a251ced9f780686d">R_SETLASTERR</a></div><div class="ttdeci">#define R_SETLASTERR(_retval)</div><div class="ttdoc">Sets the return value and the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00235">_errdefs.h:235</a></div></div>
+<div class="ttc" id="aa01201_html_gad08a56aa55af3716a251ced9f780686d"><div class="ttname"><a href="a01201.html#gad08a56aa55af3716a251ced9f780686d">R_SETLASTERR</a></div><div class="ttdeci">#define R_SETLASTERR(_retval)</div><div class="ttdoc">Sets the return value and the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00235">_errdefs.h:235</a></div></div>
+<div class="ttc" id="aa01200_html_gae0cd5c5a7fae36cd480176bda17e77ca"><div class="ttname"><a href="a01200.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a></div><div class="ttdeci">#define PCL_EINVAL</div><div class="ttdoc">Invalid argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00078">_errno.h:78</a></div></div>
 <div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">error.h</a></div></div>
-<div class="ttc" id="aa01197_html_gae0cd5c5a7fae36cd480176bda17e77ca"><div class="ttname"><a href="a01197.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a></div><div class="ttdeci">#define PCL_EINVAL</div><div class="ttdoc">Invalid argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00078">_errno.h:78</a></div></div>
+<div class="ttc" id="aa01201_html_gae8eaed12aa57a2870ad8e45cc2306318"><div class="ttname"><a href="a01201.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a></div><div class="ttdeci">#define R_SETERR(_retval, _pclerr)</div><div class="ttdoc">Sets the return value and the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00145">_errdefs.h:145</a></div></div>
 <div class="ttc" id="aa00071_html"><div class="ttname"><a href="a00071.html">limits.h</a></div></div>
 <div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
 <div class="ttc" id="aa00092_html"><div class="ttname"><a href="a00092.html">string.h</a></div></div>

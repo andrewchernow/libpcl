@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/ssl/ssl_socket.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/ssl/ssl_setpeerca.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">ssl_socket.c</div>  </div>
+<div class="title">ssl_setpeerca.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00896.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,19 +101,85 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00839.html">_ssl.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<a class="code" href="a01333.html">pcl_socket_t</a> *</div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a00896.html#aad3eba9f65b0aa6162f7602d9112c057">   35</a></span>&#160;<a class="code" href="a00896.html#aad3eba9f65b0aa6162f7602d9112c057">pcl_ssl_socket</a>(<a class="code" href="a01337.html">pcl_ssl_t</a> *ssl)</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordflow">return</span> ssl ? ssl-&gt;<a class="code" href="a01337.html#a940bf91f14cd0c9d944272e8336077ee">sock</a> : NULL;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00842.html">_ssl.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;openssl/err.h&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a00896.html#a339ba44ad415cd61033fce79a876a358">   36</a></span>&#160;<a class="code" href="a00896.html#a339ba44ad415cd61033fce79a876a358">pcl_ssl_setpeerca</a>(<a class="code" href="a01340.html">pcl_ssl_t</a> *ssl, <span class="keyword">const</span> <span class="keywordtype">char</span> *path, <span class="keywordtype">int</span> peer_depth)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">if</span>(!ssl || !ssl-&gt;<a class="code" href="a01340.html#ad5433bcc8a463fb4df3ce5912bb11fe3">ctx</a> || <a class="code" href="a00038.html#a8278668d120afdd0e47def881845559d">strempty</a>(path))</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01201.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a>(<a class="code" href="a01200.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  ERR_clear_error();</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="comment">/* To verify the client, server must have a list of CA &quot;names&quot;, not</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="comment">   * complete certificates, to send to client as a certificate request.</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment">   *</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment">   * Look at NOTES section here:</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment">   *</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment">   *   http://www.openssl.org/docs/ssl/SSL_CTX_set_client_CA_list.html</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment">   *</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment">   * Also peek at SSL_CTX_load_verify_locations (NOTES section):</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment">   *</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment">   *   http://www.openssl.org/docs/ssl/SSL_CTX_load_verify_locations.html</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment">   *</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment">   * which states &quot;In server mode, when requesting a client certificate,</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment">   * the server must send the list of CAs of which it will accept client</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="comment">   * certificates. This list is not influenced by the contents of CAfile</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment">   * or CApath and must explicitly be set using the</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment">   * SSL_CTX_set_client_CA_list(3) family of functions.&quot;</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment">   */</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  <span class="keywordflow">if</span>(ssl-&gt;<a class="code" href="a01340.html#ac8bf36fe0577cba66bccda3a6f7e80a4">flags</a> &amp; (<a class="code" href="a00086.html#aac1e8cec89765d61bb9a8ea4bc332782">PCL_SSL_PASSIVE</a> | <a class="code" href="a00086.html#a11dfb1daed272b37c90070f4ea6c6919">PCL_SSL_SERVER</a>))</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  {</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    STACK_OF(X509_NAME) *cert_names = SSL_load_client_CA_file(path);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordflow">if</span>(!cert_names &amp;&amp; sk_X509_NAME_num(cert_names) == 0)</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01201.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a>(<a class="code" href="a01200.html#ga93970fddc3e8f07956807d72be0bbd5c">PCL_ENOTFOUND</a>, <span class="stringliteral">&quot;No CA certs found at &#39;%s&#39;, %s&quot;</span>,</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        path, <a class="code" href="a00842.html#ae75efb7e804f39cdb19f0d77ebfe0b19">sslerror</a>(ssl));</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    SSL_CTX_set_client_CA_list(ssl-&gt;<a class="code" href="a01340.html#ad5433bcc8a463fb4df3ce5912bb11fe3">ctx</a>, cert_names);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  }</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  <span class="comment">/* Used to verify peer certificate.  Without this on the server, the</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="comment">   * client will send its certificate but the server won&#39;t verify it.</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="comment">   * Above CA_list() stuff only requests the certificate from a client.</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="comment">   * Client also needs this call to verify server certificate, however</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="comment">   * client doesn&#39;t need to load a CA list of names like server.</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment">   */</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  <span class="keywordflow">if</span>(SSL_CTX_load_verify_locations(ssl-&gt;<a class="code" href="a01340.html#ad5433bcc8a463fb4df3ce5912bb11fe3">ctx</a>, path, NULL) == 0)</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01201.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a>(<a class="code" href="a01200.html#gab7e706ae69b42289fbd70f1734a4fb35">PCL_ESSL</a>, <span class="stringliteral">&quot;Failed to load peer CA certificate: %s, %s&quot;</span>,</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;      path, <a class="code" href="a00842.html#ae75efb7e804f39cdb19f0d77ebfe0b19">sslerror</a>(ssl));</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  <span class="comment">/* Must enable verify_peer on server-side */</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  <span class="keywordtype">int</span> server_flags = SSL_VERIFY_PEER | SSL_VERIFY_FAIL_IF_NO_PEER_CERT;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  <span class="keywordflow">if</span>(ssl-&gt;<a class="code" href="a01340.html#ac8bf36fe0577cba66bccda3a6f7e80a4">flags</a> &amp; (<a class="code" href="a00086.html#aac1e8cec89765d61bb9a8ea4bc332782">PCL_SSL_PASSIVE</a> | <a class="code" href="a00086.html#a11dfb1daed272b37c90070f4ea6c6919">PCL_SSL_SERVER</a>))</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    SSL_CTX_set_verify(ssl-&gt;<a class="code" href="a01340.html#ad5433bcc8a463fb4df3ce5912bb11fe3">ctx</a>, server_flags, NULL);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="comment">/* clients use verify_none, this flag ensures we catch verify errors. */</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    ssl-&gt;<a class="code" href="a01340.html#ac8bf36fe0577cba66bccda3a6f7e80a4">flags</a> |= <a class="code" href="a00086.html#a5cdf22a9c0d2ee3e2ad3aa6b96b1182f">PCL_SSL_VERIFY_PEER</a>;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;  SSL_CTX_set_verify_depth(ssl-&gt;<a class="code" href="a01340.html#ad5433bcc8a463fb4df3ce5912bb11fe3">ctx</a>, <a class="code" href="a00038.html#affe776513b24d84b39af8ab0930fef7f">max</a>(0,peer_depth));</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;  <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01337_html"><div class="ttname"><a href="a01337.html">tag_pcl_ssl</a></div><div class="ttdef"><b>Definition:</b> <a href="a00839_source.html#l00046">_ssl.h:47</a></div></div>
-<div class="ttc" id="aa01337_html_a940bf91f14cd0c9d944272e8336077ee"><div class="ttname"><a href="a01337.html#a940bf91f14cd0c9d944272e8336077ee">tag_pcl_ssl::sock</a></div><div class="ttdeci">pcl_socket_t * sock</div><div class="ttdef"><b>Definition:</b> <a href="a00839_source.html#l00053">_ssl.h:53</a></div></div>
-<div class="ttc" id="aa01333_html"><div class="ttname"><a href="a01333.html">tag_pcl_socket</a></div><div class="ttdef"><b>Definition:</b> <a href="a00764_source.html#l00047">_socket.h:48</a></div></div>
-<div class="ttc" id="aa00896_html_aad3eba9f65b0aa6162f7602d9112c057"><div class="ttname"><a href="a00896.html#aad3eba9f65b0aa6162f7602d9112c057">pcl_ssl_socket</a></div><div class="ttdeci">pcl_socket_t * pcl_ssl_socket(pcl_ssl_t *ssl)</div><div class="ttdef"><b>Definition:</b> <a href="a00896_source.html#l00035">ssl_socket.c:35</a></div></div>
-<div class="ttc" id="aa00839_html"><div class="ttname"><a href="a00839.html">_ssl.h</a></div></div>
+<div class="ttc" id="aa00842_html"><div class="ttname"><a href="a00842.html">_ssl.h</a></div></div>
+<div class="ttc" id="aa01201_html_ga7859a0a1a544c581d53bd7d44ab6805d"><div class="ttname"><a href="a01201.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a></div><div class="ttdeci">#define SETERRMSG(_pclerr, _msgfmt,...)</div><div class="ttdoc">Sets the current thread's PCL error code and error message.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00087">_errdefs.h:87</a></div></div>
+<div class="ttc" id="aa00086_html_a5cdf22a9c0d2ee3e2ad3aa6b96b1182f"><div class="ttname"><a href="a00086.html#a5cdf22a9c0d2ee3e2ad3aa6b96b1182f">PCL_SSL_VERIFY_PEER</a></div><div class="ttdeci">#define PCL_SSL_VERIFY_PEER</div><div class="ttdef"><b>Definition:</b> <a href="a00086_source.html#l00051">ssl.h:51</a></div></div>
+<div class="ttc" id="aa01200_html_gab7e706ae69b42289fbd70f1734a4fb35"><div class="ttname"><a href="a01200.html#gab7e706ae69b42289fbd70f1734a4fb35">PCL_ESSL</a></div><div class="ttdeci">#define PCL_ESSL</div><div class="ttdoc">SSL error.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00200">_errno.h:200</a></div></div>
+<div class="ttc" id="aa00038_html_affe776513b24d84b39af8ab0930fef7f"><div class="ttname"><a href="a00038.html#affe776513b24d84b39af8ab0930fef7f">max</a></div><div class="ttdeci">#define max(a, b)</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00112">defs.h:112</a></div></div>
+<div class="ttc" id="aa00086_html_a11dfb1daed272b37c90070f4ea6c6919"><div class="ttname"><a href="a00086.html#a11dfb1daed272b37c90070f4ea6c6919">PCL_SSL_SERVER</a></div><div class="ttdeci">#define PCL_SSL_SERVER</div><div class="ttdef"><b>Definition:</b> <a href="a00086_source.html#l00049">ssl.h:49</a></div></div>
+<div class="ttc" id="aa01340_html_ac8bf36fe0577cba66bccda3a6f7e80a4"><div class="ttname"><a href="a01340.html#ac8bf36fe0577cba66bccda3a6f7e80a4">tag_pcl_ssl::flags</a></div><div class="ttdeci">int flags</div><div class="ttdef"><b>Definition:</b> <a href="a00842_source.html#l00052">_ssl.h:52</a></div></div>
+<div class="ttc" id="aa01201_html_ga82adf6365b61d9a32021e559d9c31497"><div class="ttname"><a href="a01201.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a></div><div class="ttdeci">#define SETERR(_pclerr)</div><div class="ttdoc">Sets the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00065">_errdefs.h:65</a></div></div>
+<div class="ttc" id="aa00038_html_a8278668d120afdd0e47def881845559d"><div class="ttname"><a href="a00038.html#a8278668d120afdd0e47def881845559d">strempty</a></div><div class="ttdeci">#define strempty(str)</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00124">defs.h:124</a></div></div>
+<div class="ttc" id="aa00842_html_ae75efb7e804f39cdb19f0d77ebfe0b19"><div class="ttname"><a href="a00842.html#ae75efb7e804f39cdb19f0d77ebfe0b19">sslerror</a></div><div class="ttdeci">#define sslerror(_ssl)</div><div class="ttdef"><b>Definition:</b> <a href="a00842_source.html#l00040">_ssl.h:40</a></div></div>
+<div class="ttc" id="aa00086_html_aac1e8cec89765d61bb9a8ea4bc332782"><div class="ttname"><a href="a00086.html#aac1e8cec89765d61bb9a8ea4bc332782">PCL_SSL_PASSIVE</a></div><div class="ttdeci">#define PCL_SSL_PASSIVE</div><div class="ttdef"><b>Definition:</b> <a href="a00086_source.html#l00050">ssl.h:50</a></div></div>
+<div class="ttc" id="aa01200_html_ga93970fddc3e8f07956807d72be0bbd5c"><div class="ttname"><a href="a01200.html#ga93970fddc3e8f07956807d72be0bbd5c">PCL_ENOTFOUND</a></div><div class="ttdeci">#define PCL_ENOTFOUND</div><div class="ttdoc">Object or resource not found.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00152">_errno.h:152</a></div></div>
+<div class="ttc" id="aa00896_html_a339ba44ad415cd61033fce79a876a358"><div class="ttname"><a href="a00896.html#a339ba44ad415cd61033fce79a876a358">pcl_ssl_setpeerca</a></div><div class="ttdeci">int pcl_ssl_setpeerca(pcl_ssl_t *ssl, const char *path, int peer_depth)</div><div class="ttdef"><b>Definition:</b> <a href="a00896_source.html#l00036">ssl_setpeerca.c:36</a></div></div>
+<div class="ttc" id="aa01340_html_ad5433bcc8a463fb4df3ce5912bb11fe3"><div class="ttname"><a href="a01340.html#ad5433bcc8a463fb4df3ce5912bb11fe3">tag_pcl_ssl::ctx</a></div><div class="ttdeci">SSL_CTX * ctx</div><div class="ttdef"><b>Definition:</b> <a href="a00842_source.html#l00054">_ssl.h:54</a></div></div>
+<div class="ttc" id="aa01200_html_gae0cd5c5a7fae36cd480176bda17e77ca"><div class="ttname"><a href="a01200.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a></div><div class="ttdeci">#define PCL_EINVAL</div><div class="ttdoc">Invalid argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00078">_errno.h:78</a></div></div>
+<div class="ttc" id="aa01340_html"><div class="ttname"><a href="a01340.html">tag_pcl_ssl</a></div><div class="ttdef"><b>Definition:</b> <a href="a00842_source.html#l00046">_ssl.h:47</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

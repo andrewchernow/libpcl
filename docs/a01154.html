@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/win32/win32_name_to_sid.c File Reference</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/win32/win32_mode_to_rights.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -69,36 +69,37 @@ $(function() {
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">win32_name_to_sid.c File Reference</div>  </div>
+<div class="title">win32_mode_to_rights.c File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="a01142_source.html">_win32.h</a>&quot;</code><br />
-<code>#include &lt;<a class="el" href="a00023_source.html">pcl/alloc.h</a>&gt;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a01145_source.html">_win32.h</a>&quot;</code><br />
+<code>#include &lt;<a class="el" href="a00089_source.html">pcl/stat.h</a>&gt;</code><br />
 </div>
 <p><a href="a01154_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a514ea3c8d8b523c664dd6758ee790dc9"><td class="memItemLeft" align="right" valign="top">PSID&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01154.html#a514ea3c8d8b523c664dd6758ee790dc9">ipcl_win32_name_to_sid</a> (const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *name, int *type)</td></tr>
-<tr class="separator:a514ea3c8d8b523c664dd6758ee790dc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a682300daf248a65f2ebff3b03b2db924"><td class="memItemLeft" align="right" valign="top">DWORD&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01154.html#a682300daf248a65f2ebff3b03b2db924">ipcl_win32_mode_to_rights</a> (mode_t mode, int type)</td></tr>
+<tr class="memdesc:a682300daf248a65f2ebff3b03b2db924"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Convert the user, group or other unix mode bits to Windows NT access rights.  <a href="a01154.html#a682300daf248a65f2ebff3b03b2db924">More...</a><br /></td></tr>
+<tr class="separator:a682300daf248a65f2ebff3b03b2db924"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a514ea3c8d8b523c664dd6758ee790dc9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a514ea3c8d8b523c664dd6758ee790dc9">&#9670;&nbsp;</a></span>ipcl_win32_name_to_sid()</h2>
+<a id="a682300daf248a65f2ebff3b03b2db924"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a682300daf248a65f2ebff3b03b2db924">&#9670;&nbsp;</a></span>ipcl_win32_mode_to_rights()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">PSID ipcl_win32_name_to_sid </td>
+          <td class="memname">DWORD ipcl_win32_mode_to_rights </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>name</em>, </td>
+          <td class="paramtype">mode_t&#160;</td>
+          <td class="paramname"><em>mode</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int *&#160;</td>
+          <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>type</em>&#160;</td>
         </tr>
         <tr>
@@ -109,11 +110,21 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="a01154_source.html#l00036">36</a> of file <a class="el" href="a01154_source.html">win32_name_to_sid.c</a>.</p>
+<p>&#x202A;Convert the user, group or other unix mode bits to Windows NT access rights. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mode</td><td></td></tr>
+    <tr><td class="paramname">type</td><td>&#x202A;one of S_IRUSR, S_IRGRP or S_IROTH </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
-<p class="reference">References <a class="el" href="a00038_source.html#l00127">countof</a>, <a class="el" href="a00020_source.html#l00078">PCL_EINVAL</a>, <a class="el" href="a01190.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free()</a>, <a class="el" href="a01190.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc()</a>, <a class="el" href="a00017_source.html#l00145">R_SETERR</a>, <a class="el" href="a00017_source.html#l00235">R_SETLASTERR</a>, <a class="el" href="a00017_source.html#l00125">SETLASTERR</a>, and <a class="el" href="a00038_source.html#l00124">strempty</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a01154_source.html#l00036">36</a> of file <a class="el" href="a01154_source.html">win32_mode_to_rights.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="a01169_source.html#l00045">ipcl_win32_sd_create()</a>.</p>
+<p class="reference">References <a class="el" href="a00089_source.html#l00126">S_IRGRP</a>, <a class="el" href="a00089_source.html#l00138">S_IROTH</a>, <a class="el" href="a00089_source.html#l00114">S_IRUSR</a>, <a class="el" href="a00089_source.html#l00123">S_IRWXG</a>, <a class="el" href="a00089_source.html#l00135">S_IRWXO</a>, <a class="el" href="a00089_source.html#l00111">S_IRWXU</a>, <a class="el" href="a00089_source.html#l00129">S_IWGRP</a>, <a class="el" href="a00089_source.html#l00141">S_IWOTH</a>, <a class="el" href="a00089_source.html#l00117">S_IWUSR</a>, <a class="el" href="a00089_source.html#l00132">S_IXGRP</a>, <a class="el" href="a00089_source.html#l00144">S_IXOTH</a>, <a class="el" href="a00089_source.html#l00120">S_IXUSR</a>, <a class="el" href="a01145_source.html#l00054">UNIX_EXECUTE_TO_RIGHTS</a>, <a class="el" href="a01145_source.html#l00049">UNIX_READ_TO_RIGHTS</a>, and <a class="el" href="a01145_source.html#l00051">UNIX_WRITE_TO_RIGHTS</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a01172_source.html#l00045">ipcl_win32_sd_create()</a>.</p>
 
 </div>
 </div>

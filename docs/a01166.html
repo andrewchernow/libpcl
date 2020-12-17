@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/win32/win32_sd_clear.c File Reference</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/win32/win32_rights_to_mode.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -69,51 +69,62 @@ $(function() {
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">win32_sd_clear.c File Reference</div>  </div>
+<div class="title">win32_rights_to_mode.c File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="a01142_source.html">_win32.h</a>&quot;</code><br />
-<code>#include &lt;<a class="el" href="a00023_source.html">pcl/alloc.h</a>&gt;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a01145_source.html">_win32.h</a>&quot;</code><br />
+<code>#include &lt;<a class="el" href="a00089_source.html">pcl/stat.h</a>&gt;</code><br />
 </div>
 <p><a href="a01166_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ab7ee3b3d747b91b15084c05d8a9bb505"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01166.html#ab7ee3b3d747b91b15084c05d8a9bb505">ipcl_win32_sd_clear</a> (SECURITY_DESCRIPTOR *sd)</td></tr>
-<tr class="memdesc:ab7ee3b3d747b91b15084c05d8a9bb505"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Clears an "absolute" SECURITY_DESCRIPTOR.  <a href="a01166.html#ab7ee3b3d747b91b15084c05d8a9bb505">More...</a><br /></td></tr>
-<tr class="separator:ab7ee3b3d747b91b15084c05d8a9bb505"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94f4b848b8771c9438ef9fdc6bbc249a"><td class="memItemLeft" align="right" valign="top">mode_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01166.html#a94f4b848b8771c9438ef9fdc6bbc249a">ipcl_win32_rights_to_mode</a> (DWORD rights, int type)</td></tr>
+<tr class="memdesc:a94f4b848b8771c9438ef9fdc6bbc249a"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Converts the given NT access rights to user, group or other mode bits.  <a href="a01166.html#a94f4b848b8771c9438ef9fdc6bbc249a">More...</a><br /></td></tr>
+<tr class="separator:a94f4b848b8771c9438ef9fdc6bbc249a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="ab7ee3b3d747b91b15084c05d8a9bb505"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab7ee3b3d747b91b15084c05d8a9bb505">&#9670;&nbsp;</a></span>ipcl_win32_sd_clear()</h2>
+<a id="a94f4b848b8771c9438ef9fdc6bbc249a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94f4b848b8771c9438ef9fdc6bbc249a">&#9670;&nbsp;</a></span>ipcl_win32_rights_to_mode()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int ipcl_win32_sd_clear </td>
+          <td class="memname">mode_t ipcl_win32_rights_to_mode </td>
           <td>(</td>
-          <td class="paramtype">SECURITY_DESCRIPTOR *&#160;</td>
-          <td class="paramname"><em>sd</em></td><td>)</td>
+          <td class="paramtype">DWORD&#160;</td>
+          <td class="paramname"><em>rights</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>type</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>&#x202A;Clears an "absolute" SECURITY_DESCRIPTOR. </p>
-<p class="DocNodeLTR">Typically this is used as the clear operation for descriptors populated by ipcl_win32_sd_create, but that is not a requirement. This can clear any valid absolute SECURITY_DESCRIPTOR. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>&#x202A;Converts the given NT access rights to user, group or other mode bits. </p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">sd</td><td>&#x202A;pointer to a SECURITY_DESCRIPTOR. Note, this function doesn't free the descriptor pointer itself, just its internals. After this call, the descriptor is empty. </td></tr>
+    <tr><td class="paramname">rights</td><td>&#x202A;the ACCESS_ALLOWED_ACE mask to convert </td></tr>
+    <tr><td class="paramname">type</td><td>&#x202A;one of S_IRUSR, S_IRGRP or S_IROTH </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;0 for success and -1 on error. This will fail if the provided security descriptor is NOT absolute. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;unix style mode bits </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="a01166_source.html#l00036">36</a> of file <a class="el" href="a01166_source.html">win32_sd_clear.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a01166_source.html#l00036">36</a> of file <a class="el" href="a01166_source.html">win32_rights_to_mode.c</a>.</p>
 
-<p class="reference">References <a class="el" href="a01175_source.html#l00035">ipcl_win32_sd_init()</a>, <a class="el" href="a01190.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free()</a>, and <a class="el" href="a00017_source.html#l00132">SETLASTERRMSG</a>.</p>
+<p class="reference">References <a class="el" href="a01145_source.html#l00047">NT_EXECUTE_TO_MODE</a>, <a class="el" href="a01145_source.html#l00042">NT_READ_TO_MODE</a>, <a class="el" href="a01145_source.html#l00044">NT_WRITE_TO_MODE</a>, <a class="el" href="a00089_source.html#l00126">S_IRGRP</a>, <a class="el" href="a00089_source.html#l00138">S_IROTH</a>, <a class="el" href="a00089_source.html#l00114">S_IRUSR</a>, <a class="el" href="a00089_source.html#l00129">S_IWGRP</a>, <a class="el" href="a00089_source.html#l00141">S_IWOTH</a>, <a class="el" href="a00089_source.html#l00117">S_IWUSR</a>, <a class="el" href="a00089_source.html#l00132">S_IXGRP</a>, <a class="el" href="a00089_source.html#l00144">S_IXOTH</a>, and <a class="el" href="a00089_source.html#l00120">S_IXUSR</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="a00497_source.html#l00037">ipcl_file_open()</a>, and <a class="el" href="a00299_source.html#l00041">pcl_mkdir()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="a01148_source.html#l00037">ipcl_win32_file_security()</a>.</p>
 
 </div>
 </div>

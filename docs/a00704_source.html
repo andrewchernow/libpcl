@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/net/net_dnstxtrec.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/net/net_dns2pcl.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">net_dnstxtrec.c</div>  </div>
+<div class="title">net_dns2pcl.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00704.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,92 +101,31 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00689.html">_net.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00116.html">pcl/vector.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00092.html">pcl/string.h</a>&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#ifdef PCL_UNIX</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor"># ifdef PCL_DARWIN</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="comment">/* force arpa/nameser.h to include arpa/nameser_compat.h */</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#   define BIND_8_COMPAT</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor"># endif</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor"># include &lt;netdb.h&gt;</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor"># include &lt;arpa/nameser.h&gt;</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor"># include &lt;resolv.h&gt;</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor"># include &lt;Windns.h&gt;</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<a class="code" href="a01289.html">pcl_vector_t</a> *</div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="a00704.html#a1a0d7334b0655c8205d2fb2820814126">   49</a></span>&#160;<a class="code" href="a00704.html#a1a0d7334b0655c8205d2fb2820814126">pcl_net_dnstxtrec</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *host)</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;{</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <a class="code" href="a01289.html">pcl_vector_t</a> *vec = NULL;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  DNS_RECORD *rlist = NULL;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  DNS_STATUS status = DnsQuery_A(host, DNS_TYPE_TEXT, 0, NULL, &amp;rlist, NULL);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <span class="keywordflow">if</span>(status)</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01198.html#ga3a42f7583ad2457610b11adb83db5925">R_SETOSERRMSG</a>(NULL, status, <span class="stringliteral">&quot;Cannot resolve: &#39;%s&#39;&quot;</span>, host);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  DNS_TXT_DATA *data = &amp;rlist-&gt;Data.Txt;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  vec = <a class="code" href="a01209.html#ga516a4fa37d3facd5e0d86e1eb1bbee84">pcl_vector_create</a>(data-&gt;dwStringCount, <span class="keyword">sizeof</span>(<span class="keywordtype">char</span> **), <a class="code" href="a01209.html#gae588078a95bbdc08f858b9b2778b54e2">pcl_vector_cleanup_dblptr</a>);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  <span class="keywordflow">for</span>(DWORD i=0; i &lt; data-&gt;dwStringCount; i++)</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  {</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">char</span> *s = <a class="code" href="a01206.html#ga9eee4361d68f33446f2cb5d17bf157fc">pcl_pcs_to_utf8</a>(data-&gt;pStringArray[i], 0, NULL);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <a class="code" href="a01209.html#ga002aba7a474ea2b6d621ae5852a3a5c6">pcl_vector_append</a>(vec, &amp;s);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  }</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  DnsRecordListFree(rlist, DnsFreeRecordList);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  ns_rr rr;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  ns_msg handle;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  uint8_t answer[65535];</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  <span class="keyword">const</span> uint8_t *data;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  <span class="keywordtype">int</span> len = res_query(host, C_IN, T_TXT, answer, (<span class="keywordtype">int</span>) <span class="keyword">sizeof</span>(answer));</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  <span class="keywordflow">if</span>(len == -1)</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01198.html#ga275b0cc5367d35bf8d2873fe5e15878b">R_SETERRMSG</a>(NULL, <a class="code" href="a00077.html#ab1d75e16b7dbd947318dffbcc27a6022">pcl_net_dns2pcl</a>(h_errno), <span class="stringliteral">&quot;Cannot resolve: &#39;%s&#39;&quot;</span>, host);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  <span class="keywordflow">if</span>(ns_initparse(answer, len, &amp;handle) &lt; 0)</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01198.html#gad08a56aa55af3716a251ced9f780686d">R_SETLASTERR</a>(NULL);</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  <span class="keywordflow">if</span>(ns_parserr(&amp;handle, ns_s_an, 0, &amp;rr))</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01198.html#gad08a56aa55af3716a251ced9f780686d">R_SETLASTERR</a>(NULL);</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  vec = <a class="code" href="a01209.html#ga516a4fa37d3facd5e0d86e1eb1bbee84">pcl_vector_create</a>(4, <span class="keyword">sizeof</span>(<span class="keywordtype">char</span> **), <a class="code" href="a01209.html#gae588078a95bbdc08f858b9b2778b54e2">pcl_vector_cleanup_dblptr</a>);</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;  len = ns_rr_rdlen(rr);</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  data = ns_rr_rdata(rr);</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;  <span class="keywordflow">for</span>(<span class="keywordtype">int</span> n = 0; n &lt; len;)</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;  {</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordtype">int</span> q = data[n++]; <span class="comment">/* first byte is txt length */</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordtype">char</span> *txt = <a class="code" href="a01206.html#ga76ffbaececfd9e912d39e6e69bfa4b7d">pcl_strndup</a>((<span class="keyword">const</span> <span class="keywordtype">char</span> *) (data + n), q);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <a class="code" href="a01209.html#ga002aba7a474ea2b6d621ae5852a3a5c6">pcl_vector_append</a>(vec, &amp;txt);</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    n += q;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  }</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;  <span class="keywordflow">return</span> vec;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00692.html">_net.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a00704.html#a82e8a662e9b4bac96c10a6538d7778aa">   35</a></span>&#160;<a class="code" href="a00704.html#a82e8a662e9b4bac96c10a6538d7778aa">pcl_net_dns2pcl</a>(<span class="keywordtype">int</span> err)</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordflow">switch</span>(err)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  {</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">case</span> HOST_NOT_FOUND: <span class="keywordflow">return</span> <a class="code" href="a01200.html#ga055e984046a3aadd432d343396b9c73a">PCL_EHOSTNOTFOUND</a>;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordflow">case</span> TRY_AGAIN:      <span class="keywordflow">return</span> <a class="code" href="a01200.html#gae8d8c032afaa7fd7fe25abdb520331e2">PCL_EAGAIN</a>;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">case</span> NO_RECOVERY:    <span class="keywordflow">return</span> <a class="code" href="a01200.html#ga61f92b6ed6e604812075f590f28f8f99">PCL_ENORECOVERY</a>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">case</span> NO_DATA:        <span class="keywordflow">return</span> <a class="code" href="a01200.html#gaf558edfaee713005b685551cd684b433">PCL_ENODATA</a>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  }</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="comment">/* likely this is NETDB_INTERNAL on Unixes */</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01199.html#ga3ff5c98b765df74bd305d2e56e9b4f31">pcl_err_os2pcl</a>(<a class="code" href="a01199.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a>);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00116_html"><div class="ttname"><a href="a00116.html">vector.h</a></div></div>
-<div class="ttc" id="aa01209_html_ga516a4fa37d3facd5e0d86e1eb1bbee84"><div class="ttname"><a href="a01209.html#ga516a4fa37d3facd5e0d86e1eb1bbee84">pcl_vector_create</a></div><div class="ttdeci">PCL_EXPORT pcl_vector_t * pcl_vector_create(int capacity, size_t elemsize, pcl_vector_cleanup_t cleanup)</div><div class="ttdoc">Creates a new vector object.</div><div class="ttdef"><b>Definition:</b> <a href="a01115_source.html#l00036">vector_create.c:36</a></div></div>
-<div class="ttc" id="aa00704_html_a1a0d7334b0655c8205d2fb2820814126"><div class="ttname"><a href="a00704.html#a1a0d7334b0655c8205d2fb2820814126">pcl_net_dnstxtrec</a></div><div class="ttdeci">pcl_vector_t * pcl_net_dnstxtrec(const char *host)</div><div class="ttdef"><b>Definition:</b> <a href="a00704_source.html#l00049">net_dnstxtrec.c:49</a></div></div>
-<div class="ttc" id="aa01206_html_ga9eee4361d68f33446f2cb5d17bf157fc"><div class="ttname"><a href="a01206.html#ga9eee4361d68f33446f2cb5d17bf157fc">pcl_pcs_to_utf8</a></div><div class="ttdeci">PCL_EXPORT char * pcl_pcs_to_utf8(const pchar_t *src, size_t src_len, size_t *lenp)</div><div class="ttdoc">Convert a pchar_t string to UTF-8.</div><div class="ttdef"><b>Definition:</b> <a href="a00935_source.html#l00071">pcs_to_utf8.c:71</a></div></div>
-<div class="ttc" id="aa01198_html_ga3a42f7583ad2457610b11adb83db5925"><div class="ttname"><a href="a01198.html#ga3a42f7583ad2457610b11adb83db5925">R_SETOSERRMSG</a></div><div class="ttdeci">#define R_SETOSERRMSG(_retval, _oserr, _msgfmt,...)</div><div class="ttdoc">Sets the return value and the current thread's OS error code, error message and maps code to PCL erro...</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00221">_errdefs.h:221</a></div></div>
-<div class="ttc" id="aa01209_html_gae588078a95bbdc08f858b9b2778b54e2"><div class="ttname"><a href="a01209.html#gae588078a95bbdc08f858b9b2778b54e2">pcl_vector_cleanup_dblptr</a></div><div class="ttdeci">PCL_EXPORT void pcl_vector_cleanup_dblptr(pcl_vector_t *v, void *elem)</div><div class="ttdoc">Built-in element cleanup handler for double pointer elements.</div><div class="ttdef"><b>Definition:</b> <a href="a01106_source.html#l00036">vector_cleanup_dblptr.c:36</a></div></div>
-<div class="ttc" id="aa00077_html_ab1d75e16b7dbd947318dffbcc27a6022"><div class="ttname"><a href="a00077.html#ab1d75e16b7dbd947318dffbcc27a6022">pcl_net_dns2pcl</a></div><div class="ttdeci">PCL_EXPORT int pcl_net_dns2pcl(int err)</div><div class="ttdef"><b>Definition:</b> <a href="a00701_source.html#l00035">net_dns2pcl.c:35</a></div></div>
-<div class="ttc" id="aa01206_html_ga76ffbaececfd9e912d39e6e69bfa4b7d"><div class="ttname"><a href="a01206.html#ga76ffbaececfd9e912d39e6e69bfa4b7d">pcl_strndup</a></div><div class="ttdeci">PCL_EXPORT char * pcl_strndup(const char *s, size_t len)</div><div class="ttdoc">Duplicate a portion of a string.</div></div>
-<div class="ttc" id="aa01198_html_gad08a56aa55af3716a251ced9f780686d"><div class="ttname"><a href="a01198.html#gad08a56aa55af3716a251ced9f780686d">R_SETLASTERR</a></div><div class="ttdeci">#define R_SETLASTERR(_retval)</div><div class="ttdoc">Sets the return value and the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00235">_errdefs.h:235</a></div></div>
-<div class="ttc" id="aa00689_html"><div class="ttname"><a href="a00689.html">_net.h</a></div></div>
-<div class="ttc" id="aa01289_html"><div class="ttname"><a href="a01289.html">tag_pcl_vector</a></div><div class="ttdoc">Vector object.</div><div class="ttdef"><b>Definition:</b> <a href="a00116_source.html#l00090">vector.h:91</a></div></div>
-<div class="ttc" id="aa01198_html_ga275b0cc5367d35bf8d2873fe5e15878b"><div class="ttname"><a href="a01198.html#ga275b0cc5367d35bf8d2873fe5e15878b">R_SETERRMSG</a></div><div class="ttdeci">#define R_SETERRMSG(_retval, _pclerr, _msgfmt,...)</div><div class="ttdoc">Sets the return value and the current thread's PCL error code and error message.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00174">_errdefs.h:174</a></div></div>
-<div class="ttc" id="aa01209_html_ga002aba7a474ea2b6d621ae5852a3a5c6"><div class="ttname"><a href="a01209.html#ga002aba7a474ea2b6d621ae5852a3a5c6">pcl_vector_append</a></div><div class="ttdeci">#define pcl_vector_append(v, elem)</div><div class="ttdoc">Append an element.</div><div class="ttdef"><b>Definition:</b> <a href="a00116_source.html#l00156">vector.h:156</a></div></div>
-<div class="ttc" id="aa00092_html"><div class="ttname"><a href="a00092.html">string.h</a></div></div>
+<div class="ttc" id="aa01199_html_ga3646b2825d51326a06f25e597f883555"><div class="ttname"><a href="a01199.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a></div><div class="ttdeci">#define pcl_oserrno</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00185">error.h:185</a></div></div>
+<div class="ttc" id="aa01200_html_gaf558edfaee713005b685551cd684b433"><div class="ttname"><a href="a01200.html#gaf558edfaee713005b685551cd684b433">PCL_ENODATA</a></div><div class="ttdeci">#define PCL_ENODATA</div><div class="ttdoc">The requested name is valid but does not have an IP address.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00289">_errno.h:289</a></div></div>
+<div class="ttc" id="aa01200_html_ga055e984046a3aadd432d343396b9c73a"><div class="ttname"><a href="a01200.html#ga055e984046a3aadd432d343396b9c73a">PCL_EHOSTNOTFOUND</a></div><div class="ttdeci">#define PCL_EHOSTNOTFOUND</div><div class="ttdoc">Authoritative Answer: Host not found.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00283">_errno.h:283</a></div></div>
+<div class="ttc" id="aa00704_html_a82e8a662e9b4bac96c10a6538d7778aa"><div class="ttname"><a href="a00704.html#a82e8a662e9b4bac96c10a6538d7778aa">pcl_net_dns2pcl</a></div><div class="ttdeci">int pcl_net_dns2pcl(int err)</div><div class="ttdef"><b>Definition:</b> <a href="a00704_source.html#l00035">net_dns2pcl.c:35</a></div></div>
+<div class="ttc" id="aa01200_html_gae8d8c032afaa7fd7fe25abdb520331e2"><div class="ttname"><a href="a01200.html#gae8d8c032afaa7fd7fe25abdb520331e2">PCL_EAGAIN</a></div><div class="ttdeci">#define PCL_EAGAIN</div><div class="ttdoc">Try again.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00048">_errno.h:48</a></div></div>
+<div class="ttc" id="aa01199_html_ga3ff5c98b765df74bd305d2e56e9b4f31"><div class="ttname"><a href="a01199.html#ga3ff5c98b765df74bd305d2e56e9b4f31">pcl_err_os2pcl</a></div><div class="ttdeci">PCL_EXPORT int pcl_err_os2pcl(uint32_t oserr)</div><div class="ttdef"><b>Definition:</b> <a href="a00371_source.html#l00035">err_os2pcl.c:35</a></div></div>
+<div class="ttc" id="aa01200_html_ga61f92b6ed6e604812075f590f28f8f99"><div class="ttname"><a href="a01200.html#ga61f92b6ed6e604812075f590f28f8f99">PCL_ENORECOVERY</a></div><div class="ttdeci">#define PCL_ENORECOVERY</div><div class="ttdoc">Non recoverable errors, FORMERR, REFUSED, NOTIMP.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00287">_errno.h:287</a></div></div>
+<div class="ttc" id="aa00692_html"><div class="ttname"><a href="a00692.html">_net.h</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

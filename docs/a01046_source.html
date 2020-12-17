@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/thread/tls_set.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/thread/tls_get.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">tls_set.c</div>  </div>
+<div class="title">tls_get.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a01046.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -102,19 +102,15 @@ $(function() {
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00101.html">pcl/thread.h</a>&gt;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/error.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01046.html#ad6af10743088784bbbce3b8228aff3ff">   36</a></span>&#160;<a class="code" href="a01046.html#ad6af10743088784bbbce3b8228aff3ff">pcl_tls_set</a>(pthread_key_t key, <span class="keywordtype">void</span> *value)</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordtype">int</span> err = pthread_setspecific(key, value);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordflow">return</span> err ? <a class="code" href="a01198.html#gaadc76b147014f17dcc08fa3c2f110a25">SETOSERR</a>(err) : 0;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;}</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">void</span> *</div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01046.html#a505fa7d53fa68f7a3de399e069756d85">   35</a></span>&#160;<a class="code" href="a01046.html#a505fa7d53fa68f7a3de399e069756d85">pcl_tls_get</a>(pthread_key_t key)</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordflow">return</span> pthread_getspecific(key);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aa00101_html"><div class="ttname"><a href="a00101.html">thread.h</a></div></div>
-<div class="ttc" id="aa01046_html_ad6af10743088784bbbce3b8228aff3ff"><div class="ttname"><a href="a01046.html#ad6af10743088784bbbce3b8228aff3ff">pcl_tls_set</a></div><div class="ttdeci">int pcl_tls_set(pthread_key_t key, void *value)</div><div class="ttdef"><b>Definition:</b> <a href="a01046_source.html#l00036">tls_set.c:36</a></div></div>
-<div class="ttc" id="aa01198_html_gaadc76b147014f17dcc08fa3c2f110a25"><div class="ttname"><a href="a01198.html#gaadc76b147014f17dcc08fa3c2f110a25">SETOSERR</a></div><div class="ttdeci">#define SETOSERR(_oserr)</div><div class="ttdoc">Sets the current thread's OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00111">_errdefs.h:111</a></div></div>
-<div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">error.h</a></div></div>
+<div class="ttc" id="aa01046_html_a505fa7d53fa68f7a3de399e069756d85"><div class="ttname"><a href="a01046.html#a505fa7d53fa68f7a3de399e069756d85">pcl_tls_get</a></div><div class="ttdeci">void * pcl_tls_get(pthread_key_t key)</div><div class="ttdef"><b>Definition:</b> <a href="a01046_source.html#l00035">tls_get.c:35</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

@@ -112,33 +112,33 @@ $(function() {
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keywordtype">int</span></div>
 <div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="a00494.html#a888c3f09abd512ec1aa4640f19feff26">   41</a></span>&#160;<a class="code" href="a00494.html#a888c3f09abd512ec1aa4640f19feff26">pcl_unlink</a>(<span class="keyword">const</span> <a class="code" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *path)</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <a class="code" href="a01196.html#gad0d37471eadcb33fa2238273a6c5cf9f">pcl_err_osclear</a>();</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <a class="code" href="a01199.html#gad0d37471eadcb33fa2238273a6c5cf9f">pcl_err_osclear</a>();</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordflow">if</span>(!DeleteFile(path))</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  {</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="comment">/* try to adjust file attrs for access denied */</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">if</span>(<a class="code" href="a01196.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a> != ERROR_ACCESS_DENIED ||</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">if</span>(<a class="code" href="a01199.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a> != ERROR_ACCESS_DENIED ||</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      !SetFileAttributes(path, FILE_ATTRIBUTE_NORMAL) ||</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      !DeleteFile(path))</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    {</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01198.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01201.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    }</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  }</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#else</span></div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <span class="keywordflow">if</span>(unlink(path) &lt; 0)</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01198.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01201.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="aa01199_html_ga3646b2825d51326a06f25e597f883555"><div class="ttname"><a href="a01199.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a></div><div class="ttdeci">#define pcl_oserrno</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00185">error.h:185</a></div></div>
 <div class="ttc" id="aa00107_html_ac114b2b1527c8ae241d37cc15ca7d122"><div class="ttname"><a href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a></div><div class="ttdeci">char pchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00107_source.html#l00053">types.h:53</a></div></div>
 <div class="ttc" id="aa00494_html_a888c3f09abd512ec1aa4640f19feff26"><div class="ttname"><a href="a00494.html#a888c3f09abd512ec1aa4640f19feff26">pcl_unlink</a></div><div class="ttdeci">int pcl_unlink(const pchar_t *path)</div><div class="ttdoc">Delete a file.</div><div class="ttdef"><b>Definition:</b> <a href="a00494_source.html#l00041">unlink.c:41</a></div></div>
-<div class="ttc" id="aa01196_html_gad0d37471eadcb33fa2238273a6c5cf9f"><div class="ttname"><a href="a01196.html#gad0d37471eadcb33fa2238273a6c5cf9f">pcl_err_osclear</a></div><div class="ttdeci">#define pcl_err_osclear()</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00292">error.h:292</a></div></div>
-<div class="ttc" id="aa01198_html_ga89b8bfbe17595305872551a1caaa5702"><div class="ttname"><a href="a01198.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a></div><div class="ttdeci">#define SETLASTERR()</div><div class="ttdoc">Sets the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00125">_errdefs.h:125</a></div></div>
+<div class="ttc" id="aa01201_html_ga89b8bfbe17595305872551a1caaa5702"><div class="ttname"><a href="a01201.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a></div><div class="ttdeci">#define SETLASTERR()</div><div class="ttdoc">Sets the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00125">_errdefs.h:125</a></div></div>
 <div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">error.h</a></div></div>
-<div class="ttc" id="aa01196_html_ga3646b2825d51326a06f25e597f883555"><div class="ttname"><a href="a01196.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a></div><div class="ttdeci">#define pcl_oserrno</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00185">error.h:185</a></div></div>
+<div class="ttc" id="aa01199_html_gad0d37471eadcb33fa2238273a6c5cf9f"><div class="ttname"><a href="a01199.html#gad0d37471eadcb33fa2238273a6c5cf9f">pcl_err_osclear</a></div><div class="ttdeci">#define pcl_err_osclear()</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00290">error.h:290</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

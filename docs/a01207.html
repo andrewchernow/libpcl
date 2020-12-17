@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;TCHAR Functions</title>
+<title>&#x202A;libpcl: &#x202A;JSON Parser</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -63,346 +63,765 @@ $(function() {
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Data Structures</a> &#124;
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">TCHAR Functions<div class="ingroups"><a class="el" href="a01206.html">String Management</a></div></div>  </div>
+<div class="title">JSON Parser</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>&#x202A;The <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> functions map <code>char</code> or <code>wchar_t</code> string functions.  
+<p>&#x202A;A JSON parser.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01248.html">tag_pcl_json</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:ga93241fc744b23f871f23a05d0685068f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga93241fc744b23f871f23a05d0685068f">PCL_JSON_SKIPUTF8CHK</a>&#160;&#160;&#160;0x01</td></tr>
+<tr class="memdesc:ga93241fc744b23f871f23a05d0685068f"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Skip UTF-8 validation.  <a href="a01207.html#ga93241fc744b23f871f23a05d0685068f">More...</a><br /></td></tr>
+<tr class="separator:ga93241fc744b23f871f23a05d0685068f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8e0e1d42b45f580263ecef865b1fbf5e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga8e0e1d42b45f580263ecef865b1fbf5e">PCL_JSON_SHALLOW</a>&#160;&#160;&#160;0x02</td></tr>
+<tr class="memdesc:ga8e0e1d42b45f580263ecef865b1fbf5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Shallow copy string.  <a href="a01207.html#ga8e0e1d42b45f580263ecef865b1fbf5e">More...</a><br /></td></tr>
+<tr class="separator:ga8e0e1d42b45f580263ecef865b1fbf5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0989486942da6abf93563f71bcacc4f1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga0989486942da6abf93563f71bcacc4f1">PCL_JSON_EMPTYASNULL</a>&#160;&#160;&#160;0x04</td></tr>
+<tr class="memdesc:ga0989486942da6abf93563f71bcacc4f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Empty strings will be encoded as a JSON null.  <a href="a01207.html#ga0989486942da6abf93563f71bcacc4f1">More...</a><br /></td></tr>
+<tr class="separator:ga0989486942da6abf93563f71bcacc4f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga27c64ca537563de18ee8a410880fa8b1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga27c64ca537563de18ee8a410880fa8b1">PCL_JSON_ALLOWNULL</a>&#160;&#160;&#160;0x08</td></tr>
+<tr class="memdesc:ga27c64ca537563de18ee8a410880fa8b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;A <code>NULL</code> string will not raise an error, but rather encode value as a JSON null.  <a href="a01207.html#ga27c64ca537563de18ee8a410880fa8b1">More...</a><br /></td></tr>
+<tr class="separator:ga27c64ca537563de18ee8a410880fa8b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1c22c051d944c223e1b3790bf454c02e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga1c22c051d944c223e1b3790bf454c02e">PCL_JSON_FREEVALONERR</a>&#160;&#160;&#160;0x10</td></tr>
+<tr class="memdesc:ga1c22c051d944c223e1b3790bf454c02e"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;When adding json objects to collections, if the add operation fails this flags will free the value being added.  <a href="a01207.html#ga1c22c051d944c223e1b3790bf454c02e">More...</a><br /></td></tr>
+<tr class="separator:ga1c22c051d944c223e1b3790bf454c02e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8975215ea0cf44502237500c6fbdb00f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga8975215ea0cf44502237500c6fbdb00f">pcl_json_isnull</a>(_j)&#160;&#160;&#160;((_j) ? (_j)-&gt;type == 0 : false)</td></tr>
+<tr class="separator:ga8975215ea0cf44502237500c6fbdb00f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5a34e770a77e7a77c81f3463d9c60d79"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga5a34e770a77e7a77c81f3463d9c60d79">pcl_json_isboolean</a>(_j)&#160;&#160;&#160;((_j) ? (_j)-&gt;type == 'b' : false)</td></tr>
+<tr class="separator:ga5a34e770a77e7a77c81f3463d9c60d79"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9bad08c47d142d0647ea3d46541ab1b7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga9bad08c47d142d0647ea3d46541ab1b7">pcl_json_istrue</a>(_j)&#160;&#160;&#160;((_j) ? <a class="el" href="a01207.html#ga5a34e770a77e7a77c81f3463d9c60d79">pcl_json_isboolean</a>(_j) &amp;&amp; (_j)-&gt;boolean : false)</td></tr>
+<tr class="separator:ga9bad08c47d142d0647ea3d46541ab1b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaab7869dc89b1b9a3c37b4fe187b35998"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#gaab7869dc89b1b9a3c37b4fe187b35998">pcl_json_isfalse</a>(_j)&#160;&#160;&#160;((_j) ? <a class="el" href="a01207.html#ga5a34e770a77e7a77c81f3463d9c60d79">pcl_json_isboolean</a>(_j) &amp;&amp; !(_j)-&gt;boolean : false)</td></tr>
+<tr class="separator:gaab7869dc89b1b9a3c37b4fe187b35998"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga253426c135fef6e407bc2a884ced42e8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga253426c135fef6e407bc2a884ced42e8">pcl_json_isreal</a>(_j)&#160;&#160;&#160;((_j) ? (_j)-&gt;type == 'r' : false)</td></tr>
+<tr class="separator:ga253426c135fef6e407bc2a884ced42e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga573c4feed70aba979950104ff6347d44"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga573c4feed70aba979950104ff6347d44">pcl_json_isinteger</a>(_j)&#160;&#160;&#160;((_j) ? (_j)-&gt;type == 'i' : false)</td></tr>
+<tr class="separator:ga573c4feed70aba979950104ff6347d44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga43f1e349ae479695befbbb03a30f23de"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga43f1e349ae479695befbbb03a30f23de">pcl_json_isnumber</a>(_j)&#160;&#160;&#160;(<a class="el" href="a01207.html#ga253426c135fef6e407bc2a884ced42e8">pcl_json_isreal</a>(_j) || <a class="el" href="a01207.html#ga573c4feed70aba979950104ff6347d44">pcl_json_isinteger</a>(_j))</td></tr>
+<tr class="separator:ga43f1e349ae479695befbbb03a30f23de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga67cd4025ea751ee03bdb8a38d351bcc5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga67cd4025ea751ee03bdb8a38d351bcc5">pcl_json_isstring</a>(_j)&#160;&#160;&#160;((_j) ? (_j)-&gt;type == 's' : false)</td></tr>
+<tr class="separator:ga67cd4025ea751ee03bdb8a38d351bcc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0665f9bbdda8d690469d5d385a8e94bb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga0665f9bbdda8d690469d5d385a8e94bb">pcl_json_isarray</a>(_j)&#160;&#160;&#160;((_j) ? (_j)-&gt;type == 'a' : false)</td></tr>
+<tr class="separator:ga0665f9bbdda8d690469d5d385a8e94bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafa401fb7a8031d02a4105dd76cffa1d9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#gafa401fb7a8031d02a4105dd76cffa1d9">pcl_json_isobject</a>(_j)&#160;&#160;&#160;((_j) ? (_j)-&gt;type == 'o' : false)</td></tr>
+<tr class="separator:gafa401fb7a8031d02a4105dd76cffa1d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga51b9a7b503726400268da5fd3a11186d"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga51b9a7b503726400268da5fd3a11186d">pcl_pcslen</a> (const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *s)</td></tr>
-<tr class="memdesc:ga51b9a7b503726400268da5fd3a11186d"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Get a string's length.  <a href="a01207.html#ga51b9a7b503726400268da5fd3a11186d">More...</a><br /></td></tr>
-<tr class="separator:ga51b9a7b503726400268da5fd3a11186d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gabb655a5ab0f637e7749f9d416af4b1c9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#gabb655a5ab0f637e7749f9d416af4b1c9">pcl_pcschr</a> (const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *s, <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> c)</td></tr>
-<tr class="memdesc:gabb655a5ab0f637e7749f9d416af4b1c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Find the first occurance of a character within a string.  <a href="a01207.html#gabb655a5ab0f637e7749f9d416af4b1c9">More...</a><br /></td></tr>
-<tr class="separator:gabb655a5ab0f637e7749f9d416af4b1c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac16c7cf06336524f862d7d601edc95f4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#gac16c7cf06336524f862d7d601edc95f4">pcl_pcsrchr</a> (const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *s, <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> c)</td></tr>
-<tr class="memdesc:gac16c7cf06336524f862d7d601edc95f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Find the last occurance of a character within a string.  <a href="a01207.html#gac16c7cf06336524f862d7d601edc95f4">More...</a><br /></td></tr>
-<tr class="separator:gac16c7cf06336524f862d7d601edc95f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad46a84b8af02ea87b6f3af7aacde03ac"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#gad46a84b8af02ea87b6f3af7aacde03ac">pcl_topupper</a> (<a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> c)</td></tr>
-<tr class="memdesc:gad46a84b8af02ea87b6f3af7aacde03ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Uppercase a character.  <a href="a01207.html#gad46a84b8af02ea87b6f3af7aacde03ac">More...</a><br /></td></tr>
-<tr class="separator:gad46a84b8af02ea87b6f3af7aacde03ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga590adc25bcbe1b9dcf2b9cdb92d7fa9e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga590adc25bcbe1b9dcf2b9cdb92d7fa9e">pcl_toplower</a> (<a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> c)</td></tr>
-<tr class="memdesc:ga590adc25bcbe1b9dcf2b9cdb92d7fa9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Lowercase a character.  <a href="a01207.html#ga590adc25bcbe1b9dcf2b9cdb92d7fa9e">More...</a><br /></td></tr>
-<tr class="separator:ga590adc25bcbe1b9dcf2b9cdb92d7fa9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gacf073bf10abd2a2049ba287b166d2231"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#gacf073bf10abd2a2049ba287b166d2231">pcl_pcsfbytes</a> (<a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *buf, size_t bufl, uint64_t nbytes, int decimal)</td></tr>
-<tr class="memdesc:gacf073bf10abd2a2049ba287b166d2231"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Format a number in byte units.  <a href="a01207.html#gacf073bf10abd2a2049ba287b166d2231">More...</a><br /></td></tr>
-<tr class="separator:gacf073bf10abd2a2049ba287b166d2231"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga6608a43435d87285c8c7468f99c70fdf"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga6608a43435d87285c8c7468f99c70fdf">pcl_pcscmp</a> (const char *a, const char *b)</td></tr>
-<tr class="memdesc:ga6608a43435d87285c8c7468f99c70fdf"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Compare two strings.  <a href="a01207.html#ga6608a43435d87285c8c7468f99c70fdf">More...</a><br /></td></tr>
-<tr class="separator:ga6608a43435d87285c8c7468f99c70fdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga5f98875520df838413e997418926ee31"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga5f98875520df838413e997418926ee31">pcl_pcsncmp</a> (const char *a, const char *b, size_t len)</td></tr>
-<tr class="memdesc:ga5f98875520df838413e997418926ee31"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Compare two strings.  <a href="a01207.html#ga5f98875520df838413e997418926ee31">More...</a><br /></td></tr>
-<tr class="separator:ga5f98875520df838413e997418926ee31"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8145fe2aa683a999cbf49a47499156c9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga8145fe2aa683a999cbf49a47499156c9">pcl_pcsicmp</a> (const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *a, const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *b)</td></tr>
-<tr class="memdesc:ga8145fe2aa683a999cbf49a47499156c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Compare two strings ignoring case.  <a href="a01207.html#ga8145fe2aa683a999cbf49a47499156c9">More...</a><br /></td></tr>
-<tr class="separator:ga8145fe2aa683a999cbf49a47499156c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga77aa1d44e5eea1e0ea94e0fdb4472e9a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga77aa1d44e5eea1e0ea94e0fdb4472e9a">pcl_pcsnicmp</a> (const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *a, const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *b, size_t n)</td></tr>
-<tr class="memdesc:ga77aa1d44e5eea1e0ea94e0fdb4472e9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Compare two strings ignoring case.  <a href="a01207.html#ga77aa1d44e5eea1e0ea94e0fdb4472e9a">More...</a><br /></td></tr>
-<tr class="separator:ga77aa1d44e5eea1e0ea94e0fdb4472e9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab041bc00f3c2fe16fcb717caa9733fbc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#gab041bc00f3c2fe16fcb717caa9733fbc">pcl_pcscpy</a> (<a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *dest, size_t size, const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *src)</td></tr>
-<tr class="memdesc:gab041bc00f3c2fe16fcb717caa9733fbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Copy a string.  <a href="a01207.html#gab041bc00f3c2fe16fcb717caa9733fbc">More...</a><br /></td></tr>
-<tr class="separator:gab041bc00f3c2fe16fcb717caa9733fbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga89090bb1f6afc70411e4849ea04aa8ed"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga89090bb1f6afc70411e4849ea04aa8ed">pcl_pcsncpy</a> (<a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *dest, size_t size, const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *src, size_t len)</td></tr>
-<tr class="memdesc:ga89090bb1f6afc70411e4849ea04aa8ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Copy a portion of a string.  <a href="a01207.html#ga89090bb1f6afc70411e4849ea04aa8ed">More...</a><br /></td></tr>
-<tr class="separator:ga89090bb1f6afc70411e4849ea04aa8ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab6f1c86cd4785aed5326a79ee1485e71"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#gab6f1c86cd4785aed5326a79ee1485e71">pcl_pcsstr</a> (const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *haystack, const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *needle)</td></tr>
-<tr class="memdesc:gab6f1c86cd4785aed5326a79ee1485e71"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Find the first occurance of a string within another string.  <a href="a01207.html#gab6f1c86cd4785aed5326a79ee1485e71">More...</a><br /></td></tr>
-<tr class="separator:gab6f1c86cd4785aed5326a79ee1485e71"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa315693ed397b6105838fe9a2c6cd76b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#gaa315693ed397b6105838fe9a2c6cd76b">pcl_pcsistr</a> (const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *haystack, const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *needle)</td></tr>
-<tr class="memdesc:gaa315693ed397b6105838fe9a2c6cd76b"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Find the first occurance of a string within another string ignoring case.  <a href="a01207.html#gaa315693ed397b6105838fe9a2c6cd76b">More...</a><br /></td></tr>
-<tr class="separator:gaa315693ed397b6105838fe9a2c6cd76b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3e9b6b1ba2888cd40bef1185f8c64a93"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga3e9b6b1ba2888cd40bef1185f8c64a93">pcl_pcsdup</a> (const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *s)</td></tr>
-<tr class="memdesc:ga3e9b6b1ba2888cd40bef1185f8c64a93"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Duplicate a string.  <a href="a01207.html#ga3e9b6b1ba2888cd40bef1185f8c64a93">More...</a><br /></td></tr>
-<tr class="separator:ga3e9b6b1ba2888cd40bef1185f8c64a93"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga906f8952991b7313cb6b4bcbc3ab4545"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga906f8952991b7313cb6b4bcbc3ab4545">pcl_pcsndup</a> (const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *s, size_t len)</td></tr>
-<tr class="memdesc:ga906f8952991b7313cb6b4bcbc3ab4545"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Duplicate a portion of a string.  <a href="a01207.html#ga906f8952991b7313cb6b4bcbc3ab4545">More...</a><br /></td></tr>
-<tr class="separator:ga906f8952991b7313cb6b4bcbc3ab4545"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gadbe388f6953fa37becefc2c6dedae43b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#gadbe388f6953fa37becefc2c6dedae43b">pcl_pcscat</a> (<a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *dest, size_t size, const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *src)</td></tr>
-<tr class="memdesc:gadbe388f6953fa37becefc2c6dedae43b"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Concatenate two strings.  <a href="a01207.html#gadbe388f6953fa37becefc2c6dedae43b">More...</a><br /></td></tr>
-<tr class="separator:gadbe388f6953fa37becefc2c6dedae43b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga197a4df7b1858b42ca7d1fae81a19f30"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga197a4df7b1858b42ca7d1fae81a19f30">pcl_pcsncat</a> (<a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *dest, size_t size, const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *src, size_t len)</td></tr>
-<tr class="memdesc:ga197a4df7b1858b42ca7d1fae81a19f30"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Concatenate two strings.  <a href="a01207.html#ga197a4df7b1858b42ca7d1fae81a19f30">More...</a><br /></td></tr>
-<tr class="separator:ga197a4df7b1858b42ca7d1fae81a19f30"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8a29f63660824f958762e3562b3c8d48"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga8a29f63660824f958762e3562b3c8d48">pcl_pcscatf</a> (<a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *dest, size_t size, const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *format,...)</td></tr>
-<tr class="memdesc:ga8a29f63660824f958762e3562b3c8d48"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Concatenate two strings using a format.  <a href="a01207.html#ga8a29f63660824f958762e3562b3c8d48">More...</a><br /></td></tr>
-<tr class="separator:ga8a29f63660824f958762e3562b3c8d48"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga24944cb75d5ed4dfdac5d409ffdb111d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga24944cb75d5ed4dfdac5d409ffdb111d">pcl_vpcscatf</a> (<a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *dest, size_t size, const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *format, va_list ap)</td></tr>
-<tr class="memdesc:ga24944cb75d5ed4dfdac5d409ffdb111d"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Concatenate two strings using a format.  <a href="a01207.html#ga24944cb75d5ed4dfdac5d409ffdb111d">More...</a><br /></td></tr>
-<tr class="separator:ga24944cb75d5ed4dfdac5d409ffdb111d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac5f59a50b278cc95f3a74abe7dbb89fb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#gac5f59a50b278cc95f3a74abe7dbb89fb">pcl_apcscatf</a> (const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *src, const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *format,...)</td></tr>
-<tr class="memdesc:gac5f59a50b278cc95f3a74abe7dbb89fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Allocate and concatenate two strings using a format.  <a href="a01207.html#gac5f59a50b278cc95f3a74abe7dbb89fb">More...</a><br /></td></tr>
-<tr class="separator:gac5f59a50b278cc95f3a74abe7dbb89fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8888404f2f14dc52b937142eabb649e8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga8888404f2f14dc52b937142eabb649e8">pcl_vapcscatf</a> (const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *src, const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *format, va_list ap)</td></tr>
-<tr class="memdesc:ga8888404f2f14dc52b937142eabb649e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Allocate and concatenate two strings using a format.  <a href="a01207.html#ga8888404f2f14dc52b937142eabb649e8">More...</a><br /></td></tr>
-<tr class="separator:ga8888404f2f14dc52b937142eabb649e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga2ba1484eaba4d93dad4988345c9c89f4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga2ba1484eaba4d93dad4988345c9c89f4">pcl_pcstrim</a> (<a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *s)</td></tr>
-<tr class="memdesc:ga2ba1484eaba4d93dad4988345c9c89f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Trim whitespace from the front and back of a string.  <a href="a01207.html#ga2ba1484eaba4d93dad4988345c9c89f4">More...</a><br /></td></tr>
-<tr class="separator:ga2ba1484eaba4d93dad4988345c9c89f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga30fa527eddfe30ab8ec4162b904a718a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga30fa527eddfe30ab8ec4162b904a718a">pcl_pcsltrim</a> (<a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *s)</td></tr>
-<tr class="memdesc:ga30fa527eddfe30ab8ec4162b904a718a"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Trim whitespace from the front (left) of a string.  <a href="a01207.html#ga30fa527eddfe30ab8ec4162b904a718a">More...</a><br /></td></tr>
-<tr class="separator:ga30fa527eddfe30ab8ec4162b904a718a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga74cf8f0bc534cbb895f3a29051d3b4ef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga74cf8f0bc534cbb895f3a29051d3b4ef">pcl_pcsrtrim</a> (<a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *s)</td></tr>
-<tr class="memdesc:ga74cf8f0bc534cbb895f3a29051d3b4ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Trim whitespace from the back (right) of a string.  <a href="a01207.html#ga74cf8f0bc534cbb895f3a29051d3b4ef">More...</a><br /></td></tr>
-<tr class="separator:ga74cf8f0bc534cbb895f3a29051d3b4ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaed0ab4b220f9bc3ff9f1e48a205ce954"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#gaed0ab4b220f9bc3ff9f1e48a205ce954">pcl_pcstrimset</a> (<a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *s, const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *set, bool left, bool right)</td></tr>
-<tr class="memdesc:gaed0ab4b220f9bc3ff9f1e48a205ce954"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Trim a set of characters from a string.  <a href="a01207.html#gaed0ab4b220f9bc3ff9f1e48a205ce954">More...</a><br /></td></tr>
-<tr class="separator:gaed0ab4b220f9bc3ff9f1e48a205ce954"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa9d4f5e94525198c6e21c7e27160a59a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#gaa9d4f5e94525198c6e21c7e27160a59a">pcl_pcsreplace</a> (const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *subject, const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *from, const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *to)</td></tr>
-<tr class="memdesc:gaa9d4f5e94525198c6e21c7e27160a59a"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Replace all occurances of a search string with a replacement string.  <a href="a01207.html#gaa9d4f5e94525198c6e21c7e27160a59a">More...</a><br /></td></tr>
-<tr class="separator:gaa9d4f5e94525198c6e21c7e27160a59a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab43610b6a4152e7afee0bcdc540fdb8e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#gab43610b6a4152e7afee0bcdc540fdb8e">pcl_pcsireplace</a> (const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *subject, const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *from, const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *to)</td></tr>
-<tr class="memdesc:gab43610b6a4152e7afee0bcdc540fdb8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Replace all occurances of a search string with a replacement string ignoring case.  <a href="a01207.html#gab43610b6a4152e7afee0bcdc540fdb8e">More...</a><br /></td></tr>
-<tr class="separator:gab43610b6a4152e7afee0bcdc540fdb8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga5ba2892be6774b30845fb0c80bb091c7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01209.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga5ba2892be6774b30845fb0c80bb091c7">pcl_pcssplit</a> (const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *s, const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *delim)</td></tr>
-<tr class="memdesc:ga5ba2892be6774b30845fb0c80bb091c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Split a string into a vector.  <a href="a01207.html#ga5ba2892be6774b30845fb0c80bb091c7">More...</a><br /></td></tr>
-<tr class="separator:ga5ba2892be6774b30845fb0c80bb091c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8d0e3884f51966d73ce2e88364df4ace"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01209.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga8d0e3884f51966d73ce2e88364df4ace">pcl_pcsisplit</a> (const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *s, const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *delim)</td></tr>
-<tr class="memdesc:ga8d0e3884f51966d73ce2e88364df4ace"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Split a string into a vector ignoring case.  <a href="a01207.html#ga8d0e3884f51966d73ce2e88364df4ace">More...</a><br /></td></tr>
-<tr class="separator:ga8d0e3884f51966d73ce2e88364df4ace"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gabc8ce8aac8649ace31ce6f7178cb268a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#gabc8ce8aac8649ace31ce6f7178cb268a">pcl_pcslower</a> (<a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *s)</td></tr>
-<tr class="memdesc:gabc8ce8aac8649ace31ce6f7178cb268a"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Lowercase a string.  <a href="a01207.html#gabc8ce8aac8649ace31ce6f7178cb268a">More...</a><br /></td></tr>
-<tr class="separator:gabc8ce8aac8649ace31ce6f7178cb268a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaafe89c3c2d92b3dffa97d3168493909e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#gaafe89c3c2d92b3dffa97d3168493909e">pcl_pcsupper</a> (<a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *s)</td></tr>
-<tr class="memdesc:gaafe89c3c2d92b3dffa97d3168493909e"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Uppercase a string.  <a href="a01207.html#gaafe89c3c2d92b3dffa97d3168493909e">More...</a><br /></td></tr>
-<tr class="separator:gaafe89c3c2d92b3dffa97d3168493909e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga53768191686b4adb0cc3055b4330b1e8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga53768191686b4adb0cc3055b4330b1e8">pcl_pcstrunc</a> (<a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *dest, size_t size, const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *src)</td></tr>
-<tr class="memdesc:ga53768191686b4adb0cc3055b4330b1e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Copy and truncate a string.  <a href="a01207.html#ga53768191686b4adb0cc3055b4330b1e8">More...</a><br /></td></tr>
-<tr class="separator:ga53768191686b4adb0cc3055b4330b1e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga11b495f5db738aa9c9fddccf91dbe82e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga11b495f5db738aa9c9fddccf91dbe82e">pcl_pcsslice</a> (const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *s, size_t pos, size_t len)</td></tr>
-<tr class="memdesc:ga11b495f5db738aa9c9fddccf91dbe82e"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Extract a slice of a string.  <a href="a01207.html#ga11b495f5db738aa9c9fddccf91dbe82e">More...</a><br /></td></tr>
-<tr class="separator:ga11b495f5db738aa9c9fddccf91dbe82e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga538b4f60deca721594977b6b704cca6e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga538b4f60deca721594977b6b704cca6e">pcl_pcsrepchr</a> (<a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *s, <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> oldch, <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> newch)</td></tr>
-<tr class="memdesc:ga538b4f60deca721594977b6b704cca6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Replace all occurance of a character in a string.  <a href="a01207.html#ga538b4f60deca721594977b6b704cca6e">More...</a><br /></td></tr>
-<tr class="separator:ga538b4f60deca721594977b6b704cca6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga5e1986997327559a2b3179593c7a475f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga5e1986997327559a2b3179593c7a475f">pcl_pcsskipws</a> (const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *s)</td></tr>
-<tr class="memdesc:ga5e1986997327559a2b3179593c7a475f"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Skip whitespace.  <a href="a01207.html#ga5e1986997327559a2b3179593c7a475f">More...</a><br /></td></tr>
-<tr class="separator:ga5e1986997327559a2b3179593c7a475f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga6a07ddcd29cae0a9a26dfd5f6d690941"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga6a07ddcd29cae0a9a26dfd5f6d690941">pcl_pmemcpy</a> (void *dest, const void *src, size_t n)</td></tr>
-<tr class="memdesc:ga6a07ddcd29cae0a9a26dfd5f6d690941"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Copy memory area.  <a href="a01207.html#ga6a07ddcd29cae0a9a26dfd5f6d690941">More...</a><br /></td></tr>
-<tr class="separator:ga6a07ddcd29cae0a9a26dfd5f6d690941"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gadf58248a366954bc4052215e6955e4b5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#gadf58248a366954bc4052215e6955e4b5">pcl_pmemmove</a> (void *dest, const void *src, size_t n)</td></tr>
-<tr class="memdesc:gadf58248a366954bc4052215e6955e4b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Copy memory area that can overlap.  <a href="a01207.html#gadf58248a366954bc4052215e6955e4b5">More...</a><br /></td></tr>
-<tr class="separator:gadf58248a366954bc4052215e6955e4b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8bd0a79d9d6886f0635bb9c6105bc1ca"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga8bd0a79d9d6886f0635bb9c6105bc1ca">pcl_pmemcmp</a> (void *a, void *b, size_t n)</td></tr>
-<tr class="memdesc:ga8bd0a79d9d6886f0635bb9c6105bc1ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Comare memory blocks.  <a href="a01207.html#ga8bd0a79d9d6886f0635bb9c6105bc1ca">More...</a><br /></td></tr>
-<tr class="separator:ga8bd0a79d9d6886f0635bb9c6105bc1ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf6bf09b0c19c4ce3f2352b084003d28f"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#gaf6bf09b0c19c4ce3f2352b084003d28f">pcl_json_decode</a> (const char *json, size_t len, const char **end)</td></tr>
+<tr class="memdesc:gaf6bf09b0c19c4ce3f2352b084003d28f"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Decode a JSON string.  <a href="a01207.html#gaf6bf09b0c19c4ce3f2352b084003d28f">More...</a><br /></td></tr>
+<tr class="separator:gaf6bf09b0c19c4ce3f2352b084003d28f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6313011b7bf9e9bd368b0721462466bd"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga6313011b7bf9e9bd368b0721462466bd">pcl_json_encode</a> (<a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *value, bool format)</td></tr>
+<tr class="separator:ga6313011b7bf9e9bd368b0721462466bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga52957df8ceda7e9af3a900fa484f0531"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga52957df8ceda7e9af3a900fa484f0531">pcl_json_free</a> (<a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *j)</td></tr>
+<tr class="separator:ga52957df8ceda7e9af3a900fa484f0531"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab03b778adeb37a2a4241320b01814c13"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#gab03b778adeb37a2a4241320b01814c13">pcl_json_object</a> (void)</td></tr>
+<tr class="memdesc:gab03b778adeb37a2a4241320b01814c13"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Create an object.  <a href="a01207.html#gab03b778adeb37a2a4241320b01814c13">More...</a><br /></td></tr>
+<tr class="separator:gab03b778adeb37a2a4241320b01814c13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaeac631cb4ebe6a4692b0fad96da9f4ca"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#gaeac631cb4ebe6a4692b0fad96da9f4ca">pcl_json_object_put</a> (<a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *obj, char *key, <a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *value, uint32_t flags)</td></tr>
+<tr class="separator:gaeac631cb4ebe6a4692b0fad96da9f4ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0535896498ada93e19ed516bc177894e"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga0535896498ada93e19ed516bc177894e">pcl_json_object_get</a> (<a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *obj, const char *key)</td></tr>
+<tr class="separator:ga0535896498ada93e19ed516bc177894e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf4824568d3bd6e40bf93ced643c2b15f"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#gaf4824568d3bd6e40bf93ced643c2b15f">pcl_json_array</a> (void)</td></tr>
+<tr class="memdesc:gaf4824568d3bd6e40bf93ced643c2b15f"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Create an array object.  <a href="a01207.html#gaf4824568d3bd6e40bf93ced643c2b15f">More...</a><br /></td></tr>
+<tr class="separator:gaf4824568d3bd6e40bf93ced643c2b15f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7151d49775307c21eecf61d2dd1fd411"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga7151d49775307c21eecf61d2dd1fd411">pcl_json_array_add</a> (<a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *arr, <a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *elem, uint32_t flags)</td></tr>
+<tr class="memdesc:ga7151d49775307c21eecf61d2dd1fd411"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Add an element to an array.  <a href="a01207.html#ga7151d49775307c21eecf61d2dd1fd411">More...</a><br /></td></tr>
+<tr class="separator:ga7151d49775307c21eecf61d2dd1fd411"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2467f752a5ecfc0a1dedfcb4ba295d19"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga2467f752a5ecfc0a1dedfcb4ba295d19">pcl_json_array_get</a> (<a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *arr, int index)</td></tr>
+<tr class="separator:ga2467f752a5ecfc0a1dedfcb4ba295d19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad5492fd60704289c6b3470ab5177b11d"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#gad5492fd60704289c6b3470ab5177b11d">pcl_json_string</a> (char *str, uint32_t flags)</td></tr>
+<tr class="memdesc:gad5492fd60704289c6b3470ab5177b11d"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Create a string.  <a href="a01207.html#gad5492fd60704289c6b3470ab5177b11d">More...</a><br /></td></tr>
+<tr class="separator:gad5492fd60704289c6b3470ab5177b11d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadc74bf2c2d0e43c0b14c45d4daf5b8e3"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#gadc74bf2c2d0e43c0b14c45d4daf5b8e3">pcl_json_string_len</a> (const char *str, size_t len, uint32_t flags)</td></tr>
+<tr class="memdesc:gadc74bf2c2d0e43c0b14c45d4daf5b8e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Create a string.  <a href="a01207.html#gadc74bf2c2d0e43c0b14c45d4daf5b8e3">More...</a><br /></td></tr>
+<tr class="separator:gadc74bf2c2d0e43c0b14c45d4daf5b8e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac4da410fe9fdd02518f1d6a3d055eb36"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#gac4da410fe9fdd02518f1d6a3d055eb36">pcl_json_boolean</a> (bool value)</td></tr>
+<tr class="memdesc:gac4da410fe9fdd02518f1d6a3d055eb36"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Create a boolean.  <a href="a01207.html#gac4da410fe9fdd02518f1d6a3d055eb36">More...</a><br /></td></tr>
+<tr class="separator:gac4da410fe9fdd02518f1d6a3d055eb36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0b27c02c4dc480285400c21a96d3f15f"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga0b27c02c4dc480285400c21a96d3f15f">pcl_json_true</a> (void)</td></tr>
+<tr class="separator:ga0b27c02c4dc480285400c21a96d3f15f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1b32077822958a952f82fd585ee42725"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga1b32077822958a952f82fd585ee42725">pcl_json_false</a> (void)</td></tr>
+<tr class="separator:ga1b32077822958a952f82fd585ee42725"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadd71febaeb10436293419974665fbebc"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#gadd71febaeb10436293419974665fbebc">pcl_json_null</a> (void)</td></tr>
+<tr class="separator:gadd71febaeb10436293419974665fbebc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga800b65772bc6243ef38847012504844d"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga800b65772bc6243ef38847012504844d">pcl_json_real</a> (double real)</td></tr>
+<tr class="separator:ga800b65772bc6243ef38847012504844d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1a4aeebd025c32c703ae4a28160e8822"><td class="memItemLeft" align="right" valign="top">PCL_EXPORT <a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01207.html#ga1a4aeebd025c32c703ae4a28160e8822">pcl_json_integer</a> (long long integer)</td></tr>
+<tr class="separator:ga1a4aeebd025c32c703ae4a28160e8822"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p class="DocNodeLTR">The <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> functions map <code>char</code> or <code>wchar_t</code> string functions. </p>
-<p class="DocNodeLTR">They are all implemented as macros but documented as functions. This makes the docs as clear as possible in regards to return values, parameters, etc. These functions (macros) will map <code>wchar_t</code> versions on Windows and <code>char</code> versions on Unixes. The <code>wchar_t</code> versions are UTF-16 while the <code>char</code> versions are expected to be UTF-8. The <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> versions are prefixed with <code>pcs</code> or include a <code>t</code> in the name (like <a class="el" href="a01207.html#gad46a84b8af02ea87b6f3af7aacde03ac" title="&#x202A;Uppercase a character.">pcl_topupper</a>). The <code>pcs</code> prefix extends the <code>wcs</code> naming. </p>
+<p class="DocNodeLTR">A JSON parser. </p>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="ga93241fc744b23f871f23a05d0685068f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga93241fc744b23f871f23a05d0685068f">&#9670;&nbsp;</a></span>PCL_JSON_SKIPUTF8CHK</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PCL_JSON_SKIPUTF8CHK&#160;&#160;&#160;0x01</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00068.html">pcl/json.h</a>&gt;</code></p>
+
+<p>&#x202A;Skip UTF-8 validation. </p>
+<p class="DocNodeLTR">Only set this flag if you know for sure a string is valid UTF-8. Otherwise, you can end up with an invalid JSON document that will be rejected by parsers outside of PCL. </p><dl class="section see DocNodeLTR"><dt>See also</dt><dd>&#x202A;<a class="el" href="a01207.html#gad5492fd60704289c6b3470ab5177b11d" title="&#x202A;Create a string.">pcl_json_string</a>, <a class="el" href="a01207.html#gadc74bf2c2d0e43c0b14c45d4daf5b8e3" title="&#x202A;Create a string.">pcl_json_string_len</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00068_source.html#l00046">46</a> of file <a class="el" href="a00068_source.html">json.h</a>.</p>
+
+</div>
+</div>
+<a id="ga8e0e1d42b45f580263ecef865b1fbf5e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8e0e1d42b45f580263ecef865b1fbf5e">&#9670;&nbsp;</a></span>PCL_JSON_SHALLOW</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PCL_JSON_SHALLOW&#160;&#160;&#160;0x02</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00068.html">pcl/json.h</a>&gt;</code></p>
+
+<p>&#x202A;Shallow copy string. </p>
+<p class="DocNodeLTR">By default, <a class="el" href="a01207.html#gad5492fd60704289c6b3470ab5177b11d" title="&#x202A;Create a string.">pcl_json_string</a> makes a copy of the provided string. Setting this flag avoids the copy and the PCL json module will manage the pointer. </p><dl class="section see DocNodeLTR"><dt>See also</dt><dd>&#x202A;<a class="el" href="a01207.html#gad5492fd60704289c6b3470ab5177b11d" title="&#x202A;Create a string.">pcl_json_string</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00068_source.html#l00052">52</a> of file <a class="el" href="a00068_source.html">json.h</a>.</p>
+
+</div>
+</div>
+<a id="ga0989486942da6abf93563f71bcacc4f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0989486942da6abf93563f71bcacc4f1">&#9670;&nbsp;</a></span>PCL_JSON_EMPTYASNULL</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PCL_JSON_EMPTYASNULL&#160;&#160;&#160;0x04</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00068.html">pcl/json.h</a>&gt;</code></p>
+
+<p>&#x202A;Empty strings will be encoded as a JSON null. </p>
+<dl class="section see DocNodeLTR"><dt>See also</dt><dd>&#x202A;<a class="el" href="a01207.html#gad5492fd60704289c6b3470ab5177b11d" title="&#x202A;Create a string.">pcl_json_string</a>, <a class="el" href="a01207.html#gadc74bf2c2d0e43c0b14c45d4daf5b8e3" title="&#x202A;Create a string.">pcl_json_string_len</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00068_source.html#l00057">57</a> of file <a class="el" href="a00068_source.html">json.h</a>.</p>
+
+</div>
+</div>
+<a id="ga27c64ca537563de18ee8a410880fa8b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga27c64ca537563de18ee8a410880fa8b1">&#9670;&nbsp;</a></span>PCL_JSON_ALLOWNULL</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PCL_JSON_ALLOWNULL&#160;&#160;&#160;0x08</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00068.html">pcl/json.h</a>&gt;</code></p>
+
+<p>&#x202A;A <code>NULL</code> string will not raise an error, but rather encode value as a JSON null. </p>
+<dl class="section see DocNodeLTR"><dt>See also</dt><dd>&#x202A;<a class="el" href="a01207.html#gad5492fd60704289c6b3470ab5177b11d" title="&#x202A;Create a string.">pcl_json_string</a>, <a class="el" href="a01207.html#gadc74bf2c2d0e43c0b14c45d4daf5b8e3" title="&#x202A;Create a string.">pcl_json_string_len</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00068_source.html#l00062">62</a> of file <a class="el" href="a00068_source.html">json.h</a>.</p>
+
+</div>
+</div>
+<a id="ga1c22c051d944c223e1b3790bf454c02e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1c22c051d944c223e1b3790bf454c02e">&#9670;&nbsp;</a></span>PCL_JSON_FREEVALONERR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PCL_JSON_FREEVALONERR&#160;&#160;&#160;0x10</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00068.html">pcl/json.h</a>&gt;</code></p>
+
+<p>&#x202A;When adding json objects to collections, if the add operation fails this flags will free the value being added. </p>
+<div class="fragment"><div class="line"><a class="code" href="a01248.html">pcl_json_t</a> *val = <a class="code" href="a01207.html#ga1a4aeebd025c32c703ae4a28160e8822">pcl_json_integer</a>(10);</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// NULL key will force an error, this will free &#39;val&#39;</span></div>
+<div class="line"><a class="code" href="a01207.html#gaeac631cb4ebe6a4692b0fad96da9f4ca">pcl_json_object_put</a>(obj, NULL, val, <a class="code" href="a01207.html#ga1c22c051d944c223e1b3790bf454c02e">PCL_JSON_FREEVALONERR</a>);</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// identical to</span></div>
+<div class="line"><span class="keywordflow">if</span>(<a class="code" href="a01207.html#gaeac631cb4ebe6a4692b0fad96da9f4ca">pcl_json_object_put</a>(obj, NULL, val, 0) &lt; 0)</div>
+<div class="line">  <a class="code" href="a01207.html#ga52957df8ceda7e9af3a900fa484f0531">pcl_json_free</a>(val);</div>
+</div><!-- fragment --> <dl class="section see DocNodeLTR"><dt>See also</dt><dd>&#x202A;<a class="el" href="a01207.html#gaeac631cb4ebe6a4692b0fad96da9f4ca">pcl_json_object_put</a>, <a class="el" href="a01207.html#ga7151d49775307c21eecf61d2dd1fd411" title="&#x202A;Add an element to an array.">pcl_json_array_add</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00068_source.html#l00079">79</a> of file <a class="el" href="a00068_source.html">json.h</a>.</p>
+
+</div>
+</div>
+<a id="ga8975215ea0cf44502237500c6fbdb00f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8975215ea0cf44502237500c6fbdb00f">&#9670;&nbsp;</a></span>pcl_json_isnull</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define pcl_json_isnull</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">_j</td><td>)</td>
+          <td>&#160;&#160;&#160;((_j) ? (_j)-&gt;type == 0 : false)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00068.html">pcl/json.h</a>&gt;</code></p>
+
+<p class="definition">Definition at line <a class="el" href="a00068_source.html#l00085">85</a> of file <a class="el" href="a00068_source.html">json.h</a>.</p>
+
+</div>
+</div>
+<a id="ga5a34e770a77e7a77c81f3463d9c60d79"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5a34e770a77e7a77c81f3463d9c60d79">&#9670;&nbsp;</a></span>pcl_json_isboolean</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define pcl_json_isboolean</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">_j</td><td>)</td>
+          <td>&#160;&#160;&#160;((_j) ? (_j)-&gt;type == 'b' : false)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00068.html">pcl/json.h</a>&gt;</code></p>
+
+<p class="definition">Definition at line <a class="el" href="a00068_source.html#l00086">86</a> of file <a class="el" href="a00068_source.html">json.h</a>.</p>
+
+</div>
+</div>
+<a id="ga9bad08c47d142d0647ea3d46541ab1b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9bad08c47d142d0647ea3d46541ab1b7">&#9670;&nbsp;</a></span>pcl_json_istrue</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define pcl_json_istrue</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">_j</td><td>)</td>
+          <td>&#160;&#160;&#160;((_j) ? <a class="el" href="a01207.html#ga5a34e770a77e7a77c81f3463d9c60d79">pcl_json_isboolean</a>(_j) &amp;&amp; (_j)-&gt;boolean : false)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00068.html">pcl/json.h</a>&gt;</code></p>
+
+<p class="definition">Definition at line <a class="el" href="a00068_source.html#l00087">87</a> of file <a class="el" href="a00068_source.html">json.h</a>.</p>
+
+</div>
+</div>
+<a id="gaab7869dc89b1b9a3c37b4fe187b35998"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaab7869dc89b1b9a3c37b4fe187b35998">&#9670;&nbsp;</a></span>pcl_json_isfalse</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define pcl_json_isfalse</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">_j</td><td>)</td>
+          <td>&#160;&#160;&#160;((_j) ? <a class="el" href="a01207.html#ga5a34e770a77e7a77c81f3463d9c60d79">pcl_json_isboolean</a>(_j) &amp;&amp; !(_j)-&gt;boolean : false)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00068.html">pcl/json.h</a>&gt;</code></p>
+
+<p class="definition">Definition at line <a class="el" href="a00068_source.html#l00088">88</a> of file <a class="el" href="a00068_source.html">json.h</a>.</p>
+
+</div>
+</div>
+<a id="ga253426c135fef6e407bc2a884ced42e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga253426c135fef6e407bc2a884ced42e8">&#9670;&nbsp;</a></span>pcl_json_isreal</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define pcl_json_isreal</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">_j</td><td>)</td>
+          <td>&#160;&#160;&#160;((_j) ? (_j)-&gt;type == 'r' : false)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00068.html">pcl/json.h</a>&gt;</code></p>
+
+<p class="definition">Definition at line <a class="el" href="a00068_source.html#l00089">89</a> of file <a class="el" href="a00068_source.html">json.h</a>.</p>
+
+</div>
+</div>
+<a id="ga573c4feed70aba979950104ff6347d44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga573c4feed70aba979950104ff6347d44">&#9670;&nbsp;</a></span>pcl_json_isinteger</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define pcl_json_isinteger</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">_j</td><td>)</td>
+          <td>&#160;&#160;&#160;((_j) ? (_j)-&gt;type == 'i' : false)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00068.html">pcl/json.h</a>&gt;</code></p>
+
+<p class="definition">Definition at line <a class="el" href="a00068_source.html#l00090">90</a> of file <a class="el" href="a00068_source.html">json.h</a>.</p>
+
+</div>
+</div>
+<a id="ga43f1e349ae479695befbbb03a30f23de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga43f1e349ae479695befbbb03a30f23de">&#9670;&nbsp;</a></span>pcl_json_isnumber</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define pcl_json_isnumber</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">_j</td><td>)</td>
+          <td>&#160;&#160;&#160;(<a class="el" href="a01207.html#ga253426c135fef6e407bc2a884ced42e8">pcl_json_isreal</a>(_j) || <a class="el" href="a01207.html#ga573c4feed70aba979950104ff6347d44">pcl_json_isinteger</a>(_j))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00068.html">pcl/json.h</a>&gt;</code></p>
+
+<p class="definition">Definition at line <a class="el" href="a00068_source.html#l00091">91</a> of file <a class="el" href="a00068_source.html">json.h</a>.</p>
+
+</div>
+</div>
+<a id="ga67cd4025ea751ee03bdb8a38d351bcc5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga67cd4025ea751ee03bdb8a38d351bcc5">&#9670;&nbsp;</a></span>pcl_json_isstring</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define pcl_json_isstring</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">_j</td><td>)</td>
+          <td>&#160;&#160;&#160;((_j) ? (_j)-&gt;type == 's' : false)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00068.html">pcl/json.h</a>&gt;</code></p>
+
+<p class="definition">Definition at line <a class="el" href="a00068_source.html#l00092">92</a> of file <a class="el" href="a00068_source.html">json.h</a>.</p>
+
+</div>
+</div>
+<a id="ga0665f9bbdda8d690469d5d385a8e94bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0665f9bbdda8d690469d5d385a8e94bb">&#9670;&nbsp;</a></span>pcl_json_isarray</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define pcl_json_isarray</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">_j</td><td>)</td>
+          <td>&#160;&#160;&#160;((_j) ? (_j)-&gt;type == 'a' : false)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00068.html">pcl/json.h</a>&gt;</code></p>
+
+<p class="definition">Definition at line <a class="el" href="a00068_source.html#l00093">93</a> of file <a class="el" href="a00068_source.html">json.h</a>.</p>
+
+</div>
+</div>
+<a id="gafa401fb7a8031d02a4105dd76cffa1d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gafa401fb7a8031d02a4105dd76cffa1d9">&#9670;&nbsp;</a></span>pcl_json_isobject</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define pcl_json_isobject</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">_j</td><td>)</td>
+          <td>&#160;&#160;&#160;((_j) ? (_j)-&gt;type == 'o' : false)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00068.html">pcl/json.h</a>&gt;</code></p>
+
+<p class="definition">Definition at line <a class="el" href="a00068_source.html#l00094">94</a> of file <a class="el" href="a00068_source.html">json.h</a>.</p>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="ga51b9a7b503726400268da5fd3a11186d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga51b9a7b503726400268da5fd3a11186d">&#9670;&nbsp;</a></span>pcl_pcslen()</h2>
+<a id="gaf6bf09b0c19c4ce3f2352b084003d28f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf6bf09b0c19c4ce3f2352b084003d28f">&#9670;&nbsp;</a></span>pcl_json_decode()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">size_t pcl_pcslen </td>
+          <td class="memname">PCL_EXPORT <a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a>* pcl_json_decode </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>s</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
-
-<p>&#x202A;Get a string's length. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">s</td><td>&#x202A;pointer to a string </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;character length of string </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
-
-<p class="reference">Referenced by <a class="el" href="a00446_source.html#l00051">pcl_fdpath()</a>, <a class="el" href="a00548_source.html#l00038">pcl_getopt()</a>, <a class="el" href="a00935_source.html#l00071">pcl_pcs_to_utf8()</a>, <a class="el" href="a00758_source.html#l00045">pcl_proc_exec()</a>, <a class="el" href="a00308_source.html#l00046">pcl_readdir()</a>, and <a class="el" href="a00584_source.html#l00047">pcl_tmpfile()</a>.</p>
-
-</div>
-</div>
-<a id="gabb655a5ab0f637e7749f9d416af4b1c9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gabb655a5ab0f637e7749f9d416af4b1c9">&#9670;&nbsp;</a></span>pcl_pcschr()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>* pcl_pcschr </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>s</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>&#160;</td>
-          <td class="paramname"><em>c</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
-
-<p>&#x202A;Find the first occurance of a character within a string. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">s</td><td>&#x202A;pointer to a string </td></tr>
-    <tr><td class="paramname">c</td><td>&#x202A;character to find </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;first occurance of <em>c</em> within <em>s</em> or <code>NULL</code> if not found </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
-
-<p class="reference">Referenced by <a class="el" href="a00548_source.html#l00038">pcl_getopt()</a>, and <a class="el" href="a00302_source.html#l00037">pcl_mkdirs()</a>.</p>
-
-</div>
-</div>
-<a id="gac16c7cf06336524f862d7d601edc95f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gac16c7cf06336524f862d7d601edc95f4">&#9670;&nbsp;</a></span>pcl_pcsrchr()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>* pcl_pcsrchr </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>s</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>&#160;</td>
-          <td class="paramname"><em>c</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
-
-<p>&#x202A;Find the last occurance of a character within a string. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">s</td><td>&#x202A;pointer to a string </td></tr>
-    <tr><td class="paramname">c</td><td>&#x202A;character to find </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;last occurance of <em>c</em> within <em>s</em> or <code>NULL</code> if not found </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
-
-<p class="reference">Referenced by <a class="el" href="a00911_source.html#l00087">ipcl_statent()</a>.</p>
-
-</div>
-</div>
-<a id="gad46a84b8af02ea87b6f3af7aacde03ac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gad46a84b8af02ea87b6f3af7aacde03ac">&#9670;&nbsp;</a></span>pcl_topupper()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> pcl_topupper </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>&#160;</td>
-          <td class="paramname"><em>c</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
-
-<p>&#x202A;Uppercase a character. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">c</td><td>&#x202A;character </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;uppercase character </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
-
-</div>
-</div>
-<a id="ga590adc25bcbe1b9dcf2b9cdb92d7fa9e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga590adc25bcbe1b9dcf2b9cdb92d7fa9e">&#9670;&nbsp;</a></span>pcl_toplower()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> pcl_toplower </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>&#160;</td>
-          <td class="paramname"><em>c</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
-
-<p>&#x202A;Lowercase a character. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">c</td><td>&#x202A;character </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;lowercase character </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
-
-</div>
-</div>
-<a id="gacf073bf10abd2a2049ba287b166d2231"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gacf073bf10abd2a2049ba287b166d2231">&#9670;&nbsp;</a></span>pcl_pcsfbytes()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int pcl_pcsfbytes </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>buf</em>, </td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>json</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>bufl</em>, </td>
+          <td class="paramname"><em>len</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint64_t&#160;</td>
-          <td class="paramname"><em>nbytes</em>, </td>
+          <td class="paramtype">const char **&#160;</td>
+          <td class="paramname"><em>end</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00068.html">pcl/json.h</a>&gt;</code></p>
+
+<p>&#x202A;Decode a JSON string. </p>
+<p class="DocNodeLTR">This parses a JSON string that represents a single JSON value. A JSON value can be an object <code>{}</code>, array <code></code>[], string <code>""</code>, number <code>-102.84</code>, boolean <code>true</code> or <code>false</code> or a null <code>null</code>. Parsing stops when the parsing of the JSON value at <em>json</em> is complete, regardless of the <em>len</em> argument. However, if a complete JSON value is not found before reaching <em>json</em> <code>+</code> <em>len</em>, an error occurs. The <em>json</em> string can contain bogus data after the value being parsed, since the parser stops at the end of the value. For example: </p><div class="fragment"><div class="line">{</div>
+<div class="line">  <span class="stringliteral">&quot;name&quot;</span>: <span class="stringliteral">&quot;Henry Ford&quot;</span></div>
+<div class="line">}#invalid json here</div>
+</div><!-- fragment --><p class="DocNodeLTR"> The above is completely valid, since a valid JSON object exists and ends before any invalid JSON text is encountered. When the <em>end</em> argument is supplied, it would be pointing at the '#' in the above example. This is very useful if a string contains multiple JSON values. pcl_json_decode can be called a multiple times passing the value of <em>end</em> as <em>json</em>, allowing one to iterate through a series of json values.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">json</td><td>&#x202A;pointer to a json string. This must be NUL terminated if <em>len</em> is 0. </td></tr>
+    <tr><td class="paramname">len</td><td>&#x202A;number of bytes within <em>json</em> argument. If 0, <em>json</em> must be NUL terminated. </td></tr>
+    <tr><td class="paramname">end</td><td>&#x202A;pointer to the first character not parsed. This can be <code>NULL</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to a json value or <code>NULL</code> on error </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00611_source.html#l00037">37</a> of file <a class="el" href="a00611_source.html">json_decode.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00596_source.html#l00054">ipcl_json_state_t::ctx</a>, <a class="el" href="a00596_source.html#l00053">ipcl_json_state_t::end</a>, <a class="el" href="a00662_source.html#l00037">ipcl_json_parse_value()</a>, <a class="el" href="a00596_source.html#l00055">ipcl_json_state_t::line</a>, <a class="el" href="a00038_source.html#l00119">min</a>, <a class="el" href="a00596_source.html#l00052">ipcl_json_state_t::next</a>, <a class="el" href="a00020_source.html#l00078">PCL_EINVAL</a>, <a class="el" href="a00017_source.html#l00145">R_SETERR</a>, <a class="el" href="a00017_source.html#l00174">R_SETERRMSG</a>, and <a class="el" href="a00017_source.html#l00302">R_TRCMSG</a>.</p>
+
+</div>
+</div>
+<a id="ga6313011b7bf9e9bd368b0721462466bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6313011b7bf9e9bd368b0721462466bd">&#9670;&nbsp;</a></span>pcl_json_encode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PCL_EXPORT char* pcl_json_encode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *&#160;</td>
+          <td class="paramname"><em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>format</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00068.html">pcl/json.h</a>&gt;</code></p>
+
+<p class="definition">Definition at line <a class="el" href="a00614_source.html#l00037">37</a> of file <a class="el" href="a00614_source.html">json_encode.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00596_source.html#l00062">ipcl_json_encode_t::b</a>, <a class="el" href="a00032_source.html#l00147">tag_pcl_buf::data</a>, <a class="el" href="a00596_source.html#l00061">ipcl_json_encode_t::format</a>, <a class="el" href="a00626_source.html#l00036">ipcl_json_encode_value()</a>, <a class="el" href="a00173_source.html#l00036">pcl_buf_clear()</a>, <a class="el" href="a00206_source.html#l00037">pcl_buf_init()</a>, <a class="el" href="a00032_source.html#l00114">PclBufText</a>, and <a class="el" href="a00596_source.html#l00060">ipcl_json_encode_t::tabs</a>.</p>
+
+</div>
+</div>
+<a id="ga52957df8ceda7e9af3a900fa484f0531"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga52957df8ceda7e9af3a900fa484f0531">&#9670;&nbsp;</a></span>pcl_json_free()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PCL_EXPORT void pcl_json_free </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *&#160;</td>
+          <td class="paramname"><em>j</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00068.html">pcl/json.h</a>&gt;</code></p>
+
+<p class="definition">Definition at line <a class="el" href="a00632_source.html#l00038">38</a> of file <a class="el" href="a00632_source.html">json_free.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00068_source.html#l00110">tag_pcl_json::array</a>, <a class="el" href="a00068_source.html#l00111">tag_pcl_json::object</a>, <a class="el" href="a00143_source.html#l00036">pcl_array_free()</a>, <a class="el" href="a01193.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free()</a>, <a class="el" href="a01193.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe()</a>, <a class="el" href="a00521_source.html#l00036">pcl_htable_free()</a>, <a class="el" href="a00629_source.html#l00035">pcl_json_false()</a>, <a class="el" href="a00638_source.html#l00036">pcl_json_null()</a>, <a class="el" href="a00677_source.html#l00035">pcl_json_true()</a>, <a class="el" href="a00068_source.html#l00109">tag_pcl_json::string</a>, and <a class="el" href="a00068_source.html#l00101">tag_pcl_json::type</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00650_source.html#l00035">ipcl_json_parse_array()</a>, <a class="el" href="a00656_source.html#l00037">ipcl_json_parse_object()</a>, <a class="el" href="a00401_source.html#l00039">pcl_err_vjson()</a>, <a class="el" href="a00602_source.html#l00036">pcl_json_array_add()</a>, and <a class="el" href="a00647_source.html#l00038">pcl_json_object_put()</a>.</p>
+
+</div>
+</div>
+<a id="gab03b778adeb37a2a4241320b01814c13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab03b778adeb37a2a4241320b01814c13">&#9670;&nbsp;</a></span>pcl_json_object()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PCL_EXPORT <a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a>* pcl_json_object </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00068.html">pcl/json.h</a>&gt;</code></p>
+
+<p>&#x202A;Create an object. </p>
+<p class="DocNodeLTR">It is safe to use the <a class="el" href="a01204.html">hash table module</a> for managing a JSON object. Internally, a json object is backed by a <a class="el" href="a00107.html#a837674424510bcf55b9b1eaa8acf639f">pcl_htable_t</a>. For a given <code>pcl_json_t</code>, ensure the <em>type</em> member is <code>'o'</code> and then use <code>json-&gt;object</code> with the htable functions. However, do not use <a class="el" href="a01204.html#ga8b9f6df4376aac1c35a5d87ebcff93dc" title="&#x202A;Release all resources used by the given hash table.">pcl_htable_free</a>. </p><dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to a json object of type object </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00641_source.html#l00045">45</a> of file <a class="el" href="a00641_source.html">json_object.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00068_source.html#l00111">tag_pcl_json::object</a>, <a class="el" href="a00518_source.html#l00062">pcl_htable_create()</a>, <a class="el" href="a01193.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc()</a>, <a class="el" href="a00059_source.html#l00273">tag_pcl_htable::remove_entry</a>, and <a class="el" href="a00068_source.html#l00101">tag_pcl_json::type</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00656_source.html#l00037">ipcl_json_parse_object()</a>, and <a class="el" href="a00401_source.html#l00039">pcl_err_vjson()</a>.</p>
+
+</div>
+</div>
+<a id="gaeac631cb4ebe6a4692b0fad96da9f4ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaeac631cb4ebe6a4692b0fad96da9f4ca">&#9670;&nbsp;</a></span>pcl_json_object_put()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PCL_EXPORT int pcl_json_object_put </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *&#160;</td>
+          <td class="paramname"><em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>flags</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00068.html">pcl/json.h</a>&gt;</code></p>
+
+<p class="definition">Definition at line <a class="el" href="a00647_source.html#l00038">38</a> of file <a class="el" href="a00647_source.html">json_object_put.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00017_source.html#l00306">BADARG</a>, <a class="el" href="a00680_source.html#l00051">ipcl_json_utf8check()</a>, <a class="el" href="a00068_source.html#l00111">tag_pcl_json::object</a>, <a class="el" href="a00020_source.html#l00142">PCL_ETYPE</a>, <a class="el" href="a01193.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free()</a>, <a class="el" href="a00533_source.html#l00037">pcl_htable_put()</a>, <a class="el" href="a00632_source.html#l00038">pcl_json_free()</a>, <a class="el" href="a00068_source.html#l00079">PCL_JSON_FREEVALONERR</a>, <a class="el" href="a00068_source.html#l00094">pcl_json_isobject</a>, <a class="el" href="a00068_source.html#l00052">PCL_JSON_SHALLOW</a>, <a class="el" href="a00068_source.html#l00046">PCL_JSON_SKIPUTF8CHK</a>, <a class="el" href="a01209.html#ga046608776c880d7d3bf39943e692f064">pcl_strdup()</a>, <a class="el" href="a00017_source.html#l00087">SETERRMSG</a>, <a class="el" href="a00017_source.html#l00262">TRC</a>, <a class="el" href="a00017_source.html#l00275">TRCMSG</a>, and <a class="el" href="a00068_source.html#l00101">tag_pcl_json::type</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00656_source.html#l00037">ipcl_json_parse_object()</a>, and <a class="el" href="a00401_source.html#l00039">pcl_err_vjson()</a>.</p>
+
+</div>
+</div>
+<a id="ga0535896498ada93e19ed516bc177894e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0535896498ada93e19ed516bc177894e">&#9670;&nbsp;</a></span>pcl_json_object_get()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PCL_EXPORT <a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a>* pcl_json_object_get </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>key</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00068.html">pcl/json.h</a>&gt;</code></p>
+
+<p class="definition">Definition at line <a class="el" href="a00644_source.html#l00036">36</a> of file <a class="el" href="a00644_source.html">json_object_get.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00068_source.html#l00111">tag_pcl_json::object</a>, <a class="el" href="a00020_source.html#l00078">PCL_EINVAL</a>, <a class="el" href="a00047_source.html#l00177">pcl_errno</a>, <a class="el" href="a00020_source.html#l00142">PCL_ETYPE</a>, <a class="el" href="a00524_source.html#l00036">pcl_htable_get()</a>, <a class="el" href="a00068_source.html#l00094">pcl_json_isobject</a>, <a class="el" href="a00017_source.html#l00145">R_SETERR</a>, <a class="el" href="a00017_source.html#l00174">R_SETERRMSG</a>, <a class="el" href="a00017_source.html#l00287">R_TRC</a>, and <a class="el" href="a00068_source.html#l00101">tag_pcl_json::type</a>.</p>
+
+</div>
+</div>
+<a id="gaf4824568d3bd6e40bf93ced643c2b15f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf4824568d3bd6e40bf93ced643c2b15f">&#9670;&nbsp;</a></span>pcl_json_array()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PCL_EXPORT <a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a>* pcl_json_array </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00068.html">pcl/json.h</a>&gt;</code></p>
+
+<p>&#x202A;Create an array object. </p>
+<p class="DocNodeLTR">It is safe to use the <a class="el" href="a01194.html">array module</a> for managing a JSON array. Internally, a json array is backed by a <a class="el" href="a00107.html#a157296b59a693af5c94886de7d036223">pcl_array_t</a>. For a given <code>pcl_json_t</code>, ensure the <em>type</em> member is <code>'a'</code> and then use <code>json-&gt;array</code> with the array functions. However, do not use <a class="el" href="a01194.html#gae105de3db98cd6c7456a6264e090b562" title="&#x202A;Free an array.">pcl_array_free</a>. </p><dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to a json object of type array </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00599_source.html#l00044">44</a> of file <a class="el" href="a00599_source.html">json_array.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00068_source.html#l00110">tag_pcl_json::array</a>, <a class="el" href="a00140_source.html#l00036">pcl_array_create()</a>, <a class="el" href="a01193.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc()</a>, and <a class="el" href="a00068_source.html#l00101">tag_pcl_json::type</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00650_source.html#l00035">ipcl_json_parse_array()</a>, and <a class="el" href="a00401_source.html#l00039">pcl_err_vjson()</a>.</p>
+
+</div>
+</div>
+<a id="ga7151d49775307c21eecf61d2dd1fd411"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7151d49775307c21eecf61d2dd1fd411">&#9670;&nbsp;</a></span>pcl_json_array_add()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PCL_EXPORT int pcl_json_array_add </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *&#160;</td>
+          <td class="paramname"><em>arr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *&#160;</td>
+          <td class="paramname"><em>elem</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>flags</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00068.html">pcl/json.h</a>&gt;</code></p>
+
+<p>&#x202A;Add an element to an array. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">arr</td><td></td></tr>
+    <tr><td class="paramname">elem</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;new element count on success and -1 on error </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00602_source.html#l00036">36</a> of file <a class="el" href="a00602_source.html">json_array_add.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00068_source.html#l00110">tag_pcl_json::array</a>, <a class="el" href="a00017_source.html#l00306">BADARG</a>, <a class="el" href="a00026_source.html#l00090">tag_pcl_array::count</a>, <a class="el" href="a00134_source.html#l00037">pcl_array_add()</a>, <a class="el" href="a00020_source.html#l00142">PCL_ETYPE</a>, <a class="el" href="a00632_source.html#l00038">pcl_json_free()</a>, <a class="el" href="a00068_source.html#l00079">PCL_JSON_FREEVALONERR</a>, <a class="el" href="a00068_source.html#l00093">pcl_json_isarray</a>, <a class="el" href="a00017_source.html#l00087">SETERRMSG</a>, <a class="el" href="a00017_source.html#l00275">TRCMSG</a>, and <a class="el" href="a00068_source.html#l00101">tag_pcl_json::type</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00650_source.html#l00035">ipcl_json_parse_array()</a>, and <a class="el" href="a00401_source.html#l00039">pcl_err_vjson()</a>.</p>
+
+</div>
+</div>
+<a id="ga2467f752a5ecfc0a1dedfcb4ba295d19"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga2467f752a5ecfc0a1dedfcb4ba295d19">&#9670;&nbsp;</a></span>pcl_json_array_get()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PCL_EXPORT <a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a>* pcl_json_array_get </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *&#160;</td>
+          <td class="paramname"><em>arr</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>decimal</em>&#160;</td>
+          <td class="paramname"><em>index</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -412,89 +831,92 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
-
-<p>&#x202A;Format a number in byte units. </p>
-<p class="DocNodeLTR">This uses multiples of 1024 and supports the following units: Kibibyte, Mebibyte, Gibibyte, Tebibyte, Pebibyte, Exibyte. The formatted unit is appened to the converted number value as a single uppercase character (no spaces): 10K, 50M, etc. For values less than 1024, no unit is appened; this is just bytes. </p><dl class="params"><dt>Parameters</dt><dd>
+<p><code>#include &lt;<a class="el" href="a00068.html">pcl/json.h</a>&gt;</code></p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">buf</td><td>&#x202A;pointer to a buffer to write formatted value </td></tr>
-    <tr><td class="paramname">bufl</td><td>&#x202A;character length of <em>buf</em> </td></tr>
-    <tr><td class="paramname">nbytes</td><td>&#x202A;number of bytes, value to format </td></tr>
-    <tr><td class="paramname">decimal</td><td>&#x202A;number of decimal places to include in the formatted value. </td></tr>
+    <tr><td class="paramname">arr</td><td></td></tr>
+    <tr><td class="paramname">index</td><td></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;number of character written to <em>buf</em> or -1 on error. </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00605_source.html#l00036">36</a> of file <a class="el" href="a00605_source.html">json_array_get.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00068_source.html#l00110">tag_pcl_json::array</a>, <a class="el" href="a00146_source.html#l00037">pcl_array_get()</a>, <a class="el" href="a00020_source.html#l00078">PCL_EINVAL</a>, <a class="el" href="a00020_source.html#l00142">PCL_ETYPE</a>, <a class="el" href="a00068_source.html#l00093">pcl_json_isarray</a>, <a class="el" href="a00017_source.html#l00145">R_SETERR</a>, <a class="el" href="a00017_source.html#l00174">R_SETERRMSG</a>, <a class="el" href="a00017_source.html#l00287">R_TRC</a>, and <a class="el" href="a00068_source.html#l00101">tag_pcl_json::type</a>.</p>
 
 </div>
 </div>
-<a id="ga6608a43435d87285c8c7468f99c70fdf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga6608a43435d87285c8c7468f99c70fdf">&#9670;&nbsp;</a></span>pcl_pcscmp()</h2>
+<a id="gad5492fd60704289c6b3470ab5177b11d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad5492fd60704289c6b3470ab5177b11d">&#9670;&nbsp;</a></span>pcl_json_string()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int pcl_pcscmp </td>
+          <td class="memname">PCL_EXPORT <a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a>* pcl_json_string </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>str</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>flags</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="a00068.html">pcl/json.h</a>&gt;</code></p>
+
+<p>&#x202A;Create a string. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">str</td><td>&#x202A;pointer to a NUL-terminated string </td></tr>
+    <tr><td class="paramname">flags</td><td>&#x202A;a bitmask of flags. If <a class="el" href="a01207.html#ga93241fc744b23f871f23a05d0685068f" title="&#x202A;Skip UTF-8 validation.">PCL_JSON_SKIPUTF8CHK</a> is set, no UTF-8 validation is performed. If <a class="el" href="a01207.html#ga8e0e1d42b45f580263ecef865b1fbf5e" title="&#x202A;Shallow copy string.">PCL_JSON_SHALLOW</a> is set, a direct pointer to <em>str</em> is stored: ie. no copy. If <a class="el" href="a01207.html#ga8e0e1d42b45f580263ecef865b1fbf5e" title="&#x202A;Shallow copy string.">PCL_JSON_SHALLOW</a> is not set, <em>str</em> is copied. Note that if <a class="el" href="a01207.html#ga0989486942da6abf93563f71bcacc4f1" title="&#x202A;Empty strings will be encoded as a JSON null.">PCL_JSON_EMPTYASNULL</a> and <a class="el" href="a01207.html#ga8e0e1d42b45f580263ecef865b1fbf5e" title="&#x202A;Shallow copy string.">PCL_JSON_SHALLOW</a> are both set and <em>str</em> is empty, caller is still repsonsible to free the empty string. This is because the json module isn't managing it. For this reason, one should avoid setting both of these flags. If <a class="el" href="a01207.html#ga0989486942da6abf93563f71bcacc4f1" title="&#x202A;Empty strings will be encoded as a JSON null.">PCL_JSON_EMPTYASNULL</a>, then an empty <em>str</em> will cause a json null object to be returned. If <a class="el" href="a01207.html#ga27c64ca537563de18ee8a410880fa8b1" title="&#x202A;A NULL string will not raise an error, but rather encode value as a JSON null.">PCL_JSON_ALLOWNULL</a> is set, if <em>str</em> is <code>NULL</code>, a json null object will be returned. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to a json object or <code>NULL</code> on error. Note that a <code>NULL</code> <em>str</em> is an error unless <a class="el" href="a01207.html#ga27c64ca537563de18ee8a410880fa8b1" title="&#x202A;A NULL string will not raise an error, but rather encode value as a JSON null.">PCL_JSON_ALLOWNULL</a> is set. </dd></dl>
+<dl class="section see DocNodeLTR"><dt>See also</dt><dd>&#x202A;<a class="el" href="a01207.html#gadc74bf2c2d0e43c0b14c45d4daf5b8e3" title="&#x202A;Create a string.">pcl_json_string_len</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00671_source.html#l00037">37</a> of file <a class="el" href="a00671_source.html">json_string.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00680_source.html#l00051">ipcl_json_utf8check()</a>, <a class="el" href="a00020_source.html#l00078">PCL_EINVAL</a>, <a class="el" href="a00068_source.html#l00062">PCL_JSON_ALLOWNULL</a>, <a class="el" href="a00068_source.html#l00057">PCL_JSON_EMPTYASNULL</a>, <a class="el" href="a00638_source.html#l00036">pcl_json_null()</a>, <a class="el" href="a00068_source.html#l00052">PCL_JSON_SHALLOW</a>, <a class="el" href="a00068_source.html#l00046">PCL_JSON_SKIPUTF8CHK</a>, <a class="el" href="a01193.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc()</a>, <a class="el" href="a01209.html#ga76ffbaececfd9e912d39e6e69bfa4b7d">pcl_strndup()</a>, <a class="el" href="a00017_source.html#l00145">R_SETERR</a>, <a class="el" href="a00017_source.html#l00287">R_TRC</a>, <a class="el" href="a00068_source.html#l00109">tag_pcl_json::string</a>, and <a class="el" href="a00068_source.html#l00101">tag_pcl_json::type</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00662_source.html#l00037">ipcl_json_parse_value()</a>, and <a class="el" href="a00401_source.html#l00039">pcl_err_vjson()</a>.</p>
+
+</div>
+</div>
+<a id="gadc74bf2c2d0e43c0b14c45d4daf5b8e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gadc74bf2c2d0e43c0b14c45d4daf5b8e3">&#9670;&nbsp;</a></span>pcl_json_string_len()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PCL_EXPORT <a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a>* pcl_json_string_len </td>
           <td>(</td>
           <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>a</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>b</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
-
-<p>&#x202A;Compare two strings. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">a</td><td>&#x202A;pointer to a string </td></tr>
-    <tr><td class="paramname">b</td><td>&#x202A;pointer to a string </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;an integer less than, equal to or greater than zero if <em>a</em> is found, respectively, to be less than, to match or be greater than <em>b</em> </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
-
-<p class="reference">Referenced by <a class="el" href="a00548_source.html#l00038">pcl_getopt()</a>, and <a class="el" href="a00308_source.html#l00046">pcl_readdir()</a>.</p>
-
-</div>
-</div>
-<a id="ga5f98875520df838413e997418926ee31"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga5f98875520df838413e997418926ee31">&#9670;&nbsp;</a></span>pcl_pcsncmp()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int pcl_pcsncmp </td>
-          <td>(</td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>a</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>b</em>, </td>
+          <td class="paramname"><em>str</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>len</em>&#160;</td>
+          <td class="paramname"><em>len</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>flags</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -504,1395 +926,196 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="a00068.html">pcl/json.h</a>&gt;</code></p>
 
-<p>&#x202A;Compare two strings. </p>
+<p>&#x202A;Create a string. </p>
+<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;this function always copies <em>len</em> characters of the given <em>str</em> </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">a</td><td>&#x202A;pointer to a string </td></tr>
-    <tr><td class="paramname">b</td><td>&#x202A;pointer to a string </td></tr>
-    <tr><td class="paramname">len</td><td>&#x202A;number of characters to compare </td></tr>
+    <tr><td class="paramname">str</td><td>&#x202A;pointer to string, which does not need to be NUL-terminated </td></tr>
+    <tr><td class="paramname">len</td><td>&#x202A;number of characters to copy from <em>str</em> </td></tr>
+    <tr><td class="paramname">flags</td><td>&#x202A;bitmask of flags. <a class="el" href="a01207.html#ga8e0e1d42b45f580263ecef865b1fbf5e" title="&#x202A;Shallow copy string.">PCL_JSON_SHALLOW</a> is not supported. If <a class="el" href="a01207.html#ga93241fc744b23f871f23a05d0685068f" title="&#x202A;Skip UTF-8 validation.">PCL_JSON_SKIPUTF8CHK</a> is set, no UTF-8 validation is performed. If <a class="el" href="a01207.html#ga0989486942da6abf93563f71bcacc4f1" title="&#x202A;Empty strings will be encoded as a JSON null.">PCL_JSON_EMPTYASNULL</a>, then a <em>len</em> of zero will cause a json null object to be returned. If <a class="el" href="a01207.html#ga27c64ca537563de18ee8a410880fa8b1" title="&#x202A;A NULL string will not raise an error, but rather encode value as a JSON null.">PCL_JSON_ALLOWNULL</a> is set, if <em>str</em> is <code>NULL</code>, a json null object will be returned. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;an integer less than, equal to or greater than zero if <em>a</em> is found, respectively, to be less than, to match or be greater than <em>b</em> </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to a json object or <code>NULL</code> on error. Note that a <code>NULL</code> <em>str</em> is an error unless <a class="el" href="a01207.html#ga27c64ca537563de18ee8a410880fa8b1" title="&#x202A;A NULL string will not raise an error, but rather encode value as a JSON null.">PCL_JSON_ALLOWNULL</a> is set. </dd></dl>
+<dl class="section see DocNodeLTR"><dt>See also</dt><dd>&#x202A;<a class="el" href="a01207.html#gad5492fd60704289c6b3470ab5177b11d" title="&#x202A;Create a string.">pcl_json_string</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00674_source.html#l00037">37</a> of file <a class="el" href="a00674_source.html">json_string_len.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00680_source.html#l00051">ipcl_json_utf8check()</a>, <a class="el" href="a00020_source.html#l00078">PCL_EINVAL</a>, <a class="el" href="a00068_source.html#l00062">PCL_JSON_ALLOWNULL</a>, <a class="el" href="a00068_source.html#l00057">PCL_JSON_EMPTYASNULL</a>, <a class="el" href="a00638_source.html#l00036">pcl_json_null()</a>, <a class="el" href="a00068_source.html#l00046">PCL_JSON_SKIPUTF8CHK</a>, <a class="el" href="a01193.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc()</a>, <a class="el" href="a01209.html#ga76ffbaececfd9e912d39e6e69bfa4b7d">pcl_strndup()</a>, <a class="el" href="a00017_source.html#l00145">R_SETERR</a>, <a class="el" href="a00017_source.html#l00287">R_TRC</a>, <a class="el" href="a00068_source.html#l00109">tag_pcl_json::string</a>, and <a class="el" href="a00068_source.html#l00101">tag_pcl_json::type</a>.</p>
 
 </div>
 </div>
-<a id="ga8145fe2aa683a999cbf49a47499156c9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga8145fe2aa683a999cbf49a47499156c9">&#9670;&nbsp;</a></span>pcl_pcsicmp()</h2>
+<a id="gac4da410fe9fdd02518f1d6a3d055eb36"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac4da410fe9fdd02518f1d6a3d055eb36">&#9670;&nbsp;</a></span>pcl_json_boolean()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int pcl_pcsicmp </td>
+          <td class="memname">PCL_EXPORT <a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a>* pcl_json_boolean </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>a</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>b</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
-
-<p>&#x202A;Compare two strings ignoring case. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">a</td><td>&#x202A;pointer to a string </td></tr>
-    <tr><td class="paramname">b</td><td>&#x202A;pointer to a string </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;an integer less than, equal to or greater than zero if <em>a</em> is found, respectively, to be less than, to match or be greater than <em>b</em> </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
-
-</div>
-</div>
-<a id="ga77aa1d44e5eea1e0ea94e0fdb4472e9a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga77aa1d44e5eea1e0ea94e0fdb4472e9a">&#9670;&nbsp;</a></span>pcl_pcsnicmp()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int pcl_pcsnicmp </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>a</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>b</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>n</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
-
-<p>&#x202A;Compare two strings ignoring case. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">a</td><td>&#x202A;pointer to a string </td></tr>
-    <tr><td class="paramname">b</td><td>&#x202A;pointer to a string </td></tr>
-    <tr><td class="paramname">n</td><td>&#x202A;compare only the first N bytes </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;an integer less than, equal to or greater than zero if <em>a</em> is found, respectively, to be less than, to match or be greater than <em>b</em> </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
-
-<p class="reference">Referenced by <a class="el" href="a00446_source.html#l00051">pcl_fdpath()</a>.</p>
-
-</div>
-</div>
-<a id="gab041bc00f3c2fe16fcb717caa9733fbc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gab041bc00f3c2fe16fcb717caa9733fbc">&#9670;&nbsp;</a></span>pcl_pcscpy()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>* pcl_pcscpy </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>dest</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>size</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>src</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
-
-<p>&#x202A;Copy a string. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">dest</td><td>&#x202A;pointer to a buffer </td></tr>
-    <tr><td class="paramname">size</td><td>&#x202A;character length of <em>dest</em> </td></tr>
-    <tr><td class="paramname">src</td><td>&#x202A;pointer to the string to copy </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to <em>dest</em> or <code>NULL</code> on error </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
-
-<p class="reference">Referenced by <a class="el" href="a00302_source.html#l00037">pcl_mkdirs()</a>, <a class="el" href="a00758_source.html#l00045">pcl_proc_exec()</a>, <a class="el" href="a00314_source.html#l00087">pcl_rmdir_r()</a>, and <a class="el" href="a01010_source.html#l00045">pcl_sysinfo()</a>.</p>
-
-</div>
-</div>
-<a id="ga89090bb1f6afc70411e4849ea04aa8ed"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga89090bb1f6afc70411e4849ea04aa8ed">&#9670;&nbsp;</a></span>pcl_pcsncpy()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>* pcl_pcsncpy </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>dest</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>size</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>src</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>len</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
-
-<p>&#x202A;Copy a portion of a string. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">dest</td><td>&#x202A;pointer to a buffer </td></tr>
-    <tr><td class="paramname">size</td><td>&#x202A;character length of <em>dest</em>. one byte is always reserved for <code>NUL</code>. </td></tr>
-    <tr><td class="paramname">src</td><td>&#x202A;pointer to the string to copy </td></tr>
-    <tr><td class="paramname">len</td><td>&#x202A;number of characters in <em>src</em> to copy </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to <em>dest</em> or <code>NULL</code> on error. </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
-
-<p class="reference">Referenced by <a class="el" href="a00308_source.html#l00046">pcl_readdir()</a>.</p>
-
-</div>
-</div>
-<a id="gab6f1c86cd4785aed5326a79ee1485e71"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gab6f1c86cd4785aed5326a79ee1485e71">&#9670;&nbsp;</a></span>pcl_pcsstr()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>* pcl_pcsstr </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>haystack</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>needle</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
-
-<p>&#x202A;Find the first occurance of a string within another string. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">haystack</td><td>&#x202A;pointer to the source string </td></tr>
-    <tr><td class="paramname">needle</td><td>&#x202A;pointer to the search string </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to the first occurance of <em>needle</em> within <em>haystack</em> </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
-
-</div>
-</div>
-<a id="gaa315693ed397b6105838fe9a2c6cd76b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaa315693ed397b6105838fe9a2c6cd76b">&#9670;&nbsp;</a></span>pcl_pcsistr()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>* pcl_pcsistr </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>haystack</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>needle</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
-
-<p>&#x202A;Find the first occurance of a string within another string ignoring case. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">haystack</td><td>&#x202A;pointer to the source string </td></tr>
-    <tr><td class="paramname">needle</td><td>&#x202A;pointer to the search string </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to the first occurance of <em>needle</em> within <em>haystack</em> </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
-
-</div>
-</div>
-<a id="ga3e9b6b1ba2888cd40bef1185f8c64a93"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga3e9b6b1ba2888cd40bef1185f8c64a93">&#9670;&nbsp;</a></span>pcl_pcsdup()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>* pcl_pcsdup </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>s</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
-
-<p>&#x202A;Duplicate a string. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">s</td><td>&#x202A;pointer to string </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to allocated duplicate </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
-
-<p class="reference">Referenced by <a class="el" href="a00446_source.html#l00051">pcl_fdpath()</a>, <a class="el" href="a00725_source.html#l00040">pcl_getenv()</a>, and <a class="el" href="a00749_source.html#l00072">pcl_proc_exec()</a>.</p>
-
-</div>
-</div>
-<a id="ga906f8952991b7313cb6b4bcbc3ab4545"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga906f8952991b7313cb6b4bcbc3ab4545">&#9670;&nbsp;</a></span>pcl_pcsndup()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>* pcl_pcsndup </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>s</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>len</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
-
-<p>&#x202A;Duplicate a portion of a string. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">s</td><td>&#x202A;pointer to string </td></tr>
-    <tr><td class="paramname">len</td><td>&#x202A;number of characters to duplicate </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to allocated duplicate </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
-
-<p class="reference">Referenced by <a class="el" href="a00935_source.html#l00071">pcl_pcs_to_utf8()</a>, <a class="el" href="a00734_source.html#l00038">pcl_proc_parsecmd()</a>, and <a class="el" href="a00752_source.html#l00041">pcl_proc_path()</a>.</p>
-
-</div>
-</div>
-<a id="gadbe388f6953fa37becefc2c6dedae43b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gadbe388f6953fa37becefc2c6dedae43b">&#9670;&nbsp;</a></span>pcl_pcscat()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>* pcl_pcscat </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>dest</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>size</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>src</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
-
-<p>&#x202A;Concatenate two strings. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">dest</td><td>&#x202A;pointer to a buffer </td></tr>
-    <tr><td class="paramname">size</td><td>&#x202A;character length of <em>dest</em> </td></tr>
-    <tr><td class="paramname">src</td><td>&#x202A;pointer to the string to copy </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to <em>dest</em> </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
-
-</div>
-</div>
-<a id="ga197a4df7b1858b42ca7d1fae81a19f30"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga197a4df7b1858b42ca7d1fae81a19f30">&#9670;&nbsp;</a></span>pcl_pcsncat()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>* pcl_pcsncat </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>dest</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>size</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>src</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>len</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
-
-<p>&#x202A;Concatenate two strings. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">dest</td><td>&#x202A;pointer to a buffer to append to </td></tr>
-    <tr><td class="paramname">size</td><td>&#x202A;character length of <em>dest</em> </td></tr>
-    <tr><td class="paramname">src</td><td>&#x202A;pointer to the string to copy </td></tr>
-    <tr><td class="paramname">len</td><td>&#x202A;character length of <em>src</em> to copy </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to <em>dest</em> </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
-
-</div>
-</div>
-<a id="ga8a29f63660824f958762e3562b3c8d48"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga8a29f63660824f958762e3562b3c8d48">&#9670;&nbsp;</a></span>pcl_pcscatf()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>* pcl_pcscatf </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>dest</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>size</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>format</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
-
-<p>&#x202A;Concatenate two strings using a format. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">dest</td><td>&#x202A;pointer to a buffer to append to </td></tr>
-    <tr><td class="paramname">size</td><td>&#x202A;character length of <em>dest</em> </td></tr>
-    <tr><td class="paramname">format</td><td>&#x202A;printf-style format string </td></tr>
-    <tr><td class="paramname">...</td><td>&#x202A;variable arguments </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to <em>dest</em> </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
-
-<p class="reference">Referenced by <a class="el" href="a00758_source.html#l00045">pcl_proc_exec()</a>.</p>
-
-</div>
-</div>
-<a id="ga24944cb75d5ed4dfdac5d409ffdb111d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga24944cb75d5ed4dfdac5d409ffdb111d">&#9670;&nbsp;</a></span>pcl_vpcscatf()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>* pcl_vpcscatf </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>dest</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>size</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>format</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">va_list&#160;</td>
-          <td class="paramname"><em>ap</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
-
-<p>&#x202A;Concatenate two strings using a format. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">dest</td><td>&#x202A;pointer to a buffer to append to </td></tr>
-    <tr><td class="paramname">size</td><td>&#x202A;character length of <em>dest</em> </td></tr>
-    <tr><td class="paramname">format</td><td>&#x202A;printf-style format string </td></tr>
-    <tr><td class="paramname">ap</td><td>&#x202A;variable argument list </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to <em>dest</em> </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
-
-</div>
-</div>
-<a id="gac5f59a50b278cc95f3a74abe7dbb89fb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gac5f59a50b278cc95f3a74abe7dbb89fb">&#9670;&nbsp;</a></span>pcl_apcscatf()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>* pcl_apcscatf </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>src</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>format</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
-
-<p>&#x202A;Allocate and concatenate two strings using a format. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">src</td><td>&#x202A;pointer to a string to to use as the first set of characters. This can be <code>NULL</code>. </td></tr>
-    <tr><td class="paramname">format</td><td>&#x202A;printf-style format string </td></tr>
-    <tr><td class="paramname">...</td><td>&#x202A;variable arguments </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to an allocated string starting with <em>src</em>, if not <code>NULL</code>, and ending with the formatted results. </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
-
-</div>
-</div>
-<a id="ga8888404f2f14dc52b937142eabb649e8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga8888404f2f14dc52b937142eabb649e8">&#9670;&nbsp;</a></span>pcl_vapcscatf()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>* pcl_vapcscatf </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>src</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>format</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">va_list&#160;</td>
-          <td class="paramname"><em>ap</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
-
-<p>&#x202A;Allocate and concatenate two strings using a format. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">src</td><td>&#x202A;pointer to a string to use as the first set of characters. This can be <code>NULL</code>. </td></tr>
-    <tr><td class="paramname">format</td><td>&#x202A;printf-style format string </td></tr>
-    <tr><td class="paramname">ap</td><td>&#x202A;variable argument list </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to an allocated string starting with <em>src</em>, if not <code>NULL</code>, and ending with the formatted results. </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
-
-</div>
-</div>
-<a id="ga2ba1484eaba4d93dad4988345c9c89f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga2ba1484eaba4d93dad4988345c9c89f4">&#9670;&nbsp;</a></span>pcl_pcstrim()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>* pcl_pcstrim </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>s</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
-
-<p>&#x202A;Trim whitespace from the front and back of a string. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">s</td><td>&#x202A;pointer to a string </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to the <em>s</em> argument </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
-
-</div>
-</div>
-<a id="ga30fa527eddfe30ab8ec4162b904a718a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga30fa527eddfe30ab8ec4162b904a718a">&#9670;&nbsp;</a></span>pcl_pcsltrim()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>* pcl_pcsltrim </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>s</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
-
-<p>&#x202A;Trim whitespace from the front (left) of a string. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">s</td><td>&#x202A;pointer to a string </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to the <em>s</em> argument </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
-
-</div>
-</div>
-<a id="ga74cf8f0bc534cbb895f3a29051d3b4ef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga74cf8f0bc534cbb895f3a29051d3b4ef">&#9670;&nbsp;</a></span>pcl_pcsrtrim()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>* pcl_pcsrtrim </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>s</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
-
-<p>&#x202A;Trim whitespace from the back (right) of a string. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">s</td><td>&#x202A;pointer to a string </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to the <em>s</em> argument </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
-
-</div>
-</div>
-<a id="gaed0ab4b220f9bc3ff9f1e48a205ce954"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaed0ab4b220f9bc3ff9f1e48a205ce954">&#9670;&nbsp;</a></span>pcl_pcstrimset()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>* pcl_pcstrimset </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>s</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>set</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>left</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><em>value</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>right</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="a00068.html">pcl/json.h</a>&gt;</code></p>
 
-<p>&#x202A;Trim a set of characters from a string. </p>
+<p>&#x202A;Create a boolean. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">s</td><td>&#x202A;pointer to a string </td></tr>
-    <tr><td class="paramname">set</td><td>&#x202A;a set of characters (as a string) to trim. If this is <code>NULL</code>, a default set is used: <code>" \t\n\v\f\r"</code> </td></tr>
-    <tr><td class="paramname">left</td><td>&#x202A;true to trim from the front (left) of <em>s</em> </td></tr>
-    <tr><td class="paramname">right</td><td>&#x202A;true to trim from the back (right) of <em>s</em> </td></tr>
+    <tr><td class="paramname">value</td><td></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to <em>s</em> </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00608_source.html#l00036">36</a> of file <a class="el" href="a00608_source.html">json_boolean.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00629_source.html#l00035">pcl_json_false()</a>, and <a class="el" href="a00677_source.html#l00035">pcl_json_true()</a>.</p>
 
 </div>
 </div>
-<a id="gaa9d4f5e94525198c6e21c7e27160a59a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaa9d4f5e94525198c6e21c7e27160a59a">&#9670;&nbsp;</a></span>pcl_pcsreplace()</h2>
+<a id="ga0b27c02c4dc480285400c21a96d3f15f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0b27c02c4dc480285400c21a96d3f15f">&#9670;&nbsp;</a></span>pcl_json_true()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>* pcl_pcsreplace </td>
+          <td class="memname">PCL_EXPORT <a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a>* pcl_json_true </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>subject</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>from</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>to</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="a00068.html">pcl/json.h</a>&gt;</code></p>
 
-<p>&#x202A;Replace all occurances of a search string with a replacement string. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">subject</td><td>&#x202A;pointer to source string </td></tr>
-    <tr><td class="paramname">from</td><td>&#x202A;pointer to the search string within <em>subject</em> </td></tr>
-    <tr><td class="paramname">to</td><td>&#x202A;pointer to the replacement string </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;an allocated string with all occurances of <em>from</em> replaced with <em>to</em> </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
+<p class="definition">Definition at line <a class="el" href="a00677_source.html#l00035">35</a> of file <a class="el" href="a00677_source.html">json_true.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00068_source.html#l00101">tag_pcl_json::type</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00662_source.html#l00037">ipcl_json_parse_value()</a>, <a class="el" href="a00608_source.html#l00036">pcl_json_boolean()</a>, and <a class="el" href="a00632_source.html#l00038">pcl_json_free()</a>.</p>
 
 </div>
 </div>
-<a id="gab43610b6a4152e7afee0bcdc540fdb8e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gab43610b6a4152e7afee0bcdc540fdb8e">&#9670;&nbsp;</a></span>pcl_pcsireplace()</h2>
+<a id="ga1b32077822958a952f82fd585ee42725"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1b32077822958a952f82fd585ee42725">&#9670;&nbsp;</a></span>pcl_json_false()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>* pcl_pcsireplace </td>
+          <td class="memname">PCL_EXPORT <a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a>* pcl_json_false </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>subject</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>from</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>to</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="a00068.html">pcl/json.h</a>&gt;</code></p>
 
-<p>&#x202A;Replace all occurances of a search string with a replacement string ignoring case. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">subject</td><td>&#x202A;pointer to source string </td></tr>
-    <tr><td class="paramname">from</td><td>&#x202A;pointer to the search string within <em>subject</em> </td></tr>
-    <tr><td class="paramname">to</td><td>&#x202A;pointer to the replacement string </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;an allocated string with all occurances of <em>from</em> replaced with <em>to</em> </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
+<p class="definition">Definition at line <a class="el" href="a00629_source.html#l00035">35</a> of file <a class="el" href="a00629_source.html">json_false.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00068_source.html#l00101">tag_pcl_json::type</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00662_source.html#l00037">ipcl_json_parse_value()</a>, <a class="el" href="a00608_source.html#l00036">pcl_json_boolean()</a>, and <a class="el" href="a00632_source.html#l00038">pcl_json_free()</a>.</p>
 
 </div>
 </div>
-<a id="ga5ba2892be6774b30845fb0c80bb091c7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga5ba2892be6774b30845fb0c80bb091c7">&#9670;&nbsp;</a></span>pcl_pcssplit()</h2>
+<a id="gadd71febaeb10436293419974665fbebc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gadd71febaeb10436293419974665fbebc">&#9670;&nbsp;</a></span>pcl_json_null()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="a01209.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a>* pcl_pcssplit </td>
+          <td class="memname">PCL_EXPORT <a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a>* pcl_json_null </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>s</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>delim</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="a00068.html">pcl/json.h</a>&gt;</code></p>
 
-<p>&#x202A;Split a string into a vector. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">s</td><td>&#x202A;pointer to a string </td></tr>
-    <tr><td class="paramname">delim</td><td>&#x202A;pointer to a delimiter to split on </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to a vector containing the split parts. The delimiter string is never included in part elements. </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
+<p class="definition">Definition at line <a class="el" href="a00638_source.html#l00036">36</a> of file <a class="el" href="a00638_source.html">json_null.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00068_source.html#l00101">tag_pcl_json::type</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00662_source.html#l00037">ipcl_json_parse_value()</a>, <a class="el" href="a00632_source.html#l00038">pcl_json_free()</a>, <a class="el" href="a00671_source.html#l00037">pcl_json_string()</a>, and <a class="el" href="a00674_source.html#l00037">pcl_json_string_len()</a>.</p>
 
 </div>
 </div>
-<a id="ga8d0e3884f51966d73ce2e88364df4ace"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga8d0e3884f51966d73ce2e88364df4ace">&#9670;&nbsp;</a></span>pcl_pcsisplit()</h2>
+<a id="ga800b65772bc6243ef38847012504844d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga800b65772bc6243ef38847012504844d">&#9670;&nbsp;</a></span>pcl_json_real()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="a01209.html#gad02d203d34a7f8b5cc8516219411ec06">pcl_vector_t</a>* pcl_pcsisplit </td>
+          <td class="memname">PCL_EXPORT <a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a>* pcl_json_real </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>s</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>real</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>delim</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="a00068.html">pcl/json.h</a>&gt;</code></p>
 
-<p>&#x202A;Split a string into a vector ignoring case. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">s</td><td>&#x202A;pointer to a string </td></tr>
-    <tr><td class="paramname">delim</td><td>&#x202A;pointer to a delimiter to split on </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to a vector containing the split parts. The delimiter string is never included in part elements. </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
+<p class="definition">Definition at line <a class="el" href="a00665_source.html#l00037">37</a> of file <a class="el" href="a00665_source.html">json_real.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00020_source.html#l00078">PCL_EINVAL</a>, <a class="el" href="a01193.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc()</a>, <a class="el" href="a00017_source.html#l00174">R_SETERRMSG</a>, <a class="el" href="a00068_source.html#l00106">tag_pcl_json::real</a>, and <a class="el" href="a00068_source.html#l00101">tag_pcl_json::type</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00653_source.html#l00037">ipcl_json_parse_number()</a>.</p>
 
 </div>
 </div>
-<a id="gabc8ce8aac8649ace31ce6f7178cb268a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gabc8ce8aac8649ace31ce6f7178cb268a">&#9670;&nbsp;</a></span>pcl_pcslower()</h2>
+<a id="ga1a4aeebd025c32c703ae4a28160e8822"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1a4aeebd025c32c703ae4a28160e8822">&#9670;&nbsp;</a></span>pcl_json_integer()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>* pcl_pcslower </td>
+          <td class="memname">PCL_EXPORT <a class="el" href="a00107.html#aeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a>* pcl_json_integer </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>s</em></td><td>)</td>
+          <td class="paramtype">long long&#160;</td>
+          <td class="paramname"><em>integer</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="a00068.html">pcl/json.h</a>&gt;</code></p>
 
-<p>&#x202A;Lowercase a string. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">s</td><td>&#x202A;pointer to a string </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to <em>s</em> in lowercase </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
+<p class="definition">Definition at line <a class="el" href="a00635_source.html#l00036">36</a> of file <a class="el" href="a00635_source.html">json_integer.c</a>.</p>
 
-</div>
-</div>
-<a id="gaafe89c3c2d92b3dffa97d3168493909e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaafe89c3c2d92b3dffa97d3168493909e">&#9670;&nbsp;</a></span>pcl_pcsupper()</h2>
+<p class="reference">References <a class="el" href="a00068_source.html#l00107">tag_pcl_json::integer</a>, <a class="el" href="a01193.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc()</a>, and <a class="el" href="a00068_source.html#l00101">tag_pcl_json::type</a>.</p>
 
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>* pcl_pcsupper </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>s</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
-
-<p>&#x202A;Uppercase a string. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">s</td><td>&#x202A;pointer to a string </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to <em>s</em> in uppercase </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
-
-</div>
-</div>
-<a id="ga53768191686b4adb0cc3055b4330b1e8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga53768191686b4adb0cc3055b4330b1e8">&#9670;&nbsp;</a></span>pcl_pcstrunc()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>* pcl_pcstrunc </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>dest</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>size</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>src</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
-
-<p>&#x202A;Copy and truncate a string. </p>
-<p class="DocNodeLTR">This will copy as much as possible. If <em>dest</em> is not large enough, this will truncate <em>src</em> to fit within <em>dest</em>. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">dest</td><td>&#x202A;pointer to a buffer. if <em>src</em> can't fit, truncate </td></tr>
-    <tr><td class="paramname">size</td><td>&#x202A;character count of <em>dest</em> </td></tr>
-    <tr><td class="paramname">src</td><td>&#x202A;pointer to string to copy </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to <em>dest</em> </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
-
-</div>
-</div>
-<a id="ga11b495f5db738aa9c9fddccf91dbe82e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga11b495f5db738aa9c9fddccf91dbe82e">&#9670;&nbsp;</a></span>pcl_pcsslice()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>* pcl_pcsslice </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>s</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>pos</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>len</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
-
-<p>&#x202A;Extract a slice of a string. </p>
-<p class="DocNodeLTR">This is also known as <code>substr</code>. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">s</td><td>&#x202A;pointer to a string </td></tr>
-    <tr><td class="paramname">pos</td><td>&#x202A;starting character position </td></tr>
-    <tr><td class="paramname">len</td><td>&#x202A;number of characters to extract </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to an allocated slice of <em>s</em> </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
-
-</div>
-</div>
-<a id="ga538b4f60deca721594977b6b704cca6e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga538b4f60deca721594977b6b704cca6e">&#9670;&nbsp;</a></span>pcl_pcsrepchr()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>* pcl_pcsrepchr </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>s</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>&#160;</td>
-          <td class="paramname"><em>oldch</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>&#160;</td>
-          <td class="paramname"><em>newch</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
-
-<p>&#x202A;Replace all occurance of a character in a string. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">s</td><td>&#x202A;pointer to a string </td></tr>
-    <tr><td class="paramname">oldch</td><td>&#x202A;search character </td></tr>
-    <tr><td class="paramname">newch</td><td>&#x202A;replacement character </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to <em>s</em> argument </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
-
-</div>
-</div>
-<a id="ga5e1986997327559a2b3179593c7a475f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga5e1986997327559a2b3179593c7a475f">&#9670;&nbsp;</a></span>pcl_pcsskipws()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>* pcl_pcsskipws </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
-          <td class="paramname"><em>s</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
-
-<p>&#x202A;Skip whitespace. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">s</td><td>&#x202A;pointer to a string </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to the first character in <em>s</em> that is not a whitespace character. </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
-
-<p class="reference">Referenced by <a class="el" href="a00749_source.html#l00072">pcl_proc_exec()</a>, and <a class="el" href="a00734_source.html#l00038">pcl_proc_parsecmd()</a>.</p>
-
-</div>
-</div>
-<a id="ga6a07ddcd29cae0a9a26dfd5f6d690941"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga6a07ddcd29cae0a9a26dfd5f6d690941">&#9670;&nbsp;</a></span>pcl_pmemcpy()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>* pcl_pmemcpy </td>
-          <td>(</td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>dest</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const void *&#160;</td>
-          <td class="paramname"><em>src</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>n</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
-
-<p>&#x202A;Copy memory area. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">dest</td><td>&#x202A;pointer to the copy destination </td></tr>
-    <tr><td class="paramname">src</td><td>&#x202A;pointer to the source data </td></tr>
-    <tr><td class="paramname">n</td><td>&#x202A;number of pchar_t characters to copy </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to <em>dest</em> </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
-
-<p class="reference">Referenced by <a class="el" href="a00758_source.html#l00045">pcl_proc_exec()</a>.</p>
-
-</div>
-</div>
-<a id="gadf58248a366954bc4052215e6955e4b5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gadf58248a366954bc4052215e6955e4b5">&#9670;&nbsp;</a></span>pcl_pmemmove()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>* pcl_pmemmove </td>
-          <td>(</td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>dest</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const void *&#160;</td>
-          <td class="paramname"><em>src</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>n</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
-
-<p>&#x202A;Copy memory area that can overlap. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">dest</td><td>&#x202A;pointer to the copy destination </td></tr>
-    <tr><td class="paramname">src</td><td>&#x202A;pointer to the source data </td></tr>
-    <tr><td class="paramname">n</td><td>&#x202A;number of pchar_t characters to copy </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;pointer to <em>dest</em> </dd></dl>
-<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;implemented as a macro </dd></dl>
-
-</div>
-</div>
-<a id="ga8bd0a79d9d6886f0635bb9c6105bc1ca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga8bd0a79d9d6886f0635bb9c6105bc1ca">&#9670;&nbsp;</a></span>pcl_pmemcmp()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int pcl_pmemcmp </td>
-          <td>(</td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>a</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>b</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>n</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="a00092.html">pcl/string.h</a>&gt;</code></p>
-
-<p>&#x202A;Comare memory blocks. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">a</td><td>&#x202A;pointer to memory block </td></tr>
-    <tr><td class="paramname">b</td><td>&#x202A;pointer to memory block </td></tr>
-    <tr><td class="paramname">n</td><td>&#x202A;number of pchar_t characters to compare </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>&#x202A;an integer less than, equal to or greater than zero if <em>a</em> is found, respectively, to be less than, to match or be greater than <em>b</em> </dd></dl>
-
-<p class="reference">Referenced by <a class="el" href="a00548_source.html#l00038">pcl_getopt()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="a00653_source.html#l00037">ipcl_json_parse_number()</a>, and <a class="el" href="a00401_source.html#l00039">pcl_err_vjson()</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
+<div class="ttc" id="aa01248_html"><div class="ttname"><a href="a01248.html">tag_pcl_json</a></div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00096">json.h:97</a></div></div>
+<div class="ttc" id="aa01207_html_ga1c22c051d944c223e1b3790bf454c02e"><div class="ttname"><a href="a01207.html#ga1c22c051d944c223e1b3790bf454c02e">PCL_JSON_FREEVALONERR</a></div><div class="ttdeci">#define PCL_JSON_FREEVALONERR</div><div class="ttdoc">When adding json objects to collections, if the add operation fails this flags will free the value be...</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00079">json.h:79</a></div></div>
+<div class="ttc" id="aa01207_html_gaeac631cb4ebe6a4692b0fad96da9f4ca"><div class="ttname"><a href="a01207.html#gaeac631cb4ebe6a4692b0fad96da9f4ca">pcl_json_object_put</a></div><div class="ttdeci">PCL_EXPORT int pcl_json_object_put(pcl_json_t *obj, char *key, pcl_json_t *value, uint32_t flags)</div><div class="ttdef"><b>Definition:</b> <a href="a00647_source.html#l00038">json_object_put.c:38</a></div></div>
+<div class="ttc" id="aa01207_html_ga1a4aeebd025c32c703ae4a28160e8822"><div class="ttname"><a href="a01207.html#ga1a4aeebd025c32c703ae4a28160e8822">pcl_json_integer</a></div><div class="ttdeci">PCL_EXPORT pcl_json_t * pcl_json_integer(long long integer)</div><div class="ttdef"><b>Definition:</b> <a href="a00635_source.html#l00036">json_integer.c:36</a></div></div>
+<div class="ttc" id="aa01207_html_ga52957df8ceda7e9af3a900fa484f0531"><div class="ttname"><a href="a01207.html#ga52957df8ceda7e9af3a900fa484f0531">pcl_json_free</a></div><div class="ttdeci">PCL_EXPORT void pcl_json_free(pcl_json_t *j)</div><div class="ttdef"><b>Definition:</b> <a href="a00632_source.html#l00038">json_free.c:38</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>
