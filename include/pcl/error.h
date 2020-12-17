@@ -254,10 +254,9 @@ PCL_EXPORT int pcl_err_vsprintf(char *buf, size_t buf_size, int indent, const ch
  * @endcode
  * @param message additional message to include with the JSON. This can be \c NULL.
  * @param ... variable arguments
- * @return pointer to an allocated string containing the JSON representation of an error.
- * This must be freed by caller.
+ * @return pointer to a JSON object
  */
-PCL_EXPORT char *pcl_err_json(const char *message, ...);
+PCL_EXPORT pcl_json_t *pcl_err_json(const char *message, ...);
 
 /** Format the current thread's error as a JSON string. The returned JSON string
  * has no spaces or newlines when it comes to the JSON structure itself.
@@ -268,11 +267,10 @@ PCL_EXPORT char *pcl_err_json(const char *message, ...);
  * @note see ::pcl_err_json for an example
  * @param message additional message to include with the JSON. This can be \c NULL.
  * @param ap variable argument list
- * @return pointer to an allocated string containing the JSON representation of an error.
- * This must be freed by caller.
+ * @return pointer to a json object
  * @see pcl_err_json
  */
-PCL_EXPORT char *pcl_err_vjson(const char *message, va_list ap);
+PCL_EXPORT pcl_json_t *pcl_err_vjson(const char *message, va_list ap);
 
 /* -------------------------------------------------------------------------
  * Error Set API

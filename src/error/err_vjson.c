@@ -33,129 +33,97 @@
 #include <pcl/buf.h>
 #include <pcl/io.h>
 #include <pcl/alloc.h>
+#include <pcl/json.h>
 
-static char *
-escape_jsonstr(pcl_buf_t *b, const char *s)
-{
-	pcl_buf_reset(b);
-
-	for(; *s; s++)
-	{
-		switch(*s)
-		{
-			case '\\':
-				pcl_buf_putstr(b, "\\\\");
-				break;
-
-			case '/':
-				pcl_buf_putstr(b, "\\/");
-				break;
-
-			case '"':
-				pcl_buf_putstr(b, "\\\"");
-				break;
-
-			case '\b':
-				pcl_buf_putstr(b, "\\b");
-				break;
-
-			case '\t':
-				pcl_buf_putstr(b, "\\t");
-				break;
-
-			case '\n':
-				pcl_buf_putstr(b, "\\n");
-				break;
-
-			case '\f':
-				pcl_buf_putstr(b, "\\f");
-				break;
-
-			case '\r':
-				pcl_buf_putstr(b, "\\r");
-				break;
-
-			default:
-			{
-				/* control characters */
-				if(*s < 0x20)
-					pcl_buf_putf(b, "\\u%04x", (int) *s);
-				else
-					pcl_buf_putchar(b, *s);
-			}
-		}
-	}
-
-	return b->data;
-}
-
-char *
+pcl_json_t *
 pcl_err_vjson(const char *message, va_list ap)
 {
 	pcl_err_t *err = pcl_err_get();
-	pcl_buf_t *b = err->buffer;
-	pcl_buf_t escbuf;
+	pcl_json_t *root = pcl_json_object();
+	uint32_t flags = PCL_JSON_SKIPUTF8CHK | PCL_JSON_FREEVALONERR;
+	uint32_t strflags = PCL_JSON_EMPTYASNULL | PCL_JSON_ALLOWNULL;
 
-	pcl_buf_init(&escbuf, 256, PclBufText);
+	if(pcl_json_object_put(root, "err", pcl_json_integer(err->err), flags) < 0)
+	{
+		pcl_json_free(root);
+		return R_TRC(NULL);
+	}
 
-	if(!b)
-		b = err->buffer = pcl_buf_init(NULL, 512, PclBufText);
-	else
-		pcl_buf_reset(b);
+	char *name = (char *) (err->err ? pcl_err_name(err->err) : "");
+
+	if(pcl_json_object_put(root, "name", pcl_json_string(name, strflags), flags) < 0)
+	{
+		pcl_json_free(root);
+		return R_TRC(NULL);
+	}
+
+	if(pcl_json_object_put(root, "oserr", pcl_json_integer(err->oserr), flags) < 0)
+	{
+		pcl_json_free(root);
+		return R_TRC(NULL);
+	}
+
+	name = (char *) (err->oserr ? pcl_err_osname(err->oserr) : "");
+
+	if(pcl_json_object_put(root, "osname", pcl_json_string(name, strflags), flags) < 0)
+	{
+		pcl_json_free(root);
+		return R_TRC(NULL);
+	}
 
 	char *msg = NULL;
 
 	if(!strempty(message))
 		pcl_vasprintf(&msg, message, ap);
 
-	pcl_buf_putf(b,"{\"err\":%d,\"oserr\":%u,\"msg\":", err->err, err->oserr);
+	if(pcl_json_object_put(root, "msg", pcl_json_string(msg, strflags | PCL_JSON_SHALLOW), flags) < 0)
+	{
+		pcl_json_free(root); // 'msg' managed by string & freed due to PCL_JSON_FREEVALONERR
+		return R_TRC(NULL);
+	}
 
-	if(strempty(msg))
-		pcl_buf_putstr(b, "null");
-	else
-		pcl_buf_putf(b, "\"%s\"", escape_jsonstr(&escbuf, msg));
+	pcl_json_t *strace = pcl_json_array();
 
-	pcl_free_safe(msg);
-
-	pcl_buf_putstr(b, ",\"strace\":[");
+	if(pcl_json_object_put(root, "strace", strace, flags) < 0)
+	{
+		pcl_json_free(root);
+		return R_TRC(NULL);
+	}
 
 	for(pcl_err_trace_t *t = err->strace; t; t = t->next)
 	{
-		pcl_buf_putstr(b, "{\"file\":");
+		pcl_json_t *jtrace = pcl_json_object();
 
-		if(strempty(t->file))
-			pcl_buf_putstr(b, "null");
-		else
-			pcl_buf_putf(b, "\"%s\"", escape_jsonstr(&escbuf, t->file));
+		if(pcl_json_object_put(jtrace, "file", pcl_json_string(t->file, strflags), flags) < 0)
+		{
+			pcl_json_free(root);
+			return R_TRC(NULL);
+		}
 
-		pcl_buf_putstr(b, ",\"func\":");
+		if(pcl_json_object_put(jtrace, "func", pcl_json_string(t->func, strflags), flags) < 0)
+		{
+			pcl_json_free(root);
+			return R_TRC(NULL);
+		}
 
-		if(strempty(t->func))
-			pcl_buf_putstr(b, "null");
-		else
-			pcl_buf_putf(b, "\"%s\"", escape_jsonstr(&escbuf, t->func));
+		if(pcl_json_object_put(jtrace, "line", pcl_json_integer(t->line), flags) < 0)
+		{
+			pcl_json_free(root);
+			return R_TRC(NULL);
+		}
 
-		pcl_buf_putf(b, ",\"line\":%d,\"msg\":", t->line);
+		if(pcl_json_object_put(jtrace, "msg", pcl_json_string(t->msg, strflags), flags) < 0)
+		{
+			pcl_json_free(root);
+			return R_TRC(NULL);
+		}
 
-		if(strempty(t->msg))
-			pcl_buf_putstr(b, "null");
-		else
-			pcl_buf_putf(b, "\"%s\"", escape_jsonstr(&escbuf, t->msg));
-
-		pcl_buf_putchar(b, '}');
-
-		if(t->next)
-			pcl_buf_putchar(b, ',');
+		if(pcl_json_array_add(strace, jtrace, flags) < 0)
+		{
+			pcl_json_free(root);
+			return R_TRC(NULL);
+		}
 	}
 
-	pcl_buf_putstr(b, "]}");
-
-	pcl_buf_clear(&escbuf);
-
-	/* steal data pointer */
-	char *json = b->data;
-	b->data = NULL;
-	pcl_buf_clear(b);
-
-	return json;
+	return root;
 }

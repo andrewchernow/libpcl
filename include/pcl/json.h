@@ -39,9 +39,9 @@
 #include <pcl/types.h>
 
 /** Skip UTF-8 validation. Only set this flag if you know for sure a string is valid UTF-8.
- * Otherwise, you can end up with an invalid JSON document that will be regected by parsers
+ * Otherwise, you can end up with an invalid JSON document that will be rejected by parsers
  * outside of PCL.
- * @see pcl_json_string
+ * @see pcl_json_string, pcl_json_string_len
  */
 #define PCL_JSON_SKIPUTF8CHK 0x01
 
@@ -51,10 +51,47 @@
  */
 #define PCL_JSON_SHALLOW 0x02
 
+/** Empty strings will be encoded as a JSON null.
+ * @see pcl_json_string, pcl_json_string_len
+ */
+#define PCL_JSON_EMPTYASNULL 0x04
+
+/** A \c NULL string will not raise an error, but rather encode value as a JSON null.
+ * @see pcl_json_string, pcl_json_string_len
+ */
+#define PCL_JSON_ALLOWNULL 0x08
+
+/** When adding json objects to collections, if the add operation fails this flags will free
+ * the value being added.
+ * @code
+ * pcl_json_t *val = pcl_json_integer(10);
+ *
+ * // NULL key will force an error, this will free 'val'
+ * pcl_json_object_put(obj, NULL, val, PCL_JSON_FREEVALONERR);
+ *
+ * // identical to
+ * if(pcl_json_object_put(obj, NULL, val, 0) < 0)
+ *   pcl_json_free(val);
+ *
+ * @endcode
+ * @see pcl_json_object_put, pcl_json_array_add
+ */
+#define PCL_JSON_FREEVALONERR 0x10
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+#define pcl_json_isnull(_j)    ((_j) ? (_j)->type == 0 : false)
+#define pcl_json_isboolean(_j) ((_j) ? (_j)->type == 'b' : false)
+#define pcl_json_istrue(_j)    ((_j) ? pcl_json_isboolean(_j) && (_j)->boolean : false)
+#define pcl_json_isfalse(_j)   ((_j) ? pcl_json_isboolean(_j) && !(_j)->boolean : false)
+#define pcl_json_isreal(_j)    ((_j) ? (_j)->type == 'r' : false)
+#define pcl_json_isinteger(_j) ((_j) ? (_j)->type == 'i' : false)
+#define pcl_json_isnumber(_j)  (pcl_json_isreal(_j) || pcl_json_isinteger(_j))
+#define pcl_json_isstring(_j)  ((_j) ? (_j)->type == 's' : false)
+#define pcl_json_isarray(_j)   ((_j) ? (_j)->type == 'a' : false)
+#define pcl_json_isobject(_j)  ((_j) ? (_j)->type == 'o' : false)
 
 struct tag_pcl_json
 {
@@ -68,6 +105,7 @@ struct tag_pcl_json
 		bool boolean;
 		double real;
 		long long integer;
+		/** A NUL-terminated string */
 		char *string;
 		pcl_array_t *array;
 		pcl_htable_t *object;
@@ -110,7 +148,7 @@ PCL_EXPORT void pcl_json_free(pcl_json_t *j);
  * @return pointer to a json object of type object
  */
 PCL_EXPORT pcl_json_t *pcl_json_object(void);
-PCL_EXPORT int pcl_json_object_put(pcl_json_t *obj, char *key, pcl_json_t *value);
+PCL_EXPORT int pcl_json_object_put(pcl_json_t *obj, char *key, pcl_json_t *value, uint32_t flags);
 PCL_EXPORT pcl_json_t *pcl_json_object_get(pcl_json_t *obj, const char *key);
 
 /** Create an array object.
@@ -126,7 +164,7 @@ PCL_EXPORT pcl_json_t *pcl_json_array(void);
  * @param elem
  * @return new element count on success and -1 on error
  */
-PCL_EXPORT int pcl_json_array_add(pcl_json_t *arr, pcl_json_t *elem);
+PCL_EXPORT int pcl_json_array_add(pcl_json_t *arr, pcl_json_t *elem, uint32_t flags);
 
 /**
  *
@@ -136,16 +174,35 @@ PCL_EXPORT int pcl_json_array_add(pcl_json_t *arr, pcl_json_t *elem);
  */
 PCL_EXPORT pcl_json_t *pcl_json_array_get(pcl_json_t *arr, int index);
 
-/**
- *
- * @param str pointer to a string
- * @param len number of bytes. If this is zero, \a str MUST be NUL-terminated
- * @param flags a bitmask of flags. If PCL_JSON_SHALLOW is set, \a str will not be copied. In
- * this case, do not directly interact with or free \a str after this call! Only interact
- * through pcl_json_t. If PCL_JSON_SKIPUTF8CHK  is set, this will skip UTF-8 validation.
- * @return
+/** Create a string.
+ * @param str pointer to a NUL-terminated string
+ * @param flags a bitmask of flags. If ::PCL_JSON_SKIPUTF8CHK is set, no UTF-8 validation
+ * is performed. If ::PCL_JSON_SHALLOW is set, a direct pointer to \a str is stored: ie. no copy.
+ * If ::PCL_JSON_SHALLOW is not set, \a str is copied. Note that if ::PCL_JSON_EMPTYASNULL and
+ * ::PCL_JSON_SHALLOW are both set and \a str is empty, caller is still repsonsible to free the
+ * empty string. This is because the json module isn't managing it. For this reason, one should
+ * avoid setting both of these flags. If ::PCL_JSON_EMPTYASNULL, then an empty \a str
+ * will cause a json null object to be returned. If ::PCL_JSON_ALLOWNULL is set, if \a str
+ * is \c NULL, a json null object will be returned.
+ * @return pointer to a json object or \c NULL on error. Note that a \c NULL \a str is an error
+ * unless ::PCL_JSON_ALLOWNULL is set.
+ * @see pcl_json_string_len
  */
-PCL_EXPORT pcl_json_t *pcl_json_string(char *str, size_t len, uint32_t flags);
+PCL_EXPORT pcl_json_t *pcl_json_string(char *str, uint32_t flags);
+
+/** Create a string.
+ * @note this function always copies \a len characters of the given \a str
+ * @param str pointer to string, which does not need to be NUL-terminated
+ * @param len number of characters to copy from \a str
+ * @param flags bitmask of flags. ::PCL_JSON_SHALLOW is not supported. If ::PCL_JSON_SKIPUTF8CHK
+ * is set, no UTF-8 validation is performed. If ::PCL_JSON_EMPTYASNULL, then a \a len of zero
+ * will cause a json null object to be returned. If ::PCL_JSON_ALLOWNULL is set, if \a str
+ * is \c NULL, a json null object will be returned.
+ * @return pointer to a json object or \c NULL on error. Note that a \c NULL \a str is an error
+ * unless ::PCL_JSON_ALLOWNULL is set.
+ * @see pcl_json_string
+ */
+PCL_EXPORT pcl_json_t *pcl_json_string_len(const char *str, size_t len, uint32_t flags);
 
 /** Create a boolean.
  * @param value

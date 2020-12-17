@@ -42,7 +42,10 @@ pcl_htable_put(pcl_htable_t *ht, const void *key, void *value, bool unique)
 
 	int index;
 	uintptr_t code;
+
+	pcl_err_freeze(true);
 	pcl_htable_entry_t *e = ipcl_htable_lookup(ht, key, &code, &index);
+	pcl_err_freeze(false);
 
 	if(e)
 	{

@@ -33,8 +33,10 @@
 #include <pcl/error.h>
 #include <pcl/strint.h>
 #include <pcl/alloc.h>
+#include <pcl/json.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 static FILE *func_three(void)
 {
@@ -85,9 +87,20 @@ int main(int argc, char **argv)
 		pcl_err_fprintf(stderr, 0, "func_one call failed");
 
 		/* output json version */
-		char *json = pcl_err_json("func_one call failed");
-		printf("\nJSON Version:\n%s\n", json);
-		pcl_free(json);
+		pcl_json_t *json = pcl_err_json("func_one call failed");
+
+		if(!json)
+			PANIC(NULL, 0);
+
+		char *str = pcl_json_encode(json, true);
+
+		if(!str)
+			PANIC("encode", 0);
+
+		printf("\nJSON Version:\n%s\n", str);
+
+		pcl_free(str);
+		pcl_json_free(json);
 
 		return 1;
 	}

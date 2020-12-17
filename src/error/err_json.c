@@ -31,12 +31,12 @@
 
 #include "_error.h"
 
-char *
+pcl_json_t *
 pcl_err_json(const char *message, ...)
 {
 	va_list ap;
 	va_start(ap, message);
-	char *json = pcl_err_vjson(message, ap);
+	pcl_json_t *json = pcl_err_vjson(message, ap);
 	va_end(ap);
 	return json;
 }
