@@ -33,48 +33,45 @@
 
 #ifndef XWIDE
 
-	#include <pcl/vector.h>
+	#include <pcl/array.h>
 
 #endif
 
-static pcl_vector_t *
+static pcl_array_t *
 XFUNC(strsplit_impl)(const xchar *s, const xchar *delim, int casefold)
 {
 	size_t delim_len = xstrlen(delim);
-	pcl_vector_t *v = NULL;
-	xchar *(*fn_strstr)(const xchar *n, const xchar *h) = casefold ? xstristr : xstrstr;
+	pcl_array_t *arr = pcl_array_create(4, pcl_array_cleanup_ptr);
+	xchar *(*fn_strstr)(const xchar *, const xchar *) = casefold ? xstristr : xstrstr;
 
 	while(s && *s)
 	{
-		xchar *item, *p = fn_strstr(s, delim);
+		xchar *elem, *p = fn_strstr(s, delim);
 
 		if(!p)
 		{
-			item = xstrdup(s);
+			elem = xstrdup(s);
 			s = NULL;
 		}
 		else
 		{
-			item = xstrndup(s, p - s);
+			elem = xstrndup(s, p - s);
 			s = p + delim_len;
 		}
 
-		if(!v)
-			v = pcl_vector_create(4, sizeof(xchar **), pcl_vector_cleanup_dblptr);
-
-		pcl_vector_append(v, &item);
+		pcl_array_add(arr, elem);
 	}
 
-	return v;
+	return arr;
 }
 
-pcl_vector_t *
+pcl_array_t *
 XFUNC(split)(const xchar *s, const xchar *d)
 {
 	return XFUNC(strsplit_impl)(s, d, 0);
 }
 
-pcl_vector_t *
+pcl_array_t *
 XFUNC(isplit)(const xchar *s, const xchar *d)
 {
 	return XFUNC(strsplit_impl)(s, d, 1);

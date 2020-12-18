@@ -384,25 +384,27 @@ PCL_EXPORT wchar_t *pcl_wcsireplace(const wchar_t *subject, const wchar_t *from,
  * pcl_strsplit family
  */
 
-/** Split a string into a vector.
+/** Split a string into an array.
  * @param s pointer to a string
  * @param delim pointer to a delimiter to split on
- * @return pointer to a vector containing the split parts. The delimiter string is never
- * included in part elements.
+ * @return pointer to an array containing the split parts. The delimiter string is never
+ * included in part elements. This never returns \c NULL, however the array can be empty if
+ * \a s is \c NULL or \c "".
  */
-PCL_EXPORT pcl_vector_t *pcl_strsplit(const char *s, const char *delim);
+PCL_EXPORT pcl_array_t *pcl_strsplit(const char *s, const char *delim);
 /** @copydoc pcl_strsplit */
-PCL_EXPORT pcl_vector_t *pcl_wcssplit(const wchar_t *s, const wchar_t *delim);
+PCL_EXPORT pcl_array_t *pcl_wcssplit(const wchar_t *s, const wchar_t *delim);
 
-/** Split a string into a vector ignoring case.
+/** Split a string into an array ignoring case.
  * @param s pointer to a string
  * @param delim pointer to a delimiter to split on
- * @return pointer to a vector containing the split parts. The delimiter string is never
- * included in part elements.
+ * @return pointer to an array containing the split parts. The delimiter string is never
+ * included in part elements. This never returns \c NULL, however the array can be empty if
+ * \a s is \c NULL or \c "".
  */
-PCL_EXPORT pcl_vector_t *pcl_strisplit(const char *s, const char *delim);
+PCL_EXPORT pcl_array_t *pcl_strisplit(const char *s, const char *delim);
 /** @copydoc pcl_strisplit */
-PCL_EXPORT pcl_vector_t *pcl_wcsisplit(const wchar_t *s, const wchar_t *delim);
+PCL_EXPORT pcl_array_t *pcl_wcsisplit(const wchar_t *s, const wchar_t *delim);
 
 /** Lowercase a string.
  * @param s pointer to a string
