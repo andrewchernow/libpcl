@@ -3,6 +3,7 @@ add_library(json OBJECT
 	json_array.c
 	json_array_add.c
 	json_array_get.c
+	json_array_remove.c
 	json_boolean.c
 	json_decode.c
 	json_encode.c
@@ -17,6 +18,7 @@ add_library(json OBJECT
 	json_object.c
 	json_object_get.c
 	json_object_put.c
+	json_object_remove.c
 	json_parse_array.c
 	json_parse_number.c
 	json_parse_object.c
