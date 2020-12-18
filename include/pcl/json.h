@@ -150,6 +150,7 @@ PCL_EXPORT void pcl_json_free(pcl_json_t *j);
 PCL_EXPORT pcl_json_t *pcl_json_object(void);
 PCL_EXPORT int pcl_json_object_put(pcl_json_t *obj, char *key, pcl_json_t *value, uint32_t flags);
 PCL_EXPORT pcl_json_t *pcl_json_object_get(pcl_json_t *obj, const char *key);
+PCL_EXPORT int pcl_json_object_remove(pcl_json_t *obj, const char *key);
 
 /** Create an array object.
  * It is safe to use the @ref array "array module" for managing a JSON array. Internally, a json
@@ -173,6 +174,14 @@ PCL_EXPORT int pcl_json_array_add(pcl_json_t *arr, pcl_json_t *elem, uint32_t fl
  * @return
  */
 PCL_EXPORT pcl_json_t *pcl_json_array_get(pcl_json_t *arr, int index);
+
+/**
+ *
+ * @param arr
+ * @param index
+ * @return new count or -1 on error
+ */
+PCL_EXPORT int pcl_json_array_remove(pcl_json_t *arr, int index);
 
 /** Create a string.
  * @param str pointer to a NUL-terminated string
