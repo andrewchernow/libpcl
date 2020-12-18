@@ -49,7 +49,7 @@ pcl_err_vjson(const char *message, va_list ap)
 		return R_TRC(NULL);
 	}
 
-	char *name = (char *) (err->err ? pcl_err_name(err->err) : "");
+	char *name = (char *) (err->err ? pcl_err_name(err->err) : NULL);
 
 	if(pcl_json_object_put(root, "name", pcl_json_string(name, strflags), flags) < 0)
 	{
@@ -63,7 +63,7 @@ pcl_err_vjson(const char *message, va_list ap)
 		return R_TRC(NULL);
 	}
 
-	name = (char *) (err->oserr ? pcl_err_osname(err->oserr) : "");
+	name = (char *) (err->oserr ? pcl_err_osname(err->oserr) : NULL);
 
 	if(pcl_json_object_put(root, "osname", pcl_json_string(name, strflags), flags) < 0)
 	{
