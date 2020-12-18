@@ -333,8 +333,9 @@ PCL_EXPORT int pcl_htable_put(pcl_htable_t *ht, const void *key, void *value, bo
 /** Remove an entry from the table. If the key does not exist, this call is silently ignored.
  * @param ht pointer to hash table object
  * @param key pointer to the entry's key to remove
+ * @return new count of entries or -1 on error
  */
-PCL_EXPORT void pcl_htable_remove(pcl_htable_t *ht, const void *key);
+PCL_EXPORT int pcl_htable_remove(pcl_htable_t *ht, const void *key);
 
 /** Get hash table keys as an array.
  * @param ht pointer to hash table object

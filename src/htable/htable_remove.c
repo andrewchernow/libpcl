@@ -30,25 +30,26 @@
 */
 
 #include "_htable.h"
+#include <pcl/error.h>
 
-void
+int
 pcl_htable_remove(pcl_htable_t *ht, const void *key)
 {
 	if(!(ht && key))
-		return;
+		return BADARG();
 
 	int index = (int) (ht->hashcode(key, ht->key_len, ht->userp) % ht->capacity);
 	pcl_htable_entry_t *prev, *e = ht->entries[index];
 
 	if(!e)
-		return;
+		return 0;
 
 	/* special case when matches head */
 	if(ht->key_equals(e->key, key, ht->key_len, ht->userp))
 	{
 		ht->entries[index] = e->next;
 		ipcl_htable_remove_entry(ht, e, true);
-		return;
+		return ht->count;
 	}
 
 	for(prev = e, e = e->next; e; prev = e, e = e->next)
@@ -60,4 +61,6 @@ pcl_htable_remove(pcl_htable_t *ht, const void *key)
 			break;
 		}
 	}
+
+	return ht->count;
 }
