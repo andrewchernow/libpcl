@@ -35,6 +35,7 @@
 #include <pcl/string.h>
 #include <pcl/io.h>
 #include <pcl/alloc.h>
+#include <pcl/array.h>
 #include <userenv.h>
 #include <lm.h>
 
@@ -152,8 +153,13 @@ pcl_proc_exec(pcl_proc_exec_t *exec, int flags)
 	}
 
 	/* parse the command */
-	pchar_t **argv = NULL;
-	int argc = pcl_proc_parsecmd(exec->command, &argv);
+	pcl_array_t *arr = pcl_proc_parsecmd(exec->command);
+
+	if(!arr)
+		return TRC();
+
+	int argc = arr->count;
+	pchar_t **argv = (pchar_t **) arr->elements;
 	bool shell = (flags & PCL_EXEC_SHELL) != 0;
 
 	/* (argc*3) = double quotes for each arg + a space. The added 32 is for
@@ -173,7 +179,7 @@ pcl_proc_exec(pcl_proc_exec_t *exec, int flags)
 			pcl_pcscatf(command, cmd_size, _P(" "));
 	}
 
-	(void) pcl_proc_freeargv(argc, argv);
+	pcl_array_free(arr);
 
 	/* close double quotes around arg list */
 	if(shell)

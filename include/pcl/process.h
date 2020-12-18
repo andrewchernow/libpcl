@@ -268,19 +268,10 @@ PCL_EXPORT void pcl_proc_close(pcl_prochandle_t handle);
  * @note a blank shell_cmd, will result in zero being returned which could be an error to an
  * application.
  * @param shell_cmd pointer to the shell command to parse
- * @param out pointer to a pointer table to receive the results. Use ::pcl_proc_freeargv when
- * done with this value.
- * @return the number of arguments, exlcuding terminating NULL element, or -1 on error
+ * @return pointer to an array of arguments with a NULL as the last element. One can simply
+ * access pcl_array_t.elements for an \c argv style array.
  */
-PCL_EXPORT int pcl_proc_parsecmd(const pchar_t *shell_cmd, pchar_t ***out);
-
-/** Free an argv array.
- * @param argc number of arguments (exlcuding trailing \c NULL element)
- * @param argv pointer to an argument array
- * @return always returns \c NULL
- * @see pcl_proc_parsecmd
- */
-PCL_EXPORT void *pcl_proc_freeargv(int argc, pchar_t **argv);
+PCL_EXPORT pcl_array_t *pcl_proc_parsecmd(const pchar_t *shell_cmd);
 
 /** Get the value of an environment variable.
  * @param name name of the environment variable

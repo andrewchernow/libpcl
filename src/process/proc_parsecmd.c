@@ -33,18 +33,16 @@
 #include <pcl/error.h>
 #include <pcl/alloc.h>
 #include <pcl/string.h>
+#include <pcl/array.h>
 
-int
-pcl_proc_parsecmd(const pchar_t *shell_cmd, pchar_t ***out)
+pcl_array_t *
+pcl_proc_parsecmd(const pchar_t *shell_cmd)
 {
 	const pchar_t *start;
 	bool in_quote = false;
-	pchar_t **argv;
-	size_t size = 4;
-	int count = 0;
 
 	if(!shell_cmd)
-		return BADARG();
+		return R_SETERR(NULL, PCL_EINVAL);
 
 	shell_cmd = pcl_pcsskipws(shell_cmd);
 	if(*shell_cmd == '"')
@@ -54,7 +52,7 @@ pcl_proc_parsecmd(const pchar_t *shell_cmd, pchar_t ***out)
 	}
 
 	start = shell_cmd;
-	argv = (pchar_t **)pcl_malloc((size + 1) * sizeof(pchar_t *));
+	pcl_array_t *arr = pcl_array_create(4, pcl_array_cleanup_ptr);
 
 	while(true)
 	{
@@ -75,8 +73,8 @@ pcl_proc_parsecmd(const pchar_t *shell_cmd, pchar_t ***out)
 				{
 					if(!in_quote)
 					{
-						pcl_proc_freeargv(count, argv);
-						return SETERRMSG(PCL_ESYNTAX, "unescaped quote", 0);
+						pcl_array_free(arr);
+						return R_SETERRMSG(NULL, PCL_ESYNTAX, "unescaped quote", 0);
 					}
 
 					in_quote = false;
@@ -85,8 +83,8 @@ pcl_proc_parsecmd(const pchar_t *shell_cmd, pchar_t ***out)
 				{
 					if(*shell_cmd == '\0')
 					{
-						pcl_proc_freeargv(count, argv);
-						return SETERRMSG(PCL_ESYNTAX, "unterminated quote", 0);
+						pcl_array_free(arr);
+						return R_SETERRMSG(NULL, PCL_ESYNTAX, "unterminated quote", 0);
 					}
 
 					shell_cmd++;
@@ -96,15 +94,7 @@ pcl_proc_parsecmd(const pchar_t *shell_cmd, pchar_t ***out)
 				n = shell_cmd - start;
 
 				if(n > 0)
-				{
-					if(count == (int)size)
-					{
-						size = (size * 3) / 2;
-						argv = (pchar_t **)pcl_realloc(argv, (size + 1) * sizeof(pchar_t *));
-					}
-
-					argv[count++] = pcl_pcsndup(start, shell_cmd - start);
-				}
+					pcl_array_add(arr, pcl_pcsndup(start, shell_cmd - start));
 
 				if(*shell_cmd == '\0')
 					goto finish;
@@ -129,11 +119,10 @@ pcl_proc_parsecmd(const pchar_t *shell_cmd, pchar_t ***out)
 
 finish:
 
-	argv[count] = NULL;
-	if(out)
-		*out = argv;
+	/* make sure to NULL terminate array */
+	pcl_array_add(arr, NULL);
 
-	return count;
+	return arr;
 }
 
 

@@ -37,6 +37,7 @@
 #include <pcl/dir.h>
 #include <pcl/limits.h>
 #include <pcl/string.h>
+#include <pcl/array.h>
 #include <stdlib.h> // getenv()
 
 #ifdef PCL_DARWIN
@@ -68,6 +69,12 @@
   CLOSE_FILES; \
 }while(0)
 
+#define FREEARGV(_argc, _argv) do{ \
+  for(int _i = 0; _i < (_argc); _i++) \
+    pcl_free_safe((_argv)[_i]);      \
+  pcl_free(_argv); \
+}while(0)
+
 int
 pcl_proc_exec(pcl_proc_exec_t *exec, int flags)
 {
@@ -86,17 +93,24 @@ pcl_proc_exec(pcl_proc_exec_t *exec, int flags)
 	fflush(stdout);
 	fflush(stderr);
 
-	pchar_t **argv = NULL;
-	int argc = pcl_proc_parsecmd(pcl_pcsskipws(exec->command), &argv);
+	pcl_array_t *arr = pcl_proc_parsecmd(pcl_pcsskipws(exec->command));
+
+	if(!arr)
+		return TRCMSG("error parsing command: '%Ps'", exec->command);
+
+	pchar_t **argv = (pchar_t **) arr->elements;
+	int argc = arr->count;
+
+	/* steal elements */
+	arr->count = 0;
+	arr->elements = NULL;
+	pcl_array_free(arr);
 
 	if(argc == 0)
 	{
-		pcl_proc_freeargv(argc, argv);
+		FREEARGV(argc, argv);
 		return SETERRMSG(PCL_EBADCMD, "command is empty", 0);
 	}
-
-	if(argc < 0)
-		return TRCMSG("error parsing command: '%Ps'", exec->command);
 
 	/* use SHELL to execute command */
 	if(flags & PCL_EXEC_SHELL)
@@ -124,7 +138,7 @@ pcl_proc_exec(pcl_proc_exec_t *exec, int flags)
 		tmp_argv[tmp_argc++] = (pchar_t *) exec->command;
 
 		/* free old argv */
-		pcl_proc_freeargv(argc, argv);
+		FREEARGV(argc, argv);
 
 		/* allocate a new argv */
 		argc = tmp_argc;
@@ -147,7 +161,7 @@ pcl_proc_exec(pcl_proc_exec_t *exec, int flags)
 		if(pcl_proc_pipe(pipes, 0, nonblock | PCL_O_CLOEXEC))
 		{
 			CLOSE_ALL;
-			pcl_proc_freeargv(argc, argv);
+			FREEARGV(argc, argv);
 			return SETLASTERR();
 		}
 
@@ -164,7 +178,7 @@ pcl_proc_exec(pcl_proc_exec_t *exec, int flags)
 		if(pcl_proc_pipe(pipes, nonblock | PCL_O_CLOEXEC, 0))
 		{
 			CLOSE_ALL;
-			pcl_proc_freeargv(argc, argv);
+			FREEARGV(argc, argv);
 			return SETLASTERR();
 		}
 
@@ -181,7 +195,7 @@ pcl_proc_exec(pcl_proc_exec_t *exec, int flags)
 		if(pcl_proc_pipe(pipes, nonblock | PCL_O_CLOEXEC, 0))
 		{
 			CLOSE_ALL;
-			pcl_proc_freeargv(argc, argv);
+			FREEARGV(argc, argv);
 			return SETLASTERR();
 		}
 
@@ -197,7 +211,7 @@ pcl_proc_exec(pcl_proc_exec_t *exec, int flags)
 	if(pipe(err_fds))
 	{
 		CLOSE_ALL;
-		pcl_proc_freeargv(argc, argv);
+		FREEARGV(argc, argv);
 		return SETLASTERR();
 	}
 
@@ -211,7 +225,7 @@ pcl_proc_exec(pcl_proc_exec_t *exec, int flags)
 			close(err_fds[0]);
 			close(err_fds[1]);
 			CLOSE_ALL;
-			pcl_proc_freeargv(argc, argv);
+			FREEARGV(argc, argv);
 		);
 
 		return SETLASTERR();
@@ -229,7 +243,7 @@ pcl_proc_exec(pcl_proc_exec_t *exec, int flags)
 		close(err_fds[1]);
 
 		/* parent doesn't need this at all, it is for child execvp. Avoid parent leak. */
-		pcl_proc_freeargv(argc, argv);
+		FREEARGV(argc, argv);
 
 		/* read err code written when child execvp fails.  Otherwise, this will return zero
 		 * (EOF/broken-pipe) since child sets FD_CLOEXEC.

@@ -2,7 +2,6 @@
 add_library(process OBJECT
 	getenv.c
 	proc_close.c
-	proc_freecmd.c
 	proc_parsecmd.c
 	proc_pipe.c
 	proc_self.c
