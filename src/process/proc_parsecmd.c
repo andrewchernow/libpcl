@@ -122,6 +122,9 @@ finish:
 	/* make sure to NULL terminate array */
 	pcl_array_add(arr, NULL);
 
+	/* don't include NULL in element count */
+	arr->count--;
+
 	return arr;
 }
 
