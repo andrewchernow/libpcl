@@ -99,7 +99,7 @@ pcl_tmpfile(const pchar_t *dir, const pchar_t *prefix, const pchar_t *suffix,
 		/* first +1 is path separator and 2nd +1 is NUL */
 		size_t path_len = pcl_pcslen(tmpdir) + 1 + prefix_len + rand_len + suffix_len + 1;
 
-		path = pcl_malloc(path_len * sizeof(pchar_t));
+		path = pcl_pmalloc(path_len);
 
 		do
 		{
@@ -116,7 +116,7 @@ pcl_tmpfile(const pchar_t *dir, const pchar_t *prefix, const pchar_t *suffix,
 			if(file)
 				goto END_LOOPS;
 		}
-		while(++attempts < 10); // try 10 times then move to next tmpdir
+		while(++attempts < 3); // try 3 times then move to next tmpdir
 
 		path = pcl_free(path);
 	} // for tmpdirs
