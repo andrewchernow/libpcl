@@ -100,6 +100,8 @@ struct tag_pcl_json
 	 */
 	char type;
 
+	int nrefs;
+
 	union
 	{
 		bool boolean;
@@ -137,6 +139,18 @@ struct tag_pcl_json
 PCL_EXPORT pcl_json_t *pcl_json_decode(const char *json, size_t len, const char **end);
 
 PCL_EXPORT char *pcl_json_encode(pcl_json_t *value, bool format);
+
+PCL_EXPORT pcl_json_path_t *pcl_json_compile(const char *path);
+
+PCL_EXPORT void pcl_json_freepath(pcl_json_path_t *path);
+
+/** Match a JSON value against a compiled JSON Path.
+ * @param j pointer to a json value
+ * @param path a compiled JSON Path
+ * @return a pointer to an array of pcl_json_t values or \c NULL on error. Each json value's
+ * reference count has been increased by one. This array can be empty. Free with ::pcl_array_free.
+ */
+PCL_EXPORT pcl_array_t *pcl_json_match(pcl_json_t *j, const pcl_json_path_t *path);
 
 PCL_EXPORT void pcl_json_free(pcl_json_t *j);
 
@@ -226,6 +240,14 @@ PCL_EXPORT pcl_json_t *pcl_json_null(void);
 
 PCL_EXPORT pcl_json_t *pcl_json_real(double real);
 PCL_EXPORT pcl_json_t *pcl_json_integer(long long integer);
+
+PCL_INLINE pcl_json_t *
+pcl_json_ref(pcl_json_t *j, int amt)
+{
+	if(j)
+		j->nrefs += amt;
+	return j;
+}
 
 #ifdef __cplusplus
 }

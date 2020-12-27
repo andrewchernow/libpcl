@@ -47,6 +47,7 @@ pcl_json_object(void)
 	pcl_json_t *val = pcl_malloc(sizeof(pcl_json_t));
 
 	val->type = 'o';
+	val->nrefs = 1;
 	val->object = pcl_htable_create(0);
 	val->object->remove_entry = remove_entry;
 

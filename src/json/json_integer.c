@@ -38,6 +38,7 @@ pcl_json_integer(long long integer)
 	pcl_json_t *val = pcl_malloc(sizeof(pcl_json_t));
 
 	val->type = 'i';
+	val->nrefs = 1;
 	val->integer = integer;
 
 	return val;

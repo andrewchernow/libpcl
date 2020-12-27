@@ -86,14 +86,12 @@ ipcl_json_parse_object(ipcl_json_state_t *s)
 			return NULL;
 		}
 
-		if(pcl_json_object_put(obj, key, val, PCL_JSON_SKIPUTF8CHK | PCL_JSON_SHALLOW) < 0)
+		uint32_t flags = PCL_JSON_SKIPUTF8CHK | PCL_JSON_SHALLOW | PCL_JSON_FREEVALONERR;
+
+		if(pcl_json_object_put(obj, key, val, flags) < 0)
 		{
 			pcl_json_free(obj);
-
-			/* 'val' and 'key' are not managed by 'obj' cuz put failed */
-			pcl_json_free(val);
 			pcl_free(key);
-
 			return NULL;
 		}
 

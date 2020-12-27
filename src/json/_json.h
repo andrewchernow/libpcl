@@ -62,6 +62,38 @@ typedef struct
 	pcl_buf_t *b;
 } ipcl_json_encode_t;
 
+typedef enum
+{
+	PclPathRoot,
+	PclPathMember,
+	PclPathWildcardMember,
+	PclPathRecursiveDescent,
+	PclPathElement,
+	PclPathWildcardElement,
+	PclPathElementList,
+	PclPathElementSlice
+} path_type_t;
+
+struct tag_pcl_json_path
+{
+	pcl_json_path_t *next;
+
+	path_type_t type;
+
+	union
+	{
+		char *member; // ChildMember
+		int index; // ChildElement
+		pcl_vector_t *idx_list; // ChildElementList
+		struct {
+			int start;
+			int end;
+			int step;
+		} idx_slice; // ChildElementSlice
+	};
+};
+
+
 pcl_json_t *ipcl_json_parse_value(ipcl_json_state_t *s);
 char *ipcl_json_parse_string(ipcl_json_state_t *s);
 pcl_json_t *ipcl_json_parse_array(ipcl_json_state_t *s);

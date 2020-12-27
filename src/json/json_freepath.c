@@ -31,22 +31,20 @@
 
 #include "_json.h"
 #include <pcl/alloc.h>
-#include <math.h>
+#include <pcl/vector.h>
 
-pcl_json_t *
-pcl_json_real(double real)
+void
+pcl_json_freepath(pcl_json_path_t *path)
 {
-	if(isnan(real))
-		return R_SETERRMSG(NULL, PCL_EINVAL, "NaN not supported", 0);
+	for(pcl_json_path_t *cur = path; cur; )
+	{
+		if(cur->type == PclPathMember)
+			pcl_free_safe(cur->member);
+		else if(cur->type == PclPathElementList)
+			pcl_vector_free(cur->idx_list);
 
-	if(isinf(real))
-		return R_SETERRMSG(NULL, PCL_EINVAL, "Infinity not supported", 0);
-
-	pcl_json_t *val = pcl_malloc(sizeof(pcl_json_t));
-
-	val->type = 'r';
-	val->nrefs = 1;
-	val->real = real;
-
-	return val;
+		pcl_json_path_t *next = cur->next;
+		pcl_free(cur);
+		cur = next;
+	}
 }

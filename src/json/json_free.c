@@ -40,6 +40,12 @@ pcl_json_free(pcl_json_t *j)
 	if(!j)
 		return;
 
+	if(pcl_json_ref(j, -1)->nrefs > 0)
+		return;
+
+	if(j == pcl_json_null() || j == pcl_json_true() || j == pcl_json_false())
+		return;
+
 	switch(j->type)
 	{
 		case 's':
@@ -55,7 +61,5 @@ pcl_json_free(pcl_json_t *j)
 			break;
 	}
 
-	/* do not free singletons */
-	if(j != pcl_json_null() && j != pcl_json_true() && j != pcl_json_false())
-		pcl_free(j);
+	pcl_free(j);
 }

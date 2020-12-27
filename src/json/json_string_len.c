@@ -53,6 +53,7 @@ pcl_json_string_len(const char *str, size_t len, uint32_t flags)
 	pcl_json_t *val = pcl_malloc(sizeof(pcl_json_t));
 
 	val->type = 's';
+	val->nrefs = 1;
 	val->string = pcl_strndup(str, len);
 
 	return val;

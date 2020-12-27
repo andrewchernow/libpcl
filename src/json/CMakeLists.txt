@@ -5,6 +5,7 @@ add_library(json OBJECT
 	json_array_get.c
 	json_array_remove.c
 	json_boolean.c
+	json_compile.c
 	json_decode.c
 	json_encode.c
 	json_encode_array.c
@@ -29,5 +30,5 @@ add_library(json OBJECT
 	json_string.c
 	json_string_len.c
 	json_true.c
-	json_utf8check.c)
+	json_utf8check.c json_match.c json_freepath.c)
 
