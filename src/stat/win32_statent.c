@@ -215,7 +215,8 @@ convstat(pchar_t *path, pcl_stat_t *st, WIN32_FIND_DATA *wfd, int flags, bool is
 			st->mode |= S_IFBLK;
 	}
 
-	if((flags & PCL_STAT_LINK) && (wfd->dwFileAttributes & FILE_ATTRIBUTE_REPARSE_POINT))
+	if((flags & PCL_STAT_LINK) && (wfd->dwFileAttributes & FILE_ATTRIBUTE_REPARSE_POINT) &&
+			(wfd->dwReserved0 == IO_REPARSE_TAG_SYMLINK))
 		st->mode |= S_IFLNK;
 
 	/* only set dir or reg if link is not already set */

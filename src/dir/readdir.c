@@ -115,7 +115,10 @@ pcl_readdir(pcl_dir_t *dir, pcl_dirent_t *ent, pcl_stat_t *stbuf)
 	/* pcl_file_open failed or GetFileType was FILE_TYPE_DISK (disk file) or FILE_TYPE_UNKNOWN */
 	if(ent->type == PclDirentUnknown)
 	{
-		if(dir->wfd.dwFileAttributes & FILE_ATTRIBUTE_REPARSE_POINT)
+		bool symlink = (dir->wfd.dwFileAttributes & FILE_ATTRIBUTE_REPARSE_POINT) &&
+			dir->wfd.dwReserved0 == IO_REPARSE_TAG_SYMLINK;
+
+		if(symlink)
 			ent->type = PclDirentLink;
 		else if(dir->wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 			ent->type = PclDirentDir;

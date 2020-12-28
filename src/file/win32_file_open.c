@@ -52,7 +52,7 @@ ipcl_file_open(pcl_file_t *file, const pchar_t *path, int pcl_oflags, mode_t mod
 			FindClose(hfind);
 			a = wfd.dwFileAttributes;
 
-			if((a & FILE_ATTRIBUTE_REPARSE_POINT) && (wfd.dwReserved0 & IO_REPARSE_TAG_SYMLINK))
+			if((a & FILE_ATTRIBUTE_REPARSE_POINT) && (wfd.dwReserved0 == IO_REPARSE_TAG_SYMLINK))
 				return SETERRMSG(PCL_ETYPE, "%Ps is a symbolic link", path);
 		}
 	}
