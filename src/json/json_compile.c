@@ -134,7 +134,7 @@ pcl_json_compile(const char *path)
 					/* slice with no start $.book[:2] */
 				else if(p[1] == ':')
 				{
-					int slice_end;
+					int slice_end = 0;
 					int slice_step = 1;
 
 					p += 2; // skip "[:"

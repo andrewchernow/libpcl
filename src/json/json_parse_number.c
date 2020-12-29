@@ -32,6 +32,7 @@
 #include "_json.h"
 #include <pcl/strint.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 pcl_json_t *
 ipcl_json_parse_number(ipcl_json_state_t *s)
