@@ -30,6 +30,7 @@
 */
 
 #include "_json.h"
+#include <ctype.h>
 
 ipcl_json_state_t *
 ipcl_json_skipws(ipcl_json_state_t *s)

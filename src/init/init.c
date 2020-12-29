@@ -37,8 +37,8 @@
 #include <pcl/atomic.h>
 
 #ifdef PCL_WINDOWS
-#	include "stat/_stat.h"     // win32_stat_handler
-#	include "socket/_socket.h" // socket_handler
+#	include "../stat/_stat.h"     // win32_stat_handler
+#	include "../socket/_socket.h" // socket_handler
 #	include <pcl/file.h>       // STDxx_FILENO
 #	include <fcntl.h>
 #	include <io.h>
