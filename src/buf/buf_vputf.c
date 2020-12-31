@@ -63,6 +63,7 @@ pcl_buf_vputf(pcl_buf_t *b, const void *format, va_list ap)
 	{
 		memset(b->data + b->pos * b->chrsize, 0, b->chrsize); // NUL
 		b->pos++;
+		len++;
 	}
 
 	if(b->len < b->pos)
