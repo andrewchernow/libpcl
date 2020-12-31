@@ -81,7 +81,7 @@ endif()
 
 add_subdirectory(src)
 add_subdirectory(examples)
-
+add_subdirectory(tests)
 add_custom_target(doc
 	COMMAND doxygen Doxyfile
 	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
