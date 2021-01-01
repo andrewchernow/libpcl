@@ -33,7 +33,7 @@
 #include <pcl/array.h>
 
 pcl_json_t *
-pcl_json_arrget(pcl_json_t *arr, int index)
+pcl_json_arrget(const pcl_json_t *arr, int index)
 {
 	if(!arr)
 		return R_SETERR(NULL, PCL_EINVAL);

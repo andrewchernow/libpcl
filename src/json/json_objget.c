@@ -33,7 +33,7 @@
 #include <pcl/htable.h>
 
 pcl_json_t *
-pcl_json_objget(pcl_json_t *obj, const char *key)
+pcl_json_objget(const pcl_json_t *obj, const char *key)
 {
 	if(!obj || !key)
 		return R_SETERR(NULL, PCL_EINVAL);

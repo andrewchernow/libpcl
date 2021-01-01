@@ -34,7 +34,7 @@
 #include <pcl/htable.h>
 
 int
-pcl_json_count(pcl_json_t *j)
+pcl_json_count(const pcl_json_t *j)
 {
 	if(pcl_json_isarr(j))
 		return j->array->count;

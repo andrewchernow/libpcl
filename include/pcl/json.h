@@ -247,20 +247,20 @@ PCL_EXPORT int pcl_json_objputnull(pcl_json_t *obj, char *key, uint32_t flags);
  * @param j json value which must be an object ore array
  * @return number of items or -1 on error
  */
-PCL_EXPORT int pcl_json_count(pcl_json_t *j);
+PCL_EXPORT int pcl_json_count(const pcl_json_t *j);
 
-PCL_EXPORT pcl_json_t *pcl_json_objget(pcl_json_t *obj, const char *key);
-PCL_EXPORT const char *pcl_json_objgetstr(pcl_json_t *obj, const char *key);
-PCL_EXPORT long long pcl_json_objgetint(pcl_json_t *obj, const char *key);
-PCL_EXPORT double pcl_json_objgetreal(pcl_json_t *obj, const char *key);
-PCL_EXPORT bool pcl_json_objisstr(pcl_json_t *obj, const char *key);
-PCL_EXPORT bool pcl_json_objisint(pcl_json_t *obj, const char *key);
-PCL_EXPORT bool pcl_json_objisreal(pcl_json_t *obj, const char *key);
-PCL_EXPORT bool pcl_json_objisobj(pcl_json_t *obj, const char *key);
-PCL_EXPORT bool pcl_json_objisarr(pcl_json_t *obj, const char *key);
-PCL_EXPORT bool pcl_json_objisnull(pcl_json_t *obj, const char *key);
-PCL_EXPORT bool pcl_json_objisbool(pcl_json_t *obj, const char *key);
-PCL_EXPORT int pcl_json_objremove(pcl_json_t *obj, const char *key);
+PCL_EXPORT pcl_json_t *pcl_json_objget(const pcl_json_t *obj, const char *key);
+PCL_EXPORT const char *pcl_json_objgetstr(const pcl_json_t *obj, const char *key);
+PCL_EXPORT long long pcl_json_objgetint(const pcl_json_t *obj, const char *key);
+PCL_EXPORT double pcl_json_objgetreal(const pcl_json_t *obj, const char *key);
+PCL_EXPORT bool pcl_json_objisstr(const pcl_json_t *obj, const char *key);
+PCL_EXPORT bool pcl_json_objisint(const pcl_json_t *obj, const char *key);
+PCL_EXPORT bool pcl_json_objisreal(const pcl_json_t *obj, const char *key);
+PCL_EXPORT bool pcl_json_objisobj(const pcl_json_t *obj, const char *key);
+PCL_EXPORT bool pcl_json_objisarr(const pcl_json_t *obj, const char *key);
+PCL_EXPORT bool pcl_json_objisnull(const pcl_json_t *obj, const char *key);
+PCL_EXPORT bool pcl_json_objisbool(const pcl_json_t *obj, const char *key);
+PCL_EXPORT int pcl_json_objremove(const pcl_json_t *obj, const char *key);
 
 #define pcl_json_objistrue(obj, key) (pcl_json_objisbool(obj, key) ? (obj)->boolean : false)
 #define pcl_json_objisfalse(obj, key) (pcl_json_objisbool(obj, key) ? !(obj)->boolean : false)
@@ -281,13 +281,19 @@ PCL_EXPORT pcl_json_t *pcl_json_arr(void);
  */
 PCL_EXPORT int pcl_json_arradd(pcl_json_t *arr, pcl_json_t *elem, uint32_t flags);
 
+PCL_EXPORT int pcl_json_arraddstr(pcl_json_t *arr, char *value, uint32_t flags);
+PCL_EXPORT int pcl_json_arraddint(pcl_json_t *arr, long long value, uint32_t flags);
+PCL_EXPORT int pcl_json_arraddreal(pcl_json_t *arr, double value, uint32_t flags);
+PCL_EXPORT int pcl_json_arraddbool(pcl_json_t *arr, bool value, uint32_t flags);
+PCL_EXPORT int pcl_json_arraddnull(pcl_json_t *arr, uint32_t flags);
+
 /**
  *
  * @param arr
  * @param index
  * @return
  */
-PCL_EXPORT pcl_json_t *pcl_json_arrget(pcl_json_t *arr, int index);
+PCL_EXPORT pcl_json_t *pcl_json_arrget(const pcl_json_t *arr, int index);
 
 /**
  *

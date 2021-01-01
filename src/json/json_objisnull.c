@@ -32,7 +32,7 @@
 #include "_json.h"
 
 bool
-pcl_json_objisnull(pcl_json_t *obj, const char *key)
+pcl_json_objisnull(const pcl_json_t *obj, const char *key)
 {
 	pcl_json_t *null = pcl_json_objget(obj, key);
 	return pcl_json_isnull(null);

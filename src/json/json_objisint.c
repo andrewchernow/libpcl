@@ -32,7 +32,7 @@
 #include "_json.h"
 
 bool
-pcl_json_objisint(pcl_json_t *obj, const char *key)
+pcl_json_objisint(const pcl_json_t *obj, const char *key)
 {
 	pcl_json_t *o = pcl_json_objget(obj, key);
 	return pcl_json_isint(o);

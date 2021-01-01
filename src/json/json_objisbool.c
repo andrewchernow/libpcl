@@ -32,7 +32,7 @@
 #include "_json.h"
 
 bool
-pcl_json_objisbool(pcl_json_t *obj, const char *key)
+pcl_json_objisbool(const pcl_json_t *obj, const char *key)
 {
 	pcl_json_t *b = pcl_json_objget(obj, key);
 	return pcl_json_isbool(b);

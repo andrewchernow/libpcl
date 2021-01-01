@@ -32,7 +32,7 @@
 #include "_json.h"
 
 bool
-pcl_json_objisarr(pcl_json_t *obj, const char *key)
+pcl_json_objisarr(const pcl_json_t *obj, const char *key)
 {
 	pcl_json_t *arr = pcl_json_objget(obj, key);
 	return pcl_json_isarr(arr);
