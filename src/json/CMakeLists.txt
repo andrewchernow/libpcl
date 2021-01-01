@@ -2,6 +2,11 @@
 add_library(json OBJECT
 	json_arr.c
 	json_arradd.c
+	json_arraddbool.c
+	json_arraddint.c
+	json_arraddnull.c
+	json_arraddreal.c
+	json_arraddstr.c
 	json_arrget.c
 	json_arrgetint.c
 	json_arrgetreal.c

@@ -282,10 +282,10 @@ PCL_EXPORT pcl_json_t *pcl_json_arr(void);
 PCL_EXPORT int pcl_json_arradd(pcl_json_t *arr, pcl_json_t *elem, uint32_t flags);
 
 PCL_EXPORT int pcl_json_arraddstr(pcl_json_t *arr, char *value, uint32_t flags);
-PCL_EXPORT int pcl_json_arraddint(pcl_json_t *arr, long long value, uint32_t flags);
-PCL_EXPORT int pcl_json_arraddreal(pcl_json_t *arr, double value, uint32_t flags);
-PCL_EXPORT int pcl_json_arraddbool(pcl_json_t *arr, bool value, uint32_t flags);
-PCL_EXPORT int pcl_json_arraddnull(pcl_json_t *arr, uint32_t flags);
+PCL_EXPORT int pcl_json_arraddint(pcl_json_t *arr, long long value);
+PCL_EXPORT int pcl_json_arraddreal(pcl_json_t *arr, double value);
+PCL_EXPORT int pcl_json_arraddbool(pcl_json_t *arr, bool value);
+PCL_EXPORT int pcl_json_arraddnull(pcl_json_t *arr);
 
 /**
  *
