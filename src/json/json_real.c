@@ -36,6 +36,9 @@
 pcl_json_t *
 pcl_json_real(double real)
 {
+	if(real == PCL_JSON_INVREAL)
+		return R_SETERR(NULL, PCL_EINVAL);
+
 	if(isnan(real))
 		return R_SETERRMSG(NULL, PCL_EINVAL, "NaN not supported", 0);
 

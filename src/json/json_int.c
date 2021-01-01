@@ -35,6 +35,9 @@
 pcl_json_t *
 pcl_json_int(long long integer)
 {
+	if(integer == PCL_JSON_INVINT)
+		return R_SETERR(NULL, PCL_EINVAL);
+
 	pcl_json_t *val = pcl_malloc(sizeof(pcl_json_t));
 
 	val->type = 'i';
