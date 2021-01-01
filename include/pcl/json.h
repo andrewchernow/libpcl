@@ -262,6 +262,8 @@ PCL_EXPORT bool pcl_json_objisnull(pcl_json_t *obj, const char *key);
 PCL_EXPORT bool pcl_json_objisbool(pcl_json_t *obj, const char *key);
 PCL_EXPORT int pcl_json_objremove(pcl_json_t *obj, const char *key);
 
+#define pcl_json_objistrue(obj, key) (pcl_json_objisbool(obj, key) ? (obj)->boolean : false)
+#define pcl_json_objisfalse(obj, key) (pcl_json_objisbool(obj, key) ? !(obj)->boolean : false)
 #define pcl_json_objisnum(obj, key) (pcl_json_objisint(obj, key) || pcl_json_objisreal(obj, key))
 
 /** Create an array object.
