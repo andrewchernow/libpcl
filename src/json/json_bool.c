@@ -30,21 +30,10 @@
 */
 
 #include "_json.h"
-#include <pcl/htable.h>
+#include <pcl/alloc.h>
 
 pcl_json_t *
-pcl_json_object_get(pcl_json_t *obj, const char *key)
+pcl_json_bool(bool value)
 {
-	if(!obj || !key)
-		return R_SETERR(NULL, PCL_EINVAL);
-
-	if(!pcl_json_isobject(obj))
-		return R_SETERRMSG(NULL, PCL_ETYPE, "expected type 'o', got '%c'", obj->type);
-
-	pcl_json_t *val = pcl_htable_get(obj->object, key);
-
-	if(!val && pcl_errno)
-		return R_TRC(NULL);
-
-	return val;
+	return value ? pcl_json_true() : pcl_json_false();
 }

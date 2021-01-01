@@ -33,6 +33,7 @@
 #define LIBPCL_LIMITS_H
 
 #include <limits.h>
+#include <float.h>
 
 /** Maximum length of a unix domain socket including NUL. */
 #define PCL_MAXUNIXSOCKPATH 108

@@ -40,7 +40,7 @@ ipcl_json_parse_array(ipcl_json_state_t *s)
 	ipcl_json_skipws(s);
 	s->ctx = s->next;
 
-	pcl_json_t *arr = pcl_json_array();
+	pcl_json_t *arr = pcl_json_arr();
 
 	/* empty array */
 	if(*s->next == ']')
@@ -59,7 +59,7 @@ ipcl_json_parse_array(ipcl_json_state_t *s)
 			return NULL;
 		}
 
-		if(pcl_json_array_add(arr, val, PCL_JSON_FREEVALONERR) < 0)
+		if(pcl_json_arradd(arr, val, PCL_JSON_FREEVALONERR) < 0)
 		{
 			pcl_json_free(arr);
 			return R_TRCMSG(NULL, "failed to add value to array", 0);

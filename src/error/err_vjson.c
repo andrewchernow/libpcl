@@ -39,11 +39,11 @@ pcl_json_t *
 pcl_err_vjson(const char *message, va_list ap)
 {
 	pcl_err_t *err = pcl_err_get();
-	pcl_json_t *root = pcl_json_object();
+	pcl_json_t *root = pcl_json_obj();
 	uint32_t flags = PCL_JSON_SKIPUTF8CHK | PCL_JSON_FREEVALONERR;
 	uint32_t strflags = PCL_JSON_EMPTYASNULL | PCL_JSON_ALLOWNULL;
 
-	if(pcl_json_object_put(root, "err", pcl_json_integer(err->err), flags) < 0)
+	if(pcl_json_objput(root, "err", pcl_json_int(err->err), flags) < 0)
 	{
 		pcl_json_free(root);
 		return R_TRC(NULL);
@@ -51,13 +51,13 @@ pcl_err_vjson(const char *message, va_list ap)
 
 	char *name = (char *) (err->err ? pcl_err_name(err->err) : NULL);
 
-	if(pcl_json_object_put(root, "name", pcl_json_string(name, strflags), flags) < 0)
+	if(pcl_json_objput(root, "name", pcl_json_str(name, strflags), flags) < 0)
 	{
 		pcl_json_free(root);
 		return R_TRC(NULL);
 	}
 
-	if(pcl_json_object_put(root, "oserr", pcl_json_integer(err->oserr), flags) < 0)
+	if(pcl_json_objput(root, "oserr", pcl_json_int(err->oserr), flags) < 0)
 	{
 		pcl_json_free(root);
 		return R_TRC(NULL);
@@ -65,7 +65,7 @@ pcl_err_vjson(const char *message, va_list ap)
 
 	name = (char *) (err->oserr ? pcl_err_osname(err->oserr) : NULL);
 
-	if(pcl_json_object_put(root, "osname", pcl_json_string(name, strflags), flags) < 0)
+	if(pcl_json_objput(root, "osname", pcl_json_str(name, strflags), flags) < 0)
 	{
 		pcl_json_free(root);
 		return R_TRC(NULL);
@@ -76,15 +76,15 @@ pcl_err_vjson(const char *message, va_list ap)
 	if(!strempty(message))
 		pcl_vasprintf(&msg, message, ap);
 
-	if(pcl_json_object_put(root, "msg", pcl_json_string(msg, strflags | PCL_JSON_SHALLOW), flags) < 0)
+	if(pcl_json_objput(root, "msg", pcl_json_str(msg, strflags | PCL_JSON_SHALLOW), flags) < 0)
 	{
 		pcl_json_free(root); // 'msg' managed by string & freed due to PCL_JSON_FREEVALONERR
 		return R_TRC(NULL);
 	}
 
-	pcl_json_t *strace = pcl_json_array();
+	pcl_json_t *strace = pcl_json_arr();
 
-	if(pcl_json_object_put(root, "strace", strace, flags) < 0)
+	if(pcl_json_objput(root, "strace", strace, flags) < 0)
 	{
 		pcl_json_free(root);
 		return R_TRC(NULL);
@@ -92,33 +92,33 @@ pcl_err_vjson(const char *message, va_list ap)
 
 	for(pcl_err_trace_t *t = err->strace; t; t = t->next)
 	{
-		pcl_json_t *jtrace = pcl_json_object();
+		pcl_json_t *jtrace = pcl_json_obj();
 
-		if(pcl_json_object_put(jtrace, "file", pcl_json_string(t->file, strflags), flags) < 0)
+		if(pcl_json_objput(jtrace, "file", pcl_json_str(t->file, strflags), flags) < 0)
 		{
 			pcl_json_free(root);
 			return R_TRC(NULL);
 		}
 
-		if(pcl_json_object_put(jtrace, "func", pcl_json_string(t->func, strflags), flags) < 0)
+		if(pcl_json_objput(jtrace, "func", pcl_json_str(t->func, strflags), flags) < 0)
 		{
 			pcl_json_free(root);
 			return R_TRC(NULL);
 		}
 
-		if(pcl_json_object_put(jtrace, "line", pcl_json_integer(t->line), flags) < 0)
+		if(pcl_json_objput(jtrace, "line", pcl_json_int(t->line), flags) < 0)
 		{
 			pcl_json_free(root);
 			return R_TRC(NULL);
 		}
 
-		if(pcl_json_object_put(jtrace, "msg", pcl_json_string(t->msg, strflags), flags) < 0)
+		if(pcl_json_objput(jtrace, "msg", pcl_json_str(t->msg, strflags), flags) < 0)
 		{
 			pcl_json_free(root);
 			return R_TRC(NULL);
 		}
 
-		if(pcl_json_array_add(strace, jtrace, flags) < 0)
+		if(pcl_json_arradd(strace, jtrace, flags) < 0)
 		{
 			pcl_json_free(root);
 			return R_TRC(NULL);

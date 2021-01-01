@@ -30,97 +30,18 @@
 */
 
 #include "_json.h"
-#include <pcl/htable.h>
-#include <pcl/alloc.h>
+#include <pcl/error.h>
 
-pcl_json_t *
-ipcl_json_parse_object(ipcl_json_state_t *s)
+pcl_array_t *
+pcl_json_objgetarr(pcl_json_t *obj, const char *key)
 {
-	if(*s->next++ != '{')
-		JSON_THROW("expected opening object '{'", 0);
+	pcl_json_t *arr = pcl_json_objget(obj, key);
 
-	if(!ipcl_json_skipws(s))
-		return NULL;
+	if(!arr)
+		return R_TRC(NULL);
 
-	s->ctx = s->next;
+	if(!pcl_json_isarr(arr))
+		return R_SETERRMSG(NULL, PCL_ETYPE, "expected type 'a', got '%c'", arr->type);
 
-	pcl_json_t *obj = pcl_json_obj();
-
-	/* empty object */
-	if(*s->next == '}')
-	{
-		s->next++;
-		return obj;
-	}
-
-	do
-	{
-		char *key = ipcl_json_parse_string(s);
-
-		if(!key)
-		{
-			pcl_json_free(obj);
-			return NULL;
-		}
-
-		if(!ipcl_json_skipws(s))
-		{
-			pcl_json_free(obj);
-			pcl_free(key);
-			return NULL;
-		}
-
-		if(*s->next++ != ':')
-		{
-			pcl_json_free(obj);
-			pcl_free(key);
-			JSON_THROW("expected value ':' separator", 0);
-		}
-
-		pcl_json_t *val = ipcl_json_parse_value(s);
-
-		if(!val)
-		{
-			pcl_json_free(obj);
-			pcl_free(key);
-			return NULL;
-		}
-
-		uint32_t flags = PCL_JSON_SKIPUTF8CHK | PCL_JSON_SHALLOW | PCL_JSON_FREEVALONERR;
-
-		if(pcl_json_objput(obj, key, val, flags) < 0)
-		{
-			pcl_json_free(obj);
-			pcl_free(key);
-			return NULL;
-		}
-
-		if(!ipcl_json_skipws(s))
-		{
-			pcl_json_free(obj);
-			return NULL;
-		}
-
-		if(*s->next == '}')
-		{
-			s->next++;
-			return obj;
-		}
-
-		if(*s->next++ != ',')
-		{
-			pcl_json_free(obj);
-			JSON_THROW("missing comma after value", 0);
-		}
-
-		if(!ipcl_json_skipws(s))
-		{
-			pcl_json_free(obj);
-			return NULL;
-		}
-	}
-	while(s->next < s->end);
-
-	pcl_json_free(obj);
-	JSON_THROW("unexpected end of input", 0);
+	return arr->array;
 }

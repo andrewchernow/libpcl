@@ -30,16 +30,18 @@
 */
 
 #include "_json.h"
-#include <pcl/alloc.h>
+#include <pcl/error.h>
 
-pcl_json_t *
-pcl_json_integer(long long integer)
+double
+pcl_json_objgetreal(pcl_json_t *obj, const char *key)
 {
-	pcl_json_t *val = pcl_malloc(sizeof(pcl_json_t));
+	pcl_json_t *real = pcl_json_objget(obj, key);
 
-	val->type = 'i';
-	val->nrefs = 1;
-	val->integer = integer;
+	if(!real)
+		return R_TRC(PCL_JSON_INVREAL);
 
-	return val;
+	if(!pcl_json_isreal(real))
+		return R_SETERRMSG(PCL_JSON_INVREAL, PCL_ETYPE, "expected type 'r', got '%c'", real->type);
+
+	return real->real;
 }

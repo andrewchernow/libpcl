@@ -30,21 +30,54 @@
 */
 
 #include "_json.h"
-#include <pcl/array.h>
+#include <pcl/htable.h>
+#include <pcl/string.h>
+#include <pcl/alloc.h>
 
-pcl_json_t *
-pcl_json_array_get(pcl_json_t *arr, int index)
+int
+pcl_json_objput(pcl_json_t *obj, char *key, pcl_json_t *value, uint32_t flags)
 {
-	if(!arr)
-		return R_SETERR(NULL, PCL_EINVAL);
+	uint32_t freeval = flags & PCL_JSON_FREEVALONERR;
 
-	if(!pcl_json_isarray(arr))
-		return R_SETERRMSG(NULL, PCL_ETYPE, "expected type 'a', got '%c'", arr->type);
+	if(!obj || !key || !value)
+	{
+		if(value && freeval)
+			pcl_json_free(value);
 
-	pcl_json_t *elem = pcl_array_get(arr->array, index);
+		return BADARG();
+	}
 
-	if(!elem)
-		return R_TRC(NULL);
+	if(!pcl_json_isobj(obj))
+	{
+		if(freeval)
+			pcl_json_free(value);
 
-	return elem;
+		return SETERRMSG(PCL_ETYPE, "expected type 'o', got '%c'", obj->type);
+	}
+
+	if(!(flags & PCL_JSON_SKIPUTF8CHK) && ipcl_json_utf8check(key, 0) < 0)
+	{
+		if(freeval)
+			pcl_json_free(value);
+
+		return TRC();
+	}
+
+	char *k = key;
+
+	if(!(flags & PCL_JSON_SHALLOW))
+		k = pcl_strdup(key);
+
+	if(pcl_htable_put(obj->object, k, value, true) < 0)
+	{
+		if(k != key)
+			pcl_free(k);
+
+		if(freeval)
+			pcl_json_free(value);
+
+		return TRCMSG("failed to put '%s' key", key);
+	}
+
+	return 0;
 }

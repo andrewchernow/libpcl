@@ -30,26 +30,18 @@
 */
 
 #include "_json.h"
-#include <pcl/htable.h>
-#include <pcl/alloc.h>
+#include <pcl/error.h>
 
-static void
-remove_entry(const void *key, void *value, void *userp)
+pcl_htable_t *
+pcl_json_objgetobj(pcl_json_t *obj, const char *key)
 {
-	UNUSED(userp);
-	pcl_free(key);
-	pcl_json_free(value);
-}
+	pcl_json_t *o = pcl_json_objget(obj, key);
 
-pcl_json_t *
-pcl_json_object(void)
-{
-	pcl_json_t *val = pcl_malloc(sizeof(pcl_json_t));
+	if(!o)
+		return R_TRC(NULL);
 
-	val->type = 'o';
-	val->nrefs = 1;
-	val->object = pcl_htable_create(0);
-	val->object->remove_entry = remove_entry;
+	if(!pcl_json_isobj(o))
+		return R_SETERRMSG(NULL, PCL_ETYPE, "expected type 'o', got '%c'", o->type);
 
-	return val;
+	return o->object;
 }

@@ -52,9 +52,9 @@ walk_path(pcl_json_t *node, const pcl_json_path_t *path, pcl_array_t *results)
 
 		case PclPathMember:
 		{
-			if(pcl_json_isobject(node))
+			if(pcl_json_isobj(node))
 			{
-				pcl_json_t *mbr = pcl_json_object_get(node, path->member);
+				pcl_json_t *mbr = pcl_json_objget(node, path->member);
 
 				if(mbr)
 				{
@@ -70,7 +70,7 @@ walk_path(pcl_json_t *node, const pcl_json_path_t *path, pcl_array_t *results)
 
 		case PclPathRecursiveDescent:
 		{
-			if(pcl_json_isobject(node))
+			if(pcl_json_isobj(node))
 			{
 				for(int i = 0; i < node->object->capacity; i++)
 				{
@@ -85,7 +85,7 @@ walk_path(pcl_json_t *node, const pcl_json_path_t *path, pcl_array_t *results)
 					}
 				}
 			}
-			else if(pcl_json_isarray(node))
+			else if(pcl_json_isarr(node))
 			{
 				for(int i = 0; i < node->array->count; i++)
 				{
@@ -103,7 +103,7 @@ walk_path(pcl_json_t *node, const pcl_json_path_t *path, pcl_array_t *results)
 
 		case PclPathWildcardMember:
 		{
-			if(!pcl_json_isobject(node))
+			if(!pcl_json_isobj(node))
 			{
 				pcl_array_add(results, pcl_json_ref(node, 1));
 				break;
@@ -127,7 +127,7 @@ walk_path(pcl_json_t *node, const pcl_json_path_t *path, pcl_array_t *results)
 
 		case PclPathElement:
 		{
-			if(pcl_json_isarray(node))
+			if(pcl_json_isarr(node))
 			{
 				pcl_err_freeze(true);
 				pcl_json_t *elem = pcl_array_get(node->array, path->index);
@@ -147,7 +147,7 @@ walk_path(pcl_json_t *node, const pcl_json_path_t *path, pcl_array_t *results)
 
 		case PclPathElementList:
 		{
-			if(!pcl_json_isarray(node))
+			if(!pcl_json_isarr(node))
 				break;
 
 			for(int i = 0; i < path->idx_list->count; i++)
@@ -172,7 +172,7 @@ walk_path(pcl_json_t *node, const pcl_json_path_t *path, pcl_array_t *results)
 
 		case PclPathWildcardElement:
 		{
-			if(!pcl_json_isarray(node))
+			if(!pcl_json_isarr(node))
 			{
 				pcl_array_add(results, pcl_json_ref(node, 1));
 				break;
@@ -193,7 +193,7 @@ walk_path(pcl_json_t *node, const pcl_json_path_t *path, pcl_array_t *results)
 
 		case PclPathElementSlice:
 		{
-			if(!pcl_json_isarray(node))
+			if(!pcl_json_isarr(node))
 				break;
 
 			int start = path->idx_slice.start;
@@ -231,7 +231,7 @@ walk_path(pcl_json_t *node, const pcl_json_path_t *path, pcl_array_t *results)
 pcl_array_t *
 pcl_json_match(pcl_json_t *root, const pcl_json_path_t *path)
 {
-	pcl_json_t *j = pcl_json_array();
+	pcl_json_t *j = pcl_json_arr();
 	pcl_array_t *results = j->array;
 
 	j->array = NULL;

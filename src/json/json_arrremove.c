@@ -33,12 +33,12 @@
 #include <pcl/array.h>
 
 int
-pcl_json_array_remove(pcl_json_t *arr, int index)
+pcl_json_arrremove(pcl_json_t *arr, int index)
 {
 	if(!arr)
 		return BADARG();
 
-	if(!pcl_json_isarray(arr))
+	if(!pcl_json_isarr(arr))
 		return SETERRMSG(PCL_ETYPE, "expected type 'a', got '%c'", arr->type);
 
 	int cnt = pcl_array_remove(arr->array, index);

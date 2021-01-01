@@ -30,10 +30,11 @@
 */
 
 #include "_json.h"
-#include <pcl/alloc.h>
+#include <pcl/error.h>
 
-pcl_json_t *
-pcl_json_boolean(bool value)
+bool
+pcl_json_objisbool(pcl_json_t *obj, const char *key)
 {
-	return value ? pcl_json_true() : pcl_json_false();
+	pcl_json_t *b = pcl_json_objget(obj, key);
+	return pcl_json_isbool(b);
 }

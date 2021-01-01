@@ -30,24 +30,31 @@
 */
 
 #include "_json.h"
-#include <pcl/array.h>
 #include <pcl/alloc.h>
-
-static void
-array_cleanup(pcl_array_t *arr, void *elem)
-{
-	UNUSED(arr);
-	pcl_json_free(elem);
-}
+#include <pcl/string.h>
 
 pcl_json_t *
-pcl_json_array(void)
+pcl_json_strlen(const char *str, size_t len, uint32_t flags)
 {
+	if(!str)
+	{
+		if(flags & PCL_JSON_ALLOWNULL)
+			return pcl_json_null();
+
+		return R_SETERR(NULL, PCL_EINVAL);
+	}
+
+	if(!(flags & PCL_JSON_SKIPUTF8CHK) && ipcl_json_utf8check(str, len) < 0)
+		return R_TRC(NULL);
+
+	if((flags & PCL_JSON_EMPTYASNULL) && len == 0)
+		return pcl_json_null();
+
 	pcl_json_t *val = pcl_malloc(sizeof(pcl_json_t));
 
-	val->type = 'a';
+	val->type = 's';
 	val->nrefs = 1;
-	val->array = pcl_array_create(8, array_cleanup);
+	val->string = pcl_strndup(str, len);
 
 	return val;
 }

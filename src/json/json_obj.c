@@ -30,36 +30,26 @@
 */
 
 #include "_json.h"
-#include <pcl/array.h>
+#include <pcl/htable.h>
+#include <pcl/alloc.h>
 
-int
-pcl_json_array_add(pcl_json_t *arr, pcl_json_t *elem, uint32_t flags)
+static void
+remove_entry(const void *key, void *value, void *userp)
 {
-	uint32_t freeval = flags & PCL_JSON_FREEVALONERR;
+	UNUSED(userp);
+	pcl_free(key);
+	pcl_json_free(value);
+}
 
-	if(!arr || !elem)
-	{
-		if(elem && freeval)
-			pcl_json_free(elem);
+pcl_json_t *
+pcl_json_obj(void)
+{
+	pcl_json_t *val = pcl_malloc(sizeof(pcl_json_t));
 
-		return BADARG();
-	}
+	val->type = 'o';
+	val->nrefs = 1;
+	val->object = pcl_htable_create(0);
+	val->object->remove_entry = remove_entry;
 
-	if(!pcl_json_isarray(arr))
-	{
-		if(freeval)
-			pcl_json_free(elem);
-
-		return SETERRMSG(PCL_ETYPE, "expected type 'a', got '%c'", arr->type);
-	}
-
-	if(pcl_array_add(arr->array, elem) < 0)
-	{
-		if(freeval)
-			pcl_json_free(elem);
-
-		return TRCMSG("failed to add array element", 0);
-	}
-
-	return arr->array->count;
+	return val;
 }

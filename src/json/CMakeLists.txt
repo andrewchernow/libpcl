@@ -1,10 +1,10 @@
 
 add_library(json OBJECT
-	json_array.c
-	json_array_add.c
-	json_array_get.c
-	json_array_remove.c
-	json_boolean.c
+	json_arr.c
+	json_arradd.c
+	json_arrget.c
+	json_arrremove.c
+	json_bool.c
 	json_compile.c
 	json_decode.c
 	json_encode.c
@@ -14,12 +14,21 @@ add_library(json OBJECT
 	json_encode_value.c
 	json_false.c
 	json_free.c
-	json_integer.c
+	json_freepath.c
+	json_int.c
+	json_match.c
 	json_null.c
-	json_object.c
-	json_object_get.c
-	json_object_put.c
-	json_object_remove.c
+	json_obj.c
+	json_objget.c
+	json_objgetarr.c
+	json_objgetint.c
+	json_objgetobj.c
+	json_objgetreal.c
+	json_objgetstr.c
+	json_objisbool.c
+	json_objisnull.c
+	json_objput.c
+	json_objremove.c
 	json_parse_array.c
 	json_parse_number.c
 	json_parse_object.c
@@ -27,8 +36,8 @@ add_library(json OBJECT
 	json_parse_value.c
 	json_real.c
 	json_skipws.c
-	json_string.c
-	json_string_len.c
+	json_str.c
+	json_strlen.c
 	json_true.c
-	json_utf8check.c json_match.c json_freepath.c)
+	json_utf8check.c)
 

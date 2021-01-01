@@ -30,33 +30,18 @@
 */
 
 #include "_json.h"
-#include <pcl/string.h>
-#include <pcl/alloc.h>
+#include <pcl/error.h>
 
-pcl_json_t *
-pcl_json_string(char *str, uint32_t flags)
+const char *
+pcl_json_objgetstr(pcl_json_t *obj, const char *key)
 {
+	pcl_json_t *str = pcl_json_objget(obj, key);
+
 	if(!str)
-	{
-		if(flags & PCL_JSON_ALLOWNULL)
-			return pcl_json_null();
-
-		return R_SETERR(NULL, PCL_EINVAL);
-	}
-
-	size_t len = strlen(str);
-
-	if(!(flags & PCL_JSON_SKIPUTF8CHK) && ipcl_json_utf8check(str, len) < 0)
 		return R_TRC(NULL);
 
-	if((flags & PCL_JSON_EMPTYASNULL) && len == 0)
-		return pcl_json_null();
+	if(!pcl_json_isstr(str))
+		return R_SETERRMSG(NULL, PCL_ETYPE, "expected type 's', got '%c'", str->type);
 
-	pcl_json_t *val = pcl_malloc(sizeof(pcl_json_t));
-
-	val->type = 's';
-	val->nrefs = 1;
-	val->string = (flags & PCL_JSON_SHALLOW) ? str : pcl_strndup(str, len);
-
-	return val;
+	return str->string;
 }

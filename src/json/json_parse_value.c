@@ -69,7 +69,7 @@ ipcl_json_parse_value(ipcl_json_state_t *s)
 				return NULL;
 
 			/* ipcl_json_parse_string already did UTF-8 check */
-			val = pcl_json_string(str, PCL_JSON_SKIPUTF8CHK | PCL_JSON_SHALLOW);
+			val = pcl_json_str(str, PCL_JSON_SKIPUTF8CHK | PCL_JSON_SHALLOW);
 			break;
 		}
 

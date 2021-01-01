@@ -115,7 +115,7 @@ ipcl_json_parse_number(ipcl_json_state_t *s)
 		if(pcl_strtoll(s->next, &end, 10, &num) < 0)
 			return R_TRC(NULL);
 
-		val = pcl_json_integer(num);
+		val = pcl_json_int(num);
 	}
 
 	s->next = end;
