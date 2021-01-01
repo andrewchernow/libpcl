@@ -260,7 +260,7 @@ PCL_EXPORT bool pcl_json_objisobj(const pcl_json_t *obj, const char *key);
 PCL_EXPORT bool pcl_json_objisarr(const pcl_json_t *obj, const char *key);
 PCL_EXPORT bool pcl_json_objisnull(const pcl_json_t *obj, const char *key);
 PCL_EXPORT bool pcl_json_objisbool(const pcl_json_t *obj, const char *key);
-PCL_EXPORT int pcl_json_objremove(const pcl_json_t *obj, const char *key);
+PCL_EXPORT int pcl_json_objremove(pcl_json_t *obj, const char *key);
 
 #define pcl_json_objistrue(obj, key) (pcl_json_objisbool(obj, key) ? (obj)->boolean : false)
 #define pcl_json_objisfalse(obj, key) (pcl_json_objisbool(obj, key) ? !(obj)->boolean : false)
