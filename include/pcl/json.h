@@ -173,7 +173,75 @@ PCL_EXPORT void pcl_json_free(pcl_json_t *j);
  * @return pointer to a json object of type object
  */
 PCL_EXPORT pcl_json_t *pcl_json_obj(void);
+
+/** Put a json value into an object.
+ *
+ * @param obj pointer to a json object
+ * @param key pointer to a string key
+ * @param value pointer to a json value
+ * @param flags If ::PCL_JSON_SKIPUTF8CHK is set, no utf8 validation is performed. If
+ * ::PCL_JSON_SHALLOW is set, a direct pointer to \a key is stored: ie. no copy. If
+ * ::PCL_JSON_FREEVALONERR is set, \a value is freed on error and is not usable after this
+ * call returns.
+ * @return 0 for success or -1 on error
+ */
 PCL_EXPORT int pcl_json_objput(pcl_json_t *obj, char *key, pcl_json_t *value, uint32_t flags);
+
+/** Put a string value into an object.
+ *
+ * @param obj pointer to a json object
+ * @param key pointer to a string key
+ * @param value pointer to a string value
+ * @param flags If ::PCL_JSON_SKIPUTF8CHK is set, no utf8 validation is performed; which applies
+ * to both \a key and \a value. If ::PCL_JSON_SHALLOW is set, a direct pointer to both \a key
+ * and \a value is stored: ie. no copy. For \a value, see ::pcl_json_str for additional flags.
+ * @return 0 for success or -1 on error
+ */
+PCL_EXPORT int pcl_json_objputstr(pcl_json_t *obj, char *key, char *value, uint32_t flags);
+
+/** Put an integer value into an object.
+ *
+ * @param obj pointer to a json object
+ * @param key pointer to a string key
+ * @param value integer value
+ * @param flags If ::PCL_JSON_SKIPUTF8CHK is set, no utf8 validation is performed. If
+ * ::PCL_JSON_SHALLOW is set, a direct pointer to \a key is stored: ie. no copy.
+ * @return 0 for success or -1 on error
+ */
+PCL_EXPORT int pcl_json_objputint(pcl_json_t *obj, char *key, long long value, uint32_t flags);
+
+/** Put a real (floating-point double precision) value into an object.
+ *
+ * @param obj pointer to a json object
+ * @param key pointer to a string key
+ * @param value real value
+ * @param flags If ::PCL_JSON_SKIPUTF8CHK is set, no utf8 validation is performed. If
+ * ::PCL_JSON_SHALLOW is set, a direct pointer to \a key is stored: ie. no copy.
+ * @return 0 for success or -1 on error
+ */
+PCL_EXPORT int pcl_json_objputreal(pcl_json_t *obj, char *key, double value, uint32_t flags);
+
+/** Put a boolean value into an object.
+ *
+ * @param obj pointer to a json object
+ * @param key pointer to a string key
+ * @param value boolean value
+ * @param flags If ::PCL_JSON_SKIPUTF8CHK is set, no utf8 validation is performed. If
+ * ::PCL_JSON_SHALLOW is set, a direct pointer to \a key is stored: ie. no copy.
+ * @return 0 for success or -1 on error
+ */
+PCL_EXPORT int pcl_json_objputbool(pcl_json_t *obj, char *key, bool value, uint32_t flags);
+
+/** Put a null value into an object.
+ *
+ * @param obj pointer to a json object
+ * @param key pointer to a string key
+ * @param flags If ::PCL_JSON_SKIPUTF8CHK is set, no utf8 validation is performed. If
+ * ::PCL_JSON_SHALLOW is set, a direct pointer to \a key is stored: ie. no copy.
+ * @return 0 for success or -1 on error
+ */
+PCL_EXPORT int pcl_json_objputnull(pcl_json_t *obj, char *key, uint32_t flags);
+
 PCL_EXPORT pcl_json_t *pcl_json_objget(pcl_json_t *obj, const char *key);
 PCL_EXPORT const char *pcl_json_objgetstr(pcl_json_t *obj, const char *key);
 PCL_EXPORT long long pcl_json_objgetint(pcl_json_t *obj, const char *key);

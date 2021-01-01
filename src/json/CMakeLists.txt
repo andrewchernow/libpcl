@@ -39,5 +39,5 @@ add_library(json OBJECT
 	json_str.c
 	json_strlen.c
 	json_true.c
-	json_utf8check.c)
+	json_utf8check.c json_objputstr.c json_objputint.c json_objputreal.c json_objputbool.c json_objputnull.c)
 
