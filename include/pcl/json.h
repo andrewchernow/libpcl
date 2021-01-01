@@ -42,7 +42,7 @@
 /** Skip UTF-8 validation. Only set this flag if you know for sure a string is valid UTF-8.
  * Otherwise, you can end up with an invalid JSON document that will be rejected by parsers
  * outside of PCL.
- * @see pcl_json_str, pcl_json_strlen
+ * @see pcl_json_str, pcl_json_strn
  */
 #define PCL_JSON_SKIPUTF8CHK 0x01
 
@@ -53,12 +53,12 @@
 #define PCL_JSON_SHALLOW 0x02
 
 /** Empty strings will be encoded as a JSON null.
- * @see pcl_json_str, pcl_json_strlen
+ * @see pcl_json_str, pcl_json_strn
  */
 #define PCL_JSON_EMPTYASNULL 0x04
 
 /** A \c NULL string will not raise an error, but rather encode value as a JSON null.
- * @see pcl_json_str, pcl_json_strlen
+ * @see pcl_json_str, pcl_json_strn
  */
 #define PCL_JSON_ALLOWNULL 0x08
 
@@ -300,7 +300,7 @@ PCL_EXPORT int pcl_json_arrremove(pcl_json_t *arr, int index);
  * is \c NULL, a json null object will be returned.
  * @return pointer to a json object or \c NULL on error. Note that a \c NULL \a str is an error
  * unless ::PCL_JSON_ALLOWNULL is set.
- * @see pcl_json_strlen
+ * @see pcl_json_strn
  */
 PCL_EXPORT pcl_json_t *pcl_json_str(char *str, uint32_t flags);
 
@@ -316,7 +316,7 @@ PCL_EXPORT pcl_json_t *pcl_json_str(char *str, uint32_t flags);
  * unless ::PCL_JSON_ALLOWNULL is set.
  * @see pcl_json_str
  */
-PCL_EXPORT pcl_json_t *pcl_json_strlen(const char *str, size_t len, uint32_t flags);
+PCL_EXPORT pcl_json_t *pcl_json_strn(const char *str, size_t len, uint32_t flags);
 
 /** Create a boolean.
  * @param value

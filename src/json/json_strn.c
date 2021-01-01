@@ -34,7 +34,7 @@
 #include <pcl/string.h>
 
 pcl_json_t *
-pcl_json_strlen(const char *str, size_t len, uint32_t flags)
+pcl_json_strn(const char *str, size_t len, uint32_t flags)
 {
 	if(!str)
 	{

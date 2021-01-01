@@ -45,7 +45,7 @@ add_library(json OBJECT
 	json_real.c
 	json_skipws.c
 	json_str.c
-	json_strlen.c
+	json_strn.c
 	json_true.c
 	json_utf8check.c)
 
