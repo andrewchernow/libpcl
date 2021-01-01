@@ -242,6 +242,13 @@ PCL_EXPORT int pcl_json_objputbool(pcl_json_t *obj, char *key, bool value, uint3
  */
 PCL_EXPORT int pcl_json_objputnull(pcl_json_t *obj, char *key, uint32_t flags);
 
+/** Get count of array elements or object keys.
+ *
+ * @param j json value which must be an object ore array
+ * @return number of items or -1 on error
+ */
+PCL_EXPORT int pcl_json_count(pcl_json_t *j);
+
 PCL_EXPORT pcl_json_t *pcl_json_objget(pcl_json_t *obj, const char *key);
 PCL_EXPORT const char *pcl_json_objgetstr(pcl_json_t *obj, const char *key);
 PCL_EXPORT long long pcl_json_objgetint(pcl_json_t *obj, const char *key);
