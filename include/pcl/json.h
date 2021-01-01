@@ -165,6 +165,13 @@ PCL_EXPORT pcl_array_t *pcl_json_match(pcl_json_t *j, const pcl_json_path_t *pat
 
 PCL_EXPORT void pcl_json_free(pcl_json_t *j);
 
+/** Get count of array elements or object keys.
+ *
+ * @param j json value which must be an object ore array
+ * @return number of items or -1 on error
+ */
+PCL_EXPORT int pcl_json_count(const pcl_json_t *j);
+
 /** Create an object.
  * It is safe to use the @ref htable "hash table module" for managing a JSON object. Internally,
  * a json object is backed by a ::pcl_htable_t. For a given \c pcl_json_t, ensure the \a type
@@ -242,13 +249,6 @@ PCL_EXPORT int pcl_json_objputbool(pcl_json_t *obj, char *key, bool value, uint3
  */
 PCL_EXPORT int pcl_json_objputnull(pcl_json_t *obj, char *key, uint32_t flags);
 
-/** Get count of array elements or object keys.
- *
- * @param j json value which must be an object ore array
- * @return number of items or -1 on error
- */
-PCL_EXPORT int pcl_json_count(const pcl_json_t *j);
-
 PCL_EXPORT pcl_json_t *pcl_json_objget(const pcl_json_t *obj, const char *key);
 PCL_EXPORT const char *pcl_json_objgetstr(const pcl_json_t *obj, const char *key);
 PCL_EXPORT long long pcl_json_objgetint(const pcl_json_t *obj, const char *key);
@@ -294,6 +294,21 @@ PCL_EXPORT int pcl_json_arraddnull(pcl_json_t *arr, uint32_t flags);
  * @return
  */
 PCL_EXPORT pcl_json_t *pcl_json_arrget(const pcl_json_t *arr, int index);
+
+PCL_EXPORT const char *pcl_json_arrgetstr(const pcl_json_t *obj, int index);
+PCL_EXPORT long long pcl_json_arrgetint(const pcl_json_t *obj, int index);
+PCL_EXPORT double pcl_json_arrgetreal(const pcl_json_t *obj, int index);
+PCL_EXPORT bool pcl_json_arrisstr(const pcl_json_t *obj, int index);
+PCL_EXPORT bool pcl_json_arrisint(const pcl_json_t *obj, int index);
+PCL_EXPORT bool pcl_json_arrisreal(const pcl_json_t *obj, int index);
+PCL_EXPORT bool pcl_json_arrisobj(const pcl_json_t *obj, int index);
+PCL_EXPORT bool pcl_json_arrisarr(const pcl_json_t *obj, int index);
+PCL_EXPORT bool pcl_json_arrisnull(const pcl_json_t *obj, int index);
+PCL_EXPORT bool pcl_json_arrisbool(const pcl_json_t *obj, int index);
+
+#define pcl_json_arristrue(obj, idx) (pcl_json_arrisbool(obj, idx) ? (obj)->boolean : false)
+#define pcl_json_arrisfalse(obj, idx) (pcl_json_arrisbool(obj, idx) ? !(obj)->boolean : false)
+#define pcl_json_arrisnum(obj, idx) (pcl_json_arrisint(obj, idx) || pcl_json_arrisreal(obj, idx))
 
 /**
  *

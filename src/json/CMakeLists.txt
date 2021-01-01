@@ -3,9 +3,20 @@ add_library(json OBJECT
 	json_arr.c
 	json_arradd.c
 	json_arrget.c
+	json_arrgetint.c
+	json_arrgetreal.c
+	json_arrgetstr.c
+	json_arrisarr.c
+	json_arrisbool.c
+	json_arrisint.c
+	json_arrisnull.c
+	json_arrisobj.c
+	json_arrisreal.c
+	json_arrisstr.c
 	json_arrremove.c
 	json_bool.c
 	json_compile.c
+	json_count.c
 	json_decode.c
 	json_encode.c
 	json_encode_array.c
@@ -47,5 +58,5 @@ add_library(json OBJECT
 	json_str.c
 	json_strn.c
 	json_true.c
-	json_utf8check.c json_count.c)
+	json_utf8check.c)
 
