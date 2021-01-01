@@ -57,12 +57,10 @@ pcl_err_setjson(pcl_json_t *error)
 
 	/* ignore errorrs while building pcl_err_t */
 	err->frozen = true;
-
 	err->err = (int) errcode;
 	err->oserr = (uint32_t) oscode;
-	err->strace = ipcl_err_trace_free(err->strace);
 
-	for(int i = strace->array->count - 1; i >= 0; i--)
+	for(int i = pcl_json_count(strace) - 1; i >= 0; i--)
 	{
 		pcl_json_t *trc = pcl_json_arrget(strace, i);
 
