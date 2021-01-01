@@ -33,7 +33,7 @@
 #include <pcl/array.h>
 
 pcl_array_t *
-pcl_htable_keys(pcl_htable_t *ht)
+pcl_htable_keys(const pcl_htable_t *ht)
 {
 	pcl_array_t *keys = pcl_array_create(ht ? ht->count : 0, NULL);
 

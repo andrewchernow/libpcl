@@ -309,7 +309,7 @@ PCL_EXPORT pcl_htable_t *pcl_htable_create(int capacity);
  * @return pointer to the key's entry or NULL if not found or an error occurs. If not found,
  * the last PCL error (pcl_errno) is set to PCL_ENOTFOUND.
  */
-PCL_EXPORT pcl_htable_entry_t *pcl_htable_lookup(pcl_htable_t *ht, const void *key);
+PCL_EXPORT pcl_htable_entry_t *pcl_htable_lookup(const pcl_htable_t *ht, const void *key);
 
 /** Lookup an entry and return its value.
  * @param ht pointer to hash table object
@@ -317,7 +317,7 @@ PCL_EXPORT pcl_htable_entry_t *pcl_htable_lookup(pcl_htable_t *ht, const void *k
  * @return value pointer or NULL if not found. values can be NULL. To detect an error verse a
  * NULL value, check pcl_errno: if(value == NULL && pcl_errno == PCL_EOKAY) success;
  */
-PCL_EXPORT void *pcl_htable_get(pcl_htable_t *ht, const void *key);
+PCL_EXPORT void *pcl_htable_get(const pcl_htable_t *ht, const void *key);
 
 /** Puts a key/value pair into the table.
  * @param ht pointer to hash table object
@@ -342,7 +342,7 @@ PCL_EXPORT int pcl_htable_remove(pcl_htable_t *ht, const void *key);
  * @return array on success and \c NULL on error. An empty table produces an empty array. This
  * array must be freed by caller.
  */
-PCL_EXPORT pcl_array_t *pcl_htable_keys(pcl_htable_t *ht);
+PCL_EXPORT pcl_array_t *pcl_htable_keys(const pcl_htable_t *ht);
 
 /** Clear all entries from the table.
  * @param ht pointer to hash table object
