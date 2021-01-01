@@ -30,7 +30,6 @@
 */
 
 #include "_json.h"
-#include <pcl/error.h>
 
 double
 pcl_json_objgetreal(pcl_json_t *obj, const char *key)

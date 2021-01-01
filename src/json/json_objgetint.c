@@ -30,7 +30,6 @@
 */
 
 #include "_json.h"
-#include <pcl/error.h>
 
 long long
 pcl_json_objgetint(pcl_json_t *obj, const char *key)

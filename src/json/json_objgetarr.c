@@ -30,7 +30,6 @@
 */
 
 #include "_json.h"
-#include <pcl/error.h>
 
 pcl_array_t *
 pcl_json_objgetarr(pcl_json_t *obj, const char *key)

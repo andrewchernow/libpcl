@@ -30,7 +30,6 @@
 */
 
 #include "_json.h"
-#include <pcl/error.h>
 
 bool
 pcl_json_objisbool(pcl_json_t *obj, const char *key)
