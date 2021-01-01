@@ -272,6 +272,8 @@ PCL_EXPORT pcl_json_t *pcl_err_json(const char *message, ...);
  */
 PCL_EXPORT pcl_json_t *pcl_err_vjson(const char *message, va_list ap);
 
+PCL_EXPORT int pcl_err_setjson(pcl_json_t *error);
+
 /* -------------------------------------------------------------------------
  * Error Set API
  */

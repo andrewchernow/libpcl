@@ -31,94 +31,55 @@
 
 #include "_error.h"
 #include <pcl/buf.h>
-#include <pcl/strint.h>
 #include <string.h>
+#include <pcl/json.h>
+#include <pcl/array.h>
 
 int
-pcl_err_setjson(const char *json)
+pcl_err_setjson(pcl_json_t *error)
 {
 	pcl_err_t *err = pcl_err_get();
 
 	if(err->frozen)
 		return 0;
 
+	if(!pcl_json_isobj(error))
+		return SETERR(PCL_ETYPE);
+
+	long long errcode = pcl_json_objgetint(error, "err");
+	long long oscode = pcl_json_objgetint(error, "oserr");
+	pcl_json_t *strace = pcl_json_objget(error, "strace");
+
+	if(errcode == PCL_JSON_INVINT || oscode == PCL_JSON_INVINT || !pcl_json_isarr(strace))
+		return SETERR(PCL_EFORMAT);
+
 	pcl_err_clear();
 
-	pcl_buf_t b;
+	/* ignore errorrs while building pcl_err_t */
+	err->frozen = true;
 
-	pcl_buf_init(&b, 512, PclBufText);
+	err->err = (int) errcode;
+	err->oserr = (uint32_t) oscode;
+	err->strace = ipcl_err_trace_free(err->strace);
 
-	for(const char *j = json; *j; )
+	for(int i = strace->array->count - 1; i >= 0; i--)
 	{
-		if(*j != '\\')
+		pcl_json_t *trc = pcl_json_arrget(strace, i);
+
+		if(pcl_json_isobj(trc))
 		{
-			pcl_buf_putchar(&b, *j++);
-			continue;
-		}
+			const char *file = pcl_json_objgetstr(trc, "file");
+			const char *func = pcl_json_objgetstr(trc, "func");
+			long long line = pcl_json_objgetint(trc, "line");
+			const char *msg = pcl_json_objgetstr(trc, "msg");
 
-		switch(*++j)
-		{
-			case '\0':
-				break;
+			if(line == PCL_JSON_INVINT)
+				line = 0;
 
-			case '\\':
-			case '"':
-			case '/':
-				pcl_buf_putchar(&b, *j++);
-				break;
-
-			case 'b':
-				j++;
-				pcl_buf_putstr(&b, "\b");
-				break;
-
-			case 't':
-				j++;
-				pcl_buf_putstr(&b, "\t");
-				break;
-
-			case 'n':
-				j++;
-				pcl_buf_putstr(&b, "\n");
-				break;
-
-			case 'f':
-				j++;
-				pcl_buf_putstr(&b, "\f");
-				break;
-
-			case 'r':
-				j++;
-				pcl_buf_putstr(&b, "\r");
-				break;
-
-			case 'u':
-			{
-				const char *s = j + 1;
-
-				if(isxdigit(*s) && isxdigit(s[1]) && isxdigit(s[2]) && isxdigit(s[3]))
-				{
-					int val;
-					char buf[5];
-
-					memcpy(buf, s, 4);
-					buf[4] = 0;
-
-					if(pcl_strtoi(s, NULL, 16, &val) == 0 && val < 0x20)
-					{
-						pcl_buf_putf(&b, "%c", (char) val);
-						j += 5; // skip u0000
-						break;
-					}
-				}
-
-				// fall-through
-			}
-
-			default:
-				pcl_buf_putf(&b, "\\%c", *j++);
+			pcl_err_trace(file, func, (int) line, msg);
 		}
 	}
 
+	err->frozen = false;
 	return 0;
 }
