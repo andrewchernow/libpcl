@@ -246,11 +246,16 @@ PCL_EXPORT pcl_json_t *pcl_json_objget(pcl_json_t *obj, const char *key);
 PCL_EXPORT const char *pcl_json_objgetstr(pcl_json_t *obj, const char *key);
 PCL_EXPORT long long pcl_json_objgetint(pcl_json_t *obj, const char *key);
 PCL_EXPORT double pcl_json_objgetreal(pcl_json_t *obj, const char *key);
-PCL_EXPORT pcl_htable_t *pcl_json_objgetobj(pcl_json_t *obj, const char *key);
-PCL_EXPORT pcl_array_t *pcl_json_objgetarr(pcl_json_t *obj, const char *key);
+PCL_EXPORT bool pcl_json_objisstr(pcl_json_t *obj, const char *key);
+PCL_EXPORT bool pcl_json_objisint(pcl_json_t *obj, const char *key);
+PCL_EXPORT bool pcl_json_objisreal(pcl_json_t *obj, const char *key);
+PCL_EXPORT bool pcl_json_objisobj(pcl_json_t *obj, const char *key);
+PCL_EXPORT bool pcl_json_objisarr(pcl_json_t *obj, const char *key);
 PCL_EXPORT bool pcl_json_objisnull(pcl_json_t *obj, const char *key);
 PCL_EXPORT bool pcl_json_objisbool(pcl_json_t *obj, const char *key);
 PCL_EXPORT int pcl_json_objremove(pcl_json_t *obj, const char *key);
+
+#define pcl_json_objisnum(obj, key) (pcl_json_objisint(obj, key) || pcl_json_objisreal(obj, key))
 
 /** Create an array object.
  * It is safe to use the @ref array "array module" for managing a JSON array. Internally, a json

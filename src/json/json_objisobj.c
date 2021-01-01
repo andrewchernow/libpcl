@@ -31,16 +31,9 @@
 
 #include "_json.h"
 
-pcl_htable_t *
-pcl_json_objgetobj(pcl_json_t *obj, const char *key)
+bool
+pcl_json_objisobj(pcl_json_t *obj, const char *key)
 {
 	pcl_json_t *o = pcl_json_objget(obj, key);
-
-	if(!o)
-		return R_TRC(NULL);
-
-	if(!pcl_json_isobj(o))
-		return R_SETERRMSG(NULL, PCL_ETYPE, "expected type 'o', got '%c'", o->type);
-
-	return o->object;
+	return pcl_json_isobj(o);
 }

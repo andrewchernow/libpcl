@@ -20,13 +20,21 @@ add_library(json OBJECT
 	json_null.c
 	json_obj.c
 	json_objget.c
-	json_objgetarr.c
 	json_objgetint.c
-	json_objgetobj.c
 	json_objgetreal.c
 	json_objgetstr.c
+	json_objisarr.c
 	json_objisbool.c
+	json_objisint.c
 	json_objisnull.c
+	json_objisobj.c
+	json_objisreal.c
+	json_objisstr.c
+	json_objputbool.c
+	json_objputint.c
+	json_objputnull.c
+	json_objputreal.c
+	json_objputstr.c
 	json_objput.c
 	json_objremove.c
 	json_parse_array.c
@@ -39,5 +47,5 @@ add_library(json OBJECT
 	json_str.c
 	json_strlen.c
 	json_true.c
-	json_utf8check.c json_objputstr.c json_objputint.c json_objputreal.c json_objputbool.c json_objputnull.c)
+	json_utf8check.c)
 

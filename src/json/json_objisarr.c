@@ -31,16 +31,9 @@
 
 #include "_json.h"
 
-pcl_array_t *
-pcl_json_objgetarr(pcl_json_t *obj, const char *key)
+bool
+pcl_json_objisarr(pcl_json_t *obj, const char *key)
 {
 	pcl_json_t *arr = pcl_json_objget(obj, key);
-
-	if(!arr)
-		return R_TRC(NULL);
-
-	if(!pcl_json_isarr(arr))
-		return R_SETERRMSG(NULL, PCL_ETYPE, "expected type 'a', got '%c'", arr->type);
-
-	return arr->array;
+	return pcl_json_isarr(arr);
 }
