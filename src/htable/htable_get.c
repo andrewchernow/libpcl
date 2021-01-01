@@ -33,7 +33,7 @@
 #include <pcl/error.h>
 
 void *
-pcl_htable_get(pcl_htable_t *ht, const void *key)
+pcl_htable_get(const pcl_htable_t *ht, const void *key)
 {
 	const pcl_htable_entry_t *e = pcl_htable_lookup(ht, key);
 

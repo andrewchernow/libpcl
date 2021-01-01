@@ -44,7 +44,7 @@ extern "C" {
 
 int ipcl_htable_capacity(int capacity);
 
-pcl_htable_entry_t *ipcl_htable_lookup(pcl_htable_t *ht, const void *key,
+pcl_htable_entry_t *ipcl_htable_lookup(const pcl_htable_t *ht, const void *key,
 	uintptr_t *code, int *index);
 
 /**

@@ -33,7 +33,7 @@
 #include <pcl/error.h>
 
 pcl_htable_entry_t *
-pcl_htable_lookup(pcl_htable_t *ht, const void *key)
+pcl_htable_lookup(const pcl_htable_t *ht, const void *key)
 {
 	if(!ht || !key)
 		return R_SETERR(NULL, PCL_EINVAL);
@@ -44,7 +44,7 @@ pcl_htable_lookup(pcl_htable_t *ht, const void *key)
 }
 
 pcl_htable_entry_t *
-ipcl_htable_lookup(pcl_htable_t *ht, const void *key, uintptr_t *code, int *index)
+ipcl_htable_lookup(const pcl_htable_t *ht, const void *key, uintptr_t *code, int *index)
 {
 	uintptr_t c = ht->hashcode(key, ht->key_len, ht->userp);
 
