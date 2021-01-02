@@ -46,12 +46,12 @@ add_library(json OBJECT
 	json_objisobj.c
 	json_objisreal.c
 	json_objisstr.c
+	json_objput.c
 	json_objputbool.c
 	json_objputint.c
 	json_objputnull.c
 	json_objputreal.c
 	json_objputstr.c
-	json_objput.c
 	json_objremove.c
 	json_parse_array.c
 	json_parse_number.c

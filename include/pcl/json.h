@@ -295,20 +295,20 @@ PCL_EXPORT int pcl_json_arraddnull(pcl_json_t *arr);
  */
 PCL_EXPORT pcl_json_t *pcl_json_arrget(const pcl_json_t *arr, int index);
 
-PCL_EXPORT const char *pcl_json_arrgetstr(const pcl_json_t *obj, int index);
-PCL_EXPORT long long pcl_json_arrgetint(const pcl_json_t *obj, int index);
-PCL_EXPORT double pcl_json_arrgetreal(const pcl_json_t *obj, int index);
-PCL_EXPORT bool pcl_json_arrisstr(const pcl_json_t *obj, int index);
-PCL_EXPORT bool pcl_json_arrisint(const pcl_json_t *obj, int index);
-PCL_EXPORT bool pcl_json_arrisreal(const pcl_json_t *obj, int index);
-PCL_EXPORT bool pcl_json_arrisobj(const pcl_json_t *obj, int index);
-PCL_EXPORT bool pcl_json_arrisarr(const pcl_json_t *obj, int index);
-PCL_EXPORT bool pcl_json_arrisnull(const pcl_json_t *obj, int index);
-PCL_EXPORT bool pcl_json_arrisbool(const pcl_json_t *obj, int index);
+PCL_EXPORT const char *pcl_json_arrgetstr(const pcl_json_t *arr, int index);
+PCL_EXPORT long long pcl_json_arrgetint(const pcl_json_t *arr, int index);
+PCL_EXPORT double pcl_json_arrgetreal(const pcl_json_t *arr, int index);
+PCL_EXPORT bool pcl_json_arrisstr(const pcl_json_t *arr, int index);
+PCL_EXPORT bool pcl_json_arrisint(const pcl_json_t *arr, int index);
+PCL_EXPORT bool pcl_json_arrisreal(const pcl_json_t *arr, int index);
+PCL_EXPORT bool pcl_json_arrisobj(const pcl_json_t *arr, int index);
+PCL_EXPORT bool pcl_json_arrisarr(const pcl_json_t *arr, int index);
+PCL_EXPORT bool pcl_json_arrisnull(const pcl_json_t *arr, int index);
+PCL_EXPORT bool pcl_json_arrisbool(const pcl_json_t *arr, int index);
 
-#define pcl_json_arristrue(obj, idx) (pcl_json_arrisbool(obj, idx) ? (obj)->boolean : false)
-#define pcl_json_arrisfalse(obj, idx) (pcl_json_arrisbool(obj, idx) ? !(obj)->boolean : false)
-#define pcl_json_arrisnum(obj, idx) (pcl_json_arrisint(obj, idx) || pcl_json_arrisreal(obj, idx))
+#define pcl_json_arristrue(arr, idx) (pcl_json_arrisbool(arr, idx) ? (arr)->boolean : false)
+#define pcl_json_arrisfalse(arr, idx) (pcl_json_arrisbool(arr, idx) ? !(arr)->boolean : false)
+#define pcl_json_arrisnum(arr, idx) (pcl_json_arrisint(arr, idx) || pcl_json_arrisreal(arr, idx))
 
 /**
  *
