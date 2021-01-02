@@ -66,6 +66,9 @@ typedef struct tag_pcl_err pcl_err_t;
 typedef struct tag_pcl_digest pcl_digest_t;
 typedef struct tag_pcl_cipher pcl_cipher_t;
 typedef struct tag_pcl_file pcl_file_t;
+/** @ingroup json
+ * @copydoc tag_pcl_json
+ */
 typedef struct tag_pcl_json pcl_json_t;
 typedef struct tag_pcl_json_path pcl_json_path_t;
 /** Directory handle.

@@ -32,12 +32,17 @@
 #ifndef LIBPCL_JSON_H
 #define LIBPCL_JSON_H
 
-/** @defgroup json JSON Parser
- * A JSON parser.
+/** @defgroup json JSON Decoder and Encoder
+ * A JSON encoder and decoder.
  * @{
  */
 #include <pcl/types.h>
 #include <pcl/limits.h>
+
+/** @defgroup jsonflags Control Flags
+ * A set of flags to control the handling of errors and strings.
+ * @{
+ */
 
 /** Skip UTF-8 validation. Only set this flag if you know for sure a string is valid UTF-8.
  * Otherwise, you can end up with an invalid JSON document that will be rejected by parsers
@@ -46,32 +51,36 @@
  */
 #define PCL_JSON_SKIPUTF8CHK 0x01
 
-/** Shallow copy string. By default, ::pcl_json_str makes a copy of the provided string.
- * Setting this flag avoids the copy and the PCL json module will manage the pointer.
- * @see pcl_json_str
+/** Shallow copy string. By default, all strings being added to a json object are copied. This
+ * includes object keys, object string values, array string values and string values. With this
+ * flags set, no copy is performed. Any string used with this flag, must point to the beginning
+ * of an allocated block; since it will be passed to \c free.
+ * @see pcl_json_str, pcl_json_strn, pcl_json_objput, pcl_json_objputstr, pcl_json_arraddstr
  */
 #define PCL_JSON_SHALLOW 0x02
 
-/** Empty strings will be encoded as a JSON null.
- * @see pcl_json_str, pcl_json_strn
+/** Treat empty strings as a JSON null.
+ * @see pcl_json_str, pcl_json_strn, pcl_json_objputstr, pcl_json_arraddstr
  */
 #define PCL_JSON_EMPTYASNULL 0x04
 
-/** A \c NULL string will not raise an error, but rather encode value as a JSON null.
+/** Treat \c NULL string pointers as a JSON null. Without this flag, a \c NULL string wlll
+ * instead be treated as an error.
  * @see pcl_json_str, pcl_json_strn
  */
 #define PCL_JSON_ALLOWNULL 0x08
 
-/** When adding json objects to collections, if the add operation fails this flags will free
- * the value being added.
+/** Free a json value being added when the operation fails.
+ * When adding json values to objects or arrays, if the add operation fails this flag causes
+ * the value being added to be freed.
  * @code
  * pcl_json_t *val = pcl_json_int(10);
  *
- * // NULL key will force an error, this will free 'val'
- * pcl_json_objput(obj, NULL, val, PCL_JSON_FREEVALONERR);
+ * // this will free 'val' if it fails
+ * pcl_json_objput(obj, key, val, PCL_JSON_FREEVALONERR);
  *
  * // identical to
- * if(pcl_json_objput(obj, NULL, val, 0) < 0)
+ * if(pcl_json_objput(obj, key, val, 0) < 0)
  *   pcl_json_free(val);
  *
  * @endcode
@@ -79,48 +88,119 @@
  */
 #define PCL_JSON_FREEVALONERR 0x10
 
+/** @} */
+
 /** Invalid JSON integer value used as return value.
- * @see pcl_json_objgetint, pcl_json_array_getinteger
+ * @see pcl_json_objgetint, pcl_json_arrgetint
  */
 #define PCL_JSON_INVINT LONG_LONG_MIN
 
 /** Invalid JSON real value use as return value.
- * @see pcl_json_objgetreal, pcl_json_array_getreal
+ * @see pcl_json_objgetreal, pcl_json_arrgetreal
  */
 #define PCL_JSON_INVREAL DBL_MIN
+
+/** Indicates if a json object is a null value.
+ * @param _j pointer to a json object
+ * @return boolean
+ */
+#define pcl_json_isnull(_j)    ((_j) ? (_j)->type == 0 : false)
+
+/** Indicates if a json object is a boolean value.
+ * @param _j pointer to a json object
+ * @return boolean
+ */
+#define pcl_json_isbool(_j)    ((_j) ? (_j)->type == 'b' : false)
+
+/** Indicates if a json object is a boolean true value.
+ * @param _j pointer to a json object
+ * @return boolean
+ */
+#define pcl_json_istrue(_j)    ((_j) ? pcl_json_isbool(_j) && (_j)->boolean : false)
+
+/** Indicates if a json object is a boolean false value.
+ * @param _j pointer to a json object
+ * @return boolean
+ */
+#define pcl_json_isfalse(_j)   ((_j) ? pcl_json_isbool(_j) && !(_j)->boolean : false)
+
+/** Indicates if a json object is a real value.
+ * @param _j pointer to a json object
+ * @return boolean
+ */
+#define pcl_json_isreal(_j)    ((_j) ? (_j)->type == 'r' : false)
+
+/** Indicates if a json object is an integer value.
+ * @param _j pointer to a json object
+ * @return boolean
+ */
+#define pcl_json_isint(_j)     ((_j) ? (_j)->type == 'i' : false)
+
+/** Indicates if a json object is a number (integer or real) value.
+ * @param _j pointer to a json object
+ * @return boolean
+ */
+#define pcl_json_isnum(_j)     (pcl_json_isreal(_j) || pcl_json_isint(_j))
+
+/** Indicates if a json object is a string value.
+ * @param _j pointer to a json object
+ * @return boolean
+ */
+#define pcl_json_isstr(_j)     ((_j) ? (_j)->type == 's' : false)
+
+/** Indicates if a json object is an array value.
+ * @param _j pointer to a json object
+ * @return boolean
+ */
+#define pcl_json_isarr(_j)     ((_j) ? (_j)->type == 'a' : false)
+
+/** Indicates if a json object is an object value.
+ * @param _j pointer to a json object
+ * @return boolean
+ */
+#define pcl_json_isobj(_j)     ((_j) ? (_j)->type == 'o' : false)
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#define pcl_json_isnull(_j)    ((_j) ? (_j)->type == 0 : false)
-#define pcl_json_isbool(_j) ((_j) ? (_j)->type == 'b' : false)
-#define pcl_json_istrue(_j)    ((_j) ? pcl_json_isbool(_j) && (_j)->boolean : false)
-#define pcl_json_isfalse(_j)   ((_j) ? pcl_json_isbool(_j) && !(_j)->boolean : false)
-#define pcl_json_isreal(_j)    ((_j) ? (_j)->type == 'r' : false)
-#define pcl_json_isint(_j) ((_j) ? (_j)->type == 'i' : false)
-#define pcl_json_isnum(_j)  (pcl_json_isreal(_j) || pcl_json_isint(_j))
-#define pcl_json_isstr(_j)  ((_j) ? (_j)->type == 's' : false)
-#define pcl_json_isarr(_j)   ((_j) ? (_j)->type == 'a' : false)
-#define pcl_json_isobj(_j)  ((_j) ? (_j)->type == 'o' : false)
-
+/** A JSON value object. This represents any valid JSON value: boolean, number (integer or real),
+ * string, null, array or object.
+ */
 struct tag_pcl_json
 {
-	/** JSON type: 0=null, 'r'=real, 'i'=integer, 'b'=bool, 's'=string, 'a'=array, 'o'=object
-	 * Both real and integer are actually a JSON number but are separated for simplicity.
+	/** JSON value type. This can be: \c 0 for null, \c 'r' for real, \c 'i' for integer,
+	 * \c 'b' for bool, \c 's' for string, \c 'a' for array, \c 'o' for object. Both real and
+	 * integer are actually a JSON number but are separated for simplicity. There are macros
+	 * for detecting value type that all begin with \c pcl_json_is.
 	 */
 	char type;
 
+	/** A JSON object's reference count.
+	 * @see pcl_json_ref
+	 */
 	int nrefs;
 
 	union
 	{
+		/** JSON boolean value when \a type is \c 'b'. */
 		bool boolean;
+
+		/** JSON real (number) value when \a type is \c 'r'. THis cannot be NaN, Infinity or
+		 * ::PCL_JSON_INVREAL.
+		 */
 		double real;
+
+		/** JSON integer (number) value when \a type is \c 'i'. This cannot be ::PCL_JSON_INVINT. */
 		long long integer;
-		/** A NUL-terminated string */
+
+		/** JSON string value when \a type is \c 's'. This is always NUL-terminated. */
 		char *string;
+
+		/** JSON array value when \a type is \c 'a'. */
 		pcl_array_t *array;
+
+		/** JSON object value when \a type is \c 'o'. */
 		pcl_htable_t *object;
 	};
 };
@@ -139,7 +219,7 @@ struct tag_pcl_json
  * The above is completely valid, since a valid JSON object exists and ends before any invalid
  * JSON text is encountered. When the \a end argument is supplied, it would be pointing at
  * the '#' in the above example. This is very useful if a string contains multiple JSON values.
- * pcl_json_decode can be called a multiple times passing the value of \a end as \a json,
+ * pcl_json_decode can be called multiple times by passing the value of \a end as \a json,
  * allowing one to iterate through a series of json values.
  *
  * @param json pointer to a json string. This must be NUL terminated if \a len is 0.
@@ -149,10 +229,22 @@ struct tag_pcl_json
  */
 PCL_EXPORT pcl_json_t *pcl_json_decode(const char *json, size_t len, const char **end);
 
+/** Encode a json object as a string.
+ * @param value pointer to a json object
+ * @param format if true, spaces and tabs will be added to the output.
+ * @return poin ter to an allocated json string
+ */
 PCL_EXPORT char *pcl_json_encode(pcl_json_t *value, bool format);
 
+/** Compile a json path.
+ * @param path A JSONPath string. This doesn't support filters.
+ * @return pointer to a compiled json path object which must be freed with ::pcl_json_freepath.
+ */
 PCL_EXPORT pcl_json_path_t *pcl_json_compile(const char *path);
 
+/** Release all resources used by a json path object.
+ * @param path pointer to a path object.
+ */
 PCL_EXPORT void pcl_json_freepath(pcl_json_path_t *path);
 
 /** Match a JSON value against a compiled JSON Path.
@@ -163,14 +255,24 @@ PCL_EXPORT void pcl_json_freepath(pcl_json_path_t *path);
  */
 PCL_EXPORT pcl_array_t *pcl_json_match(pcl_json_t *j, const pcl_json_path_t *path);
 
+/** Release all resources used by a json value. When the given json object's reference count is
+ * one, it will be freed. If greater than one, its reference count will be decremeted but it
+ * will not be freed.
+ * @param j pointer to a json object
+ * @see pcl_json_ref
+ */
 PCL_EXPORT void pcl_json_free(pcl_json_t *j);
 
 /** Get count of array elements or object keys.
- *
  * @param j json value which must be an object ore array
  * @return number of items or -1 on error
  */
 PCL_EXPORT int pcl_json_count(const pcl_json_t *j);
+
+/** @defgroup jsonobj Object Management
+ * A set of functions for managing JSON objects of type object.
+ * @{
+ */
 
 /** Create an object.
  * It is safe to use the @ref htable "hash table module" for managing a JSON object. Internally,
@@ -182,89 +284,171 @@ PCL_EXPORT int pcl_json_count(const pcl_json_t *j);
 PCL_EXPORT pcl_json_t *pcl_json_obj(void);
 
 /** Put a json value into an object.
- *
- * @param obj pointer to a json object
+ * @param obj pointer to a json object of type object
  * @param key pointer to a string key
  * @param value pointer to a json value
- * @param flags If ::PCL_JSON_SKIPUTF8CHK is set, no utf8 validation is performed. If
- * ::PCL_JSON_SHALLOW is set, a direct pointer to \a key is stored: ie. no copy. If
- * ::PCL_JSON_FREEVALONERR is set, \a value is freed on error and is not usable after this
- * call returns.
+ * @param flags a bitmask of @ref jsonflags
  * @return 0 for success or -1 on error
  */
 PCL_EXPORT int pcl_json_objput(pcl_json_t *obj, char *key, pcl_json_t *value, uint32_t flags);
 
 /** Put a string value into an object.
- *
- * @param obj pointer to a json object
+ * @param obj pointer to a json object of type object
  * @param key pointer to a string key
  * @param value pointer to a string value
- * @param flags If ::PCL_JSON_SKIPUTF8CHK is set, no utf8 validation is performed; which applies
- * to both \a key and \a value. If ::PCL_JSON_SHALLOW is set, a direct pointer to both \a key
- * and \a value is stored: ie. no copy. For \a value, see ::pcl_json_str for additional flags.
+ * @param flags a bitmask of @ref jsonflags. String control flags apply to both \a key and \a value
  * @return 0 for success or -1 on error
  */
 PCL_EXPORT int pcl_json_objputstr(pcl_json_t *obj, char *key, char *value, uint32_t flags);
 
 /** Put an integer value into an object.
- *
- * @param obj pointer to a json object
+ * @param obj pointer to a json object of type object
  * @param key pointer to a string key
  * @param value integer value
- * @param flags If ::PCL_JSON_SKIPUTF8CHK is set, no utf8 validation is performed. If
- * ::PCL_JSON_SHALLOW is set, a direct pointer to \a key is stored: ie. no copy.
+ * @param flags a bitmask of @ref jsonflags
  * @return 0 for success or -1 on error
  */
 PCL_EXPORT int pcl_json_objputint(pcl_json_t *obj, char *key, long long value, uint32_t flags);
 
-/** Put a real (floating-point double precision) value into an object.
- *
- * @param obj pointer to a json object
+/** Put a real value into an object.
+ * @param obj pointer to a json object of type object
  * @param key pointer to a string key
  * @param value real value
- * @param flags If ::PCL_JSON_SKIPUTF8CHK is set, no utf8 validation is performed. If
- * ::PCL_JSON_SHALLOW is set, a direct pointer to \a key is stored: ie. no copy.
+ * @param flags a bitmask of @ref jsonflags
  * @return 0 for success or -1 on error
  */
 PCL_EXPORT int pcl_json_objputreal(pcl_json_t *obj, char *key, double value, uint32_t flags);
 
 /** Put a boolean value into an object.
- *
- * @param obj pointer to a json object
+ * @param obj pointer to a json object of type object
  * @param key pointer to a string key
  * @param value boolean value
- * @param flags If ::PCL_JSON_SKIPUTF8CHK is set, no utf8 validation is performed. If
- * ::PCL_JSON_SHALLOW is set, a direct pointer to \a key is stored: ie. no copy.
+ * @param flags a bitmask of @ref jsonflags
  * @return 0 for success or -1 on error
  */
 PCL_EXPORT int pcl_json_objputbool(pcl_json_t *obj, char *key, bool value, uint32_t flags);
 
 /** Put a null value into an object.
- *
- * @param obj pointer to a json object
+ * @param obj pointer to a json object of type object
  * @param key pointer to a string key
- * @param flags If ::PCL_JSON_SKIPUTF8CHK is set, no utf8 validation is performed. If
- * ::PCL_JSON_SHALLOW is set, a direct pointer to \a key is stored: ie. no copy.
+ * @param flags a bitmask of @ref jsonflags
  * @return 0 for success or -1 on error
  */
 PCL_EXPORT int pcl_json_objputnull(pcl_json_t *obj, char *key, uint32_t flags);
 
+/** Get a json value from an object.
+ * @param obj pointer to a json object of type object
+ * @param key pointer to a string key
+ * @return pointer to a json object.
+ */
 PCL_EXPORT pcl_json_t *pcl_json_objget(const pcl_json_t *obj, const char *key);
+
+/** Get a string value from an object.
+ * @param obj pointer to a json object of type object
+ * @param key pointer to a string key
+ * @return pointer to a string that is the value for \a key. The returned string is managed
+ * by \a obj and a copy is required if it is to persist past the life of \a obj. On error,
+ * \c NULL is returned.
+ */
 PCL_EXPORT const char *pcl_json_objgetstr(const pcl_json_t *obj, const char *key);
+
+/** Get a integer value from an object.
+ * @param obj pointer to a json object of type object
+ * @param key pointer to a string key
+ * @return integer value found at \a key. If an error occurs, ::PCL_JSON_INVINT is returned.
+ */
 PCL_EXPORT long long pcl_json_objgetint(const pcl_json_t *obj, const char *key);
+
+/** Get a real value from an object.
+ * @param obj pointer to a json object of type object
+ * @param key pointer to a string key
+ * @return double value found at \a key. If an error occurs, ::PCL_JSON_INVREAL is returned.
+ */
 PCL_EXPORT double pcl_json_objgetreal(const pcl_json_t *obj, const char *key);
+
+/** Indicates if an object key's value is a string.
+ * @param arr pointer to a json object of type object
+ * @param key pointer to a string
+ * @return true if key's value is a string and false otherwise.
+ */
 PCL_EXPORT bool pcl_json_objisstr(const pcl_json_t *obj, const char *key);
+
+/** Indicates if an object key's value is an integer.
+ * @param arr pointer to a json object of type object
+ * @param key pointer to a string
+ * @return true if key's value is an integer and false otherwise.
+ */
 PCL_EXPORT bool pcl_json_objisint(const pcl_json_t *obj, const char *key);
+
+/** Indicates if an object key's value is a real.
+ * @param arr pointer to a json object of type object
+ * @param key pointer to a string
+ * @return true if key's value is a real and false otherwise.
+ */
 PCL_EXPORT bool pcl_json_objisreal(const pcl_json_t *obj, const char *key);
+
+/** Indicates if an object key's value is an object.
+ * @param arr pointer to a json object of type object
+ * @param key pointer to a string
+ * @return true if key's value is an object and false otherwise.
+ */
 PCL_EXPORT bool pcl_json_objisobj(const pcl_json_t *obj, const char *key);
+
+/** Indicates if an object key's value is an array.
+ * @param arr pointer to a json object of type object
+ * @param key pointer to a string
+ * @return true if key's value is an array and false otherwise.
+ */
 PCL_EXPORT bool pcl_json_objisarr(const pcl_json_t *obj, const char *key);
+
+/** Indicates if an object key's value is a null.
+ * @param arr pointer to a json object of type object
+ * @param key pointer to a string
+ * @return true if key's value is a null and false otherwise.
+ */
 PCL_EXPORT bool pcl_json_objisnull(const pcl_json_t *obj, const char *key);
+
+/** Indicates if an object key's value is a boolean.
+ * @param arr pointer to a json object of type object
+ * @param key pointer to a string
+ * @return true if key's value is a boolean and false otherwise.
+ */
 PCL_EXPORT bool pcl_json_objisbool(const pcl_json_t *obj, const char *key);
+
+/** Indicates if an object key's value is a boolean true.
+ * @param arr pointer to a json object of type object
+ * @param key pointer to a string
+ * @return true if key's value is a boolean true and false otherwise.
+ */
+#define pcl_json_objistrue(obj, key) (pcl_json_objisbool(obj, key) ? (obj)->boolean : false)
+
+/** Indicates if an object key's value is a boolean false.
+ * @param arr pointer to a json object of type object
+ * @param key pointer to a string
+ * @return true if key's value is a boolean false and false otherwise.
+ */
+#define pcl_json_objisfalse(obj, key) (pcl_json_objisbool(obj, key) ? !(obj)->boolean : false)
+
+/** Indicates if an object key's value is a number (real or integer).
+ * @param arr pointer to a json object of type object
+ * @param key pointer to a string
+ * @return true if key's value is a number and false otherwise.
+ */
+#define pcl_json_objisnum(obj, key) (pcl_json_objisint(obj, key) || pcl_json_objisreal(obj, key))
+
+/** Remove a value from a json object.
+ * @param obj pointer to a json object of type object.
+ * @param key pointer to a string
+ * @return 0 on success and -1 on error
+ */
 PCL_EXPORT int pcl_json_objremove(pcl_json_t *obj, const char *key);
 
-#define pcl_json_objistrue(obj, key) (pcl_json_objisbool(obj, key) ? (obj)->boolean : false)
-#define pcl_json_objisfalse(obj, key) (pcl_json_objisbool(obj, key) ? !(obj)->boolean : false)
-#define pcl_json_objisnum(obj, key) (pcl_json_objisint(obj, key) || pcl_json_objisreal(obj, key))
+/** @} */
+
+/** @defgroup jsonarr Array Management
+ * A set of functions for managing JSON objects of type array.
+ * @{
+ */
 
 /** Create an array object.
  * It is safe to use the @ref array "array module" for managing a JSON array. Internally, a json
@@ -275,91 +459,225 @@ PCL_EXPORT int pcl_json_objremove(pcl_json_t *obj, const char *key);
 PCL_EXPORT pcl_json_t *pcl_json_arr(void);
 
 /** Add an element to an array.
- * @param arr
- * @param elem
- * @return new element count on success and -1 on error
+ * @param arr pointer to a json array object
+ * @param elem pointer to a json object of any type
+ * @param flags This only suports ::PCL_JSON_FREEVALONERR.
+ * @return 0 on success and -1 on error
  */
 PCL_EXPORT int pcl_json_arradd(pcl_json_t *arr, pcl_json_t *elem, uint32_t flags);
 
+/** Add a string value to an array.
+ * @param arr pointer to a json array object
+ * @param value pointer to a string.
+ * @param flags For \a value, all flags supported by ::pcl_json_str are supported here. This also
+ * supprts ::PCL_JSON_FREEVALONERR.
+ * @return 0 on success and -1 on error
+ */
 PCL_EXPORT int pcl_json_arraddstr(pcl_json_t *arr, char *value, uint32_t flags);
+
+/** Add an integer value to an array.
+ * @param arr pointer to a json array object
+ * @param value integer value. This cannot be ::PCL_JSON_INVINT.
+ * @return 0 on success and -1 on error
+ */
 PCL_EXPORT int pcl_json_arraddint(pcl_json_t *arr, long long value);
+
+/** Add a real value to an array.
+ * @param arr pointer to a json array object
+ * @param value real value. This cannot be ::PCL_JSON_INVREAL, NaN or Infinity.
+ * @return 0 on success and -1 on error
+ */
 PCL_EXPORT int pcl_json_arraddreal(pcl_json_t *arr, double value);
+
+/** Add a boolean value to an array.
+ * @param arr pointer to a json array object
+ * @param value boolean value
+ * @return 0 on success and -1 on error
+ */
 PCL_EXPORT int pcl_json_arraddbool(pcl_json_t *arr, bool value);
+
+/** Add a null value to an array.
+ * @param arr pointer to a json array object
+ * @return 0 on success and -1 on error
+ */
 PCL_EXPORT int pcl_json_arraddnull(pcl_json_t *arr);
 
-/**
- *
- * @param arr
- * @param index
- * @return
+/** Get a json object from an array.
+ * @param arr pointer to a json array object
+ * @param index element index
+ * @return pointer to a json object that is only valid while \a arr is valid.
+ * @see pcl_json_ref
  */
 PCL_EXPORT pcl_json_t *pcl_json_arrget(const pcl_json_t *arr, int index);
 
+/** Get a string from an array.
+ * @param arr pointer to a json array object
+ * @param index element index
+ * @return pointer to a string that is the value at \a index. The returned string is managed
+ * by \a arr and a copy is required if it is to persist past the life of \a arr. On error,
+ * \c NULL is returned.
+ */
 PCL_EXPORT const char *pcl_json_arrgetstr(const pcl_json_t *arr, int index);
+
+/** Get an integer (number) from an array.
+ * @param arr pointer to a json array object
+ * @param index element index
+ * @return integer value found at \a index. If an error occurs, ::PCL_JSON_INVINT is returned.
+ */
 PCL_EXPORT long long pcl_json_arrgetint(const pcl_json_t *arr, int index);
+
+/** Get a real (number) from an array.
+ * @param arr pointer to a json array object
+ * @param index element index
+ * @return double value found at \a index. If an error occurs, ::PCL_JSON_INVREAL is returned.
+ */
 PCL_EXPORT double pcl_json_arrgetreal(const pcl_json_t *arr, int index);
+
+/** Indicates if an array element is a string.
+ * @param arr pointer to a json array object
+ * @param index element index
+ * @return true if element is a string and false otherwise.
+ */
 PCL_EXPORT bool pcl_json_arrisstr(const pcl_json_t *arr, int index);
+
+/** Indicates if an array element is an integer.
+ * @param arr pointer to a json array object
+ * @param index element index
+ * @return true if element is an integer and false otherwise.
+ */
 PCL_EXPORT bool pcl_json_arrisint(const pcl_json_t *arr, int index);
+
+/** Indicates if an array element is a real.
+ * @param arr pointer to a json array object
+ * @param index element index
+ * @return true if element is a real and false otherwise.
+ */
 PCL_EXPORT bool pcl_json_arrisreal(const pcl_json_t *arr, int index);
+
+/** Indicates if an array element is an object.
+ * @param arr pointer to a json array object
+ * @param index element index
+ * @return true if element is an object and false otherwise.
+ */
 PCL_EXPORT bool pcl_json_arrisobj(const pcl_json_t *arr, int index);
+
+/** Indicates if an array element is an array.
+ * @param arr pointer to a json array object
+ * @param index element index
+ * @return true if element is an array and false otherwise.
+ */
 PCL_EXPORT bool pcl_json_arrisarr(const pcl_json_t *arr, int index);
+
+/** Indicates if an array element is a null.
+ * @param arr pointer to a json array object
+ * @param index element index
+ * @return true if element is a null and false otherwise.
+ */
 PCL_EXPORT bool pcl_json_arrisnull(const pcl_json_t *arr, int index);
+
+/** Indicates if an array element is a boolean.
+ * @param arr pointer to a json array object
+ * @param index element index
+ * @return true if element is a boolean and false otherwise.
+ */
 PCL_EXPORT bool pcl_json_arrisbool(const pcl_json_t *arr, int index);
 
+/** Indicates if an array element is a boolean true.
+ * @param arr pointer to a json array object
+ * @param idx element index
+ * @return true if element is a boolean true and false otherwise.
+ */
 #define pcl_json_arristrue(arr, idx) (pcl_json_arrisbool(arr, idx) ? (arr)->boolean : false)
+
+/** Indicates if an array element is a boolean false.
+ * @param arr pointer to a json array object
+ * @param idx element index
+ * @return true if element is a boolean false and false otherwise.
+ */
 #define pcl_json_arrisfalse(arr, idx) (pcl_json_arrisbool(arr, idx) ? !(arr)->boolean : false)
+
+/** Indicates if an array element is a number.
+ * @param arr pointer to a json array object
+ * @param idx element index
+ * @return true if element is an integer or real and false otherwise.
+ */
 #define pcl_json_arrisnum(arr, idx) (pcl_json_arrisint(arr, idx) || pcl_json_arrisreal(arr, idx))
 
-/**
- *
- * @param arr
- * @param index
+/** Remove an element from an array.
+ * @param arr pointer to a json array object
+ * @param index element index
  * @return new count or -1 on error
  */
 PCL_EXPORT int pcl_json_arrremove(pcl_json_t *arr, int index);
 
-/** Create a string.
+/** @} */
+
+/** Create a string object.
  * @param str pointer to a NUL-terminated string
- * @param flags a bitmask of flags. If ::PCL_JSON_SKIPUTF8CHK is set, no UTF-8 validation
- * is performed. If ::PCL_JSON_SHALLOW is set, a direct pointer to \a str is stored: ie. no copy.
- * If ::PCL_JSON_SHALLOW is not set, \a str is copied. Note that if ::PCL_JSON_EMPTYASNULL and
- * ::PCL_JSON_SHALLOW are both set and \a str is empty, caller is still repsonsible to free the
- * empty string. This is because the json module isn't managing it. For this reason, one should
- * avoid setting both of these flags. If ::PCL_JSON_EMPTYASNULL, then an empty \a str
- * will cause a json null object to be returned. If ::PCL_JSON_ALLOWNULL is set, if \a str
- * is \c NULL, a json null object will be returned.
+ * @param flags bitmask of @ref jsonflags. ::PCL_JSON_FREEVALONERR is ignored.
  * @return pointer to a json object or \c NULL on error. Note that a \c NULL \a str is an error
  * unless ::PCL_JSON_ALLOWNULL is set.
  * @see pcl_json_strn
  */
 PCL_EXPORT pcl_json_t *pcl_json_str(char *str, uint32_t flags);
 
-/** Create a string.
- * @note this function always copies \a len characters of the given \a str
+/** Create a string object.
+ * @note this function always copies \a len characters of the given \a str. Shallow copy is not
+ * supported.
  * @param str pointer to string, which does not need to be NUL-terminated
  * @param len number of characters to copy from \a str
- * @param flags bitmask of flags. ::PCL_JSON_SHALLOW is not supported. If ::PCL_JSON_SKIPUTF8CHK
- * is set, no UTF-8 validation is performed. If ::PCL_JSON_EMPTYASNULL, then a \a len of zero
- * will cause a json null object to be returned. If ::PCL_JSON_ALLOWNULL is set, if \a str
- * is \c NULL, a json null object will be returned.
+ * @param flags bitmask of @ref jsonflags. ::PCL_JSON_SHALLOW and ::PCL_JSON_FREEVALONERR are
+ * ignored.
  * @return pointer to a json object or \c NULL on error. Note that a \c NULL \a str is an error
  * unless ::PCL_JSON_ALLOWNULL is set.
  * @see pcl_json_str
  */
 PCL_EXPORT pcl_json_t *pcl_json_strn(const char *str, size_t len, uint32_t flags);
 
-/** Create a boolean.
- * @param value
- * @return
+/** Create a boolean value.
+ * @note this function returns a singleton
+ * @param value boolean value, \c true or \c false.
+ * @return pointer to a json boolean object
  */
 PCL_EXPORT pcl_json_t *pcl_json_bool(bool value);
+
+/** Create a boolean true value.
+ * @note this function returns a singleton
+ * @return pointer to a json boolean object
+ */
 PCL_EXPORT pcl_json_t *pcl_json_true(void);
+
+/** Create a boolean false value.
+ * @note this function returns a singleton
+ * @return pointer to a json boolean object
+ */
 PCL_EXPORT pcl_json_t *pcl_json_false(void);
+
+/** Create a null value.
+ * @note this function returns a singleton
+ * @return pointer to a json null object
+ */
 PCL_EXPORT pcl_json_t *pcl_json_null(void);
 
+/** Create a json real (number) object.
+ * @param real value. This value cannot be NaN, Infinity or ::PCL_JSON_INVREAL
+ * @return pointer to a json real object
+ */
 PCL_EXPORT pcl_json_t *pcl_json_real(double real);
+
+/** Create a json integer (number) object.
+ * @param integer value. This value cannot be ::PCL_JSON_INVINT
+ * @return pointer to a json integer object
+ */
 PCL_EXPORT pcl_json_t *pcl_json_int(long long integer);
 
+/** Increase or decrease a json object's reference count.
+ * A json object is not freed by ::pcl_json_free until its reference count is zero.
+ * @param j pointer to a json object
+ * @param amt amount to increase or decrease (negative) the object's reference count.
+ * @return pointer to \a j
+ * @see pcl_json_free
+ */
 PCL_INLINE pcl_json_t *
 pcl_json_ref(pcl_json_t *j, int amt)
 {
