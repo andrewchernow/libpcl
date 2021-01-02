@@ -61,5 +61,5 @@ pcl_json_arradd(pcl_json_t *arr, pcl_json_t *elem, uint32_t flags)
 		return TRCMSG("failed to add array element", 0);
 	}
 
-	return arr->array->count;
+	return 0;
 }

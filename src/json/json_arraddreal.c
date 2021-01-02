@@ -35,12 +35,5 @@ int
 pcl_json_arraddreal(pcl_json_t *obj, double value)
 {
 	pcl_json_t *val = pcl_json_real(value);
-
-	if(!val)
-		return TRC();
-
-	if(pcl_json_arradd(obj, val, PCL_JSON_FREEVALONERR) < 0)
-		return TRC();
-
-	return 0;
+	return !val || pcl_json_arradd(obj, val, PCL_JSON_FREEVALONERR) < 0 ? TRC(): 0;
 }

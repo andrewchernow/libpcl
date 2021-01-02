@@ -35,12 +35,5 @@ int
 pcl_json_arraddstr(pcl_json_t *obj, char *value, uint32_t flags)
 {
 	pcl_json_t *val = pcl_json_str(value, flags);
-
-	if(!val)
-		return TRC();
-
-	if(pcl_json_arradd(obj, val, flags | PCL_JSON_FREEVALONERR) < 0)
-		return TRC();
-
-	return 0;
+	return !val || pcl_json_arradd(obj, val, flags | PCL_JSON_FREEVALONERR) < 0 ? TRC() : 0;
 }

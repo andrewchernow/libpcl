@@ -34,8 +34,5 @@
 int
 pcl_json_arraddbool(pcl_json_t *obj, bool value)
 {
-	if(pcl_json_arradd(obj, pcl_json_bool(value), 0) < 0)
-		return TRC();
-
-	return 0;
+	return pcl_json_arradd(obj, pcl_json_bool(value), 0) < 0 ? TRC(): 0;
 }

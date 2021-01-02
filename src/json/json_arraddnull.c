@@ -34,8 +34,5 @@
 int
 pcl_json_arraddnull(pcl_json_t *obj)
 {
-	if(pcl_json_arradd(obj, pcl_json_null(), 0) < 0)
-		return TRC();
-
-	return 0;
+	return pcl_json_arradd(obj, pcl_json_null(), 0) < 0 ? TRC(): 0;
 }
