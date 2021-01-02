@@ -41,10 +41,5 @@ pcl_json_arrremove(pcl_json_t *arr, int index)
 	if(!pcl_json_isarr(arr))
 		return SETERRMSG(PCL_ETYPE, "expected type 'a', got '%c'", arr->type);
 
-	int cnt = pcl_array_remove(arr->array, index);
-
-	if(cnt < 0)
-		return TRC();
-
-	return cnt;
+	return pcl_array_remove(arr->array, index) < 0 ? TRC() : 0;
 }
