@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/thread/thread_create.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/string/base64_encode.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,17 +62,17 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_bfedb72b9d87795234454f6223b9ab1e.html">&#x202A;thread</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_6cc8961f7f77054fb84f95c9f23f5ca0.html">&#x202A;string</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">thread_create.c</div>  </div>
+<div class="title">base64_encode.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a01034.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (PCL)</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2003, 2005-2014, 2017-2020 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,79 +101,30 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00101.html">pcl/thread.h</a>&gt;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;openssl/evp.h&gt;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00092.html">pcl/string.h</a>&gt;</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/error.h</a>&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00050.html">pcl/event.h</a>&gt;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="a01348.html">   37</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="a01317.html#ga2e8e48fc453d9b714f72711e39185314">   37</a></span>&#160;<a class="code" href="a01317.html#ga2e8e48fc453d9b714f72711e39185314">pcl_base64_encode</a>(<span class="keywordtype">char</span> *buf, <span class="keywordtype">size_t</span> size, <span class="keyword">const</span> <span class="keywordtype">void</span> *data, <span class="keywordtype">size_t</span> len)</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
-<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="a01348.html#a9ce2ec4812a92cb6ab39f6e81e9173a9">   39</a></span>&#160;  <span class="keywordtype">void</span> *<a class="code" href="a01348.html#a9ce2ec4812a92cb6ab39f6e81e9173a9">arg</a>;</div>
-<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="a01348.html#a854a29ab9914de28bab0f8d122ca6a2f">   40</a></span>&#160;  <a class="code" href="a00101.html#ab9ebced28d001ec2f9736e28d3aeafbe">pcl_thread_start_t</a> <a class="code" href="a01348.html#a854a29ab9914de28bab0f8d122ca6a2f">routine</a>;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;} <a class="code" href="a01348.html">thread_start_t</a>;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> *</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;thread_start_wrapper(<span class="keywordtype">void</span> *__arg)</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;{</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <a class="code" href="a01348.html">thread_start_t</a> *start = __arg;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordtype">void</span> *arg = start-&gt;<a class="code" href="a01348.html#a9ce2ec4812a92cb6ab39f6e81e9173a9">arg</a>;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  void (*routine)(<span class="keywordtype">void</span> *) = start-&gt;<a class="code" href="a01348.html#a854a29ab9914de28bab0f8d122ca6a2f">routine</a>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <a class="code" href="a01193.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(start);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <a class="code" href="a01202.html#gab1bac8e0eaa04a8ca90a0ce4e03d5f26">pcl_event_dispatch</a>(<a class="code" href="a01202.html#ga3146683f8619c24b5aa15044b635b380">PCL_EVENT_THREADINIT</a>, NULL);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  routine(arg);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;}</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="a01034.html#a68e345bf98abc574c0c2b4d2798c2542">   58</a></span>&#160;<a class="code" href="a01034.html#a68e345bf98abc574c0c2b4d2798c2542">pcl_thread_create</a>(pthread_t *t, <a class="code" href="a00101.html#ab9ebced28d001ec2f9736e28d3aeafbe">pcl_thread_start_t</a> routine, <span class="keywordtype">void</span> *arg)</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;{</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  pthread_t tbuf;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  <span class="keywordflow">if</span>(!routine)</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01201.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a>(EINVAL);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  <span class="keywordflow">if</span>(!t)</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    t = &amp;tbuf;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  pthread_attr_t attr;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  pthread_attr_init(&amp;attr);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  pthread_attr_setdetachstate(&amp;attr, PTHREAD_CREATE_DETACHED);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  pthread_attr_setscope(&amp;attr, PTHREAD_SCOPE_SYSTEM);</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  <span class="comment">/* create thread arg wrapper and start thread */</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  <a class="code" href="a01348.html">thread_start_t</a> *start = <a class="code" href="a01193.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a>(<span class="keyword">sizeof</span>(<a class="code" href="a01348.html">thread_start_t</a>));</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  start-&gt;<a class="code" href="a01348.html#a9ce2ec4812a92cb6ab39f6e81e9173a9">arg</a> = arg;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  start-&gt;<a class="code" href="a01348.html#a854a29ab9914de28bab0f8d122ca6a2f">routine</a> = routine;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  <span class="keywordtype">int</span> err = pthread_create(t, &amp;attr, thread_start_wrapper, start);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  pthread_attr_destroy(&amp;attr);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  <span class="keywordflow">if</span>(err)</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  {</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <a class="code" href="a01193.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(start);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01201.html#gaadc76b147014f17dcc08fa3c2f110a25">SETOSERR</a>(err);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  }</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;}</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordflow">if</span>(!buf || !data)</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01306.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a>();</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordtype">size_t</span> b64_len = 4 * ((len + 2) / 3);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keywordflow">if</span>(size &lt; b64_len + 1)</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01306.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a>(<a class="code" href="a01305.html#gaa07a6ea59d3098bdd4a7c95e24bca530">PCL_EBUF</a>);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordflow">return</span> EVP_EncodeBlock((<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> *) buf, (<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> *) data, (<span class="keywordtype">int</span>) len);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01348_html"><div class="ttname"><a href="a01348.html">thread_start_t</a></div><div class="ttdef"><b>Definition:</b> <a href="a01034_source.html#l00037">thread_create.c:38</a></div></div>
-<div class="ttc" id="aa00101_html"><div class="ttname"><a href="a00101.html">thread.h</a></div></div>
-<div class="ttc" id="aa01348_html_a9ce2ec4812a92cb6ab39f6e81e9173a9"><div class="ttname"><a href="a01348.html#a9ce2ec4812a92cb6ab39f6e81e9173a9">thread_start_t::arg</a></div><div class="ttdeci">void * arg</div><div class="ttdef"><b>Definition:</b> <a href="a01034_source.html#l00039">thread_create.c:39</a></div></div>
-<div class="ttc" id="aa01193_html_ga1df8575b9ae906470c782db9c26201e8"><div class="ttname"><a href="a01193.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a></div><div class="ttdeci">void * pcl_malloc(size_t n)</div><div class="ttdoc">Allocate dynamic memory.</div></div>
-<div class="ttc" id="aa00101_html_ab9ebced28d001ec2f9736e28d3aeafbe"><div class="ttname"><a href="a00101.html#ab9ebced28d001ec2f9736e28d3aeafbe">pcl_thread_start_t</a></div><div class="ttdeci">void(* pcl_thread_start_t)(void *)</div><div class="ttdef"><b>Definition:</b> <a href="a00101_source.html#l00044">thread.h:44</a></div></div>
-<div class="ttc" id="aa01201_html_ga82adf6365b61d9a32021e559d9c31497"><div class="ttname"><a href="a01201.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a></div><div class="ttdeci">#define SETERR(_pclerr)</div><div class="ttdoc">Sets the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00065">_errdefs.h:65</a></div></div>
-<div class="ttc" id="aa01348_html_a854a29ab9914de28bab0f8d122ca6a2f"><div class="ttname"><a href="a01348.html#a854a29ab9914de28bab0f8d122ca6a2f">thread_start_t::routine</a></div><div class="ttdeci">pcl_thread_start_t routine</div><div class="ttdef"><b>Definition:</b> <a href="a01034_source.html#l00040">thread_create.c:40</a></div></div>
-<div class="ttc" id="aa01201_html_gaadc76b147014f17dcc08fa3c2f110a25"><div class="ttname"><a href="a01201.html#gaadc76b147014f17dcc08fa3c2f110a25">SETOSERR</a></div><div class="ttdeci">#define SETOSERR(_oserr)</div><div class="ttdoc">Sets the current thread's OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00111">_errdefs.h:111</a></div></div>
-<div class="ttc" id="aa01193_html_gab88b901c82e1010555b08ff6d39490f2"><div class="ttname"><a href="a01193.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a></div><div class="ttdeci">void * pcl_free(void *p)</div><div class="ttdoc">Free memory space.</div></div>
+<div class="ttc" id="aa01306_html_gab052d4faa8fd25e1a13e86ecd4aafa38"><div class="ttname"><a href="a01306.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a></div><div class="ttdeci">#define BADARG()</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00306">_errdefs.h:306</a></div></div>
+<div class="ttc" id="aa01317_html_ga2e8e48fc453d9b714f72711e39185314"><div class="ttname"><a href="a01317.html#ga2e8e48fc453d9b714f72711e39185314">pcl_base64_encode</a></div><div class="ttdeci">int pcl_base64_encode(char *buf, size_t size, const void *data, size_t len)</div><div class="ttdoc">Encode data as a base64 string.</div><div class="ttdef"><b>Definition:</b> <a href="a01034_source.html#l00037">base64_encode.c:37</a></div></div>
 <div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">error.h</a></div></div>
-<div class="ttc" id="aa01202_html_ga3146683f8619c24b5aa15044b635b380"><div class="ttname"><a href="a01202.html#ga3146683f8619c24b5aa15044b635b380">PCL_EVENT_THREADINIT</a></div><div class="ttdeci">#define PCL_EVENT_THREADINIT</div><div class="ttdoc">Passed to a pcl_event_handler_t function to indicate that a thread is being initialized.</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00051">event.h:51</a></div></div>
-<div class="ttc" id="aa00050_html"><div class="ttname"><a href="a00050.html">event.h</a></div></div>
-<div class="ttc" id="aa01202_html_gab1bac8e0eaa04a8ca90a0ce4e03d5f26"><div class="ttname"><a href="a01202.html#gab1bac8e0eaa04a8ca90a0ce4e03d5f26">pcl_event_dispatch</a></div><div class="ttdeci">PCL_EXPORT void pcl_event_dispatch(uint32_t event, void *data)</div><div class="ttdoc">Dispatches an event to the calling thread.</div><div class="ttdef"><b>Definition:</b> <a href="a00434_source.html#l00035">event_dispatch.c:35</a></div></div>
-<div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
-<div class="ttc" id="aa01034_html_a68e345bf98abc574c0c2b4d2798c2542"><div class="ttname"><a href="a01034.html#a68e345bf98abc574c0c2b4d2798c2542">pcl_thread_create</a></div><div class="ttdeci">int pcl_thread_create(pthread_t *t, pcl_thread_start_t routine, void *arg)</div><div class="ttdef"><b>Definition:</b> <a href="a01034_source.html#l00058">thread_create.c:58</a></div></div>
+<div class="ttc" id="aa01305_html_gaa07a6ea59d3098bdd4a7c95e24bca530"><div class="ttname"><a href="a01305.html#gaa07a6ea59d3098bdd4a7c95e24bca530">PCL_EBUF</a></div><div class="ttdeci">#define PCL_EBUF</div><div class="ttdoc">Buffer too small.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00138">_errno.h:138</a></div></div>
+<div class="ttc" id="aa00092_html"><div class="ttname"><a href="a00092.html">string.h</a></div></div>
+<div class="ttc" id="aa01306_html_ga82adf6365b61d9a32021e559d9c31497"><div class="ttname"><a href="a01306.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a></div><div class="ttdeci">#define SETERR(_pclerr)</div><div class="ttdoc">Sets the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00065">_errdefs.h:65</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

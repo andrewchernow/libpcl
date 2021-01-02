@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/socket/recvall.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/json/json_true.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,17 +62,17 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_9ad1227260954e346101f3844f0abb3d.html">&#x202A;socket</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_da4c9dd239018fe26269ba2e1cf7c9a1.html">&#x202A;json</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">recvall.c</div>  </div>
+<div class="title">json_true.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00785.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (PCL)</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2003, 2005-2014, 2017-2020 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,55 +101,19 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00767.html">_socket.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/error.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">bool</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a00785.html#a5fa18aa1a5371d85874434cbc3107ee6">   36</a></span>&#160;<a class="code" href="a00785.html#a5fa18aa1a5371d85874434cbc3107ee6">pcl_recvall</a>(<a class="code" href="a01336.html">pcl_socket_t</a> *sock, <span class="keywordtype">void</span> *buf, <span class="keywordtype">size_t</span> count)</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  ssize_t tot = 0, r;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordtype">int</span> cnt = (int)count;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordtype">size_t</span> cnt = count;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keywordtype">char</span> *b = (<span class="keywordtype">char</span> *) buf;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordflow">do</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  {</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    r = <a class="code" href="a00083.html#abd407eb3345b04d0299410d26b5c8108">pcl_recv</a>(sock, b + tot, cnt - tot, 0);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">if</span>(r == -1)</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    {</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;      <a class="code" href="a01201.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a>();</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    }</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="comment">/* connect reset before receiving &quot;all&quot; requested bytes.  For</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment">     * recvall, this is treated as an error even if the connection</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment">     * was gracefully shutdown.</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment">     */</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordflow">if</span>(r == 0)</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    {</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      <a class="code" href="a01201.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a>(<a class="code" href="a01200.html#gaf3090d2fafc0cfb5eebcf12e0453c482">PCL_ECONNRESET</a>);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    }</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    tot += r;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  }</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <span class="keywordflow">while</span>((<span class="keywordtype">unsigned</span>) tot &lt; (<span class="keywordtype">unsigned</span>) cnt);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00596.html">_json.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<a class="code" href="a01356.html">pcl_json_t</a> *</div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01312.html#ga0b27c02c4dc480285400c21a96d3f15f">   35</a></span>&#160;<a class="code" href="a01312.html#ga0b27c02c4dc480285400c21a96d3f15f">pcl_json_true</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keyword">static</span> <a class="code" href="a01356.html">pcl_json_t</a> jtrue = {.<a class="code" href="a01356.html#aff17911edc8208aa8ddb1c7c52c78389">type</a> = <span class="charliteral">&#39;b&#39;</span>, .boolean = <span class="keyword">true</span>};</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">return</span> &amp;jtrue;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01336_html"><div class="ttname"><a href="a01336.html">tag_pcl_socket</a></div><div class="ttdef"><b>Definition:</b> <a href="a00767_source.html#l00047">_socket.h:48</a></div></div>
-<div class="ttc" id="aa00785_html_a5fa18aa1a5371d85874434cbc3107ee6"><div class="ttname"><a href="a00785.html#a5fa18aa1a5371d85874434cbc3107ee6">pcl_recvall</a></div><div class="ttdeci">bool pcl_recvall(pcl_socket_t *sock, void *buf, size_t count)</div><div class="ttdef"><b>Definition:</b> <a href="a00785_source.html#l00036">recvall.c:36</a></div></div>
-<div class="ttc" id="aa01200_html_gaf3090d2fafc0cfb5eebcf12e0453c482"><div class="ttname"><a href="a01200.html#gaf3090d2fafc0cfb5eebcf12e0453c482">PCL_ECONNRESET</a></div><div class="ttdeci">#define PCL_ECONNRESET</div><div class="ttdoc">Connection reset by peer.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00233">_errno.h:233</a></div></div>
-<div class="ttc" id="aa01201_html_ga82adf6365b61d9a32021e559d9c31497"><div class="ttname"><a href="a01201.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a></div><div class="ttdeci">#define SETERR(_pclerr)</div><div class="ttdoc">Sets the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00065">_errdefs.h:65</a></div></div>
-<div class="ttc" id="aa00083_html_abd407eb3345b04d0299410d26b5c8108"><div class="ttname"><a href="a00083.html#abd407eb3345b04d0299410d26b5c8108">pcl_recv</a></div><div class="ttdeci">PCL_EXPORT ssize_t pcl_recv(pcl_socket_t *sock, void *buf, size_t count, int flags)</div><div class="ttdef"><b>Definition:</b> <a href="a00782_source.html#l00036">recv.c:36</a></div></div>
-<div class="ttc" id="aa00767_html"><div class="ttname"><a href="a00767.html">_socket.h</a></div></div>
-<div class="ttc" id="aa01201_html_ga9ad3ef2339f58a873bc7bace5ad9c9df"><div class="ttname"><a href="a01201.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a></div><div class="ttdeci">#define TRC()</div><div class="ttdoc">Adds a stack trace to the current thread's error.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00262">_errdefs.h:262</a></div></div>
-<div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">error.h</a></div></div>
+<div class="ttc" id="aa00596_html"><div class="ttname"><a href="a00596.html">_json.h</a></div></div>
+<div class="ttc" id="aa01356_html"><div class="ttname"><a href="a01356.html">tag_pcl_json</a></div><div class="ttdoc">A JSON value object.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00170">json.h:171</a></div></div>
+<div class="ttc" id="aa01356_html_aff17911edc8208aa8ddb1c7c52c78389"><div class="ttname"><a href="a01356.html#aff17911edc8208aa8ddb1c7c52c78389">tag_pcl_json::type</a></div><div class="ttdeci">char type</div><div class="ttdoc">JSON value type.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00177">json.h:177</a></div></div>
+<div class="ttc" id="aa01312_html_ga0b27c02c4dc480285400c21a96d3f15f"><div class="ttname"><a href="a01312.html#ga0b27c02c4dc480285400c21a96d3f15f">pcl_json_true</a></div><div class="ttdeci">pcl_json_t * pcl_json_true(void)</div><div class="ttdoc">Create a boolean true value.</div><div class="ttdef"><b>Definition:</b> <a href="a00785_source.html#l00035">json_true.c:35</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

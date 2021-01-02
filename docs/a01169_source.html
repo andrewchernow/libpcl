@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/win32/win32_sd_clear.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/time/mktime.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,12 +62,12 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_7dc28ed10c1e0aa99689948e6211576b.html">&#x202A;win32</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_798ee6f4f5cd9c6410c07a649b7662ec.html">&#x202A;time</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">win32_sd_clear.c</div>  </div>
+<div class="title">mktime.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a01169.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,50 +101,50 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a01145.html">_win32.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01169.html#ab7ee3b3d747b91b15084c05d8a9bb505">   36</a></span>&#160;<a class="code" href="a01169.html#ab7ee3b3d747b91b15084c05d8a9bb505">ipcl_win32_sd_clear</a>(SECURITY_DESCRIPTOR *sd)</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">if</span>(!sd)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">return</span> 0; <span class="comment">// silently ignore</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  DWORD rev;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  SECURITY_DESCRIPTOR_CONTROL flags;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="comment">/* NOTE: the &quot;sd&quot; MUST be absolute: ie NOT self-referencing */</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordflow">if</span>(GetSecurityDescriptorControl(sd, &amp;flags, &amp;rev) &amp;&amp; (flags &amp; SE_SELF_RELATIVE))</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01201.html#ga405f0945f1e605ded867422c553c78cf">SETLASTERRMSG</a>(<span class="stringliteral">&quot;security descriptor must be absolute&quot;</span>, 0);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  BOOL u, u2;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  PSID sid;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  PACL acl;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="keywordflow">if</span>(GetSecurityDescriptorOwner(sd, &amp;sid, &amp;u) &amp;&amp; sid)</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <a class="code" href="a01193.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(sid);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keywordflow">if</span>(GetSecurityDescriptorGroup(sd, &amp;sid, &amp;u) &amp;&amp; sid)</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <a class="code" href="a01193.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(sid);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <span class="keywordflow">if</span>(GetSecurityDescriptorDacl(sd, &amp;u2, &amp;acl, &amp;u) &amp;&amp; u2 &amp;&amp; acl)</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <a class="code" href="a01193.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(acl);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  <span class="keywordflow">if</span>(GetSecurityDescriptorSacl(sd, &amp;u2, &amp;acl, &amp;u) &amp;&amp; u2 &amp;&amp; acl)</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <a class="code" href="a01193.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(acl);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  <span class="comment">/* once we free each part of the descriptor, reinitialize it */</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  <a class="code" href="a01145.html#a379d9f6bc80fb111d5f7a2cdb211b171">ipcl_win32_sd_init</a>(sd);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a01157.html">_time.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<a class="code" href="a01388.html">pcl_time_t</a></div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01169.html#ab93724505d16d64b074477916c4b906d">   35</a></span>&#160;<a class="code" href="a01169.html#ab93724505d16d64b074477916c4b906d">pcl_mktime</a>(<a class="code" href="a01392.html">pcl_tm_t</a> *tu)</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <a class="code" href="a01388.html">pcl_time_t</a> t;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keyword">struct </span>tm tm;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  tm.tm_sec = tu-&gt;<a class="code" href="a01392.html#a18df301c1a10c8d493da86ce5c2aea78">tm_sec</a>;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  tm.tm_min = tu-&gt;<a class="code" href="a01392.html#a987fa9280fe4cd6c6b8f77409f1c1504">tm_min</a>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  tm.tm_hour = tu-&gt;<a class="code" href="a01392.html#a4d171061df9e012fcfbd1172b8440d5f">tm_hour</a>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  tm.tm_mday = tu-&gt;<a class="code" href="a01392.html#a02048604d30b880033311cf542d63f92">tm_mday</a>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  tm.tm_mon = tu-&gt;<a class="code" href="a01392.html#ada983deda100b604bee5716512453658">tm_mon</a>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  tm.tm_year = tu-&gt;<a class="code" href="a01392.html#a994c4f4519ba57e186580d21cc86f9e5">tm_year</a>;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  tm.tm_wday = tu-&gt;<a class="code" href="a01392.html#a4412571b90746a85cae9b8841c44c59c">tm_wday</a>;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  tm.tm_yday = tu-&gt;<a class="code" href="a01392.html#a74938de584345413d1bf87c4d78d697c">tm_yday</a>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  tm.tm_isdst = tu-&gt;<a class="code" href="a01392.html#a7d102a87f898878ebf37ebd87504e099">tm_isdst</a>;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  t.<a class="code" href="a01388.html#a4c17f3941fd29561d689e4e03f18db46">sec</a> = _mktime64(&amp;tm);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  t.<a class="code" href="a01388.html#a4c17f3941fd29561d689e4e03f18db46">sec</a> = mktime(&amp;tm);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  t.<a class="code" href="a01388.html#a67abf16c44712c2f6eacfce2da5aa5b4">nsec</a> = tu-&gt;<a class="code" href="a01392.html#ace9d15b139822be8f2990e3b05871059">tm_nsec</a>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <span class="keywordflow">return</span> t;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01145_html_a379d9f6bc80fb111d5f7a2cdb211b171"><div class="ttname"><a href="a01145.html#a379d9f6bc80fb111d5f7a2cdb211b171">ipcl_win32_sd_init</a></div><div class="ttdeci">void ipcl_win32_sd_init(SECURITY_DESCRIPTOR *sd)</div><div class="ttdef"><b>Definition:</b> <a href="a01178_source.html#l00035">win32_sd_init.c:35</a></div></div>
-<div class="ttc" id="aa01169_html_ab7ee3b3d747b91b15084c05d8a9bb505"><div class="ttname"><a href="a01169.html#ab7ee3b3d747b91b15084c05d8a9bb505">ipcl_win32_sd_clear</a></div><div class="ttdeci">int ipcl_win32_sd_clear(SECURITY_DESCRIPTOR *sd)</div><div class="ttdoc">Clears an &quot;absolute&quot; SECURITY_DESCRIPTOR.</div><div class="ttdef"><b>Definition:</b> <a href="a01169_source.html#l00036">win32_sd_clear.c:36</a></div></div>
-<div class="ttc" id="aa01201_html_ga405f0945f1e605ded867422c553c78cf"><div class="ttname"><a href="a01201.html#ga405f0945f1e605ded867422c553c78cf">SETLASTERRMSG</a></div><div class="ttdeci">#define SETLASTERRMSG(_msgfmt,...)</div><div class="ttdoc">Sets the current thread's last OS error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00132">_errdefs.h:132</a></div></div>
-<div class="ttc" id="aa01193_html_gab88b901c82e1010555b08ff6d39490f2"><div class="ttname"><a href="a01193.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a></div><div class="ttdeci">void * pcl_free(void *p)</div><div class="ttdoc">Free memory space.</div></div>
-<div class="ttc" id="aa01145_html"><div class="ttname"><a href="a01145.html">_win32.h</a></div></div>
-<div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
+<div class="ttc" id="aa01392_html"><div class="ttname"><a href="a01392.html">pcl_tm_t</a></div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00063">time.h:64</a></div></div>
+<div class="ttc" id="aa01392_html_ada983deda100b604bee5716512453658"><div class="ttname"><a href="a01392.html#ada983deda100b604bee5716512453658">pcl_tm_t::tm_mon</a></div><div class="ttdeci">int tm_mon</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00069">time.h:69</a></div></div>
+<div class="ttc" id="aa01392_html_a4412571b90746a85cae9b8841c44c59c"><div class="ttname"><a href="a01392.html#a4412571b90746a85cae9b8841c44c59c">pcl_tm_t::tm_wday</a></div><div class="ttdeci">int tm_wday</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00071">time.h:71</a></div></div>
+<div class="ttc" id="aa01392_html_a987fa9280fe4cd6c6b8f77409f1c1504"><div class="ttname"><a href="a01392.html#a987fa9280fe4cd6c6b8f77409f1c1504">pcl_tm_t::tm_min</a></div><div class="ttdeci">int tm_min</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00066">time.h:66</a></div></div>
+<div class="ttc" id="aa01392_html_a18df301c1a10c8d493da86ce5c2aea78"><div class="ttname"><a href="a01392.html#a18df301c1a10c8d493da86ce5c2aea78">pcl_tm_t::tm_sec</a></div><div class="ttdeci">int tm_sec</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00065">time.h:65</a></div></div>
+<div class="ttc" id="aa01392_html_a994c4f4519ba57e186580d21cc86f9e5"><div class="ttname"><a href="a01392.html#a994c4f4519ba57e186580d21cc86f9e5">pcl_tm_t::tm_year</a></div><div class="ttdeci">int tm_year</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00070">time.h:70</a></div></div>
+<div class="ttc" id="aa01388_html_a4c17f3941fd29561d689e4e03f18db46"><div class="ttname"><a href="a01388.html#a4c17f3941fd29561d689e4e03f18db46">tag_pcl_time::sec</a></div><div class="ttdeci">long long sec</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00059">time.h:59</a></div></div>
+<div class="ttc" id="aa01392_html_ace9d15b139822be8f2990e3b05871059"><div class="ttname"><a href="a01392.html#ace9d15b139822be8f2990e3b05871059">pcl_tm_t::tm_nsec</a></div><div class="ttdeci">int tm_nsec</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00088">time.h:88</a></div></div>
+<div class="ttc" id="aa01388_html"><div class="ttname"><a href="a01388.html">tag_pcl_time</a></div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00057">time.h:58</a></div></div>
+<div class="ttc" id="aa01392_html_a4d171061df9e012fcfbd1172b8440d5f"><div class="ttname"><a href="a01392.html#a4d171061df9e012fcfbd1172b8440d5f">pcl_tm_t::tm_hour</a></div><div class="ttdeci">int tm_hour</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00067">time.h:67</a></div></div>
+<div class="ttc" id="aa01388_html_a67abf16c44712c2f6eacfce2da5aa5b4"><div class="ttname"><a href="a01388.html#a67abf16c44712c2f6eacfce2da5aa5b4">tag_pcl_time::nsec</a></div><div class="ttdeci">int nsec</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00060">time.h:60</a></div></div>
+<div class="ttc" id="aa01392_html_a74938de584345413d1bf87c4d78d697c"><div class="ttname"><a href="a01392.html#a74938de584345413d1bf87c4d78d697c">pcl_tm_t::tm_yday</a></div><div class="ttdeci">int tm_yday</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00072">time.h:72</a></div></div>
+<div class="ttc" id="aa01392_html_a02048604d30b880033311cf542d63f92"><div class="ttname"><a href="a01392.html#a02048604d30b880033311cf542d63f92">pcl_tm_t::tm_mday</a></div><div class="ttdeci">int tm_mday</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00068">time.h:68</a></div></div>
+<div class="ttc" id="aa01169_html_ab93724505d16d64b074477916c4b906d"><div class="ttname"><a href="a01169.html#ab93724505d16d64b074477916c4b906d">pcl_mktime</a></div><div class="ttdeci">pcl_time_t pcl_mktime(pcl_tm_t *tu)</div><div class="ttdoc">Converts broken-down time to epoch nanoseconds.</div><div class="ttdef"><b>Definition:</b> <a href="a01169_source.html#l00035">mktime.c:35</a></div></div>
+<div class="ttc" id="aa01157_html"><div class="ttname"><a href="a01157.html">_time.h</a></div></div>
+<div class="ttc" id="aa01392_html_a7d102a87f898878ebf37ebd87504e099"><div class="ttname"><a href="a01392.html#a7d102a87f898878ebf37ebd87504e099">pcl_tm_t::tm_isdst</a></div><div class="ttdeci">int tm_isdst</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00073">time.h:73</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

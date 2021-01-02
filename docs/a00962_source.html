@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/string/strreplace.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/ssl/ssl_configure_socket.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,12 +62,12 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_6cc8961f7f77054fb84f95c9f23f5ca0.html">&#x202A;string</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_d2a61888f140676dde113ce903a488e2.html">&#x202A;ssl</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">strreplace.c</div>  </div>
+<div class="title">ssl_configure_socket.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00962.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,84 +101,51 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00920.html">_string.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00032.html">pcl/buf.h</a>&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#undef xstrncmp</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#undef xstrnicmp</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#undef XBufText</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#ifdef XWIDE</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor"># define xstrncmp wcsncmp</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor"># define xstrnicmp pcl_wcsnicmp</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor"># define XBufText PclBufTextW</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="a00962.html#a1c41c913a311df92beb7e3a72457f5d5">   44</a></span>&#160;<span class="preprocessor"># define xstrncmp strncmp</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="a00962.html#a2eb8a7011795b4845bbeb72b771ae6d2">   45</a></span>&#160;<span class="preprocessor"># define xstrnicmp pcl_strnicmp</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="a00962.html#a9829231f1dd7b700652e0b8f44a04e54">   46</a></span>&#160;<span class="preprocessor"># define XBufText PclBufText</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keyword">static</span> <a class="code" href="a00920.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<a class="code" href="a00920.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a>(replace_impl)(<span class="keyword">const</span> <a class="code" href="a00920.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *s, <span class="keyword">const</span> <a class="code" href="a00920.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *from, <span class="keyword">const</span> <a class="code" href="a00920.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *to, <span class="keywordtype">int</span> casefold)</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;{</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="keywordtype">int</span> to_len = (int) <a class="code" href="a00920.html#aee081742fbd47c91e70de0b86a84a1be">xstrlen</a>(to), from_len = (int) <a class="code" href="a00920.html#aee081742fbd47c91e70de0b86a84a1be">xstrlen</a>(from);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="comment">/* use stack buffer so we can just steal it&#39;s data member */</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <a class="code" href="a01220.html">pcl_buf_t</a> buf;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <a class="code" href="a01196.html#gadd174ca0fea61e0f3be87c9d12b5e2f3">pcl_buf_init</a>(&amp;buf, 64, <a class="code" href="a00962.html#a9829231f1dd7b700652e0b8f44a04e54">XBufText</a>);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <span class="keywordflow">while</span>(*s)</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  {</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">int</span> n = casefold ? <a class="code" href="a00962.html#a2eb8a7011795b4845bbeb72b771ae6d2">xstrnicmp</a>(s, from, from_len) : <a class="code" href="a00962.html#a1c41c913a311df92beb7e3a72457f5d5">xstrncmp</a>(s, from, from_len);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordflow">if</span>(n == 0)</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    {</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;      <a class="code" href="a01196.html#gaa753cac8202932d5aefa84a136fe3d45">pcl_buf_put</a>(&amp;buf, to, to_len);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      s += from_len;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    }</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    {</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      <a class="code" href="a01196.html#ga48e936cee3defdf5fcb6e9904aff0d75">pcl_buf_putchar</a>(&amp;buf, *s++);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    }</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  }</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  <span class="keywordflow">return</span> (<a class="code" href="a00920.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *) buf.<a class="code" href="a01220.html#a91a70b77df95bd8b0830b49a094c2acb">data</a>;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;}</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<a class="code" href="a00920.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *</div>
-<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="a00962.html#a9d6fe5a9f8c928cbed6a4e3b2f949a13">   77</a></span>&#160;<a class="code" href="a00920.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a>(<a class="code" href="a00962.html#a9d6fe5a9f8c928cbed6a4e3b2f949a13">replace</a>)(<span class="keyword">const</span> <a class="code" href="a00920.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *subject, <span class="keyword">const</span> <a class="code" href="a00920.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *from, <span class="keyword">const</span> <a class="code" href="a00920.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *to)</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;{</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a00920.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a>(replace_impl)(subject, from, to, 0);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;}</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<a class="code" href="a00920.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *</div>
-<div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="a00962.html#ac3130a14815cec9eca18c63cf68e177d">   83</a></span>&#160;<a class="code" href="a00920.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a>(<a class="code" href="a00962.html#ac3130a14815cec9eca18c63cf68e177d">ireplace</a>)(<span class="keyword">const</span> <a class="code" href="a00920.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *subject, <span class="keyword">const</span> <a class="code" href="a00920.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *from, <span class="keyword">const</span> <a class="code" href="a00920.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *to)</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;{</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a00920.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a>(replace_impl)(subject, from, to, 1);</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;}</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="preprocessor">#ifndef XWIDE</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="a00962.html#af3082199ea3ac518b87acdac953cf385">   89</a></span>&#160;<span class="preprocessor"># define XWIDE</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="preprocessor"># include &quot;<a class="code" href="a00962.html">strreplace.c</a>&quot;</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00947.html">_ssl.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00083.html">pcl/socket.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a00962.html#a909b0f002581946d1308c06d1ad1871c">   36</a></span>&#160;<a class="code" href="a00962.html#a909b0f002581946d1308c06d1ad1871c">ipcl_ssl_configure_socket</a>(<a class="code" href="a01460.html">pcl_ssl_t</a> *ssl, <span class="keyword">const</span> <span class="keywordtype">char</span> *host, <span class="keywordtype">int</span> port)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordtype">int</span> n = 65535;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordflow">if</span>(host)</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  {</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    ssl-&gt;<a class="code" href="a01460.html#a940bf91f14cd0c9d944272e8336077ee">sock</a> = <a class="code" href="a00083.html#aac303faba752f9112d378b001c94a501">pcl_socket</a>(host, port);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordflow">if</span>(!ssl-&gt;<a class="code" href="a01460.html#a940bf91f14cd0c9d944272e8336077ee">sock</a>)</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01306.html#gac647173422caf7372229621b0aab81cd">TRCMSG</a>(<span class="stringliteral">&quot;Failed to create socket: host=%s port=%d&quot;</span>, host, port);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  }</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordflow">if</span>(ssl-&gt;<a class="code" href="a01460.html#ac8bf36fe0577cba66bccda3a6f7e80a4">flags</a> &amp; <a class="code" href="a00083.html#a0b9ee24d653ed3d56acdd7deea798b3c">PCL_SOCK_NONBLOCK</a>)</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="a00083.html#a13c9c1bf545cf9e9cf9c7ed464c7c605">pcl_socket_setnonblocking</a>(ssl-&gt;<a class="code" href="a01460.html#a940bf91f14cd0c9d944272e8336077ee">sock</a>, <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <a class="code" href="a00107.html#a35d4d11068f60efd5365b31e315c18eb">pcl_socketfd_t</a> fd = <a class="code" href="a00083.html#a7e9cfa84011f73eff1e3f46e7104f1fb">pcl_socket_fd</a>(ssl-&gt;<a class="code" href="a01460.html#a940bf91f14cd0c9d944272e8336077ee">sock</a>);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  (void) setsockopt(fd, SOL_SOCKET, SO_RCVBUF, (<span class="keyword">const</span> <span class="keywordtype">char</span> *) &amp;n, <span class="keyword">sizeof</span>(int));</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  (void) setsockopt(fd, SOL_SOCKET, SO_SNDBUF, (<span class="keyword">const</span> <span class="keywordtype">char</span> *) &amp;n, <span class="keyword">sizeof</span>(int));</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keywordflow">if</span>(ssl-&gt;<a class="code" href="a01460.html#ac8bf36fe0577cba66bccda3a6f7e80a4">flags</a> &amp; <a class="code" href="a00086.html#aac1e8cec89765d61bb9a8ea4bc332782">PCL_SSL_PASSIVE</a>)</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  {</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    n = 1;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    (void) setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, (<span class="keyword">const</span> <span class="keywordtype">char</span> *) &amp;n, <span class="keyword">sizeof</span>(int));</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  }</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00962_html_a1c41c913a311df92beb7e3a72457f5d5"><div class="ttname"><a href="a00962.html#a1c41c913a311df92beb7e3a72457f5d5">xstrncmp</a></div><div class="ttdeci">#define xstrncmp</div><div class="ttdef"><b>Definition:</b> <a href="a00962_source.html#l00044">strreplace.c:44</a></div></div>
-<div class="ttc" id="aa01196_html_gaa753cac8202932d5aefa84a136fe3d45"><div class="ttname"><a href="a01196.html#gaa753cac8202932d5aefa84a136fe3d45">pcl_buf_put</a></div><div class="ttdeci">PCL_EXPORT int pcl_buf_put(pcl_buf_t *b, const void *data, int len)</div><div class="ttdoc">Put a blob into a buffer.</div><div class="ttdef"><b>Definition:</b> <a href="a00209_source.html#l00036">buf_put.c:36</a></div></div>
-<div class="ttc" id="aa00962_html_a9829231f1dd7b700652e0b8f44a04e54"><div class="ttname"><a href="a00962.html#a9829231f1dd7b700652e0b8f44a04e54">XBufText</a></div><div class="ttdeci">#define XBufText</div><div class="ttdef"><b>Definition:</b> <a href="a00962_source.html#l00046">strreplace.c:46</a></div></div>
-<div class="ttc" id="aa01220_html_a91a70b77df95bd8b0830b49a094c2acb"><div class="ttname"><a href="a01220.html#a91a70b77df95bd8b0830b49a094c2acb">tag_pcl_buf::data</a></div><div class="ttdeci">char * data</div><div class="ttdoc">buffer bytes, always chrsize * size wide.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00147">buf.h:147</a></div></div>
-<div class="ttc" id="aa01196_html_gadd174ca0fea61e0f3be87c9d12b5e2f3"><div class="ttname"><a href="a01196.html#gadd174ca0fea61e0f3be87c9d12b5e2f3">pcl_buf_init</a></div><div class="ttdeci">PCL_EXPORT pcl_buf_t * pcl_buf_init(pcl_buf_t *b, size_t size, enum pcl_buf_mode mode)</div><div class="ttdoc">Initializes a buffer object.</div><div class="ttdef"><b>Definition:</b> <a href="a00206_source.html#l00037">buf_init.c:37</a></div></div>
-<div class="ttc" id="aa00962_html_a9d6fe5a9f8c928cbed6a4e3b2f949a13"><div class="ttname"><a href="a00962.html#a9d6fe5a9f8c928cbed6a4e3b2f949a13">replace</a></div><div class="ttdeci">xchar *XFUNC() replace(const xchar *subject, const xchar *from, const xchar *to)</div><div class="ttdef"><b>Definition:</b> <a href="a00962_source.html#l00077">strreplace.c:77</a></div></div>
-<div class="ttc" id="aa00920_html_a5c4b00cbc494339ce63882d7404bad27"><div class="ttname"><a href="a00920.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a></div><div class="ttdeci">#define XFUNC(name)</div><div class="ttdef"><b>Definition:</b> <a href="a00920_source.html#l00068">_string.h:68</a></div></div>
-<div class="ttc" id="aa00032_html"><div class="ttname"><a href="a00032.html">buf.h</a></div></div>
-<div class="ttc" id="aa01196_html_ga48e936cee3defdf5fcb6e9904aff0d75"><div class="ttname"><a href="a01196.html#ga48e936cee3defdf5fcb6e9904aff0d75">pcl_buf_putchar</a></div><div class="ttdeci">PCL_EXPORT int pcl_buf_putchar(pcl_buf_t *b, uint32_t c)</div><div class="ttdoc">Put a character into a buffer.</div><div class="ttdef"><b>Definition:</b> <a href="a00212_source.html#l00035">buf_putchar.c:35</a></div></div>
-<div class="ttc" id="aa00920_html_a234f7ec71c9c19ed532c4bf11a9b9b8e"><div class="ttname"><a href="a00920.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a></div><div class="ttdeci">#define xchar</div><div class="ttdef"><b>Definition:</b> <a href="a00920_source.html#l00070">_string.h:70</a></div></div>
-<div class="ttc" id="aa00920_html"><div class="ttname"><a href="a00920.html">_string.h</a></div></div>
-<div class="ttc" id="aa00962_html"><div class="ttname"><a href="a00962.html">strreplace.c</a></div></div>
-<div class="ttc" id="aa00962_html_ac3130a14815cec9eca18c63cf68e177d"><div class="ttname"><a href="a00962.html#ac3130a14815cec9eca18c63cf68e177d">ireplace</a></div><div class="ttdeci">xchar *XFUNC() ireplace(const xchar *subject, const xchar *from, const xchar *to)</div><div class="ttdef"><b>Definition:</b> <a href="a00962_source.html#l00083">strreplace.c:83</a></div></div>
-<div class="ttc" id="aa01220_html"><div class="ttname"><a href="a01220.html">tag_pcl_buf</a></div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00127">buf.h:128</a></div></div>
-<div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
-<div class="ttc" id="aa00962_html_a2eb8a7011795b4845bbeb72b771ae6d2"><div class="ttname"><a href="a00962.html#a2eb8a7011795b4845bbeb72b771ae6d2">xstrnicmp</a></div><div class="ttdeci">#define xstrnicmp</div><div class="ttdef"><b>Definition:</b> <a href="a00962_source.html#l00045">strreplace.c:45</a></div></div>
-<div class="ttc" id="aa00920_html_aee081742fbd47c91e70de0b86a84a1be"><div class="ttname"><a href="a00920.html#aee081742fbd47c91e70de0b86a84a1be">xstrlen</a></div><div class="ttdeci">#define xstrlen</div><div class="ttdef"><b>Definition:</b> <a href="a00920_source.html#l00071">_string.h:71</a></div></div>
+<div class="ttc" id="aa01306_html_gac647173422caf7372229621b0aab81cd"><div class="ttname"><a href="a01306.html#gac647173422caf7372229621b0aab81cd">TRCMSG</a></div><div class="ttdeci">#define TRCMSG(_msgfmt,...)</div><div class="ttdoc">Adds a stack trace to the current thread's error with an error message.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00275">_errdefs.h:275</a></div></div>
+<div class="ttc" id="aa01460_html_a940bf91f14cd0c9d944272e8336077ee"><div class="ttname"><a href="a01460.html#a940bf91f14cd0c9d944272e8336077ee">tag_pcl_ssl::sock</a></div><div class="ttdeci">pcl_socket_t * sock</div><div class="ttdef"><b>Definition:</b> <a href="a00947_source.html#l00053">_ssl.h:53</a></div></div>
+<div class="ttc" id="aa00083_html"><div class="ttname"><a href="a00083.html">socket.h</a></div></div>
+<div class="ttc" id="aa00086_html_aac1e8cec89765d61bb9a8ea4bc332782"><div class="ttname"><a href="a00086.html#aac1e8cec89765d61bb9a8ea4bc332782">PCL_SSL_PASSIVE</a></div><div class="ttdeci">#define PCL_SSL_PASSIVE</div><div class="ttdef"><b>Definition:</b> <a href="a00086_source.html#l00050">ssl.h:50</a></div></div>
+<div class="ttc" id="aa01460_html"><div class="ttname"><a href="a01460.html">tag_pcl_ssl</a></div><div class="ttdef"><b>Definition:</b> <a href="a00947_source.html#l00046">_ssl.h:47</a></div></div>
+<div class="ttc" id="aa00962_html_a909b0f002581946d1308c06d1ad1871c"><div class="ttname"><a href="a00962.html#a909b0f002581946d1308c06d1ad1871c">ipcl_ssl_configure_socket</a></div><div class="ttdeci">int ipcl_ssl_configure_socket(pcl_ssl_t *ssl, const char *host, int port)</div><div class="ttdef"><b>Definition:</b> <a href="a00962_source.html#l00036">ssl_configure_socket.c:36</a></div></div>
+<div class="ttc" id="aa00083_html_a13c9c1bf545cf9e9cf9c7ed464c7c605"><div class="ttname"><a href="a00083.html#a13c9c1bf545cf9e9cf9c7ed464c7c605">pcl_socket_setnonblocking</a></div><div class="ttdeci">PCL_EXPORT int pcl_socket_setnonblocking(pcl_socket_t *sock, bool enable)</div><div class="ttdef"><b>Definition:</b> <a href="a00935_source.html#l00040">socket_setnonblocking.c:40</a></div></div>
+<div class="ttc" id="aa00083_html_a0b9ee24d653ed3d56acdd7deea798b3c"><div class="ttname"><a href="a00083.html#a0b9ee24d653ed3d56acdd7deea798b3c">PCL_SOCK_NONBLOCK</a></div><div class="ttdeci">#define PCL_SOCK_NONBLOCK</div><div class="ttdef"><b>Definition:</b> <a href="a00083_source.html#l00053">socket.h:53</a></div></div>
+<div class="ttc" id="aa00947_html"><div class="ttname"><a href="a00947.html">_ssl.h</a></div></div>
+<div class="ttc" id="aa00083_html_a7e9cfa84011f73eff1e3f46e7104f1fb"><div class="ttname"><a href="a00083.html#a7e9cfa84011f73eff1e3f46e7104f1fb">pcl_socket_fd</a></div><div class="ttdeci">PCL_EXPORT pcl_socketfd_t pcl_socket_fd(pcl_socket_t *sock)</div><div class="ttdef"><b>Definition:</b> <a href="a00917_source.html#l00036">socket_fd.c:36</a></div></div>
+<div class="ttc" id="aa01460_html_ac8bf36fe0577cba66bccda3a6f7e80a4"><div class="ttname"><a href="a01460.html#ac8bf36fe0577cba66bccda3a6f7e80a4">tag_pcl_ssl::flags</a></div><div class="ttdeci">int flags</div><div class="ttdef"><b>Definition:</b> <a href="a00947_source.html#l00052">_ssl.h:52</a></div></div>
+<div class="ttc" id="aa00107_html_a35d4d11068f60efd5365b31e315c18eb"><div class="ttname"><a href="a00107.html#a35d4d11068f60efd5365b31e315c18eb">pcl_socketfd_t</a></div><div class="ttdeci">int pcl_socketfd_t</div><div class="ttdef"><b>Definition:</b> <a href="a00107_source.html#l00055">types.h:55</a></div></div>
+<div class="ttc" id="aa00083_html_aac303faba752f9112d378b001c94a501"><div class="ttname"><a href="a00083.html#aac303faba752f9112d378b001c94a501">pcl_socket</a></div><div class="ttdeci">PCL_EXPORT pcl_socket_t * pcl_socket(const char *host, int port)</div><div class="ttdef"><b>Definition:</b> <a href="a00905_source.html#l00046">socket.c:46</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

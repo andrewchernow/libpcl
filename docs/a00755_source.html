@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/process/unix_proc_path.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/json/json_objremove.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,12 +62,12 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_c0cd66d8ddae4fc5bc5dc2f24e29763b.html">&#x202A;process</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_da4c9dd239018fe26269ba2e1cf7c9a1.html">&#x202A;json</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">unix_proc_path.c</div>  </div>
+<div class="title">json_objremove.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00755.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,52 +101,36 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00725.html">_process.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/error.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00092.html">pcl/string.h</a>&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#ifdef PCL_DARWIN</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor"># include &lt;libproc.h&gt;</span> <span class="comment">// proc_pidpath</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<a class="code" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *</div>
-<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="a01208.html#gaa625964173add23831431d1ab1d48ffc">   41</a></span>&#160;<a class="code" href="a01208.html#gaa625964173add23831431d1ab1d48ffc">pcl_proc_path</a>(pid_t pid)</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordflow">if</span>(pid &lt; 0)</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    pid = <a class="code" href="a01208.html#ga403317a17754c52687615448d3752786">pcl_proc_self</a>();</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#ifdef PCL_LINUX</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordtype">char</span> exe[80];</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keywordtype">char</span> path[4096];</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  sprintf(exe, <span class="stringliteral">&quot;/proc/%d/exe&quot;</span>, pid);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="comment">/* readlink doesn&#39;t terminate buffer, so reserve a NUL */</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <span class="keywordtype">int</span> len = (int) readlink(exe, path, <span class="keyword">sizeof</span>(path) - 1);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">#else // darwin</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordtype">char</span> path[PROC_PIDPATHINFO_SIZE]; <span class="comment">/* proc_pidpath is very picky about buf sizes! */</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <span class="keywordtype">int</span> len = proc_pidpath(pid, path, PROC_PIDPATHINFO_SIZE);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  <span class="keywordflow">if</span>(len == 0)</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    len = -1;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  <span class="keywordflow">if</span>(len &lt; 0)</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01201.html#gad08a56aa55af3716a251ced9f780686d">R_SETLASTERR</a>(NULL);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01210.html#ga906f8952991b7313cb6b4bcbc3ab4545">pcl_pcsndup</a>(path, len);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;}</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00596.html">_json.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00059.html">pcl/htable.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01314.html#ga561c96fa0cb5cf7e7b8b36ba126aa272">   36</a></span>&#160;<a class="code" href="a01314.html#ga561c96fa0cb5cf7e7b8b36ba126aa272">pcl_json_objremove</a>(<a class="code" href="a01356.html">pcl_json_t</a> *obj, <span class="keyword">const</span> <span class="keywordtype">char</span> *key)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">if</span>(!obj)</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01306.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a>();</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">if</span>(!<a class="code" href="a01312.html#gac9b4564a4e98fcc695b26881fd0e51c1">pcl_json_isobj</a>(obj))</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01306.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a>(<a class="code" href="a01305.html#ga4416795bd50c57cfad774c42154bbc9f">PCL_ETYPE</a>, <span class="stringliteral">&quot;expected type &#39;o&#39;, got &#39;%c&#39;&quot;</span>, obj-&gt;<a class="code" href="a01356.html#aff17911edc8208aa8ddb1c7c52c78389">type</a>);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a01309.html#ga2733c5c4b92e9bab34307f49c4ec8ec7">pcl_htable_remove</a>(obj-&gt;<a class="code" href="a01356.html#a926796bc0ae65775bd2a503ab54823cf">object</a>, key) &lt; 0)</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01306.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a>();</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01210_html_ga906f8952991b7313cb6b4bcbc3ab4545"><div class="ttname"><a href="a01210.html#ga906f8952991b7313cb6b4bcbc3ab4545">pcl_pcsndup</a></div><div class="ttdeci">pchar_t * pcl_pcsndup(const pchar_t *s, size_t len)</div><div class="ttdoc">Duplicate a portion of a string.</div></div>
-<div class="ttc" id="aa00107_html_ac114b2b1527c8ae241d37cc15ca7d122"><div class="ttname"><a href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a></div><div class="ttdeci">char pchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00107_source.html#l00053">types.h:53</a></div></div>
-<div class="ttc" id="aa00725_html"><div class="ttname"><a href="a00725.html">_process.h</a></div></div>
-<div class="ttc" id="aa01208_html_ga403317a17754c52687615448d3752786"><div class="ttname"><a href="a01208.html#ga403317a17754c52687615448d3752786">pcl_proc_self</a></div><div class="ttdeci">PCL_EXPORT pid_t pcl_proc_self(void)</div><div class="ttdoc">Gets the Process ID of the calling process (PID).</div><div class="ttdef"><b>Definition:</b> <a href="a00743_source.html#l00035">proc_self.c:35</a></div></div>
-<div class="ttc" id="aa01201_html_gad08a56aa55af3716a251ced9f780686d"><div class="ttname"><a href="a01201.html#gad08a56aa55af3716a251ced9f780686d">R_SETLASTERR</a></div><div class="ttdeci">#define R_SETLASTERR(_retval)</div><div class="ttdoc">Sets the return value and the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00235">_errdefs.h:235</a></div></div>
-<div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">error.h</a></div></div>
-<div class="ttc" id="aa01208_html_gaa625964173add23831431d1ab1d48ffc"><div class="ttname"><a href="a01208.html#gaa625964173add23831431d1ab1d48ffc">pcl_proc_path</a></div><div class="ttdeci">pchar_t * pcl_proc_path(pid_t pid)</div><div class="ttdoc">Get a process's path.</div><div class="ttdef"><b>Definition:</b> <a href="a00755_source.html#l00041">unix_proc_path.c:41</a></div></div>
-<div class="ttc" id="aa00092_html"><div class="ttname"><a href="a00092.html">string.h</a></div></div>
+<div class="ttc" id="aa00059_html"><div class="ttname"><a href="a00059.html">htable.h</a></div></div>
+<div class="ttc" id="aa01306_html_gab052d4faa8fd25e1a13e86ecd4aafa38"><div class="ttname"><a href="a01306.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a></div><div class="ttdeci">#define BADARG()</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00306">_errdefs.h:306</a></div></div>
+<div class="ttc" id="aa00596_html"><div class="ttname"><a href="a00596.html">_json.h</a></div></div>
+<div class="ttc" id="aa01312_html_gac9b4564a4e98fcc695b26881fd0e51c1"><div class="ttname"><a href="a01312.html#gac9b4564a4e98fcc695b26881fd0e51c1">pcl_json_isobj</a></div><div class="ttdeci">#define pcl_json_isobj(_j)</div><div class="ttdoc">Indicates if a json object is an object value.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00161">json.h:161</a></div></div>
+<div class="ttc" id="aa01306_html_ga7859a0a1a544c581d53bd7d44ab6805d"><div class="ttname"><a href="a01306.html#ga7859a0a1a544c581d53bd7d44ab6805d">SETERRMSG</a></div><div class="ttdeci">#define SETERRMSG(_pclerr, _msgfmt,...)</div><div class="ttdoc">Sets the current thread's PCL error code and error message.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00087">_errdefs.h:87</a></div></div>
+<div class="ttc" id="aa01356_html"><div class="ttname"><a href="a01356.html">tag_pcl_json</a></div><div class="ttdoc">A JSON value object.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00170">json.h:171</a></div></div>
+<div class="ttc" id="aa01356_html_aff17911edc8208aa8ddb1c7c52c78389"><div class="ttname"><a href="a01356.html#aff17911edc8208aa8ddb1c7c52c78389">tag_pcl_json::type</a></div><div class="ttdeci">char type</div><div class="ttdoc">JSON value type.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00177">json.h:177</a></div></div>
+<div class="ttc" id="aa01309_html_ga2733c5c4b92e9bab34307f49c4ec8ec7"><div class="ttname"><a href="a01309.html#ga2733c5c4b92e9bab34307f49c4ec8ec7">pcl_htable_remove</a></div><div class="ttdeci">PCL_EXPORT int pcl_htable_remove(pcl_htable_t *ht, const void *key)</div><div class="ttdoc">Remove an entry from the table.</div><div class="ttdef"><b>Definition:</b> <a href="a00539_source.html#l00036">htable_remove.c:36</a></div></div>
+<div class="ttc" id="aa01356_html_a926796bc0ae65775bd2a503ab54823cf"><div class="ttname"><a href="a01356.html#a926796bc0ae65775bd2a503ab54823cf">tag_pcl_json::object</a></div><div class="ttdeci">pcl_htable_t * object</div><div class="ttdoc">JSON object value when type is 'o'.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00204">json.h:204</a></div></div>
+<div class="ttc" id="aa01314_html_ga561c96fa0cb5cf7e7b8b36ba126aa272"><div class="ttname"><a href="a01314.html#ga561c96fa0cb5cf7e7b8b36ba126aa272">pcl_json_objremove</a></div><div class="ttdeci">int pcl_json_objremove(pcl_json_t *obj, const char *key)</div><div class="ttdoc">Remove a value from a json object.</div><div class="ttdef"><b>Definition:</b> <a href="a00755_source.html#l00036">json_objremove.c:36</a></div></div>
+<div class="ttc" id="aa01305_html_ga4416795bd50c57cfad774c42154bbc9f"><div class="ttname"><a href="a01305.html#ga4416795bd50c57cfad774c42154bbc9f">PCL_ETYPE</a></div><div class="ttdeci">#define PCL_ETYPE</div><div class="ttdoc">Invalid type.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00142">_errno.h:142</a></div></div>
+<div class="ttc" id="aa01306_html_ga9ad3ef2339f58a873bc7bace5ad9c9df"><div class="ttname"><a href="a01306.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a></div><div class="ttdeci">#define TRC()</div><div class="ttdoc">Adds a stack trace to the current thread's error.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00262">_errdefs.h:262</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

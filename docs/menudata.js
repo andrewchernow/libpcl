@@ -116,9 +116,12 @@ var menudata={children:[
 {text:"\u202Au",url:"globals_func_u.html#index_u"},
 {text:"\u202Av",url:"globals_func_v.html#index_v"},
 {text:"\u202Ax",url:"globals_func_x.html#index_x"}]},
-{text:"\u202ATypedefs",url:"globals_type.html"},
+{text:"\u202ATypedefs",url:"globals_type.html",children:[
+{text:"\u202Ap",url:"globals_type.html#index_p"},
+{text:"\u202As",url:"globals_type.html#index_s"}]},
 {text:"\u202AEnumerations",url:"globals_enum.html"},
-{text:"\u202AEnumerator",url:"globals_eval.html"},
+{text:"\u202AEnumerator",url:"globals_eval.html",children:[
+{text:"\u202Ap",url:"globals_eval.html#index_p"}]},
 {text:"\u202AMacros",url:"globals_defs.html",children:[
 {text:"_",url:"globals_defs.html#index__5F"},
 {text:"\u202Aa",url:"globals_defs_a.html#index_a"},

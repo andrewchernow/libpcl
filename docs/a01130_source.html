@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/vector/vector_init.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/thread/mutex_lock.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,12 +62,12 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_0baa9f3d984dd29d1429171590d769d6.html">&#x202A;vector</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_bfedb72b9d87795234454f6223b9ab1e.html">&#x202A;thread</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">vector_init.c</div>  </div>
+<div class="title">mutex_lock.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a01130.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,38 +101,24 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00116.html">pcl/vector.h</a>&gt;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00101.html">pcl/thread.h</a>&gt;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/error.h</a>&gt;</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<a class="code" href="a01292.html">pcl_vector_t</a> *</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01212.html#gafc6b9f242b8965850d48a5233d7d23ed">   36</a></span>&#160;<a class="code" href="a01212.html#gafc6b9f242b8965850d48a5233d7d23ed">pcl_vector_init</a>(<a class="code" href="a01292.html">pcl_vector_t</a> *v, <span class="keywordtype">int</span> capacity, <span class="keywordtype">size_t</span> elemsize, <a class="code" href="a01212.html#ga1ef62141a23331682c8554facd43faaa">pcl_vector_cleanup_t</a> cleanup)</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01130.html#ad52c4de1f0b8577bb3415578a3d615b6">   36</a></span>&#160;<a class="code" href="a01130.html#ad52c4de1f0b8577bb3415578a3d615b6">pcl_mutex_lock</a>(pthread_mutex_t *m)</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">if</span>(v)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    v-&gt;<a class="code" href="a01292.html#a854352f53b148adc24983a58a1866d66">size</a> = elemsize;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    v-&gt;<a class="code" href="a01292.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a> = 0;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    v-&gt;<a class="code" href="a01292.html#adbe66a087ac3fd4a5b0566f64ca2d12b">capacity</a> = <a class="code" href="a00038.html#affe776513b24d84b39af8ab0930fef7f">max</a>(1, capacity);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    v-&gt;<a class="code" href="a01292.html#a9c2dc820f9bbba04de04711b47e81f4b">cleanup</a> = cleanup;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    v-&gt;<a class="code" href="a01292.html#a0f959190ef240e958c70d3fd28c3d856">elems</a> = <a class="code" href="a01193.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a>(v-&gt;<a class="code" href="a01292.html#adbe66a087ac3fd4a5b0566f64ca2d12b">capacity</a> * v-&gt;<a class="code" href="a01292.html#a854352f53b148adc24983a58a1866d66">size</a>);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    v-&gt;<a class="code" href="a01292.html#a8425e91c76fe75856c2d38863f291d60">cleanup_ptr</a> = NULL;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  }</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keywordflow">return</span> v;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">if</span>(!m)</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01306.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a>();</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordtype">int</span> err = pthread_mutex_lock(m);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordflow">return</span> err ? <a class="code" href="a01306.html#gaadc76b147014f17dcc08fa3c2f110a25">SETOSERR</a>(err) : 0;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00116_html"><div class="ttname"><a href="a00116.html">vector.h</a></div></div>
-<div class="ttc" id="aa01292_html_adbe66a087ac3fd4a5b0566f64ca2d12b"><div class="ttname"><a href="a01292.html#adbe66a087ac3fd4a5b0566f64ca2d12b">tag_pcl_vector::capacity</a></div><div class="ttdeci">int capacity</div><div class="ttdoc">number of elements allocated</div><div class="ttdef"><b>Definition:</b> <a href="a00116_source.html#l00096">vector.h:96</a></div></div>
-<div class="ttc" id="aa01292_html"><div class="ttname"><a href="a01292.html">tag_pcl_vector</a></div><div class="ttdoc">Vector object.</div><div class="ttdef"><b>Definition:</b> <a href="a00116_source.html#l00090">vector.h:91</a></div></div>
-<div class="ttc" id="aa01193_html_ga1df8575b9ae906470c782db9c26201e8"><div class="ttname"><a href="a01193.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a></div><div class="ttdeci">void * pcl_malloc(size_t n)</div><div class="ttdoc">Allocate dynamic memory.</div></div>
-<div class="ttc" id="aa00038_html_affe776513b24d84b39af8ab0930fef7f"><div class="ttname"><a href="a00038.html#affe776513b24d84b39af8ab0930fef7f">max</a></div><div class="ttdeci">#define max(a, b)</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00112">defs.h:112</a></div></div>
-<div class="ttc" id="aa01292_html_ad43c3812e6d13e0518d9f8b8f463ffcf"><div class="ttname"><a href="a01292.html#ad43c3812e6d13e0518d9f8b8f463ffcf">tag_pcl_vector::count</a></div><div class="ttdeci">int count</div><div class="ttdoc">number of elements in vector</div><div class="ttdef"><b>Definition:</b> <a href="a00116_source.html#l00093">vector.h:93</a></div></div>
-<div class="ttc" id="aa01292_html_a0f959190ef240e958c70d3fd28c3d856"><div class="ttname"><a href="a01292.html#a0f959190ef240e958c70d3fd28c3d856">tag_pcl_vector::elems</a></div><div class="ttdeci">char * elems</div><div class="ttdoc">Element array.</div><div class="ttdef"><b>Definition:</b> <a href="a00116_source.html#l00102">vector.h:102</a></div></div>
-<div class="ttc" id="aa01292_html_a854352f53b148adc24983a58a1866d66"><div class="ttname"><a href="a01292.html#a854352f53b148adc24983a58a1866d66">tag_pcl_vector::size</a></div><div class="ttdeci">size_t size</div><div class="ttdoc">byte size of an element</div><div class="ttdef"><b>Definition:</b> <a href="a00116_source.html#l00099">vector.h:99</a></div></div>
-<div class="ttc" id="aa01292_html_a9c2dc820f9bbba04de04711b47e81f4b"><div class="ttname"><a href="a01292.html#a9c2dc820f9bbba04de04711b47e81f4b">tag_pcl_vector::cleanup</a></div><div class="ttdeci">pcl_vector_cleanup_t cleanup</div><div class="ttdoc">Element cleanup callback.</div><div class="ttdef"><b>Definition:</b> <a href="a00116_source.html#l00123">vector.h:123</a></div></div>
-<div class="ttc" id="aa01292_html_a8425e91c76fe75856c2d38863f291d60"><div class="ttname"><a href="a01292.html#a8425e91c76fe75856c2d38863f291d60">tag_pcl_vector::cleanup_ptr</a></div><div class="ttdeci">void * cleanup_ptr</div><div class="ttdoc">Optional user-defined pointer available within the cleanup callback.</div><div class="ttdef"><b>Definition:</b> <a href="a00116_source.html#l00105">vector.h:105</a></div></div>
-<div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
-<div class="ttc" id="aa01212_html_gafc6b9f242b8965850d48a5233d7d23ed"><div class="ttname"><a href="a01212.html#gafc6b9f242b8965850d48a5233d7d23ed">pcl_vector_init</a></div><div class="ttdeci">pcl_vector_t * pcl_vector_init(pcl_vector_t *v, int capacity, size_t elemsize, pcl_vector_cleanup_t cleanup)</div><div class="ttdoc">Initialize a vector.</div><div class="ttdef"><b>Definition:</b> <a href="a01130_source.html#l00036">vector_init.c:36</a></div></div>
-<div class="ttc" id="aa01212_html_ga1ef62141a23331682c8554facd43faaa"><div class="ttname"><a href="a01212.html#ga1ef62141a23331682c8554facd43faaa">pcl_vector_cleanup_t</a></div><div class="ttdeci">void(* pcl_vector_cleanup_t)(pcl_vector_t *v, void *elem)</div><div class="ttdoc">A callback cleanup function for vector elements.</div><div class="ttdef"><b>Definition:</b> <a href="a00116_source.html#l00087">vector.h:87</a></div></div>
+<div class="ttc" id="aa00101_html"><div class="ttname"><a href="a00101.html">thread.h</a></div></div>
+<div class="ttc" id="aa01306_html_gab052d4faa8fd25e1a13e86ecd4aafa38"><div class="ttname"><a href="a01306.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a></div><div class="ttdeci">#define BADARG()</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00306">_errdefs.h:306</a></div></div>
+<div class="ttc" id="aa01130_html_ad52c4de1f0b8577bb3415578a3d615b6"><div class="ttname"><a href="a01130.html#ad52c4de1f0b8577bb3415578a3d615b6">pcl_mutex_lock</a></div><div class="ttdeci">int pcl_mutex_lock(pthread_mutex_t *m)</div><div class="ttdef"><b>Definition:</b> <a href="a01130_source.html#l00036">mutex_lock.c:36</a></div></div>
+<div class="ttc" id="aa01306_html_gaadc76b147014f17dcc08fa3c2f110a25"><div class="ttname"><a href="a01306.html#gaadc76b147014f17dcc08fa3c2f110a25">SETOSERR</a></div><div class="ttdeci">#define SETOSERR(_oserr)</div><div class="ttdoc">Sets the current thread's OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00111">_errdefs.h:111</a></div></div>
+<div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">error.h</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

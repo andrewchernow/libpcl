@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/time/sleep.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/string/strreplace.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,12 +62,12 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_798ee6f4f5cd9c6410c07a649b7662ec.html">&#x202A;time</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_6cc8961f7f77054fb84f95c9f23f5ca0.html">&#x202A;string</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">sleep.c</div>  </div>
+<div class="title">strreplace.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a01067.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,106 +101,84 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a01052.html">_time.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/error.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00092.html">string.h</a>&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a01025.html">_string.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00032.html">pcl/buf.h</a>&gt;</span></div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01067.html#ab7cefb5b9d38083de73801bf0f073615">   36</a></span>&#160;<span class="preprocessor">#define COND_INTERVAL 10000000 // nanoseconds (10 milliseconds)</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">static</span> <span class="keywordtype">int</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;win32_nanosleep(uint64_t ns)</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;{</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  HANDLE timer;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  LARGE_INTEGER li;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordflow">if</span>(!(timer = CreateWaitableTimer(NULL, TRUE, NULL)))</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01201.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="comment">/* windows uses 100ns intervals, value must be negative -- see docs */</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  li.QuadPart = - (LONGLONG) (ns / 100);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <span class="keywordflow">if</span>(!SetWaitableTimer(timer, &amp;li, 0, NULL, NULL, FALSE))</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  {</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <a class="code" href="a01201.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    CloseHandle(timer);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">return</span> -1;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  }</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#undef xstrncmp</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#undef xstrnicmp</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#undef XBufText</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#ifdef XWIDE</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor"># define xstrncmp wcsncmp</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor"># define xstrnicmp pcl_wcsnicmp</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor"># define XBufText PclBufTextW</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="a01067.html#a1c41c913a311df92beb7e3a72457f5d5">   44</a></span>&#160;<span class="preprocessor"># define xstrncmp strncmp</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="a01067.html#a2eb8a7011795b4845bbeb72b771ae6d2">   45</a></span>&#160;<span class="preprocessor"># define xstrnicmp pcl_strnicmp</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="a01067.html#a9829231f1dd7b700652e0b8f44a04e54">   46</a></span>&#160;<span class="preprocessor"># define XBufText PclBufText</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keyword">static</span> <a class="code" href="a01025.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<a class="code" href="a01025.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a>(replace_impl)(<span class="keyword">const</span> <a class="code" href="a01025.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *s, <span class="keyword">const</span> <a class="code" href="a01025.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *from, <span class="keyword">const</span> <a class="code" href="a01025.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *to, <span class="keywordtype">int</span> casefold)</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;{</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="keywordtype">int</span> to_len = (int) <a class="code" href="a01025.html#aee081742fbd47c91e70de0b86a84a1be">xstrlen</a>(to), from_len = (int) <a class="code" href="a01025.html#aee081742fbd47c91e70de0b86a84a1be">xstrlen</a>(from);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="comment">/* use stack buffer so we can just steal it&#39;s data member */</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <a class="code" href="a01328.html">pcl_buf_t</a> buf;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <a class="code" href="a01301.html#gadd174ca0fea61e0f3be87c9d12b5e2f3">pcl_buf_init</a>(&amp;buf, 64, <a class="code" href="a01067.html#a9829231f1dd7b700652e0b8f44a04e54">XBufText</a>);</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  DWORD r = WaitForSingleObject(timer, INFINITE);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  CloseHandle(timer);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  <span class="keywordflow">return</span> r == WAIT_OBJECT_0 ? 0 : <a class="code" href="a01201.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;}</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="keyword">static</span> <span class="keywordtype">bool</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;sleep_cond(uint64_t nsecs, <span class="keywordtype">bool</span> (*cond)(<span class="keywordtype">void</span>), uint32_t cond_interval)</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;{</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <span class="keywordflow">if</span>(cond())</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  <span class="keywordflow">if</span>(cond_interval == 0)</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    cond_interval = <a class="code" href="a01067.html#ab7cefb5b9d38083de73801bf0f073615">COND_INTERVAL</a>;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  <span class="keywordflow">do</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  {</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    uint64_t s = <a class="code" href="a00038.html#ac6afabdc09a49a433ee19d8a9486056d">min</a>(nsecs, cond_interval);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="comment">/* recurse but with NULL cond callback */</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordflow">if</span>(<a class="code" href="a01067.html#ac084ccbe5efaebff297e94e9f65adc8b">pcl_sleep</a>(s, NULL, 0))</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01201.html#gaa978c8c7faa5fc2f69a6641e054e519d">R_TRC</a>(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <span class="keywordflow">while</span>(*s)</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  {</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">int</span> n = casefold ? <a class="code" href="a01067.html#a2eb8a7011795b4845bbeb72b771ae6d2">xstrnicmp</a>(s, from, from_len) : <a class="code" href="a01067.html#a1c41c913a311df92beb7e3a72457f5d5">xstrncmp</a>(s, from, from_len);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordflow">if</span>(n == 0)</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    {</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;      <a class="code" href="a01301.html#gaa753cac8202932d5aefa84a136fe3d45">pcl_buf_put</a>(&amp;buf, to, to_len);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      s += from_len;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    }</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    {</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      <a class="code" href="a01301.html#ga48e936cee3defdf5fcb6e9904aff0d75">pcl_buf_putchar</a>(&amp;buf, *s++);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    }</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  }</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  <span class="keywordflow">return</span> (<a class="code" href="a01025.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *) buf.<a class="code" href="a01328.html#a91a70b77df95bd8b0830b49a094c2acb">data</a>;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;}</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<a class="code" href="a01025.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *</div>
+<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="a01067.html#a9d6fe5a9f8c928cbed6a4e3b2f949a13">   77</a></span>&#160;<a class="code" href="a01025.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a>(<a class="code" href="a01067.html#a9d6fe5a9f8c928cbed6a4e3b2f949a13">replace</a>)(<span class="keyword">const</span> <a class="code" href="a01025.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *subject, <span class="keyword">const</span> <a class="code" href="a01025.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *from, <span class="keyword">const</span> <a class="code" href="a01025.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *to)</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;{</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01025.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a>(replace_impl)(subject, from, to, 0);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;}</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    nsecs -= s;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordflow">if</span>(cond())</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;      <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  }</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  <span class="keywordflow">while</span>(nsecs &gt; 0);</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;}</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="keywordtype">bool</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno"><a class="line" href="a01067.html#ac084ccbe5efaebff297e94e9f65adc8b">   93</a></span>&#160;<a class="code" href="a01067.html#ac084ccbe5efaebff297e94e9f65adc8b">pcl_sleep</a>(uint64_t nsecs, <span class="keywordtype">bool</span> (*cond)(<span class="keywordtype">void</span>), uint32_t cond_interval)</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;{</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  <span class="keywordflow">if</span>(cond)</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordflow">return</span> sleep_cond(nsecs, cond, cond_interval);</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;  <span class="keywordflow">if</span>(win32_nanosleep(nsecs))</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01201.html#gaa978c8c7faa5fc2f69a6641e054e519d">R_TRC</a>(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;  <span class="keyword">struct </span>timespec amt, remaining_amt;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  amt.tv_sec = (time_t) (nsecs / <a class="code" href="a00104.html#a86b7875cd6dfe1745c07e12ac648542b">PCL_NSECS</a>);</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;  amt.tv_nsec = (long) (nsecs % <a class="code" href="a00104.html#a86b7875cd6dfe1745c07e12ac648542b">PCL_NSECS</a>);</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;  <span class="keywordflow">while</span>(nanosleep(&amp;amt, &amp;remaining_amt))</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;  {</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="comment">/* failed (very unlikely) */</span></div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keywordflow">if</span>(errno != EINTR)</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01201.html#gad08a56aa55af3716a251ced9f780686d">R_SETLASTERR</a>(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="comment">/* EINTR, continue sleeping for the remaining amount */</span></div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    memcpy(&amp;amt, &amp;remaining_amt, <span class="keyword">sizeof</span>(amt));</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;  }</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160; </div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;  <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;}</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<a class="code" href="a01025.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *</div>
+<div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="a01067.html#ac3130a14815cec9eca18c63cf68e177d">   83</a></span>&#160;<a class="code" href="a01025.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a>(<a class="code" href="a01067.html#ac3130a14815cec9eca18c63cf68e177d">ireplace</a>)(<span class="keyword">const</span> <a class="code" href="a01025.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *subject, <span class="keyword">const</span> <a class="code" href="a01025.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *from, <span class="keyword">const</span> <a class="code" href="a01025.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *to)</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;{</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01025.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a>(replace_impl)(subject, from, to, 1);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;}</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="preprocessor">#ifndef XWIDE</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="a01067.html#af3082199ea3ac518b87acdac953cf385">   89</a></span>&#160;<span class="preprocessor"># define XWIDE</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="preprocessor"># include &quot;<a class="code" href="a01067.html">strreplace.c</a>&quot;</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00104_html_a86b7875cd6dfe1745c07e12ac648542b"><div class="ttname"><a href="a00104.html#a86b7875cd6dfe1745c07e12ac648542b">PCL_NSECS</a></div><div class="ttdeci">#define PCL_NSECS</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00047">time.h:47</a></div></div>
-<div class="ttc" id="aa01067_html_ac084ccbe5efaebff297e94e9f65adc8b"><div class="ttname"><a href="a01067.html#ac084ccbe5efaebff297e94e9f65adc8b">pcl_sleep</a></div><div class="ttdeci">bool pcl_sleep(uint64_t nsecs, bool(*cond)(void), uint32_t cond_interval)</div><div class="ttdoc">Pause execution of the current thread for the given number of nanoseconds.</div><div class="ttdef"><b>Definition:</b> <a href="a01067_source.html#l00093">sleep.c:93</a></div></div>
-<div class="ttc" id="aa01052_html"><div class="ttname"><a href="a01052.html">_time.h</a></div></div>
-<div class="ttc" id="aa01201_html_gad08a56aa55af3716a251ced9f780686d"><div class="ttname"><a href="a01201.html#gad08a56aa55af3716a251ced9f780686d">R_SETLASTERR</a></div><div class="ttdeci">#define R_SETLASTERR(_retval)</div><div class="ttdoc">Sets the return value and the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00235">_errdefs.h:235</a></div></div>
-<div class="ttc" id="aa01201_html_ga89b8bfbe17595305872551a1caaa5702"><div class="ttname"><a href="a01201.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a></div><div class="ttdeci">#define SETLASTERR()</div><div class="ttdoc">Sets the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00125">_errdefs.h:125</a></div></div>
-<div class="ttc" id="aa00038_html_ac6afabdc09a49a433ee19d8a9486056d"><div class="ttname"><a href="a00038.html#ac6afabdc09a49a433ee19d8a9486056d">min</a></div><div class="ttdeci">#define min(a, b)</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00119">defs.h:119</a></div></div>
-<div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">error.h</a></div></div>
-<div class="ttc" id="aa01201_html_gaa978c8c7faa5fc2f69a6641e054e519d"><div class="ttname"><a href="a01201.html#gaa978c8c7faa5fc2f69a6641e054e519d">R_TRC</a></div><div class="ttdeci">#define R_TRC(_retval)</div><div class="ttdoc">Sets the return value and adds a stack trace to the current thread's error.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00287">_errdefs.h:287</a></div></div>
-<div class="ttc" id="aa01067_html_ab7cefb5b9d38083de73801bf0f073615"><div class="ttname"><a href="a01067.html#ab7cefb5b9d38083de73801bf0f073615">COND_INTERVAL</a></div><div class="ttdeci">#define COND_INTERVAL</div><div class="ttdef"><b>Definition:</b> <a href="a01067_source.html#l00036">sleep.c:36</a></div></div>
-<div class="ttc" id="aa00092_html"><div class="ttname"><a href="a00092.html">string.h</a></div></div>
+<div class="ttc" id="aa01328_html"><div class="ttname"><a href="a01328.html">tag_pcl_buf</a></div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00127">buf.h:128</a></div></div>
+<div class="ttc" id="aa01067_html_a2eb8a7011795b4845bbeb72b771ae6d2"><div class="ttname"><a href="a01067.html#a2eb8a7011795b4845bbeb72b771ae6d2">xstrnicmp</a></div><div class="ttdeci">#define xstrnicmp</div><div class="ttdef"><b>Definition:</b> <a href="a01067_source.html#l00045">strreplace.c:45</a></div></div>
+<div class="ttc" id="aa01301_html_gadd174ca0fea61e0f3be87c9d12b5e2f3"><div class="ttname"><a href="a01301.html#gadd174ca0fea61e0f3be87c9d12b5e2f3">pcl_buf_init</a></div><div class="ttdeci">PCL_EXPORT pcl_buf_t * pcl_buf_init(pcl_buf_t *b, size_t size, enum pcl_buf_mode mode)</div><div class="ttdoc">Initializes a buffer object.</div><div class="ttdef"><b>Definition:</b> <a href="a00206_source.html#l00037">buf_init.c:37</a></div></div>
+<div class="ttc" id="aa01025_html_aee081742fbd47c91e70de0b86a84a1be"><div class="ttname"><a href="a01025.html#aee081742fbd47c91e70de0b86a84a1be">xstrlen</a></div><div class="ttdeci">#define xstrlen</div><div class="ttdef"><b>Definition:</b> <a href="a01025_source.html#l00071">_string.h:71</a></div></div>
+<div class="ttc" id="aa01067_html_ac3130a14815cec9eca18c63cf68e177d"><div class="ttname"><a href="a01067.html#ac3130a14815cec9eca18c63cf68e177d">ireplace</a></div><div class="ttdeci">xchar *XFUNC() ireplace(const xchar *subject, const xchar *from, const xchar *to)</div><div class="ttdef"><b>Definition:</b> <a href="a01067_source.html#l00083">strreplace.c:83</a></div></div>
+<div class="ttc" id="aa01025_html"><div class="ttname"><a href="a01025.html">_string.h</a></div></div>
+<div class="ttc" id="aa01067_html"><div class="ttname"><a href="a01067.html">strreplace.c</a></div></div>
+<div class="ttc" id="aa01301_html_ga48e936cee3defdf5fcb6e9904aff0d75"><div class="ttname"><a href="a01301.html#ga48e936cee3defdf5fcb6e9904aff0d75">pcl_buf_putchar</a></div><div class="ttdeci">PCL_EXPORT int pcl_buf_putchar(pcl_buf_t *b, uint32_t c)</div><div class="ttdoc">Put a character into a buffer.</div><div class="ttdef"><b>Definition:</b> <a href="a00212_source.html#l00035">buf_putchar.c:35</a></div></div>
+<div class="ttc" id="aa00032_html"><div class="ttname"><a href="a00032.html">buf.h</a></div></div>
+<div class="ttc" id="aa01067_html_a9d6fe5a9f8c928cbed6a4e3b2f949a13"><div class="ttname"><a href="a01067.html#a9d6fe5a9f8c928cbed6a4e3b2f949a13">replace</a></div><div class="ttdeci">xchar *XFUNC() replace(const xchar *subject, const xchar *from, const xchar *to)</div><div class="ttdef"><b>Definition:</b> <a href="a01067_source.html#l00077">strreplace.c:77</a></div></div>
+<div class="ttc" id="aa01067_html_a9829231f1dd7b700652e0b8f44a04e54"><div class="ttname"><a href="a01067.html#a9829231f1dd7b700652e0b8f44a04e54">XBufText</a></div><div class="ttdeci">#define XBufText</div><div class="ttdef"><b>Definition:</b> <a href="a01067_source.html#l00046">strreplace.c:46</a></div></div>
+<div class="ttc" id="aa01067_html_a1c41c913a311df92beb7e3a72457f5d5"><div class="ttname"><a href="a01067.html#a1c41c913a311df92beb7e3a72457f5d5">xstrncmp</a></div><div class="ttdeci">#define xstrncmp</div><div class="ttdef"><b>Definition:</b> <a href="a01067_source.html#l00044">strreplace.c:44</a></div></div>
+<div class="ttc" id="aa01301_html_gaa753cac8202932d5aefa84a136fe3d45"><div class="ttname"><a href="a01301.html#gaa753cac8202932d5aefa84a136fe3d45">pcl_buf_put</a></div><div class="ttdeci">PCL_EXPORT int pcl_buf_put(pcl_buf_t *b, const void *data, int len)</div><div class="ttdoc">Put a blob into a buffer.</div><div class="ttdef"><b>Definition:</b> <a href="a00209_source.html#l00036">buf_put.c:36</a></div></div>
+<div class="ttc" id="aa01328_html_a91a70b77df95bd8b0830b49a094c2acb"><div class="ttname"><a href="a01328.html#a91a70b77df95bd8b0830b49a094c2acb">tag_pcl_buf::data</a></div><div class="ttdeci">char * data</div><div class="ttdoc">buffer bytes, always chrsize * size wide.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00147">buf.h:147</a></div></div>
+<div class="ttc" id="aa01025_html_a234f7ec71c9c19ed532c4bf11a9b9b8e"><div class="ttname"><a href="a01025.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a></div><div class="ttdeci">#define xchar</div><div class="ttdef"><b>Definition:</b> <a href="a01025_source.html#l00070">_string.h:70</a></div></div>
+<div class="ttc" id="aa01025_html_a5c4b00cbc494339ce63882d7404bad27"><div class="ttname"><a href="a01025.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a></div><div class="ttdeci">#define XFUNC(name)</div><div class="ttdef"><b>Definition:</b> <a href="a01025_source.html#l00068">_string.h:68</a></div></div>
+<div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

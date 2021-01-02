@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/vector/vector_get_s.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/thread/mutex_destroy.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,12 +62,12 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_0baa9f3d984dd29d1429171590d769d6.html">&#x202A;vector</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_bfedb72b9d87795234454f6223b9ab1e.html">&#x202A;thread</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">vector_get_s.c</div>  </div>
+<div class="title">mutex_destroy.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a01124.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,22 +101,21 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00116.html">pcl/vector.h</a>&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00101.html">pcl/thread.h</a>&gt;</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/error.h</a>&gt;</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">void</span> *</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01212.html#ga8629168fbc04d9a5ee188e6ef05f46e7">   36</a></span>&#160;<a class="code" href="a01212.html#ga8629168fbc04d9a5ee188e6ef05f46e7">pcl_vector_get_safe</a>(<a class="code" href="a01292.html">pcl_vector_t</a> *v, <span class="keywordtype">int</span> pos)</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01124.html#a575834c8e471910286f51d8827c1e22d">   36</a></span>&#160;<a class="code" href="a01124.html#a575834c8e471910286f51d8827c1e22d">pcl_mutex_destroy</a>(pthread_mutex_t *m)</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">return</span> (v &amp;&amp; pos &gt;= 0 &amp;&amp; pos &lt; v-&gt;count) ? <a class="code" href="a01212.html#gab34f9d473aa3d3cacf5540d8719fccf3">pcl_vector_get</a>(v, pos) : <a class="code" href="a01201.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a>(NULL, <a class="code" href="a01200.html#ga93970fddc3e8f07956807d72be0bbd5c">PCL_ENOTFOUND</a>);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;}</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordtype">int</span> err = pthread_mutex_destroy(m);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordflow">return</span> err ? <a class="code" href="a01306.html#gaadc76b147014f17dcc08fa3c2f110a25">SETOSERR</a>(err) : 0;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;}</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00116_html"><div class="ttname"><a href="a00116.html">vector.h</a></div></div>
-<div class="ttc" id="aa01292_html"><div class="ttname"><a href="a01292.html">tag_pcl_vector</a></div><div class="ttdoc">Vector object.</div><div class="ttdef"><b>Definition:</b> <a href="a00116_source.html#l00090">vector.h:91</a></div></div>
-<div class="ttc" id="aa01200_html_ga93970fddc3e8f07956807d72be0bbd5c"><div class="ttname"><a href="a01200.html#ga93970fddc3e8f07956807d72be0bbd5c">PCL_ENOTFOUND</a></div><div class="ttdeci">#define PCL_ENOTFOUND</div><div class="ttdoc">Object or resource not found.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00152">_errno.h:152</a></div></div>
-<div class="ttc" id="aa01212_html_gab34f9d473aa3d3cacf5540d8719fccf3"><div class="ttname"><a href="a01212.html#gab34f9d473aa3d3cacf5540d8719fccf3">pcl_vector_get</a></div><div class="ttdeci">#define pcl_vector_get(v, pos)</div><div class="ttdoc">Get an element.</div><div class="ttdef"><b>Definition:</b> <a href="a00116_source.html#l00136">vector.h:136</a></div></div>
+<div class="ttc" id="aa00101_html"><div class="ttname"><a href="a00101.html">thread.h</a></div></div>
+<div class="ttc" id="aa01306_html_gaadc76b147014f17dcc08fa3c2f110a25"><div class="ttname"><a href="a01306.html#gaadc76b147014f17dcc08fa3c2f110a25">SETOSERR</a></div><div class="ttdeci">#define SETOSERR(_oserr)</div><div class="ttdoc">Sets the current thread's OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00111">_errdefs.h:111</a></div></div>
 <div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">error.h</a></div></div>
-<div class="ttc" id="aa01212_html_ga8629168fbc04d9a5ee188e6ef05f46e7"><div class="ttname"><a href="a01212.html#ga8629168fbc04d9a5ee188e6ef05f46e7">pcl_vector_get_safe</a></div><div class="ttdeci">void * pcl_vector_get_safe(pcl_vector_t *v, int pos)</div><div class="ttdoc">Get an element with bounds checking (safe version of pcl_vector_get).</div><div class="ttdef"><b>Definition:</b> <a href="a01124_source.html#l00036">vector_get_s.c:36</a></div></div>
-<div class="ttc" id="aa01201_html_gae8eaed12aa57a2870ad8e45cc2306318"><div class="ttname"><a href="a01201.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a></div><div class="ttdeci">#define R_SETERR(_retval, _pclerr)</div><div class="ttdoc">Sets the return value and the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00145">_errdefs.h:145</a></div></div>
+<div class="ttc" id="aa01124_html_a575834c8e471910286f51d8827c1e22d"><div class="ttname"><a href="a01124.html#a575834c8e471910286f51d8827c1e22d">pcl_mutex_destroy</a></div><div class="ttdeci">int pcl_mutex_destroy(pthread_mutex_t *m)</div><div class="ttdef"><b>Definition:</b> <a href="a01124_source.html#l00036">mutex_destroy.c:36</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

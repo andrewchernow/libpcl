@@ -113,17 +113,17 @@ $(function() {
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="comment">/** Passed to a pcl_event_handler_t function to indicate that the PCL library is being initialized.</span></div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment"> * @internal only used by builtin event handlers</span></div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="a01202.html#ga60d1bf6bac043a65b2188b0c13a1b9d3">   44</a></span>&#160;<span class="preprocessor">#define PCL_EVENT_INIT 0</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="a01307.html#ga60d1bf6bac043a65b2188b0c13a1b9d3">   44</a></span>&#160;<span class="preprocessor">#define PCL_EVENT_INIT 0</span></div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment">/** Passed to a pcl_event_handler_t function to indicate that a thread is being initialized. This</span></div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment"> * is automatically triggered by pcl_thread_create. If a thread is created by other means, call</span></div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment"> * pcl_event_dispatch manually within the thread start routine.</span></div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment"> * @see pcl_init_thread</span></div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="a01202.html#ga3146683f8619c24b5aa15044b635b380">   51</a></span>&#160;<span class="preprocessor">#define PCL_EVENT_THREADINIT 1</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="a01307.html#ga3146683f8619c24b5aa15044b635b380">   51</a></span>&#160;<span class="preprocessor">#define PCL_EVENT_THREADINIT 1</span></div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment">/** User-defined events should be greater than or equal to this value */</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="a01202.html#ga99b6baf34fba0ff454244de2b7db0eca">   54</a></span>&#160;<span class="preprocessor">#define PCL_EVENT_USERBASE 10</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="a01307.html#ga99b6baf34fba0ff454244de2b7db0eca">   54</a></span>&#160;<span class="preprocessor">#define PCL_EVENT_USERBASE 10</span></div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
@@ -133,7 +133,7 @@ $(function() {
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment"> * @param event the event identifier</span></div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment"> * @param data optional pointer to event data</span></div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="a01202.html#ga04ab8867aacede25175c89e51a3e206d">   64</a></span>&#160;<span class="keyword">typedef</span> void (*<a class="code" href="a01202.html#ga04ab8867aacede25175c89e51a3e206d">pcl_event_handler_t</a>)(uint32_t event, <span class="keywordtype">void</span> *data);</div>
+<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="a01307.html#ga04ab8867aacede25175c89e51a3e206d">   64</a></span>&#160;<span class="keyword">typedef</span> void (*<a class="code" href="a01307.html#ga04ab8867aacede25175c89e51a3e206d">pcl_event_handler_t</a>)(uint32_t event, <span class="keywordtype">void</span> *data);</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment">/** Dispatches an event to the calling thread.</span></div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment"> * @note dispatching is a per-thread synchronous operation. This function won&#39;t return until</span></div>
@@ -143,17 +143,17 @@ $(function() {
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment"> * and respond accordingly.</span></div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="comment"> * @param data event data. PCL_EVENT_INIT and PCL_EVENT_THREADINIT do not use event data</span></div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;PCL_EXPORT <span class="keywordtype">void</span> <a class="code" href="a01202.html#gab1bac8e0eaa04a8ca90a0ce4e03d5f26">pcl_event_dispatch</a>(uint32_t event, <span class="keywordtype">void</span> *data);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;PCL_EXPORT <span class="keywordtype">void</span> <a class="code" href="a01307.html#gab1bac8e0eaa04a8ca90a0ce4e03d5f26">pcl_event_dispatch</a>(uint32_t event, <span class="keywordtype">void</span> *data);</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment">/** Registers a new event handler.</span></div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="comment"> * @param handler event handler</span></div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;PCL_EXPORT <span class="keywordtype">void</span> <a class="code" href="a01202.html#gabcb84af3f1e27f35e9b8cf93abd09ee8">pcl_event_register</a>(<a class="code" href="a01202.html#ga04ab8867aacede25175c89e51a3e206d">pcl_event_handler_t</a> handler);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;PCL_EXPORT <span class="keywordtype">void</span> <a class="code" href="a01307.html#gabcb84af3f1e27f35e9b8cf93abd09ee8">pcl_event_register</a>(<a class="code" href="a01307.html#ga04ab8867aacede25175c89e51a3e206d">pcl_event_handler_t</a> handler);</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="comment">/** Unregisters a previously registered event handler.</span></div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="comment"> * @param handler event handler</span></div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;PCL_EXPORT <span class="keywordtype">void</span> <a class="code" href="a01202.html#ga5e48475a04701c77022079a13e4c98ce">pcl_event_unregister</a>(<a class="code" href="a01202.html#ga04ab8867aacede25175c89e51a3e206d">pcl_event_handler_t</a> handler);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;PCL_EXPORT <span class="keywordtype">void</span> <a class="code" href="a01307.html#ga5e48475a04701c77022079a13e4c98ce">pcl_event_unregister</a>(<a class="code" href="a01307.html#ga04ab8867aacede25175c89e51a3e206d">pcl_event_handler_t</a> handler);</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;}</div>
@@ -162,10 +162,10 @@ $(function() {
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="comment">/** @} */</span></div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="preprocessor">#endif //LIBPCL_EVENT_H__</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01202_html_ga04ab8867aacede25175c89e51a3e206d"><div class="ttname"><a href="a01202.html#ga04ab8867aacede25175c89e51a3e206d">pcl_event_handler_t</a></div><div class="ttdeci">void(* pcl_event_handler_t)(uint32_t event, void *data)</div><div class="ttdoc">Event handler prototype.</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00064">event.h:64</a></div></div>
-<div class="ttc" id="aa01202_html_gabcb84af3f1e27f35e9b8cf93abd09ee8"><div class="ttname"><a href="a01202.html#gabcb84af3f1e27f35e9b8cf93abd09ee8">pcl_event_register</a></div><div class="ttdeci">PCL_EXPORT void pcl_event_register(pcl_event_handler_t handler)</div><div class="ttdoc">Registers a new event handler.</div><div class="ttdef"><b>Definition:</b> <a href="a00437_source.html#l00036">event_register.c:36</a></div></div>
-<div class="ttc" id="aa01202_html_ga5e48475a04701c77022079a13e4c98ce"><div class="ttname"><a href="a01202.html#ga5e48475a04701c77022079a13e4c98ce">pcl_event_unregister</a></div><div class="ttdeci">PCL_EXPORT void pcl_event_unregister(pcl_event_handler_t handler)</div><div class="ttdoc">Unregisters a previously registered event handler.</div><div class="ttdef"><b>Definition:</b> <a href="a00440_source.html#l00036">event_unregister.c:36</a></div></div>
-<div class="ttc" id="aa01202_html_gab1bac8e0eaa04a8ca90a0ce4e03d5f26"><div class="ttname"><a href="a01202.html#gab1bac8e0eaa04a8ca90a0ce4e03d5f26">pcl_event_dispatch</a></div><div class="ttdeci">PCL_EXPORT void pcl_event_dispatch(uint32_t event, void *data)</div><div class="ttdoc">Dispatches an event to the calling thread.</div><div class="ttdef"><b>Definition:</b> <a href="a00434_source.html#l00035">event_dispatch.c:35</a></div></div>
+<div class="ttc" id="aa01307_html_gabcb84af3f1e27f35e9b8cf93abd09ee8"><div class="ttname"><a href="a01307.html#gabcb84af3f1e27f35e9b8cf93abd09ee8">pcl_event_register</a></div><div class="ttdeci">PCL_EXPORT void pcl_event_register(pcl_event_handler_t handler)</div><div class="ttdoc">Registers a new event handler.</div><div class="ttdef"><b>Definition:</b> <a href="a00437_source.html#l00036">event_register.c:36</a></div></div>
+<div class="ttc" id="aa01307_html_ga5e48475a04701c77022079a13e4c98ce"><div class="ttname"><a href="a01307.html#ga5e48475a04701c77022079a13e4c98ce">pcl_event_unregister</a></div><div class="ttdeci">PCL_EXPORT void pcl_event_unregister(pcl_event_handler_t handler)</div><div class="ttdoc">Unregisters a previously registered event handler.</div><div class="ttdef"><b>Definition:</b> <a href="a00440_source.html#l00036">event_unregister.c:36</a></div></div>
+<div class="ttc" id="aa01307_html_gab1bac8e0eaa04a8ca90a0ce4e03d5f26"><div class="ttname"><a href="a01307.html#gab1bac8e0eaa04a8ca90a0ce4e03d5f26">pcl_event_dispatch</a></div><div class="ttdeci">PCL_EXPORT void pcl_event_dispatch(uint32_t event, void *data)</div><div class="ttdoc">Dispatches an event to the calling thread.</div><div class="ttdef"><b>Definition:</b> <a href="a00434_source.html#l00035">event_dispatch.c:35</a></div></div>
+<div class="ttc" id="aa01307_html_ga04ab8867aacede25175c89e51a3e206d"><div class="ttname"><a href="a01307.html#ga04ab8867aacede25175c89e51a3e206d">pcl_event_handler_t</a></div><div class="ttdeci">void(* pcl_event_handler_t)(uint32_t event, void *data)</div><div class="ttdoc">Event handler prototype.</div><div class="ttdef"><b>Definition:</b> <a href="a00050_source.html#l00064">event.h:64</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

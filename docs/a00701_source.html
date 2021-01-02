@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/net/net_ai2pcl.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/json/json_obj.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,17 +62,17 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_c72b25b75abe208498b36a3e44a3726c.html">&#x202A;net</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_da4c9dd239018fe26269ba2e1cf7c9a1.html">&#x202A;json</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">net_ai2pcl.c</div>  </div>
+<div class="title">json_obj.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00701.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (PCL)</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2003, 2005-2014, 2017-2020 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,128 +101,45 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00692.html">_net.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a00701.html#a54de99238de2e1f9c4d25e0caed4ba71">   35</a></span>&#160;<a class="code" href="a00701.html#a54de99238de2e1f9c4d25e0caed4ba71">pcl_net_ai2pcl</a>(<span class="keywordtype">int</span> ai_retval)</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordflow">switch</span>(ai_retval)</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#ifdef EAI_BADFLAGS</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordflow">case</span> EAI_BADFLAGS:</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01200.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00596.html">_json.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00059.html">pcl/htable.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;remove_entry(<span class="keyword">const</span> <span class="keywordtype">void</span> *key, <span class="keywordtype">void</span> *value, <span class="keywordtype">void</span> *userp)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <a class="code" href="a00038.html#a9b58a1294d89c976dfbe4dc480e9dfb8">UNUSED</a>(userp);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <a class="code" href="a01298.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(key);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <a class="code" href="a01312.html#ga52957df8ceda7e9af3a900fa484f0531">pcl_json_free</a>(value);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;}</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#ifdef EAI_NONAME</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordflow">case</span> EAI_NONAME:</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01200.html#ga055e984046a3aadd432d343396b9c73a">PCL_EHOSTNOTFOUND</a>;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<a class="code" href="a01356.html">pcl_json_t</a> *</div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="a01314.html#gaeaf0b68de7dab397962f745017efea98">   45</a></span>&#160;<a class="code" href="a01314.html#gaeaf0b68de7dab397962f745017efea98">pcl_json_obj</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;{</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <a class="code" href="a01356.html">pcl_json_t</a> *val = <a class="code" href="a01298.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a>(<span class="keyword">sizeof</span>(<a class="code" href="a01356.html">pcl_json_t</a>));</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#ifdef EAI_AGAIN</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">case</span> EAI_AGAIN:</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01200.html#gacba7582f9fafd3cf0714bc3286bce855">PCL_ETRYAGAIN</a>;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  val-&gt;<a class="code" href="a01356.html#aff17911edc8208aa8ddb1c7c52c78389">type</a> = <span class="charliteral">&#39;o&#39;</span>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  val-&gt;<a class="code" href="a01356.html#a5d44c529cb5afba28ecf7074e544a9b3">nrefs</a> = 1;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  val-&gt;<a class="code" href="a01356.html#a926796bc0ae65775bd2a503ab54823cf">object</a> = <a class="code" href="a01309.html#gae469981bef26363606b65a93189234ce">pcl_htable_create</a>(0);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  val-&gt;<a class="code" href="a01356.html#a926796bc0ae65775bd2a503ab54823cf">object</a>-&gt;<a class="code" href="a01348.html#a671a5819f733f2c3de67d78b2f118ac1">remove_entry</a> = remove_entry;</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#ifdef EAI_FAIL</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">case</span> EAI_FAIL:</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01200.html#ga055e984046a3aadd432d343396b9c73a">PCL_EHOSTNOTFOUND</a>;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#if defined(EAI_NODATA) &amp;&amp; EAI_NODATA != EAI_NONAME</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordflow">case</span> EAI_NODATA:</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01200.html#gaf558edfaee713005b685551cd684b433">PCL_ENODATA</a>;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor">#ifdef EAI_FAMILY</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordflow">case</span> EAI_FAMILY:</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01200.html#gaf4a6a441962bd2a36524ce1e9cd457a0">PCL_EAFNOSUPPORT</a>;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="preprocessor">#ifdef EAI_SOCKTYPE</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">case</span> EAI_SOCKTYPE:</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01200.html#gae64930c729a04aba039abba0622d5512">PCL_ESOCKTNOSUPPORT</a>;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor">#ifdef EAI_SERVICE</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordflow">case</span> EAI_SERVICE:</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01200.html#gae64930c729a04aba039abba0622d5512">PCL_ESOCKTNOSUPPORT</a>;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="preprocessor">#ifdef EAI_ADDRFAMILY</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordflow">case</span> EAI_ADDRFAMILY:</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01200.html#gaf4a6a441962bd2a36524ce1e9cd457a0">PCL_EAFNOSUPPORT</a>;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="preprocessor">#ifdef EAI_MEMORY</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordflow">case</span> EAI_MEMORY:</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01200.html#gab48095561007e140e755d83dd05ca175">PCL_ENOMEM</a>;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="preprocessor">#ifdef EAI_SYSTEM</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordflow">case</span> EAI_SYSTEM:</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01199.html#ga3ff5c98b765df74bd305d2e56e9b4f31">pcl_err_os2pcl</a>(errno);</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="preprocessor">#ifdef EAI_OVERFLOW</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keywordflow">case</span> EAI_OVERFLOW:</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01200.html#ga6c243018aa3157bbc54e49d4a81b005f">PCL_EOVERFLOW</a>;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="preprocessor">#ifdef EAI_INPROGRESS</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordflow">case</span> EAI_INPROGRESS:</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01200.html#ga5d8d645b84c1aa23bf8cb2b94882092c">PCL_EINPROGRESS</a>;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="preprocessor">#ifdef EAI_CANCELED</span></div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keywordflow">case</span> EAI_CANCELED:</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01200.html#gaa1e13eca4cb9140f6dc95729848482c9">PCL_ECANCELLED</a>;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="preprocessor">#ifdef EAI_NOTCANCELED</span></div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keywordflow">case</span> EAI_NOTCANCELED:</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01200.html#ga5d8d645b84c1aa23bf8cb2b94882092c">PCL_EINPROGRESS</a>;</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="preprocessor">#ifdef EAI_ALLDONE</span></div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="keywordflow">case</span> EAI_ALLDONE:</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01200.html#gad3b43ba0f3d97d535a1a3cf7fd8b35c2">PCL_EOKAY</a>;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160; </div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="preprocessor">#ifdef EAI_INTR</span></div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="keywordflow">case</span> EAI_INTR:</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01200.html#gabd98a45fef9d002ccb21c347b2c0b4e0">PCL_EINTR</a>;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160; </div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="preprocessor">#ifdef EAI_IDN_ENCODE</span></div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keywordflow">case</span> EAI_IDN_ENCODE:</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01200.html#gaabcacad5961b86d237c9b660d2032e5f">PCL_EFORMAT</a>;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="keywordflow">default</span>:</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;      <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;  }</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160; </div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01200.html#gad1c7894f1d8b51ba3fbc3a34b911242a">PCL_EUNDEF</a>;</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;}</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="keywordflow">return</span> val;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01200_html_gaa1e13eca4cb9140f6dc95729848482c9"><div class="ttname"><a href="a01200.html#gaa1e13eca4cb9140f6dc95729848482c9">PCL_ECANCELLED</a></div><div class="ttdeci">#define PCL_ECANCELLED</div><div class="ttdoc">Operation cancelled.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00060">_errno.h:60</a></div></div>
-<div class="ttc" id="aa01200_html_gad3b43ba0f3d97d535a1a3cf7fd8b35c2"><div class="ttname"><a href="a01200.html#gad3b43ba0f3d97d535a1a3cf7fd8b35c2">PCL_EOKAY</a></div><div class="ttdeci">#define PCL_EOKAY</div><div class="ttdoc">The operation was successful.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00042">_errno.h:42</a></div></div>
-<div class="ttc" id="aa01200_html_ga6c243018aa3157bbc54e49d4a81b005f"><div class="ttname"><a href="a01200.html#ga6c243018aa3157bbc54e49d4a81b005f">PCL_EOVERFLOW</a></div><div class="ttdeci">#define PCL_EOVERFLOW</div><div class="ttdoc">Value too large to be stored in data type.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00116">_errno.h:116</a></div></div>
-<div class="ttc" id="aa01200_html_gaf558edfaee713005b685551cd684b433"><div class="ttname"><a href="a01200.html#gaf558edfaee713005b685551cd684b433">PCL_ENODATA</a></div><div class="ttdeci">#define PCL_ENODATA</div><div class="ttdoc">The requested name is valid but does not have an IP address.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00289">_errno.h:289</a></div></div>
-<div class="ttc" id="aa01200_html_gab48095561007e140e755d83dd05ca175"><div class="ttname"><a href="a01200.html#gab48095561007e140e755d83dd05ca175">PCL_ENOMEM</a></div><div class="ttdeci">#define PCL_ENOMEM</div><div class="ttdoc">Out of memory.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00100">_errno.h:100</a></div></div>
-<div class="ttc" id="aa01200_html_ga055e984046a3aadd432d343396b9c73a"><div class="ttname"><a href="a01200.html#ga055e984046a3aadd432d343396b9c73a">PCL_EHOSTNOTFOUND</a></div><div class="ttdeci">#define PCL_EHOSTNOTFOUND</div><div class="ttdoc">Authoritative Answer: Host not found.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00283">_errno.h:283</a></div></div>
-<div class="ttc" id="aa01200_html_gabd98a45fef9d002ccb21c347b2c0b4e0"><div class="ttname"><a href="a01200.html#gabd98a45fef9d002ccb21c347b2c0b4e0">PCL_EINTR</a></div><div class="ttdeci">#define PCL_EINTR</div><div class="ttdoc">Interrupted system call.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00076">_errno.h:76</a></div></div>
-<div class="ttc" id="aa01200_html_gae64930c729a04aba039abba0622d5512"><div class="ttname"><a href="a01200.html#gae64930c729a04aba039abba0622d5512">PCL_ESOCKTNOSUPPORT</a></div><div class="ttdeci">#define PCL_ESOCKTNOSUPPORT</div><div class="ttdoc">Socket type not supported.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00275">_errno.h:275</a></div></div>
-<div class="ttc" id="aa01200_html_gad1c7894f1d8b51ba3fbc3a34b911242a"><div class="ttname"><a href="a01200.html#gad1c7894f1d8b51ba3fbc3a34b911242a">PCL_EUNDEF</a></div><div class="ttdeci">#define PCL_EUNDEF</div><div class="ttdoc">Undefined error occurred.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00150">_errno.h:150</a></div></div>
-<div class="ttc" id="aa01200_html_gae0cd5c5a7fae36cd480176bda17e77ca"><div class="ttname"><a href="a01200.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a></div><div class="ttdeci">#define PCL_EINVAL</div><div class="ttdoc">Invalid argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00078">_errno.h:78</a></div></div>
-<div class="ttc" id="aa01200_html_gacba7582f9fafd3cf0714bc3286bce855"><div class="ttname"><a href="a01200.html#gacba7582f9fafd3cf0714bc3286bce855">PCL_ETRYAGAIN</a></div><div class="ttdeci">#define PCL_ETRYAGAIN</div><div class="ttdoc">Non-Authoritative: Host not found or SERVERFAIL.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00285">_errno.h:285</a></div></div>
-<div class="ttc" id="aa01200_html_gaabcacad5961b86d237c9b660d2032e5f"><div class="ttname"><a href="a01200.html#gaabcacad5961b86d237c9b660d2032e5f">PCL_EFORMAT</a></div><div class="ttdeci">#define PCL_EFORMAT</div><div class="ttdoc">Invalid or corrupt format.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00140">_errno.h:140</a></div></div>
-<div class="ttc" id="aa01200_html_gaf4a6a441962bd2a36524ce1e9cd457a0"><div class="ttname"><a href="a01200.html#gaf4a6a441962bd2a36524ce1e9cd457a0">PCL_EAFNOSUPPORT</a></div><div class="ttdeci">#define PCL_EAFNOSUPPORT</div><div class="ttdoc">Internet address family not supported by protocol family.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00227">_errno.h:227</a></div></div>
-<div class="ttc" id="aa01199_html_ga3ff5c98b765df74bd305d2e56e9b4f31"><div class="ttname"><a href="a01199.html#ga3ff5c98b765df74bd305d2e56e9b4f31">pcl_err_os2pcl</a></div><div class="ttdeci">PCL_EXPORT int pcl_err_os2pcl(uint32_t oserr)</div><div class="ttdef"><b>Definition:</b> <a href="a00371_source.html#l00035">err_os2pcl.c:35</a></div></div>
-<div class="ttc" id="aa01200_html_ga5d8d645b84c1aa23bf8cb2b94882092c"><div class="ttname"><a href="a01200.html#ga5d8d645b84c1aa23bf8cb2b94882092c">PCL_EINPROGRESS</a></div><div class="ttdeci">#define PCL_EINPROGRESS</div><div class="ttdoc">Operation is now in progress.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00050">_errno.h:50</a></div></div>
-<div class="ttc" id="aa00701_html_a54de99238de2e1f9c4d25e0caed4ba71"><div class="ttname"><a href="a00701.html#a54de99238de2e1f9c4d25e0caed4ba71">pcl_net_ai2pcl</a></div><div class="ttdeci">int pcl_net_ai2pcl(int ai_retval)</div><div class="ttdef"><b>Definition:</b> <a href="a00701_source.html#l00035">net_ai2pcl.c:35</a></div></div>
-<div class="ttc" id="aa00692_html"><div class="ttname"><a href="a00692.html">_net.h</a></div></div>
+<div class="ttc" id="aa01309_html_gae469981bef26363606b65a93189234ce"><div class="ttname"><a href="a01309.html#gae469981bef26363606b65a93189234ce">pcl_htable_create</a></div><div class="ttdeci">PCL_EXPORT pcl_htable_t * pcl_htable_create(int capacity)</div><div class="ttdoc">Creates a new hash table object.</div><div class="ttdef"><b>Definition:</b> <a href="a00518_source.html#l00062">htable_create.c:62</a></div></div>
+<div class="ttc" id="aa01312_html_ga52957df8ceda7e9af3a900fa484f0531"><div class="ttname"><a href="a01312.html#ga52957df8ceda7e9af3a900fa484f0531">pcl_json_free</a></div><div class="ttdeci">PCL_EXPORT void pcl_json_free(pcl_json_t *j)</div><div class="ttdoc">Release all resources used by a json value.</div><div class="ttdef"><b>Definition:</b> <a href="a00686_source.html#l00038">json_free.c:38</a></div></div>
+<div class="ttc" id="aa00059_html"><div class="ttname"><a href="a00059.html">htable.h</a></div></div>
+<div class="ttc" id="aa01348_html_a671a5819f733f2c3de67d78b2f118ac1"><div class="ttname"><a href="a01348.html#a671a5819f733f2c3de67d78b2f118ac1">tag_pcl_htable::remove_entry</a></div><div class="ttdeci">void(* remove_entry)(const void *key, void *value, void *userp)</div><div class="ttdoc">Called when an entry is being removed from the table.</div><div class="ttdef"><b>Definition:</b> <a href="a00059_source.html#l00273">htable.h:273</a></div></div>
+<div class="ttc" id="aa00038_html_a9b58a1294d89c976dfbe4dc480e9dfb8"><div class="ttname"><a href="a00038.html#a9b58a1294d89c976dfbe4dc480e9dfb8">UNUSED</a></div><div class="ttdeci">#define UNUSED(...)</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00102">defs.h:102</a></div></div>
+<div class="ttc" id="aa01298_html_ga1df8575b9ae906470c782db9c26201e8"><div class="ttname"><a href="a01298.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a></div><div class="ttdeci">void * pcl_malloc(size_t n)</div><div class="ttdoc">Allocate dynamic memory.</div></div>
+<div class="ttc" id="aa00596_html"><div class="ttname"><a href="a00596.html">_json.h</a></div></div>
+<div class="ttc" id="aa01314_html_gaeaf0b68de7dab397962f745017efea98"><div class="ttname"><a href="a01314.html#gaeaf0b68de7dab397962f745017efea98">pcl_json_obj</a></div><div class="ttdeci">pcl_json_t * pcl_json_obj(void)</div><div class="ttdoc">Create an object.</div><div class="ttdef"><b>Definition:</b> <a href="a00701_source.html#l00045">json_obj.c:45</a></div></div>
+<div class="ttc" id="aa01356_html_a5d44c529cb5afba28ecf7074e544a9b3"><div class="ttname"><a href="a01356.html#a5d44c529cb5afba28ecf7074e544a9b3">tag_pcl_json::nrefs</a></div><div class="ttdeci">int nrefs</div><div class="ttdoc">A JSON object's reference count.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00182">json.h:182</a></div></div>
+<div class="ttc" id="aa01298_html_gab88b901c82e1010555b08ff6d39490f2"><div class="ttname"><a href="a01298.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a></div><div class="ttdeci">void * pcl_free(void *p)</div><div class="ttdoc">Free memory space.</div></div>
+<div class="ttc" id="aa01356_html"><div class="ttname"><a href="a01356.html">tag_pcl_json</a></div><div class="ttdoc">A JSON value object.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00170">json.h:171</a></div></div>
+<div class="ttc" id="aa01356_html_aff17911edc8208aa8ddb1c7c52c78389"><div class="ttname"><a href="a01356.html#aff17911edc8208aa8ddb1c7c52c78389">tag_pcl_json::type</a></div><div class="ttdeci">char type</div><div class="ttdoc">JSON value type.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00177">json.h:177</a></div></div>
+<div class="ttc" id="aa01356_html_a926796bc0ae65775bd2a503ab54823cf"><div class="ttname"><a href="a01356.html#a926796bc0ae65775bd2a503ab54823cf">tag_pcl_json::object</a></div><div class="ttdeci">pcl_htable_t * object</div><div class="ttdoc">JSON object value when type is 'o'.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00204">json.h:204</a></div></div>
+<div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

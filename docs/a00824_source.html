@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/socket/socket_port.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/net/net_ip2inet.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,12 +62,12 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_9ad1227260954e346101f3844f0abb3d.html">&#x202A;socket</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_c72b25b75abe208498b36a3e44a3726c.html">&#x202A;net</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">socket_port.c</div>  </div>
+<div class="title">net_ip2inet.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00824.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,45 +101,40 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00767.html">_socket.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/error.h</a>&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00800.html">_net.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00092.html">string.h</a>&gt;</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor"># include &lt;ws2ipdef.h&gt;</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="a00824.html#a5932054b246dd4a10df907661b71abeb">   40</a></span>&#160;<a class="code" href="a00824.html#a5932054b246dd4a10df907661b71abeb">pcl_socket_port</a>(<a class="code" href="a01336.html">pcl_socket_t</a> *sock)</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;{</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordtype">int</span> port = 0;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a00824.html#ac541061e42d23be65e50cd437aea35e2">   36</a></span>&#160;<a class="code" href="a00824.html#ac541061e42d23be65e50cd437aea35e2">pcl_net_ip2inet</a>(<span class="keywordtype">int</span> af, <span class="keyword">const</span> <span class="keywordtype">char</span> *ipstr, <span class="keywordtype">void</span> *inaddr)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordtype">int</span> r;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keyword">struct </span>addrinfo *info = NULL, hints = {0};</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">if</span>(!inaddr)</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01306.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a>();</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keywordflow">if</span>(!sock)</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01201.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a>(<a class="code" href="a01200.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordflow">switch</span>(sock-&gt;<a class="code" href="a01336.html#a4863f5b8767cd19fe6ea4db75456e5df">addr</a>-&gt;sa_family)</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  {</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">case</span> AF_INET:</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      port = (int) ntohs(((<span class="keyword">struct</span> sockaddr_in *) sock-&gt;<a class="code" href="a01336.html#a4863f5b8767cd19fe6ea4db75456e5df">addr</a>)-&gt;sin_port);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordflow">case</span> AF_INET6:</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      port = (int) ntohs(((<span class="keyword">struct</span> sockaddr_in6 *) sock-&gt;<a class="code" href="a01336.html#a4863f5b8767cd19fe6ea4db75456e5df">addr</a>)-&gt;sin6_port);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordflow">default</span>:</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  }</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  <span class="keywordflow">return</span> port;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;}</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  hints.ai_family = af;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordflow">if</span>((r = getaddrinfo(ipstr, NULL, &amp;hints, &amp;info)))</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01306.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a>(<a class="code" href="a00077.html#a50b8574eff9768351e9d99282d65dda3">pcl_net_ai2pcl</a>(r));</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keywordflow">if</span>(info-&gt;ai_family != af)</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  {</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    freeaddrinfo(info);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01306.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a>(<a class="code" href="a01305.html#ga4416795bd50c57cfad774c42154bbc9f">PCL_ETYPE</a>);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  }</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  memcpy(inaddr, info-&gt;ai_addr, info-&gt;ai_addrlen);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  freeaddrinfo(info);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01336_html"><div class="ttname"><a href="a01336.html">tag_pcl_socket</a></div><div class="ttdef"><b>Definition:</b> <a href="a00767_source.html#l00047">_socket.h:48</a></div></div>
-<div class="ttc" id="aa01201_html_ga82adf6365b61d9a32021e559d9c31497"><div class="ttname"><a href="a01201.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a></div><div class="ttdeci">#define SETERR(_pclerr)</div><div class="ttdoc">Sets the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00065">_errdefs.h:65</a></div></div>
-<div class="ttc" id="aa00767_html"><div class="ttname"><a href="a00767.html">_socket.h</a></div></div>
-<div class="ttc" id="aa00824_html_a5932054b246dd4a10df907661b71abeb"><div class="ttname"><a href="a00824.html#a5932054b246dd4a10df907661b71abeb">pcl_socket_port</a></div><div class="ttdeci">int pcl_socket_port(pcl_socket_t *sock)</div><div class="ttdef"><b>Definition:</b> <a href="a00824_source.html#l00040">socket_port.c:40</a></div></div>
-<div class="ttc" id="aa01200_html_gae0cd5c5a7fae36cd480176bda17e77ca"><div class="ttname"><a href="a01200.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a></div><div class="ttdeci">#define PCL_EINVAL</div><div class="ttdoc">Invalid argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00078">_errno.h:78</a></div></div>
-<div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">error.h</a></div></div>
-<div class="ttc" id="aa01336_html_a4863f5b8767cd19fe6ea4db75456e5df"><div class="ttname"><a href="a01336.html#a4863f5b8767cd19fe6ea4db75456e5df">tag_pcl_socket::addr</a></div><div class="ttdeci">struct sockaddr * addr</div><div class="ttdef"><b>Definition:</b> <a href="a00767_source.html#l00071">_socket.h:71</a></div></div>
+<div class="ttc" id="aa00077_html_a50b8574eff9768351e9d99282d65dda3"><div class="ttname"><a href="a00077.html#a50b8574eff9768351e9d99282d65dda3">pcl_net_ai2pcl</a></div><div class="ttdeci">PCL_EXPORT int pcl_net_ai2pcl(int ai_retval)</div><div class="ttdef"><b>Definition:</b> <a href="a00809_source.html#l00035">net_ai2pcl.c:35</a></div></div>
+<div class="ttc" id="aa01306_html_gab052d4faa8fd25e1a13e86ecd4aafa38"><div class="ttname"><a href="a01306.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a></div><div class="ttdeci">#define BADARG()</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00306">_errdefs.h:306</a></div></div>
+<div class="ttc" id="aa00824_html_ac541061e42d23be65e50cd437aea35e2"><div class="ttname"><a href="a00824.html#ac541061e42d23be65e50cd437aea35e2">pcl_net_ip2inet</a></div><div class="ttdeci">int pcl_net_ip2inet(int af, const char *ipstr, void *inaddr)</div><div class="ttdef"><b>Definition:</b> <a href="a00824_source.html#l00036">net_ip2inet.c:36</a></div></div>
+<div class="ttc" id="aa00800_html"><div class="ttname"><a href="a00800.html">_net.h</a></div></div>
+<div class="ttc" id="aa01305_html_ga4416795bd50c57cfad774c42154bbc9f"><div class="ttname"><a href="a01305.html#ga4416795bd50c57cfad774c42154bbc9f">PCL_ETYPE</a></div><div class="ttdeci">#define PCL_ETYPE</div><div class="ttdoc">Invalid type.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00142">_errno.h:142</a></div></div>
+<div class="ttc" id="aa00092_html"><div class="ttname"><a href="a00092.html">string.h</a></div></div>
+<div class="ttc" id="aa01306_html_ga82adf6365b61d9a32021e559d9c31497"><div class="ttname"><a href="a01306.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a></div><div class="ttdeci">#define SETERR(_pclerr)</div><div class="ttdoc">Sets the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00065">_errdefs.h:65</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>
