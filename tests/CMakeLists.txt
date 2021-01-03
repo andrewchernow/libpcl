@@ -5,5 +5,8 @@ else()
 	link_libraries(pcl)
 endif()
 
-add_executable(test test.c array.c buf.c)
+add_executable(test test.c
+	array.c
+	buf.c
+	dir.c)
 
