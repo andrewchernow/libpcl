@@ -49,6 +49,7 @@
 static int num_suites = 0;
 static int num_tests = 0;
 static int num_failed = 0;
+static char **suites_to_run;
 
 typedef bool (*casefunc_t)(void);
 
@@ -141,8 +142,23 @@ static void run_suite(const char *suite)
 		return;
 
 	char *p = strrchr(suite, '.');
-	printf("Suite: %.*s\n", (int) (p - suite), suite);
+	*p = 0;
 
+	if(*suites_to_run)
+	{
+		char **suites = suites_to_run;
+
+		for(; *suites; suites++)
+			if(strcmp(*suites, suite) == 0)
+				break;
+
+		if(!*suites)
+			return;
+	}
+
+	printf("Suite: %s\n", suite);
+
+	*p = '.';
 	bool in_summary = false;
 	char *line, buf[1024], *summary = NULL;
 	FILE *fp = fopen(suite, "r");
@@ -280,7 +296,7 @@ static void find_suites(void)
 int main(int argc, char **argv)
 {
 	(void) argc;
-	(void) argv;
+	suites_to_run = argv + 1;
 
 	pcl_init();
 
