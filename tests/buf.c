@@ -38,10 +38,11 @@ TESTCASE(buf_bin_put)
 {
 	const uint8_t data[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 	pcl_buf_t *b = pcl_buf_init(NULL, 10, PclBufBinary);
-	int r = pcl_buf_put(b, data, 10);
-	bool rv = r == 10 && b->data[10] == 0 && memcmp(b->data, data, 10) == 0;
+	ASSERT_INTEQ(pcl_buf_put(b, data, 10), 10, "wrong return value put");
+	ASSERT_INTEQ(b->data[10], 0, "buf data missing NUL");
+	ASSERT_INTEQ(memcmp(b->data, data, 10), 0, "wrong buf data contents");
 	pcl_buf_free(b);
-	return rv;
+	return true;
 }
 
 /**$ Put a string in binary mode */
@@ -49,10 +50,12 @@ TESTCASE(buf_bin_putstr)
 {
 	const char *str = "Hello";
 	pcl_buf_t *b = pcl_buf_init(NULL, 10, PclBufBinary);
-	int r = pcl_buf_putstr(b, str);
-	bool rv = r == 6 && b->data[5] == 0 && b->data[6] == 0 && strcmp(b->data, str) == 0;
+	ASSERT_INTEQ(pcl_buf_putstr(b, str), 6, "wrong return value putstr");
+	ASSERT_INTEQ(b->data[5], 0, "binary string missing NUL");
+	ASSERT_INTEQ(b->data[6], 0, "buf data missing NUL");
+	ASSERT_STREQ(b->data, str, "wrong buf data contents");
 	pcl_buf_free(b);
-	return rv;
+	return true;
 }
 
 /**$ Put a formatted string in binary mode */
@@ -60,40 +63,44 @@ TESTCASE(buf_bin_putf)
 {
 	const char *str = "Hello";
 	pcl_buf_t *b = pcl_buf_init(NULL, 10, PclBufBinary);
-	int r = pcl_buf_putf(b, "%s", str);
-	bool rv = r == 6 && b->data[5] == 0 && b->data[6] == 0 && strcmp(b->data, str) == 0;
+	ASSERT_INTEQ(pcl_buf_putf(b, "%s", str), 6, "wrong return value putf");
+	ASSERT_INTEQ(b->data[5], 0, "binary string missing NUL");
+	ASSERT_INTEQ(b->data[6], 0, "buf data missing NUL");
+	ASSERT_STREQ(b->data, str, "wrong buf data contents");
 	pcl_buf_free(b);
-	return rv;
+	return true;
 }
 
 /**$ Put an int8 in binary mode */
 TESTCASE(buf_bin_putint8)
 {
 	pcl_buf_t *b = pcl_buf_init(NULL, 10, PclBufBinary);
-	int r = pcl_buf_putint8(b, 255);
+	ASSERT_INTEQ(pcl_buf_putint8(b, 255), 1, "wrong return value putint8");
+	ASSERT_INTEQ(b->data[1], 0, "buf data missing NUL");
 
 	b->pos = 0;
 
 	uint8_t n;
-	int r2 = pcl_buf_getint8(b, &n);
-	bool rv = r == 1 && r2 == 1 && b->data[1] == 0 && n == 255;
+	ASSERT_INTEQ(pcl_buf_getint8(b, &n), 1, "wrong return value getint8");
+	ASSERT_INTEQ(n, 255, "wrong value from getint8");
 	pcl_buf_free(b);
-	return rv;
+	return true;
 }
 
 /**$ Put an int16 in binary mode */
 TESTCASE(buf_bin_putint16)
 {
 	pcl_buf_t *b = pcl_buf_init(NULL, 10, PclBufBinary);
-	int r = pcl_buf_putint16(b, 42189);
+	ASSERT_INTEQ(pcl_buf_putint16(b, 42189), 2, "wrong return value putint16");
+	ASSERT_INTEQ(b->data[2], 0, "buf data missing NUL");
 
 	b->pos = 0;
 
 	uint16_t n;
-	int r2 = pcl_buf_getint16(b, &n);
-	bool rv = r == 2 && r2 == 2 && b->data[2] == 0 && n == 42189;
+	ASSERT_INTEQ(pcl_buf_getint16(b, &n), 2, "wrong return value getint16");
+	ASSERT_INTEQ(n, 42189, "wrong value from getint16");
 	pcl_buf_free(b);
-	return rv;
+	return true;
 }
 
 /**$ Put an int32 in binary mode */
@@ -101,15 +108,16 @@ TESTCASE(buf_bin_putint32)
 {
 	uint32_t val = 3U * 1024 * 1024 * 1024;
 	pcl_buf_t *b = pcl_buf_init(NULL, 10, PclBufBinary);
-	int r = pcl_buf_putint32(b, val);
+	ASSERT_INTEQ(pcl_buf_putint32(b, val), 4, "wrong return value putint32");
+	ASSERT_INTEQ(b->data[4], 0, "buf data missing NUL");
 
 	b->pos = 0;
 
 	uint32_t n;
-	int r2 = pcl_buf_getint32(b, &n);
-	bool rv = r == 4 && r2 == 4 && b->data[4] == 0 && n == val;
+	ASSERT_INTEQ(pcl_buf_getint32(b, &n), 4, "wrong return value getint32");
+	ASSERT_INTEQ(n, val, "wrong value from getint32");
 	pcl_buf_free(b);
-	return rv;
+	return true;
 }
 
 /**$ Put an int64 in binary mode */
@@ -117,15 +125,16 @@ TESTCASE(buf_bin_putint64)
 {
 	uint64_t val = 3ULL * 1024 * 1024 * 1024 * 1024;
 	pcl_buf_t *b = pcl_buf_init(NULL, 10, PclBufBinary);
-	int r = pcl_buf_putint64(b, val);
+	ASSERT_INTEQ(pcl_buf_putint64(b, val), 8, "wrong return value putint64");
+	ASSERT_INTEQ(b->data[8], 0, "buf data missing NUL");
 
 	b->pos = 0;
 
 	uint64_t n;
-	int r2 = pcl_buf_getint64(b, &n);
-	bool rv = r == 8 && r2 == 8 && b->data[8] == 0 && n == val;
+	ASSERT_INTEQ(pcl_buf_getint64(b, &n), 8, "wrong return value getint64");
+	ASSERT_INTEQ(n, val, "wrong value from getint64");
 	pcl_buf_free(b);
-	return rv;
+	return true;
 }
 
 /**$ Put a string in text mode */
@@ -136,10 +145,12 @@ TESTCASE(buf_text_putstr)
 
 	b->data[6] = 1; // ensure 2nd NUL is not added like binary mode
 
-	int r = pcl_buf_putstr(b, str);
-	bool rv = r == 5 && b->data[5] == 0 && b->data[6] == 1 && strcmp(b->data, str) == 0;
+	ASSERT_INTEQ(pcl_buf_putstr(b, str), 5, "wrong return value putstr");
+	ASSERT_INTEQ(b->data[5], 0, "buf data missing NUL");
+	ASSERT_INTEQ(b->data[6], 1, "extra NUL after putstr");
+	ASSERT_STREQ(b->data, str, "wrong buf contents");
 	pcl_buf_free(b);
-	return rv;
+	return true;
 }
 
 /**$ Put a formatted string in text mode */
@@ -150,20 +161,23 @@ TESTCASE(buf_text_putf)
 
 	b->data[6] = 1; // ensure 2nd NUL is not added like binary mode
 
-	int r = pcl_buf_putf(b, "%s", str);
-	bool rv = r == 5 && b->data[5] == 0 && b->data[6] == 1 && strcmp(b->data, str) == 0;
+	ASSERT_INTEQ(pcl_buf_putf(b, "%s", str), 5, "wrong return value putf");
+	ASSERT_INTEQ(b->data[5], 0, "buf data missing NUL");
+	ASSERT_INTEQ(b->data[6], 1, "extra NUL after putstr");
+	ASSERT_STREQ(b->data, str, "wrong buf contents");
 	pcl_buf_free(b);
-	return rv;
+	return true;
 }
 
 /**$ Put a character in text mode (same as binary mode) */
 TESTCASE(buf_text_putchar)
 {
 	pcl_buf_t *b = pcl_buf_init(NULL, 10, PclBufText);
-	int r = pcl_buf_putchar(b, 'a');
-	bool rv = r == 1 && b->data[1] == 0 && *b->data == 'a';
+	ASSERT_INTEQ(pcl_buf_putchar(b, 'a'), 1, "wrong return value putchar");
+	ASSERT_INTEQ(b->data[1], 0, "buf data missing NUL");
+	ASSERT_INTEQ(b->data[0], 'a', "wrong buf contents");
 	pcl_buf_free(b);
-	return rv;
+	return true;
 }
 
 /**$ Put a string in text mode */
@@ -175,10 +189,13 @@ TESTCASE(buf_textw_putstr)
 
 	data[6] = 1; // ensure 2nd NUL is not added like binary mode
 
-	int r = pcl_buf_putstr(b, str);
-	bool rv = r == 5 && data[5] == 0 && data[6] == 1 && wcscmp(data, str) == 0;
+	ASSERT_INTEQ(pcl_buf_putstr(b, str), 5, "wrong return value putstr");
+	ASSERT_INTEQ(data[5], 0, "buf data missing NUL");
+	ASSERT_INTEQ(data[6], 1, "extra NUL after putstr");
+	ASSERT_WSTREQ(data, str, "wrong buf contents");
+
 	pcl_buf_free(b);
-	return rv;
+	return true;
 }
 
 /**$ Put a formatted string in text mode */
@@ -190,20 +207,27 @@ TESTCASE(buf_textw_putf)
 
 	data[6] = 1; // ensure 2nd NUL is not added like binary mode
 
-	int r = pcl_buf_putf(b, L"%ls", str);
-	bool rv = r == 5 && data[5] == 0 && data[6] == 1 && wcscmp(data, str) == 0;
+	ASSERT_INTEQ(pcl_buf_putf(b, L"%ls", str), 5, "wrong return value putf");
+	ASSERT_INTEQ(data[5], 0, "buf data missing NUL");
+	ASSERT_INTEQ(data[6], 1, "extra NUL after putstr");
+	ASSERT_WSTREQ(data, str, "wrong buf contents");
+
 	pcl_buf_free(b);
-	return rv;
+	return true;
 }
 
 /**$ Put a character in text mode (same as binary mode) */
 TESTCASE(buf_textw_putchar)
 {
 	pcl_buf_t *b = pcl_buf_init(NULL, 10, PclBufTextW);
-	int r = pcl_buf_putchar(b, L'a');
+	ASSERT_INTEQ(pcl_buf_putchar(b, L'a'), 1, "wrong return value putchar");
+
 	wchar_t *data = (wchar_t *) b->data;
-	bool rv = r == 1 && data[1] == 0 && *data == 'a';
+
+	ASSERT_INTEQ(data[1], 0, "buf data missing NUL");
+	ASSERT_INTEQ(data[0], L'a', "wrong buf contents");
+
 	pcl_buf_free(b);
-	return rv;
+	return true;
 }
 
