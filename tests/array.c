@@ -51,82 +51,78 @@ TESTCASE(array_add)
 	for(int i = 0; i < ELEMCOUNT; i++)
 		rvals[i] = pcl_array_add(arr, (void *) elements[i]);
 
-	bool success = true;
-
 	for(int i = 0; i < ELEMCOUNT; i++)
 	{
-		if(rvals[i] != i+1 || strcmp((const char *) pcl_array_get(arr, i), elements[i]) != 0)
-		{
-			success = false;
-			break;
-		}
+		ASSERT_INTEQ(rvals[i], i+1, "array_add return value");
+		ASSERT_STREQ(pcl_array_get(arr, i), elements[i], "array_get strings do not match");
 	}
 
 	pcl_array_free(arr);
-	return success;
+	return true;
 }
 
 /**$ Get element at an invalid index */
 TESTCASE(array_get_badidx)
 {
 	pcl_array_t *arr = pcl_array_create(8, NULL);
-	void *elem = pcl_array_get(arr, 0);
-	bool b = elem == NULL && pcl_errno == PCL_EINDEX;
+	ASSERT_NULL(pcl_array_get(arr, 0), "array_get");
+	ASSERT_INTEQ(pcl_errno, PCL_EINDEX, "wrong pcl error set");
 	pcl_array_free(arr);
-	return b;
+	return true;
 }
 
 /**$ Get element at a valid index */
 TESTCASE(array_get)
 {
 	pcl_array_t *arr = pcl_array_create(0, NULL);
-	int r = pcl_array_add(arr, "value");
-	bool b = r == 1 && strcmp((const char *) pcl_array_get(arr, 0), "value") == 0;
+	ASSERT_INTEQ(pcl_array_add(arr, "value"), 1, "wrong return value");
+	ASSERT_STREQ(pcl_array_get(arr, 0), "value", "wrong array element value");
 	pcl_array_free(arr);
-	return b;
+	return true;
 }
 
 /**$ Get NULL element at a valid index */
 TESTCASE(array_get_null)
 {
 	pcl_array_t *arr = pcl_array_create(0, NULL);
-	int r = pcl_array_add(arr, NULL);
-	bool b = r == 1 && pcl_array_get(arr, 0) == NULL && pcl_errno == PCL_EOKAY;
+	ASSERT_INTEQ(pcl_array_add(arr, NULL), 1, "wrong return value");
+	ASSERT_NULL(pcl_array_get(arr, 0), "wrong array element value");
+	ASSERT_INTEQ(pcl_errno, PCL_EOKAY, "wrong pcl error value");
 	pcl_array_free(arr);
-	return b;
+	return true;
 }
 
 /**$ Set element within an array */
 TESTCASE(array_set)
 {
 	pcl_array_t *arr = pcl_array_create(4, NULL);
-	int r1 = pcl_array_add(arr, "value1");
-	int r2 = pcl_array_add(arr, "value2");
-	int r3 = pcl_array_set(arr, "value3", 0);
-	bool b = r1 == 1 && r2 == 2 && r3 == 0 &&
-		strcmp((const char *) pcl_array_get(arr, 0), "value3") == 0;
+	ASSERT_INTEQ(pcl_array_add(arr, "value1"), 1, "wrong return value array_add");
+	ASSERT_INTEQ(pcl_array_add(arr, "value2"), 2, "wrong return value array_add");
+	ASSERT_INTEQ(pcl_array_set(arr, "value3", 0), 0, "wrong return value array_set");
+	ASSERT_STREQ(pcl_array_get(arr, 0), "value3", "wrong array element value");
 	pcl_array_free(arr);
-	return b;
+	return true;
 }
 
 /**$ Set element beyond current count */
 TESTCASE(array_set_beyond_count)
 {
 	pcl_array_t *arr = pcl_array_create(2, NULL);
-	int r = pcl_array_set(arr, "value", 1);
-	bool b = r == 0 && pcl_array_get(arr, 0) == NULL && pcl_errno == PCL_EOKAY &&
-		arr->count == 2 && strcmp((const char *) pcl_array_get(arr, 1), "value") == 0;
+	ASSERT_INTEQ(pcl_array_set(arr, "value", 1), 0, "wrong return value array_set");
+	ASSERT_NULL(pcl_array_get(arr, 0), "wrong return value array_get");
+	ASSERT_INTEQ(pcl_errno, PCL_EOKAY, "wrong pcl_errno");
+	ASSERT_STREQ(pcl_array_get(arr, 1), "value", "wrong array element value");
 	pcl_array_free(arr);
-	return b;
+	return true;
 }
 
 /**$ Remove element from array */
 TESTCASE(array_remove)
 {
 	pcl_array_t *arr = pcl_array_create(2, NULL);
-	int r = pcl_array_add(arr, "value");
-	int r2 = pcl_array_remove(arr, 0);
-	bool b = r == 1 && r2 == 0 && arr->count == 0;
+	ASSERT_INTEQ(pcl_array_add(arr, "value"), 1, "wrong return value array_add");
+	ASSERT_INTEQ(pcl_array_remove(arr, 0), 0, "wrong return value array_remove");
+	ASSERT_INTEQ(arr->count, 0, "wrong pcl_array_t.count value");
 	pcl_array_free(arr);
-	return b;
+	return true;
 }
