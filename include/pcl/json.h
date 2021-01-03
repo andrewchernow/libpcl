@@ -420,14 +420,14 @@ PCL_EXPORT bool pcl_json_objisbool(const pcl_json_t *obj, const char *key);
  * @param key pointer to a string
  * @return true if key's value is a boolean true and false otherwise.
  */
-#define pcl_json_objistrue(obj, key) (pcl_json_objisbool(obj, key) ? (obj)->boolean : false)
+PCL_EXPORT bool pcl_json_objistrue(const pcl_json_t *obj, const char *key);
 
 /** Indicates if an object key's value is a boolean false.
  * @param arr pointer to a json object of type object
  * @param key pointer to a string
  * @return true if key's value is a boolean false and false otherwise.
  */
-#define pcl_json_objisfalse(obj, key) (pcl_json_objisbool(obj, key) ? !(obj)->boolean : false)
+PCL_EXPORT bool pcl_json_objisfalse(const pcl_json_t *obj, const char *key);
 
 /** Indicates if an object key's value is a number (real or integer).
  * @param arr pointer to a json object of type object
@@ -587,14 +587,14 @@ PCL_EXPORT bool pcl_json_arrisbool(const pcl_json_t *arr, int index);
  * @param idx element index
  * @return true if element is a boolean true and false otherwise.
  */
-#define pcl_json_arristrue(arr, idx) (pcl_json_arrisbool(arr, idx) ? (arr)->boolean : false)
+PCL_EXPORT bool pcl_json_arristrue(const pcl_json_t *arr, int index);
 
 /** Indicates if an array element is a boolean false.
  * @param arr pointer to a json array object
  * @param idx element index
  * @return true if element is a boolean false and false otherwise.
  */
-#define pcl_json_arrisfalse(arr, idx) (pcl_json_arrisbool(arr, idx) ? !(arr)->boolean : false)
+PCL_EXPORT bool pcl_json_arrisfalse(const pcl_json_t *arr, int index);
 
 /** Indicates if an array element is a number.
  * @param arr pointer to a json array object
