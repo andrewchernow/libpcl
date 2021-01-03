@@ -29,14 +29,21 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+/* Outside of pcl_init, this file intentionally avoids using the pcl library since
+ * its goal is to test it.
+ */
+
 #ifdef PCL_WINDOWS
 #	include <windows.h>
+#	define WSTRFMT "%S"
 #else
 #	include <dirent.h>
 #	include <unistd.h>
 #	include <dlfcn.h>
+#	define WSTRFMT "%ls"
 #endif
 
+#include "test.h"
 #include <pcl/init.h>
 #include <stdio.h>
 #include <ctype.h>
@@ -45,6 +52,14 @@
 #include <string.h>
 
 #define SKIPWS(_s) while(isspace(*(_s))) (_s)++
+#define SUITEDIR "tests"
+#define BASENAME(_file) (const char *) (strrchr(_file, PCL_PATHSEPCHR) + 1)
+#define PRINTLOC "  " SUITEDIR "/%s:%s(%d) - "
+#define PRINTMSG(msg) do{ \
+	if(message) \
+		fprintf(stderr, ": %s", message); \
+	fprintf(stderr, "\n");    \
+}while(0)
 
 static int num_suites = 0;
 static int num_tests = 0;
@@ -113,14 +128,11 @@ static void run_case(const char *name, const char *summary)
 
 	if(!casefunc)
 	{
-		fprintf(stderr, "  Status: \x1B[31mFailed\x1B[0m - cannot find test case '%s', "
-										"try recompiling test target\n", name);
+		fprintf(stderr, "  cannot find test case '%s', try recompiling test target\n", name);
+		fprintf(stderr, "  Status: \x1B[31mFailed\x1B[0m\n");
 		num_failed++;
 		return;
 	}
-
-	printf("  Status: Running");
-	fflush(stdout);
 
 	bool success = casefunc();
 
@@ -130,10 +142,10 @@ static void run_case(const char *name, const char *summary)
 	const char *status = success ? "Success" : "Failed";
 	int color = success ? 32 : 31; // green or red
 
-	printf("\r                       \r  Status: \x1B[%dm%s\x1B[0m\n\n", color, status);
+	printf("  Status: \x1B[%dm%s\x1B[0m\n\n", color, status);
 }
 
-static void run_suite(const char *suite)
+static void run_suite(char *suite)
 {
 	size_t len = strlen(suite);
 
@@ -264,7 +276,7 @@ static void find_suites(void)
 
 	if(hfind == INVALID_HANDLE_VALUE)
 	{
-		fprintf(stderr, "cannot list tests directory\n");
+		fprintf(stderr, "cannot list " SUITEDIR " directory\n");
 		exit(1);
 	}
 
@@ -279,7 +291,7 @@ static void find_suites(void)
 
 	if(!dp)
 	{
-		fprintf(stderr, "cannot list tests directory\n");
+		fprintf(stderr, "cannot list " SUITEDIR " directory\n");
 		exit(1);
 	}
 
@@ -301,9 +313,9 @@ int main(int argc, char **argv)
 	pcl_init();
 
 #ifdef PCL_WINDOWS
-	SetCurrentDirectoryA("tests");
+	SetCurrentDirectoryA(SUITEDIR);
 #else
-	chdir("tests");
+	chdir(SUITEDIR);
 #endif
 
 	find_suites();
@@ -311,4 +323,90 @@ int main(int argc, char **argv)
 	printf("Report\n  Suites: %d\n  Tests: %d\n  Failed: %d\n", num_suites, num_tests, num_failed);
 
 	return 0;
+}
+
+/* -----------------------------------------------------------------------
+ * Public API used by test case files, normally via macros in test.h
+ */
+
+bool
+assert_int_equal(PCL_LOCATION_PARAMS, long long expected, long long actual, const char *message)
+{
+	if(expected == actual)
+		return true;
+
+	file = BASENAME(file);
+	fprintf(stderr, PRINTLOC "expected %lld but saw %lld", PCL_LOCATION_VALS, expected, actual);
+
+	PRINTMSG(message);
+	return false;
+}
+
+bool
+assert_int_notequal(PCL_LOCATION_PARAMS, long long expected, long long actual, const char *message)
+{
+	if(expected != actual)
+		return true;
+
+	file = BASENAME(file);
+	fprintf(stderr, PRINTLOC "expected something other than %lld but saw %lld",
+		PCL_LOCATION_VALS, expected, actual);
+
+	PRINTMSG(message);
+	return false;
+}
+
+bool
+assert_str_equal(PCL_LOCATION_PARAMS, const char *expected, const char *actual,
+	const char *message)
+{
+	if((!expected && !actual) || (expected && actual && !strcmp(expected, actual)))
+		return true;
+
+	file = BASENAME(file);
+	fprintf(stderr, PRINTLOC "expected '%s' but saw '%s'", PCL_LOCATION_VALS, expected, actual);
+
+	PRINTMSG(message);
+	return false;
+}
+
+bool
+assert_wstr_equal(PCL_LOCATION_PARAMS, const wchar_t *expected, const wchar_t *actual,
+	const char *message)
+{
+	if((!expected && !actual) || (expected && actual && !wcscmp(expected, actual)))
+		return true;
+
+	file = BASENAME(file);
+	fprintf(stderr, PRINTLOC "expected '" WSTRFMT "' but saw '" WSTRFMT "'",
+		PCL_LOCATION_VALS, expected, actual);
+
+	PRINTMSG(message);
+	return false;
+}
+
+bool
+assert_null(PCL_LOCATION_PARAMS, const void *ptr, const char *message)
+{
+	if(!ptr)
+		return true;
+
+	file = BASENAME(file);
+	fprintf(stderr, PRINTLOC "expected non-NULL but saw NULL", PCL_LOCATION_VALS);
+
+	PRINTMSG(message);
+	return false;
+}
+
+bool
+assert_notnull(PCL_LOCATION_PARAMS, const void *ptr, const char *message)
+{
+	if(ptr)
+		return true;
+
+	file = BASENAME(file);
+	fprintf(stderr, PRINTLOC  "expected non-NULL but saw NULL", PCL_LOCATION_VALS);
+
+	PRINTMSG(message);
+	return false;
 }

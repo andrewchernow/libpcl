@@ -32,14 +32,51 @@
 #ifndef LIBPCL_TEST_H
 #define LIBPCL_TEST_H
 
+#include <pcl/defs.h>
 #include <pcl/types.h>
 
 #define TESTCASE(name) PCL_EXPORT bool testcase_ ## name(void)
+
+#define ASSERT_INTEQ(expected, actual, message) do{ \
+  if(!assert_int_equal(PCL_LOCATION_ARGS, expected, actual, message)) \
+    return false; \
+}while(0)
+
+#define ASSERT_INTNEQ(expected, actual, message) do{ \
+  if(!assert_int_notequal(PCL_LOCATION_ARGS, expected, actual, message)) \
+    return false; \
+}while(0)
+
+#define ASSERT_STREQ(expected, actual, message) do{ \
+  if(!assert_str_equal(PCL_LOCATION_ARGS, expected, actual, message)) \
+    return false; \
+}while(0)
+
+#define ASSERT_WSTREQ(expected, actual, message) do{ \
+  if(!assert_wstr_equal(PCL_LOCATION_ARGS, expected, actual, message)) \
+    return false; \
+}while(0)
+
+#define ASSERT_NULL(ptr, message) do{ \
+  if(!assert_null(PCL_LOCATION_ARGS, ptr, message)) \
+    return false; \
+}while(0)
+
+#define ASSERT_NOTNULL(ptr, message) do{ \
+  if(!assert_notnull(PCL_LOCATION_ARGS, ptr, message)) \
+    return false; \
+}while(0)
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+bool assert_int_equal(PCL_LOCATION_PARAMS, long long expected, long long actual, const char *message);
+bool assert_int_notequal(PCL_LOCATION_PARAMS, long long expected, long long actual, const char *message);
+bool assert_str_equal(PCL_LOCATION_PARAMS, const char *expected, const char *actual, const char *message);
+bool assert_wstr_equal(PCL_LOCATION_PARAMS, const wchar_t *expected, const wchar_t *actual, const char *message);
+bool assert_null(PCL_LOCATION_PARAMS, const void *ptr, const char *message);
+bool assert_notnull(PCL_LOCATION_PARAMS, const void *ptr, const char *message);
 
 #ifdef __cplusplus
 }
