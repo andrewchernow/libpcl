@@ -34,27 +34,20 @@
 #include <pcl/error.h>
 #include <string.h>
 
-#define ELEMCOUNT (int) (sizeof(elements) / sizeof(elements[0]))
-
-static const char *elements[] = {
-	"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
-	"eleven", "tweleve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen",
-	"eighteen", "nineteen", "twenty"
-};
-
 /**$ Append elements to array. */
 TESTCASE(array_add)
 {
-	int rvals[ELEMCOUNT];
 	pcl_array_t *arr = pcl_array_create(10, NULL);
+	const char *elements[] = {
+		"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+		"eleven", "tweleve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen",
+		"eighteen", "nineteen", "twenty"
+	};
 
-	for(int i = 0; i < ELEMCOUNT; i++)
-		rvals[i] = pcl_array_add(arr, (void *) elements[i]);
-
-	for(int i = 0; i < ELEMCOUNT; i++)
+	for(int i = 0; i < (int) (sizeof(elements) / sizeof(elements[0])); i++)
 	{
-		ASSERT_INTEQ(rvals[i], i+1, "array_add return value");
-		ASSERT_STREQ(pcl_array_get(arr, i), elements[i], "array_get strings do not match");
+		ASSERT_INTEQ(pcl_array_add(arr, (void *) elements[i]), i + 1, "wrong return value add");
+		ASSERT_STREQ(pcl_array_get(arr, i), elements[i], "strings do not match on get");
 	}
 
 	pcl_array_free(arr);
