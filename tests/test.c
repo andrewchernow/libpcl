@@ -90,15 +90,15 @@ static casefunc_t get_case(const char *name)
 static char *wrap_summary(const char *summary)
 {
 	size_t len = strlen(summary);
-	char *wrapped_summary = malloc(len + ((size_t) (len / 80) * 12) + 1);
+	char *wrapped_summary = malloc(len + ((size_t) (len / 80) * 9) + 1);
 	char *dst = wrapped_summary;
 
 	for(int line_len = 1; *summary; summary++, line_len++)
 	{
 		if(*summary == ' ' && line_len >= 80)
 		{
-			memcpy(dst, "\n           ", 12);
-			dst += 12;
+			memcpy(dst, "\n        ", 9);
+			dst += 9;
 			line_len = 0;
 		}
 		else
@@ -113,16 +113,18 @@ static char *wrap_summary(const char *summary)
 
 static void run_case(const char *name, const char *summary)
 {
-	printf("  Case: %s\n", name);
+	printf("  Case: %s", name);
 
 	num_tests++;
 
 	if(summary)
 	{
 		char *wrapped_summary = wrap_summary(summary);
-		printf("  Summary: %s\n", wrapped_summary);
+		printf(" - %s", wrapped_summary);
 		free(wrapped_summary);
 	}
+
+	printf("\n");
 
 	casefunc_t casefunc = get_case(name);
 
