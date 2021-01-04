@@ -117,7 +117,7 @@ pcl_json_compile(const char *path)
 					{
 						p += 2;
 
-						end = strchr(p, '\'');
+						end = strstr(p, "']");
 
 						if(!end)
 						{
@@ -128,7 +128,7 @@ pcl_json_compile(const char *path)
 
 						node->type = PclPathMember;
 						node->member = pcl_strndup(p, end - p);
-						p = end + 1;
+						p = end + 2;
 					}
 				}
 					/* slice with no start $.book[:2] */
