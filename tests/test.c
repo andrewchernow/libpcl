@@ -345,6 +345,19 @@ assert_int_equal(PCL_LOCATION_PARAMS, long long expected, long long actual, cons
 }
 
 bool
+assert_double_equal(PCL_LOCATION_PARAMS, double expected, double actual, const char *message)
+{
+	if(expected == actual)
+		return true;
+
+	file = BASENAME(file);
+	fprintf(stderr, PRINTLOC "expected %1.15f but saw %1.15f", PCL_LOCATION_VALS, expected, actual);
+
+	PRINTMSG(message);
+	return false;
+}
+
+bool
 assert_int_notequal(PCL_LOCATION_PARAMS, long long expected, long long actual, const char *message)
 {
 	if(expected != actual)
