@@ -74,7 +74,7 @@ TESTCASE(mkdir)
 
 	(void) pcl_rmdir(TESTDIR);
 
-	ASSERT_INTEQ(success, true, "missing test directory after mkdir");
+	ASSERT_TRUE(success, "missing test directory after mkdir");
 
 	return success;
 }
@@ -89,7 +89,7 @@ TESTCASE(mkdir_exists)
 
 	(void) pcl_rmdir(TESTDIR);
 
-	ASSERT_INTEQ(success, true, "wrong error handling for existing directory");
+	ASSERT_TRUE(success, "wrong error handling for existing directory");
 
 	return success;
 }
@@ -117,7 +117,7 @@ TESTCASE(mkdirs)
 
 	RMDIRS;
 
-	ASSERT_INTEQ(success, true, "missing nested directory for mkdirs");
+	ASSERT_TRUE(success, "missing nested directory for mkdirs");
 
 	return success;
 }
@@ -131,7 +131,7 @@ TESTCASE(rmdir_r)
 	struct stat st;
 	bool success = stat(TESTDIR, &st) != 0;
 
-	ASSERT_INTEQ(success, true, "testdir still exists after rmdir_r");
+	ASSERT_TRUE(success, "testdir still exists after rmdir_r");
 
 	return success;
 }
