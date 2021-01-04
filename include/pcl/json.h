@@ -255,6 +255,17 @@ PCL_EXPORT void pcl_json_freepath(pcl_json_path_t *path);
  */
 PCL_EXPORT pcl_array_t *pcl_json_match(pcl_json_t *j, const pcl_json_path_t *path);
 
+/** Query a json object with a path.
+ * Internally, this performs a ::pcl_json_compile followed by ::pcl_json_match. Although this
+ * is convenient, if a compiled path is to be used across many documents, it is better to
+ * compile and then use the match function.
+ * @param j pointer to a json object
+ * @param path json path
+ * @return a pointer to an array of pcl_json_t values or \c NULL on error. Each json value's
+ * reference count has been increased by one. This array can be empty. Free with ::pcl_array_free.
+ */
+PCL_EXPORT pcl_array_t *pcl_json_query(pcl_json_t *j, const char *path);
+
 /** Release all resources used by a json value. When the given json object's reference count is
  * one, it will be freed. If greater than one, its reference count will be decremeted but it
  * will not be freed.
