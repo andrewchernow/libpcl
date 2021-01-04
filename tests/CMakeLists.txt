@@ -8,6 +8,7 @@ endif()
 add_executable(test test.c
 	array.c
 	buf.c
+	crypto.c
 	dir.c
 	json.c)
 
