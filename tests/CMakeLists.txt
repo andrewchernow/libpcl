@@ -8,5 +8,6 @@ endif()
 add_executable(test test.c
 	array.c
 	buf.c
-	dir.c)
+	dir.c
+	json.c)
 
