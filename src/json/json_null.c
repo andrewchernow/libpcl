@@ -35,6 +35,6 @@
 pcl_json_t *
 pcl_json_null(void)
 {
-	static pcl_json_t null = {.type = 0};
+	static pcl_json_t null = {.type = 0, .nrefs = 0};
 	return &null;
 }

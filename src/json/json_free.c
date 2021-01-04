@@ -40,10 +40,10 @@ pcl_json_free(pcl_json_t *j)
 	if(!j)
 		return;
 
-	if(pcl_json_ref(j, -1)->nrefs > 0)
+	if(j == pcl_json_null() || j == pcl_json_true() || j == pcl_json_false())
 		return;
 
-	if(j == pcl_json_null() || j == pcl_json_true() || j == pcl_json_false())
+	if(pcl_json_ref(j, -1)->nrefs > 0)
 		return;
 
 	switch(j->type)

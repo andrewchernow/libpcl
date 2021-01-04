@@ -681,7 +681,7 @@ PCL_EXPORT pcl_json_t *pcl_json_int(long long integer);
 PCL_INLINE pcl_json_t *
 pcl_json_ref(pcl_json_t *j, int amt)
 {
-	if(j)
+	if(j && j != pcl_json_null() && j != pcl_json_true() && j != pcl_json_false())
 		j->nrefs += amt;
 	return j;
 }

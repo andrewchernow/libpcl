@@ -34,6 +34,6 @@
 pcl_json_t *
 pcl_json_false(void)
 {
-	static pcl_json_t jfalse = {.type = 'b', .boolean = false};
+	static pcl_json_t jfalse = {.type = 'b', .boolean = false, .nrefs = 0};
 	return &jfalse;
 }
