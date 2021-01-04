@@ -37,28 +37,28 @@
 
 #define TESTCASE(name) PCL_EXPORT bool testcase_ ## name(void)
 
-#define ASSERT_INTEQ(expected, actual, message) do{ \
-  if(!assert_int_equal(PCL_LOCATION_ARGS, expected, actual, message)) \
+#define ASSERT_INTEQ(actual, expected, message) do{ \
+  if(!assert_int_equal(PCL_LOCATION_ARGS, actual, expected, message)) \
     return false; \
 }while(0)
 
-#define ASSERT_DOUBLEEQ(expected, actual, message) do{ \
-  if(!assert_double_equal(PCL_LOCATION_ARGS, expected, actual, message)) \
+#define ASSERT_DOUBLEEQ(actual, expected, message) do{ \
+  if(!assert_double_equal(PCL_LOCATION_ARGS, actual, expected, message)) \
     return false; \
 }while(0)
 
-#define ASSERT_INTNEQ(expected, actual, message) do{ \
-  if(!assert_int_notequal(PCL_LOCATION_ARGS, expected, actual, message)) \
+#define ASSERT_INTNEQ(actual, expected, message) do{ \
+  if(!assert_int_notequal(PCL_LOCATION_ARGS, actual, expected, message)) \
     return false; \
 }while(0)
 
-#define ASSERT_STREQ(expected, actual, message) do{ \
-  if(!assert_str_equal(PCL_LOCATION_ARGS, expected, actual, message)) \
+#define ASSERT_STREQ(actual, expected, message) do{ \
+  if(!assert_str_equal(PCL_LOCATION_ARGS, actual, expected, message)) \
     return false; \
 }while(0)
 
-#define ASSERT_WSTREQ(expected, actual, message) do{ \
-  if(!assert_wstr_equal(PCL_LOCATION_ARGS, expected, actual, message)) \
+#define ASSERT_WSTREQ(actual, expected, message) do{ \
+  if(!assert_wstr_equal(PCL_LOCATION_ARGS, actual, expected, message)) \
     return false; \
 }while(0)
 
@@ -89,18 +89,18 @@ extern "C" {
 #endif
 
 bool
-assert_int_equal(PCL_LOCATION_PARAMS, long long expected, long long actual, const char *message);
+assert_int_equal(PCL_LOCATION_PARAMS, long long actual, long long expected, const char *message);
 
 bool
-assert_double_equal(PCL_LOCATION_PARAMS, double expected, double actual, const char *message);
+assert_double_equal(PCL_LOCATION_PARAMS, double actual, double expected, const char *message);
 
 bool
-assert_int_notequal(PCL_LOCATION_PARAMS, long long expected, long long actual, const char *message);
+assert_int_notequal(PCL_LOCATION_PARAMS, long long actual, long long expected, const char *message);
 
-bool assert_str_equal(PCL_LOCATION_PARAMS, const char *expected, const char *actual,
+bool assert_str_equal(PCL_LOCATION_PARAMS, const char *actual, const char *expected,
 	const char *message);
 
-bool assert_wstr_equal(PCL_LOCATION_PARAMS, const wchar_t *expected, const wchar_t *actual,
+bool assert_wstr_equal(PCL_LOCATION_PARAMS, const wchar_t *actual, const wchar_t *expected,
 	const char *message);
 
 bool assert_null(PCL_LOCATION_PARAMS, const void *ptr, const char *message);

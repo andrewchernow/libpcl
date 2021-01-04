@@ -332,7 +332,7 @@ int main(int argc, char **argv)
  */
 
 bool
-assert_int_equal(PCL_LOCATION_PARAMS, long long expected, long long actual, const char *message)
+assert_int_equal(PCL_LOCATION_PARAMS, long long actual, long long expected, const char *message)
 {
 	if(expected == actual)
 		return true;
@@ -345,7 +345,7 @@ assert_int_equal(PCL_LOCATION_PARAMS, long long expected, long long actual, cons
 }
 
 bool
-assert_double_equal(PCL_LOCATION_PARAMS, double expected, double actual, const char *message)
+assert_double_equal(PCL_LOCATION_PARAMS, double actual, double expected, const char *message)
 {
 	if(expected == actual)
 		return true;
@@ -358,7 +358,7 @@ assert_double_equal(PCL_LOCATION_PARAMS, double expected, double actual, const c
 }
 
 bool
-assert_int_notequal(PCL_LOCATION_PARAMS, long long expected, long long actual, const char *message)
+assert_int_notequal(PCL_LOCATION_PARAMS, long long actual, long long expected, const char *message)
 {
 	if(expected != actual)
 		return true;
@@ -372,7 +372,7 @@ assert_int_notequal(PCL_LOCATION_PARAMS, long long expected, long long actual, c
 }
 
 bool
-assert_str_equal(PCL_LOCATION_PARAMS, const char *expected, const char *actual,
+assert_str_equal(PCL_LOCATION_PARAMS, const char *actual, const char *expected,
 	const char *message)
 {
 	if((!expected && !actual) || (expected && actual && !strcmp(expected, actual)))
@@ -386,7 +386,7 @@ assert_str_equal(PCL_LOCATION_PARAMS, const char *expected, const char *actual,
 }
 
 bool
-assert_wstr_equal(PCL_LOCATION_PARAMS, const wchar_t *expected, const wchar_t *actual,
+assert_wstr_equal(PCL_LOCATION_PARAMS, const wchar_t *actual, const wchar_t *expected,
 	const char *message)
 {
 	if((!expected && !actual) || (expected && actual && !wcscmp(expected, actual)))
