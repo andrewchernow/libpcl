@@ -190,10 +190,12 @@ static void run_suite(char *suite)
 		p = strrchr(line, '\n');
 
 		if(p)
+		{
 			*p = 0;
 
-		if(*--p == '\r')
-			*p = 0;
+			if(*--p == '\r')
+				*p = 0;
+		}
 
 		SKIPWS(line);
 
