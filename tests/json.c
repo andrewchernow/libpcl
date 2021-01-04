@@ -47,7 +47,8 @@ static char *loadjson(int *lenp)
 {
 	FILE *fp = fopen("test-data.json", "r");
 
-	ASSERT_NOTNULL(fp, "failed to open test-data.json");
+	if(!fp)
+		return NULL;
 
 	size_t len = 0, r;
 	static char data[8192];
@@ -69,6 +70,9 @@ TESTCASE(json_decode)
 	const char *end;
 	int len;
 	char *data = loadjson(&len);
+
+	ASSERT_NOTNULL(data, "failed to open test-data.json");
+
 	pcl_json_t *root = pcl_json_decode(data, (int) len, &end);
 
 	ASSERT_NOTNULL(root, "failed to decode json string");
@@ -160,6 +164,9 @@ TESTCASE(json_encode)
 {
 	int len;
 	char *data = loadjson(&len);
+
+	ASSERT_NOTNULL(data, "failed to open test-data.json");
+
 	pcl_json_t *root = pcl_json_decode(data, (int) len, NULL);
 
 	ASSERT_NOTNULL(root, "failed to decode json string");
@@ -178,6 +185,9 @@ TESTCASE(json_match)
 {
 	int len;
 	char *data = loadjson(&len);
+
+	ASSERT_NOTNULL(data, "failed to open test-data.json");
+
 	pcl_json_t *root = pcl_json_decode(data, (int) len, NULL);
 
 	ASSERT_NOTNULL(root, "failed to decode json string");
@@ -271,6 +281,9 @@ TESTCASE(json_query)
 {
 	int len;
 	char *data = loadjson(&len);
+
+	ASSERT_NOTNULL(data, "failed to open test-data.json");
+
 	pcl_json_t *root = pcl_json_decode(data, (int) len, NULL);
 
 	ASSERT_NOTNULL(root, "failed to decode json string");
