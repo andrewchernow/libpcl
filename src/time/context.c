@@ -33,49 +33,37 @@
 #include <pcl/event.h>
 #include <pcl/defs.h>
 
-#ifdef TIME_HAVE_CONTEXT
 static ipcl_time_context_t time_context = {0};
-#endif
 
 void
 ipcl_time_handler(uint32_t which, void *data)
 {
 	UNUSED(data);
 
-	switch(which)
+	if(which == PCL_EVENT_INIT)
 	{
-		case PCL_EVENT_INIT:
-		{
-			tzset();
+		tzset();
 
 #ifdef PCL_DARWIN
-			struct timeval micro;
+		struct timeval micro;
 
-			mach_timebase_info(&time_context.mach_tbase);
-			time_context.initclock = mach_absolute_time();
+		mach_timebase_info(&time_context.mach_tbase);
+		time_context.initclock = mach_absolute_time();
 
-			(void) gettimeofday(&micro, NULL);
-			time_context.inittime.tv_sec = micro.tv_sec;
-			time_context.inittime.tv_nsec = micro.tv_usec * 1000;
+		(void) gettimeofday(&micro, NULL);
+		time_context.inittime.tv_sec = micro.tv_sec;
+		time_context.inittime.tv_nsec = micro.tv_usec * 1000;
 
 #elif defined(PCL_WINDOWS)
-			LARGE_INTEGER li;
-
-			(void)QueryPerformanceFrequency(&li);
-			time_context.win_freq = (double)li.QuadPart / PCL_NSECS;
+		LARGE_INTEGER li;
+		(void)QueryPerformanceFrequency(&li);
+		time_context.win_freq = (double)li.QuadPart / PCL_NSECS;
 #endif
-			break;
-		}
-
-		default:
-			break;
 	}
 }
 
-#ifdef TIME_HAVE_CONTEXT
 ipcl_time_context_t *
 ipcl_time_context(void)
 {
 	return &time_context;
 }
-#endif

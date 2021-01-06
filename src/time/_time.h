@@ -35,40 +35,38 @@
 #include <pcl/time.h>
 
 #ifdef PCL_WINDOWS
-	#define TIME_HAVE_CONTEXT
-	#include <windows.h>
-	#include <sys/stat.h>
-	#define SECS_1601_1970 11644473600LL /* seconds between 1601 and 1970 */
+#	include <windows.h>
+#	include <sys/stat.h>
+#	define SECS_1601_1970 11644473600LL /* seconds between 1601 and 1970 */
 #elif defined(PCL_LINUX)
-	#ifdef CLOCK_MONOTONIC_RAW
-		#define CLOCK_MONO CLOCK_MONOTONIC_RAW
-	#else
-		#define CLOCK_MONO CLOCK_MONOTONIC
-	#endif
+#	ifdef CLOCK_MONOTONIC_RAW
+#		define CLOCK_MONO CLOCK_MONOTONIC_RAW
+#	else
+#		define CLOCK_MONO CLOCK_MONOTONIC
+#	endif
 #elif defined(PCL_DARWIN)
-	#define TIME_HAVE_CONTEXT
-	#include <mach/mach.h>
-	#include <mach/mach_time.h>
+#	include <mach/mach.h>
+#	include <mach/mach_time.h>
 #endif
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#ifdef TIME_HAVE_CONTEXT
 typedef struct
 {
-	#ifdef PCL_WINDOWS
+#ifdef PCL_WINDOWS
 	double win_freq;
-	#else
+#elif defined(PCL_DARWIN)
 	mach_timebase_info_data_t mach_tbase; /* numer, demon */
 	struct timespec inittime;             /* nanoseconds since 1-Jan-1970 to init() */
 	uint64_t initclock;                   /* ticks since boot to init() */
-	#endif
+#else
+	int not_empty;
+#endif
 } ipcl_time_context_t;
 
 ipcl_time_context_t *ipcl_time_context(void);
-#endif
 
 void ipcl_time_handler(uint32_t which, void *data);
 
