@@ -110,9 +110,10 @@ PCL_EXPORT int pcl_utimes(const pchar_t *path, pcl_time_t *atime, pcl_time_t *ct
 
 /** Converts broken-down time to epoch nanoseconds.
  * @param tu
+ * @param utc true to interrupt \a tu as UTC and false for localtime
  * @return
  */
-PCL_EXPORT pcl_time_t pcl_mktime(pcl_tm_t *tu);
+PCL_EXPORT pcl_time_t pcl_mktime(pcl_tm_t *tu, bool utc);
 
 /** Pause execution of the current thread for the given number of nanoseconds.
  *

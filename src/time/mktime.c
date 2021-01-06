@@ -32,7 +32,7 @@
 #include "_time.h"
 
 pcl_time_t
-pcl_mktime(pcl_tm_t *tu)
+pcl_mktime(pcl_tm_t *tu, bool utc)
 {
 	pcl_time_t t;
 	struct tm tm;
@@ -48,9 +48,9 @@ pcl_mktime(pcl_tm_t *tu)
 	tm.tm_isdst = tu->tm_isdst;
 
 #ifdef PCL_WINDOWS
-	t.sec = _mktime64(&tm);
+	t.sec = utc ? _mkgmtime64(&tm) : _mktime64(&tm);
 #else
-	t.sec = mktime(&tm);
+	t.sec = utc ? timegm(&tm) : mktime(&tm);
 #endif
 
 	t.nsec = tu->tm_nsec;
