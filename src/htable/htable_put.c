@@ -70,7 +70,7 @@ pcl_htable_put(pcl_htable_t *ht, const void *key, void *value, bool unique)
 		/* check if a rehash is needed. The rehash function only returns an error if the
 		 * capacity has exceeded the maximum size for the architecture. Sets PCL_ERANGE.
 		 */
-		if(ht->count > (int) (ht->max_loadfac * (float) ht->capacity))
+		if(ht->count >= (int) (ht->max_loadfac * (float) ht->capacity))
 		{
 			if(ipcl_htable_rehash(ht, true))
 				return TRC();
