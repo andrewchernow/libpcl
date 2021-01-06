@@ -34,22 +34,19 @@
 #include <pcl/error.h>
 
 int
-pcl_utimes(const pchar_t *path, pcl_time_t *atime, pcl_time_t *ctime,
-	pcl_time_t *mtime, pcl_time_t *crtime, pcl_time_t *btime)
+pcl_utimes(const pchar_t *path, pcl_time_t *atime, pcl_time_t *mtime, pcl_time_t *btime)
 {
 	FILETIME filetimes[3];
-	FILETIME *ft_crtime = NULL, *ft_atime = NULL, *ft_mtime = NULL;
+	FILETIME *ft_btime = NULL, *ft_atime = NULL, *ft_mtime = NULL;
 	pcl_file_t *file = pcl_file_open(path, PCL_O_BACKUP | PCL_O_WRONLY);
-
-	UNUSED(ctime || btime);
 
 	if(!file)
 		return TRC();
 
-	if(crtime)
+	if(btime)
 	{
-		ft_crtime = &filetimes[0];
-		*ft_crtime = ipcl_win32_pcl_to_ftime(*crtime);
+		ft_btime = &filetimes[0];
+		*ft_btime = ipcl_win32_pcl_to_ftime(*btime);
 	}
 
 	if(atime)
@@ -64,7 +61,7 @@ pcl_utimes(const pchar_t *path, pcl_time_t *atime, pcl_time_t *ctime,
 		*ft_mtime = ipcl_win32_pcl_to_ftime(*mtime);
 	}
 
-	BOOL b = SetFileTime(file->fd, ft_crtime, ft_atime, ft_mtime);
+	BOOL b = SetFileTime(file->fd, ft_btime, ft_atime, ft_mtime);
 	pcl_file_close(file);
 
 	if(!b)
