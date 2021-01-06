@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.4.3...3.17.3)
 
-set(CMAKE_OSX_DEPLOYMENT_TARGET 10.9)
+# set(CMAKE_OSX_DEPLOYMENT_TARGET 10.9)
 
 # set(CMAKE_VERBOSE_MAKEFILE ON)
 
@@ -10,6 +10,8 @@ project(libpcl
 	LANGUAGES C CXX)
 
 set(CMAKE_C_STANDARD 11)
+
+include(CheckSymbolExists)
 
 if(${CMAKE_SYSTEM_PROCESSOR} STREQUAL "x86_64" OR
 		${CMAKE_SYSTEM_PROCESSOR} STREQUAL "AMD64" OR ${CMAKE_SYSTEM_PROCESSOR} STREQUAL "IA64")
@@ -39,6 +41,12 @@ elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
 	set(PLAT "linux-${ARCH}")
 	add_compile_definitions(PCL_LINUX)
 
+	# available since kernel 4.11
+	check_symbol_exists(statx "sys/stat.h" HAVE_STATX)
+	if(HAVE_STATX)
+		add_compile_definitions(HAVE_STATX)
+	endif()
+
 else()
 	message(FATAL_ERROR "Unsupported platform ${CMAKE_SYSTEM_NAME}")
 endif()
@@ -46,6 +54,13 @@ endif()
 if(UNIX)
 	set(OBJEXT o)
 	add_compile_definitions(PCL_UNIX PCL_EXPORT=extern PCL_INLINE=__inline__)
+
+	# available in Linux Kernel 2.6.22 and Darwin 10.13, normally not needed on Darwin
+	# since setattrlist() is tried first
+	check_symbol_exists(utimensat "sys/stat.h" HAVE_UTIMENSAT)
+	if(HAVE_UTIMENSAT)
+		add_compile_definitions(HAVE_UTIMENSAT)
+	endif()
 endif()
 #set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 #set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
