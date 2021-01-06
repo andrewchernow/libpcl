@@ -10,5 +10,6 @@ add_executable(test test.c
 	buf.c
 	crypto.c
 	dir.c
+	htable.c
 	json.c)
 
