@@ -74,13 +74,13 @@
 
 #define ASSERT_TRUE(value, message) do{ \
   int __b = (value) ? 1 : 0; \
-  if(!assert_int_equal(PCL_LOCATION_ARGS, 1, __b, message)) \
+  if(!assert_int_equal(PCL_LOCATION_ARGS, __b, 1, message)) \
     return false; \
 }while(0)
 
 #define ASSERT_FALSE(value, message) do{ \
   int __bool = (value) ? 1 : 0; \
-  if(!assert_int_equal(PCL_LOCATION_ARGS, 0, __bool, message)) \
+  if(!assert_int_equal(PCL_LOCATION_ARGS, __bool, 0, message)) \
     return false; \
 }while(0)
 

@@ -11,5 +11,5 @@ add_executable(test test.c
 	crypto.c
 	dir.c
 	htable.c
-	json.c)
+	json.c time.c)
 
