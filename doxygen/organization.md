@@ -58,7 +58,7 @@ Copy %farmhash.h to `libs\windows-x86|x86_64\include` and farmhash.obj to
 `libs\windows-x86|x86_64`.
 
 #### Darwin & Linux
-For Darwin, add `-mmacosx-version-min=10.9` to the below. For 32-bit builds, add -m32 to the below.
+For 32-bit builds, add -m32 to the below.
 
 ```
 gcc -Wall -g0 -mavx -maes -O3 -o farmhash.o -c farmhash.cc
