@@ -188,12 +188,10 @@
 	#define UF_TRACKED     0x00000040	/* file renames and deletes are tracked */
 #endif
 
-/* PCL extensions (only meaningful on windows) */
 #define UF_ENCRYPTED     0x00000080 /* item is encrypted */
 #define UF_SPARSE        0x00000100 /* item is a sparse file */
 #define UF_SYSTEM        0x00000200 /* item used exclusively by OS */
 
-/* MAC OS X extension */
 #ifndef UF_HIDDEN
 	#define UF_HIDDEN	     0x00008000	/* item is hidden */
 #endif
@@ -241,16 +239,15 @@ struct tag_pcl_stat
 	pcl_time_t atime;      /* time of last access */
 	pcl_time_t mtime;      /* time of last modification */
 	pcl_time_t ctime;      /* time of last status change (same as mtime on windows) */
-	pcl_time_t crtime;     /* creation time, when available (no linux support) */
+	pcl_time_t btime;      /* creation (birth) time (no linux support until kernel 4.11) */
 
 	/* UF_xxx and SF_xxx flags (see BSD chflags()).  On Darwin, these are
 	 * directly lifted from st_flags or ATTR_CMN_FLAGS.  On Windows,
-	 * WIN32_FIND_DATA.dwFileAttributes are translated.  On Linux, only
-	 * UF_HIDDEN is set when the file name begins with a dot '.'.
+	 * WIN32_FIND_DATA.dwFileAttributes are translated.  On Linux pre 4.11, only
+	 * UF_HIDDEN is set when the file name begins with a dot '.'. If >= 4.11, statx
+	 * stx_attributes are used to populate this value.
 	 */
 	uint32_t   flags;
-	char       finder_info[32]; /* finder info (darwin only) */
-	pcl_time_t btime;     /* backup time (darwin only) */
 };
 
 /** Get file or directory status. This is normally not used directly. Instead, pcl_stat,

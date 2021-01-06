@@ -32,10 +32,10 @@
 #include <pcl/stat.h>
 #include <pcl/error.h>
 #include <pcl/string.h>
-
-#ifdef PCL_DARWIN
-#include <sys/attr.h>
 #include <unistd.h>
+
+#if defined(HAVE_STATX) && defined(PCL_LINUX)
+#	include <sys/sysmacros.h> // makedev
 #endif
 
 static void
@@ -78,8 +78,8 @@ convert_times(pcl_stat_t *buf, sys_stat_t *os_buf)
 #endif
 
 #ifdef PCL_DARWIN
-	buf->crtime.sec = os_buf->st_birthtimespec.tv_sec;
-	buf->crtime.nsec = (int) os_buf->st_birthtimespec.tv_nsec;
+	buf->btime.sec = os_buf->st_birthtimespec.tv_sec;
+	buf->btime.nsec = (int) os_buf->st_birthtimespec.tv_nsec;
 #endif
 }
 
@@ -87,17 +87,19 @@ int
 ipcl_statent(const pchar_t *path, int fd, pcl_stat_t *buf, int flags)
 {
 	int n;
-	sys_stat_t os_buf;
 
 	if(strempty(path) && fd < 0)
 		return BADARG();
 
+#ifdef HAVE_STATX  // linux only call
+	struct statx osx;
+
 	if(fd > -1)
-		n = sys_fstat(fd, &os_buf);
+		n = statx(fd, "", AT_EMPTY_PATH, STATX_ALL, &osx);
 	else if(flags & PCL_STAT_LINK)
-		n = sys_lstat(path, &os_buf);
+		n = statx(AT_FDCWD, path, AT_SYMLINK_NOFOLLOW, STATX_ALL, &osx);
 	else
-		n = sys_stat(path, &os_buf);
+		n = statx(AT_FDCWD, path, 0, STATX_ALL, &osx);
 
 	if(n)
 		return SETLASTERR();
@@ -105,16 +107,71 @@ ipcl_statent(const pchar_t *path, int fd, pcl_stat_t *buf, int flags)
 	if(!buf)
 		return 0; // exists check only
 
-	buf->size    = (int64_t) os_buf.st_size;
-	buf->rdev    = os_buf.st_rdev;
-	buf->dev	   = os_buf.st_dev;
-	buf->ino	   = os_buf.st_ino;
-	buf->uid	   = os_buf.st_uid;
-	buf->gid	   = os_buf.st_gid;
-	buf->nlink   = os_buf.st_nlink;
-	buf->mode    = os_buf.st_mode;
-	buf->blksize = os_buf.st_blksize;
-	buf->blocks  = os_buf.st_blocks;
+	buf->size       = (int64_t) osx.stx_size;
+	buf->rdev       = makedev(osx.stx_rdev_major, osx.stx_rdev_minor);
+	buf->dev	      = makedev(osx.stx_dev_major, osx.stx_dev_minor);
+	buf->ino	      = osx.stx_ino;
+	buf->uid	      = osx.stx_uid;
+	buf->gid	      = osx.stx_gid;
+	buf->nlink      = osx.stx_nlink;
+	buf->mode       = osx.stx_mode;
+	buf->blksize    = osx.stx_blksize;
+	buf->blocks     = osx.stx_blocks;
+	buf->atime.sec  = osx.stx_atime.tv_sec;
+	buf->atime.nsec = osx.stx_atime.tv_nsec;
+	buf->mtime.sec  = osx.stx_mtime.tv_sec;
+	buf->mtime.nsec = osx.stx_mtime.tv_nsec;
+	buf->ctime.sec  = osx.stx_ctime.tv_sec;
+	buf->ctime.nsec = osx.stx_ctime.tv_nsec;
+	buf->btime.sec  = osx.stx_btime.tv_sec;
+	buf->btime.nsec = osx.stx_btime.tv_nsec;
+
+	uint64_t attrs = osx.stx_attributes & osx.stx_attributes_mask;
+
+	if(attrs & STATX_ATTR_COMPRESSED)
+		buf->flags |= UF_COMPRESSED;
+	if(attrs & STATX_ATTR_IMMUTABLE)
+		buf->flags |= UF_IMMUTABLE;
+	if(attrs & STATX_ATTR_APPEND)
+		buf->flags |= UF_APPEND;
+	if(attrs & STATX_ATTR_NODUMP)
+		buf->flags |= UF_NODUMP;
+	if(attrs & STATX_ATTR_ENCRYPTED)
+		buf->flags |= UF_ENCRYPTED;
+
+#else
+	sys_stat_t os;
+
+	if(fd > -1)
+		n = sys_fstat(fd, &os);
+	else if(flags & PCL_STAT_LINK)
+		n = sys_lstat(path, &os);
+	else
+		n = sys_stat(path, &os);
+
+	if(n)
+		return SETLASTERR();
+
+	if(!buf)
+		return 0; // exists check only
+
+	buf->size = (int64_t) os.st_size;
+	buf->rdev = os.st_rdev;
+	buf->dev = os.st_dev;
+	buf->ino = os.st_ino;
+	buf->uid = os.st_uid;
+	buf->gid = os.st_gid;
+	buf->nlink = os.st_nlink;
+	buf->mode = os.st_mode;
+	buf->blksize = os.st_blksize;
+	buf->blocks = os.st_blocks;
+
+	convert_times(buf, &os);
+
+#	ifdef PCL_DARWIN
+	buf->flags |= os.st_flags;
+#	endif
+#endif
 
 	if(path)
 	{
@@ -128,37 +185,6 @@ ipcl_statent(const pchar_t *path, int fd, pcl_stat_t *buf, int flags)
 		if(*name == '.')
 			buf->flags |= UF_HIDDEN;
 	}
-
-	convert_times(buf, &os_buf);
-
-	/* grab backup time (btime) and finder info: The below uses fgetattrlist if 'fd' is
-	 * valid, otherwise getattrlist using 'path'
-	 */
-#ifdef PCL_DARWIN
-	buf->flags |= os_buf.st_flags;
-
-	struct
-	{
-		u_int32_t length;
-		struct timespec bcktime;
-		char finder_info[32];
-	} __attribute__ ((__packed__)) info;
-
-	struct attrlist attr;
-	unsigned long opts = (flags & PCL_STAT_LINK) ? FSOPT_NOFOLLOW : 0;
-
-	memset(&attr, 0, sizeof(attr));
-	attr.bitmapcount = ATTR_BIT_MAP_COUNT;
-	attr.commonattr = ATTR_CMN_BKUPTIME | ATTR_CMN_FNDRINFO;
-
-	if((fd >= 0 && !fgetattrlist(fd, &attr, &info, sizeof(info), opts)) ||
-		(path && !getattrlist(path, &attr, &info, sizeof(info), opts)))
-	{
-		buf->btime.sec = info.bcktime.tv_sec;
-		buf->btime.nsec = (int) info.bcktime.tv_nsec;
-		memcpy(buf->finder_info, info.finder_info, 32);
-	}
-#endif
 
 	return 0;
 }
