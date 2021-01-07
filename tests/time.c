@@ -101,9 +101,14 @@ TESTCASE(utimes)
 
 	pcl_stat_t st;
 	ASSERT_INTEQ(pcl_stat(_P("test-data.json"), &st), 0, "failed to stat file");
+
 	ASSERT_TRUE(memcmp(&st.atime, &now, sizeof(now)) == 0, "atime doesn't match");
 	ASSERT_TRUE(memcmp(&st.mtime, &now, sizeof(now)) == 0, "mtime doesn't match");
-	ASSERT_TRUE(memcmp(&st.btime, &now, sizeof(now)) == 0, "crtime doesn't match");
+
+	/* birthtime (btime) on linux is immutable. */
+#ifndef PCL_LINUX
+	ASSERT_TRUE(memcmp(&st.btime, &now, sizeof(now)) == 0, "btime doesn't match");
+#endif
 
 	return true;
 }
