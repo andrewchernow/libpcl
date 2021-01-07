@@ -83,7 +83,7 @@ static casefunc_t get_case(const char *name)
 #else
 	if(!handle)
 		handle = dlopen(NULL, RTLD_LOCAL | RTLD_LAZY);
-	return (casefunc_t) dlsym(handle, tcname);
+	return (casefunc_t) (uintptr_t) dlsym(handle, tcname);
 #endif
 }
 

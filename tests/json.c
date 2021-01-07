@@ -34,6 +34,7 @@
 #include <pcl/alloc.h>
 #include <pcl/array.h>
 #include <string.h>
+#include <stdio.h>
 
 /* PCL json object uses the PCL hashtable, which does not store insertion order or provide any
  * kind of sorting mechanism. However, the below is predicatble since the same hash func is

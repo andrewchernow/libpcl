@@ -33,6 +33,7 @@
 #include <pcl/crypto.h>
 #include <pcl/string.h>
 #include <pcl/alloc.h>
+#include <stdio.h>
 
 #define MD5DIGEST "1d4e913914f6f8697fa5458a07aff497"
 #define SHA1DIGEST "bac803da916745156689eb83c0c9edb940d635d3"

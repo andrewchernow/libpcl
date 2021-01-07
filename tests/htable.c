@@ -170,7 +170,7 @@ TESTCASE(htable_keys)
 
 	pcl_array_t *keys = pcl_htable_keys(ht);
 	ASSERT_NOTNULL(keys, "htable_keys failed");
-	ASSERT_NULL((void *) keys->cleanup, "cleanup handler has been set");
+	ASSERT_NULL((void *)(uintptr_t) keys->cleanup, "cleanup handler has been set");
 	ASSERT_INTEQ(keys->count, NUM_PEOPLE, "wrong number of keys");
 
 	/* make sure all keys can be found in people[] */
