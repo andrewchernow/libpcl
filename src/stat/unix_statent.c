@@ -33,11 +33,11 @@
 #include <pcl/error.h>
 #include <pcl/string.h>
 #include <unistd.h>
+#include <fcntl.h>
 
 #if defined(HAVE_STATX) && defined(PCL_LINUX)
 #	include <sys/sysmacros.h> // makedev
-#endif
-
+#else
 static void
 convert_times(pcl_stat_t *buf, sys_stat_t *os_buf)
 {
@@ -82,6 +82,7 @@ convert_times(pcl_stat_t *buf, sys_stat_t *os_buf)
 	buf->btime.nsec = (int) os_buf->st_birthtimespec.tv_nsec;
 #endif
 }
+#endif
 
 int
 ipcl_statent(const pchar_t *path, int fd, pcl_stat_t *buf, int flags)
