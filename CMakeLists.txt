@@ -41,7 +41,8 @@ elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
 	set(PLAT "linux-${ARCH}")
 	add_compile_definitions(PCL_LINUX)
 
-	# available since kernel 4.11
+	# statx available since kernel 4.11. Note: _GNU_SOURCE must be set
+	set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
 	check_symbol_exists(statx "sys/stat.h" HAVE_STATX)
 	if(HAVE_STATX)
 		add_compile_definitions(HAVE_STATX)
