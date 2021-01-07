@@ -13,3 +13,7 @@ add_executable(test test.c
 	htable.c
 	json.c time.c)
 
+if(LINUX)
+	# needed to find symbols within current executable
+	target_link_options(test PRIVATE -rdynamic)
+endif()
