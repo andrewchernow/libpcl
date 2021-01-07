@@ -73,7 +73,8 @@ TESTCASE(mktime_utc)
 {
 	pcl_tm_t tm;
 
-	pcl_gmtime(&now, &tm);
+	ASSERT_INTEQ(pcl_gmtime(&now, &tm), 0, "gmtime failed");
+
 	pcl_time_t t = pcl_mktime(&tm, true);
 	ASSERT_TRUE(now.sec == t.sec, "seconds don't match after mktime");
 	ASSERT_TRUE(now.nsec == t.nsec, "nanoseconds don't match after mktime");
@@ -86,7 +87,8 @@ TESTCASE(mktime_local)
 {
 	pcl_tm_t tm;
 
-	pcl_localtime(&now, &tm);
+	ASSERT_INTEQ(pcl_localtime(&now, &tm), 0, "localtime failed");
+
 	pcl_time_t t = pcl_mktime(&tm, false);
 	ASSERT_TRUE(now.sec == t.sec, "seconds don't match after mktime");
 	ASSERT_TRUE(now.nsec == t.nsec, "nanoseconds don't match after mktime");
