@@ -313,9 +313,6 @@ convstat(pchar_t *path, pcl_stat_t *st, WIN32_FIND_DATA *wfd, int flags, bool is
 
 	st->dsize = roundup(st->size, st->blksize);
 
-	if(st->dsize == st->size)
-		st->dsize += st->blksize;
-
 	st->blocks = st->dsize / 512;
 	if(st->blocks <= 0)
 		st->blocks = 1;

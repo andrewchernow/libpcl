@@ -174,6 +174,8 @@ ipcl_statent(const pchar_t *path, int fd, pcl_stat_t *buf, int flags)
 #	endif
 #endif
 
+	buf->dsize = roundup(buf->size, buf->blksize);
+
 	if(path)
 	{
 		const pchar_t *name = pcl_pcsrchr(path, PCL_PPATHSEPCHAR);
