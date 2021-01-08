@@ -244,7 +244,7 @@ convstat(pchar_t *path, pcl_stat_t *st, WIN32_FIND_DATA *wfd, int flags, bool is
 	/* File Times */
 	st->atime = ipcl_win32_ftime_to_pcl(&wfd->ftLastAccessTime);
 	st->mtime = ipcl_win32_ftime_to_pcl(&wfd->ftLastWriteTime);
-	st->crtime = ipcl_win32_ftime_to_pcl(&wfd->ftCreationTime);
+	st->btime = ipcl_win32_ftime_to_pcl(&wfd->ftCreationTime);
 	st->ctime = st->mtime; /* changed time resembles mtime the most */
 
 	if(wfd->dwFileAttributes & FILE_ATTRIBUTE_ARCHIVE)
