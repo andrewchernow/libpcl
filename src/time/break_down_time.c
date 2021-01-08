@@ -31,6 +31,7 @@
 
 #include "_time.h"
 #include <pcl/error.h>
+#include <pcl/string.h>
 
 static int
 break_down_time(const pcl_time_t *_t, pcl_tm_t *tu, bool utc)
@@ -67,24 +68,32 @@ break_down_time(const pcl_time_t *_t, pcl_tm_t *tu, bool utc)
 	tu->tm_isdst = tm.tm_isdst;
 
 #ifdef PCL_WINDOWS
-	int daylight = 0;
-
-	/* if daylight savings time, get offset in minutes */
-	if(tu->tm_isdst)
+	if(utc)
 	{
-		_get_daylight(&daylight);
-		daylight *= 60;
+		tu->tm_gmtoff = 0;
+		pcl_strcpy(tu->tm_zone, sizeof(tu->tm_zone), "UTC");
 	}
+	else /* pcl_localtime */
+	{
+		int daylight = 0;
 
-	_get_timezone(&tu->tm_gmtoff);
-	tu->tm_gmtoff -= daylight;
+		/* if daylight savings time, get offset in minutes */
+		if(tu->tm_isdst)
+		{
+			_get_daylight(&daylight);
+			daylight *= 60;
+		}
 
-	/* Windows uses West of UTC rather than EAST ... translate */
-	tu->tm_gmtoff = -tu->tm_gmtoff;
+		_get_timezone(&tu->tm_gmtoff);
+		tu->tm_gmtoff -= daylight;
 
-	size_t n;
-	*tu->tm_zone = 0;
-	_get_tzname(&n, tu->tm_zone, sizeof(tu->tm_zone), tu->tm_isdst);
+		/* Windows uses West of UTC rather than EAST ... translate */
+		tu->tm_gmtoff = -tu->tm_gmtoff;
+
+		size_t n;
+		*tu->tm_zone = 0;
+		_get_tzname(&n, tu->tm_zone, sizeof(tu->tm_zone), tu->tm_isdst);
+	}
 
 #else
 	tu->tm_gmtoff = tm.tm_gmtoff;
