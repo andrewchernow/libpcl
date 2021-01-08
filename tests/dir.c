@@ -32,9 +32,10 @@
 #include "test.h"
 #include <pcl/dir.h>
 #include <pcl/error.h>
-#include <sys/stat.h>
+#include <pcl/stat.h>
 
 #define TESTDIR _P("_testdir_")
+#define TESTDIRA "_testdir_"
 
 /**$ Open a directory */
 TESTCASE(opendir)
@@ -70,7 +71,7 @@ TESTCASE(mkdir)
 	}
 
 	struct stat st;
-	bool success = stat(TESTDIR, &st) == 0 && S_ISDIR(st.st_mode);
+	bool success = stat(TESTDIRA, &st) == 0 && S_ISDIR(st.st_mode);
 
 	(void) pcl_rmdir(TESTDIR);
 
@@ -113,7 +114,7 @@ TESTCASE(mkdirs)
 	}
 
 	struct stat st;
-	bool success = stat(TESTDIR "/a/b/c", &st) == 0 && S_ISDIR(st.st_mode);
+	bool success = stat(TESTDIRA "/a/b/c", &st) == 0 && S_ISDIR(st.st_mode);
 
 	RMDIRS;
 
@@ -129,7 +130,7 @@ TESTCASE(rmdir_r)
 	ASSERT_INTEQ(pcl_rmdir_r(TESTDIR), 0, "rmdir_r failed");
 
 	struct stat st;
-	bool success = stat(TESTDIR, &st) != 0;
+	bool success = stat(TESTDIRA, &st) != 0;
 
 	ASSERT_TRUE(success, "testdir still exists after rmdir_r");
 
