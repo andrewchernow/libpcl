@@ -43,6 +43,8 @@ pcl_mkdirs(const pchar_t *_path, mode_t mode)
 	path_pos = pcl_pcscpy(path, countof(path), _path);
 
 #ifdef PCL_WINDOWS
+	pcl_pcsrepchr(path, L'/', PCL_PPATHSEPCHAR);
+
 	/* Skip C:\, drive roots */
 	if(path_pos[1] == _P(':'))
 	{
