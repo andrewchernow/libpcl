@@ -67,11 +67,11 @@ int main(int argc, char **argv)
 	exit(0);
 	printf("END = %s\n", end);
 
-	pcl_json_t *jv = pcl_json_object_get(root, "stuff");
+	pcl_json_t *jv = pcl_json_objget(root, "stuff");
 
 	printf("array-count=%d\n", jv->array->count);
 
-	jv = pcl_json_array_get(jv, 0);
+	jv = pcl_json_arrget(jv, 0);
 
 	pcl_array_t *keys = pcl_htable_keys(jv->object);
 
