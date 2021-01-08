@@ -71,7 +71,7 @@ if(UNIX)
 		-fomit-frame-pointer -funit-at-a-time")
 
 else()
-	set(CMAKE_C_FLAGS "/Wall /O2 /wd4201 /wd4710 /wd4668 /wd4255 /wd5045 /wd4464 /wd4820 /wd4996 /wd4214")
+	set(CMAKE_C_FLAGS "/Wall /O2 /utf-8 /wd4201 /wd4710 /wd4668 /wd4255 /wd5045 /wd4464 /wd4820 /wd4996 /wd4214")
 endif()
 
 if(DARWIN)
