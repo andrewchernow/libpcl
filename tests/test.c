@@ -317,6 +317,17 @@ int main(int argc, char **argv)
 	pcl_init();
 
 #ifdef PCL_WINDOWS
+	/* must manually enable ANSI escapes for colored output */
+	DWORD mode = 0;
+	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+
+	GetConsoleMode(h, &mode);
+	SetConsoleMode(h, mode | ENABLE_VIRTUAL_TERMINAL_PROCESSING);
+
+	h = GetStdHandle(STD_ERROR_HANDLE);
+	GetConsoleMode(h, &mode);
+	SetConsoleMode(h, mode | ENABLE_VIRTUAL_TERMINAL_PROCESSING);
+
 	SetCurrentDirectoryA(SUITEDIR);
 #else
 	chdir(SUITEDIR);
