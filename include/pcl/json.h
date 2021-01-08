@@ -93,7 +93,11 @@
 /** Invalid JSON integer value used as return value.
  * @see pcl_json_objgetint, pcl_json_arrgetint
  */
-#define PCL_JSON_INVINT LONG_LONG_MIN
+#ifdef PCL_WINDOWS
+#	define PCL_JSON_INVINT LLONG_MIN
+#else
+#	define PCL_JSON_INVINT LONG_LONG_MIN
+#endif
 
 /** Invalid JSON real value use as return value.
  * @see pcl_json_objgetreal, pcl_json_arrgetreal
