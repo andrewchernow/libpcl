@@ -61,10 +61,13 @@ pcl_buf_vputf(pcl_buf_t *b, const void *format, va_list ap)
 
 	if(b->mode == PclBufBinary)
 	{
-		memset(b->data + b->pos * b->chrsize, 0, b->chrsize); // NUL
+		/* count NUL already written: "Abc\0" */
 		b->pos++;
 		len++;
 	}
+
+	/* add always present NUL: binary buffers "Abc\0\0", text buffers "Abc\0" */
+	memset(b->data + b->pos * b->chrsize, 0, b->chrsize);
 
 	if(b->len < b->pos)
 		b->len = b->pos;
