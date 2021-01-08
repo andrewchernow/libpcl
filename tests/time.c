@@ -105,12 +105,22 @@ TESTCASE(utimes)
 	pcl_stat_t st;
 	ASSERT_INTEQ(pcl_stat(_P("test-data.json"), &st), 0, "failed to stat file");
 
-	ASSERT_TRUE(memcmp(&st.atime, &now, sizeof(now)) == 0, "atime doesn't match");
-	ASSERT_TRUE(memcmp(&st.mtime, &now, sizeof(now)) == 0, "mtime doesn't match");
+	int nsec = now.nsec;
 
-	/* birthtime (btime) on linux is immutable. */
+#ifdef PCL_WINDOWS
+	/* windows uses 100-nanoseconds since 1601, adjust */
+	nsec = (nsec / 100) * 100;
+#endif
+
+	ASSERT_TRUE(st.atime.sec == now.sec, "atime seconds don't match");
+	ASSERT_TRUE(st.atime.nsec == nsec, "atime nanoseconds don't match");
+	ASSERT_TRUE(st.mtime.sec == now.sec, "mtime seconds don't match");
+	ASSERT_TRUE(st.mtime.nsec == nsec, "mtime nanoseconds don't match");
+
+	/* birthtime (btime) on linux is immutable and thus, cannot be changed. */
 #ifndef PCL_LINUX
-	ASSERT_TRUE(memcmp(&st.btime, &now, sizeof(now)) == 0, "btime doesn't match");
+	ASSERT_TRUE(st.btime.sec == now.sec, "btime seconds don't match");
+	ASSERT_TRUE(st.btime.nsec == nsec, "btime nanoseconds don't match");
 #endif
 
 	return true;
