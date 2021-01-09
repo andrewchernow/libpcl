@@ -63,7 +63,7 @@ TESTCASE(gmtime)
 
 	bool match = tm.tm_year == 121 && tm.tm_mon == 0 && tm.tm_mday == 6 && tm.tm_hour == 14 &&
 		tm.tm_min == 58 && tm.tm_sec == 29 && tm.tm_nsec == 379774446 && tm.tm_gmtoff == 0 &&
-		strcmp(tm.tm_zone, "UTC") == 0;
+		strcmp(tm.tm_zone, "GMT") == 0;
 
 	ASSERT_TRUE(match, "gmtime did not produce the correct broken down time");
 	return true;

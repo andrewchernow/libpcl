@@ -71,7 +71,7 @@ break_down_time(const pcl_time_t *_t, pcl_tm_t *tu, bool utc)
 	if(utc)
 	{
 		tu->tm_gmtoff = 0;
-		pcl_strcpy(tu->tm_zone, sizeof(tu->tm_zone), "UTC");
+		pcl_strcpy(tu->tm_zone, sizeof(tu->tm_zone), "GMT");
 	}
 	else /* pcl_localtime */
 	{
@@ -96,8 +96,10 @@ break_down_time(const pcl_time_t *_t, pcl_tm_t *tu, bool utc)
 	}
 
 #else
-	tu->tm_gmtoff = tm.tm_gmtoff;
-	tu->tm_zone = (char *) tm.tm_zone;
+	tu->tm_gmtoff = 0;
+
+	/* When utc is true, darwin uses UTC and Linux GMT. It should be GMT, UTC is not a timezone */
+	tu->tm_zone = (char *) (utc ? "GMT" : tm.tm_zone);
 #endif
 
 	tu->tm_nsec = t.nsec;
