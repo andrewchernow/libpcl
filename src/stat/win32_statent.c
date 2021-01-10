@@ -53,11 +53,10 @@ static pthread_key_t bsize_key;
 static void convstat(pchar_t *path, pcl_stat_t *st, WIN32_FIND_DATA *wfd, int flags, bool is_root);
 
 static void
-bsize_veccleanup(pcl_vector_t *v, void *elem)
+bsize_veccleanup(void *elem)
 {
-	bsize_cache_t *b = (bsize_cache_t *) elem;
+	bsize_cache_t *b = elem;
 	pcl_free_safe(b->root);
-	UNUSED(v);
 }
 
 static void
