@@ -36,7 +36,7 @@
 void *
 pcl_vector_insert(pcl_vector_t *v, const void *elem, int pos)
 {
-	if(pos > v->count)
+	if(!v || pos > v->count)
 		return NULL;
 
 	if(v->count == v->capacity)
