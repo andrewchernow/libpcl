@@ -44,7 +44,7 @@ pcl_array_set(pcl_array_t *arr, void *elem, int index)
 	void *cur_elem = arr->elements[index];
 
 	if(cur_elem && arr->cleanup)
-		arr->cleanup(arr, cur_elem);
+		arr->cleanup(cur_elem);
 
 	arr->elements[index++] = elem;
 

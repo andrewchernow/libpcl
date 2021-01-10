@@ -45,7 +45,7 @@ pcl_array_remove(pcl_array_t *arr, int index)
 	void *elem = arr->elements[index];
 
 	if(elem && arr->cleanup)
-		arr->cleanup(arr, elem);
+		arr->cleanup(elem);
 
 	/* no memmove required if removing last element */
 	if(index < arr->count - 1)

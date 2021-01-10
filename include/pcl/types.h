@@ -59,6 +59,11 @@ typedef pid_t pcl_prochandle_t;
 typedef int64_t pcl_atomic_t;
 typedef long double pcl_clock_t; /* high-res performance counter (nanosecs) */
 
+/** Cleanup handler used by most PCL collections.
+ * @param item pointer to the collection item being removed
+ */
+typedef void (*pcl_cleanup_t)(void *item);
+
 /* --------------------------------------------------------------------
  * forward declarations
  */

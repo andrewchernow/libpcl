@@ -32,6 +32,7 @@
 #include "_net.h"
 #include <pcl/array.h>
 #include <pcl/string.h>
+#include <pcl/alloc.h>
 
 #ifdef PCL_UNIX
 #	ifdef PCL_DARWIN
@@ -58,7 +59,7 @@ pcl_net_dnstxtrec(const char *host)
 		return R_SETOSERRMSG(NULL, status, "Cannot resolve: '%s'", host);
 
 	DNS_TXT_DATA *data = &rlist->Data.Txt;
-	arr = pcl_array(data->dwStringCount, pcl_array_cleanup_ptr);
+	arr = pcl_array(data->dwStringCount, pcl_cleanup_ptr);
 
 	for(DWORD i=0; i < data->dwStringCount; i++)
 		pcl_array_push(arr, pcl_pcs_to_utf8(data->pStringArray[i], 0, NULL));
@@ -81,7 +82,7 @@ pcl_net_dnstxtrec(const char *host)
 	if(ns_parserr(&handle, ns_s_an, 0, &rr))
 		return R_SETLASTERR(NULL);
 
-	arr = pcl_array(4, pcl_array_cleanup_ptr);
+	arr = pcl_array(4, pcl_cleanup_ptr);
 	len = ns_rr_rdlen(rr);
 	data = ns_rr_rdata(rr);
 

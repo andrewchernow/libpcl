@@ -44,7 +44,7 @@ pcl_vector_remove(pcl_vector_t *v, int pos)
 			void *e = pcl_vector_get(v, pos);
 
 			if(e)
-				v->cleanup(v, e);
+				v->cleanup(e);
 		}
 
 		if(pos < v->count - 1) /* memmove only when NOT last elem */

@@ -46,7 +46,7 @@
  * ### Create argv array
  * @code
  * // create an argv array of 4 arguments with a trailing NULL
- * pcl_array_t *arr = pcl_array(5, pcl_array_cleanup_ptr);
+ * pcl_array_t *arr = pcl_array(5, pcl_cleanup_ptr);
  *
  * pcl_array_push(arr, strdup("-a"));
  * pcl_array_push(arr, strdup("--quiet"));
@@ -75,14 +75,6 @@
 extern "C" {
 #endif
 
-/** Array element cleanup habndler. This is used whenever an element is being removed from
- * an array: ::pcl_array_set, ::pcl_array_remove and ::pcl_array_free.
- * @note \c NULL elements are never passed to this cleanup
- * @param arr pointer to an array object
- * @param elem pointer to the element to cleanup
- */
-typedef void (*pcl_array_cleanup_t)(pcl_array_t *arr, void *elem);
-
 struct tag_pcl_array
 {
 	/** number of elements in the array */
@@ -91,16 +83,16 @@ struct tag_pcl_array
 	int capacity;
 	/** pointer table of elements. */
 	void **elements;
-	pcl_array_cleanup_t cleanup;
+	pcl_cleanup_t cleanup;
 };
 
 /** Create an array.
  * @param initial_capacity initial size of array
  * @param cleanup pointer to a cleanup routine.
  * @return pointer to a new array object
- * @see pcl_array_cleanup_ptr
+ * @see pcl_cleanup_ptr
  */
-PCL_EXPORT pcl_array_t *pcl_array(int initial_capacity, pcl_array_cleanup_t cleanup);
+PCL_EXPORT pcl_array_t *pcl_array(int initial_capacity, pcl_cleanup_t cleanup);
 
 /** Get an element from an array.
  * This is typically not used when iterating over an array, as one can just directly access
@@ -150,13 +142,6 @@ PCL_EXPORT int pcl_array_insert(pcl_array_t *arr, void *elem, int index);
  * @return the new count of element or -1 on error.
  */
 PCL_EXPORT int pcl_array_remove(pcl_array_t *arr, int index);
-
-/** An element cleanup callback that passes \a elem to ::pcl_free. This is a very commonly
- * needed callback. It merely calls `pcl_free(elem)`.
- * @param arr
- * @param elem
- */
-PCL_EXPORT void pcl_array_cleanup_ptr(pcl_array_t *arr, void *elem);
 
 /** Free an array. This will call the cleanup handler, if not \c NULL, for all elements that
  * are not \c NULL and then free the array object.

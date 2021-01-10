@@ -1,6 +1,5 @@
 
 add_library(array OBJECT
-	array_cleanup_ptr.c
 	array.c
 	array_free.c
 	array_get.c

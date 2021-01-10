@@ -33,7 +33,7 @@
 #include <pcl/alloc.h>
 
 pcl_queue_t *
-pcl_queue(pcl_queue_cleanup_t cleanup)
+pcl_queue(pcl_cleanup_t cleanup)
 {
 	pcl_queue_t *q = pcl_malloc(sizeof(pcl_queue_t));
 	q->size = 0;

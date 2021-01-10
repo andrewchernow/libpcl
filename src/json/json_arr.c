@@ -34,9 +34,8 @@
 #include <pcl/alloc.h>
 
 static void
-array_cleanup(pcl_array_t *arr, void *elem)
+array_cleanup(void *elem)
 {
-	UNUSED(arr);
 	pcl_json_free(elem);
 }
 

@@ -32,6 +32,7 @@
 #include "_net.h"
 #include <pcl/array.h>
 #include <pcl/string.h>
+#include <pcl/alloc.h>
 
 pcl_array_t *
 ipcl_net_resolve(const char *host)
@@ -44,7 +45,7 @@ ipcl_net_resolve(const char *host)
 	if((r = getaddrinfo(host, NULL, &hints, &info)))
 		return R_SETERR(NULL, pcl_net_ai2pcl(r));
 
-	addrs = pcl_array(3, pcl_array_cleanup_ptr);
+	addrs = pcl_array(3, pcl_cleanup_ptr);
 
 	for(ai=info; ai; ai=ai->ai_next)
 	{

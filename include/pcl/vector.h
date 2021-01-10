@@ -80,18 +80,6 @@
 extern "C" {
 #endif
 
-/** A callback cleanup function for vector elements. This is needed if the vector elements
- * contain any dynamic memory or the elements are pointers to pointers: such as a vector of
- * strings. When a structure contains allocated members, only free the allocated members -- not
- * the structure/element itself. The vector owns the structure. However, if elements are pointers
- * to pointers, you will need to derefence \a elem and free that pointer.
- * @param v pointer to a vector
- * @param elem pointer to the element being removed. If elements are pointers to pointers,
- * like strings, remember to dereference: `pcl_free(*(char **) elem)`.
- * @see pcl_vector
- */
-typedef void (*pcl_vector_cleanup_t)(pcl_vector_t *v, void *elem);
-
 /** Vector object. Used to track elements and grow the internal elements array when required. */
 struct tag_pcl_vector
 {
@@ -107,26 +95,20 @@ struct tag_pcl_vector
 	/** Element array. This is always pcl_vector_t.capacity \c * pcl_vector_t.size bytes */
 	char *elems;
 
-	/** Optional user-defined pointer available within the cleanup callback. */
-	void *cleanup_ptr;
-
-	/** Element cleanup callback. Optionally, one can set cleanup_ptr and access it
-	 * within the cleanup callback.
-	 * #### Example
-	 * @code
-	 * void mycleanup(pcl_vector_t *v, void *elem)
-	 * {
-	 *   myobj *o = (myobj *) v->cleanup_ptr;
-	 *
-	 *   if(o && o->allocated_buf)
-	 *   {
-	 *     elemobj *e = (elemobj *) elem;
-	 *     pcl_free(e->buf);
-	 *   }
-	 * }
-	 * @endcode
- 	 */
-	pcl_vector_cleanup_t cleanup;
+	/** Element cleanup callback.
+	 * @warning DO NOT set this to ::pcl_cleanup_ptr. That function frees the element
+	 * argument but vector elements are owned by the vector. A vector cleanup function should
+ 	 * free allocated memory contained within the element: like a struct member.
+ 	 * ### Example
+ 	 * @code
+ 	 * static void mycleanup(void *elem)
+ 	 * {
+ 	 *   myobj_t *o = elem; // NEVER free 'elem', owned by vector
+ 	 *   pcl_free(o->str);
+ 	 * }
+ 	 * @endcode
+	 * */
+	pcl_cleanup_t cleanup;
 };
 
 /** Get an element.
@@ -146,11 +128,11 @@ struct tag_pcl_vector
  * @param capacity initial capacity of the vector as number of elements
  * @param elemsize byte size of each element
  * @param cleanup element cleanup handler called whenever an element is removed from the vector.
- * @return an allocated vector object that must be freed by the application
+ * @return an allocated vector object that must be freed by the application. It is an error
+ * to provide ::pcl_cleanup_ptr for \a cleanup.
  * @see pcl_vector_free
  */
-PCL_EXPORT pcl_vector_t *pcl_vector(int capacity, size_t elemsize,
-	pcl_vector_cleanup_t cleanup);
+PCL_EXPORT pcl_vector_t *pcl_vector(int capacity, size_t elemsize, pcl_cleanup_t cleanup);
 
 /** Insert an element. To append an element, set \a pos to pcl_vector_t.count
  * @note Starting at \a elem, pcl_vector_t.size bytes are copied into the vector's internal

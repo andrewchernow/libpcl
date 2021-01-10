@@ -113,6 +113,8 @@ PCL_EXPORT void *pcl_realloc_trace(void *p, size_t n, PCL_LOCATION_PARAMS);
  */
 PCL_EXPORT void *pcl_free_trace(void *p, PCL_LOCATION_PARAMS);
 
+PCL_EXPORT void pcl_cleanup_ptr(void *item);
+
 /** Set the process memory error handler.
  * @param handler new memory error handler
  * @return previous memory error handler or \c NULL if it was unset

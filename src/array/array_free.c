@@ -40,7 +40,7 @@ pcl_array_free(pcl_array_t *arr)
 		if(arr->count && arr->cleanup)
 		{
 			for(int i = 0; i < arr->count; i++)
-				arr->cleanup(arr, arr->elements[i]);
+				arr->cleanup(arr->elements[i]);
 		}
 
 		pcl_free_safe(arr->elements);

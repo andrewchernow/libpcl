@@ -4,5 +4,5 @@ add_library(alloc OBJECT
 	malloc_trace.c
 	memory_handler.c
 	realloc_trace.c
-	zalloc_trace.c)
+	zalloc_trace.c cleanup_ptr.c)
 

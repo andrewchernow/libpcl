@@ -49,7 +49,7 @@ struct pcl_queue
 	int size;
 	struct queue_item *head;
 	struct queue_item *tail;
-	pcl_queue_cleanup_t cleanup;
+	pcl_cleanup_t cleanup;
 };
 
 #ifdef __cplusplus

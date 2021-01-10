@@ -44,7 +44,7 @@ pcl_vector_clear(pcl_vector_t *v)
 			void *e = pcl_vector_get(v, i);
 
 			if(e)
-				v->cleanup(v, e);
+				v->cleanup(e);
 		}
 	}
 

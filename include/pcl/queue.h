@@ -43,17 +43,11 @@
 extern "C" {
 #endif
 
-/** Queue item cleanup handler. This is not called during a remove (dequeue) operation.
- * @param item poointer to the item being freed
- * @see pcl_queue_clear, pcl_queue_free
- */
-typedef void (*pcl_queue_cleanup_t)(void *item);
-
 /** Create a queue object.
  * @param cleanup optional cleanup handler for queue items
  * @return pointer to a new queue object that must be freed via ::pcl_queue_free
  */
-PCL_EXPORT pcl_queue_t *pcl_queue(pcl_queue_cleanup_t cleanup);
+PCL_EXPORT pcl_queue_t *pcl_queue(pcl_cleanup_t cleanup);
 
 /** Get the size (number of items) of a queue.
  * @param q pointer to a queue object
@@ -89,13 +83,13 @@ PCL_EXPORT void *pcl_queue_peek(pcl_queue_t *q);
 PCL_EXPORT void *pcl_queue_remove(pcl_queue_t *q);
 
 /** Remove all items from a queue.
- * @note if the queue is not empty, this will call the optional ::pcl_queue_cleanup_t for each item.
+ * @note if the queue is not empty, this will call the optional ::pcl_cleanup_t for each item.
  * @param q pointer to a queue object
  */
 PCL_EXPORT void pcl_queue_clear(pcl_queue_t *q);
 
 /** Release all resources used by a queue.
- * @note if the queue is not empty, this will call the optional ::pcl_queue_cleanup_t for each item.
+ * @note if the queue is not empty, this will call the optional ::pcl_cleanup_t for each item.
  * @param q pointer to a queue object
  */
 PCL_EXPORT void pcl_queue_free(pcl_queue_t *q);

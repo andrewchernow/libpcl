@@ -31,17 +31,21 @@
 
 #include <pcl/vector.h>
 #include <pcl/alloc.h>
+#include <pcl/error.h>
 
 pcl_vector_t *
-pcl_vector(int capacity, size_t elemsize, pcl_vector_cleanup_t cleanup)
+pcl_vector(int capacity, size_t elemsize, pcl_cleanup_t cleanup)
 {
+	if(cleanup == pcl_cleanup_ptr)
+		return R_SETERRMSG(NULL, PCL_EINVAL,
+			"vector cannot use pcl_cleanup_ptr as cleanup function", 0);
+
 	pcl_vector_t *v = pcl_malloc(sizeof(pcl_vector_t));
 
 	v->size = elemsize;
 	v->count = 0;
 	v->capacity = max(0, capacity);
 	v->cleanup = cleanup;
-	v->cleanup_ptr = NULL;
 
 	if(v->capacity)
 		v->elems = pcl_malloc(v->capacity * v->size);

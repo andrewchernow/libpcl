@@ -29,12 +29,10 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include <pcl/array.h>
 #include <pcl/alloc.h>
 
 void
-pcl_array_cleanup_ptr(pcl_array_t *arr, void *elem)
+pcl_cleanup_ptr(void *item)
 {
-	UNUSED(arr);
-	pcl_free_safe(elem);
+	pcl_free_safe(item);
 }
