@@ -29,31 +29,65 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef LIBPCL__QUEUE_H
-#define LIBPCL__QUEUE_H
+#ifndef LIBPCL_STACK_H
+#define LIBPCL_STACK_H
 
-#include <pcl/queue.h>
+#include <pcl/types.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-struct queue_item
-{
-	struct queue_item *next;
-	void *value;
-};
+/** Create a stack object.
+ * @param cleanup optional item cleanup handler
+ * @return pointer to a stack object or \c NULL on error
+ * @see pcl_cleanup_ptr
+ */
+PCL_EXPORT pcl_stack_t *pcl_stack(pcl_cleanup_t cleanup);
 
-struct tag_pcl_queue
-{
-	int size;
-	struct queue_item *head;
-	struct queue_item *tail;
-	pcl_cleanup_t cleanup;
-};
+/** Get the size (number of items) of a stack object.
+ * @param s pointer to a stack object
+ * @return number of stack items
+ */
+PCL_EXPORT int pcl_stack_size(pcl_stack_t *s);
+
+/** Indicates if a stack is empty.
+ * @param s pointer to a stack object
+ * @return
+ */
+PCL_EXPORT bool pcl_stack_empty(pcl_stack_t *s);
+
+/** Add an item to the top of the stack.
+ * @param s pointer to a stack object
+ * @param item
+ */
+PCL_EXPORT void pcl_stack_push(pcl_stack_t *s, void *item);
+
+/** Retrievve an item from the top of the stack without removing it.
+ * @param s pointer to a stack object
+ * @return
+ */
+PCL_EXPORT void *pcl_stack_peek(pcl_stack_t *s);
+
+/** Retrieve and remove an item from the top of the stack.
+ * @note it is the caller's responsibility to free the returned item.
+ * @param s pointer to a stack object
+ * @return
+ */
+PCL_EXPORT void *pcl_stack_pop(pcl_stack_t *s);
+
+/** Remove all items from a stack. This will call the optional cleanup handler.
+ * @param s pointer to a stack object
+ */
+PCL_EXPORT void pcl_stack_clear(pcl_stack_t *s);
+
+/** Release all resources used by a stack object.
+ * @param s pointer to a stack object
+ */
+PCL_EXPORT void pcl_stack_free(pcl_stack_t *s);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif // LIBPCL__QUEUE_H
+#endif // LIBPCL_STACK_H

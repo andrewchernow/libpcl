@@ -29,26 +29,25 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef LIBPCL__QUEUE_H
-#define LIBPCL__QUEUE_H
+#ifndef LIBPCL__STACK_H
+#define LIBPCL__STACK_H
 
-#include <pcl/queue.h>
+#include <pcl/stack.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-struct queue_item
+struct stack_item
 {
-	struct queue_item *next;
+	struct stack_item *next;
 	void *value;
 };
 
-struct tag_pcl_queue
+struct tag_pcl_stack
 {
+	struct stack_item *head;
 	int size;
-	struct queue_item *head;
-	struct queue_item *tail;
 	pcl_cleanup_t cleanup;
 };
 
@@ -56,4 +55,4 @@ struct tag_pcl_queue
 }
 #endif
 
-#endif // LIBPCL__QUEUE_H
+#endif // LIBPCL__STACK_H

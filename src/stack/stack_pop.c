@@ -29,31 +29,23 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef LIBPCL__QUEUE_H
-#define LIBPCL__QUEUE_H
+#include "_stack.h"
+#include <pcl/alloc.h>
 
-#include <pcl/queue.h>
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-struct queue_item
+void *
+pcl_stack_pop(pcl_stack_t *s)
 {
-	struct queue_item *next;
-	void *value;
-};
+	if(pcl_stack_empty(s))
+		return NULL;
 
-struct tag_pcl_queue
-{
-	int size;
-	struct queue_item *head;
-	struct queue_item *tail;
-	pcl_cleanup_t cleanup;
-};
+	struct stack_item *sitem = s->head;
+	void *value = sitem->value;
 
-#ifdef __cplusplus
+	s->head = sitem->next;
+	s->size--;
+
+	pcl_free(sitem);
+
+	return value;
 }
-#endif
 
-#endif // LIBPCL__QUEUE_H

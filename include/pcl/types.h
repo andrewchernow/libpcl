@@ -95,7 +95,8 @@ typedef struct tag_pcl_buf pcl_buf_t;
  */
 typedef struct tag_pcl_vector pcl_vector_t;
 typedef struct tag_pcl_array pcl_array_t;
-typedef struct pcl_queue pcl_queue_t;
+typedef struct tag_pcl_queue pcl_queue_t;
+typedef struct tag_pcl_stack pcl_stack_t;
 typedef struct tag_pcl_htable pcl_htable_t;
 
 typedef struct

@@ -24,6 +24,7 @@ add_subdirectory(process)
 add_subdirectory(queue)
 add_subdirectory(socket)
 add_subdirectory(ssl)
+add_subdirectory(stack)
 add_subdirectory(stat)
 add_subdirectory(string)
 add_subdirectory(strint)
@@ -64,6 +65,7 @@ add_library(pcl SHARED
 	$<TARGET_OBJECTS:socket>
 	$<TARGET_OBJECTS:ssl>
 	$<TARGET_OBJECTS:stat>
+	$<TARGET_OBJECTS:stack>
 	$<TARGET_OBJECTS:string>
 	$<TARGET_OBJECTS:strint>
 	$<TARGET_OBJECTS:sysinfo>
