@@ -53,7 +53,7 @@
  *   pcl_vector_t *vec = pcl_vector_create(8, sizeof(int), NULL);
  *
  *   for(int i=0; i < vec->capacity * 2; i++)
- *     pcl_vector_append(vec, &i); // vector will have to expand after 8 appends
+ *     pcl_vector_push(vec, &i); // vector will have to expand after 8 appends
  *
  *   for(int i=0; i < vec->count; i++)
  *   {
@@ -136,26 +136,6 @@ struct tag_pcl_vector
 #define pcl_vector_get(v, pos) \
   ((void *)(((pcl_vector_t *)(v))->elems + ((pos) * ((pcl_vector_t *)(v))->size)))
 
-/** Dereference an element and return it.
- * @warning this provides no bounds checking on \a pos and is designed to be used in cases
- * where \a pos is known to be valid: such as a loop constrained by the vector's count. This
- * is an optimization for the most common usage pattern. Expect a core dump or undefined
- * behavior if \a v or \a pos is invalid.
- * @param v pointer to a vector
- * @param pos zero-based position of element to retreive
- * @return pointer to element at \a pos
- * @see pcl_vector_getptr_safe
- */
-#define pcl_vector_getptr(v, pos) *((void **)pcl_vector_get(v, pos))
-
-/** Append an element.
- * @param v pointer to a vector
- * @param elem pointer to an element
- * @return pointer to the vector element inserted or \c NULL on error
- */
-#define pcl_vector_append(v, elem) \
-  pcl_vector_insert(v, (const void *)(elem), ((pcl_vector_t *)(v))->count)
-
 /** Creates a new vector object.
  * @param capacity initial capacity of the vector as number of elements
  * @param elemsize byte size of each element
@@ -220,6 +200,17 @@ PCL_EXPORT void pcl_vector_free(pcl_vector_t *v);
  * @return pointer to the \a v argument
  */
 PCL_EXPORT pcl_vector_t *pcl_vector_sort(pcl_vector_t *v, int (*cmp)(const void *, const void *));
+
+/** Append an element.
+ * @param v pointer to a vector
+ * @param elem pointer to an element
+ * @return pointer to the vector element inserted or \c NULL on error
+ */
+PCL_INLINE void *
+pcl_vector_push(pcl_vector_t *v, void *elem)
+{
+	return pcl_vector_insert(v, elem, v ? v->count : 0);
+}
 
 #ifdef __cplusplus
 }

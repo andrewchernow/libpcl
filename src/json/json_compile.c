@@ -192,7 +192,7 @@ pcl_json_compile(const char *path)
 					{
 						pcl_vector_t *indexes = pcl_vector_create(4, sizeof(int), NULL);
 
-						pcl_vector_append(indexes, &index);
+						pcl_vector_push(indexes, &index);
 
 						for(; *p != ']'; p = end)
 						{
@@ -212,7 +212,7 @@ pcl_json_compile(const char *path)
 								return R_SETERRMSG(NULL, PCL_ESYNTAX, "invalid subscript set expression", 0);
 							}
 
-							pcl_vector_append(indexes, &index);
+							pcl_vector_push(indexes, &index);
 						}
 
 						node->type = PclPathElementList;
