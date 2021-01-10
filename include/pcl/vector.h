@@ -224,14 +224,6 @@ PCL_EXPORT int pcl_vector_remove(pcl_vector_t *v, int pos);
  */
 PCL_EXPORT void *pcl_vector_get_safe(pcl_vector_t *v, int pos);
 
-/** Dereference an element with bounds checking and return it.
- * @param v pointer to a vector
- * @param pos zero-based position of element to retreive
- * @return pointer to element at \a pos or \c NULL on error
- * @see pcl_vector_getptr
- */
-PCL_EXPORT void *pcl_vector_getptr_safe(pcl_vector_t *v, int pos);
-
 /** Compact a vector such that its element capacity matches its element count.
  * @param v pointer to a vector
  * @return pointer to \a v argument
