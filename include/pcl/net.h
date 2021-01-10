@@ -88,10 +88,11 @@ PCL_EXPORT int pcl_net_dns2pcl(int err);
  */
 PCL_EXPORT int pcl_net_reverse(const char *ipaddr, char *host, size_t len);
 
-/* Resolves the given hostname to a list of IP addresses, IPv4/IPv6.
- * The return is a vector of char**, use pcl_vector_getptr().
+/** Resolve a hostname to an array of IPv4 and/or IPv6 addresses.
+ * @param host pointer to a hostname
+ * @return pointer to an array of IP addresses or \c NULL on error.
  */
-PCL_EXPORT pcl_vector_t *ipcl_net_resolve(const char *host);
+PCL_EXPORT pcl_array_t *ipcl_net_resolve(const char *host);
 
 /* Retrieves the DNS TXT record for the given host, or NULL on error.
  * The vector elements represent each text item associated with the

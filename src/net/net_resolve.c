@@ -30,21 +30,21 @@
 */
 
 #include "_net.h"
-#include <pcl/vector.h>
+#include <pcl/array.h>
 #include <pcl/string.h>
 
-pcl_vector_t *
+pcl_array_t *
 ipcl_net_resolve(const char *host)
 {
 	int r;
-	pcl_vector_t *addrs;
+	pcl_array_t *addrs;
 	struct addrinfo *info = NULL, *ai, hints = {0};
 
 	hints.ai_socktype = SOCK_STREAM;
 	if((r = getaddrinfo(host, NULL, &hints, &info)))
 		return R_SETERR(NULL, pcl_net_ai2pcl(r));
 
-	addrs = pcl_vector_create(3, sizeof(char **), pcl_vector_cleanup_dblptr);
+	addrs = pcl_array_create(3, pcl_array_cleanup_ptr);
 
 	for(ai=info; ai; ai=ai->ai_next)
 	{
@@ -55,8 +55,7 @@ ipcl_net_resolve(const char *host)
 			if(getnameinfo(ai->ai_addr, (socklen_t)ai->ai_addrlen, ip, (int)sizeof(ip),
 				NULL, 0, NI_NUMERICHOST) == 0)
 			{
-				char *a = pcl_strdup(ip);
-				pcl_vector_append(addrs, &a);
+				pcl_array_push(addrs, pcl_strdup(ip));
 			}
 		}
 	}
