@@ -113,6 +113,9 @@ PCL_EXPORT void *pcl_realloc_trace(void *p, size_t n, PCL_LOCATION_PARAMS);
  */
 PCL_EXPORT void *pcl_free_trace(void *p, PCL_LOCATION_PARAMS);
 
+/** Implementation of a ::pcl_cleanup_t that passes \a item to free.
+ * @param item pointer to a collection item
+ */
 PCL_EXPORT void pcl_cleanup_ptr(void *item);
 
 /** Set the process memory error handler.
