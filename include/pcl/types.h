@@ -59,7 +59,10 @@ typedef pid_t pcl_prochandle_t;
 typedef int64_t pcl_atomic_t;
 typedef long double pcl_clock_t; /* high-res performance counter (nanosecs) */
 
-/* forward declarations */
+/* --------------------------------------------------------------------
+ * forward declarations
+ */
+
 typedef struct tag_pcl_time pcl_time_t;
 typedef struct tag_pcl_err_trace pcl_err_trace_t;
 typedef struct tag_pcl_err pcl_err_t;
@@ -77,15 +80,17 @@ typedef struct tag_pcl_json_path pcl_json_path_t;
 typedef struct tag_pcl_dir pcl_dir_t;
 typedef struct tag_pcl_socket pcl_socket_t;
 typedef struct tag_pcl_ssl pcl_ssl_t;
+
+typedef struct tag_pcl_stat pcl_stat_t;
+/** @ingroup buf */
+typedef struct tag_pcl_buf pcl_buf_t;
+
 /** @ingroup vector
  * @copydoc tag_pcl_vector
  */
 typedef struct tag_pcl_vector pcl_vector_t;
 typedef struct tag_pcl_array pcl_array_t;
-typedef struct tag_pcl_stat pcl_stat_t;
-/** @ingroup buf */
-typedef struct tag_pcl_buf pcl_buf_t;
-
+typedef struct pcl_queue pcl_queue_t;
 typedef struct tag_pcl_htable pcl_htable_t;
 
 typedef struct

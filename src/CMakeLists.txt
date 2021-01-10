@@ -21,6 +21,7 @@ add_subdirectory(json)
 add_subdirectory(log)
 add_subdirectory(net)
 add_subdirectory(process)
+add_subdirectory(queue)
 add_subdirectory(socket)
 add_subdirectory(ssl)
 add_subdirectory(stat)
@@ -59,6 +60,7 @@ add_library(pcl SHARED
 	$<TARGET_OBJECTS:log>
 	$<TARGET_OBJECTS:net>
 	$<TARGET_OBJECTS:process>
+	$<TARGET_OBJECTS:queue>
 	$<TARGET_OBJECTS:socket>
 	$<TARGET_OBJECTS:ssl>
 	$<TARGET_OBJECTS:stat>
