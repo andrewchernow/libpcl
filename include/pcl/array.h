@@ -35,15 +35,14 @@
 /** @defgroup array Array Management
  * An array is a pointer table of allocated elements. This differs from a PCL vector in that
  * there is no concept of element size. The elements are user allocated pointers that can
- * all be the same type of object, different objects or even \c NULL. A vector allocates
- * a contiguos block of memory of same size elements, while the array is a pointer table. It
- * is common to interact with an array's \a elements directly, while this is cumbersome with
- * a vector. A vector can be used like a pointer table, but is a bit awkward because elements
- * must be added as pointers to pointers: element size would be \c sizeof(void*). Thus, when
- * getting an element from a vector, one must dereference the element value:
- * `*(void **)pcl_vector_get(v, 0)`. The array doesn't allow adding elements in any order like
- * the vector. Adding to an array is always an append operation. However, elements can be
- * replaced via ::pcl_array_set.
+ * all be the same type of object, different objects or even \c NULL.
+ *
+ * It is common to interact (read) with an array's \a elements directly, while this is cumbersome
+ * with a vector. Although a vector can be used like a pointer table, it is a bit awkward because
+ * elements must be added as pointers to pointers: element size would be \c sizeof(void*). Thus,
+ * when getting an element from a vector, one must dereference the element value:
+ * `*(void **) pcl_vector_get(v, 0)`.
+ *
  * ### Create argv array
  * @code
  * // create an argv array of 4 arguments with a trailing NULL
@@ -133,13 +132,15 @@ PCL_EXPORT void *pcl_array_get(pcl_array_t *arr, int index);
  */
 PCL_EXPORT int pcl_array_set(pcl_array_t *arr, void *elem, int index);
 
-/** Add an element. This is an append operation. The array is grown if required.
+/** Insert an element.
  * @param arr pointer to an array object
  * @param elem pointer to an element
+ * @param index the insertion index. this can be equal to the array's current count, in which
+ * case \a elem is appended
  * @return the new element count or -1 on error.
  * @see pcl_array_set
  */
-PCL_EXPORT int pcl_array_add(pcl_array_t *arr, void *elem);
+PCL_EXPORT int pcl_array_insert(pcl_array_t *arr, void *elem, int index);
 
 /** Remove an element from an array. This will call the cleanup handler if both the cleanup
  * handler and element at \a index are not \c NULL.
@@ -162,6 +163,12 @@ PCL_EXPORT void pcl_array_cleanup_ptr(pcl_array_t *arr, void *elem);
  * @param arr pointer to an array object
  */
 PCL_EXPORT void pcl_array_free(pcl_array_t *arr);
+
+PCL_INLINE int
+pcl_array_push(pcl_array_t *arr, void *elem)
+{
+	return pcl_array_insert(arr, elem, arr ? arr->count : 0);
+}
 
 #ifdef __cplusplus
 }

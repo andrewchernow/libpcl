@@ -32,9 +32,10 @@
 #include <pcl/array.h>
 #include <pcl/error.h>
 #include <pcl/alloc.h>
+#include <string.h>
 
 int
-pcl_array_add(pcl_array_t *arr, void *elem)
+pcl_array_insert(pcl_array_t *arr, void *elem, int index)
 {
 	if(!arr)
 		return SETERR(PCL_EINVAL);
@@ -45,7 +46,12 @@ pcl_array_add(pcl_array_t *arr, void *elem)
 		arr->elements = pcl_realloc(arr->elements, arr->capacity * sizeof(void*));
 	}
 
-	arr->elements[arr->count++] = elem;
+	/* memmove only required when NOT appending: ie. index '<' count */
+	if(index < arr->count)
+		memmove(arr->elements + index + 1, arr->elements + index,
+			(arr->count - index) * sizeof(void *));
 
-	return arr->count;
+	arr->elements[index] = elem;
+
+	return ++arr->count;
 }
