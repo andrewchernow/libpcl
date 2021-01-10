@@ -1,6 +1,6 @@
 /*
-  Portable C Library ("PCL")
-  Copyright (c) 1999-2020 Andrew Chernow
+  Portable C Library (PCL)
+  Copyright (c) 1999-2003, 2005-2014, 2017-2020 Andrew Chernow
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without
@@ -29,22 +29,15 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include <pcl/vector.h>
+#include "_queue.h"
 #include <pcl/alloc.h>
 
-pcl_vector_t *
-pcl_vector_create(int capacity, size_t elemsize, pcl_vector_cleanup_t cleanup)
+pcl_queue_t *
+pcl_queue(pcl_queue_cleanup_t cleanup)
 {
-	pcl_vector_t *v = pcl_malloc(sizeof(pcl_vector_t));
-
-	v->size = elemsize;
-	v->count = 0;
-	v->capacity = max(0, capacity);
-	v->cleanup = cleanup;
-	v->cleanup_ptr = NULL;
-
-	if(v->capacity)
-		v->elems = pcl_malloc(v->capacity * v->size);
-
-	return v;
+	pcl_queue_t *q = pcl_malloc(sizeof(pcl_queue_t));
+	q->size = 0;
+	q->head = q->tail = NULL;
+	q->cleanup = cleanup;
+	return q;
 }

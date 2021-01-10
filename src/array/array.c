@@ -33,7 +33,7 @@
 #include <pcl/alloc.h>
 
 pcl_array_t *
-pcl_array_create(int initial_capacity, pcl_array_cleanup_t cleanup)
+pcl_array(int initial_capacity, pcl_array_cleanup_t cleanup)
 {
 	pcl_array_t *arr = pcl_malloc(sizeof(pcl_array_t));
 

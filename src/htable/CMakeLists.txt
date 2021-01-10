@@ -2,7 +2,7 @@
 add_library(htable OBJECT
 	htable_capacity.c
 	htable_clear.c
-	htable_create.c
+	htable.c
 	htable_free.c
 	htable_get.c
 	htable_keys.c

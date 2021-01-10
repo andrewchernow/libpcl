@@ -65,7 +65,7 @@ PCL_EXPORT int pcl_rand(void *buf, int num);
  * @return pointer to a cipher object or \c NULL on error
  * @see PCL_MAXIVLEN, enum pcl_cipher_algo
  */
-PCL_EXPORT pcl_cipher_t *pcl_cipher_create(const char *algo, const void *key,
+PCL_EXPORT pcl_cipher_t *pcl_cipher(const char *algo, const void *key,
 	const void *iv, const void *aad, uint32_t aad_len, bool enc);
 
 /** Reset a cipher so it can be reused.
@@ -134,7 +134,7 @@ PCL_EXPORT void pcl_cipher_free(pcl_cipher_t *ciph);
  * @param algo message digest algorithm: supports "md5", "sha1", "sha256", "sha512"
  * @return pointer to a message digest object
  */
-PCL_EXPORT pcl_digest_t *pcl_digest_create(const char *algo);
+PCL_EXPORT pcl_digest_t *pcl_digest(const char *algo);
 
 /** Update the data of a digest operation.
  * @param d pointer to a message digest object
@@ -159,7 +159,7 @@ PCL_EXPORT void *pcl_digest_final(pcl_digest_t *d, int *lenp);
  * the number of bytes written to the returned digest.
  * @return pointer to a digest or \c NULL on error
  */
-PCL_EXPORT void *pcl_digest(const char *algo, const void *data, size_t *len);
+PCL_EXPORT void *pcl_digest_value(const char *algo, const void *data, size_t *len);
 
 /** Get digest length.
  * @param d pointer to a message digest object

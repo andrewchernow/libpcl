@@ -70,7 +70,7 @@ create_sslctx(pcl_ssl_t *ssl)
 }
 
 pcl_ssl_t *
-pcl_ssl_create(int flags, ...)
+pcl_ssl(int flags, ...)
 {
 	pcl_ssl_t *ssl = pcl_zalloc(sizeof(pcl_ssl_t));
 

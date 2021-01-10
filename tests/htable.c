@@ -55,7 +55,7 @@ person_t people[] = {
 TESTCASE(htable_rehash)
 {
 	/* see src/htable/htable_capacity.c for prime table */
-	pcl_htable_t *ht = pcl_htable_create(0);
+	pcl_htable_t *ht = pcl_htable(0);
 
 	ASSERT_NOTNULL(ht, "faield to create hash table");
 	ASSERT_INTEQ(ht->capacity, 17, "wrong initial table size");
@@ -105,7 +105,7 @@ TESTCASE(htable_rehash)
 /**$ Get entries from a table */
 TESTCASE(htable_get)
 {
-	pcl_htable_t *ht = pcl_htable_create(0);
+	pcl_htable_t *ht = pcl_htable(0);
 
 	for(int i = 0; i < NUM_PEOPLE; i++)
 	{
@@ -135,7 +135,7 @@ TESTCASE(htable_get)
 /**$ Putting unique key exists error */
 TESTCASE(htable_keyexists)
 {
-	pcl_htable_t *ht = pcl_htable_create(0);
+	pcl_htable_t *ht = pcl_htable(0);
 	ASSERT_INTEQ(pcl_htable_put(ht, "key", NULL, true), 0, "wrong return value for put");
 	ASSERT_INTEQ(pcl_htable_put(ht, "key", NULL, true), -1, "duplicate entry didn't fail");
 	ASSERT_INTEQ(pcl_errno, PCL_EEXIST, "wrong pcl error set expected PCL_EEXIST");
@@ -146,7 +146,7 @@ TESTCASE(htable_keyexists)
 /**$ NULL value handling */
 TESTCASE(htable_nullvalue)
 {
-	pcl_htable_t *ht = pcl_htable_create(0);
+	pcl_htable_t *ht = pcl_htable(0);
 	ASSERT_INTEQ(pcl_htable_put(ht, "key", NULL, true), 0, "wrong return value for put");
 
 	void *value = pcl_htable_get(ht, "key");
@@ -160,7 +160,7 @@ TESTCASE(htable_nullvalue)
 /**$ Get an array of keys */
 TESTCASE(htable_keys)
 {
-	pcl_htable_t *ht = pcl_htable_create(0);
+	pcl_htable_t *ht = pcl_htable(0);
 
 	for(int i = 0; i < NUM_PEOPLE; i++)
 	{
@@ -198,7 +198,7 @@ TESTCASE(htable_keys)
 /**$ Add duplicate keys to table (replace operation) */
 TESTCASE(htable_dupkeys)
 {
-	pcl_htable_t *ht = pcl_htable_create(0);
+	pcl_htable_t *ht = pcl_htable(0);
 	ASSERT_INTEQ(pcl_htable_put(ht, "key", &people[0], false), 0, "wrong return value for put");
 	ASSERT_INTEQ(pcl_htable_put(ht, "key", &people[1], false), 0, "wrong return value for put");
 
@@ -225,7 +225,7 @@ TESTCASE(htable_dupkeys)
 /**$ Put entries with non-string keys */
 TESTCASE(htable_nonstrkeys)
 {
-	pcl_htable_t *ht = pcl_htable_create(0);
+	pcl_htable_t *ht = pcl_htable(0);
 
 	/* default key_equals is memcmp when key_len is not zero. */
 	ht->key_len = sizeof(person_t);

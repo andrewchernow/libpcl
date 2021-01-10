@@ -6,7 +6,7 @@ add_library(ssl OBJECT
 	ssl_close.c
 	ssl_configure_socket.c
 	ssl_connect.c
-	ssl_create.c
+	ssl.c
 	ssl_error.c
 	ssl_free.c
 	ssl_flags.c

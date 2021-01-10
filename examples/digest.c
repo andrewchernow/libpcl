@@ -59,10 +59,10 @@ int pcl_main(int argc, pchar_t **argv)
 	char text[4096];
 	pcl_digest_t *md[4];
 
-	md[0] = pcl_digest_create("md5");
-	md[1] = pcl_digest_create("sha1");
-	md[2] = pcl_digest_create("sha256");
-	md[3] = pcl_digest_create("sha512");
+	md[0] = pcl_digest("md5");
+	md[1] = pcl_digest("sha1");
+	md[2] = pcl_digest("sha256");
+	md[3] = pcl_digest("sha512");
 
 	while((r = fread(text, 1, sizeof(text), fp)) > 0)
 	{

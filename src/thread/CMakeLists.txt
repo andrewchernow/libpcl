@@ -5,7 +5,7 @@ add_library(thread OBJECT
 	mutex_lock.c
 	mutex_trylock.c
 	mutex_unlock.c
-	thread_create.c
+	thread.c
 	thread_id.c
 	tls_alloc.c
 	tls_free.c

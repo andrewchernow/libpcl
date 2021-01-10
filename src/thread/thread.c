@@ -1,6 +1,6 @@
 /*
-  Portable C Library (PCL)
-  Copyright (c) 1999-2003, 2005-2014, 2017-2020 Andrew Chernow
+  Portable C Library ("PCL")
+  Copyright (c) 1999-2020 Andrew Chernow
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without
@@ -29,15 +29,60 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "_queue.h"
+#include <pcl/thread.h>
 #include <pcl/alloc.h>
+#include <pcl/error.h>
+#include <pcl/event.h>
 
-pcl_queue_t *
-pcl_queue_create(pcl_queue_cleanup_t cleanup)
+typedef struct
 {
-	pcl_queue_t *q = pcl_malloc(sizeof(pcl_queue_t));
-	q->size = 0;
-	q->head = q->tail = NULL;
-	q->cleanup = cleanup;
-	return q;
+	void *arg;
+	pcl_thread_start_t routine;
+} thread_start_t;
+
+static void *
+thread_start_wrapper(void *__arg)
+{
+	thread_start_t *start = __arg;
+	void *arg = start->arg;
+	void (*routine)(void *) = start->routine;
+
+	pcl_free(start);
+	pcl_event_dispatch(PCL_EVENT_THREADINIT, NULL);
+	routine(arg);
+
+	return 0;
+}
+
+int
+pcl_thread(pthread_t *t, pcl_thread_start_t routine, void *arg)
+{
+	pthread_t tbuf;
+
+	if(!routine)
+		return SETERR(EINVAL);
+
+	if(!t)
+		t = &tbuf;
+
+	pthread_attr_t attr;
+	pthread_attr_init(&attr);
+	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
+	pthread_attr_setscope(&attr, PTHREAD_SCOPE_SYSTEM);
+
+	/* create thread arg wrapper and start thread */
+	thread_start_t *start = pcl_malloc(sizeof(thread_start_t));
+	start->arg = arg;
+	start->routine = routine;
+	int err = pthread_create(t, &attr, thread_start_wrapper, start);
+
+	pthread_attr_destroy(&attr);
+
+	if(err)
+	{
+		pcl_free(start);
+		return SETOSERR(err);
+	}
+
+	return 0;
 }

@@ -86,7 +86,7 @@ validate_cipher(const char *algo, const char *aad, int aad_len)
 
 		if(i == 0)
 		{
-			ciph = pcl_cipher_create(algo, key, iv, aad, aad_len, true);
+			ciph = pcl_cipher(algo, key, iv, aad, aad_len, true);
 
 			if(!ciph)
 				PANIC("", 0);
@@ -133,7 +133,7 @@ validate_cipher(const char *algo, const char *aad, int aad_len)
 	int dectext_len = 0;
 	char dectext[sizeof(ciphtext)];
 
-	ciph = pcl_cipher_create(algo, key, iv, aad, aad_len, false);
+	ciph = pcl_cipher(algo, key, iv, aad, aad_len, false);
 
 	if(!ciph)
 		PANIC("", 0);

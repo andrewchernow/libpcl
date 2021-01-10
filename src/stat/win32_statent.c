@@ -75,7 +75,7 @@ ipcl_win32_stat_handler(uint32_t which, void *data)
 		pcl_tls_alloc(&bsize_key, bsize_thread_destroy);
 
 	if(which == PCL_EVENT_INIT || which == PCL_EVENT_THREADINIT)
-		pcl_tls_set(bsize_key, pcl_vector_create(2, sizeof(bsize_cache_t), bsize_veccleanup));
+		pcl_tls_set(bsize_key, pcl_vector(2, sizeof(bsize_cache_t), bsize_veccleanup));
 }
 
 int

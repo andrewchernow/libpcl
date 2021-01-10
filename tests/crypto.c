@@ -70,7 +70,7 @@ validate_cipher(const char *algo, const char *aad, int aad_len)
 
 		if(i == 0)
 		{
-			ciph = pcl_cipher_create(algo, key, iv, aad, aad_len, true);
+			ciph = pcl_cipher(algo, key, iv, aad, aad_len, true);
 			sprintf(msgbuf, "Failed to create encrypt cipher %s", algo);
 			ASSERT_NOTNULL(ciph, msgbuf);
 		}
@@ -103,7 +103,7 @@ validate_cipher(const char *algo, const char *aad, int aad_len)
 	int dectext_len = 0;
 	char dectext[sizeof(ciphtext)];
 
-	ciph = pcl_cipher_create(algo, key, iv, aad, aad_len, false);
+	ciph = pcl_cipher(algo, key, iv, aad, aad_len, false);
 	sprintf(msgbuf, "Failed to create decrypt cipher %s", algo);
 	ASSERT_NOTNULL(ciph, msgbuf);
 
@@ -153,10 +153,10 @@ TESTCASE(crypto_digest)
 	pcl_digest_t *md[4];
 	int plaintext_len = (int) strlen(PLAINTEXT);
 
-	md[0] = pcl_digest_create("md5");
-	md[1] = pcl_digest_create("sha1");
-	md[2] = pcl_digest_create("sha256");
-	md[3] = pcl_digest_create("sha512");
+	md[0] = pcl_digest("md5");
+	md[1] = pcl_digest("sha1");
+	md[2] = pcl_digest("sha256");
+	md[3] = pcl_digest("sha512");
 
 	for(int i = 0; i < countof(md); i++)
 	{

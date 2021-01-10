@@ -53,7 +53,7 @@ typedef void (*pcl_queue_cleanup_t)(void *item);
  * @param cleanup optional cleanup handler for queue items
  * @return pointer to a new queue object that must be freed via ::pcl_queue_free
  */
-PCL_EXPORT pcl_queue_t *pcl_queue_create(pcl_queue_cleanup_t cleanup);
+PCL_EXPORT pcl_queue_t *pcl_queue(pcl_queue_cleanup_t cleanup);
 
 /** Get the size (number of items) of a queue.
  * @param q pointer to a queue object

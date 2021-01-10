@@ -59,7 +59,7 @@ default_hashcode(const void *key, size_t key_len, void *userp)
 }
 
 pcl_htable_t *
-pcl_htable_create(int capacity)
+pcl_htable(int capacity)
 {
 	capacity = ipcl_htable_capacity(max(capacity, 0));
 

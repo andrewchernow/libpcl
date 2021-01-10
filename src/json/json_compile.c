@@ -190,7 +190,7 @@ pcl_json_compile(const char *path)
 
 					if(*p == ',')
 					{
-						pcl_vector_t *indexes = pcl_vector_create(4, sizeof(int), NULL);
+						pcl_vector_t *indexes = pcl_vector(4, sizeof(int), NULL);
 
 						pcl_vector_push(indexes, &index);
 

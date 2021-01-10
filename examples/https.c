@@ -49,7 +49,7 @@ int main(int argc, char **argv)
 
 	pcl_init();
 
-	pcl_ssl_t *ssl = pcl_ssl_create(0);
+	pcl_ssl_t *ssl = pcl_ssl(0);
 
 	if(!ssl)
 		PANIC("failed to create SSL socket", 0);

@@ -31,45 +31,29 @@
 
 #include "_crypto.h"
 
-pcl_cipher_t *
-pcl_cipher_create(const char *algo, const void *key, const void *iv,
-	const void *aad, uint32_t aad_len, bool enc)
+void *
+pcl_digest_value(const char *algo, const void *data, size_t *len)
 {
-	if(!key || !iv)
+	if(!data || !len)
 		return R_SETERR(NULL, PCL_EINVAL);
 
-	const EVP_CIPHER *cipher = EVP_get_cipherbyname(algo);
+	pcl_digest_t *d = pcl_digest(algo);
 
-	if(!cipher)
-		return R_SETERRMSG(NULL, PCL_EINVAL,
-			"no such cipher algorithm '%s': see enum pcl_cipher_algo", algo);
+	if(!d)
+		return R_TRC(NULL);
 
-	EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
-	const char *name = OBJ_nid2ln(EVP_CIPHER_nid(cipher));
+	if(pcl_digest_update(d, data, *len))
+		return R_TRC(NULL);
 
-	if(!EVP_CipherInit_ex(ctx, cipher, NULL, key, iv, enc))
-	{
-		EVP_CIPHER_CTX_free(ctx);
-		return R_SETERRMSG(NULL, PCL_ECRYPT, "Failed to create %s context: %s",
-			enc ? "encryption" : "decryption", name);
-	}
+	int mdlen;
+	void *digest = pcl_digest_final(d, &mdlen);
 
-	pcl_cipher_t *c = pcl_malloc(sizeof(pcl_cipher_t));
+	pcl_digest_free(d);
 
-	c->ctx = ctx;
-	c->algo = name;
+	if(!digest)
+		return R_TRC(NULL);
 
-	if(aad && aad_len && pcl_cipher_isaead(c))
-	{
-		int n;
-
-		/* AAD is set by specifying NULL for output buffer */
-		if(!EVP_CipherUpdate(ctx, NULL, &n, aad, aad_len))
-		{
-			pcl_cipher_free(c);
-			return R_SETERRMSG(NULL, PCL_ECRYPT, "Failed to set AAD: %s", name);
-		}
-	}
-
-	return c;
+	*len = mdlen;
+	return digest;
 }
+

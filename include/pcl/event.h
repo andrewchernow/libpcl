@@ -44,7 +44,7 @@
 #define PCL_EVENT_INIT 0
 
 /** Passed to a pcl_event_handler_t function to indicate that a thread is being initialized. This
- * is automatically triggered by pcl_thread_create. If a thread is created by other means, call
+ * is automatically triggered by pcl_thread. If a thread is created by other means, call
  * pcl_event_dispatch manually within the thread start routine.
  * @see pcl_init_thread
  */

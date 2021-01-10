@@ -37,7 +37,7 @@
 /**$ Append elements to array. */
 TESTCASE(array_add)
 {
-	pcl_array_t *arr = pcl_array_create(10, NULL);
+	pcl_array_t *arr = pcl_array(10, NULL);
 	const char *elements[] = {
 		"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
 		"eleven", "tweleve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen",
@@ -57,7 +57,7 @@ TESTCASE(array_add)
 /**$ Get element at an invalid index */
 TESTCASE(array_get_badidx)
 {
-	pcl_array_t *arr = pcl_array_create(8, NULL);
+	pcl_array_t *arr = pcl_array(8, NULL);
 	ASSERT_NULL(pcl_array_get(arr, 0), "array_get");
 	ASSERT_INTEQ(pcl_errno, PCL_EINDEX, "wrong pcl error set");
 	pcl_array_free(arr);
@@ -67,7 +67,7 @@ TESTCASE(array_get_badidx)
 /**$ Get element at a valid index */
 TESTCASE(array_get)
 {
-	pcl_array_t *arr = pcl_array_create(0, NULL);
+	pcl_array_t *arr = pcl_array(0, NULL);
 	ASSERT_INTEQ(pcl_array_push(arr, "value"), 1, "wrong return value");
 	ASSERT_STREQ(pcl_array_get(arr, 0), "value", "wrong array element value");
 	pcl_array_free(arr);
@@ -77,7 +77,7 @@ TESTCASE(array_get)
 /**$ Get NULL element at a valid index */
 TESTCASE(array_get_null)
 {
-	pcl_array_t *arr = pcl_array_create(0, NULL);
+	pcl_array_t *arr = pcl_array(0, NULL);
 	ASSERT_INTEQ(pcl_array_push(arr, NULL), 1, "wrong return value");
 	ASSERT_NULL(pcl_array_get(arr, 0), "wrong array element value");
 	ASSERT_INTEQ(pcl_errno, PCL_EOKAY, "wrong pcl error value");
@@ -88,7 +88,7 @@ TESTCASE(array_get_null)
 /**$ Set element within an array */
 TESTCASE(array_set)
 {
-	pcl_array_t *arr = pcl_array_create(4, NULL);
+	pcl_array_t *arr = pcl_array(4, NULL);
 	ASSERT_INTEQ(pcl_array_push(arr, "value1"), 1, "wrong return value array_add");
 	ASSERT_INTEQ(pcl_array_push(arr, "value2"), 2, "wrong return value array_add");
 	ASSERT_INTEQ(pcl_array_set(arr, "value3", 0), 0, "wrong return value array_set");
@@ -100,7 +100,7 @@ TESTCASE(array_set)
 /**$ Set element beyond current count */
 TESTCASE(array_set_beyond_count)
 {
-	pcl_array_t *arr = pcl_array_create(2, NULL);
+	pcl_array_t *arr = pcl_array(2, NULL);
 	ASSERT_INTEQ(pcl_array_set(arr, "value", 1), 0, "wrong return value array_set");
 	ASSERT_NULL(pcl_array_get(arr, 0), "wrong return value array_get");
 	ASSERT_INTEQ(pcl_errno, PCL_EOKAY, "wrong pcl_errno");
@@ -112,7 +112,7 @@ TESTCASE(array_set_beyond_count)
 /**$ Remove element from array */
 TESTCASE(array_remove)
 {
-	pcl_array_t *arr = pcl_array_create(2, NULL);
+	pcl_array_t *arr = pcl_array(2, NULL);
 	ASSERT_INTEQ(pcl_array_push(arr, "value"), 1, "wrong return value array_add");
 	ASSERT_INTEQ(pcl_array_remove(arr, 0), 0, "wrong return value array_remove");
 	ASSERT_INTEQ(arr->count, 0, "wrong pcl_array_t.count value");

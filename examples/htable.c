@@ -113,7 +113,7 @@ int main(int argc, char **argv)
 	 * first prime within an internal table: 17. We put 14 entries which would cause a
 	 * rehash: 17 * .7 max loadfac = 11.9 so rehash is needed.
 	 */
-	pcl_htable_t *ht = pcl_htable_create(0);
+	pcl_htable_t *ht = pcl_htable(0);
 
 	ht->min_loadfac = .3f; // default is .20, example of setting it
 	ht->max_loadfac = .7f; // default is .75, example of setting it

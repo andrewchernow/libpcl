@@ -43,7 +43,7 @@ extern "C" {
 
 typedef void (*pcl_thread_start_t)(void *);
 
-PCL_EXPORT int pcl_thread_create(pthread_t *t, pcl_thread_start_t routine, void *a);
+PCL_EXPORT int pcl_thread(pthread_t *t, pcl_thread_start_t routine, void *a);
 PCL_EXPORT uint64_t pcl_thread_id(void);
 
 /* mutex support */

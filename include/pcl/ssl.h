@@ -75,7 +75,7 @@ enum tag_ssl_cert
  *   const char *listen_host, int listen_port
  * Note: use PCL_SOCK_NONBLOCK from socket API within flags for nonblocking.
  */
-PCL_EXPORT pcl_ssl_t *pcl_ssl_create(int flags, ...);
+PCL_EXPORT pcl_ssl_t *pcl_ssl(int flags, ...);
 
 /* Connects to the server's host and port.  If want_io is provided,
  * it will point to PCL_SSL_WANTREAD or PCL_SSL_WANTWRITE when the SSL socket

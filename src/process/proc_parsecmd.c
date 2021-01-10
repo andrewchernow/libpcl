@@ -52,7 +52,7 @@ pcl_proc_parsecmd(const pchar_t *shell_cmd)
 	}
 
 	start = shell_cmd;
-	pcl_array_t *arr = pcl_array_create(4, pcl_array_cleanup_ptr);
+	pcl_array_t *arr = pcl_array(4, pcl_array_cleanup_ptr);
 
 	while(true)
 	{

@@ -47,7 +47,7 @@ pcl_json_arr(void)
 
 	val->type = 'a';
 	val->nrefs = 1;
-	val->array = pcl_array_create(8, array_cleanup);
+	val->array = pcl_array(8, array_cleanup);
 
 	return val;
 }

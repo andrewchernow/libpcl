@@ -41,7 +41,7 @@ static pcl_array_t *
 XFUNC(strsplit_impl)(const xchar *s, const xchar *delim, int casefold)
 {
 	size_t delim_len = xstrlen(delim);
-	pcl_array_t *arr = pcl_array_create(4, pcl_array_cleanup_ptr);
+	pcl_array_t *arr = pcl_array(4, pcl_array_cleanup_ptr);
 	xchar *(*fn_strstr)(const xchar *, const xchar *) = casefold ? xstristr : xstrstr;
 
 	while(s && *s)

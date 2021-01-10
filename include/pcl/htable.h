@@ -88,7 +88,7 @@
  *   int num;
  *   app_user_t **users = app_user_fetchall(&num);
  *
- *   pcl_htable_t *ht = pcl_htable_create(num);
+ *   pcl_htable_t *ht = pcl_htable(num);
  *
  *   // let htable know key length
  *   ht->key_len = 16;
@@ -155,7 +155,7 @@
  *   app_user_t **users = app_user_fetchall(&num_users);
  *
  *   // a table mapping a user_id => user.
- *   pcl_htable_t *ht = pcl_htable_create(num_users);
+ *   pcl_htable_t *ht = pcl_htable(num_users);
  *
  *   // configuring a pcl_htable_t
  *   ht->remove_entry = remove_entry;
@@ -237,7 +237,7 @@ struct tag_pcl_htable
  	 * when non-zero. When using the default \c hashcode, \c strlen is used when this is zero to
  	 * compute the \a key_len otherwise this value is used directly.
  	 *
- 	 * The table should be empty when setting this value: after ::pcl_htable_create
+ 	 * The table should be empty when setting this value: after ::pcl_htable
  	 * or ::pcl_htable_clear.
  	 */
 	size_t key_len;
@@ -246,7 +246,7 @@ struct tag_pcl_htable
 	 * falls below the product of this value and current capacity, the table is shrunk to
 	 * half its capacity rounded up to the nearest prime. The default value is \c 0.20f.
 	 *
- 	 * The table should be empty when setting this value: after ::pcl_htable_create
+ 	 * The table should be empty when setting this value: after ::pcl_htable
  	 * or ::pcl_htable_clear.
 	 */
 	float min_loadfac;
@@ -255,7 +255,7 @@ struct tag_pcl_htable
  	 * exceeds the product of this value and current capacity, the table is grown to
  	 * double its capacity rounded up to the nearest prime. The default is \c 0.75f.
  	 *
- 	 * The table should be empty when setting this value: after ::pcl_htable_create
+ 	 * The table should be empty when setting this value: after ::pcl_htable
  	 * or ::pcl_htable_clear.
  	 */
 	float max_loadfac;
@@ -301,7 +301,7 @@ struct tag_pcl_htable
  * @param capacity initial capacity of hash table. This is rounded up to the nearest prime.
  * @return hash table pointer or NULL on error.
  */
-PCL_EXPORT pcl_htable_t *pcl_htable_create(int capacity);
+PCL_EXPORT pcl_htable_t *pcl_htable(int capacity);
 
 /** Lookup and return an entry.
  * @param ht pointer to hash table object

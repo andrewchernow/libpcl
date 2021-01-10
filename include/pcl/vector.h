@@ -57,7 +57,7 @@
  *   pcl_init();
  *
  *   // cleanup handler can be NULL, integer doesn't need it
- *   pcl_vector_t *vec = pcl_vector_create(8, sizeof(int), NULL);
+ *   pcl_vector_t *vec = pcl_vector(8, sizeof(int), NULL);
  *
  *   for(int i=0; i < vec->capacity * 2; i++)
  *     pcl_vector_push(vec, &i); // vector will have to expand after 8 appends
@@ -88,7 +88,7 @@ extern "C" {
  * @param v pointer to a vector
  * @param elem pointer to the element being removed. If elements are pointers to pointers,
  * like strings, remember to dereference: `pcl_free(*(char **) elem)`.
- * @see pcl_vector_create
+ * @see pcl_vector
  */
 typedef void (*pcl_vector_cleanup_t)(pcl_vector_t *v, void *elem);
 
@@ -149,7 +149,7 @@ struct tag_pcl_vector
  * @return an allocated vector object that must be freed by the application
  * @see pcl_vector_free
  */
-PCL_EXPORT pcl_vector_t *pcl_vector_create(int capacity, size_t elemsize,
+PCL_EXPORT pcl_vector_t *pcl_vector(int capacity, size_t elemsize,
 	pcl_vector_cleanup_t cleanup);
 
 /** Insert an element. To append an element, set \a pos to pcl_vector_t.count
@@ -196,7 +196,7 @@ PCL_EXPORT pcl_vector_t *pcl_vector_clear(pcl_vector_t *v);
 /** Release all resources used by a vector as well as the vector itself.
  * @param v pointer to a vector that is unusable after this call. If this is \c NULL, the
  * function silently ignores the request.
- * @see pcl_vector_create
+ * @see pcl_vector
  */
 PCL_EXPORT void pcl_vector_free(pcl_vector_t *v);
 
@@ -207,7 +207,7 @@ PCL_EXPORT void pcl_vector_free(pcl_vector_t *v);
  */
 PCL_EXPORT pcl_vector_t *pcl_vector_sort(pcl_vector_t *v, int (*cmp)(const void *, const void *));
 
-/** Append an element.
+/** Push (append) an element.
  * @param v pointer to a vector
  * @param elem pointer to an element
  * @return pointer to the vector element inserted or \c NULL on error

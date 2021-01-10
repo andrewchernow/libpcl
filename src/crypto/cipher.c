@@ -30,28 +30,46 @@
 */
 
 #include "_crypto.h"
-#include <pcl/string.h>
 
-pcl_digest_t *
-pcl_digest_create(const char *algo)
+pcl_cipher_t *
+pcl_cipher(const char *algo, const void *key, const void *iv,
+	const void *aad, uint32_t aad_len, bool enc)
 {
-	const EVP_MD *md = algo ? EVP_get_digestbyname(algo) : NULL;
+	if(!key || !iv)
+		return R_SETERR(NULL, PCL_EINVAL);
 
-	if(!md)
-		return R_SETERRMSG(NULL, PCL_EINVAL, "no such algorithm '%s'", algo);
+	const EVP_CIPHER *cipher = EVP_get_cipherbyname(algo);
 
-	pcl_digest_t *d = pcl_malloc(sizeof(pcl_digest_t));
+	if(!cipher)
+		return R_SETERRMSG(NULL, PCL_EINVAL,
+			"no such cipher algorithm '%s': see enum pcl_cipher_algo", algo);
 
-	d->md = md;
-	d->ctx = EVP_MD_CTX_new();
-	d->algo = OBJ_nid2ln(EVP_MD_type(md));
+	EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
+	const char *name = OBJ_nid2ln(EVP_CIPHER_nid(cipher));
 
-	if(EVP_DigestInit_ex(d->ctx, md, NULL) == 0)
+	if(!EVP_CipherInit_ex(ctx, cipher, NULL, key, iv, enc))
 	{
-		const char *name = d->algo;
-		pcl_digest_free(d);
-		return R_SETERRMSG(NULL, PCL_ECRYPT, "Digest init failed: '%s'", name);
+		EVP_CIPHER_CTX_free(ctx);
+		return R_SETERRMSG(NULL, PCL_ECRYPT, "Failed to create %s context: %s",
+			enc ? "encryption" : "decryption", name);
 	}
 
-	return d;
+	pcl_cipher_t *c = pcl_malloc(sizeof(pcl_cipher_t));
+
+	c->ctx = ctx;
+	c->algo = name;
+
+	if(aad && aad_len && pcl_cipher_isaead(c))
+	{
+		int n;
+
+		/* AAD is set by specifying NULL for output buffer */
+		if(!EVP_CipherUpdate(ctx, NULL, &n, aad, aad_len))
+		{
+			pcl_cipher_free(c);
+			return R_SETERRMSG(NULL, PCL_ECRYPT, "Failed to set AAD: %s", name);
+		}
+	}
+
+	return c;
 }

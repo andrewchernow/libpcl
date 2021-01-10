@@ -46,7 +46,7 @@
  * ### Create argv array
  * @code
  * // create an argv array of 4 arguments with a trailing NULL
- * pcl_array_t *arr = pcl_array_create(5, pcl_array_cleanup_ptr);
+ * pcl_array_t *arr = pcl_array(5, pcl_array_cleanup_ptr);
  *
  * pcl_array_push(arr, strdup("-a"));
  * pcl_array_push(arr, strdup("--quiet"));
@@ -100,7 +100,7 @@ struct tag_pcl_array
  * @return pointer to a new array object
  * @see pcl_array_cleanup_ptr
  */
-PCL_EXPORT pcl_array_t *pcl_array_create(int initial_capacity, pcl_array_cleanup_t cleanup);
+PCL_EXPORT pcl_array_t *pcl_array(int initial_capacity, pcl_array_cleanup_t cleanup);
 
 /** Get an element from an array.
  * This is typically not used when iterating over an array, as one can just directly access

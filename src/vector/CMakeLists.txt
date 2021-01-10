@@ -2,7 +2,7 @@
 add_library(vector OBJECT
 	vector_clear.c
 	vector_compact.c
-	vector_create.c
+	vector.c
 	vector_free.c
 	vector_get_s.c
 	vector_insert.c

@@ -29,60 +29,22 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include <pcl/thread.h>
+#include <pcl/vector.h>
 #include <pcl/alloc.h>
-#include <pcl/error.h>
-#include <pcl/event.h>
 
-typedef struct
+pcl_vector_t *
+pcl_vector(int capacity, size_t elemsize, pcl_vector_cleanup_t cleanup)
 {
-	void *arg;
-	pcl_thread_start_t routine;
-} thread_start_t;
+	pcl_vector_t *v = pcl_malloc(sizeof(pcl_vector_t));
 
-static void *
-thread_start_wrapper(void *__arg)
-{
-	thread_start_t *start = __arg;
-	void *arg = start->arg;
-	void (*routine)(void *) = start->routine;
+	v->size = elemsize;
+	v->count = 0;
+	v->capacity = max(0, capacity);
+	v->cleanup = cleanup;
+	v->cleanup_ptr = NULL;
 
-	pcl_free(start);
-	pcl_event_dispatch(PCL_EVENT_THREADINIT, NULL);
-	routine(arg);
+	if(v->capacity)
+		v->elems = pcl_malloc(v->capacity * v->size);
 
-	return 0;
-}
-
-int
-pcl_thread_create(pthread_t *t, pcl_thread_start_t routine, void *arg)
-{
-	pthread_t tbuf;
-
-	if(!routine)
-		return SETERR(EINVAL);
-
-	if(!t)
-		t = &tbuf;
-
-	pthread_attr_t attr;
-	pthread_attr_init(&attr);
-	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
-	pthread_attr_setscope(&attr, PTHREAD_SCOPE_SYSTEM);
-
-	/* create thread arg wrapper and start thread */
-	thread_start_t *start = pcl_malloc(sizeof(thread_start_t));
-	start->arg = arg;
-	start->routine = routine;
-	int err = pthread_create(t, &attr, thread_start_wrapper, start);
-
-	pthread_attr_destroy(&attr);
-
-	if(err)
-	{
-		pcl_free(start);
-		return SETOSERR(err);
-	}
-
-	return 0;
+	return v;
 }

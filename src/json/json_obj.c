@@ -48,7 +48,7 @@ pcl_json_obj(void)
 
 	val->type = 'o';
 	val->nrefs = 1;
-	val->object = pcl_htable_create(0);
+	val->object = pcl_htable(0);
 	val->object->remove_entry = remove_entry;
 
 	return val;

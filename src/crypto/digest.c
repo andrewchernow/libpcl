@@ -30,30 +30,28 @@
 */
 
 #include "_crypto.h"
+#include <pcl/string.h>
 
-void *
-pcl_digest(const char *algo, const void *data, size_t *len)
+pcl_digest_t *
+pcl_digest(const char *algo)
 {
-	if(!data || !len)
-		return R_SETERR(NULL, PCL_EINVAL);
+	const EVP_MD *md = algo ? EVP_get_digestbyname(algo) : NULL;
 
-	pcl_digest_t *d = pcl_digest_create(algo);
+	if(!md)
+		return R_SETERRMSG(NULL, PCL_EINVAL, "no such algorithm '%s'", algo);
 
-	if(!d)
-		return R_TRC(NULL);
+	pcl_digest_t *d = pcl_malloc(sizeof(pcl_digest_t));
 
-	if(pcl_digest_update(d, data, *len))
-		return R_TRC(NULL);
+	d->md = md;
+	d->ctx = EVP_MD_CTX_new();
+	d->algo = OBJ_nid2ln(EVP_MD_type(md));
 
-	int mdlen;
-	void *digest = pcl_digest_final(d, &mdlen);
+	if(EVP_DigestInit_ex(d->ctx, md, NULL) == 0)
+	{
+		const char *name = d->algo;
+		pcl_digest_free(d);
+		return R_SETERRMSG(NULL, PCL_ECRYPT, "Digest init failed: '%s'", name);
+	}
 
-	pcl_digest_free(d);
-
-	if(!digest)
-		return R_TRC(NULL);
-
-	*len = mdlen;
-	return digest;
+	return d;
 }
-
