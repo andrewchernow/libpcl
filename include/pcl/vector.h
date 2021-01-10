@@ -82,7 +82,7 @@ extern "C" {
  * @param v pointer to a vector
  * @param elem pointer to the element being removed. If elements are pointers to pointers,
  * like strings, remember to dereference: `pcl_free(*(char **) elem)`.
- * @see pcl_vector_create, pcl_vector_cleanup_dblptr
+ * @see pcl_vector_create
  */
 typedef void (*pcl_vector_cleanup_t)(pcl_vector_t *v, void *elem);
 
@@ -234,14 +234,6 @@ PCL_EXPORT pcl_vector_t *pcl_vector_uninit(pcl_vector_t *v);
  * @see pcl_vector_create
  */
 PCL_EXPORT void pcl_vector_free(pcl_vector_t *v);
-
-/** Built-in element cleanup handler for double pointer elements. This is typically used for
- * pointer tables: like a vector of strings. It will internally dereference an element and
- * pass it to ::pcl_free
- * @param v pointer to a vector
- * @param elem pointer to an element
- */
-PCL_EXPORT void pcl_vector_cleanup_dblptr(pcl_vector_t *v, void *elem);
 
 /** Sort a vector using \c qsort.
  * @param v ppointer to a vector
