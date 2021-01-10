@@ -63,12 +63,12 @@ typedef struct
 /* used by pcl_ssl_certentry() */
 enum tag_ssl_cert
 {
-	PCL_SSL_CERT_COUNTRY_NAME,
-	PCL_SSL_CERT_LOCALITY_NAME,
-	PCL_SSL_CERT_STATE,
-	PCL_SSL_CERT_ORG_NAME,
-	PCL_SSL_CERT_ORG_UNIT,     /* OU */
-	PCL_SSL_CERT_COMMON_NAME   /* CN */
+	PclCertCountryName,
+	PclCertLocalityName,
+	PclCertState,
+	PclCertOrgName,
+	PclCertOrgUNIT,     /* OU */
+	PclCertCommonName   /* CN */
 };
 
 /* If PCL_SSL_PASSIVE is set, "..." expects two additional arguments:
@@ -112,12 +112,13 @@ PCL_EXPORT void pcl_ssl_free(pcl_ssl_t *ssl);
 
 PCL_EXPORT X509 *pcl_ssl_peercert(pcl_ssl_t *ssl);
 
-/* Gets all certificate entries of the given 'entry_type'.  entry_type is one of PCL_SSL_CERT_xxx
- * enum values.  If no entries are found for the given 'entry_type', NULL is returned and
- * PCL_ENOTFOUND is raised.  If an error occurs, NULL is returned and pcl_errno contains
- * the last error.  On success, a non-NULL vector of char** is returned, use pcl_vec_getptr().
+/** Get all certificate entries of the given entry type.
+ * @param ssl pointer to a ssl object
+ * @param entry_type entry type, one of the PclCertXXX enum values.
+ * @return pointer to an array or \c NULL if ann error occurs or no entries were found. In the
+ * latter case, PCL_ENOTFOUND is set.
  */
-PCL_EXPORT pcl_vector_t *pcl_ssl_certentry(pcl_ssl_t *ssl, int entry_type);
+PCL_EXPORT pcl_array_t *pcl_ssl_certentry(pcl_ssl_t *ssl, int entry_type);
 
 /* Sets the cipher list if something other than PCL_SSL_DEFCIPHLIST is desired.
  * For format of 'ciph_list', see openssl documentation.

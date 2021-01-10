@@ -30,17 +30,17 @@
 */
 
 #include "_ssl.h"
-#include <pcl/vector.h>
+#include <pcl/array.h>
 #include <pcl/string.h>
 
-pcl_vector_t *
+pcl_array_t *
 pcl_ssl_certentry(pcl_ssl_t *ssl, int entry_type)
 {
 	X509 *cert;
 	X509_NAME *name;
 	int nid;
 	int pos = -1;
-	pcl_vector_t *ents = NULL;
+	pcl_array_t *ents = NULL;
 
 	if(ssl == NULL)
 	{
@@ -53,27 +53,27 @@ pcl_ssl_certentry(pcl_ssl_t *ssl, int entry_type)
 
 	switch(entry_type)
 	{
-		case PCL_SSL_CERT_COUNTRY_NAME:
+		case PclCertCountryName:
 			nid = NID_countryName;
 			break;
 
-		case PCL_SSL_CERT_LOCALITY_NAME:
+		case PclCertLocalityName:
 			nid = NID_localityName;
 			break;
 
-		case PCL_SSL_CERT_STATE:
+		case PclCertState:
 			nid = NID_stateOrProvinceName;
 			break;
 
-		case PCL_SSL_CERT_ORG_NAME:
+		case PclCertOrgName:
 			nid = NID_organizationName;
 			break;
 
-		case PCL_SSL_CERT_ORG_UNIT:
+		case PclCertOrgUNIT:
 			nid = NID_organizationalUnitName;
 			break;
 
-		case PCL_SSL_CERT_COMMON_NAME:
+		case PclCertCommonName:
 			nid = NID_commonName;
 			break;
 
@@ -85,19 +85,16 @@ pcl_ssl_certentry(pcl_ssl_t *ssl, int entry_type)
 	while(true)
 	{
 		ASN1_STRING *str;
-		char *value;
 
 		pos = X509_NAME_get_index_by_NID(name, nid, pos);
 		if(pos < 0)
 			break; /* end of list */
 
 		if(!ents)
-			ents = pcl_vector_create(X509_NAME_entry_count(name),
-				sizeof(char**), pcl_vector_cleanup_dblptr);
+			ents = pcl_array_create(X509_NAME_entry_count(name), pcl_array_cleanup_ptr);
 
 		str = X509_NAME_ENTRY_get_data(X509_NAME_get_entry(name, pos));
-		value = pcl_strndup((const char *)str->data, str->length);
-		pcl_vector_append(ents, &value);
+		pcl_array_push(ents, pcl_strndup((const char *)str->data, str->length));
 	}
 
 	if(!ents)
