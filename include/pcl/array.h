@@ -48,10 +48,10 @@
  * // create an argv array of 4 arguments with a trailing NULL
  * pcl_array_t *arr = pcl_array_create(5, pcl_array_cleanup_ptr);
  *
- * pcl_array_add(arr, strdup("-a"));
- * pcl_array_add(arr, strdup("--quiet"));
- * pcl_array_add(arr, strdup("--file=\"example/file.txt\""));
- * pcl_array_add(arr, strdup("-t"));
+ * pcl_array_push(arr, strdup("-a"));
+ * pcl_array_push(arr, strdup("--quiet"));
+ * pcl_array_push(arr, strdup("--file=\"example/file.txt\""));
+ * pcl_array_push(arr, strdup("-t"));
  *
  * // replace element 0 with -b, cleanup handler called for element 0
  * if(something_is_true)
@@ -116,9 +116,9 @@ PCL_EXPORT void *pcl_array_get(pcl_array_t *arr, int index);
 /** Set an element of an array, replacing a possible existing element. When setting elements,
  * the array's \a count is not consulted. Instead, this allows a set operation as long as
  * \a index is less than \a capacity. This will set \c count to `index + 1` if \a count is
- * less than `index + 1`. This is very different than ::pcl_array_add, which always appends
- * to the array, using \a count as the next \a index, and growing the array if required. When
- * performing a set operation, the array is never grown. Thus, trying to set an element at
+ * less than `index + 1`. This is very different than ::pcl_array_insert or ::pcl_array_push,
+ * which always inserts an element, bound to array's current \c count, and growing the array if required.
+ * When performing a set operation, the array is never grown. Thus, trying to set an element at
  * an \a index greater than or equal to \a capacity will throw a ::PCL_EINDEX error.
  *
  * If an element exists at \a index, it is removed and passed to the cleanup handler if both the
@@ -128,7 +128,7 @@ PCL_EXPORT void *pcl_array_get(pcl_array_t *arr, int index);
  * @param elem pointer to an element
  * @param index element index
  * @return 0 for success and -1 on error.
- * @see pcl_array_add
+ * @see pcl_array_push
  */
 PCL_EXPORT int pcl_array_set(pcl_array_t *arr, void *elem, int index);
 

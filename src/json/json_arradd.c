@@ -53,7 +53,7 @@ pcl_json_arradd(pcl_json_t *arr, pcl_json_t *elem, uint32_t flags)
 		return SETERRMSG(PCL_ETYPE, "expected type 'a', got '%c'", arr->type);
 	}
 
-	if(pcl_array_add(arr->array, elem) < 0)
+	if(pcl_array_push(arr->array, elem) < 0)
 	{
 		if(freeval)
 			pcl_json_free(elem);

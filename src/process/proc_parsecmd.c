@@ -94,7 +94,7 @@ pcl_proc_parsecmd(const pchar_t *shell_cmd)
 				n = shell_cmd - start;
 
 				if(n > 0)
-					pcl_array_add(arr, pcl_pcsndup(start, shell_cmd - start));
+					pcl_array_push(arr, pcl_pcsndup(start, shell_cmd - start));
 
 				if(*shell_cmd == '\0')
 					goto finish;
@@ -120,7 +120,7 @@ pcl_proc_parsecmd(const pchar_t *shell_cmd)
 finish:
 
 	/* make sure to NULL terminate array */
-	pcl_array_add(arr, NULL);
+	pcl_array_push(arr, NULL);
 
 	/* don't include NULL in element count */
 	arr->count--;

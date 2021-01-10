@@ -43,7 +43,7 @@ walk_path(pcl_json_t *node, const pcl_json_path_t *path, pcl_array_t *results)
 		case PclPathRoot:
 		{
 			if(path->next == NULL)
-				pcl_array_add(results, pcl_json_ref(node, 1));
+				pcl_array_push(results, pcl_json_ref(node, 1));
 			else
 				walk_path(node, path->next, results);
 
@@ -59,7 +59,7 @@ walk_path(pcl_json_t *node, const pcl_json_path_t *path, pcl_array_t *results)
 				if(mbr)
 				{
 					if(path->next == NULL)
-						pcl_array_add(results, pcl_json_ref(mbr, 1));
+						pcl_array_push(results, pcl_json_ref(mbr, 1));
 					else
 						walk_path(mbr, path->next, results);
 				}
@@ -105,7 +105,7 @@ walk_path(pcl_json_t *node, const pcl_json_path_t *path, pcl_array_t *results)
 		{
 			if(!pcl_json_isobj(node))
 			{
-				pcl_array_add(results, pcl_json_ref(node, 1));
+				pcl_array_push(results, pcl_json_ref(node, 1));
 				break;
 			}
 
@@ -118,7 +118,7 @@ walk_path(pcl_json_t *node, const pcl_json_path_t *path, pcl_array_t *results)
 					if(path->next)
 						walk_path(ent->value, path->next, results);
 					else
-						pcl_array_add(results, pcl_json_ref(ent->value, 1));
+						pcl_array_push(results, pcl_json_ref(ent->value, 1));
 				}
 			}
 
@@ -136,7 +136,7 @@ walk_path(pcl_json_t *node, const pcl_json_path_t *path, pcl_array_t *results)
 				if(elem)
 				{
 					if(path->next == NULL)
-						pcl_array_add(results, pcl_json_ref(elem, 1));
+						pcl_array_push(results, pcl_json_ref(elem, 1));
 					else
 						walk_path(elem, path->next, results);
 				}
@@ -161,7 +161,7 @@ walk_path(pcl_json_t *node, const pcl_json_path_t *path, pcl_array_t *results)
 				if(elem)
 				{
 					if(path->next == NULL)
-						pcl_array_add(results, pcl_json_ref(elem, 1));
+						pcl_array_push(results, pcl_json_ref(elem, 1));
 					else
 						walk_path(elem, path->next, results);
 				}
@@ -174,7 +174,7 @@ walk_path(pcl_json_t *node, const pcl_json_path_t *path, pcl_array_t *results)
 		{
 			if(!pcl_json_isarr(node))
 			{
-				pcl_array_add(results, pcl_json_ref(node, 1));
+				pcl_array_push(results, pcl_json_ref(node, 1));
 				break;
 			}
 
@@ -183,7 +183,7 @@ walk_path(pcl_json_t *node, const pcl_json_path_t *path, pcl_array_t *results)
 				pcl_json_t *elem = node->array->elements[i];
 
 				if(path->next == NULL)
-					pcl_array_add(results, pcl_json_ref(elem, 1));
+					pcl_array_push(results, pcl_json_ref(elem, 1));
 				else
 					walk_path(elem, path->next, results);
 			}
@@ -214,7 +214,7 @@ walk_path(pcl_json_t *node, const pcl_json_path_t *path, pcl_array_t *results)
 				if(elem)
 				{
 					if(path->next == NULL)
-						pcl_array_add(results, pcl_json_ref(elem, 1));
+						pcl_array_push(results, pcl_json_ref(elem, 1));
 					else
 						walk_path(elem, path->next, results);
 				}
