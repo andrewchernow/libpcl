@@ -94,11 +94,11 @@ PCL_EXPORT int pcl_net_reverse(const char *ipaddr, char *host, size_t len);
  */
 PCL_EXPORT pcl_array_t *ipcl_net_resolve(const char *host);
 
-/* Retrieves the DNS TXT record for the given host, or NULL on error.
- * The vector elements represent each text item associated with the
- * TXT resource record. Returns a vector of char**, use pcl_vector_getptr().
+/** Retrieve the DNS TXT records for a given host.
+ * @param host pointer to a host
+ * @return pointer to an array where each element is a TXT record or \c NULL on error.
  */
-PCL_EXPORT pcl_vector_t *pcl_net_dnstxtrec(const char *host);
+PCL_EXPORT pcl_array_t *pcl_net_dnstxtrec(const char *host);
 
 /* Gets the length in bytes of the given socket address.  Returns zero
  * if addr is NULL or the address family is not supported.  Supported

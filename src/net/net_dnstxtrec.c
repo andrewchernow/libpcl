@@ -30,7 +30,7 @@
 */
 
 #include "_net.h"
-#include <pcl/vector.h>
+#include <pcl/array.h>
 #include <pcl/string.h>
 
 #ifdef PCL_UNIX
@@ -45,10 +45,10 @@
 #	include <Windns.h>
 #endif
 
-pcl_vector_t *
+pcl_array_t *
 pcl_net_dnstxtrec(const char *host)
 {
-	pcl_vector_t *vec = NULL;
+	pcl_array_t *arr;
 
 #ifdef PCL_WINDOWS
 	DNS_RECORD *rlist = NULL;
@@ -58,13 +58,10 @@ pcl_net_dnstxtrec(const char *host)
 		return R_SETOSERRMSG(NULL, status, "Cannot resolve: '%s'", host);
 
 	DNS_TXT_DATA *data = &rlist->Data.Txt;
-	vec = pcl_vector_create(data->dwStringCount, sizeof(char **), pcl_vector_cleanup_dblptr);
+	arr = pcl_array_create(data->dwStringCount, pcl_array_cleanup_ptr);
 
 	for(DWORD i=0; i < data->dwStringCount; i++)
-	{
-		char *s = pcl_pcs_to_utf8(data->pStringArray[i], 0, NULL);
-		pcl_vector_append(vec, &s);
-	}
+		pcl_array_push(arr, pcl_pcs_to_utf8(data->pStringArray[i], 0, NULL));
 
 	DnsRecordListFree(rlist, DnsFreeRecordList);
 
@@ -84,19 +81,17 @@ pcl_net_dnstxtrec(const char *host)
 	if(ns_parserr(&handle, ns_s_an, 0, &rr))
 		return R_SETLASTERR(NULL);
 
-	vec = pcl_vector_create(4, sizeof(char **), pcl_vector_cleanup_dblptr);
+	arr = pcl_array_create(4, pcl_array_cleanup_ptr);
 	len = ns_rr_rdlen(rr);
 	data = ns_rr_rdata(rr);
 
 	for(int n = 0; n < len;)
 	{
 		int q = data[n++]; /* first byte is txt length */
-		char *txt = pcl_strndup((const char *) (data + n), q);
-
-		pcl_vector_append(vec, &txt);
+		pcl_array_push(arr, pcl_strndup((const char *) (data + n), q));
 		n += q;
 	}
 #endif
 
-	return vec;
+	return arr;
 }
