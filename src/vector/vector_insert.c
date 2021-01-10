@@ -41,7 +41,7 @@ pcl_vector_insert(pcl_vector_t *v, const void *elem, int pos)
 
 	if(v->count == v->capacity)
 	{
-		v->capacity = v->capacity * 2;
+		v->capacity = v->capacity ? v->capacity * 2 : 8;
 		v->elems = (char *) pcl_realloc(v->elems, v->capacity * v->size);
 	}
 

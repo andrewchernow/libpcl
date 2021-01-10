@@ -156,18 +156,6 @@ struct tag_pcl_vector
 #define pcl_vector_append(v, elem) \
   pcl_vector_insert(v, (const void *)(elem), ((pcl_vector_t *)(v))->count)
 
-/** Initialize a vector. This is used internally by pcl_vector_create. This is only useful
- * in cases where caller already has a vector object allocated or caller is using stack memory.
- * @param v pointer to a vector
- * @param capacity initial capacity of the vector as number of elements
- * @param elemsize byte size of each element
- * @param cleanup element cleanup handler called whenever an element is removed from the vector.
- * @return pointer to the \a v argument
- * @see pcl_vector_uninit
- */
-PCL_EXPORT pcl_vector_t *pcl_vector_init(pcl_vector_t *v, int capacity,
-	size_t elemsize, pcl_vector_cleanup_t cleanup);
-
 /** Creates a new vector object.
  * @param capacity initial capacity of the vector as number of elements
  * @param elemsize byte size of each element
@@ -218,15 +206,6 @@ PCL_EXPORT pcl_vector_t *pcl_vector_compact(pcl_vector_t *v);
  * @see pcl_vector_compact
  */
 PCL_EXPORT pcl_vector_t *pcl_vector_clear(pcl_vector_t *v);
-
-/** Release all resources used by a vector.
- * @note This does not free the vector object itself. This function is designed to be used
- * with ::pcl_vector_init. After this call, the given vector must be reinitialized.
- * @param v pointer to a vector
- * @return pointer to the \a v argument
- * @see pcl_vector_init
- */
-PCL_EXPORT pcl_vector_t *pcl_vector_uninit(pcl_vector_t *v);
 
 /** Release all resources used by a vector as well as the vector itself.
  * @param v pointer to a vector that is unusable after this call. If this is \c NULL, the

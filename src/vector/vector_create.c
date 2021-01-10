@@ -36,5 +36,15 @@ pcl_vector_t *
 pcl_vector_create(int capacity, size_t elemsize, pcl_vector_cleanup_t cleanup)
 {
 	pcl_vector_t *v = pcl_malloc(sizeof(pcl_vector_t));
-	return pcl_vector_init(v, capacity, elemsize, cleanup);
+
+	v->size = elemsize;
+	v->count = 0;
+	v->capacity = max(0, capacity);
+	v->cleanup = cleanup;
+	v->cleanup_ptr = NULL;
+
+	if(v->capacity)
+		v->elems = pcl_malloc(v->capacity * v->size);
+
+	return v;
 }
