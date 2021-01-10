@@ -38,6 +38,13 @@
  * The vector automatically expands this block of memory if an insertion would exceed
  * the vector's current capacity. The vector never automatically shrinks itself during an element
  * removal, but a vector can be shrunk using ::pcl_vector_compact.
+ *
+ * Although a vector can store strings, it is adviceable to use a ::pcl_array_t instead. When
+ * storing strings (or any pointer) as elements, a pointer to the element pointer must
+ * be stored within the vector, requiring a dereference when the element is retrieved:
+ * `*(void **) pcl_vector_get(v, 0)`. This is not what the vector was designed for even though
+ * it will work.
+ *
  * #### Basic Usage
  * @code
  * #include <pcl/init.h>
@@ -78,7 +85,6 @@ extern "C" {
  * strings. When a structure contains allocated members, only free the allocated members -- not
  * the structure/element itself. The vector owns the structure. However, if elements are pointers
  * to pointers, you will need to derefence \a elem and free that pointer.
- * @note optionally, the pcl_vector_t.cleanup_ptr can be set and utilized within the callback.
  * @param v pointer to a vector
  * @param elem pointer to the element being removed. If elements are pointers to pointers,
  * like strings, remember to dereference: `pcl_free(*(char **) elem)`.
