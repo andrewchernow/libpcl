@@ -1,6 +1,5 @@
 
 add_library(vector OBJECT
-	vector_append_str.c
 	vector_cleanup_dblptr.c
 	vector_clear.c
 	vector_compact.c

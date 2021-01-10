@@ -190,25 +190,6 @@ PCL_EXPORT pcl_vector_t *pcl_vector_create(int capacity, size_t elemsize,
  */
 PCL_EXPORT void *pcl_vector_insert(pcl_vector_t *v, const void *elem, int pos);
 
-/** Allocate and append a string. This function should only be used with string vectors, where
- * the element size was set to the size of a pointer. Elements added with this function will
- * require a pcl_vector_cleanup_t handler.
- * #### Example
- * @code
- * // identical to: pcl_vector_append_str(vec, "hello")
- * char *s = pcl_strdup("hello");
- * pcl_vector_append(vec, &s);
- * @endcode
- * @param v pointer to a vector
- * @param s pointer to a string that is internally allocated and then appended to the vector.
- * If this is \c NULL, a zero'd element is appended.
- * @return pointer to the vector element. The returned pointer needs to be dereferenced to get
- * its value. \c NULL is returned on error. If \a s is \c NULL, a valid pointer is returned but
- * dereferencing it will produce a \c NULL pointer.
- * @see pcl_vector_cleanup_dblptr
- */
-PCL_EXPORT void *pcl_vector_append_str(pcl_vector_t *v, const char *s);
-
 /** Remove an element.
  * @param v pointer to a vector
  * @param pos a zero-based position of the element to remove
@@ -257,12 +238,6 @@ PCL_EXPORT void pcl_vector_free(pcl_vector_t *v);
 /** Built-in element cleanup handler for double pointer elements. This is typically used for
  * pointer tables: like a vector of strings. It will internally dereference an element and
  * pass it to ::pcl_free
- * #### Example
- * @code
- * pcl_vector_t *vec = pcl_vector_create(16, sizeof(char **), pcl_vector_cleanup_dblptr);
- * pcl_vector_append_str(vec, "Hello World");
- * pcl_vector_remove(vec, 0); // calls pcl_vector_cleanup_dblptr
- * @endcode
  * @param v pointer to a vector
  * @param elem pointer to an element
  */
