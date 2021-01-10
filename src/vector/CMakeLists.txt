@@ -8,4 +8,4 @@ add_library(vector OBJECT
 	vector_insert.c
 	vector_qsort.c
 	vector_remove.c
-	vector_uninit.c)
+	)
