@@ -72,17 +72,15 @@ walk_path(pcl_json_t *node, const pcl_json_path_t *path, pcl_array_t *results)
 		{
 			if(pcl_json_isobj(node))
 			{
-				for(int i = 0; i < node->object->capacity; i++)
-				{
-					pcl_htable_entry_t *ent = node->object->entries[i];
+				int index = 0;
+				pcl_htable_entry_t *ent;
 
-					for(; ent; ent = ent->next)
-					{
-						if(path->next->type == PclPathMember && !strcmp(path->next->member, ent->key))
-							walk_path(node, path->next, results);
-						else
-							walk_path(ent->value, path, results);
-					}
+				while((ent = pcl_htable_iter(node->object, &index)))
+				{
+					if(path->next->type == PclPathMember && !strcmp(path->next->member, ent->key))
+						walk_path(node, path->next, results);
+					else
+						walk_path(ent->value, path, results);
 				}
 			}
 			else if(pcl_json_isarr(node))
@@ -109,17 +107,15 @@ walk_path(pcl_json_t *node, const pcl_json_path_t *path, pcl_array_t *results)
 				break;
 			}
 
-			for(int i = 0; i < node->object->capacity; i++)
-			{
-				pcl_htable_entry_t *ent = node->object->entries[i];
+			int index = 0;
+			pcl_htable_entry_t *ent;
 
-				for(; ent; ent = ent->next)
-				{
-					if(path->next)
-						walk_path(ent->value, path->next, results);
-					else
-						pcl_array_push(results, pcl_json_ref(ent->value, 1));
-				}
+			while((ent = pcl_htable_iter(node->object, &index)))
+			{
+				if(path->next)
+					walk_path(ent->value, path->next, results);
+				else
+					pcl_array_push(results, pcl_json_ref(ent->value, 1));
 			}
 
 			break;

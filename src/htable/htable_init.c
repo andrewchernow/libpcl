@@ -1,6 +1,6 @@
 /*
-  Portable C Library ("PCL")
-  Copyright (c) 1999-2020 Andrew Chernow
+  Portable C Library (PCL)
+  Copyright (c) 1999-2003, 2005-2014, 2017-2020 Andrew Chernow
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without
@@ -30,77 +30,21 @@
 */
 
 #include "_htable.h"
-#include <pcl/error.h>
 #include <pcl/alloc.h>
+#include <string.h>
 
-int
-pcl_htable_put(pcl_htable_t *ht, const void *key, void *value, bool unique)
+void
+ipcl_htable_init(int capacity, pcl_htable_entry_t **entries, int **hashidx)
 {
-	/* NULL values allowed */
-	if(!(ht && key))
-		return BADARG();
+	size_t size = capacity * (sizeof(pcl_htable_entry_t) + sizeof(int));
+	pcl_htable_entry_t *new_entries = pcl_zalloc(size);
 
-	int hashidx;
-	uintptr_t code;
+	memset(new_entries, 0, capacity * sizeof(pcl_htable_entry_t));
 
-	pcl_err_freeze(true);
-	pcl_htable_entry_t *e = ipcl_htable_lookup(ht, key, &code, &hashidx);
-	pcl_err_freeze(false);
+	int *new_hashidx = (int *) (new_entries + capacity);
+	for(int i = 0; i < capacity; i++)
+		new_hashidx[i] = -1;
 
-	if(e)
-	{
-		if(unique)
-			return SETERR(PCL_EEXIST);
-
-		/* replace operation */
-		const void *old_key = e->key;
-		void *old_value = e->value;
-
-		e->key = key;
-		e->value = value;
-
-		if(ht->remove_entry)
-			ht->remove_entry(old_key, old_value, ht->userp);
-	}
-		/* doesn't exist, add it */
-	else
-	{
-		/* check if a rehash is needed. The rehash function only returns an error if the
-		 * capacity has exceeded the maximum size for the architecture. Sets PCL_ERANGE.
-		 */
-		if(ht->count >= (int) (ht->max_loadfac * (float) ht->capacity))
-		{
-			if(ipcl_htable_rehash(ht, true))
-				return TRC();
-
-			/* regenerate, current value is based off old capacity */
-			hashidx = (int) (code % ht->capacity);
-		}
-
-		/* next entry */
-		pcl_htable_entry_t *ent = &ht->entries[ht->usedCount];
-
-		ent->key = key;
-		ent->value = value;
-		ent->code = code;
-
-		int entidx = ht->hashidx[hashidx];
-
-		if(entidx != -1)
-		{
-			pcl_htable_entry_t *head = &ht->entries[entidx];
-			ent->next = head->next;
-			head->next = ht->usedCount;
-		}
-		else
-		{
-			ent->next = -1;
-			ht->hashidx[hashidx] = ht->usedCount;
-		}
-
-		ht->count++;
-		ht->usedCount++;
-	}
-
-	return 0;
+	*entries = new_entries;
+	*hashidx = new_hashidx;
 }

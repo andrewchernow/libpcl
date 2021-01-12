@@ -210,7 +210,7 @@ TESTCASE(htable_dupkeys)
 
 	pcl_htable_entry_t *ent = pcl_htable_lookup(ht, "key");
 	ASSERT_NOTNULL(ent, "failed to get entry");
-	ASSERT_NULL(ent->next, "collision list has more than 1 entry"); // IMPORTANT check
+	ASSERT_INTEQ(ent->next, -1, "collision list has more than 1 entry"); // IMPORTANT check
 	ASSERT_STREQ(ent->key, "key", "wrong key value"); // sanity, already confirmed via lookup
 
 	/* ensure value was replaced (2 person in people[]) */

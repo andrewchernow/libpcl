@@ -44,22 +44,29 @@ pcl_htable_lookup(const pcl_htable_t *ht, const void *key)
 }
 
 pcl_htable_entry_t *
-ipcl_htable_lookup(const pcl_htable_t *ht, const void *key, uintptr_t *code, int *index)
+ipcl_htable_lookup(const pcl_htable_t *ht, const void *key, uintptr_t *codep, int *hashidxp)
 {
-	uintptr_t c = ht->hashcode(key, ht->key_len, ht->userp);
+	uintptr_t code = ht->hashcode(key, ht->key_len, ht->userp);
 
-	if(code)
-		*code = c;
+	if(codep)
+		*codep = code;
 
-	int i = (int) (c % ht->capacity);
+	int hashidx = (int) (code % ht->capacity);
 
-	if(index)
-		*index = i;
+	if(hashidxp)
+		*hashidxp = hashidx;
 
-	/* search collisions */
-	for(pcl_htable_entry_t *e = ht->entries[i]; e; e = e->next)
-		if(ht->key_equals(e->key, key, ht->key_len, ht->userp))
+	int entidx = ht->hashidx[hashidx];
+
+	while(entidx != -1)
+	{
+		pcl_htable_entry_t *e = &ht->entries[entidx];
+
+		if(e->code == code && ht->key_equals(e->key, key, ht->key_len, ht->userp))
 			return e;
+
+		entidx = e->next;
+	}
 
 	return R_SETERR(NULL, PCL_ENOTFOUND);
 }
