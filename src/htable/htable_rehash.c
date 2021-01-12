@@ -32,6 +32,7 @@
 #include "_htable.h"
 #include <pcl/alloc.h>
 #include <pcl/error.h>
+#include <string.h>
 
 int
 ipcl_htable_rehash(pcl_htable_t *ht, bool grow)
@@ -41,32 +42,49 @@ ipcl_htable_rehash(pcl_htable_t *ht, bool grow)
 	if(new_capacity < 0)
 		return TRC();
 
-	pcl_htable_entry_t **new_entries = pcl_zalloc(sizeof(void*) * new_capacity);
+	int *new_hashidx;
+	pcl_htable_entry_t *new_entries;
+	ipcl_htable_init(new_capacity, &new_entries, &new_hashidx);
 
-	for(int i = 0; i < ht->capacity; i++)
+	/* recompute all non-deleted entries */
+	for(int count = 0, i = 0; i < ht->usedCount; i++)
 	{
-		pcl_htable_entry_t *oldent = ht->entries[i];
+		pcl_htable_entry_t *oldent = &ht->entries[i];
 
-		/* populate new table */
-		while(oldent)
+		/* skip deleted slots */
+		if(!oldent->key)
+			continue;
+
+		pcl_htable_entry_t *ent = &new_entries[count];
+		ent->key = oldent->key;
+		ent->value = oldent->value;
+		ent->code = oldent->code;
+
+		int hashidx = (int) (ent->code % new_capacity);
+		int entidx = new_hashidx[hashidx];
+
+		if(entidx != -1)
 		{
-			int index = (int) (oldent->code % new_capacity);
-			pcl_htable_entry_t *head = new_entries[index], *oldent_next = oldent->next;
-
-			/* prepend oldent */
-			new_entries[index] = oldent;
-			oldent->next = head;
-
-			/* advance search */
-			oldent = oldent_next;
+			pcl_htable_entry_t *head = &new_entries[entidx];
+			ent->next = head->next;
+			head->next = count;
 		}
+		else
+		{
+			ent->next = -1;
+			new_hashidx[hashidx] = count;
+		}
+
+		count++;
 	}
 
-	/* we stole all of the entry objects, free old table */
+	/* frees hashidx[] as well */
 	pcl_free_safe(ht->entries);
 
 	ht->capacity = new_capacity;
 	ht->entries = new_entries;
+	ht->hashidx = new_hashidx;
+	ht->usedCount = ht->count; // reset usedCount, we defrag'd entries array
 
 	return 0;
 }

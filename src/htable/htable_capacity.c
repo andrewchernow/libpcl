@@ -42,7 +42,7 @@ ipcl_htable_capacity(int capacity)
 	 * load factor) is an insanely sized hash table.
 	 */
 	static int prime_table[] = {
-		MIN_TABLE_SIZE, 31, 53, 97, 193, 389, 769, 1543, 3079, 6151,
+		MINTBLSIZE, 31, 53, 97, 193, 389, 769, 1543, 3079, 6151,
 		12289, 24593, 49157, 98317, 196613, 393241, 786433, 1572869,
 		3145739, 6291469, 12582917, 25165843, 50331653
 #ifdef PCL_64BIT

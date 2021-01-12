@@ -44,30 +44,31 @@ ipcl_json_encode_object(ipcl_json_encode_t *enc, pcl_htable_t *obj)
 	if(enc->format && obj->count)
 		pcl_buf_putchar(b, '\n');
 
-	for(int i = 0, count = obj->count; count && i < obj->capacity; i++)
+	int index = 0;
+	pcl_htable_entry_t *ent;
+	int count = obj->count;
+
+	while((ent = pcl_htable_iter(obj, &index)))
 	{
-		for(pcl_htable_entry_t *ent = obj->entries[i]; ent; ent = ent->next)
-		{
-			if(enc->format)
-				PRINT_TABS(enc);
+		if(enc->format)
+			PRINT_TABS(enc);
 
-			if(!ipcl_json_encode_string(enc, ent->key))
-				return NULL;
+		if(!ipcl_json_encode_string(enc, ent->key))
+			return NULL;
 
-			pcl_buf_putchar(b, ':');
+		pcl_buf_putchar(b, ':');
 
-			if(enc->format)
-				pcl_buf_putchar(b, ' ');
+		if(enc->format)
+			pcl_buf_putchar(b, ' ');
 
-			if(!ipcl_json_encode_value(enc, ent->value))
-				return NULL;
+		if(!ipcl_json_encode_value(enc, ent->value))
+			return NULL;
 
-			if(--count > 0)
-				pcl_buf_putchar(b, ',');
+		if(--count > 0)
+			pcl_buf_putchar(b, ',');
 
-			if(enc->format)
-				pcl_buf_putchar(b, '\n');
-		}
+		if(enc->format)
+			pcl_buf_putchar(b, '\n');
 	}
 
 	enc->tabs--;

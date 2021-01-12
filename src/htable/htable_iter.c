@@ -1,6 +1,6 @@
 /*
-  Portable C Library ("PCL")
-  Copyright (c) 1999-2020 Andrew Chernow
+  Portable C Library (PCL)
+  Copyright (c) 1999-2003, 2005-2014, 2017-2020 Andrew Chernow
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without
@@ -30,18 +30,24 @@
 */
 
 #include "_htable.h"
-#include <pcl/alloc.h>
 
-void
-ipcl_htable_remove_entry(pcl_htable_t *ht, pcl_htable_entry_t *ent, bool allow_rehash)
+pcl_htable_entry_t *
+pcl_htable_iter(pcl_htable_t *ht, int *index)
 {
-	if(ht->remove_entry)
-		ht->remove_entry(ent->key, ent->value, ht->userp);
+	if(!ht || !index || *index < 0 || *index >= ht->usedCount)
+		return NULL;
 
-	pcl_free(ent);
-	ht->count--;
+	for(int i = *index; i < ht->usedCount; i++)
+	{
+		pcl_htable_entry_t *ent = &ht->entries[i];
 
-	if(allow_rehash && ht->capacity != MIN_TABLE_SIZE)
-		if(ht->count < (int) (ht->min_loadfac * (float) ht->capacity))
-			(void) ipcl_htable_rehash(ht, false);
+		if(ent->key)
+		{
+			*index = i + 1;
+			return ent;
+		}
+	}
+
+	*index = -1;
+	return NULL;
 }

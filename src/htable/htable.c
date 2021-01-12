@@ -74,7 +74,8 @@ pcl_htable(int capacity)
 	ht->max_loadfac = MAX_LOADFAC;
 	ht->key_equals = default_key_equals;
 	ht->hashcode = default_hashcode;
-	ht->entries = pcl_zalloc(ht->capacity * sizeof(void *));
+	ipcl_htable_init(ht->capacity, &ht->entries, &ht->hashidx);
 
 	return ht;
 }
+

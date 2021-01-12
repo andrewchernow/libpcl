@@ -35,12 +35,19 @@
 void *
 pcl_htable_free(pcl_htable_t *ht)
 {
-	if(ht)
+	if(!ht)
+		return NULL;
+
+	for(int i = 0; i < ht->usedCount; i++)
 	{
-		pcl_htable_clear(ht, false);
-		pcl_free_safe(ht->entries);
-		pcl_free(ht);
+		pcl_htable_entry_t *ent = &ht->entries[i];
+
+		if(ent->key && ht->remove_entry)
+			ht->remove_entry(ent->key, ent->value, ht->userp);
 	}
+
+	pcl_free(ht->entries);
+	pcl_free(ht);
 
 	return NULL;
 }

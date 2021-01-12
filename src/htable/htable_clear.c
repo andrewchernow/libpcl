@@ -39,30 +39,26 @@ pcl_htable_clear(pcl_htable_t *ht, bool shrink)
 	if(!ht)
 		return;
 
-	for(int i = 0; i < ht->capacity; i++)
+	for(int i = 0; i < ht->usedCount; i++)
 	{
-		pcl_htable_entry_t *e = ht->entries[i];
+		pcl_htable_entry_t *ent = &ht->entries[i];
 
-		if(e)
-		{
-			pcl_htable_entry_t *next;
-
-			do
-			{
-				next = e->next;
-				ipcl_htable_remove_entry(ht, e, false); // set allow_rehash to false, about to shrink
-			}
-			while((e = next));
-
-			ht->entries[i] = NULL;
-		}
+		if(ent->key && ht->remove_entry)
+			ht->remove_entry(ent->key, ent->value, ht->userp);
 	}
 
-	/* internally, shrink is only set to false by pcl_htable_free */
-	if(shrink)
+	if(shrink && ht->capacity != MINTBLSIZE)
 	{
-		ht->capacity = MIN_TABLE_SIZE;
-		ht->entries = pcl_realloc(ht->entries, sizeof(void*) * ht->capacity);
-		memset(ht->entries, 0, sizeof(void*) * ht->capacity);
+		pcl_free(ht->entries);
+		ht->capacity = MINTBLSIZE;
+		ipcl_htable_init(ht->capacity, &ht->entries, &ht->hashidx);
 	}
+	else
+	{
+		memset(ht->entries, 0, ht->capacity * sizeof(pcl_htable_entry_t));
+		for(int i = 0; i < ht->capacity; i++)
+			ht->hashidx[i] = -1;
+	}
+
+	ht->count = ht->usedCount = 0;
 }

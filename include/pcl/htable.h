@@ -198,7 +198,9 @@ extern "C" {
 typedef struct tag_pcl_htable_entry
 {
 	/** leave me alone (collision list) */
-	struct tag_pcl_htable_entry *next;
+//	struct tag_pcl_htable_entry *next;
+
+	int next;
 
 	/** hash code of entry key, 4 bytes on 32-bit and 8 bytes on 64-bit */
 	uintptr_t code;
@@ -214,20 +216,25 @@ struct tag_pcl_htable
 {
 	/* READONLY SECTION */
 
-	/** count of entries
+	/** count of entries. differs from usedCount because this doesn't include deleted entries.
 	 * @warning treat this as immutable
 	 */
 	int count;
+
+	/** count of used entries (active + deleted). A deleted entry has a NUL key and
+	 * should always be skipped.
+	 * @warning treat this as immutable
+	 */
+	int usedCount;
 
 	/** current table capacity
 	 * @warning treat this as immutable
 	 */
 	int capacity;
 
-	/** table of entries, each bucket is a linked list of collisions
-	 * @warning treat this as immutable
-	 */
-	pcl_htable_entry_t **entries;
+	pcl_htable_entry_t *entries;
+
+	int *hashidx;
 
 	/* READ/WRITE SECTION */
 
@@ -343,6 +350,15 @@ PCL_EXPORT int pcl_htable_remove(pcl_htable_t *ht, const void *key);
  * array must be freed by caller.
  */
 PCL_EXPORT pcl_array_t *pcl_htable_keys(const pcl_htable_t *ht);
+
+/** Iterate through a table's entries.
+ * @param ht pointer to a hash table
+ * @param index pointer to an integer that must be >= 0 on the first call. This is typically
+ * set to 0 to iterate through all entries. After the first call, this value shoulod remain
+ * unchanged.
+ * @return pointer to the next entry or \c NULL when complete.
+ */
+PCL_EXPORT pcl_htable_entry_t *pcl_htable_iter(pcl_htable_t *ht, int *index);
 
 /** Clear all entries from the table.
  * @param ht pointer to hash table object

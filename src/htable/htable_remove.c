@@ -38,28 +38,40 @@ pcl_htable_remove(pcl_htable_t *ht, const void *key)
 	if(!(ht && key))
 		return BADARG();
 
-	int index = (int) (ht->hashcode(key, ht->key_len, ht->userp) % ht->capacity);
-	pcl_htable_entry_t *prev, *e = ht->entries[index];
+	uintptr_t code = ht->hashcode(key, ht->key_len, ht->userp);
+	int hashidx = (int) (code % ht->capacity);
+	int entidx = ht->hashidx[hashidx];
+	pcl_htable_entry_t *prev = NULL;
 
-	if(!e)
-		return 0;
-
-	/* special case when matches head */
-	if(ht->key_equals(e->key, key, ht->key_len, ht->userp))
+	while(entidx != -1)
 	{
-		ht->entries[index] = e->next;
-		ipcl_htable_remove_entry(ht, e, true);
-		return ht->count;
-	}
+		pcl_htable_entry_t *ent = &ht->entries[entidx];
 
-	for(prev = e, e = e->next; e; prev = e, e = e->next)
-	{
-		if(ht->key_equals(e->key, key, ht->key_len, ht->userp))
+		if(ent->code == code && ht->key_equals(ent->key, key, ht->key_len, ht->userp))
 		{
-			prev->next = e->next;
-			ipcl_htable_remove_entry(ht, e, true);
+			if(prev)
+				prev->next = ent->next;
+			else
+				ht->hashidx[hashidx] = ent->next;
+
+			if(ht->remove_entry)
+				ht->remove_entry(ent->key, ent->value, ht->userp);
+
+			ent->next = -1;
+			ent->code = 0;
+			ent->key = ent->value = NULL;
+
+			ht->count--;
+
+			if(ht->capacity != MINTBLSIZE && ht->count < (int) (ht->min_loadfac * (float) ht->capacity))
+				if(ipcl_htable_rehash(ht, false) < 0)
+					return TRC();
+
 			break;
 		}
+
+		prev = ent;
+		entidx = ent->next;
 	}
 
 	return ht->count;

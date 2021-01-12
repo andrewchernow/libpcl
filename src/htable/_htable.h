@@ -36,7 +36,7 @@
 
 #define MAX_LOADFAC 0.75f
 #define MIN_LOADFAC 0.2f
-#define MIN_TABLE_SIZE 17
+#define MINTBLSIZE 17
 
 #ifdef __cplusplus
 extern "C" {
@@ -45,19 +45,7 @@ extern "C" {
 int ipcl_htable_capacity(int capacity);
 
 pcl_htable_entry_t *ipcl_htable_lookup(const pcl_htable_t *ht, const void *key,
-	uintptr_t *code, int *index);
-
-/**
- *
- * @param ht
- * @param ent
- * @param allow_rehash When true and the table has fallen below the min_loadfac, a table rehash
- * is automatically performed. When false, the min_loadfac check is skipped and no table rehash
- * is performed. pcl_htable_clear is an example of why one might set this false. That function
- * removes all entries and then shrinks the table to MIN_TABLE_SIZE. No reason to rehash
- * while removing.
- */
-void ipcl_htable_remove_entry(pcl_htable_t *ht, pcl_htable_entry_t *ent, bool allow_rehash);
+	uintptr_t *codep, int *hashidxp);
 
 /**
  *
@@ -68,6 +56,8 @@ void ipcl_htable_remove_entry(pcl_htable_t *ht, pcl_htable_entry_t *ent, bool al
  * @return
  */
 int ipcl_htable_rehash(pcl_htable_t *ht, bool grow);
+
+void ipcl_htable_init(int capacity, pcl_htable_entry_t **entries, int **hashidx);
 
 #ifdef __cplusplus
 }
