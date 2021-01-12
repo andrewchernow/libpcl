@@ -1,6 +1,6 @@
 /*
   Portable C Library (PCL)
-  Copyright (c) 1999-2003, 2005-2014, 2017-2020 Andrew Chernow
+  Copyright (c) 1999-2021 Andrew Chernow
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without
@@ -33,40 +33,57 @@
 #include <pcl/json.h>
 #include <pcl/error.h>
 #include <pcl/htable.h>
+#include <pcl/alloc.h>
 #include <pcl/array.h>
 #include <stdlib.h>
 #include <string.h>
+
 
 int main(int argc, char **argv)
 {
 	pcl_init();
 
+	doit();
+
 	UNUSED(argc || argv);
 
-	FILE *fp = fopen("examples/x.json", "r");
-	char buf[16 * 1024];
+	FILE *fp = fopen("examples/large.json", "r");
 
-	int n = 0;
+	fseek(fp, 0, SEEK_END);
+	size_t len = ftell(fp);
+	rewind(fp);
 
-	//buf[n++] = '"';
-
-	n += (int) fread(buf, 1, sizeof(buf), fp);
-
-	//buf[n++] = '"';
-
-	//fwrite(buf, 1, n, stdout);
-	//printf("\n");
+	char *buf = pcl_malloc(len);
+	int n = (int) fread(buf, 1, len, fp);
 
 	const char *end;
 	pcl_json_t *root = pcl_json_decode(buf, n, &end);
 
 	if(!root)
-		PANIC(NULL, 0);
+		PANIC("decode", 0);
 
-	printf("%c: %1.15f\n", root->type, root->real);
+	pcl_json_path_t *path = pcl_json_compile("$..Value");
+
+	if(!path)
+		PANIC("compile", 0);
+
+	pcl_array_t *book = pcl_json_match(root, path);
+
+	if(!book)
+		PANIC("book", 0);
+
+	for(int i = 0; i < book->count; i++)
+	{
+		pcl_json_t *s = book->elements[i];
+		if(pcl_json_isreal(s) && s->real < 10.0)
+			printf("%1.15f\n", s->real);
+		//else
+		//	printf("%c\n", s->type);
+	}
+
+	pcl_json_freepath(path);
+	pcl_array_free(book);
 	exit(0);
-	printf("END = %s\n", end);
-
 	pcl_json_t *jv = pcl_json_objget(root, "stuff");
 
 	printf("array-count=%d\n", jv->array->count);
@@ -91,6 +108,10 @@ int main(int argc, char **argv)
 	char *out = pcl_json_encode(root, true);
 
 	printf("%s\n", out);
+
+	pcl_free(out);
+	pcl_json_free(root);
+
 	return 0;
 }
 

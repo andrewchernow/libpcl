@@ -1,6 +1,6 @@
 /*
   Portable C Library (PCL)
-  Copyright (c) 1999-2003, 2005-2014, 2017-2020 Andrew Chernow
+  Copyright (c) 1999-2021 Andrew Chernow
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without
@@ -77,8 +77,8 @@ TESTCASE(mktime_utc)
 	ASSERT_INTEQ(pcl_gmtime(&now, &tm), 0, "gmtime failed");
 
 	pcl_time_t t = pcl_mktime(&tm, true);
-	ASSERT_TRUE(now.sec == t.sec, "seconds don't match after mktime");
-	ASSERT_TRUE(now.nsec == t.nsec, "nanoseconds don't match after mktime");
+	ASSERT_INTEQ(now.sec, t.sec, "seconds don't match after mktime");
+	ASSERT_INTEQ(now.nsec, t.nsec, "nanoseconds don't match after mktime");
 
 	return true;
 }
@@ -91,8 +91,8 @@ TESTCASE(mktime_local)
 	ASSERT_INTEQ(pcl_localtime(&now, &tm), 0, "localtime failed");
 
 	pcl_time_t t = pcl_mktime(&tm, false);
-	ASSERT_TRUE(now.sec == t.sec, "seconds don't match after mktime");
-	ASSERT_TRUE(now.nsec == t.nsec, "nanoseconds don't match after mktime");
+	ASSERT_INTEQ(now.sec, t.sec, "seconds don't match after mktime");
+	ASSERT_INTEQ(now.nsec, t.nsec, "nanoseconds don't match after mktime");
 
 	return true;
 }
@@ -100,27 +100,31 @@ TESTCASE(mktime_local)
 /**$ Set file times */
 TESTCASE(utimes)
 {
-	ASSERT_INTEQ(pcl_utimes(_P("test-data.json"), &now, &now, &now), 0, "utimes failed");
+	pcl_time_t cur = pcl_time();
 
+	/* set atime, mtime and btime (birthtime) to 'cur' */
+	ASSERT_INTEQ(pcl_utimes(_P("test-data.json"), &cur, &cur, &cur), 0, "utimes failed");
+
+	/* stat so we can verify the file times against 'cur' */
 	pcl_stat_t st;
 	ASSERT_INTEQ(pcl_stat(_P("test-data.json"), &st), 0, "failed to stat file");
 
-	int nsec = now.nsec;
+	int nsec = cur.nsec;
 
 #ifdef PCL_WINDOWS
 	/* windows uses 100-nanoseconds since 1601, adjust */
 	nsec = (nsec / 100) * 100;
 #endif
 
-	ASSERT_TRUE(st.atime.sec == now.sec, "atime seconds don't match");
-	ASSERT_TRUE(st.atime.nsec == nsec, "atime nanoseconds don't match");
-	ASSERT_TRUE(st.mtime.sec == now.sec, "mtime seconds don't match");
-	ASSERT_TRUE(st.mtime.nsec == nsec, "mtime nanoseconds don't match");
+	ASSERT_INTEQ(st.atime.sec, cur.sec, "atime seconds don't match");
+	ASSERT_INTEQ(st.atime.nsec, nsec, "atime nanoseconds don't match");
+	ASSERT_INTEQ(st.mtime.sec, cur.sec, "mtime seconds don't match");
+	ASSERT_INTEQ(st.mtime.nsec, nsec, "mtime nanoseconds don't match");
 
 	/* birthtime (btime) on linux is immutable and thus, cannot be changed. */
 #ifndef PCL_LINUX
-	ASSERT_TRUE(st.btime.sec == now.sec, "btime seconds don't match");
-	ASSERT_TRUE(st.btime.nsec == nsec, "btime nanoseconds don't match");
+	ASSERT_INTEQ(st.btime.sec, cur.sec, "btime seconds don't match");
+	ASSERT_INTEQ(st.btime.nsec, nsec, "btime nanoseconds don't match");
 #endif
 
 	return true;

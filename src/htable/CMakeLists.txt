@@ -10,4 +10,4 @@ add_library(htable OBJECT
 	htable_put.c
 	htable_rehash.c
 	htable_remove.c
-	htable_init.c htable_iter.c)
+	htable_init.c htable_iter.c asa.c)

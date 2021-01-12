@@ -1,7 +1,7 @@
 
 /*
 	Portable C Library ("PCL")
-	Copyright (c) 1999-2020 Andrew Chernow
+	Copyright (c) 1999-2021 Andrew Chernow
 	All rights reserved.
 
 	Redistribution and use in source and binary forms, with or without
@@ -198,8 +198,6 @@ extern "C" {
 typedef struct tag_pcl_htable_entry
 {
 	/** leave me alone (collision list) */
-//	struct tag_pcl_htable_entry *next;
-
 	int next;
 
 	/** hash code of entry key, 4 bytes on 32-bit and 8 bytes on 64-bit */

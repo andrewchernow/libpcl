@@ -1,6 +1,6 @@
 /*
   Portable C Library (PCL)
-  Copyright (c) 1999-2003, 2005-2014, 2017-2020 Andrew Chernow
+  Copyright (c) 1999-2021 Andrew Chernow
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without
@@ -151,7 +151,7 @@ static void run_suite(char *suite)
 {
 	size_t len = strlen(suite);
 
-	/* skip any none ".c" file and "test.c" */
+	/* skip any non-".c" files and "test.c" */
 	if(len <= 2 || strcmp(suite + len - 2, ".c") != 0 || strcmp(suite, "test.c") == 0)
 		return;
 
@@ -235,7 +235,12 @@ static void run_suite(char *suite)
 				*p = 0;
 
 			if(*line)
+			{
+				if(summary)
+					free(summary);
+
 				summary = strdup(line);
+			}
 
 			in_summary = p == NULL;
 		}
@@ -420,7 +425,7 @@ assert_null(PCL_LOCATION_PARAMS, const void *ptr, const char *message)
 		return true;
 
 	file = BASENAME(file);
-	fprintf(stderr, PRINTLOC "expected non-NULL but saw NULL", PCL_LOCATION_VALS);
+	fprintf(stderr, PRINTLOC "expected NULL but saw not-NULL", PCL_LOCATION_VALS);
 
 	PRINTMSG(message);
 	return false;
