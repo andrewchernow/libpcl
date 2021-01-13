@@ -34,18 +34,46 @@
 #define LIBPCL_HTABLE_H
 
 /** @defgroup htable Hash Table
- * This defines a hash table object and associated management functions. This is implemented as
- * an array of linked lists, with the ability to set a minimum and maximum load factor.
- * There are three callbacks to customize a hash table: pcl_htable_t.remove_entry,
- * pcl_htable_t.hashcode and pcl_htable_t.key_equals. All three can be assigned after table
- * creation.
+ * This defines a hash table object and associated management functions. This will preserve
+ * insertion order. Whenever an entry is put, it is added sequentially to an array of entry
+ * objects. To handle collisions, the entry objects are a linked list but use an integer value
+ * that represents the index of the next collision within the entry array. The key is hashed
+ * using Google's FarmHash and mod'd with the current table size to get the hashed index value.
+ * The hashed index value is an index to a second array (hashidx) of entry array indexes. Thus,
+ * looking up a hashed index within the \a hashidx array, will give you the entry array index,
+ * which is the beginning of the entry collision list. This is how the PCL hash table can
+ * preserve order: one array using hash index to find the index into the sequential array
+ * of entries.
+ *
+ * @note The hashidx and entry array idea came directly from PHP's new hash table implementation
+ * released in 7.0. Better performance mostly due to limiting allocations. Just like PHP, PCL
+ * allocates the entry and hashidx arrays as one allocation: both with \a capacity elements.
+ * When an entry is removed, the entry array marks it as deleted but does not adjust the array
+ * to close the gap. An entry is marked as deleted by setting its \a key to \c NULL, which PCL
+ * treats as an invalid key. On rehash, the entry array is defragmented.
+ *
+ * ### Default Hash Function
+ * Unlike PHP's implementation, PCL does not use the DJBX33A hash as its default, which stands
+ * for “Daniel J. Bernstein, Times 33 with Addition”. Google's farmhash proved to have far less
+ * collisions (on string data since DJBX33A is designed for string keys). In one test of 470,000
+ * english words, Google's FarmHash had no collisions while DJBX33A had 320. Performance wise,
+ * they are about the same. Another benifit of Google's FarmHash, is that it is not designed for
+ * only string keys, which PCL requires since it allows for binary and string keys; and prefers
+ * to provide a single generalized hash function for both out of the box.
+ *
+ * ### Customizing
+ * This implementation has the ability to set a minimum and maximum load factor. You can also
+ * set the \a key_len if not using string keys. If key_len is 0 (strings), then the default
+ * key_equals function uses strcmp. If key_len is not 0, memcmp is used. There are three callbacks
+ * to customize a hash table: pcl_htable_t.remove_entry, pcl_htable_t.hashcode and
+ * pcl_htable_t.key_equals. All of these customizations can be set after table creation.
  *
  * ### Rehashing
- * Rehashing is implemented by allocating a new table (buckets of entry lists)
+ * Rehashing is implemented by allocating a new entry and hashidx array
  * that is either double the current size rounded up to the nearest prime or half the current
- * size rounded up to the nearest prime. In either case, the entries are shallow copied to
- * the new table after computing their bucket indexes. When the copy is complete, the old table
- * is freed. No hash codes are recomputed, since each entry caches its own hash code.
+ * size rounded up to the nearest prime. When the copy is complete, the old entry and hashidx
+ * arrays are freed. No hash codes are recomputed, since each entry caches its own hash code.
+ * The entry array is defragmented, meaning all deleted entries are removed.
  *
  * ### Table Size Limitations
  * The table can grow to ~50 million on 32-bit machines and ~1.6 billion on 64-bit machines. This
@@ -119,7 +147,9 @@
  * a custom key_equals (where key1 == key2 could be the implementation) and a custom
  * hashcode callback (where return (uintptr_t) key; could be the implementation). This method
  * is very efficient both in memory and performance, but only works if the numeric bit length is
- * \c <= the number of bits used by pointers. An example of this is below.
+ * \c <= the number of bits used by pointers. Also, user_id of 0 is invalid, since key's cannot
+ * be \c NULL, but it is uncommon to start sequence values like user_ids with 0. An example of
+ * this is below.
  *
  * #### UserId Key Example
  * @code
@@ -219,7 +249,7 @@ struct tag_pcl_htable
 	 */
 	int count;
 
-	/** count of used entries (active + deleted). A deleted entry has a NUL key and
+	/** count of used entries (active + deleted). A deleted entry has a NULL key and
 	 * should always be skipped.
 	 * @warning treat this as immutable
 	 */
@@ -349,7 +379,20 @@ PCL_EXPORT int pcl_htable_remove(pcl_htable_t *ht, const void *key);
  */
 PCL_EXPORT pcl_array_t *pcl_htable_keys(const pcl_htable_t *ht);
 
-/** Iterate through a table's entries.
+/** Iterate through a table's entries. This automatically skips deleted entries.
+ * @code
+ * // typical usage
+ * int index = 0;
+ * pcl_htable_entry_t *ent;
+ *
+ * // the iteration is always insertion order
+ * while((ent = pcl_htable_iter(ht, &index)))
+ *   printf("%d] %s\n", index - 1, ent->key); // -1 since iter() increments
+ *
+ * // can also use this to retrieve the N-th entry
+ * int index = 9; // 10-th entry inserted
+ * pcl_htable_entry_t *ent = pcl_htable_iter(ht, &index);
+ * @endcode
  * @param ht pointer to a hash table
  * @param index pointer to an integer that must be >= 0 on the first call. This is typically
  * set to 0 to iterate through all entries. After the first call, this value shoulod remain
