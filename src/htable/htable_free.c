@@ -43,7 +43,7 @@ pcl_htable_free(pcl_htable_t *ht)
 		pcl_htable_entry_t *ent = &ht->entries[i];
 
 		if(ent->key && ht->remove_entry)
-			ht->remove_entry(ent->key, ent->value, ht->userp);
+			ht->remove_entry(ent->key, ent->value);
 	}
 
 	pcl_free(ht->entries);

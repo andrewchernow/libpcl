@@ -34,9 +34,12 @@
 #define LIBPCL_HTABLE_H
 
 /** @defgroup htable Hash Table
- * This defines a hash table object and associated management functions. This will preserve
- * insertion order. Whenever an entry is put, it is added sequentially to an array of entry
- * objects. To handle collisions, the entry objects are a linked list but use an integer value
+ * This defines a hash table object and associated management functions. This implementation
+ * will preserve insertion order: like Java's LinkedHashMap but without the doubly-linked list.
+ *
+ * ### Implementation
+ * Whenever an entry is put, it is added sequentially to an array of entry
+ * objects. To handle collisions, the entry objects are a linked list using an integer value
  * that represents the index of the next collision within the entry array. The key is hashed
  * using Google's FarmHash and mod'd with the current table size to get the hashed index value.
  * The hashed index value is an index to a second array (hashidx) of entry array indexes. Thus,
@@ -46,20 +49,20 @@
  * of entries.
  *
  * @note The hashidx and entry array idea came directly from PHP's new hash table implementation
- * released in 7.0. Better performance mostly due to limiting allocations. Just like PHP, PCL
- * allocates the entry and hashidx arrays as one allocation: both with \a capacity elements.
- * When an entry is removed, the entry array marks it as deleted but does not adjust the array
- * to close the gap. An entry is marked as deleted by setting its \a key to \c NULL, which PCL
- * treats as an invalid key. On rehash, the entry array is defragmented.
+ * released in 7.0. Just like PHP, PCL allocates the entry and hashidx arrays as one allocation:
+ * both with \a capacity elements. When an entry is removed, the entry array marks it as deleted
+ * but does not adjust the array to close the gap. An entry is marked as deleted by setting its
+ * \a key to \c NULL, which PCL treats as an invalid key. On rehash, the entry array is
+ * defragmented.
  *
  * ### Default Hash Function
  * Unlike PHP's implementation, PCL does not use the DJBX33A hash as its default, which stands
  * for “Daniel J. Bernstein, Times 33 with Addition”. Google's farmhash proved to have far less
- * collisions (on string data since DJBX33A is designed for string keys). In one test of 470,000
+ * collisions (on string data since DJBX33A is for string keys). In one test of 470,000
  * english words, Google's FarmHash had no collisions while DJBX33A had 320. Performance wise,
- * they are about the same. Another benifit of Google's FarmHash, is that it is not designed for
- * only string keys, which PCL requires since it allows for binary and string keys; and prefers
- * to provide a single generalized hash function for both out of the box.
+ * they are about the same. Another benifit of Google's FarmHash is that it is not just designed
+ * for string keys, which PCL requires since to allow binary and string keys. It is also prefered
+ * to provide a single generalized hash function for both binary and string keys out of the box.
  *
  * ### Customizing
  * This implementation has the ability to set a minimum and maximum load factor. You can also
@@ -69,7 +72,7 @@
  * pcl_htable_t.key_equals. All of these customizations can be set after table creation.
  *
  * ### Rehashing
- * Rehashing is implemented by allocating a new entry and hashidx array
+ * Rehashing is implemented by allocating a new entry and hashidx array (single allocation)
  * that is either double the current size rounded up to the nearest prime or half the current
  * size rounded up to the nearest prime. When the copy is complete, the old entry and hashidx
  * arrays are freed. No hash codes are recomputed, since each entry caches its own hash code.
@@ -102,9 +105,8 @@
  *   return out;
  * }
  *
- * static void remove_entry(const void *key, void *value, void *userp)
+ * static void remove_entry(const void *key, void *value)
  * {
- *   UNUSED(userp);
  *   pcl_free(key);
  *   app_user_free((app_user_t *) value);
  * }
@@ -159,21 +161,21 @@
  *
  * #define IDTOKEY(id) (const void *) ((uintptr_t) (id))
  *
- * static bool key_equals(const void *a, const void *b, size_t key_len, void *userp)
+ * static bool key_equals(const void *a, const void *b, size_t key_len)
  * {
- *   UNUSED(key_len || userp);
+ *   UNUSED(key_len);
  *   return a == b; // key addresses are user_ids, compare them directly.
  * }
  *
- * static uintptr_t hashcode(const void *key, size_t key_len, void *userp)
+ * static uintptr_t hashcode(const void *key, size_t key_len)
  * {
- *   UNUSED(key_len || userp);
+ *   UNUSED(key_len);
  *   return (uintptr_t) key; // no need to hash keys, user_id is unique
  * }
  *
- * static void remove_entry(const void *key, void *value, void *userp)
+ * static void remove_entry(const void *key, void *value)
  * {
- *   UNUSED(key || userp);
+ *   UNUSED(key);
  *   app_user_free((app_user_t *) value); // key doesn't need to be freed
  * }
  *
@@ -223,7 +225,8 @@ extern "C" {
 #endif
 
 /** Hash table entry object. The overhead of each entry is 16 bytes on 32-bit machines and
- * 32 bytes on 64-bit machines.
+ * 32 bytes on 64-bit machines. On 64-bit machines, this is really 28 bytes but will be
+ * padded to 32.
  */
 typedef struct tag_pcl_htable_entry
 {
@@ -260,8 +263,17 @@ struct tag_pcl_htable
 	 */
 	int capacity;
 
+	/** sequential array of entries as they are inserted. This not allows for preserving
+	 * insertion order, by avoids allocating each individual entry. This always contains
+	 * \a capacity available entries.
+	 * @note allocated in same block of memeory as the \a hashidx member
+	 */
 	pcl_htable_entry_t *entries;
 
+	/** An array of index values for the \a entries member. The hash index is used to lookup
+	 * the entry index. This always contains \a capacity indexes.
+	 * @note allocated in same block of memeory as the \a entries member
+	 */
 	int *hashidx;
 
 	/* READ/WRITE SECTION */
@@ -295,27 +307,22 @@ struct tag_pcl_htable
  	 */
 	float max_loadfac;
 
-	/** User pointer passed to callbacks */
-	void *userp;
-
 	/** Called when an entry is being removed from the table. There is no default version, this
 	 * is set to \c NULL on the hash table. When \c NULL, only the entry object itself is freed.
 	 * In most cases, an application will want to set this to free keys and/or values.
 	 * @param key pointer to the key beign removed
 	 * @param value pointer to the value
-	 * @param userp pointer to optional user data. This can be \c NULL.
 	 */
-	void (*remove_entry)(const void *key, void *value, void *userp);
+	void (*remove_entry)(const void *key, void *value);
 
 	/** Determine if two keys are equal. The default comparator uses \c strcmp when \a key_len
 	 * is zero and \c memcmp otherwise.
 	 * @param key1 pointer to a key
 	 * @param key1 pointer to a key to compare against \a key1
 	 * @param key_len key length in bytes
-	 * @param userp pointer to optional user data. This can be \c NULL.
 	 * @return true if \a key1 and \a key2 are equal
 	 */
-	bool (*key_equals)(const void *key1, const void *key2, size_t key_len, void *userp);
+	bool (*key_equals)(const void *key1, const void *key2, size_t key_len);
 
 	/** Compute a hash code for the given key. Google's farmhash is used as the default hashfunc
 	 * for both 32 and 64-bit architectures. On 32-bit machines, a 32-bit code is computed and
@@ -325,10 +332,9 @@ struct tag_pcl_htable
 	 * depends on the number of bits within a \c uintptr_t.
 	 * @param key pointer to the key to hash
 	 * @param key_len key length in bytes
-	 * @param userp pointer to optional user data. This can be \c NULL.
 	 * @return hash code no more than \c unitptr_t bytes
 	 */
-	uintptr_t (*hashcode)(const void *key, size_t key_len, void *userp);
+	uintptr_t (*hashcode)(const void *key, size_t key_len);
 };
 
 /** Creates a new hash table object. All hash table callbacks are set to the default

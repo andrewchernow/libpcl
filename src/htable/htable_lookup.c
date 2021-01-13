@@ -46,7 +46,7 @@ pcl_htable_lookup(const pcl_htable_t *ht, const void *key)
 pcl_htable_entry_t *
 ipcl_htable_lookup(const pcl_htable_t *ht, const void *key, uintptr_t *codep, int *hashidxp)
 {
-	uintptr_t code = ht->hashcode(key, ht->key_len, ht->userp);
+	uintptr_t code = ht->hashcode(key, ht->key_len);
 
 	if(codep)
 		*codep = code;
@@ -62,7 +62,7 @@ ipcl_htable_lookup(const pcl_htable_t *ht, const void *key, uintptr_t *codep, in
 	{
 		pcl_htable_entry_t *e = &ht->entries[entidx];
 
-		if(e->code == code && ht->key_equals(e->key, key, ht->key_len, ht->userp))
+		if(e->code == code && ht->key_equals(e->key, key, ht->key_len))
 			return e;
 
 		entidx = e->next;

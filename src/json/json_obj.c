@@ -34,9 +34,8 @@
 #include <pcl/alloc.h>
 
 static void
-remove_entry(const void *key, void *value, void *userp)
+remove_entry(const void *key, void *value)
 {
-	UNUSED(userp);
 	pcl_free(key);
 	pcl_json_free(value);
 }

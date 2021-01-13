@@ -46,9 +46,9 @@ typedef struct
 } person_t;
 
 /* case-insensitive keys requires lower|upper casing keys before hashing. */
-static uintptr_t my_hashcode(const void *key, size_t key_len, void *userp)
+static uintptr_t my_hashcode(const void *key, size_t key_len)
 {
-	UNUSED(key_len || userp);
+	UNUSED(key_len);
 
 	/* use strdup since our key points to person_t.name. We don't want to change that. */
 	char *k = pcl_strlower(pcl_strdup(key));
@@ -64,15 +64,15 @@ static uintptr_t my_hashcode(const void *key, size_t key_len, void *userp)
 	return code;
 }
 
-static bool my_key_equals(const void *key1, const void *key2, size_t key_len, void *userp)
+static bool my_key_equals(const void *key1, const void *key2, size_t key_len)
 {
-	UNUSED(key_len || userp);
+	UNUSED(key_len);
 	return pcl_stricmp((const char *) key1, (const char *) key2) == 0;
 }
 
-static void my_remove_entry(const void *key, void *value, void *userp)
+static void my_remove_entry(const void *key, void *value)
 {
-	UNUSED(key || userp);
+	UNUSED(key);
 
 	person_t *person = (person_t *) value;
 

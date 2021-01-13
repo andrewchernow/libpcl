@@ -44,7 +44,7 @@ pcl_htable_clear(pcl_htable_t *ht, bool shrink)
 		pcl_htable_entry_t *ent = &ht->entries[i];
 
 		if(ent->key && ht->remove_entry)
-			ht->remove_entry(ent->key, ent->value, ht->userp);
+			ht->remove_entry(ent->key, ent->value);
 	}
 
 	if(shrink && ht->capacity != MINTBLSIZE)

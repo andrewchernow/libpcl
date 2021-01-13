@@ -213,7 +213,7 @@ TESTCASE(htable_dupkeys)
 	ASSERT_INTEQ(ent->next, -1, "collision list has more than 1 entry"); // IMPORTANT check
 	ASSERT_STREQ(ent->key, "key", "wrong key value"); // sanity, already confirmed via lookup
 
-	/* ensure value was replaced (2 person in people[]) */
+	/* ensure value was replaced (2nd person in people[]) */
 	person_t *p = ent->value;
 	ASSERT_STREQ(p->name, "Joan", "wrong entry value");
 	ASSERT_INTEQ(p->age, 32, "wrong entry value");

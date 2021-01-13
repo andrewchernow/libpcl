@@ -36,18 +36,15 @@
 #include <string.h>
 
 static bool
-default_key_equals(const void *a, const void *b, size_t key_len, void *u)
+default_key_equals(const void *a, const void *b, size_t key_len)
 {
-	UNUSED(u);
 	return key_len ? !memcmp(a, b, key_len) : !strcmp((const char*) a, (const char*) b);
 }
 
 /* Default hashfunc is Google's farmhash: https://github.com/google/farmhash */
 static uintptr_t
-default_hashcode(const void *key, size_t key_len, void *userp)
+default_hashcode(const void *key, size_t key_len)
 {
-	UNUSED(userp);
-
 	if(!key_len)
 		key_len = strlen((const char *) key);
 

@@ -38,7 +38,7 @@ pcl_htable_remove(pcl_htable_t *ht, const void *key)
 	if(!(ht && key))
 		return BADARG();
 
-	uintptr_t code = ht->hashcode(key, ht->key_len, ht->userp);
+	uintptr_t code = ht->hashcode(key, ht->key_len);
 	int hashidx = (int) (code % ht->capacity);
 	int entidx = ht->hashidx[hashidx];
 	pcl_htable_entry_t *prev = NULL;
@@ -47,7 +47,7 @@ pcl_htable_remove(pcl_htable_t *ht, const void *key)
 	{
 		pcl_htable_entry_t *ent = &ht->entries[entidx];
 
-		if(ent->code == code && ht->key_equals(ent->key, key, ht->key_len, ht->userp))
+		if(ent->code == code && ht->key_equals(ent->key, key, ht->key_len))
 		{
 			if(prev)
 				prev->next = ent->next;
@@ -55,7 +55,7 @@ pcl_htable_remove(pcl_htable_t *ht, const void *key)
 				ht->hashidx[hashidx] = ent->next;
 
 			if(ht->remove_entry)
-				ht->remove_entry(ent->key, ent->value, ht->userp);
+				ht->remove_entry(ent->key, ent->value);
 
 			ent->next = -1;
 			ent->code = 0;

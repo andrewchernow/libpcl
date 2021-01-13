@@ -43,8 +43,6 @@ int main(int argc, char **argv)
 {
 	pcl_init();
 
-	doit();
-
 	UNUSED(argc || argv);
 
 	FILE *fp = fopen("examples/large.json", "r");

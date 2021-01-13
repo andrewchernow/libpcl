@@ -60,7 +60,7 @@ pcl_htable_put(pcl_htable_t *ht, const void *key, void *value, bool unique)
 		e->value = value;
 
 		if(ht->remove_entry)
-			ht->remove_entry(old_key, old_value, ht->userp);
+			ht->remove_entry(old_key, old_value);
 	}
 		/* doesn't exist, add it */
 	else
