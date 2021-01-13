@@ -73,7 +73,7 @@ $(function() {
 <a href="a00077.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">/*</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  Copyright (c) 1999-2021 Andrew Chernow</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -105,7 +105,7 @@ $(function() {
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#ifndef LIBPCL_NET_H</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#define LIBPCL_NET_H</span></div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00107.html">pcl/types.h</a>&gt;</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00113.html">pcl/types.h</a>&gt;</span></div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#ifdef PCL_UNIX</span></div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">  #include &lt;arpa/inet.h&gt;</span></div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#else</span></div>
@@ -159,42 +159,43 @@ $(function() {
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="comment"> * return 0 on success and -1 on error, check pcl_errno.</span></div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00077.html#a4888f86383ed6c71364fab38dfb3c151">pcl_net_reverse</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *ipaddr, <span class="keywordtype">char</span> *host, <span class="keywordtype">size_t</span> len);</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="comment">/* Resolves the given hostname to a list of IP addresses, IPv4/IPv6.</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="comment"> * The return is a vector of char**, use pcl_vector_getptr().</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;PCL_EXPORT <a class="code" href="a01400.html">pcl_vector_t</a> *<a class="code" href="a00077.html#a658e741b7671368eddb06e170a49d066">ipcl_net_resolve</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *host);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="comment">/* Retrieves the DNS TXT record for the given host, or NULL on error.</span></div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="comment"> * The vector elements represent each text item associated with the</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="comment"> * TXT resource record. Returns a vector of char**, use pcl_vector_getptr().</span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;PCL_EXPORT <a class="code" href="a01400.html">pcl_vector_t</a> *<a class="code" href="a00077.html#aa06b75987aa53e5dc52b322cb737461f">pcl_net_dnstxtrec</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *host);</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="comment">/* Gets the length in bytes of the given socket address.  Returns zero</span></div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="comment"> * if addr is NULL or the address family is not supported.  Supported</span></div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="comment"> * families are: AF_INET, AF_INET6 and AF_UNIX (non-windows systems only).</span></div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;PCL_EXPORT socklen_t <a class="code" href="a00077.html#a4cc1493e1d445d006db62cae4904979f">pcl_net_addrlen</a>(<span class="keyword">const</span> <span class="keyword">struct</span> sockaddr *addr);</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;}</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="comment">/** Resolve a hostname to an array of IPv4 and/or IPv6 addresses.</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="comment"> * @param host pointer to a hostname</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="comment"> * @return pointer to an array of IP addresses or \c NULL on error.</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;PCL_EXPORT <a class="code" href="a01388.html">pcl_array_t</a> *<a class="code" href="a00077.html#a403d6534063a32a2cb5988d41e49cfa6">ipcl_net_resolve</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *host);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="comment">/** Retrieve the DNS TXT records for a given host.</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="comment"> * @param host pointer to a host</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="comment"> * @return pointer to an array where each element is a TXT record or \c NULL on error.</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;PCL_EXPORT <a class="code" href="a01388.html">pcl_array_t</a> *<a class="code" href="a00077.html#aa06008287b9ac229acbc452459c2cf15">pcl_net_dnstxtrec</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *host);</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="comment">/* Gets the length in bytes of the given socket address.  Returns zero</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="comment"> * if addr is NULL or the address family is not supported.  Supported</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="comment"> * families are: AF_INET, AF_INET6 and AF_UNIX (non-windows systems only).</span></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;PCL_EXPORT socklen_t <a class="code" href="a00077.html#a4cc1493e1d445d006db62cae4904979f">pcl_net_addrlen</a>(<span class="keyword">const</span> <span class="keyword">struct</span> sockaddr *addr);</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;}</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00077_html_a4cc1493e1d445d006db62cae4904979f"><div class="ttname"><a href="a00077.html#a4cc1493e1d445d006db62cae4904979f">pcl_net_addrlen</a></div><div class="ttdeci">PCL_EXPORT socklen_t pcl_net_addrlen(const struct sockaddr *addr)</div><div class="ttdef"><b>Definition:</b> <a href="a00806_source.html#l00041">net_addrlen.c:41</a></div></div>
-<div class="ttc" id="aa00077_html_a8594e0c91bf6918fbdaf685e387dbf75"><div class="ttname"><a href="a00077.html#a8594e0c91bf6918fbdaf685e387dbf75">pcl_net_ip2inet</a></div><div class="ttdeci">PCL_EXPORT int pcl_net_ip2inet(int af, const char *ipstr, void *inaddr)</div><div class="ttdef"><b>Definition:</b> <a href="a00824_source.html#l00036">net_ip2inet.c:36</a></div></div>
-<div class="ttc" id="aa00077_html_a50b8574eff9768351e9d99282d65dda3"><div class="ttname"><a href="a00077.html#a50b8574eff9768351e9d99282d65dda3">pcl_net_ai2pcl</a></div><div class="ttdeci">PCL_EXPORT int pcl_net_ai2pcl(int ai_retval)</div><div class="ttdef"><b>Definition:</b> <a href="a00809_source.html#l00035">net_ai2pcl.c:35</a></div></div>
-<div class="ttc" id="aa00077_html_aa06b75987aa53e5dc52b322cb737461f"><div class="ttname"><a href="a00077.html#aa06b75987aa53e5dc52b322cb737461f">pcl_net_dnstxtrec</a></div><div class="ttdeci">PCL_EXPORT pcl_vector_t * pcl_net_dnstxtrec(const char *host)</div><div class="ttdef"><b>Definition:</b> <a href="a00815_source.html#l00049">net_dnstxtrec.c:49</a></div></div>
-<div class="ttc" id="aa00077_html_ab1d75e16b7dbd947318dffbcc27a6022"><div class="ttname"><a href="a00077.html#ab1d75e16b7dbd947318dffbcc27a6022">pcl_net_dns2pcl</a></div><div class="ttdeci">PCL_EXPORT int pcl_net_dns2pcl(int err)</div><div class="ttdef"><b>Definition:</b> <a href="a00812_source.html#l00035">net_dns2pcl.c:35</a></div></div>
-<div class="ttc" id="aa00077_html_ac2e07d0f0d1a97a6ffb799741ccb09d3"><div class="ttname"><a href="a00077.html#ac2e07d0f0d1a97a6ffb799741ccb09d3">pcl_net_inet2ip</a></div><div class="ttdeci">PCL_EXPORT char * pcl_net_inet2ip(int af, const void *inaddr, char *ipbuf, size_t len)</div><div class="ttdef"><b>Definition:</b> <a href="a00821_source.html#l00035">net_inet2ip.c:35</a></div></div>
-<div class="ttc" id="aa00077_html_a3a89fff841a4a80f3463d4e0c5a01d34"><div class="ttname"><a href="a00077.html#a3a89fff841a4a80f3463d4e0c5a01d34">pcl_net_addr2ip</a></div><div class="ttdeci">PCL_EXPORT char * pcl_net_addr2ip(struct sockaddr *sa, char *ipbuf, size_t len)</div><div class="ttdef"><b>Definition:</b> <a href="a00803_source.html#l00042">net_addr2ip.c:42</a></div></div>
-<div class="ttc" id="aa00077_html_a0db0633eb9d33e95c85b6e77082e5977"><div class="ttname"><a href="a00077.html#a0db0633eb9d33e95c85b6e77082e5977">pcl_net_host2addr</a></div><div class="ttdeci">PCL_EXPORT int pcl_net_host2addr(const char *host, struct sockaddr *sa)</div><div class="ttdef"><b>Definition:</b> <a href="a00818_source.html#l00043">net_host2addr.c:43</a></div></div>
-<div class="ttc" id="aa00077_html_a658e741b7671368eddb06e170a49d066"><div class="ttname"><a href="a00077.html#a658e741b7671368eddb06e170a49d066">ipcl_net_resolve</a></div><div class="ttdeci">PCL_EXPORT pcl_vector_t * ipcl_net_resolve(const char *host)</div><div class="ttdef"><b>Definition:</b> <a href="a00827_source.html#l00037">net_resolve.c:37</a></div></div>
-<div class="ttc" id="aa00077_html_a4888f86383ed6c71364fab38dfb3c151"><div class="ttname"><a href="a00077.html#a4888f86383ed6c71364fab38dfb3c151">pcl_net_reverse</a></div><div class="ttdeci">PCL_EXPORT int pcl_net_reverse(const char *ipaddr, char *host, size_t len)</div><div class="ttdef"><b>Definition:</b> <a href="a00830_source.html#l00035">net_reverse.c:35</a></div></div>
-<div class="ttc" id="aa00107_html"><div class="ttname"><a href="a00107.html">types.h</a></div></div>
-<div class="ttc" id="aa01400_html"><div class="ttname"><a href="a01400.html">tag_pcl_vector</a></div><div class="ttdoc">Vector object.</div><div class="ttdef"><b>Definition:</b> <a href="a00116_source.html#l00090">vector.h:91</a></div></div>
+<div class="ttc" id="aa00077_html_a4cc1493e1d445d006db62cae4904979f"><div class="ttname"><a href="a00077.html#a4cc1493e1d445d006db62cae4904979f">pcl_net_addrlen</a></div><div class="ttdeci">PCL_EXPORT socklen_t pcl_net_addrlen(const struct sockaddr *addr)</div><div class="ttdef"><b>Definition:</b> <a href="a00830_source.html#l00041">net_addrlen.c:41</a></div></div>
+<div class="ttc" id="aa00077_html_a8594e0c91bf6918fbdaf685e387dbf75"><div class="ttname"><a href="a00077.html#a8594e0c91bf6918fbdaf685e387dbf75">pcl_net_ip2inet</a></div><div class="ttdeci">PCL_EXPORT int pcl_net_ip2inet(int af, const char *ipstr, void *inaddr)</div><div class="ttdef"><b>Definition:</b> <a href="a00848_source.html#l00036">net_ip2inet.c:36</a></div></div>
+<div class="ttc" id="aa00077_html_a50b8574eff9768351e9d99282d65dda3"><div class="ttname"><a href="a00077.html#a50b8574eff9768351e9d99282d65dda3">pcl_net_ai2pcl</a></div><div class="ttdeci">PCL_EXPORT int pcl_net_ai2pcl(int ai_retval)</div><div class="ttdef"><b>Definition:</b> <a href="a00833_source.html#l00035">net_ai2pcl.c:35</a></div></div>
+<div class="ttc" id="aa00077_html_a403d6534063a32a2cb5988d41e49cfa6"><div class="ttname"><a href="a00077.html#a403d6534063a32a2cb5988d41e49cfa6">ipcl_net_resolve</a></div><div class="ttdeci">PCL_EXPORT pcl_array_t * ipcl_net_resolve(const char *host)</div><div class="ttdoc">Resolve a hostname to an array of IPv4 and/or IPv6 addresses.</div><div class="ttdef"><b>Definition:</b> <a href="a00851_source.html#l00038">net_resolve.c:38</a></div></div>
+<div class="ttc" id="aa00113_html"><div class="ttname"><a href="a00113.html">types.h</a></div></div>
+<div class="ttc" id="aa00077_html_aa06008287b9ac229acbc452459c2cf15"><div class="ttname"><a href="a00077.html#aa06008287b9ac229acbc452459c2cf15">pcl_net_dnstxtrec</a></div><div class="ttdeci">PCL_EXPORT pcl_array_t * pcl_net_dnstxtrec(const char *host)</div><div class="ttdoc">Retrieve the DNS TXT records for a given host.</div><div class="ttdef"><b>Definition:</b> <a href="a00839_source.html#l00050">net_dnstxtrec.c:50</a></div></div>
+<div class="ttc" id="aa00077_html_ab1d75e16b7dbd947318dffbcc27a6022"><div class="ttname"><a href="a00077.html#ab1d75e16b7dbd947318dffbcc27a6022">pcl_net_dns2pcl</a></div><div class="ttdeci">PCL_EXPORT int pcl_net_dns2pcl(int err)</div><div class="ttdef"><b>Definition:</b> <a href="a00836_source.html#l00035">net_dns2pcl.c:35</a></div></div>
+<div class="ttc" id="aa00077_html_ac2e07d0f0d1a97a6ffb799741ccb09d3"><div class="ttname"><a href="a00077.html#ac2e07d0f0d1a97a6ffb799741ccb09d3">pcl_net_inet2ip</a></div><div class="ttdeci">PCL_EXPORT char * pcl_net_inet2ip(int af, const void *inaddr, char *ipbuf, size_t len)</div><div class="ttdef"><b>Definition:</b> <a href="a00845_source.html#l00035">net_inet2ip.c:35</a></div></div>
+<div class="ttc" id="aa00077_html_a3a89fff841a4a80f3463d4e0c5a01d34"><div class="ttname"><a href="a00077.html#a3a89fff841a4a80f3463d4e0c5a01d34">pcl_net_addr2ip</a></div><div class="ttdeci">PCL_EXPORT char * pcl_net_addr2ip(struct sockaddr *sa, char *ipbuf, size_t len)</div><div class="ttdef"><b>Definition:</b> <a href="a00827_source.html#l00042">net_addr2ip.c:42</a></div></div>
+<div class="ttc" id="aa00077_html_a0db0633eb9d33e95c85b6e77082e5977"><div class="ttname"><a href="a00077.html#a0db0633eb9d33e95c85b6e77082e5977">pcl_net_host2addr</a></div><div class="ttdeci">PCL_EXPORT int pcl_net_host2addr(const char *host, struct sockaddr *sa)</div><div class="ttdef"><b>Definition:</b> <a href="a00842_source.html#l00043">net_host2addr.c:43</a></div></div>
+<div class="ttc" id="aa01388_html"><div class="ttname"><a href="a01388.html">tag_pcl_array</a></div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00078">array.h:79</a></div></div>
+<div class="ttc" id="aa00077_html_a4888f86383ed6c71364fab38dfb3c151"><div class="ttname"><a href="a00077.html#a4888f86383ed6c71364fab38dfb3c151">pcl_net_reverse</a></div><div class="ttdeci">PCL_EXPORT int pcl_net_reverse(const char *ipaddr, char *host, size_t len)</div><div class="ttdef"><b>Definition:</b> <a href="a00854_source.html#l00035">net_reverse.c:35</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

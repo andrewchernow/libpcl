@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/json/json_obj.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/json/json_free.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,12 +67,12 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">json_obj.c</div>  </div>
+<div class="title">json_free.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00701.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (PCL)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2003, 2005-2014, 2017-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2021 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,45 +101,59 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00596.html">_json.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00059.html">pcl/htable.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;remove_entry(<span class="keyword">const</span> <span class="keywordtype">void</span> *key, <span class="keywordtype">void</span> *value, <span class="keywordtype">void</span> *userp)</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <a class="code" href="a00038.html#a9b58a1294d89c976dfbe4dc480e9dfb8">UNUSED</a>(userp);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <a class="code" href="a01298.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(key);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <a class="code" href="a01312.html#ga52957df8ceda7e9af3a900fa484f0531">pcl_json_free</a>(value);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;}</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<a class="code" href="a01356.html">pcl_json_t</a> *</div>
-<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="a01314.html#gaeaf0b68de7dab397962f745017efea98">   45</a></span>&#160;<a class="code" href="a01314.html#gaeaf0b68de7dab397962f745017efea98">pcl_json_obj</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;{</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <a class="code" href="a01356.html">pcl_json_t</a> *val = <a class="code" href="a01298.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a>(<span class="keyword">sizeof</span>(<a class="code" href="a01356.html">pcl_json_t</a>));</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00605.html">_json.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00026.html">pcl/array.h</a>&gt;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00059.html">pcl/htable.h</a>&gt;</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keywordtype">void</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="a01375.html#ga52957df8ceda7e9af3a900fa484f0531">   38</a></span>&#160;<a class="code" href="a01375.html#ga52957df8ceda7e9af3a900fa484f0531">pcl_json_free</a>(<a class="code" href="a01420.html">pcl_json_t</a> *j)</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordflow">if</span>(!j)</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordflow">if</span>(j == <a class="code" href="a01375.html#gadd71febaeb10436293419974665fbebc">pcl_json_null</a>() || j == <a class="code" href="a01375.html#ga0b27c02c4dc480285400c21a96d3f15f">pcl_json_true</a>() || j == <a class="code" href="a01375.html#ga1b32077822958a952f82fd585ee42725">pcl_json_false</a>())</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a01375.html#gaeabd702374558e2b1117337220407d7d">pcl_json_ref</a>(j, -1)-&gt;nrefs &gt; 0)</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">return</span>;</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  val-&gt;<a class="code" href="a01356.html#aff17911edc8208aa8ddb1c7c52c78389">type</a> = <span class="charliteral">&#39;o&#39;</span>;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  val-&gt;<a class="code" href="a01356.html#a5d44c529cb5afba28ecf7074e544a9b3">nrefs</a> = 1;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  val-&gt;<a class="code" href="a01356.html#a926796bc0ae65775bd2a503ab54823cf">object</a> = <a class="code" href="a01309.html#gae469981bef26363606b65a93189234ce">pcl_htable_create</a>(0);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  val-&gt;<a class="code" href="a01356.html#a926796bc0ae65775bd2a503ab54823cf">object</a>-&gt;<a class="code" href="a01348.html#a671a5819f733f2c3de67d78b2f118ac1">remove_entry</a> = remove_entry;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="keywordflow">return</span> val;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;}</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="keywordflow">switch</span>(j-&gt;<a class="code" href="a01420.html#aff17911edc8208aa8ddb1c7c52c78389">type</a>)</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  {</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordflow">case</span> <span class="charliteral">&#39;s&#39;</span>:</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;      <a class="code" href="a01361.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe</a>(j-&gt;<a class="code" href="a01420.html#aed1cfb225a5fb77461e7972691e68a72">string</a>);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">case</span> <span class="charliteral">&#39;a&#39;</span>:</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      <a class="code" href="a01362.html#gae105de3db98cd6c7456a6264e090b562">pcl_array_free</a>(j-&gt;<a class="code" href="a01420.html#aa20605bec5d780e4818ed6b3688c8c31">array</a>);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordflow">case</span> <span class="charliteral">&#39;o&#39;</span>:</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      <a class="code" href="a01372.html#ga8b9f6df4376aac1c35a5d87ebcff93dc">pcl_htable_free</a>(j-&gt;<a class="code" href="a01420.html#a926796bc0ae65775bd2a503ab54823cf">object</a>);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  }</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  <a class="code" href="a01361.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(j);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01309_html_gae469981bef26363606b65a93189234ce"><div class="ttname"><a href="a01309.html#gae469981bef26363606b65a93189234ce">pcl_htable_create</a></div><div class="ttdeci">PCL_EXPORT pcl_htable_t * pcl_htable_create(int capacity)</div><div class="ttdoc">Creates a new hash table object.</div><div class="ttdef"><b>Definition:</b> <a href="a00518_source.html#l00062">htable_create.c:62</a></div></div>
-<div class="ttc" id="aa01312_html_ga52957df8ceda7e9af3a900fa484f0531"><div class="ttname"><a href="a01312.html#ga52957df8ceda7e9af3a900fa484f0531">pcl_json_free</a></div><div class="ttdeci">PCL_EXPORT void pcl_json_free(pcl_json_t *j)</div><div class="ttdoc">Release all resources used by a json value.</div><div class="ttdef"><b>Definition:</b> <a href="a00686_source.html#l00038">json_free.c:38</a></div></div>
+<div class="ttc" id="aa01420_html_a926796bc0ae65775bd2a503ab54823cf"><div class="ttname"><a href="a01420.html#a926796bc0ae65775bd2a503ab54823cf">tag_pcl_json::object</a></div><div class="ttdeci">pcl_htable_t * object</div><div class="ttdoc">JSON object value when type is 'o'.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00208">json.h:208</a></div></div>
+<div class="ttc" id="aa01372_html_ga8b9f6df4376aac1c35a5d87ebcff93dc"><div class="ttname"><a href="a01372.html#ga8b9f6df4376aac1c35a5d87ebcff93dc">pcl_htable_free</a></div><div class="ttdeci">PCL_EXPORT void * pcl_htable_free(pcl_htable_t *ht)</div><div class="ttdoc">Release all resources used by the given hash table.</div><div class="ttdef"><b>Definition:</b> <a href="a00527_source.html#l00036">htable_free.c:36</a></div></div>
+<div class="ttc" id="aa01420_html_aa20605bec5d780e4818ed6b3688c8c31"><div class="ttname"><a href="a01420.html#aa20605bec5d780e4818ed6b3688c8c31">tag_pcl_json::array</a></div><div class="ttdeci">pcl_array_t * array</div><div class="ttdoc">JSON array value when type is 'a'.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00205">json.h:205</a></div></div>
+<div class="ttc" id="aa01362_html_gae105de3db98cd6c7456a6264e090b562"><div class="ttname"><a href="a01362.html#gae105de3db98cd6c7456a6264e090b562">pcl_array_free</a></div><div class="ttdeci">PCL_EXPORT void pcl_array_free(pcl_array_t *arr)</div><div class="ttdoc">Free an array.</div><div class="ttdef"><b>Definition:</b> <a href="a00146_source.html#l00036">array_free.c:36</a></div></div>
 <div class="ttc" id="aa00059_html"><div class="ttname"><a href="a00059.html">htable.h</a></div></div>
-<div class="ttc" id="aa01348_html_a671a5819f733f2c3de67d78b2f118ac1"><div class="ttname"><a href="a01348.html#a671a5819f733f2c3de67d78b2f118ac1">tag_pcl_htable::remove_entry</a></div><div class="ttdeci">void(* remove_entry)(const void *key, void *value, void *userp)</div><div class="ttdoc">Called when an entry is being removed from the table.</div><div class="ttdef"><b>Definition:</b> <a href="a00059_source.html#l00273">htable.h:273</a></div></div>
-<div class="ttc" id="aa00038_html_a9b58a1294d89c976dfbe4dc480e9dfb8"><div class="ttname"><a href="a00038.html#a9b58a1294d89c976dfbe4dc480e9dfb8">UNUSED</a></div><div class="ttdeci">#define UNUSED(...)</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00102">defs.h:102</a></div></div>
-<div class="ttc" id="aa01298_html_ga1df8575b9ae906470c782db9c26201e8"><div class="ttname"><a href="a01298.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a></div><div class="ttdeci">void * pcl_malloc(size_t n)</div><div class="ttdoc">Allocate dynamic memory.</div></div>
-<div class="ttc" id="aa00596_html"><div class="ttname"><a href="a00596.html">_json.h</a></div></div>
-<div class="ttc" id="aa01314_html_gaeaf0b68de7dab397962f745017efea98"><div class="ttname"><a href="a01314.html#gaeaf0b68de7dab397962f745017efea98">pcl_json_obj</a></div><div class="ttdeci">pcl_json_t * pcl_json_obj(void)</div><div class="ttdoc">Create an object.</div><div class="ttdef"><b>Definition:</b> <a href="a00701_source.html#l00045">json_obj.c:45</a></div></div>
-<div class="ttc" id="aa01356_html_a5d44c529cb5afba28ecf7074e544a9b3"><div class="ttname"><a href="a01356.html#a5d44c529cb5afba28ecf7074e544a9b3">tag_pcl_json::nrefs</a></div><div class="ttdeci">int nrefs</div><div class="ttdoc">A JSON object's reference count.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00182">json.h:182</a></div></div>
-<div class="ttc" id="aa01298_html_gab88b901c82e1010555b08ff6d39490f2"><div class="ttname"><a href="a01298.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a></div><div class="ttdeci">void * pcl_free(void *p)</div><div class="ttdoc">Free memory space.</div></div>
-<div class="ttc" id="aa01356_html"><div class="ttname"><a href="a01356.html">tag_pcl_json</a></div><div class="ttdoc">A JSON value object.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00170">json.h:171</a></div></div>
-<div class="ttc" id="aa01356_html_aff17911edc8208aa8ddb1c7c52c78389"><div class="ttname"><a href="a01356.html#aff17911edc8208aa8ddb1c7c52c78389">tag_pcl_json::type</a></div><div class="ttdeci">char type</div><div class="ttdoc">JSON value type.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00177">json.h:177</a></div></div>
-<div class="ttc" id="aa01356_html_a926796bc0ae65775bd2a503ab54823cf"><div class="ttname"><a href="a01356.html#a926796bc0ae65775bd2a503ab54823cf">tag_pcl_json::object</a></div><div class="ttdeci">pcl_htable_t * object</div><div class="ttdoc">JSON object value when type is 'o'.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00204">json.h:204</a></div></div>
+<div class="ttc" id="aa01375_html_ga1b32077822958a952f82fd585ee42725"><div class="ttname"><a href="a01375.html#ga1b32077822958a952f82fd585ee42725">pcl_json_false</a></div><div class="ttdeci">PCL_EXPORT pcl_json_t * pcl_json_false(void)</div><div class="ttdoc">Create a boolean false value.</div><div class="ttdef"><b>Definition:</b> <a href="a00698_source.html#l00035">json_false.c:35</a></div></div>
+<div class="ttc" id="aa01361_html_gab88b901c82e1010555b08ff6d39490f2"><div class="ttname"><a href="a01361.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a></div><div class="ttdeci">void * pcl_free(void *p)</div><div class="ttdoc">Free memory space.</div></div>
+<div class="ttc" id="aa00605_html"><div class="ttname"><a href="a00605.html">_json.h</a></div></div>
+<div class="ttc" id="aa00026_html"><div class="ttname"><a href="a00026.html">array.h</a></div></div>
+<div class="ttc" id="aa01361_html_ga2de1e7abd61febca9d319940c5c2bd1b"><div class="ttname"><a href="a01361.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe</a></div><div class="ttdeci">void * pcl_free_safe(void *p)</div><div class="ttdoc">Safely free memory space.</div></div>
+<div class="ttc" id="aa01375_html_ga52957df8ceda7e9af3a900fa484f0531"><div class="ttname"><a href="a01375.html#ga52957df8ceda7e9af3a900fa484f0531">pcl_json_free</a></div><div class="ttdeci">void pcl_json_free(pcl_json_t *j)</div><div class="ttdoc">Release all resources used by a json value.</div><div class="ttdef"><b>Definition:</b> <a href="a00701_source.html#l00038">json_free.c:38</a></div></div>
+<div class="ttc" id="aa01375_html_gaeabd702374558e2b1117337220407d7d"><div class="ttname"><a href="a01375.html#gaeabd702374558e2b1117337220407d7d">pcl_json_ref</a></div><div class="ttdeci">PCL_INLINE pcl_json_t * pcl_json_ref(pcl_json_t *j, int amt)</div><div class="ttdoc">Increase or decrease a json object's reference count.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00697">json.h:697</a></div></div>
+<div class="ttc" id="aa01420_html_aff17911edc8208aa8ddb1c7c52c78389"><div class="ttname"><a href="a01420.html#aff17911edc8208aa8ddb1c7c52c78389">tag_pcl_json::type</a></div><div class="ttdeci">char type</div><div class="ttdoc">JSON value type.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00181">json.h:181</a></div></div>
+<div class="ttc" id="aa01420_html_aed1cfb225a5fb77461e7972691e68a72"><div class="ttname"><a href="a01420.html#aed1cfb225a5fb77461e7972691e68a72">tag_pcl_json::string</a></div><div class="ttdeci">char * string</div><div class="ttdoc">JSON string value when type is 's'.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00202">json.h:202</a></div></div>
+<div class="ttc" id="aa01375_html_gadd71febaeb10436293419974665fbebc"><div class="ttname"><a href="a01375.html#gadd71febaeb10436293419974665fbebc">pcl_json_null</a></div><div class="ttdeci">PCL_EXPORT pcl_json_t * pcl_json_null(void)</div><div class="ttdoc">Create a null value.</div><div class="ttdef"><b>Definition:</b> <a href="a00713_source.html#l00036">json_null.c:36</a></div></div>
+<div class="ttc" id="aa01420_html"><div class="ttname"><a href="a01420.html">tag_pcl_json</a></div><div class="ttdoc">A JSON value object.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00174">json.h:175</a></div></div>
 <div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
+<div class="ttc" id="aa01375_html_ga0b27c02c4dc480285400c21a96d3f15f"><div class="ttname"><a href="a01375.html#ga0b27c02c4dc480285400c21a96d3f15f">pcl_json_true</a></div><div class="ttdeci">PCL_EXPORT pcl_json_t * pcl_json_true(void)</div><div class="ttdoc">Create a boolean true value.</div><div class="ttdef"><b>Definition:</b> <a href="a00809_source.html#l00035">json_true.c:35</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

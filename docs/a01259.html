@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/win32/win32_mode_to_rights.c File Reference</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/time/unix_utimes.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,45 +62,62 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_7dc28ed10c1e0aa99689948e6211576b.html">&#x202A;win32</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_798ee6f4f5cd9c6410c07a649b7662ec.html">&#x202A;time</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">win32_mode_to_rights.c File Reference</div>  </div>
+<div class="title">unix_utimes.c File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="a01250_source.html">_win32.h</a>&quot;</code><br />
-<code>#include &lt;<a class="el" href="a00089_source.html">pcl/stat.h</a>&gt;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a01235_source.html">_time.h</a>&quot;</code><br />
+<code>#include &lt;<a class="el" href="a00095_source.html">pcl/stat.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="a00047_source.html">pcl/error.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="a00098_source.html">string.h</a>&gt;</code><br />
+<code>#include &lt;fcntl.h&gt;</code><br />
+<code>#include &lt;sys/stat.h&gt;</code><br />
+<code>#include &lt;sys/time.h&gt;</code><br />
 </div>
 <p><a href="a01259_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a682300daf248a65f2ebff3b03b2db924"><td class="memItemLeft" align="right" valign="top">DWORD&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01259.html#a682300daf248a65f2ebff3b03b2db924">ipcl_win32_mode_to_rights</a> (mode_t mode, int type)</td></tr>
-<tr class="memdesc:a682300daf248a65f2ebff3b03b2db924"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Convert the user, group or other unix mode bits to Windows NT access rights.  <a href="a01259.html#a682300daf248a65f2ebff3b03b2db924">More...</a><br /></td></tr>
-<tr class="separator:a682300daf248a65f2ebff3b03b2db924"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82abe623927a1213ec94ed66d6384425"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01259.html#a82abe623927a1213ec94ed66d6384425">pcl_utimes</a> (const <a class="el" href="a00113.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *path, <a class="el" href="a00113.html#a85e373aa6072539bbecaeb4b26cb7525">pcl_time_t</a> *atime, <a class="el" href="a00113.html#a85e373aa6072539bbecaeb4b26cb7525">pcl_time_t</a> *mtime, <a class="el" href="a00113.html#a85e373aa6072539bbecaeb4b26cb7525">pcl_time_t</a> *btime)</td></tr>
+<tr class="memdesc:a82abe623927a1213ec94ed66d6384425"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Set file times.  <a href="a01259.html#a82abe623927a1213ec94ed66d6384425">More...</a><br /></td></tr>
+<tr class="separator:a82abe623927a1213ec94ed66d6384425"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a682300daf248a65f2ebff3b03b2db924"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a682300daf248a65f2ebff3b03b2db924">&#9670;&nbsp;</a></span>ipcl_win32_mode_to_rights()</h2>
+<a id="a82abe623927a1213ec94ed66d6384425"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82abe623927a1213ec94ed66d6384425">&#9670;&nbsp;</a></span>pcl_utimes()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">DWORD ipcl_win32_mode_to_rights </td>
+          <td class="memname">int pcl_utimes </td>
           <td>(</td>
-          <td class="paramtype">mode_t&#160;</td>
-          <td class="paramname"><em>mode</em>, </td>
+          <td class="paramtype">const <a class="el" href="a00113.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>type</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="a00113.html#a85e373aa6072539bbecaeb4b26cb7525">pcl_time_t</a> *&#160;</td>
+          <td class="paramname"><em>atime</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a00113.html#a85e373aa6072539bbecaeb4b26cb7525">pcl_time_t</a> *&#160;</td>
+          <td class="paramname"><em>mtime</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a00113.html#a85e373aa6072539bbecaeb4b26cb7525">pcl_time_t</a> *&#160;</td>
+          <td class="paramname"><em>btime</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -110,21 +127,22 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>&#x202A;Convert the user, group or other unix mode bits to Windows NT access rights. </p>
+<p>&#x202A;Set file times. </p>
+<dl class="section note DocNodeLTR"><dt>Note</dt><dd>&#x202A;this function will not follow symlinks. times will be set on link itself. </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">mode</td><td></td></tr>
-    <tr><td class="paramname">type</td><td>&#x202A;one of S_IRUSR, S_IRGRP or S_IROTH </td></tr>
+    <tr><td class="paramname">path</td><td>&#x202A;pointer to a path string </td></tr>
+    <tr><td class="paramname">atime</td><td>&#x202A;access time </td></tr>
+    <tr><td class="paramname">mtime</td><td>&#x202A;modified time </td></tr>
+    <tr><td class="paramname">btime</td><td>&#x202A;creation/birth time, cannot be set on linux and is silently ignored. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>&#x202A;0 for success and -1 on error </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="a01259_source.html#l00036">36</a> of file <a class="el" href="a01259_source.html">win32_mode_to_rights.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a01259_source.html#l00047">47</a> of file <a class="el" href="a01259_source.html">unix_utimes.c</a>.</p>
 
-<p class="reference">References <a class="el" href="a00089_source.html#l00126">S_IRGRP</a>, <a class="el" href="a00089_source.html#l00138">S_IROTH</a>, <a class="el" href="a00089_source.html#l00114">S_IRUSR</a>, <a class="el" href="a00089_source.html#l00123">S_IRWXG</a>, <a class="el" href="a00089_source.html#l00135">S_IRWXO</a>, <a class="el" href="a00089_source.html#l00111">S_IRWXU</a>, <a class="el" href="a00089_source.html#l00129">S_IWGRP</a>, <a class="el" href="a00089_source.html#l00141">S_IWOTH</a>, <a class="el" href="a00089_source.html#l00117">S_IWUSR</a>, <a class="el" href="a00089_source.html#l00132">S_IXGRP</a>, <a class="el" href="a00089_source.html#l00144">S_IXOTH</a>, <a class="el" href="a00089_source.html#l00120">S_IXUSR</a>, <a class="el" href="a01250_source.html#l00054">UNIX_EXECUTE_TO_RIGHTS</a>, <a class="el" href="a01250_source.html#l00049">UNIX_READ_TO_RIGHTS</a>, and <a class="el" href="a01250_source.html#l00051">UNIX_WRITE_TO_RIGHTS</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="a01277_source.html#l00045">ipcl_win32_sd_create()</a>.</p>
+<p class="reference">References <a class="el" href="a00095_source.html#l00239">tag_pcl_stat::atime</a>, <a class="el" href="a00095_source.html#l00242">tag_pcl_stat::btime</a>, <a class="el" href="a00095_source.html#l00227">tag_pcl_stat::mode</a>, <a class="el" href="a00095_source.html#l00240">tag_pcl_stat::mtime</a>, <a class="el" href="a00110_source.html#l00060">tag_pcl_time::nsec</a>, <a class="el" href="a00095_source.html#l00063">pcl_lstat</a>, <a class="el" href="a00095_source.html#l00148">S_ISLNK</a>, <a class="el" href="a00110_source.html#l00059">tag_pcl_time::sec</a>, <a class="el" href="a00017_source.html#l00125">SETLASTERR</a>, and <a class="el" href="a00017_source.html#l00262">TRC</a>.</p>
 
 </div>
 </div>

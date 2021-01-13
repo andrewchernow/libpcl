@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/error/err_lastmsg.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/error/err_json.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,12 +67,12 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">err_lastmsg.c</div>  </div>
+<div class="title">err_json.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00359.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (PCL)</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2021 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,30 +101,22 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00329.html">_error.h</a>&quot;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00335.html">_error.h</a>&quot;</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">char</span> *</div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01304.html#ga84bacea2f9a9e0defe3f8c8bf75db011">   35</a></span>&#160;<a class="code" href="a01304.html#ga84bacea2f9a9e0defe3f8c8bf75db011">pcl_err_lastmsg</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<a class="code" href="a01420.html">pcl_json_t</a> *</div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01367.html#ga0f3150fb2ce23d082afd0993ccf00eda">   35</a></span>&#160;<a class="code" href="a01367.html#ga0f3150fb2ce23d082afd0993ccf00eda">pcl_err_json</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *message, ...)</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keyword">static</span> <span class="keywordtype">char</span> empty_str[1] = {0};</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <a class="code" href="a01340.html">pcl_err_t</a> *err = <a class="code" href="a01304.html#gaefd22094c926adb72077ca72f907a318">pcl_err_get</a>();</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <a class="code" href="a01336.html">pcl_err_trace_t</a> *last = NULL;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordflow">for</span>(<a class="code" href="a01336.html">pcl_err_trace_t</a> *head = err-&gt;<a class="code" href="a01340.html#af22b89a25236c26e197118ca1652019a">strace</a>; head; head = head-&gt;<a class="code" href="a01336.html#a365f8bd3193b20fc56c910edb668a93b">next</a>)</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    last = head;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordflow">return</span> last &amp;&amp; last-&gt;<a class="code" href="a01336.html#a32d2f5216cddb59c7cc8fb2806a7e727">msg</a> ? last-&gt;<a class="code" href="a01336.html#a32d2f5216cddb59c7cc8fb2806a7e727">msg</a> : empty_str;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;}</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  va_list ap;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  va_start(ap, message);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <a class="code" href="a01420.html">pcl_json_t</a> *json = <a class="code" href="a01367.html#gacfdf94d7f22f457181a08210ecae18d5">pcl_err_vjson</a>(message, ap);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  va_end(ap);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">return</span> json;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01336_html"><div class="ttname"><a href="a01336.html">tag_pcl_err_trace</a></div><div class="ttdoc">Stack trace object implemented as a linked list.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00101">error.h:102</a></div></div>
-<div class="ttc" id="aa01336_html_a365f8bd3193b20fc56c910edb668a93b"><div class="ttname"><a href="a01336.html#a365f8bd3193b20fc56c910edb668a93b">tag_pcl_err_trace::next</a></div><div class="ttdeci">pcl_err_trace_t * next</div><div class="ttdoc">next trace in stack trace or NULL to indicate the end.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00104">error.h:104</a></div></div>
-<div class="ttc" id="aa00329_html"><div class="ttname"><a href="a00329.html">_error.h</a></div></div>
-<div class="ttc" id="aa01340_html"><div class="ttname"><a href="a01340.html">tag_pcl_err</a></div><div class="ttdoc">Represents a PCL error, with optional stack trace.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00121">error.h:122</a></div></div>
-<div class="ttc" id="aa01304_html_gaefd22094c926adb72077ca72f907a318"><div class="ttname"><a href="a01304.html#gaefd22094c926adb72077ca72f907a318">pcl_err_get</a></div><div class="ttdeci">PCL_EXPORT pcl_err_t * pcl_err_get(void)</div><div class="ttdoc">Gets the calling thread's error.</div><div class="ttdef"><b>Definition:</b> <a href="a00344_source.html#l00057">err_ctx.c:57</a></div></div>
-<div class="ttc" id="aa01304_html_ga84bacea2f9a9e0defe3f8c8bf75db011"><div class="ttname"><a href="a01304.html#ga84bacea2f9a9e0defe3f8c8bf75db011">pcl_err_lastmsg</a></div><div class="ttdeci">char * pcl_err_lastmsg(void)</div><div class="ttdoc">Get the last error message, stack trace tail.</div><div class="ttdef"><b>Definition:</b> <a href="a00359_source.html#l00035">err_lastmsg.c:35</a></div></div>
-<div class="ttc" id="aa01336_html_a32d2f5216cddb59c7cc8fb2806a7e727"><div class="ttname"><a href="a01336.html#a32d2f5216cddb59c7cc8fb2806a7e727">tag_pcl_err_trace::msg</a></div><div class="ttdeci">char * msg</div><div class="ttdoc">optional user-defined message</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00110">error.h:110</a></div></div>
-<div class="ttc" id="aa01340_html_af22b89a25236c26e197118ca1652019a"><div class="ttname"><a href="a01340.html#af22b89a25236c26e197118ca1652019a">tag_pcl_err::strace</a></div><div class="ttdeci">pcl_err_trace_t * strace</div><div class="ttdoc">Stack trace implemented as a linked list.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00143">error.h:143</a></div></div>
+<div class="ttc" id="aa01367_html_ga0f3150fb2ce23d082afd0993ccf00eda"><div class="ttname"><a href="a01367.html#ga0f3150fb2ce23d082afd0993ccf00eda">pcl_err_json</a></div><div class="ttdeci">pcl_json_t * pcl_err_json(const char *message,...)</div><div class="ttdoc">Format the current thread's error as a JSON string.</div><div class="ttdef"><b>Definition:</b> <a href="a00359_source.html#l00035">err_json.c:35</a></div></div>
+<div class="ttc" id="aa01367_html_gacfdf94d7f22f457181a08210ecae18d5"><div class="ttname"><a href="a01367.html#gacfdf94d7f22f457181a08210ecae18d5">pcl_err_vjson</a></div><div class="ttdeci">PCL_EXPORT pcl_json_t * pcl_err_vjson(const char *message, va_list ap)</div><div class="ttdoc">Format the current thread's error as a JSON string.</div><div class="ttdef"><b>Definition:</b> <a href="a00407_source.html#l00044">err_vjson.c:44</a></div></div>
+<div class="ttc" id="aa00335_html"><div class="ttname"><a href="a00335.html">_error.h</a></div></div>
+<div class="ttc" id="aa01420_html"><div class="ttname"><a href="a01420.html">tag_pcl_json</a></div><div class="ttdoc">A JSON value object.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00174">json.h:175</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

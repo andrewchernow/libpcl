@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/string/strsplit.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/stack/stack_pop.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,17 +62,17 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_6cc8961f7f77054fb84f95c9f23f5ca0.html">&#x202A;string</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_ae05216015ae78cedcc5de6d7fdc0879.html">&#x202A;stack</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">strsplit.c</div>  </div>
+<div class="title">stack_pop.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a01076.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (PCL)</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2021 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,75 +101,38 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a01025.html">_string.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#ifndef XWIDE</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">  #include &lt;<a class="code" href="a00026.html">pcl/array.h</a>&gt;</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">static</span> <a class="code" href="a01324.html">pcl_array_t</a> *</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<a class="code" href="a01025.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a>(strsplit_impl)(<span class="keyword">const</span> <a class="code" href="a01025.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *s, <span class="keyword">const</span> <a class="code" href="a01025.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *delim, <span class="keywordtype">int</span> casefold)</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordtype">size_t</span> delim_len = <a class="code" href="a01025.html#aee081742fbd47c91e70de0b86a84a1be">xstrlen</a>(delim);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <a class="code" href="a01324.html">pcl_array_t</a> *arr = <a class="code" href="a01299.html#ga013c70c68c7946c9086e225100ad67ec">pcl_array_create</a>(4, <a class="code" href="a01299.html#ga3a2946ece5d3aca3226df7476b3b54bf">pcl_array_cleanup_ptr</a>);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <a class="code" href="a01025.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *(*fn_strstr)(<span class="keyword">const</span> <a class="code" href="a01025.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *, <span class="keyword">const</span> <a class="code" href="a01025.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *) = casefold ? <a class="code" href="a01025.html#a5e4a75f8f96f6437439d7c4589debbdb">xstristr</a> : <a class="code" href="a01025.html#a9434e97fdc309472ff44b32ad9817ad2">xstrstr</a>;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a01058.html">_stack.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">void</span> *</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01076.html#a94684f2d94cc0403f43b51077e63a243">   36</a></span>&#160;<a class="code" href="a01076.html#a94684f2d94cc0403f43b51077e63a243">pcl_stack_pop</a>(<a class="code" href="a01540.html">pcl_stack_t</a> *s)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a00092.html#a5497914c835f669103310cb0fd5c1380">pcl_stack_empty</a>(s))</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keyword">struct </span><a class="code" href="a01536.html">stack_item</a> *sitem = s-&gt;<a class="code" href="a01540.html#a9cbb0a4b4d9c0a8d98f628f76b3020c3">head</a>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordtype">void</span> *<a class="code" href="a01536.html#a0f61d63b009d0880a89c843bd50d8d76">value</a> = sitem-&gt;<a class="code" href="a01536.html#a0f61d63b009d0880a89c843bd50d8d76">value</a>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  s-&gt;<a class="code" href="a01540.html#a9cbb0a4b4d9c0a8d98f628f76b3020c3">head</a> = sitem-&gt;<a class="code" href="a01536.html#a0bd53e44edb84db0a4f76ab6d57b7a18">next</a>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  s-&gt;<a class="code" href="a01540.html#a439227feff9d7f55384e8780cfc2eb82">size</a>--;</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordflow">while</span>(s &amp;&amp; *s)</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  {</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <a class="code" href="a01025.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *elem, *p = fn_strstr(s, delim);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordflow">if</span>(!p)</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    {</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      elem = <a class="code" href="a01025.html#a0c95d4478127582b31e380e5043d5237">xstrdup</a>(s);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      s = NULL;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    }</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    {</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      elem = <a class="code" href="a01025.html#a9d17cf03330b1d6492341e039f8edd64">xstrndup</a>(s, p - s);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;      s = p + delim_len;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    }</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <a class="code" href="a01299.html#ga0967fbd6857b5bf46c0b6e826269cb1c">pcl_array_add</a>(arr, elem);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  }</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  <span class="keywordflow">return</span> arr;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;}</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<a class="code" href="a01324.html">pcl_array_t</a> *</div>
-<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="a01076.html#a96f9c6426cbac0b0cb98a412fb453246">   69</a></span>&#160;<a class="code" href="a01025.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a>(<a class="code" href="a01076.html#a96f9c6426cbac0b0cb98a412fb453246">split</a>)(<span class="keyword">const</span> <a class="code" href="a01025.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *s, <span class="keyword">const</span> <a class="code" href="a01025.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *d)</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;{</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01025.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a>(strsplit_impl)(s, d, 0);</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;}</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<a class="code" href="a01324.html">pcl_array_t</a> *</div>
-<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="a01076.html#a657ff21b90dba809633b8a7ca4f65859">   75</a></span>&#160;<a class="code" href="a01025.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a>(<a class="code" href="a01076.html#a657ff21b90dba809633b8a7ca4f65859">isplit</a>)(<span class="keyword">const</span> <a class="code" href="a01025.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *s, <span class="keyword">const</span> <a class="code" href="a01025.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *d)</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;{</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01025.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a>(strsplit_impl)(s, d, 1);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;}</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor">#ifndef XWIDE</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="a01076.html#af3082199ea3ac518b87acdac953cf385">   81</a></span>&#160;<span class="preprocessor">  #define XWIDE</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor">  #include &quot;<a class="code" href="a01076.html">strsplit.c</a>&quot;</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <a class="code" href="a01361.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(sitem);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01536.html#a0f61d63b009d0880a89c843bd50d8d76">value</a>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;}</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01324_html"><div class="ttname"><a href="a01324.html">tag_pcl_array</a></div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00087">array.h:88</a></div></div>
-<div class="ttc" id="aa01025_html_a5e4a75f8f96f6437439d7c4589debbdb"><div class="ttname"><a href="a01025.html#a5e4a75f8f96f6437439d7c4589debbdb">xstristr</a></div><div class="ttdeci">#define xstristr</div><div class="ttdef"><b>Definition:</b> <a href="a01025_source.html#l00073">_string.h:73</a></div></div>
-<div class="ttc" id="aa01076_html_a657ff21b90dba809633b8a7ca4f65859"><div class="ttname"><a href="a01076.html#a657ff21b90dba809633b8a7ca4f65859">isplit</a></div><div class="ttdeci">pcl_array_t *XFUNC() isplit(const xchar *s, const xchar *d)</div><div class="ttdef"><b>Definition:</b> <a href="a01076_source.html#l00075">strsplit.c:75</a></div></div>
-<div class="ttc" id="aa01025_html_aee081742fbd47c91e70de0b86a84a1be"><div class="ttname"><a href="a01025.html#aee081742fbd47c91e70de0b86a84a1be">xstrlen</a></div><div class="ttdeci">#define xstrlen</div><div class="ttdef"><b>Definition:</b> <a href="a01025_source.html#l00071">_string.h:71</a></div></div>
-<div class="ttc" id="aa01299_html_ga013c70c68c7946c9086e225100ad67ec"><div class="ttname"><a href="a01299.html#ga013c70c68c7946c9086e225100ad67ec">pcl_array_create</a></div><div class="ttdeci">PCL_EXPORT pcl_array_t * pcl_array_create(int initial_capacity, pcl_array_cleanup_t cleanup)</div><div class="ttdoc">Create an array.</div><div class="ttdef"><b>Definition:</b> <a href="a00140_source.html#l00036">array_create.c:36</a></div></div>
-<div class="ttc" id="aa01025_html"><div class="ttname"><a href="a01025.html">_string.h</a></div></div>
-<div class="ttc" id="aa01025_html_a9d17cf03330b1d6492341e039f8edd64"><div class="ttname"><a href="a01025.html#a9d17cf03330b1d6492341e039f8edd64">xstrndup</a></div><div class="ttdeci">#define xstrndup</div><div class="ttdef"><b>Definition:</b> <a href="a01025_source.html#l00075">_string.h:75</a></div></div>
-<div class="ttc" id="aa01025_html_a9434e97fdc309472ff44b32ad9817ad2"><div class="ttname"><a href="a01025.html#a9434e97fdc309472ff44b32ad9817ad2">xstrstr</a></div><div class="ttdeci">#define xstrstr</div><div class="ttdef"><b>Definition:</b> <a href="a01025_source.html#l00072">_string.h:72</a></div></div>
-<div class="ttc" id="aa01076_html_a96f9c6426cbac0b0cb98a412fb453246"><div class="ttname"><a href="a01076.html#a96f9c6426cbac0b0cb98a412fb453246">split</a></div><div class="ttdeci">pcl_array_t *XFUNC() split(const xchar *s, const xchar *d)</div><div class="ttdef"><b>Definition:</b> <a href="a01076_source.html#l00069">strsplit.c:69</a></div></div>
-<div class="ttc" id="aa00026_html"><div class="ttname"><a href="a00026.html">array.h</a></div></div>
-<div class="ttc" id="aa01076_html"><div class="ttname"><a href="a01076.html">strsplit.c</a></div></div>
-<div class="ttc" id="aa01299_html_ga3a2946ece5d3aca3226df7476b3b54bf"><div class="ttname"><a href="a01299.html#ga3a2946ece5d3aca3226df7476b3b54bf">pcl_array_cleanup_ptr</a></div><div class="ttdeci">PCL_EXPORT void pcl_array_cleanup_ptr(pcl_array_t *arr, void *elem)</div><div class="ttdoc">An element cleanup callback that passes elem to pcl_free.</div><div class="ttdef"><b>Definition:</b> <a href="a00137_source.html#l00036">array_cleanup_ptr.c:36</a></div></div>
-<div class="ttc" id="aa01025_html_a234f7ec71c9c19ed532c4bf11a9b9b8e"><div class="ttname"><a href="a01025.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a></div><div class="ttdeci">#define xchar</div><div class="ttdef"><b>Definition:</b> <a href="a01025_source.html#l00070">_string.h:70</a></div></div>
-<div class="ttc" id="aa01299_html_ga0967fbd6857b5bf46c0b6e826269cb1c"><div class="ttname"><a href="a01299.html#ga0967fbd6857b5bf46c0b6e826269cb1c">pcl_array_add</a></div><div class="ttdeci">PCL_EXPORT int pcl_array_add(pcl_array_t *arr, void *elem)</div><div class="ttdoc">Add an element.</div><div class="ttdef"><b>Definition:</b> <a href="a00134_source.html#l00037">array_add.c:37</a></div></div>
-<div class="ttc" id="aa01025_html_a5c4b00cbc494339ce63882d7404bad27"><div class="ttname"><a href="a01025.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a></div><div class="ttdeci">#define XFUNC(name)</div><div class="ttdef"><b>Definition:</b> <a href="a01025_source.html#l00068">_string.h:68</a></div></div>
-<div class="ttc" id="aa01025_html_a0c95d4478127582b31e380e5043d5237"><div class="ttname"><a href="a01025.html#a0c95d4478127582b31e380e5043d5237">xstrdup</a></div><div class="ttdeci">#define xstrdup(s)</div><div class="ttdef"><b>Definition:</b> <a href="a01025_source.html#l00074">_string.h:74</a></div></div>
+<div class="ttc" id="aa01536_html"><div class="ttname"><a href="a01536.html">stack_item</a></div><div class="ttdef"><b>Definition:</b> <a href="a01058_source.html#l00041">_stack.h:42</a></div></div>
+<div class="ttc" id="aa01058_html"><div class="ttname"><a href="a01058.html">_stack.h</a></div></div>
+<div class="ttc" id="aa01540_html_a439227feff9d7f55384e8780cfc2eb82"><div class="ttname"><a href="a01540.html#a439227feff9d7f55384e8780cfc2eb82">tag_pcl_stack::size</a></div><div class="ttdeci">int size</div><div class="ttdef"><b>Definition:</b> <a href="a01058_source.html#l00050">_stack.h:50</a></div></div>
+<div class="ttc" id="aa01361_html_gab88b901c82e1010555b08ff6d39490f2"><div class="ttname"><a href="a01361.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a></div><div class="ttdeci">void * pcl_free(void *p)</div><div class="ttdoc">Free memory space.</div></div>
+<div class="ttc" id="aa01536_html_a0bd53e44edb84db0a4f76ab6d57b7a18"><div class="ttname"><a href="a01536.html#a0bd53e44edb84db0a4f76ab6d57b7a18">stack_item::next</a></div><div class="ttdeci">struct stack_item * next</div><div class="ttdef"><b>Definition:</b> <a href="a01058_source.html#l00043">_stack.h:43</a></div></div>
+<div class="ttc" id="aa01076_html_a94684f2d94cc0403f43b51077e63a243"><div class="ttname"><a href="a01076.html#a94684f2d94cc0403f43b51077e63a243">pcl_stack_pop</a></div><div class="ttdeci">void * pcl_stack_pop(pcl_stack_t *s)</div><div class="ttdoc">Retrieve and remove an item from the top of the stack.</div><div class="ttdef"><b>Definition:</b> <a href="a01076_source.html#l00036">stack_pop.c:36</a></div></div>
+<div class="ttc" id="aa01540_html_a9cbb0a4b4d9c0a8d98f628f76b3020c3"><div class="ttname"><a href="a01540.html#a9cbb0a4b4d9c0a8d98f628f76b3020c3">tag_pcl_stack::head</a></div><div class="ttdeci">struct stack_item * head</div><div class="ttdef"><b>Definition:</b> <a href="a01058_source.html#l00049">_stack.h:49</a></div></div>
+<div class="ttc" id="aa01540_html"><div class="ttname"><a href="a01540.html">tag_pcl_stack</a></div><div class="ttdef"><b>Definition:</b> <a href="a01058_source.html#l00047">_stack.h:48</a></div></div>
+<div class="ttc" id="aa00092_html_a5497914c835f669103310cb0fd5c1380"><div class="ttname"><a href="a00092.html#a5497914c835f669103310cb0fd5c1380">pcl_stack_empty</a></div><div class="ttdeci">PCL_EXPORT bool pcl_stack_empty(pcl_stack_t *s)</div><div class="ttdoc">Indicates if a stack is empty.</div><div class="ttdef"><b>Definition:</b> <a href="a01067_source.html#l00035">stack_empty.c:35</a></div></div>
+<div class="ttc" id="aa01536_html_a0f61d63b009d0880a89c843bd50d8d76"><div class="ttname"><a href="a01536.html#a0f61d63b009d0880a89c843bd50d8d76">stack_item::value</a></div><div class="ttdeci">void * value</div><div class="ttdef"><b>Definition:</b> <a href="a01058_source.html#l00044">_stack.h:44</a></div></div>
+<div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/socket/listen.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/process/unix_proc_path.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,17 +62,17 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_9ad1227260954e346101f3844f0abb3d.html">&#x202A;socket</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_c0cd66d8ddae4fc5bc5dc2f24e29763b.html">&#x202A;process</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">listen.c</div>  </div>
+<div class="title">unix_proc_path.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00884.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (PCL)</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2021 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,28 +101,52 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00872.html">_socket.h</a>&quot;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00857.html">_process.h</a>&quot;</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/error.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a00884.html#a4bcae3df9e69f078a4488e46870f77bc">   36</a></span>&#160;<a class="code" href="a00884.html#a4bcae3df9e69f078a4488e46870f77bc">pcl_listen</a>(<a class="code" href="a01456.html">pcl_socket_t</a> *sock, <span class="keywordtype">int</span> backlog)</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  backlog = <a class="code" href="a00038.html#affe776513b24d84b39af8ab0930fef7f">max</a>(backlog, 1);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00098.html">pcl/string.h</a>&gt;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#ifdef PCL_DARWIN</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor"># include &lt;libproc.h&gt;</span> <span class="comment">// proc_pidpath</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordflow">if</span>(listen(sock-&gt;<a class="code" href="a01456.html#a8a04492110d683cd4b6119648e1584d6">fd</a>, backlog))</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01306.html#gaadc76b147014f17dcc08fa3c2f110a25">SETOSERR</a>(<a class="code" href="a01304.html#ga4926f863ec8fe31588c707f0b69bbe9a">pcl_sockerrno</a>);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;}</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<a class="code" href="a00113.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *</div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="a01379.html#gaa625964173add23831431d1ab1d48ffc">   41</a></span>&#160;<a class="code" href="a01379.html#gaa625964173add23831431d1ab1d48ffc">pcl_proc_path</a>(pid_t pid)</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordflow">if</span>(pid &lt; 0)</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    pid = <a class="code" href="a01379.html#ga403317a17754c52687615448d3752786">pcl_proc_self</a>();</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#ifdef PCL_LINUX</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordtype">char</span> exe[80];</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keywordtype">char</span> path[4096];</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  sprintf(exe, <span class="stringliteral">&quot;/proc/%d/exe&quot;</span>, pid);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="comment">/* readlink doesn&#39;t terminate buffer, so reserve a NUL */</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <span class="keywordtype">int</span> len = (int) readlink(exe, path, <span class="keyword">sizeof</span>(path) - 1);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">#else // darwin</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordtype">char</span> path[PROC_PIDPATHINFO_SIZE]; <span class="comment">/* proc_pidpath is very picky about buf sizes! */</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <span class="keywordtype">int</span> len = proc_pidpath(pid, path, PROC_PIDPATHINFO_SIZE);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  <span class="keywordflow">if</span>(len == 0)</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    len = -1;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  <span class="keywordflow">if</span>(len &lt; 0)</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01369.html#gad08a56aa55af3716a251ced9f780686d">R_SETLASTERR</a>(NULL);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01382.html#ga906f8952991b7313cb6b4bcbc3ab4545">pcl_pcsndup</a>(path, len);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;}</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01456_html_a8a04492110d683cd4b6119648e1584d6"><div class="ttname"><a href="a01456.html#a8a04492110d683cd4b6119648e1584d6">tag_pcl_socket::fd</a></div><div class="ttdeci">pcl_socketfd_t fd</div><div class="ttdef"><b>Definition:</b> <a href="a00872_source.html#l00053">_socket.h:53</a></div></div>
-<div class="ttc" id="aa00884_html_a4bcae3df9e69f078a4488e46870f77bc"><div class="ttname"><a href="a00884.html#a4bcae3df9e69f078a4488e46870f77bc">pcl_listen</a></div><div class="ttdeci">int pcl_listen(pcl_socket_t *sock, int backlog)</div><div class="ttdef"><b>Definition:</b> <a href="a00884_source.html#l00036">listen.c:36</a></div></div>
-<div class="ttc" id="aa00872_html"><div class="ttname"><a href="a00872.html">_socket.h</a></div></div>
-<div class="ttc" id="aa00038_html_affe776513b24d84b39af8ab0930fef7f"><div class="ttname"><a href="a00038.html#affe776513b24d84b39af8ab0930fef7f">max</a></div><div class="ttdeci">#define max(a, b)</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00112">defs.h:112</a></div></div>
-<div class="ttc" id="aa01304_html_ga4926f863ec8fe31588c707f0b69bbe9a"><div class="ttname"><a href="a01304.html#ga4926f863ec8fe31588c707f0b69bbe9a">pcl_sockerrno</a></div><div class="ttdeci">#define pcl_sockerrno</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00187">error.h:187</a></div></div>
-<div class="ttc" id="aa01306_html_gaadc76b147014f17dcc08fa3c2f110a25"><div class="ttname"><a href="a01306.html#gaadc76b147014f17dcc08fa3c2f110a25">SETOSERR</a></div><div class="ttdeci">#define SETOSERR(_oserr)</div><div class="ttdoc">Sets the current thread's OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00111">_errdefs.h:111</a></div></div>
+<div class="ttc" id="aa00113_html_ac114b2b1527c8ae241d37cc15ca7d122"><div class="ttname"><a href="a00113.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a></div><div class="ttdeci">char pchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00113_source.html#l00053">types.h:53</a></div></div>
+<div class="ttc" id="aa01369_html_gad08a56aa55af3716a251ced9f780686d"><div class="ttname"><a href="a01369.html#gad08a56aa55af3716a251ced9f780686d">R_SETLASTERR</a></div><div class="ttdeci">#define R_SETLASTERR(_retval)</div><div class="ttdoc">Sets the return value and the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00235">_errdefs.h:235</a></div></div>
+<div class="ttc" id="aa01382_html_ga906f8952991b7313cb6b4bcbc3ab4545"><div class="ttname"><a href="a01382.html#ga906f8952991b7313cb6b4bcbc3ab4545">pcl_pcsndup</a></div><div class="ttdeci">pchar_t * pcl_pcsndup(const pchar_t *s, size_t len)</div><div class="ttdoc">Duplicate a portion of a string.</div></div>
+<div class="ttc" id="aa01379_html_ga403317a17754c52687615448d3752786"><div class="ttname"><a href="a01379.html#ga403317a17754c52687615448d3752786">pcl_proc_self</a></div><div class="ttdeci">PCL_EXPORT pid_t pcl_proc_self(void)</div><div class="ttdoc">Gets the Process ID of the calling process (PID).</div><div class="ttdef"><b>Definition:</b> <a href="a00872_source.html#l00035">proc_self.c:35</a></div></div>
 <div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">error.h</a></div></div>
-<div class="ttc" id="aa01456_html"><div class="ttname"><a href="a01456.html">tag_pcl_socket</a></div><div class="ttdef"><b>Definition:</b> <a href="a00872_source.html#l00047">_socket.h:48</a></div></div>
+<div class="ttc" id="aa00857_html"><div class="ttname"><a href="a00857.html">_process.h</a></div></div>
+<div class="ttc" id="aa00098_html"><div class="ttname"><a href="a00098.html">string.h</a></div></div>
+<div class="ttc" id="aa01379_html_gaa625964173add23831431d1ab1d48ffc"><div class="ttname"><a href="a01379.html#gaa625964173add23831431d1ab1d48ffc">pcl_proc_path</a></div><div class="ttdeci">pchar_t * pcl_proc_path(pid_t pid)</div><div class="ttdoc">Get a process's path.</div><div class="ttdef"><b>Definition:</b> <a href="a00884_source.html#l00041">unix_proc_path.c:41</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

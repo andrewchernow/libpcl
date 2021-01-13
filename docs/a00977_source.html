@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/ssl/ssl_free.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/socket/socket_ispassive.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,17 +62,17 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_d2a61888f140676dde113ce903a488e2.html">&#x202A;ssl</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_9ad1227260954e346101f3844f0abb3d.html">&#x202A;socket</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">ssl_free.c</div>  </div>
+<div class="title">socket_ispassive.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00977.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2021 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,31 +101,31 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00947.html">_ssl.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00923.html">_socket.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/error.h</a>&gt;</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">void</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a00977.html#a7181d5df2c41925f88191d1e310ecb89">   36</a></span>&#160;<a class="code" href="a00977.html#a7181d5df2c41925f88191d1e310ecb89">pcl_ssl_free</a>(<a class="code" href="a01460.html">pcl_ssl_t</a> *ssl)</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">if</span>(!ssl)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <a class="code" href="a00086.html#a8632d30d5f4898a9db396c79c1dfaeab">pcl_ssl_close</a>(ssl);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  SSL_CTX_free(ssl-&gt;<a class="code" href="a01460.html#ad5433bcc8a463fb4df3ce5912bb11fe3">ctx</a>);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <a class="code" href="a01298.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe</a>(ssl-&gt;<a class="code" href="a01460.html#a6473a038c16b59727d5b2195046e0498">err</a>.<a class="code" href="a01376.html#a32d2f5216cddb59c7cc8fb2806a7e727">msg</a>);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <a class="code" href="a01298.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(ssl);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;}</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor"># include &lt;ws2tcpip.h&gt;</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keywordtype">bool</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="a00977.html#a48b586c0161718930b7ff4113fe25c24">   40</a></span>&#160;<a class="code" href="a00977.html#a48b586c0161718930b7ff4113fe25c24">pcl_ispassive</a>(<a class="code" href="a01528.html">pcl_socket_t</a> *sock)</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;{</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordtype">int</span> val = 0;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  socklen_t len = <span class="keyword">sizeof</span>(val);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordflow">if</span>(getsockopt(sock-&gt;<a class="code" href="a01528.html#a8a04492110d683cd4b6119648e1584d6">fd</a>, SOL_SOCKET, SO_ACCEPTCONN, (<span class="keywordtype">char</span> *) &amp;val, &amp;len) == -1)</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01369.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keywordflow">return</span> val != 0;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01376_html_a32d2f5216cddb59c7cc8fb2806a7e727"><div class="ttname"><a href="a01376.html#a32d2f5216cddb59c7cc8fb2806a7e727">pcl_openssl_error_t::msg</a></div><div class="ttdeci">char * msg</div><div class="ttdef"><b>Definition:</b> <a href="a00086_source.html#l00060">ssl.h:60</a></div></div>
-<div class="ttc" id="aa01460_html"><div class="ttname"><a href="a01460.html">tag_pcl_ssl</a></div><div class="ttdef"><b>Definition:</b> <a href="a00947_source.html#l00046">_ssl.h:47</a></div></div>
-<div class="ttc" id="aa01460_html_a6473a038c16b59727d5b2195046e0498"><div class="ttname"><a href="a01460.html#a6473a038c16b59727d5b2195046e0498">tag_pcl_ssl::err</a></div><div class="ttdeci">pcl_openssl_error_t err</div><div class="ttdef"><b>Definition:</b> <a href="a00947_source.html#l00056">_ssl.h:56</a></div></div>
-<div class="ttc" id="aa01460_html_ad5433bcc8a463fb4df3ce5912bb11fe3"><div class="ttname"><a href="a01460.html#ad5433bcc8a463fb4df3ce5912bb11fe3">tag_pcl_ssl::ctx</a></div><div class="ttdeci">SSL_CTX * ctx</div><div class="ttdef"><b>Definition:</b> <a href="a00947_source.html#l00054">_ssl.h:54</a></div></div>
-<div class="ttc" id="aa01298_html_gab88b901c82e1010555b08ff6d39490f2"><div class="ttname"><a href="a01298.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a></div><div class="ttdeci">void * pcl_free(void *p)</div><div class="ttdoc">Free memory space.</div></div>
-<div class="ttc" id="aa00947_html"><div class="ttname"><a href="a00947.html">_ssl.h</a></div></div>
-<div class="ttc" id="aa01298_html_ga2de1e7abd61febca9d319940c5c2bd1b"><div class="ttname"><a href="a01298.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe</a></div><div class="ttdeci">void * pcl_free_safe(void *p)</div><div class="ttdoc">Safely free memory space.</div></div>
-<div class="ttc" id="aa00977_html_a7181d5df2c41925f88191d1e310ecb89"><div class="ttname"><a href="a00977.html#a7181d5df2c41925f88191d1e310ecb89">pcl_ssl_free</a></div><div class="ttdeci">void pcl_ssl_free(pcl_ssl_t *ssl)</div><div class="ttdef"><b>Definition:</b> <a href="a00977_source.html#l00036">ssl_free.c:36</a></div></div>
-<div class="ttc" id="aa00086_html_a8632d30d5f4898a9db396c79c1dfaeab"><div class="ttname"><a href="a00086.html#a8632d30d5f4898a9db396c79c1dfaeab">pcl_ssl_close</a></div><div class="ttdeci">PCL_EXPORT void pcl_ssl_close(pcl_ssl_t *ssl)</div><div class="ttdef"><b>Definition:</b> <a href="a00959_source.html#l00037">ssl_close.c:37</a></div></div>
-<div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
+<div class="ttc" id="aa01528_html"><div class="ttname"><a href="a01528.html">tag_pcl_socket</a></div><div class="ttdef"><b>Definition:</b> <a href="a00923_source.html#l00047">_socket.h:48</a></div></div>
+<div class="ttc" id="aa01528_html_a8a04492110d683cd4b6119648e1584d6"><div class="ttname"><a href="a01528.html#a8a04492110d683cd4b6119648e1584d6">tag_pcl_socket::fd</a></div><div class="ttdeci">pcl_socketfd_t fd</div><div class="ttdef"><b>Definition:</b> <a href="a00923_source.html#l00053">_socket.h:53</a></div></div>
+<div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">error.h</a></div></div>
+<div class="ttc" id="aa00977_html_a48b586c0161718930b7ff4113fe25c24"><div class="ttname"><a href="a00977.html#a48b586c0161718930b7ff4113fe25c24">pcl_ispassive</a></div><div class="ttdeci">bool pcl_ispassive(pcl_socket_t *sock)</div><div class="ttdef"><b>Definition:</b> <a href="a00977_source.html#l00040">socket_ispassive.c:40</a></div></div>
+<div class="ttc" id="aa01369_html_ga89b8bfbe17595305872551a1caaa5702"><div class="ttname"><a href="a01369.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a></div><div class="ttdeci">#define SETLASTERR()</div><div class="ttdoc">Sets the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00125">_errdefs.h:125</a></div></div>
+<div class="ttc" id="aa00923_html"><div class="ttname"><a href="a00923.html">_socket.h</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

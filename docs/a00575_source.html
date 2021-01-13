@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/io/popen.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/io/fmtconv.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,12 +67,12 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">popen.c</div>  </div>
+<div class="title">fmtconv.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00575.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2021 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,120 +101,245 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00080.html">pcl/process.h</a>&gt;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00056.html">pcl/file.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/error.h</a>&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00065.html">pcl/io.h</a>&gt;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &lt;ctype.h&gt;</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;FILE *</div>
-<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="a01311.html#ga458cd341e1cb2e0fa130b150ff41dece">   40</a></span>&#160;<a class="code" href="a01311.html#ga458cd341e1cb2e0fa130b150ff41dece">pcl_popen</a>(<span class="keyword">const</span> <a class="code" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *command, ...)</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;{</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  va_list ap;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <a class="code" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *cmd;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keywordtype">int</span> flags = 0;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  FILE *stream = NULL;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a00038.html#a8278668d120afdd0e47def881845559d">strempty</a>(command))</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01306.html#ga275b0cc5367d35bf8d2873fe5e15878b">R_SETERRMSG</a>(NULL, <a class="code" href="a01305.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>, <span class="stringliteral">&quot;command must be provided&quot;</span>, 0);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="comment">/* this function is hard to look at, sorry. A primary goal was to avoid</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="comment"> * allocation and make this as fast as possible. In addition, the function</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment"> * must deal with converting a uniform format string (PCL&#39;s input) into</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment"> * one of at least 3 different platform format strings...mostly due to windows</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment"> * changing format type specs based on printf or wprintf...OMG!</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment"> * Anyway, this creates a platform-specific format string given an PCL format</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="comment"> * string. The returned string might be a pointer to &#39;buf&#39; (which is most likely</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="comment"> * stack) or this function might allocate a new buffer if more room is needed.</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="comment"> * The callee must check if the provided &#39;buf&#39; argument address matches the</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment"> * returned address when this function returns. If it doesn&#39;t match, the callee</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="comment"> * must free() the returned pointer.</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#include &quot;../string/_string.h&quot;</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#include &lt;ctype.h&gt;</span></div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="keywordflow">while</span>(isspace(*command))</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    command++;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#undef XPATHSEPCHAR</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">#undef toxupper</span></div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <span class="comment">/* get the mode */</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="keywordflow">if</span>(*command == <span class="charliteral">&#39;&lt;&#39;</span>)</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    flags |= <a class="code" href="a01316.html#gaf0b0f1ec2dcdb568a1826a04c0cf46d0">PCL_EXEC_STDOUT</a>;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordflow">else</span> <span class="keywordflow">if</span>(*command == <span class="charliteral">&#39;&gt;&#39;</span>)</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    flags |= <a class="code" href="a01316.html#ga87d008e6f434301f4b517e0cdf5a320c">PCL_EXEC_STDIN</a>;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <span class="keywordflow">else</span> <span class="keywordflow">if</span>(*command == <span class="charliteral">&#39;^&#39;</span>) <span class="comment">/* like the FISH shell */</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    flags |= <a class="code" href="a01316.html#ga6f5de5f5bd36c584904dabcc987eee5f">PCL_EXEC_STDERR</a>;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01306.html#ga275b0cc5367d35bf8d2873fe5e15878b">R_SETERRMSG</a>(NULL, <a class="code" href="a01305.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>, <span class="stringliteral">&quot;invalid command mode &#39;%Pc&#39;&quot;</span>, *command);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  <span class="comment">/* optional flags, no spaces between mode and flags! */</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  command++;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <span class="keywordflow">if</span>(*command == <span class="charliteral">&#39;!&#39;</span>)</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  {</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    command++;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">if</span>(flags &amp; <a class="code" href="a01316.html#ga87d008e6f434301f4b517e0cdf5a320c">PCL_EXEC_STDIN</a>)</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      flags |= <a class="code" href="a01316.html#ga8c1fc48ff39c94e8d3dcf53255fae7a8">PCL_EXEC_STDIN_NB</a>;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span>(flags &amp; <a class="code" href="a01316.html#gaf0b0f1ec2dcdb568a1826a04c0cf46d0">PCL_EXEC_STDOUT</a>)</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      flags |= <a class="code" href="a01316.html#ga5a4c32c851a5d9bda967d6393aaafba2">PCL_EXEC_STDOUT_NB</a>;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span>(flags &amp; <a class="code" href="a01316.html#ga6f5de5f5bd36c584904dabcc987eee5f">PCL_EXEC_STDERR</a>)</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      flags |= <a class="code" href="a01316.html#gad6167eaf15543bcb6c790fae1a32b64c">PCL_EXEC_STDERR_NB</a>;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  }</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  <span class="keywordflow">while</span>(isspace(*command))</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    command++;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  <span class="comment">/* format command */</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  va_start(ap, command);</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  <span class="keywordtype">int</span> r = <a class="code" href="a01311.html#ga186062a6d4d1779576565b9684af81b6">pcl_vaspprintf</a>(&amp;cmd, command, ap);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  va_end(ap);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  <span class="keywordflow">if</span>(r &lt; 0)</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01306.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a>(NULL, -r);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#ifdef XWIDE</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#define XPATHSEPCHAR PCL_WPATHSEPCHR</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">#define toxupper towupper</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="a00575.html#a2ce7eee80032ae475cecdcb782135f19">   57</a></span>&#160;<span class="preprocessor">#define XPATHSEPCHAR PCL_PATHSEPCHR</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="a00575.html#afcf9e18397349db8513bde47100b537d">   58</a></span>&#160;<span class="preprocessor">#define toxupper toupper</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<a class="code" href="a01103.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *</div>
+<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="a01103.html#ae74ec47523a16c1da558ce319a854d90">   62</a></span>&#160;<a class="code" href="a01103.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a>(<a class="code" href="a00575.html#ae74ec47523a16c1da558ce319a854d90">fmtconv</a>)(<a class="code" href="a01103.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *buf, <span class="keywordtype">size_t</span> bufsz, <span class="keyword">const</span> <a class="code" href="a01103.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *pcl_format)</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;{</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  <a class="code" href="a01103.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *os_format = buf;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  <a class="code" href="a01103.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *out = os_format;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <span class="keywordtype">size_t</span> len = <a class="code" href="a01103.html#aee081742fbd47c91e70de0b86a84a1be">xstrlen</a>(pcl_format) + 1;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <span class="comment">/* allocate when needed */</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  <span class="keywordflow">if</span>(len &gt; bufsz)</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  {</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    os_format = (<a class="code" href="a01103.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *) <a class="code" href="a01361.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a>(len * <span class="keyword">sizeof</span>(<a class="code" href="a01103.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a>));</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    out = os_format;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  }</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  <span class="keywordflow">while</span>(*pcl_format)</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  {</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <a class="code" href="a01103.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *p = <a class="code" href="a01103.html#a7a8bf915c494f805721c2f231822e181">xstrchr</a>(pcl_format, <a class="code" href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a>(<span class="charliteral">&#39;%&#39;</span>));</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordtype">size_t</span> siz = len - (out - os_format);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="comment">/* done */</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordflow">if</span>(!p)</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    {</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;      len = <a class="code" href="a01103.html#aee081742fbd47c91e70de0b86a84a1be">xstrlen</a>(pcl_format);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;      <a class="code" href="a01103.html#abab22e62198b295954a4daf135e00ecb">xstrncpy</a>(out, siz, pcl_format, len);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;      out += len;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;      <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    }</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  <span class="comment">/* perform an pcl_proc_exec() */</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;  <a class="code" href="a01368.html">pcl_proc_exec_t</a> x = {.<a class="code" href="a01368.html#ade1a103e0fd3f6be7ce639143d3bd33f">command</a> = cmd};</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a01316.html#ga6340023fde71cb0e45005c881eec5323">pcl_proc_exec</a>(&amp;x, flags))</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;  {</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <a class="code" href="a01298.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(cmd);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01306.html#gaa978c8c7faa5fc2f69a6641e054e519d">R_TRC</a>(NULL);</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;  }</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  <a class="code" href="a01428.html">pcl_file_t</a> *f = x.<a class="code" href="a01368.html#ab71f56b16803f8bcee33ae4adce50810">f_stdin</a>;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;  <span class="keywordflow">if</span>(!f)</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    f = x.<a class="code" href="a01368.html#a3d368a0bf5425e0ca958b0beee200277">f_stdout</a>;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;  <span class="keywordflow">if</span>(!f)</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    f = x.<a class="code" href="a01368.html#a58a969e094efba78b7ee68457df0b44a">f_stderr</a>;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  <span class="keywordflow">if</span>(!(stream = <a class="code" href="a01311.html#ga41052c5894a0beed897fd999c69262a9">pcl_fdopen</a>(f)))</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;  {</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <a class="code" href="a00056.html#a4e888a5a186ccc8fff3176665d01720a">pcl_file_close</a>(f);</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <a class="code" href="a01306.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a>();</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;  }</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;  <a class="code" href="a01298.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(cmd);</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;  <span class="keywordflow">return</span> stream;</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;}</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="comment">/* move past % so its included in copy */</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    p++;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <a class="code" href="a01103.html#abab22e62198b295954a4daf135e00ecb">xstrncpy</a>(out, siz, pcl_format, p - pcl_format);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="comment">/* adjust ptr positions */</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    out += (p - pcl_format);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    pcl_format = p;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="comment">/* special case, &quot;%%&quot; to encode a &#39;%&#39;. The below while loop won&#39;t handle</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="comment">     * this properly so we handle it here. If the below loop encounters a</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="comment">     * percent, it knows to exit the below loop and wrap around to the outer</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="comment">     * loop&#39;out strchr(&#39;%&#39;).</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="comment">     */</span></div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordflow">if</span>(*pcl_format == <a class="code" href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a>(<span class="charliteral">&#39;%&#39;</span>))</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    {</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;      pcl_format++; <span class="comment">/* no copy, already have 1st &#39;%&#39;, just move past 2nd one */</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;      <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    }</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="comment">/* scan for end of format spec */</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keywordtype">int</span> finished = 0;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keywordflow">while</span>(!finished &amp;&amp; *pcl_format)</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    {</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;      <span class="keywordflow">switch</span>(*pcl_format)</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;      {</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a>(<span class="charliteral">&#39;%&#39;</span>):</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;          <span class="comment">/* don&#39;t copy, no format advancement and let strchr in outer loop</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="comment">           * handle this. This is either a new format or a user-end typo.</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="comment">           */</span></div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;          finished = 1;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;          <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160; </div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;          <span class="comment">/* &quot;%/&quot; path sep: PCL extension */</span></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a>(<span class="charliteral">&#39;/&#39;</span>):</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        {</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;          <span class="comment">/* &#39;/&#39; must appear directly after &#39;%&#39; */</span></div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;          p = (<a class="code" href="a01103.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *) pcl_format - 1;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160; </div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;          <span class="keywordflow">if</span>(*p == <a class="code" href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a>(<span class="charliteral">&#39;%&#39;</span>))</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;          {</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;            out--; <span class="comment">/* overwrite previous &#39;%&#39; */</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;            *out++ = <a class="code" href="a00575.html#a2ce7eee80032ae475cecdcb782135f19">XPATHSEPCHAR</a>;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;            pcl_format++; <span class="comment">/* skip the &#39;/&#39; */</span></div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;          }</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;          <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;          {</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;            <span class="comment">/* &#39;/&#39; is an invalid spec char, copy it and finish */</span></div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;            finished = 1;</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;            *out++ = *pcl_format++;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;          }</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160; </div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;          <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;        }</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160; </div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;          <span class="comment">/* &quot;%Ps | %Pc&quot; pchar_t: Portable Character String or Portable Character */</span></div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a>(<span class="charliteral">&#39;P&#39;</span>):</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        {</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;          <a class="code" href="a01103.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> c = *++pcl_format;</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160; </div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;          <span class="comment">/* %Ps always wide on Windows, always single byte on unixes */</span></div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;          <span class="keywordflow">if</span>(c == <a class="code" href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a>(<span class="charliteral">&#39;s&#39;</span>) || c == <a class="code" href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a>(<span class="charliteral">&#39;c&#39;</span>))</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;          {</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;<span class="preprocessor"># ifdef XWIDE</span></div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;            *out++ = c; <span class="comment">/* lower s,c is wide for wprintf funcs */</span></div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;<span class="preprocessor"># else</span></div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;            *out++ = (<a class="code" href="a01103.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a>) toupper(c); <span class="comment">/* upper S,C is wide for printf funcs */</span></div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;<span class="preprocessor"># endif</span></div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            *out++ = c; <span class="comment">/* lower s,c always single byte */</span></div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;<span class="preprocessor">#endif //PCL_WINDOWS</span></div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160; </div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;            pcl_format++; <span class="comment">/* skip s or c */</span></div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;          }</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;          <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;          {</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;            *out++ = <a class="code" href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a>(<span class="charliteral">&#39;P&#39;</span>); <span class="comment">/* consume P, invalid spec char */</span></div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;          }</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160; </div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;          <span class="comment">/* either had %Ps, %Pc or invalid spec char */</span></div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;          finished = 1;</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;          <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        }</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160; </div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;          <span class="comment">/* convert %ls and %lc to windows format specifiers. Handle on windows</span></div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="comment">           * only. Notice &#39;l&#39; and &#39;h&#39; field width fall-thru to the catch all</span></div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;<span class="comment">           * when not on windows.</span></div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;<span class="comment">           */</span></div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a>(<span class="charliteral">&#39;h&#39;</span>):</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a>(<span class="charliteral">&#39;l&#39;</span>):</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        {</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;          <a class="code" href="a01103.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> c = pcl_format[1];</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160; </div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;          <span class="keywordflow">if</span>(c == <a class="code" href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a>(<span class="charliteral">&#39;s&#39;</span>) || c == <a class="code" href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a>(<span class="charliteral">&#39;c&#39;</span>))</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;          {</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;<span class="preprocessor">#ifdef XWIDE</span></div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;            *out++ = c; <span class="comment">/* lower out,c is wide for wprintf funcs */</span></div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;            *out++ = (<a class="code" href="a01103.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a>) <a class="code" href="a00575.html#afcf9e18397349db8513bde47100b537d">toxupper</a>(c); <span class="comment">/* upper S,C is wide for printf funcs */</span></div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160; </div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;            pcl_format += 2;</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160; </div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;          }</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;          <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;          {</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;            *out++ = *pcl_format++;</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;          }</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160; </div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;          <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;        }</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160; </div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a>(<span class="charliteral">&#39;s&#39;</span>):</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a>(<span class="charliteral">&#39;c&#39;</span>):</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;        {</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;          <a class="code" href="a01103.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> c = *pcl_format++;</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160; </div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;<span class="preprocessor">#ifdef XWIDE</span></div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;          c = (<a class="code" href="a01103.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a>)toupper(c);</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160; </div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;          *out++ = c;</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;        }</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;<span class="preprocessor">#endif //PCL_WINDOWS</span></div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160; </div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;          <span class="comment">/* flags, field width or precision */</span></div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a>(<span class="charliteral">&#39;0&#39;</span>):</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a>(<span class="charliteral">&#39;1&#39;</span>):</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a>(<span class="charliteral">&#39;2&#39;</span>):</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a>(<span class="charliteral">&#39;4&#39;</span>):</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a>(<span class="charliteral">&#39;5&#39;</span>):</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a>(<span class="charliteral">&#39;6&#39;</span>):</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a>(<span class="charliteral">&#39;7&#39;</span>):</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a>(<span class="charliteral">&#39;8&#39;</span>):</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a>(<span class="charliteral">&#39;9&#39;</span>):</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a>(<span class="charliteral">&#39;-&#39;</span>):</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a>(<span class="charliteral">&#39; &#39;</span>):</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a>(<span class="charliteral">&#39;+&#39;</span>):</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a>(<span class="charliteral">&#39;\&#39;&#39;</span>):</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a>(<span class="charliteral">&#39;*&#39;</span>):</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a>(<span class="charliteral">&#39;.&#39;</span>):</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a>(<span class="charliteral">&#39;L&#39;</span>):</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a>(<span class="charliteral">&#39;q&#39;</span>):</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a>(<span class="charliteral">&#39;j&#39;</span>):</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a>(<span class="charliteral">&#39;z&#39;</span>):</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;          *out++ = *pcl_format++;</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;          <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160; </div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;          <span class="comment">/* we either have a conversion specifier (d, i, s, etc...) or an</span></div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;<span class="comment">           * invalid spec char. Either way, copy char to the buffer</span></div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;<span class="comment">           * and mark as finished.</span></div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;<span class="comment">           */</span></div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;        <span class="keywordflow">default</span>:</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;          *out++ = *pcl_format++;</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;          finished = 1;</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;          <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;      }</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    }</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;  }</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160; </div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;  *out = 0;</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;  <span class="keywordflow">return</span> os_format;</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;}</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160; </div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;<span class="preprocessor">#ifndef XWIDE</span></div>
+<div class="line"><a name="l00255"></a><span class="lineno"><a class="line" href="a00575.html#af3082199ea3ac518b87acdac953cf385">  255</a></span>&#160;<span class="preprocessor">#define XWIDE</span></div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00575.html">fmtconv.c</a>&quot;</span></div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01305_html_gae0cd5c5a7fae36cd480176bda17e77ca"><div class="ttname"><a href="a01305.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a></div><div class="ttdeci">#define PCL_EINVAL</div><div class="ttdoc">Invalid argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00078">_errno.h:78</a></div></div>
-<div class="ttc" id="aa01428_html"><div class="ttname"><a href="a01428.html">tag_pcl_file</a></div><div class="ttdef"><b>Definition:</b> <a href="a00443_source.html#l00061">_file.h:62</a></div></div>
-<div class="ttc" id="aa01316_html_ga6340023fde71cb0e45005c881eec5323"><div class="ttname"><a href="a01316.html#ga6340023fde71cb0e45005c881eec5323">pcl_proc_exec</a></div><div class="ttdeci">PCL_EXPORT int pcl_proc_exec(pcl_proc_exec_t *exec, int flags)</div><div class="ttdoc">Execute a command within a child process.</div><div class="ttdef"><b>Definition:</b> <a href="a00857_source.html#l00079">unix_proc_exec.c:79</a></div></div>
-<div class="ttc" id="aa00080_html"><div class="ttname"><a href="a00080.html">process.h</a></div></div>
-<div class="ttc" id="aa01368_html_ab71f56b16803f8bcee33ae4adce50810"><div class="ttname"><a href="a01368.html#ab71f56b16803f8bcee33ae4adce50810">pcl_proc_exec_t::f_stdin</a></div><div class="ttdeci">pcl_file_t * f_stdin</div><div class="ttdoc">Set to the write end of the child process's stdin when PCL_EXEC_STDIN or PCL_EXEC_STDIN_NB.</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00207">process.h:207</a></div></div>
-<div class="ttc" id="aa00038_html_a8278668d120afdd0e47def881845559d"><div class="ttname"><a href="a00038.html#a8278668d120afdd0e47def881845559d">strempty</a></div><div class="ttdeci">#define strempty(str)</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00124">defs.h:124</a></div></div>
-<div class="ttc" id="aa00107_html_ac114b2b1527c8ae241d37cc15ca7d122"><div class="ttname"><a href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a></div><div class="ttdeci">char pchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00107_source.html#l00053">types.h:53</a></div></div>
-<div class="ttc" id="aa01311_html_ga41052c5894a0beed897fd999c69262a9"><div class="ttname"><a href="a01311.html#ga41052c5894a0beed897fd999c69262a9">pcl_fdopen</a></div><div class="ttdeci">PCL_EXPORT FILE * pcl_fdopen(pcl_file_t *file)</div><div class="ttdoc">Open a file handle as a stream.</div><div class="ttdef"><b>Definition:</b> <a href="a00560_source.html#l00041">fdopen.c:41</a></div></div>
-<div class="ttc" id="aa01316_html_ga6f5de5f5bd36c584904dabcc987eee5f"><div class="ttname"><a href="a01316.html#ga6f5de5f5bd36c584904dabcc987eee5f">PCL_EXEC_STDERR</a></div><div class="ttdeci">#define PCL_EXEC_STDERR</div><div class="ttdoc">Get a read handle to the spawned process's STDERR.</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00074">process.h:74</a></div></div>
-<div class="ttc" id="aa01311_html_ga458cd341e1cb2e0fa130b150ff41dece"><div class="ttname"><a href="a01311.html#ga458cd341e1cb2e0fa130b150ff41dece">pcl_popen</a></div><div class="ttdeci">FILE * pcl_popen(const pchar_t *command,...)</div><div class="ttdoc">Pipe a stream to or from a process.</div><div class="ttdef"><b>Definition:</b> <a href="a00575_source.html#l00040">popen.c:40</a></div></div>
-<div class="ttc" id="aa01368_html_a58a969e094efba78b7ee68457df0b44a"><div class="ttname"><a href="a01368.html#a58a969e094efba78b7ee68457df0b44a">pcl_proc_exec_t::f_stderr</a></div><div class="ttdeci">pcl_file_t * f_stderr</div><div class="ttdoc">Set to the read end of the child process's stderr when PCL_EXEC_STDERR or PCL_EXEC_STDERR_NB.</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00213">process.h:213</a></div></div>
-<div class="ttc" id="aa00056_html_a4e888a5a186ccc8fff3176665d01720a"><div class="ttname"><a href="a00056.html#a4e888a5a186ccc8fff3176665d01720a">pcl_file_close</a></div><div class="ttdeci">PCL_EXPORT void pcl_file_close(pcl_file_t *file)</div><div class="ttdef"><b>Definition:</b> <a href="a00452_source.html#l00038">file_close.c:38</a></div></div>
-<div class="ttc" id="aa01316_html_ga8c1fc48ff39c94e8d3dcf53255fae7a8"><div class="ttname"><a href="a01316.html#ga8c1fc48ff39c94e8d3dcf53255fae7a8">PCL_EXEC_STDIN_NB</a></div><div class="ttdeci">#define PCL_EXEC_STDIN_NB</div><div class="ttdoc">Get a non-blocking write handle to the spawned process's STDIN.</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00053">process.h:53</a></div></div>
-<div class="ttc" id="aa01368_html_ade1a103e0fd3f6be7ce639143d3bd33f"><div class="ttname"><a href="a01368.html#ade1a103e0fd3f6be7ce639143d3bd33f">pcl_proc_exec_t::command</a></div><div class="ttdeci">const pchar_t * command</div><div class="ttdoc">command and arguments: &quot;ls -la /home/username&quot;</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00163">process.h:163</a></div></div>
-<div class="ttc" id="aa01306_html_gae8eaed12aa57a2870ad8e45cc2306318"><div class="ttname"><a href="a01306.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a></div><div class="ttdeci">#define R_SETERR(_retval, _pclerr)</div><div class="ttdoc">Sets the return value and the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00145">_errdefs.h:145</a></div></div>
-<div class="ttc" id="aa00056_html"><div class="ttname"><a href="a00056.html">file.h</a></div></div>
-<div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">error.h</a></div></div>
-<div class="ttc" id="aa01298_html_gab88b901c82e1010555b08ff6d39490f2"><div class="ttname"><a href="a01298.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a></div><div class="ttdeci">void * pcl_free(void *p)</div><div class="ttdoc">Free memory space.</div></div>
-<div class="ttc" id="aa01368_html"><div class="ttname"><a href="a01368.html">pcl_proc_exec_t</a></div><div class="ttdoc">Contains input and output parameters for a call to pcl_proc_exec().</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00158">process.h:159</a></div></div>
-<div class="ttc" id="aa01306_html_gaa978c8c7faa5fc2f69a6641e054e519d"><div class="ttname"><a href="a01306.html#gaa978c8c7faa5fc2f69a6641e054e519d">R_TRC</a></div><div class="ttdeci">#define R_TRC(_retval)</div><div class="ttdoc">Sets the return value and adds a stack trace to the current thread's error.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00287">_errdefs.h:287</a></div></div>
-<div class="ttc" id="aa01316_html_gad6167eaf15543bcb6c790fae1a32b64c"><div class="ttname"><a href="a01316.html#gad6167eaf15543bcb6c790fae1a32b64c">PCL_EXEC_STDERR_NB</a></div><div class="ttdeci">#define PCL_EXEC_STDERR_NB</div><div class="ttdoc">Get a non-blocking read handle to the spawned process's STDERR.</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00081">process.h:81</a></div></div>
-<div class="ttc" id="aa01316_html_ga5a4c32c851a5d9bda967d6393aaafba2"><div class="ttname"><a href="a01316.html#ga5a4c32c851a5d9bda967d6393aaafba2">PCL_EXEC_STDOUT_NB</a></div><div class="ttdeci">#define PCL_EXEC_STDOUT_NB</div><div class="ttdoc">Get a non-blocking read handle to the spawned process's STDIN.</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00067">process.h:67</a></div></div>
-<div class="ttc" id="aa01316_html_gaf0b0f1ec2dcdb568a1826a04c0cf46d0"><div class="ttname"><a href="a01316.html#gaf0b0f1ec2dcdb568a1826a04c0cf46d0">PCL_EXEC_STDOUT</a></div><div class="ttdeci">#define PCL_EXEC_STDOUT</div><div class="ttdoc">Get a read handle to the spawned process's STDOUT.</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00060">process.h:60</a></div></div>
+<div class="ttc" id="aa01361_html_ga1df8575b9ae906470c782db9c26201e8"><div class="ttname"><a href="a01361.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a></div><div class="ttdeci">void * pcl_malloc(size_t n)</div><div class="ttdoc">Allocate dynamic memory.</div></div>
+<div class="ttc" id="aa01103_html_a8dcd542ddaaeda0037a8839d90497b1a"><div class="ttname"><a href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a></div><div class="ttdeci">#define X(s)</div><div class="ttdef"><b>Definition:</b> <a href="a01103_source.html#l00069">_string.h:69</a></div></div>
+<div class="ttc" id="aa00575_html"><div class="ttname"><a href="a00575.html">fmtconv.c</a></div></div>
+<div class="ttc" id="aa01103_html_abab22e62198b295954a4daf135e00ecb"><div class="ttname"><a href="a01103.html#abab22e62198b295954a4daf135e00ecb">xstrncpy</a></div><div class="ttdeci">#define xstrncpy</div><div class="ttdef"><b>Definition:</b> <a href="a01103_source.html#l00077">_string.h:77</a></div></div>
+<div class="ttc" id="aa00575_html_afcf9e18397349db8513bde47100b537d"><div class="ttname"><a href="a00575.html#afcf9e18397349db8513bde47100b537d">toxupper</a></div><div class="ttdeci">#define toxupper</div><div class="ttdef"><b>Definition:</b> <a href="a00575_source.html#l00058">fmtconv.c:58</a></div></div>
+<div class="ttc" id="aa01103_html_a234f7ec71c9c19ed532c4bf11a9b9b8e"><div class="ttname"><a href="a01103.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a></div><div class="ttdeci">#define xchar</div><div class="ttdef"><b>Definition:</b> <a href="a01103_source.html#l00070">_string.h:70</a></div></div>
+<div class="ttc" id="aa01103_html_a5c4b00cbc494339ce63882d7404bad27"><div class="ttname"><a href="a01103.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a></div><div class="ttdeci">#define XFUNC(name)</div><div class="ttdef"><b>Definition:</b> <a href="a01103_source.html#l00068">_string.h:68</a></div></div>
+<div class="ttc" id="aa01103_html_aee081742fbd47c91e70de0b86a84a1be"><div class="ttname"><a href="a01103.html#aee081742fbd47c91e70de0b86a84a1be">xstrlen</a></div><div class="ttdeci">#define xstrlen</div><div class="ttdef"><b>Definition:</b> <a href="a01103_source.html#l00071">_string.h:71</a></div></div>
+<div class="ttc" id="aa00575_html_a2ce7eee80032ae475cecdcb782135f19"><div class="ttname"><a href="a00575.html#a2ce7eee80032ae475cecdcb782135f19">XPATHSEPCHAR</a></div><div class="ttdeci">#define XPATHSEPCHAR</div><div class="ttdef"><b>Definition:</b> <a href="a00575_source.html#l00057">fmtconv.c:57</a></div></div>
 <div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
-<div class="ttc" id="aa00065_html"><div class="ttname"><a href="a00065.html">io.h</a></div></div>
-<div class="ttc" id="aa01311_html_ga186062a6d4d1779576565b9684af81b6"><div class="ttname"><a href="a01311.html#ga186062a6d4d1779576565b9684af81b6">pcl_vaspprintf</a></div><div class="ttdeci">int pcl_vaspprintf(pchar_t **out, const pchar_t *format, va_list ap)</div><div class="ttdoc">Write a formatted character string to an allocated buffer.</div></div>
-<div class="ttc" id="aa01316_html_ga87d008e6f434301f4b517e0cdf5a320c"><div class="ttname"><a href="a01316.html#ga87d008e6f434301f4b517e0cdf5a320c">PCL_EXEC_STDIN</a></div><div class="ttdeci">#define PCL_EXEC_STDIN</div><div class="ttdoc">Get a write handle to the spawned process's STDIN.</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00046">process.h:46</a></div></div>
-<div class="ttc" id="aa01368_html_a3d368a0bf5425e0ca958b0beee200277"><div class="ttname"><a href="a01368.html#a3d368a0bf5425e0ca958b0beee200277">pcl_proc_exec_t::f_stdout</a></div><div class="ttdeci">pcl_file_t * f_stdout</div><div class="ttdoc">Set to the read end of the child process's stdout when PCL_EXEC_STDOUT or PCL_EXEC_STDOUT_NB.</div><div class="ttdef"><b>Definition:</b> <a href="a00080_source.html#l00201">process.h:201</a></div></div>
-<div class="ttc" id="aa01306_html_ga275b0cc5367d35bf8d2873fe5e15878b"><div class="ttname"><a href="a01306.html#ga275b0cc5367d35bf8d2873fe5e15878b">R_SETERRMSG</a></div><div class="ttdeci">#define R_SETERRMSG(_retval, _pclerr, _msgfmt,...)</div><div class="ttdoc">Sets the return value and the current thread's PCL error code and error message.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00174">_errdefs.h:174</a></div></div>
-<div class="ttc" id="aa01306_html_ga9ad3ef2339f58a873bc7bace5ad9c9df"><div class="ttname"><a href="a01306.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a></div><div class="ttdeci">#define TRC()</div><div class="ttdoc">Adds a stack trace to the current thread's error.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00262">_errdefs.h:262</a></div></div>
+<div class="ttc" id="aa01103_html_a7a8bf915c494f805721c2f231822e181"><div class="ttname"><a href="a01103.html#a7a8bf915c494f805721c2f231822e181">xstrchr</a></div><div class="ttdeci">#define xstrchr</div><div class="ttdef"><b>Definition:</b> <a href="a01103_source.html#l00076">_string.h:76</a></div></div>
+<div class="ttc" id="aa00575_html_ae74ec47523a16c1da558ce319a854d90"><div class="ttname"><a href="a00575.html#ae74ec47523a16c1da558ce319a854d90">fmtconv</a></div><div class="ttdeci">xchar *XFUNC() fmtconv(xchar *buf, size_t bufsz, const xchar *pcl_format)</div><div class="ttdef"><b>Definition:</b> <a href="a00575_source.html#l00062">fmtconv.c:62</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

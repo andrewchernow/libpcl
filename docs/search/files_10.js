@@ -1,13 +1,12 @@
 var searchData=
 [
-  ['rand_2ec_2005',['rand.c',['../a00284.html',1,'']]],
-  ['readdir_2ec_2006',['readdir.c',['../a00308.html',1,'']]],
-  ['realloc_5ftrace_2ec_2007',['realloc_trace.c',['../a00128.html',1,'']]],
-  ['realpath_2ec_2008',['realpath.c',['../a00470.html',1,'']]],
-  ['recv_2ec_2009',['recv.c',['../a00887.html',1,'']]],
-  ['recvall_2ec_2010',['recvall.c',['../a00890.html',1,'']]],
-  ['remove_2ec_2011',['remove.c',['../a00473.html',1,'']]],
-  ['rename_2ec_2012',['rename.c',['../a00476.html',1,'']]],
-  ['rmdir_2ec_2013',['rmdir.c',['../a00311.html',1,'']]],
-  ['rmdir_5fr_2ec_2014',['rmdir_r.c',['../a00314.html',1,'']]]
+  ['queue_2ec_2062',['queue.c',['../a00899.html',1,'']]],
+  ['queue_2eh_2063',['queue.h',['../a00083.html',1,'']]],
+  ['queue_5fadd_2ec_2064',['queue_add.c',['../a00902.html',1,'']]],
+  ['queue_5fclear_2ec_2065',['queue_clear.c',['../a00905.html',1,'']]],
+  ['queue_5fempty_2ec_2066',['queue_empty.c',['../a00908.html',1,'']]],
+  ['queue_5ffree_2ec_2067',['queue_free.c',['../a00911.html',1,'']]],
+  ['queue_5fpeek_2ec_2068',['queue_peek.c',['../a00914.html',1,'']]],
+  ['queue_5fremove_2ec_2069',['queue_remove.c',['../a00917.html',1,'']]],
+  ['queue_5fsize_2ec_2070',['queue_size.c',['../a00920.html',1,'']]]
 ];

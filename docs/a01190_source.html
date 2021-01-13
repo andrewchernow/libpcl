@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/time/win32_utimes.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/sysinfo/darwin_sysinfo.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,17 +62,17 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_798ee6f4f5cd9c6410c07a649b7662ec.html">&#x202A;time</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_26dbd9806586482d42b0c20625fee38b.html">&#x202A;sysinfo</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">win32_utimes.c</div>  </div>
+<div class="title">darwin_sysinfo.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a01190.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2021 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,65 +101,123 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a01157.html">_time.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &quot;../file/_file.h&quot;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/error.h</a>&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="a01190.html#adf51a36ce327c468ae0a996f0d6a05dc">   37</a></span>&#160;<a class="code" href="a01190.html#adf51a36ce327c468ae0a996f0d6a05dc">pcl_utimes</a>(<span class="keyword">const</span> <a class="code" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *path, <a class="code" href="a01388.html">pcl_time_t</a> *atime, <a class="code" href="a01388.html">pcl_time_t</a> *ctime,</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <a class="code" href="a01388.html">pcl_time_t</a> *mtime, <a class="code" href="a01388.html">pcl_time_t</a> *crtime, <a class="code" href="a01388.html">pcl_time_t</a> *btime)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  FILETIME filetimes[3];</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  FILETIME *ft_crtime = NULL, *ft_atime = NULL, *ft_mtime = NULL;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <a class="code" href="a01428.html">pcl_file_t</a> *file = <a class="code" href="a00056.html#a5390df939f5b1f699b946b1e2a2349b6">pcl_file_open</a>(path, <a class="code" href="a00056.html#af42b9ead2f95720ebfa86a3249bbe21b">PCL_O_BACKUP</a> | <a class="code" href="a00056.html#a82e58361b57c3faf5eb9058810b5efc2">PCL_O_WRONLY</a>);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <a class="code" href="a00038.html#a9b58a1294d89c976dfbe4dc480e9dfb8">UNUSED</a>(ctime || btime);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordflow">if</span>(!file)</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01306.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a>();</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="keywordflow">if</span>(crtime)</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  {</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    ft_crtime = &amp;filetimes[0];</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    *ft_crtime = <a class="code" href="a01187.html#aa22495bcf1c21126bb3b7de9af99eb9a">ipcl_win32_pcl_to_ftime</a>(*crtime);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  }</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a01187.html">_sysinfo.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00098.html">pcl/string.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;sys/sysctl.h&gt;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;sys/utsname.h&gt;</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &lt;stdlib.h&gt;</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="a01190.html#a53dc80374a0fb005365121238c0bb3a1">   39</a></span>&#160;<span class="preprocessor">#define PRODNAME &quot;productname:&quot;</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="a01190.html#ad8ee80c29f3dd2f9f8c528e30f82c4b8">   40</a></span>&#160;<span class="preprocessor">#define PRODVER  &quot;productversion:&quot;</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="a01190.html#a3d38c31854c6ba9bbe621091a85e9072">   41</a></span>&#160;<span class="preprocessor">#define BUILDVER &quot;buildversion:&quot;</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keywordtype">void</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="a01190.html#aaca70bcff44a970f236e744ffef10a15">   44</a></span>&#160;<a class="code" href="a01190.html#aaca70bcff44a970f236e744ffef10a15">ipcl_sysinfo</a>(<a class="code" href="a01448.html">pcl_sysinfo_t</a> *info, <span class="keywordtype">void</span> *_uts)</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;{</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordtype">size_t</span> n;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  FILE *fp;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keywordtype">char</span> buf[4096];</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">char</span> *codename = <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="keyword">struct </span>utsname *uts = _uts;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <span class="keywordtype">char</span> prodname[80], prodver[40], prodbuild[40];</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <a class="code" href="a01381.html#ga25f17052163749bc3e0d31ae8741a47b">pcl_strcpy</a>(info-&gt;<a class="code" href="a01448.html#a9f6cafa32efcf6f92a066966d34a032c">vendor</a>, <span class="keyword">sizeof</span>(info-&gt;<a class="code" href="a01448.html#a9f6cafa32efcf6f92a066966d34a032c">vendor</a>), <span class="stringliteral">&quot;Apple Inc.&quot;</span>);</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keywordflow">if</span>(atime)</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  {</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    ft_atime = &amp;filetimes[1];</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    *ft_atime = <a class="code" href="a01187.html#aa22495bcf1c21126bb3b7de9af99eb9a">ipcl_win32_pcl_to_ftime</a>(*atime);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  }</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  <span class="keywordflow">if</span>(mtime)</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  {</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    ft_mtime = &amp;filetimes[2];</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    *ft_mtime = <a class="code" href="a01187.html#aa22495bcf1c21126bb3b7de9af99eb9a">ipcl_win32_pcl_to_ftime</a>(*mtime);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  }</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  BOOL b = SetFileTime(file-&gt;<a class="code" href="a01428.html#aea2da8bf318182f7770734b14f9202b2">fd</a>, ft_crtime, ft_atime, ft_mtime);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <a class="code" href="a00056.html#a4e888a5a186ccc8fff3176665d01720a">pcl_file_close</a>(file);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  <span class="keywordflow">if</span>(!b)</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01306.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;}</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="comment">/* This is the only way to get Marketing Version (10.8.3).  It also outputs product name and</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="comment">   * product build so we might as well capture them, eventhough there are other ways.  &#39;sw_vers&#39;</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment">   * has been available since 10.4.</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment">   */</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  <span class="keywordflow">if</span>((fp = popen(<span class="stringliteral">&quot;sw_vers&quot;</span>, <span class="stringliteral">&quot;r&quot;</span>)))</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  {</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">while</span>(fgets(buf, <span class="keyword">sizeof</span>(buf), fp))</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    {</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      <span class="comment">/* Product Name: Mac OS X, macOS, macOS Server, etc... */</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;      <span class="keywordflow">if</span>(!<a class="code" href="a01381.html#gaa31c49e8591ed8bcab383f5791279f1c">pcl_strnicmp</a>(buf, <a class="code" href="a01190.html#a53dc80374a0fb005365121238c0bb3a1">PRODNAME</a>, <span class="keyword">sizeof</span>(<a class="code" href="a01190.html#a53dc80374a0fb005365121238c0bb3a1">PRODNAME</a>) - 1))</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        strcpy(prodname, <a class="code" href="a01381.html#ga1cc9df84a27f3f7319ad67bb6baa5966">pcl_strtrim</a>(buf + (<span class="keyword">sizeof</span>(<a class="code" href="a01190.html#a53dc80374a0fb005365121238c0bb3a1">PRODNAME</a>) - 1)));</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="comment">/* Product (marketing) version: 10.8.3 */</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;      <span class="keywordflow">else</span> <span class="keywordflow">if</span>(!<a class="code" href="a01381.html#gaa31c49e8591ed8bcab383f5791279f1c">pcl_strnicmp</a>(buf, <a class="code" href="a01190.html#ad8ee80c29f3dd2f9f8c528e30f82c4b8">PRODVER</a>, <span class="keyword">sizeof</span>(<a class="code" href="a01190.html#ad8ee80c29f3dd2f9f8c528e30f82c4b8">PRODVER</a>) - 1))</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        strcpy(prodver, <a class="code" href="a01381.html#ga1cc9df84a27f3f7319ad67bb6baa5966">pcl_strtrim</a>(buf + (<span class="keyword">sizeof</span>(<a class="code" href="a01190.html#ad8ee80c29f3dd2f9f8c528e30f82c4b8">PRODVER</a>) - 1)));</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="comment">/* OS Build: 12D78 */</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      <span class="keywordflow">else</span> <span class="keywordflow">if</span>(!<a class="code" href="a01381.html#gaa31c49e8591ed8bcab383f5791279f1c">pcl_strnicmp</a>(buf, <a class="code" href="a01190.html#a3d38c31854c6ba9bbe621091a85e9072">BUILDVER</a>, <span class="keyword">sizeof</span>(<a class="code" href="a01190.html#a3d38c31854c6ba9bbe621091a85e9072">BUILDVER</a>) - 1))</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        strcpy(prodbuild, <a class="code" href="a01381.html#ga1cc9df84a27f3f7319ad67bb6baa5966">pcl_strtrim</a>(buf + (<span class="keyword">sizeof</span>(<a class="code" href="a01190.html#a3d38c31854c6ba9bbe621091a85e9072">BUILDVER</a>) - 1)));</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    }</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    pclose(fp);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  }</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  <span class="keywordtype">char</span> verbuf[20], *p;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  strcpy(verbuf, prodver);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  p = strrchr(verbuf, <span class="charliteral">&#39;.&#39;</span>);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  memmove(p, p + 1, strlen(p + 1) + 1);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  <span class="keywordtype">double</span> ver = strtod(verbuf, NULL);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  <span class="comment">/* Leopard was Oct 2007, no need to go back any further */</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  <span class="keywordflow">if</span>(ver &gt;= 10.5 &amp;&amp; ver &lt; 10.6)</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    codename = <span class="stringliteral">&quot;Leopard &quot;</span>;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  <span class="keywordflow">else</span> <span class="keywordflow">if</span>(ver &gt;= 10.6 &amp;&amp; ver &lt; 10.7)</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    codename = <span class="stringliteral">&quot;Snow Leopard &quot;</span>;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;  <span class="keywordflow">else</span> <span class="keywordflow">if</span>(ver &gt;= 10.7 &amp;&amp; ver &lt; 10.8)</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    codename = <span class="stringliteral">&quot;Lion &quot;</span>;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;  <span class="keywordflow">else</span> <span class="keywordflow">if</span>(ver &gt;= 10.8 &amp;&amp; ver &lt; 10.9)</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    codename = <span class="stringliteral">&quot;Mountain Lion &quot;</span>;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  <span class="keywordflow">else</span> <span class="keywordflow">if</span>(ver &gt;= 10.9 &amp;&amp; ver &lt; 10.10)</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    codename = <span class="stringliteral">&quot;Mavericks &quot;</span>;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;  <span class="keywordflow">else</span> <span class="keywordflow">if</span>(ver &gt;= 10.10 &amp;&amp; ver &lt; 10.11)</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    codename = <span class="stringliteral">&quot;Yosemite &quot;</span>;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;  <span class="keywordflow">else</span> <span class="keywordflow">if</span>(ver &gt;= 10.11 &amp;&amp; ver &lt; 10.12)</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    codename = <span class="stringliteral">&quot;El Capitan &quot;</span>;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;  <span class="keywordflow">else</span> <span class="keywordflow">if</span>(ver &gt;= 10.12 &amp;&amp; ver &lt; 10.13)</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    codename = <span class="stringliteral">&quot;Sierra &quot;</span>;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;  <span class="keywordflow">else</span> <span class="keywordflow">if</span>(ver &gt;= 10.13 &amp;&amp; ver &lt; 10.14)</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    codename = <span class="stringliteral">&quot;High Sierra &quot;</span>;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  <span class="keywordflow">else</span> <span class="keywordflow">if</span>(ver &gt;= 10.14 &amp;&amp; ver &lt; 10.15)</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    codename = <span class="stringliteral">&quot;Mojave &quot;</span>;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;  <span class="keywordflow">else</span> <span class="keywordflow">if</span>(ver &gt;= 10.15 &amp;&amp; ver &lt; 10.16)</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    codename = <span class="stringliteral">&quot;Catalina &quot;</span>;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;  <span class="comment">/* Example: Mac OS X Mountain Lion 10.8.3/12.3.0 (Build 12D78) */</span></div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;  sprintf(info-&gt;<a class="code" href="a01448.html#ab0daf203e56ca096f3f01c8f9b08f67b">version</a>, <span class="stringliteral">&quot;%s %s%s/%s (Build %s)&quot;</span>, prodname, codename,</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    prodver, uts-&gt;release, prodbuild);</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;  <span class="comment">/* total physical memory on system */</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;  n = <span class="keyword">sizeof</span>(info-&gt;<a class="code" href="a01448.html#a57199ee30addf3b4191347c80005d0f6">memory</a>);</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;  (void) sysctlbyname(<span class="stringliteral">&quot;hw.memsize&quot;</span>, &amp;info-&gt;<a class="code" href="a01448.html#a57199ee30addf3b4191347c80005d0f6">memory</a>, &amp;n, NULL, 0);</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;  <span class="comment">/* number of processor sockets (physical CPUs) */</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;  n = 4;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;  (void) sysctlbyname(<span class="stringliteral">&quot;hw.packages&quot;</span>, &amp;info-&gt;<a class="code" href="a01448.html#ae740ecfb3d34fc5546aee269d5c43f6b">cpu_sockets</a>, &amp;n, NULL, 0);</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; </div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;  <span class="comment">/* number of processor cores/threads */</span></div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;  n = 4;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;  (void) sysctlbyname(<span class="stringliteral">&quot;hw.logicalcpu&quot;</span>, &amp;info-&gt;<a class="code" href="a01448.html#a38a317e9cd87f29fa901bd60026af69c">cpu_cores</a>, &amp;n, NULL, 0);</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160; </div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;  <span class="comment">/* Processor Brand: Intel(R) Core(TM) i7-3820QM CPU @ 2.70GHz */</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;  *buf = 0;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;  n = <span class="keyword">sizeof</span>(info-&gt;<a class="code" href="a01448.html#a75fa1f9483472083a12d06e3390366f1">cpu_model</a>);</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;  (void) sysctlbyname(<span class="stringliteral">&quot;machdep.cpu.brand_string&quot;</span>, info-&gt;<a class="code" href="a01448.html#a75fa1f9483472083a12d06e3390366f1">cpu_model</a>, &amp;n, NULL, 0);</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;}</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01428_html"><div class="ttname"><a href="a01428.html">tag_pcl_file</a></div><div class="ttdef"><b>Definition:</b> <a href="a00443_source.html#l00061">_file.h:62</a></div></div>
-<div class="ttc" id="aa01190_html_adf51a36ce327c468ae0a996f0d6a05dc"><div class="ttname"><a href="a01190.html#adf51a36ce327c468ae0a996f0d6a05dc">pcl_utimes</a></div><div class="ttdeci">int pcl_utimes(const pchar_t *path, pcl_time_t *atime, pcl_time_t *ctime, pcl_time_t *mtime, pcl_time_t *crtime, pcl_time_t *btime)</div><div class="ttdef"><b>Definition:</b> <a href="a01190_source.html#l00037">win32_utimes.c:37</a></div></div>
-<div class="ttc" id="aa01428_html_aea2da8bf318182f7770734b14f9202b2"><div class="ttname"><a href="a01428.html#aea2da8bf318182f7770734b14f9202b2">tag_pcl_file::fd</a></div><div class="ttdeci">pcl_fd_t fd</div><div class="ttdef"><b>Definition:</b> <a href="a00443_source.html#l00064">_file.h:64</a></div></div>
-<div class="ttc" id="aa00107_html_ac114b2b1527c8ae241d37cc15ca7d122"><div class="ttname"><a href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a></div><div class="ttdeci">char pchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00107_source.html#l00053">types.h:53</a></div></div>
-<div class="ttc" id="aa00038_html_a9b58a1294d89c976dfbe4dc480e9dfb8"><div class="ttname"><a href="a00038.html#a9b58a1294d89c976dfbe4dc480e9dfb8">UNUSED</a></div><div class="ttdeci">#define UNUSED(...)</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00102">defs.h:102</a></div></div>
-<div class="ttc" id="aa00056_html_a82e58361b57c3faf5eb9058810b5efc2"><div class="ttname"><a href="a00056.html#a82e58361b57c3faf5eb9058810b5efc2">PCL_O_WRONLY</a></div><div class="ttdeci">#define PCL_O_WRONLY</div><div class="ttdef"><b>Definition:</b> <a href="a00056_source.html#l00059">file.h:59</a></div></div>
-<div class="ttc" id="aa01306_html_ga89b8bfbe17595305872551a1caaa5702"><div class="ttname"><a href="a01306.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a></div><div class="ttdeci">#define SETLASTERR()</div><div class="ttdoc">Sets the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00125">_errdefs.h:125</a></div></div>
-<div class="ttc" id="aa00056_html_a4e888a5a186ccc8fff3176665d01720a"><div class="ttname"><a href="a00056.html#a4e888a5a186ccc8fff3176665d01720a">pcl_file_close</a></div><div class="ttdeci">PCL_EXPORT void pcl_file_close(pcl_file_t *file)</div><div class="ttdef"><b>Definition:</b> <a href="a00452_source.html#l00038">file_close.c:38</a></div></div>
-<div class="ttc" id="aa00056_html_a5390df939f5b1f699b946b1e2a2349b6"><div class="ttname"><a href="a00056.html#a5390df939f5b1f699b946b1e2a2349b6">pcl_file_open</a></div><div class="ttdeci">PCL_EXPORT pcl_file_t * pcl_file_open(const pchar_t *path, int oflags,...)</div><div class="ttdef"><b>Definition:</b> <a href="a00461_source.html#l00036">file_open.c:36</a></div></div>
-<div class="ttc" id="aa01388_html"><div class="ttname"><a href="a01388.html">tag_pcl_time</a></div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00057">time.h:58</a></div></div>
-<div class="ttc" id="aa00056_html_af42b9ead2f95720ebfa86a3249bbe21b"><div class="ttname"><a href="a00056.html#af42b9ead2f95720ebfa86a3249bbe21b">PCL_O_BACKUP</a></div><div class="ttdeci">#define PCL_O_BACKUP</div><div class="ttdef"><b>Definition:</b> <a href="a00056_source.html#l00073">file.h:73</a></div></div>
-<div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">error.h</a></div></div>
-<div class="ttc" id="aa01187_html_aa22495bcf1c21126bb3b7de9af99eb9a"><div class="ttname"><a href="a01187.html#aa22495bcf1c21126bb3b7de9af99eb9a">ipcl_win32_pcl_to_ftime</a></div><div class="ttdeci">FILETIME ipcl_win32_pcl_to_ftime(pcl_time_t t)</div><div class="ttdef"><b>Definition:</b> <a href="a01187_source.html#l00035">win32_pcl_to_ftime.c:35</a></div></div>
-<div class="ttc" id="aa01157_html"><div class="ttname"><a href="a01157.html">_time.h</a></div></div>
-<div class="ttc" id="aa01306_html_ga9ad3ef2339f58a873bc7bace5ad9c9df"><div class="ttname"><a href="a01306.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a></div><div class="ttdeci">#define TRC()</div><div class="ttdoc">Adds a stack trace to the current thread's error.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00262">_errdefs.h:262</a></div></div>
+<div class="ttc" id="aa01448_html_a38a317e9cd87f29fa901bd60026af69c"><div class="ttname"><a href="a01448.html#a38a317e9cd87f29fa901bd60026af69c">pcl_sysinfo_t::cpu_cores</a></div><div class="ttdeci">int cpu_cores</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00054">sysinfo.h:54</a></div></div>
+<div class="ttc" id="aa01448_html_ae740ecfb3d34fc5546aee269d5c43f6b"><div class="ttname"><a href="a01448.html#ae740ecfb3d34fc5546aee269d5c43f6b">pcl_sysinfo_t::cpu_sockets</a></div><div class="ttdeci">int cpu_sockets</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00053">sysinfo.h:53</a></div></div>
+<div class="ttc" id="aa01448_html"><div class="ttname"><a href="a01448.html">pcl_sysinfo_t</a></div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00051">sysinfo.h:52</a></div></div>
+<div class="ttc" id="aa01190_html_aaca70bcff44a970f236e744ffef10a15"><div class="ttname"><a href="a01190.html#aaca70bcff44a970f236e744ffef10a15">ipcl_sysinfo</a></div><div class="ttdeci">void ipcl_sysinfo(pcl_sysinfo_t *info, void *_uts)</div><div class="ttdoc">Implemented separately by darwin, linux and windows.</div><div class="ttdef"><b>Definition:</b> <a href="a01190_source.html#l00044">darwin_sysinfo.c:44</a></div></div>
+<div class="ttc" id="aa01448_html_ab0daf203e56ca096f3f01c8f9b08f67b"><div class="ttname"><a href="a01448.html#ab0daf203e56ca096f3f01c8f9b08f67b">pcl_sysinfo_t::version</a></div><div class="ttdeci">char version[100]</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00061">sysinfo.h:61</a></div></div>
+<div class="ttc" id="aa01381_html_gaa31c49e8591ed8bcab383f5791279f1c"><div class="ttname"><a href="a01381.html#gaa31c49e8591ed8bcab383f5791279f1c">pcl_strnicmp</a></div><div class="ttdeci">int pcl_strnicmp(const char *a, const char *b, size_t n)</div><div class="ttdoc">Compare two strings ignoring case.</div></div>
+<div class="ttc" id="aa01448_html_a9f6cafa32efcf6f92a066966d34a032c"><div class="ttname"><a href="a01448.html#a9f6cafa32efcf6f92a066966d34a032c">pcl_sysinfo_t::vendor</a></div><div class="ttdeci">char vendor[64]</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00062">sysinfo.h:62</a></div></div>
+<div class="ttc" id="aa01381_html_ga25f17052163749bc3e0d31ae8741a47b"><div class="ttname"><a href="a01381.html#ga25f17052163749bc3e0d31ae8741a47b">pcl_strcpy</a></div><div class="ttdeci">char * pcl_strcpy(char *dest, size_t size, const char *src)</div><div class="ttdoc">Copy a string.</div></div>
+<div class="ttc" id="aa01187_html"><div class="ttname"><a href="a01187.html">_sysinfo.h</a></div></div>
+<div class="ttc" id="aa01190_html_ad8ee80c29f3dd2f9f8c528e30f82c4b8"><div class="ttname"><a href="a01190.html#ad8ee80c29f3dd2f9f8c528e30f82c4b8">PRODVER</a></div><div class="ttdeci">#define PRODVER</div><div class="ttdef"><b>Definition:</b> <a href="a01190_source.html#l00040">darwin_sysinfo.c:40</a></div></div>
+<div class="ttc" id="aa01190_html_a3d38c31854c6ba9bbe621091a85e9072"><div class="ttname"><a href="a01190.html#a3d38c31854c6ba9bbe621091a85e9072">BUILDVER</a></div><div class="ttdeci">#define BUILDVER</div><div class="ttdef"><b>Definition:</b> <a href="a01190_source.html#l00041">darwin_sysinfo.c:41</a></div></div>
+<div class="ttc" id="aa01190_html_a53dc80374a0fb005365121238c0bb3a1"><div class="ttname"><a href="a01190.html#a53dc80374a0fb005365121238c0bb3a1">PRODNAME</a></div><div class="ttdeci">#define PRODNAME</div><div class="ttdef"><b>Definition:</b> <a href="a01190_source.html#l00039">darwin_sysinfo.c:39</a></div></div>
+<div class="ttc" id="aa01448_html_a75fa1f9483472083a12d06e3390366f1"><div class="ttname"><a href="a01448.html#a75fa1f9483472083a12d06e3390366f1">pcl_sysinfo_t::cpu_model</a></div><div class="ttdeci">char cpu_model[100]</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00055">sysinfo.h:55</a></div></div>
+<div class="ttc" id="aa00098_html"><div class="ttname"><a href="a00098.html">string.h</a></div></div>
+<div class="ttc" id="aa01448_html_a57199ee30addf3b4191347c80005d0f6"><div class="ttname"><a href="a01448.html#a57199ee30addf3b4191347c80005d0f6">pcl_sysinfo_t::memory</a></div><div class="ttdeci">uint64_t memory</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00060">sysinfo.h:60</a></div></div>
+<div class="ttc" id="aa01381_html_ga1cc9df84a27f3f7319ad67bb6baa5966"><div class="ttname"><a href="a01381.html#ga1cc9df84a27f3f7319ad67bb6baa5966">pcl_strtrim</a></div><div class="ttdeci">char * pcl_strtrim(char *s)</div><div class="ttdoc">Trim whitespace from the front and back of a string.</div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

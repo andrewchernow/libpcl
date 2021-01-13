@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;pcl/usrgrp.h Source File</title>
+<title>&#x202A;libpcl: &#x202A;pcl/types.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,12 +67,12 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">usrgrp.h</div>  </div>
+<div class="title">types.h</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00113.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2021 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,48 +101,112 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#ifndef LIBPCL_USRGRP_H</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#define LIBPCL_USRGRP_H</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#ifndef LIBPCL_TYPES_H</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#define LIBPCL_TYPES_H</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00107.html">pcl/types.h</a>&gt;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;sys/types.h&gt;</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &lt;wchar.h&gt;</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#include &lt;stdbool.h&gt;</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#include &lt;stdarg.h&gt;</span></div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00113.html#a1bbe18f3124dea8b3f8729576d8daff4">pcl_getuser</a>(<span class="keyword">const</span> uid_t uid, <span class="keywordtype">char</span> *out, <span class="keywordtype">size_t</span> len);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00113.html#a284392eaef7de830bf62ecf3bd0667f2">pcl_getgroup</a>(<span class="keyword">const</span> gid_t gid, <span class="keywordtype">char</span> *out, <span class="keywordtype">size_t</span> len);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment">/** Gets the user identifier for the given account user name.</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment"> * @param name account user name</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment"> * @param uidp pointer to a uid_t to receive the user identifier. This can be NULL, in which</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment"> * case this function becomes an &quot;exists&quot; check.</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment"> * @return 0 on success and -1 on failure. If the user referenced by name does not exist, the</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment"> * pcl_errno is set to PCL_ENOTFOUND (not PCL_ENOENT, which the OS may set for other reasons).</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a00113.html#aac8365f342de13aec9d6011dec9e0d90">pcl_getuid</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *name, uid_t *uidp);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment">/** Gets the group identifier for the given group name.</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment"> * @param name group name</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="comment"> * @param gidp pointer to a gid_t to receive the group identifier. This can be NULL, in which</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment"> * case this function becomes an &quot;exists&quot; check.</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment"> * @return 0 on success and -1 on failure. If the group referenced by name does not exist, the</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment"> * pcl_errno is set to PCL_ENOTFOUND (not PCL_ENOENT, which the OS may set for other reasons).</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keywordtype">int</span> <a class="code" href="a00113.html#af2b406d95344fbe093b6caf4d9320075">pcl_getgid</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *name, gid_t *gidp);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;}</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">wchar_t</span> <a class="code" href="a00113.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">int</span> mode_t;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">int</span> nlink_t;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">int</span> pid_t;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">typedef</span> intptr_t ssize_t;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">void</span> *<a class="code" href="a00113.html#a38181b2081934a85dad92145b8f4d774">pcl_fd_t</a>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">typedef</span> uintptr_t <a class="code" href="a00113.html#a35d4d11068f60efd5365b31e315c18eb">pcl_socketfd_t</a>;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">void</span> *<a class="code" href="a00113.html#aebcc95bdc886e05c6e79044367ebc127">pcl_prochandle_t</a>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">char</span> uid_t[68 + 1]; <span class="comment">/* max SID string length */</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">char</span> gid_t[68 + 1]; <span class="comment">/* max SID string length */</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="a00113.html#ac114b2b1527c8ae241d37cc15ca7d122">   53</a></span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">char</span> <a class="code" href="a00113.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="a00113.html#a38181b2081934a85dad92145b8f4d774">   54</a></span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">int</span> <a class="code" href="a00113.html#a38181b2081934a85dad92145b8f4d774">pcl_fd_t</a>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="a00113.html#a35d4d11068f60efd5365b31e315c18eb">   55</a></span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">int</span> <a class="code" href="a00113.html#a35d4d11068f60efd5365b31e315c18eb">pcl_socketfd_t</a>;</div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="a00113.html#aebcc95bdc886e05c6e79044367ebc127">   56</a></span>&#160;<span class="keyword">typedef</span> pid_t <a class="code" href="a00113.html#aebcc95bdc886e05c6e79044367ebc127">pcl_prochandle_t</a>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="a00113.html#a74a9f3e3e5163485365adb35c5030f65">   59</a></span>&#160;<span class="keyword">typedef</span> int64_t <a class="code" href="a00113.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="a00113.html#a05032dd43160d7b24f8ded03431fc748">   60</a></span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">long</span> <span class="keywordtype">double</span> <a class="code" href="a00113.html#a05032dd43160d7b24f8ded03431fc748">pcl_clock_t</a>; <span class="comment">/* high-res performance counter (nanosecs) */</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment">/** Cleanup handler used by most PCL collections.</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment"> * @param item pointer to the collection item being removed</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="a01384.html#gad02d203d34a7f8b5cc8516219411ec06">   65</a></span>&#160;<span class="keyword">typedef</span> void (*<a class="code" href="a00113.html#a9b33b80464fd6cd77a2479df3ec3fe92">pcl_cleanup_t</a>)(<span class="keywordtype">void</span> *item);</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="preprocessor">#endif //__LIBPCL_USRGRP_H__</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment">/* --------------------------------------------------------------------</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment"> * forward declarations</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="a01452.html">tag_pcl_time</a> <a class="code" href="a01452.html">pcl_time_t</a>;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="a01400.html">tag_pcl_err_trace</a> <a class="code" href="a01400.html">pcl_err_trace_t</a>;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="a01404.html">tag_pcl_err</a> <a class="code" href="a01404.html">pcl_err_t</a>;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="a01472.html">tag_pcl_digest</a> <a class="code" href="a01472.html">pcl_digest_t</a>;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="a01468.html">tag_pcl_cipher</a> <a class="code" href="a01468.html">pcl_cipher_t</a>;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="a01492.html">tag_pcl_file</a> <a class="code" href="a01492.html">pcl_file_t</a>;<span class="comment"></span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="comment">/** @ingroup json</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="comment"> * @copydoc tag_pcl_json</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="a01420.html">tag_pcl_json</a> <a class="code" href="a01420.html">pcl_json_t</a>;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="a01508.html">tag_pcl_json_path</a> <a class="code" href="a01508.html">pcl_json_path_t</a>;<span class="comment"></span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="comment">/** Directory handle.</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="comment"> * @ingroup dir</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="a01476.html">tag_pcl_dir</a> <a class="code" href="a01476.html">pcl_dir_t</a>;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="a01528.html">tag_pcl_socket</a> <a class="code" href="a01528.html">pcl_socket_t</a>;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="a01532.html">tag_pcl_ssl</a> <a class="code" href="a01532.html">pcl_ssl_t</a>;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="a01444.html">tag_pcl_stat</a> <a class="code" href="a01444.html">pcl_stat_t</a>;<span class="comment"></span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="comment">/** @ingroup buf */</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="a01392.html">tag_pcl_buf</a> <a class="code" href="a01392.html">pcl_buf_t</a>;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="comment">/** @ingroup vector</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="comment"> * @copydoc tag_pcl_vector</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="a01464.html">tag_pcl_vector</a> <a class="code" href="a01464.html">pcl_vector_t</a>;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="a01388.html">tag_pcl_array</a> <a class="code" href="a01388.html">pcl_array_t</a>;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="a01524.html">tag_pcl_queue</a> <a class="code" href="a01524.html">pcl_queue_t</a>;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="a01540.html">tag_pcl_stack</a> <a class="code" href="a01540.html">pcl_stack_t</a>;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="a01412.html">tag_pcl_htable</a> <a class="code" href="a01412.html">pcl_htable_t</a>;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
+<div class="line"><a name="l00102"></a><span class="lineno"><a class="line" href="a01460.html">  102</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;{</div>
+<div class="line"><a name="l00104"></a><span class="lineno"><a class="line" href="a01460.html#a8325b33af041490126f231fdfd194797">  104</a></span>&#160;  uint64_t <a class="code" href="a01460.html#a8325b33af041490126f231fdfd194797">low</a>;</div>
+<div class="line"><a name="l00105"></a><span class="lineno"><a class="line" href="a01460.html#a9997109464efa7a7fc24efcaca7a9fb3">  105</a></span>&#160;  uint64_t <a class="code" href="a01460.html#a9997109464efa7a7fc24efcaca7a9fb3">high</a>;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;} <a class="code" href="a01460.html">uint128_t</a>;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="preprocessor">#endif // LIBPCL_TYPES_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00113_html_af2b406d95344fbe093b6caf4d9320075"><div class="ttname"><a href="a00113.html#af2b406d95344fbe093b6caf4d9320075">pcl_getgid</a></div><div class="ttdeci">int pcl_getgid(const char *name, gid_t *gidp)</div><div class="ttdoc">Gets the group identifier for the given group name.</div><div class="ttdef"><b>Definition:</b> <a href="a01199_source.html#l00037">getgid.c:37</a></div></div>
-<div class="ttc" id="aa00113_html_aac8365f342de13aec9d6011dec9e0d90"><div class="ttname"><a href="a00113.html#aac8365f342de13aec9d6011dec9e0d90">pcl_getuid</a></div><div class="ttdeci">PCL_EXPORT int pcl_getuid(const char *name, uid_t *uidp)</div><div class="ttdoc">Gets the user identifier for the given account user name.</div><div class="ttdef"><b>Definition:</b> <a href="a01205_source.html#l00038">getuid.c:38</a></div></div>
-<div class="ttc" id="aa00113_html_a284392eaef7de830bf62ecf3bd0667f2"><div class="ttname"><a href="a00113.html#a284392eaef7de830bf62ecf3bd0667f2">pcl_getgroup</a></div><div class="ttdeci">PCL_EXPORT int pcl_getgroup(const gid_t gid, char *out, size_t len)</div><div class="ttdef"><b>Definition:</b> <a href="a01202_source.html#l00037">getgroup.c:37</a></div></div>
-<div class="ttc" id="aa00113_html_a1bbe18f3124dea8b3f8729576d8daff4"><div class="ttname"><a href="a00113.html#a1bbe18f3124dea8b3f8729576d8daff4">pcl_getuser</a></div><div class="ttdeci">PCL_EXPORT int pcl_getuser(const uid_t uid, char *out, size_t len)</div><div class="ttdef"><b>Definition:</b> <a href="a01208_source.html#l00037">getuser.c:37</a></div></div>
-<div class="ttc" id="aa00107_html"><div class="ttname"><a href="a00107.html">types.h</a></div></div>
+<div class="ttc" id="aa01460_html_a8325b33af041490126f231fdfd194797"><div class="ttname"><a href="a01460.html#a8325b33af041490126f231fdfd194797">uint128_t::low</a></div><div class="ttdeci">uint64_t low</div><div class="ttdef"><b>Definition:</b> <a href="a00113_source.html#l00104">types.h:104</a></div></div>
+<div class="ttc" id="aa00113_html_ac114b2b1527c8ae241d37cc15ca7d122"><div class="ttname"><a href="a00113.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a></div><div class="ttdeci">char pchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00113_source.html#l00053">types.h:53</a></div></div>
+<div class="ttc" id="aa01492_html"><div class="ttname"><a href="a01492.html">tag_pcl_file</a></div><div class="ttdef"><b>Definition:</b> <a href="a00449_source.html#l00061">_file.h:62</a></div></div>
+<div class="ttc" id="aa01392_html"><div class="ttname"><a href="a01392.html">tag_pcl_buf</a></div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00127">buf.h:128</a></div></div>
+<div class="ttc" id="aa01528_html"><div class="ttname"><a href="a01528.html">tag_pcl_socket</a></div><div class="ttdef"><b>Definition:</b> <a href="a00923_source.html#l00047">_socket.h:48</a></div></div>
+<div class="ttc" id="aa01444_html"><div class="ttname"><a href="a01444.html">tag_pcl_stat</a></div><div class="ttdef"><b>Definition:</b> <a href="a00095_source.html#l00219">stat.h:220</a></div></div>
+<div class="ttc" id="aa01472_html"><div class="ttname"><a href="a01472.html">tag_pcl_digest</a></div><div class="ttdef"><b>Definition:</b> <a href="a00245_source.html#l00050">_crypto.h:51</a></div></div>
+<div class="ttc" id="aa01508_html"><div class="ttname"><a href="a01508.html">tag_pcl_json_path</a></div><div class="ttdef"><b>Definition:</b> <a href="a00605_source.html#l00077">_json.h:78</a></div></div>
+<div class="ttc" id="aa01524_html"><div class="ttname"><a href="a01524.html">tag_pcl_queue</a></div><div class="ttdef"><b>Definition:</b> <a href="a00896_source.html#l00047">_queue.h:48</a></div></div>
+<div class="ttc" id="aa01460_html_a9997109464efa7a7fc24efcaca7a9fb3"><div class="ttname"><a href="a01460.html#a9997109464efa7a7fc24efcaca7a9fb3">uint128_t::high</a></div><div class="ttdeci">uint64_t high</div><div class="ttdef"><b>Definition:</b> <a href="a00113_source.html#l00105">types.h:105</a></div></div>
+<div class="ttc" id="aa01452_html"><div class="ttname"><a href="a01452.html">tag_pcl_time</a></div><div class="ttdef"><b>Definition:</b> <a href="a00110_source.html#l00057">time.h:58</a></div></div>
+<div class="ttc" id="aa00113_html_a9b33b80464fd6cd77a2479df3ec3fe92"><div class="ttname"><a href="a00113.html#a9b33b80464fd6cd77a2479df3ec3fe92">pcl_cleanup_t</a></div><div class="ttdeci">void(* pcl_cleanup_t)(void *item)</div><div class="ttdoc">Cleanup handler used by most PCL collections.</div><div class="ttdef"><b>Definition:</b> <a href="a00113_source.html#l00065">types.h:65</a></div></div>
+<div class="ttc" id="aa01404_html"><div class="ttname"><a href="a01404.html">tag_pcl_err</a></div><div class="ttdoc">Represents a PCL error, with optional stack trace.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00121">error.h:122</a></div></div>
+<div class="ttc" id="aa00113_html_a05032dd43160d7b24f8ded03431fc748"><div class="ttname"><a href="a00113.html#a05032dd43160d7b24f8ded03431fc748">pcl_clock_t</a></div><div class="ttdeci">long double pcl_clock_t</div><div class="ttdef"><b>Definition:</b> <a href="a00113_source.html#l00060">types.h:60</a></div></div>
+<div class="ttc" id="aa01460_html"><div class="ttname"><a href="a01460.html">uint128_t</a></div><div class="ttdef"><b>Definition:</b> <a href="a00113_source.html#l00102">types.h:103</a></div></div>
+<div class="ttc" id="aa00113_html_a74a9f3e3e5163485365adb35c5030f65"><div class="ttname"><a href="a00113.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a></div><div class="ttdeci">int64_t pcl_atomic_t</div><div class="ttdef"><b>Definition:</b> <a href="a00113_source.html#l00059">types.h:59</a></div></div>
+<div class="ttc" id="aa01388_html"><div class="ttname"><a href="a01388.html">tag_pcl_array</a></div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00078">array.h:79</a></div></div>
+<div class="ttc" id="aa01476_html"><div class="ttname"><a href="a01476.html">tag_pcl_dir</a></div><div class="ttdef"><b>Definition:</b> <a href="a00293_source.html#l00048">_dir.h:49</a></div></div>
+<div class="ttc" id="aa01532_html"><div class="ttname"><a href="a01532.html">tag_pcl_ssl</a></div><div class="ttdef"><b>Definition:</b> <a href="a00998_source.html#l00046">_ssl.h:47</a></div></div>
+<div class="ttc" id="aa00113_html_a35d4d11068f60efd5365b31e315c18eb"><div class="ttname"><a href="a00113.html#a35d4d11068f60efd5365b31e315c18eb">pcl_socketfd_t</a></div><div class="ttdeci">int pcl_socketfd_t</div><div class="ttdef"><b>Definition:</b> <a href="a00113_source.html#l00055">types.h:55</a></div></div>
+<div class="ttc" id="aa01468_html"><div class="ttname"><a href="a01468.html">tag_pcl_cipher</a></div><div class="ttdef"><b>Definition:</b> <a href="a00245_source.html#l00044">_crypto.h:45</a></div></div>
+<div class="ttc" id="aa01412_html"><div class="ttname"><a href="a01412.html">tag_pcl_htable</a></div><div class="ttdef"><b>Definition:</b> <a href="a00059_source.html#l00243">htable.h:244</a></div></div>
+<div class="ttc" id="aa01540_html"><div class="ttname"><a href="a01540.html">tag_pcl_stack</a></div><div class="ttdef"><b>Definition:</b> <a href="a01058_source.html#l00047">_stack.h:48</a></div></div>
+<div class="ttc" id="aa00113_html_a38181b2081934a85dad92145b8f4d774"><div class="ttname"><a href="a00113.html#a38181b2081934a85dad92145b8f4d774">pcl_fd_t</a></div><div class="ttdeci">int pcl_fd_t</div><div class="ttdef"><b>Definition:</b> <a href="a00113_source.html#l00054">types.h:54</a></div></div>
+<div class="ttc" id="aa01464_html"><div class="ttname"><a href="a01464.html">tag_pcl_vector</a></div><div class="ttdoc">Vector object.</div><div class="ttdef"><b>Definition:</b> <a href="a00122_source.html#l00084">vector.h:85</a></div></div>
+<div class="ttc" id="aa01420_html"><div class="ttname"><a href="a01420.html">tag_pcl_json</a></div><div class="ttdoc">A JSON value object.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00174">json.h:175</a></div></div>
+<div class="ttc" id="aa00113_html_aebcc95bdc886e05c6e79044367ebc127"><div class="ttname"><a href="a00113.html#aebcc95bdc886e05c6e79044367ebc127">pcl_prochandle_t</a></div><div class="ttdeci">pid_t pcl_prochandle_t</div><div class="ttdef"><b>Definition:</b> <a href="a00113_source.html#l00056">types.h:56</a></div></div>
+<div class="ttc" id="aa01400_html"><div class="ttname"><a href="a01400.html">tag_pcl_err_trace</a></div><div class="ttdoc">Stack trace object implemented as a linked list.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00101">error.h:102</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

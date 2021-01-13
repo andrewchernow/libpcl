@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/json/json_arrisint.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/json/json_arrgetstr.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,12 +67,12 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">json_arrisint.c</div>  </div>
+<div class="title">json_arrgetstr.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00638.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (PCL)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2003, 2005-2014, 2017-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2021 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,20 +101,32 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00596.html">_json.h</a>&quot;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00605.html">_json.h</a>&quot;</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">bool</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01315.html#gac7ba49a8422042150c164c2c1bf4f382">   35</a></span>&#160;<a class="code" href="a01315.html#gac7ba49a8422042150c164c2c1bf4f382">pcl_json_arrisint</a>(<span class="keyword">const</span> <a class="code" href="a01356.html">pcl_json_t</a> *arr, <span class="keywordtype">int</span> index)</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">const</span> <span class="keywordtype">char</span> *</div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01378.html#ga8f4369b174fd94b617b67cd9eb68f715">   35</a></span>&#160;<a class="code" href="a01378.html#ga8f4369b174fd94b617b67cd9eb68f715">pcl_json_arrgetstr</a>(<span class="keyword">const</span> <a class="code" href="a01420.html">pcl_json_t</a> *arr, <span class="keywordtype">int</span> index)</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <a class="code" href="a01356.html">pcl_json_t</a> *val = <a class="code" href="a01315.html#gafdaf2f9575cbb6c93c3358d4ee53fa2e">pcl_json_arrget</a>(arr, index);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01312.html#ga1b9d67e7db49ec9e4e87ec34b44769b2">pcl_json_isint</a>(val);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;}</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <a class="code" href="a01420.html">pcl_json_t</a> *val = <a class="code" href="a01378.html#gafdaf2f9575cbb6c93c3358d4ee53fa2e">pcl_json_arrget</a>(arr, index);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordflow">if</span>(!val)</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01369.html#gaa978c8c7faa5fc2f69a6641e054e519d">R_TRC</a>(NULL);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordflow">if</span>(!<a class="code" href="a01375.html#ga6639f9ee3fe92a5c4f4b12d054fddf63">pcl_json_isstr</a>(val))</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01369.html#ga275b0cc5367d35bf8d2873fe5e15878b">R_SETERRMSG</a>(NULL, <a class="code" href="a01368.html#ga4416795bd50c57cfad774c42154bbc9f">PCL_ETYPE</a>, <span class="stringliteral">&quot;expected type &#39;s&#39;, got &#39;%c&#39;&quot;</span>, val-&gt;<a class="code" href="a01420.html#aff17911edc8208aa8ddb1c7c52c78389">type</a>);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordflow">return</span> val-&gt;<a class="code" href="a01420.html#aed1cfb225a5fb77461e7972691e68a72">string</a>;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01315_html_gac7ba49a8422042150c164c2c1bf4f382"><div class="ttname"><a href="a01315.html#gac7ba49a8422042150c164c2c1bf4f382">pcl_json_arrisint</a></div><div class="ttdeci">bool pcl_json_arrisint(const pcl_json_t *arr, int index)</div><div class="ttdoc">Indicates if an array element is an integer.</div><div class="ttdef"><b>Definition:</b> <a href="a00638_source.html#l00035">json_arrisint.c:35</a></div></div>
-<div class="ttc" id="aa01315_html_gafdaf2f9575cbb6c93c3358d4ee53fa2e"><div class="ttname"><a href="a01315.html#gafdaf2f9575cbb6c93c3358d4ee53fa2e">pcl_json_arrget</a></div><div class="ttdeci">PCL_EXPORT pcl_json_t * pcl_json_arrget(const pcl_json_t *arr, int index)</div><div class="ttdoc">Get a json object from an array.</div><div class="ttdef"><b>Definition:</b> <a href="a00620_source.html#l00036">json_arrget.c:36</a></div></div>
-<div class="ttc" id="aa00596_html"><div class="ttname"><a href="a00596.html">_json.h</a></div></div>
-<div class="ttc" id="aa01356_html"><div class="ttname"><a href="a01356.html">tag_pcl_json</a></div><div class="ttdoc">A JSON value object.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00170">json.h:171</a></div></div>
-<div class="ttc" id="aa01312_html_ga1b9d67e7db49ec9e4e87ec34b44769b2"><div class="ttname"><a href="a01312.html#ga1b9d67e7db49ec9e4e87ec34b44769b2">pcl_json_isint</a></div><div class="ttdeci">#define pcl_json_isint(_j)</div><div class="ttdoc">Indicates if a json object is an integer value.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00137">json.h:137</a></div></div>
+<div class="ttc" id="aa01375_html_ga6639f9ee3fe92a5c4f4b12d054fddf63"><div class="ttname"><a href="a01375.html#ga6639f9ee3fe92a5c4f4b12d054fddf63">pcl_json_isstr</a></div><div class="ttdeci">#define pcl_json_isstr(_j)</div><div class="ttdoc">Indicates if a json object is a string value.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00153">json.h:153</a></div></div>
+<div class="ttc" id="aa01369_html_gaa978c8c7faa5fc2f69a6641e054e519d"><div class="ttname"><a href="a01369.html#gaa978c8c7faa5fc2f69a6641e054e519d">R_TRC</a></div><div class="ttdeci">#define R_TRC(_retval)</div><div class="ttdoc">Sets the return value and adds a stack trace to the current thread's error.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00287">_errdefs.h:287</a></div></div>
+<div class="ttc" id="aa01378_html_gafdaf2f9575cbb6c93c3358d4ee53fa2e"><div class="ttname"><a href="a01378.html#gafdaf2f9575cbb6c93c3358d4ee53fa2e">pcl_json_arrget</a></div><div class="ttdeci">PCL_EXPORT pcl_json_t * pcl_json_arrget(const pcl_json_t *arr, int index)</div><div class="ttdoc">Get a json object from an array.</div><div class="ttdef"><b>Definition:</b> <a href="a00629_source.html#l00036">json_arrget.c:36</a></div></div>
+<div class="ttc" id="aa00605_html"><div class="ttname"><a href="a00605.html">_json.h</a></div></div>
+<div class="ttc" id="aa01369_html_ga275b0cc5367d35bf8d2873fe5e15878b"><div class="ttname"><a href="a01369.html#ga275b0cc5367d35bf8d2873fe5e15878b">R_SETERRMSG</a></div><div class="ttdeci">#define R_SETERRMSG(_retval, _pclerr, _msgfmt,...)</div><div class="ttdoc">Sets the return value and the current thread's PCL error code and error message.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00174">_errdefs.h:174</a></div></div>
+<div class="ttc" id="aa01378_html_ga8f4369b174fd94b617b67cd9eb68f715"><div class="ttname"><a href="a01378.html#ga8f4369b174fd94b617b67cd9eb68f715">pcl_json_arrgetstr</a></div><div class="ttdeci">const char * pcl_json_arrgetstr(const pcl_json_t *arr, int index)</div><div class="ttdoc">Get a string from an array.</div><div class="ttdef"><b>Definition:</b> <a href="a00638_source.html#l00035">json_arrgetstr.c:35</a></div></div>
+<div class="ttc" id="aa01420_html_aff17911edc8208aa8ddb1c7c52c78389"><div class="ttname"><a href="a01420.html#aff17911edc8208aa8ddb1c7c52c78389">tag_pcl_json::type</a></div><div class="ttdeci">char type</div><div class="ttdoc">JSON value type.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00181">json.h:181</a></div></div>
+<div class="ttc" id="aa01368_html_ga4416795bd50c57cfad774c42154bbc9f"><div class="ttname"><a href="a01368.html#ga4416795bd50c57cfad774c42154bbc9f">PCL_ETYPE</a></div><div class="ttdeci">#define PCL_ETYPE</div><div class="ttdoc">Invalid type.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00142">_errno.h:142</a></div></div>
+<div class="ttc" id="aa01420_html_aed1cfb225a5fb77461e7972691e68a72"><div class="ttname"><a href="a01420.html#aed1cfb225a5fb77461e7972691e68a72">tag_pcl_json::string</a></div><div class="ttdeci">char * string</div><div class="ttdoc">JSON string value when type is 's'.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00202">json.h:202</a></div></div>
+<div class="ttc" id="aa01420_html"><div class="ttname"><a href="a01420.html">tag_pcl_json</a></div><div class="ttdoc">A JSON value object.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00174">json.h:175</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

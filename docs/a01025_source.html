@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/string/_string.h Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/ssl/ssl_flags.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,17 +62,17 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_6cc8961f7f77054fb84f95c9f23f5ca0.html">&#x202A;string</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_d2a61888f140676dde113ce903a488e2.html">&#x202A;ssl</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">_string.h</div>  </div>
+<div class="title">ssl_flags.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a01025.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2021 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,73 +101,19 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="comment">/* Each string source file includes this header twice: once without XWIDE defined and</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="comment"> * again with it defined. For one-time initializations, like includes, use the NOT definied</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment"> * XWIDE case below.</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#undef XFUNC</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#undef X</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#undef xchar</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#undef xstrlen</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#undef xstrstr</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#undef xstristr</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#undef xstrdup</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#undef xstrndup</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#undef xstrchr</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#undef xstrncpy</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#undef vxprintf</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#undef xfmtconv</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#undef vfxprintf</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#undef xint</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">#ifdef XWIDE</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor"># define XFUNC(name) pcl_wcs ## name</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor"># define X(s) L ## s</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor"># define xchar wchar_t</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor"># define xstrlen wcslen</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor"># define xstrstr wcsstr</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor"># define xstristr pcl_wcsistr</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor"># define xstrdup(s) pcl_wcsndup(s,0)</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor"># define xstrndup pcl_wcsndup</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor"># define xstrchr wcschr</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor"># define xstrncpy pcl_wcsncpy</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor"># define vxprintf pcl_vswprintf</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor"># define xfmtconv pcl_wcsfmtconv</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor"># define vfxprintf pcl_vfwprintf</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor"># define xint wint_t</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="a01025.html#a5c4b00cbc494339ce63882d7404bad27">   68</a></span>&#160;<span class="preprocessor"># define XFUNC(name) pcl_str ## name</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="a01025.html#a8dcd542ddaaeda0037a8839d90497b1a">   69</a></span>&#160;<span class="preprocessor"># define X(s) s</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="a01025.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">   70</a></span>&#160;<span class="preprocessor"># define xchar char</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="a01025.html#aee081742fbd47c91e70de0b86a84a1be">   71</a></span>&#160;<span class="preprocessor"># define xstrlen strlen</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="a01025.html#a9434e97fdc309472ff44b32ad9817ad2">   72</a></span>&#160;<span class="preprocessor"># define xstrstr strstr</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="a01025.html#a5e4a75f8f96f6437439d7c4589debbdb">   73</a></span>&#160;<span class="preprocessor"># define xstristr pcl_stristr</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="a01025.html#a0c95d4478127582b31e380e5043d5237">   74</a></span>&#160;<span class="preprocessor"># define xstrdup(s) pcl_strndup(s,0)</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="a01025.html#a9d17cf03330b1d6492341e039f8edd64">   75</a></span>&#160;<span class="preprocessor"># define xstrndup pcl_strndup</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="a01025.html#a7a8bf915c494f805721c2f231822e181">   76</a></span>&#160;<span class="preprocessor"># define xstrchr strchr</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="a01025.html#abab22e62198b295954a4daf135e00ecb">   77</a></span>&#160;<span class="preprocessor"># define xstrncpy pcl_strncpy</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="a01025.html#ac0ec8bb617cda8a9e736511420c4c513">   78</a></span>&#160;<span class="preprocessor"># define vxprintf pcl_vsprintf</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="a01025.html#ada9c8738a3452027008d83047b1493e1">   79</a></span>&#160;<span class="preprocessor"># define xfmtconv pcl_strfmtconv</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="a01025.html#a22ba11b26d207dfd1e473d9692cfe919">   80</a></span>&#160;<span class="preprocessor"># define vfxprintf pcl_vfprintf</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="a01025.html#acccab69d0e95cc5047e7fdd343603c90">   81</a></span>&#160;<span class="preprocessor"># define xint int</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor"># include &lt;<a class="code" href="a00065.html">pcl/io.h</a>&gt;</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="preprocessor"># include &lt;<a class="code" href="a00092.html">pcl/string.h</a>&gt;</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="preprocessor"># include &lt;<a class="code" href="a00047.html">pcl/error.h</a>&gt;</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="preprocessor"># ifdef _WIN32</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor">#   define ssize_t intptr_t</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="preprocessor"># endif</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="comment">/* not exported */</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<a class="code" href="a01025.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *<a class="code" href="a01025.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a>(<a class="code" href="a01025.html#ae74ec47523a16c1da558ce319a854d90">fmtconv</a>)(<a class="code" href="a01025.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *buf, <span class="keywordtype">size_t</span> bufsz, <span class="keyword">const</span> <a class="code" href="a01025.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *pcl_format);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00998.html">_ssl.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01025.html#a21cdac1b9fd3a7e5181700d111925d43">   35</a></span>&#160;<a class="code" href="a01025.html#a21cdac1b9fd3a7e5181700d111925d43">pcl_ssl_flags</a>(<a class="code" href="a01532.html">pcl_ssl_t</a> *ssl)</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordflow">return</span> ssl ? ssl-&gt;<a class="code" href="a01532.html#ac8bf36fe0577cba66bccda3a6f7e80a4">flags</a> : <a class="code" href="a01369.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a>();</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">error.h</a></div></div>
-<div class="ttc" id="aa01025_html_a234f7ec71c9c19ed532c4bf11a9b9b8e"><div class="ttname"><a href="a01025.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a></div><div class="ttdeci">#define xchar</div><div class="ttdef"><b>Definition:</b> <a href="a01025_source.html#l00070">_string.h:70</a></div></div>
-<div class="ttc" id="aa01025_html_a5c4b00cbc494339ce63882d7404bad27"><div class="ttname"><a href="a01025.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a></div><div class="ttdeci">#define XFUNC(name)</div><div class="ttdef"><b>Definition:</b> <a href="a01025_source.html#l00068">_string.h:68</a></div></div>
-<div class="ttc" id="aa00065_html"><div class="ttname"><a href="a00065.html">io.h</a></div></div>
-<div class="ttc" id="aa00092_html"><div class="ttname"><a href="a00092.html">string.h</a></div></div>
-<div class="ttc" id="aa01025_html_ae74ec47523a16c1da558ce319a854d90"><div class="ttname"><a href="a01025.html#ae74ec47523a16c1da558ce319a854d90">fmtconv</a></div><div class="ttdeci">xchar *XFUNC() fmtconv(xchar *buf, size_t bufsz, const xchar *pcl_format)</div><div class="ttdef"><b>Definition:</b> <a href="a00566_source.html#l00062">fmtconv.c:62</a></div></div>
+<div class="ttc" id="aa01369_html_gab052d4faa8fd25e1a13e86ecd4aafa38"><div class="ttname"><a href="a01369.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a></div><div class="ttdeci">#define BADARG()</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00306">_errdefs.h:306</a></div></div>
+<div class="ttc" id="aa01532_html"><div class="ttname"><a href="a01532.html">tag_pcl_ssl</a></div><div class="ttdef"><b>Definition:</b> <a href="a00998_source.html#l00046">_ssl.h:47</a></div></div>
+<div class="ttc" id="aa01025_html_a21cdac1b9fd3a7e5181700d111925d43"><div class="ttname"><a href="a01025.html#a21cdac1b9fd3a7e5181700d111925d43">pcl_ssl_flags</a></div><div class="ttdeci">int pcl_ssl_flags(pcl_ssl_t *ssl)</div><div class="ttdef"><b>Definition:</b> <a href="a01025_source.html#l00035">ssl_flags.c:35</a></div></div>
+<div class="ttc" id="aa01532_html_ac8bf36fe0577cba66bccda3a6f7e80a4"><div class="ttname"><a href="a01532.html#ac8bf36fe0577cba66bccda3a6f7e80a4">tag_pcl_ssl::flags</a></div><div class="ttdeci">int flags</div><div class="ttdef"><b>Definition:</b> <a href="a00998_source.html#l00052">_ssl.h:52</a></div></div>
+<div class="ttc" id="aa00998_html"><div class="ttname"><a href="a00998.html">_ssl.h</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

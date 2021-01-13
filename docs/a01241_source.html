@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/vector/vector_qsort.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/time/clock.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,17 +62,17 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_0baa9f3d984dd29d1429171590d769d6.html">&#x202A;vector</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_798ee6f4f5cd9c6410c07a649b7662ec.html">&#x202A;time</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">vector_qsort.c</div>  </div>
+<div class="title">clock.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a01241.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2021 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,30 +101,39 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00116.html">pcl/vector.h</a>&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a01235.html">_time.h</a>&quot;</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor"># include &lt;stdio.h&gt;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor"># include &lt;search.h&gt;</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor"># include &lt;stdlib.h&gt;</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment">/* nanoseconds */</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<a class="code" href="a00113.html#a05032dd43160d7b24f8ded03431fc748">pcl_clock_t</a></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01241.html#a91e4c8f82d2293253da0e1a8db01b3bc">   36</a></span>&#160;<a class="code" href="a01241.html#a91e4c8f82d2293253da0e1a8db01b3bc">pcl_clock</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#ifdef PCL_DARWIN</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <a class="code" href="a01552.html">ipcl_time_context_t</a> *ctx = <a class="code" href="a01235.html#aca8afc9748cf00a5be9c8199697f4086">ipcl_time_context</a>();</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<a class="code" href="a01400.html">pcl_vector_t</a> *</div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="a01320.html#gad92337c015e78779ec762315b25866a2">   42</a></span>&#160;<a class="code" href="a01320.html#gad92337c015e78779ec762315b25866a2">pcl_vector_sort</a>(<a class="code" href="a01400.html">pcl_vector_t</a> *v, <span class="keywordtype">int</span> (*cmp)(<span class="keyword">const</span> <span class="keywordtype">void</span> *, <span class="keyword">const</span> <span class="keywordtype">void</span> *))</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;{</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keywordflow">if</span>(v &amp;&amp; v-&gt;<a class="code" href="a01400.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a> &gt; 1)</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    qsort(v-&gt;<a class="code" href="a01400.html#a0f959190ef240e958c70d3fd28c3d856">elems</a>, v-&gt;<a class="code" href="a01400.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a>, v-&gt;<a class="code" href="a01400.html#a854352f53b148adc24983a58a1866d66">size</a>, cmp);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordflow">return</span> v;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">return</span> (<a class="code" href="a00113.html#a05032dd43160d7b24f8ded03431fc748">pcl_clock_t</a>) mach_absolute_time() * (<a class="code" href="a00113.html#a05032dd43160d7b24f8ded03431fc748">pcl_clock_t</a>) ctx-&gt;mach_tbase.numer /</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;         (<a class="code" href="a00113.html#a05032dd43160d7b24f8ded03431fc748">pcl_clock_t</a>) ctx-&gt;mach_tbase.denom;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#elif defined(PCL_LINUX)</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keyword">struct </span>timespec ts;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  clock_gettime(CLOCK_MONO, &amp;ts);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordflow">return</span> (<a class="code" href="a00113.html#a05032dd43160d7b24f8ded03431fc748">pcl_clock_t</a>)(((<a class="code" href="a00113.html#a05032dd43160d7b24f8ded03431fc748">pcl_clock_t</a>)ts.tv_sec * <a class="code" href="a00110.html#a86b7875cd6dfe1745c07e12ac648542b">PCL_NSECS</a>) + (<a class="code" href="a00113.html#a05032dd43160d7b24f8ded03431fc748">pcl_clock_t</a>)ts.tv_nsec);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  LARGE_INTEGER li;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <a class="code" href="a01552.html">ipcl_time_context_t</a> *ctx = <a class="code" href="a01235.html#aca8afc9748cf00a5be9c8199697f4086">ipcl_time_context</a>();</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  (void)QueryPerformanceCounter(&amp;li);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keywordflow">return</span> (<a class="code" href="a00113.html#a05032dd43160d7b24f8ded03431fc748">pcl_clock_t</a>)li.QuadPart / ctx-&gt;win_freq;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00116_html"><div class="ttname"><a href="a00116.html">vector.h</a></div></div>
-<div class="ttc" id="aa01320_html_gad92337c015e78779ec762315b25866a2"><div class="ttname"><a href="a01320.html#gad92337c015e78779ec762315b25866a2">pcl_vector_sort</a></div><div class="ttdeci">pcl_vector_t * pcl_vector_sort(pcl_vector_t *v, int(*cmp)(const void *, const void *))</div><div class="ttdoc">Sort a vector using qsort.</div><div class="ttdef"><b>Definition:</b> <a href="a01241_source.html#l00042">vector_qsort.c:42</a></div></div>
-<div class="ttc" id="aa01400_html_ad43c3812e6d13e0518d9f8b8f463ffcf"><div class="ttname"><a href="a01400.html#ad43c3812e6d13e0518d9f8b8f463ffcf">tag_pcl_vector::count</a></div><div class="ttdeci">int count</div><div class="ttdoc">number of elements in vector</div><div class="ttdef"><b>Definition:</b> <a href="a00116_source.html#l00093">vector.h:93</a></div></div>
-<div class="ttc" id="aa01400_html_a0f959190ef240e958c70d3fd28c3d856"><div class="ttname"><a href="a01400.html#a0f959190ef240e958c70d3fd28c3d856">tag_pcl_vector::elems</a></div><div class="ttdeci">char * elems</div><div class="ttdoc">Element array.</div><div class="ttdef"><b>Definition:</b> <a href="a00116_source.html#l00102">vector.h:102</a></div></div>
-<div class="ttc" id="aa01400_html_a854352f53b148adc24983a58a1866d66"><div class="ttname"><a href="a01400.html#a854352f53b148adc24983a58a1866d66">tag_pcl_vector::size</a></div><div class="ttdeci">size_t size</div><div class="ttdoc">byte size of an element</div><div class="ttdef"><b>Definition:</b> <a href="a00116_source.html#l00099">vector.h:99</a></div></div>
-<div class="ttc" id="aa01400_html"><div class="ttname"><a href="a01400.html">tag_pcl_vector</a></div><div class="ttdoc">Vector object.</div><div class="ttdef"><b>Definition:</b> <a href="a00116_source.html#l00090">vector.h:91</a></div></div>
+<div class="ttc" id="aa01552_html"><div class="ttname"><a href="a01552.html">ipcl_time_context_t</a></div><div class="ttdef"><b>Definition:</b> <a href="a01235_source.html#l00056">_time.h:57</a></div></div>
+<div class="ttc" id="aa01235_html_aca8afc9748cf00a5be9c8199697f4086"><div class="ttname"><a href="a01235.html#aca8afc9748cf00a5be9c8199697f4086">ipcl_time_context</a></div><div class="ttdeci">ipcl_time_context_t * ipcl_time_context(void)</div><div class="ttdef"><b>Definition:</b> <a href="a01244_source.html#l00066">context.c:66</a></div></div>
+<div class="ttc" id="aa00113_html_a05032dd43160d7b24f8ded03431fc748"><div class="ttname"><a href="a00113.html#a05032dd43160d7b24f8ded03431fc748">pcl_clock_t</a></div><div class="ttdeci">long double pcl_clock_t</div><div class="ttdef"><b>Definition:</b> <a href="a00113_source.html#l00060">types.h:60</a></div></div>
+<div class="ttc" id="aa00110_html_a86b7875cd6dfe1745c07e12ac648542b"><div class="ttname"><a href="a00110.html#a86b7875cd6dfe1745c07e12ac648542b">PCL_NSECS</a></div><div class="ttdeci">#define PCL_NSECS</div><div class="ttdef"><b>Definition:</b> <a href="a00110_source.html#l00047">time.h:47</a></div></div>
+<div class="ttc" id="aa01241_html_a91e4c8f82d2293253da0e1a8db01b3bc"><div class="ttname"><a href="a01241.html#a91e4c8f82d2293253da0e1a8db01b3bc">pcl_clock</a></div><div class="ttdeci">pcl_clock_t pcl_clock(void)</div><div class="ttdef"><b>Definition:</b> <a href="a01241_source.html#l00036">clock.c:36</a></div></div>
+<div class="ttc" id="aa01235_html"><div class="ttname"><a href="a01235.html">_time.h</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

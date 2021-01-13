@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/json/json_arraddbool.c File Reference</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/json/_json.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,22 +67,488 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Data Structures</a> &#124;
+<a href="#define-members">Macros</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">json_arraddbool.c File Reference</div>  </div>
+<div class="title">_json.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="a00596_source.html">_json.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;<a class="el" href="a00068_source.html">pcl/json.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="a00047_source.html">pcl/error.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="a00032_source.html">pcl/buf.h</a>&gt;</code><br />
 </div>
 <p><a href="a00605_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01500.html">ipcl_json_state_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01504.html">ipcl_json_encode_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01508.html">tag_pcl_json_path</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:ab7b7bb456a60280dffb95071148e54f1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00605.html#ab7b7bb456a60280dffb95071148e54f1">JSON_THROW</a>(message, ...)&#160;&#160;&#160;	return <a class="el" href="a01369.html#ga275b0cc5367d35bf8d2873fe5e15878b">R_SETERRMSG</a>(NULL, <a class="el" href="a01368.html#ga99139f6530576a23e1008caa5ddaee90">PCL_ESYNTAX</a>, message, __VA_ARGS__)</td></tr>
+<tr class="separator:ab7b7bb456a60280dffb95071148e54f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abde2c460f0ea2ce24bd7c1444b108161"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00605.html#abde2c460f0ea2ce24bd7c1444b108161">PRINT_TABS</a>(_enc)</td></tr>
+<tr class="separator:abde2c460f0ea2ce24bd7c1444b108161"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:afc09bc028687e92ef441af98ebf39072"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00605.html#afc09bc028687e92ef441af98ebf39072">path_type_t</a> { <br />
+&#160;&#160;<a class="el" href="a00605.html#afc09bc028687e92ef441af98ebf39072a2942d5363c8aa18245ff2cf371a3ba49">PclPathRoot</a>, 
+<br />
+&#160;&#160;<a class="el" href="a00605.html#afc09bc028687e92ef441af98ebf39072a2db7023ec99f0b2222d8e206320116f8">PclPathMember</a>, 
+<br />
+&#160;&#160;<a class="el" href="a00605.html#afc09bc028687e92ef441af98ebf39072aaf047da418ec5ae7ac5a68ef66e31241">PclPathWildcardMember</a>, 
+<br />
+&#160;&#160;<a class="el" href="a00605.html#afc09bc028687e92ef441af98ebf39072a73b59b5365d17f09d1e3d1482b85857d">PclPathRecursiveDescent</a>, 
+<br />
+&#160;&#160;<a class="el" href="a00605.html#afc09bc028687e92ef441af98ebf39072a4df641ef6c42ba47271a8346b72c22b6">PclPathElement</a>, 
+<br />
+&#160;&#160;<a class="el" href="a00605.html#afc09bc028687e92ef441af98ebf39072adc2136f0434dc2434606ee791d0839ba">PclPathWildcardElement</a>, 
+<br />
+&#160;&#160;<a class="el" href="a00605.html#afc09bc028687e92ef441af98ebf39072a2dea9c7dacc02a2c70e4ef14474b075a">PclPathElementList</a>, 
+<br />
+&#160;&#160;<a class="el" href="a00605.html#afc09bc028687e92ef441af98ebf39072ab9bf8d3b1e177da057eb155123a738b5">PclPathElementSlice</a>
+<br />
+ }</td></tr>
+<tr class="separator:afc09bc028687e92ef441af98ebf39072"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga78f2cd87f306389e8f653bd417f1734c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01315.html#ga78f2cd87f306389e8f653bd417f1734c">pcl_json_arraddbool</a> (<a class="el" href="a01312.html#gaeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *obj, bool value)</td></tr>
-<tr class="memdesc:ga78f2cd87f306389e8f653bd417f1734c"><td class="mdescLeft">&#160;</td><td class="mdescRight">&#x202A;Add a boolean value to an array.  <a href="a01315.html#ga78f2cd87f306389e8f653bd417f1734c">More...</a><br /></td></tr>
-<tr class="separator:ga78f2cd87f306389e8f653bd417f1734c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05078872a232c0e29ae909b6e82b5d33"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01375.html#gaeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00605.html#a05078872a232c0e29ae909b6e82b5d33">ipcl_json_parse_value</a> (<a class="el" href="a01500.html">ipcl_json_state_t</a> *s)</td></tr>
+<tr class="separator:a05078872a232c0e29ae909b6e82b5d33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa783768c4aac2aff35738f0bfd4fcef0"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00605.html#aa783768c4aac2aff35738f0bfd4fcef0">ipcl_json_parse_string</a> (<a class="el" href="a01500.html">ipcl_json_state_t</a> *s)</td></tr>
+<tr class="separator:aa783768c4aac2aff35738f0bfd4fcef0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6c83384f0c107106f793282983a4034"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01375.html#gaeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00605.html#ab6c83384f0c107106f793282983a4034">ipcl_json_parse_array</a> (<a class="el" href="a01500.html">ipcl_json_state_t</a> *s)</td></tr>
+<tr class="separator:ab6c83384f0c107106f793282983a4034"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7bf6de25c4a34bc9fb29e0c9bc34f92"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01375.html#gaeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00605.html#ab7bf6de25c4a34bc9fb29e0c9bc34f92">ipcl_json_parse_object</a> (<a class="el" href="a01500.html">ipcl_json_state_t</a> *s)</td></tr>
+<tr class="separator:ab7bf6de25c4a34bc9fb29e0c9bc34f92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9feee7ce1bb9051a940611100b397a0a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01375.html#gaeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00605.html#a9feee7ce1bb9051a940611100b397a0a">ipcl_json_parse_number</a> (<a class="el" href="a01500.html">ipcl_json_state_t</a> *s)</td></tr>
+<tr class="separator:a9feee7ce1bb9051a940611100b397a0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ce8fd230485234e556f94fb608416a4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01500.html">ipcl_json_state_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00605.html#a7ce8fd230485234e556f94fb608416a4">ipcl_json_skipws</a> (<a class="el" href="a01500.html">ipcl_json_state_t</a> *s)</td></tr>
+<tr class="separator:a7ce8fd230485234e556f94fb608416a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b3d3670d7b39a5c0e895c1f20f1929d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00605.html#a5b3d3670d7b39a5c0e895c1f20f1929d">ipcl_json_utf8check</a> (const char *s, size_t len)</td></tr>
+<tr class="separator:a5b3d3670d7b39a5c0e895c1f20f1929d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a144473072efa770a318ecec646c3a75b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01364.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00605.html#a144473072efa770a318ecec646c3a75b">ipcl_json_encode_value</a> (<a class="el" href="a01504.html">ipcl_json_encode_t</a> *enc, <a class="el" href="a01375.html#gaeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *value)</td></tr>
+<tr class="separator:a144473072efa770a318ecec646c3a75b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4ede11f1568f4e08698a9df82672ed9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01364.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00605.html#ad4ede11f1568f4e08698a9df82672ed9">ipcl_json_encode_string</a> (<a class="el" href="a01504.html">ipcl_json_encode_t</a> *enc, const char *string)</td></tr>
+<tr class="separator:ad4ede11f1568f4e08698a9df82672ed9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0aff3994d4de1080a80cfebcf4b07d45"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01364.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00605.html#a0aff3994d4de1080a80cfebcf4b07d45">ipcl_json_encode_array</a> (<a class="el" href="a01504.html">ipcl_json_encode_t</a> *enc, <a class="el" href="a00113.html#a157296b59a693af5c94886de7d036223">pcl_array_t</a> *array)</td></tr>
+<tr class="separator:a0aff3994d4de1080a80cfebcf4b07d45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf4ee0a22ff5a29f86536a2663f5b304"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01364.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00605.html#adf4ee0a22ff5a29f86536a2663f5b304">ipcl_json_encode_object</a> (<a class="el" href="a01504.html">ipcl_json_encode_t</a> *enc, <a class="el" href="a00113.html#a837674424510bcf55b9b1eaa8acf639f">pcl_htable_t</a> *obj)</td></tr>
+<tr class="separator:adf4ee0a22ff5a29f86536a2663f5b304"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="ab7b7bb456a60280dffb95071148e54f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7b7bb456a60280dffb95071148e54f1">&#9670;&nbsp;</a></span>JSON_THROW</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define JSON_THROW</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">message, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;	return <a class="el" href="a01369.html#ga275b0cc5367d35bf8d2873fe5e15878b">R_SETERRMSG</a>(NULL, <a class="el" href="a01368.html#ga99139f6530576a23e1008caa5ddaee90">PCL_ESYNTAX</a>, message, __VA_ARGS__)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="a00605_source.html#l00039">39</a> of file <a class="el" href="a00605_source.html">_json.h</a>.</p>
+
+</div>
+</div>
+<a id="abde2c460f0ea2ce24bd7c1444b108161"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abde2c460f0ea2ce24bd7c1444b108161">&#9670;&nbsp;</a></span>PRINT_TABS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PRINT_TABS</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">_enc</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  <span class="keywordflow">for</span>(<span class="keywordtype">int</span> __i = 0; __i &lt; (enc)-&gt;tabs; __i++) \</div>
+<div class="line">    <a class="code" href="a01364.html#ga48e936cee3defdf5fcb6e9904aff0d75">pcl_buf_putchar</a>((enc)-&gt;b, <span class="charliteral">&#39;\t&#39;</span>)</div>
+</div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="a00605_source.html#l00042">42</a> of file <a class="el" href="a00605_source.html">_json.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="afc09bc028687e92ef441af98ebf39072"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc09bc028687e92ef441af98ebf39072">&#9670;&nbsp;</a></span>path_type_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="a00605.html#afc09bc028687e92ef441af98ebf39072">path_type_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="afc09bc028687e92ef441af98ebf39072a2942d5363c8aa18245ff2cf371a3ba49"></a>PclPathRoot&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="afc09bc028687e92ef441af98ebf39072a2db7023ec99f0b2222d8e206320116f8"></a>PclPathMember&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="afc09bc028687e92ef441af98ebf39072aaf047da418ec5ae7ac5a68ef66e31241"></a>PclPathWildcardMember&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="afc09bc028687e92ef441af98ebf39072a73b59b5365d17f09d1e3d1482b85857d"></a>PclPathRecursiveDescent&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="afc09bc028687e92ef441af98ebf39072a4df641ef6c42ba47271a8346b72c22b6"></a>PclPathElement&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="afc09bc028687e92ef441af98ebf39072adc2136f0434dc2434606ee791d0839ba"></a>PclPathWildcardElement&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="afc09bc028687e92ef441af98ebf39072a2dea9c7dacc02a2c70e4ef14474b075a"></a>PclPathElementList&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="afc09bc028687e92ef441af98ebf39072ab9bf8d3b1e177da057eb155123a738b5"></a>PclPathElementSlice&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="a00605_source.html#l00065">65</a> of file <a class="el" href="a00605_source.html">_json.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a05078872a232c0e29ae909b6e82b5d33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05078872a232c0e29ae909b6e82b5d33">&#9670;&nbsp;</a></span>ipcl_json_parse_value()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01375.html#gaeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a>* ipcl_json_parse_value </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01500.html">ipcl_json_state_t</a> *&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="a00791_source.html#l00037">37</a> of file <a class="el" href="a00791_source.html">json_parse_value.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00605_source.html#l00054">ipcl_json_state_t::ctx</a>, <a class="el" href="a00605_source.html#l00053">ipcl_json_state_t::end</a>, <a class="el" href="a00779_source.html#l00035">ipcl_json_parse_array()</a>, <a class="el" href="a00782_source.html#l00038">ipcl_json_parse_number()</a>, <a class="el" href="a00785_source.html#l00037">ipcl_json_parse_object()</a>, <a class="el" href="a00788_source.html#l00133">ipcl_json_parse_string()</a>, <a class="el" href="a00800_source.html#l00036">ipcl_json_skipws()</a>, <a class="el" href="a00605_source.html#l00039">JSON_THROW</a>, <a class="el" href="a00605_source.html#l00052">ipcl_json_state_t::next</a>, <a class="el" href="a00698_source.html#l00035">pcl_json_false()</a>, <a class="el" href="a00713_source.html#l00036">pcl_json_null()</a>, <a class="el" href="a00068_source.html#l00060">PCL_JSON_SHALLOW</a>, <a class="el" href="a00068_source.html#l00052">PCL_JSON_SKIPUTF8CHK</a>, <a class="el" href="a00803_source.html#l00037">pcl_json_str()</a>, and <a class="el" href="a00809_source.html#l00035">pcl_json_true()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00779_source.html#l00035">ipcl_json_parse_array()</a>, <a class="el" href="a00785_source.html#l00037">ipcl_json_parse_object()</a>, and <a class="el" href="a00680_source.html#l00037">pcl_json_decode()</a>.</p>
+
+</div>
+</div>
+<a id="aa783768c4aac2aff35738f0bfd4fcef0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa783768c4aac2aff35738f0bfd4fcef0">&#9670;&nbsp;</a></span>ipcl_json_parse_string()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char* ipcl_json_parse_string </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01500.html">ipcl_json_state_t</a> *&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="a00788_source.html#l00133">133</a> of file <a class="el" href="a00788_source.html">json_parse_string.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00605_source.html#l00054">ipcl_json_state_t::ctx</a>, <a class="el" href="a00605_source.html#l00039">JSON_THROW</a>, <a class="el" href="a00605_source.html#l00052">ipcl_json_state_t::next</a>, <a class="el" href="a00212_source.html#l00037">pcl_buf_init()</a>, <a class="el" href="a00218_source.html#l00035">pcl_buf_putchar()</a>, and <a class="el" href="a00032_source.html#l00114">PclBufText</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00785_source.html#l00037">ipcl_json_parse_object()</a>, and <a class="el" href="a00791_source.html#l00037">ipcl_json_parse_value()</a>.</p>
+
+</div>
+</div>
+<a id="ab6c83384f0c107106f793282983a4034"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6c83384f0c107106f793282983a4034">&#9670;&nbsp;</a></span>ipcl_json_parse_array()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01375.html#gaeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a>* ipcl_json_parse_array </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01500.html">ipcl_json_state_t</a> *&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="a00779_source.html#l00035">35</a> of file <a class="el" href="a00779_source.html">json_parse_array.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00605_source.html#l00054">ipcl_json_state_t::ctx</a>, <a class="el" href="a00605_source.html#l00053">ipcl_json_state_t::end</a>, <a class="el" href="a00791_source.html#l00037">ipcl_json_parse_value()</a>, <a class="el" href="a00800_source.html#l00036">ipcl_json_skipws()</a>, <a class="el" href="a00605_source.html#l00039">JSON_THROW</a>, <a class="el" href="a00605_source.html#l00052">ipcl_json_state_t::next</a>, <a class="el" href="a00608_source.html#l00043">pcl_json_arr()</a>, <a class="el" href="a00611_source.html#l00036">pcl_json_arradd()</a>, <a class="el" href="a00701_source.html#l00038">pcl_json_free()</a>, <a class="el" href="a00068_source.html#l00089">PCL_JSON_FREEVALONERR</a>, and <a class="el" href="a00017_source.html#l00302">R_TRCMSG</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00791_source.html#l00037">ipcl_json_parse_value()</a>.</p>
+
+</div>
+</div>
+<a id="ab7bf6de25c4a34bc9fb29e0c9bc34f92"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7bf6de25c4a34bc9fb29e0c9bc34f92">&#9670;&nbsp;</a></span>ipcl_json_parse_object()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01375.html#gaeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a>* ipcl_json_parse_object </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01500.html">ipcl_json_state_t</a> *&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="a00785_source.html#l00037">37</a> of file <a class="el" href="a00785_source.html">json_parse_object.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00605_source.html#l00054">ipcl_json_state_t::ctx</a>, <a class="el" href="a00605_source.html#l00053">ipcl_json_state_t::end</a>, <a class="el" href="a00788_source.html#l00133">ipcl_json_parse_string()</a>, <a class="el" href="a00791_source.html#l00037">ipcl_json_parse_value()</a>, <a class="el" href="a00800_source.html#l00036">ipcl_json_skipws()</a>, <a class="el" href="a00605_source.html#l00039">JSON_THROW</a>, <a class="el" href="a00605_source.html#l00052">ipcl_json_state_t::next</a>, <a class="el" href="a01361.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free()</a>, <a class="el" href="a00701_source.html#l00038">pcl_json_free()</a>, <a class="el" href="a00068_source.html#l00089">PCL_JSON_FREEVALONERR</a>, <a class="el" href="a00716_source.html#l00045">pcl_json_obj()</a>, <a class="el" href="a00758_source.html#l00038">pcl_json_objput()</a>, <a class="el" href="a00068_source.html#l00060">PCL_JSON_SHALLOW</a>, and <a class="el" href="a00068_source.html#l00052">PCL_JSON_SKIPUTF8CHK</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00791_source.html#l00037">ipcl_json_parse_value()</a>.</p>
+
+</div>
+</div>
+<a id="a9feee7ce1bb9051a940611100b397a0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9feee7ce1bb9051a940611100b397a0a">&#9670;&nbsp;</a></span>ipcl_json_parse_number()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01375.html#gaeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a>* ipcl_json_parse_number </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01500.html">ipcl_json_state_t</a> *&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="a00782_source.html#l00038">38</a> of file <a class="el" href="a00782_source.html">json_parse_number.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00605_source.html#l00053">ipcl_json_state_t::end</a>, <a class="el" href="a00605_source.html#l00039">JSON_THROW</a>, <a class="el" href="a00605_source.html#l00052">ipcl_json_state_t::next</a>, <a class="el" href="a00047_source.html#l00346">pcl_err_crt2pcl</a>, <a class="el" href="a00389_source.html#l00035">pcl_err_set()</a>, <a class="el" href="a00707_source.html#l00036">pcl_json_int()</a>, <a class="el" href="a00797_source.html#l00037">pcl_json_real()</a>, <a class="el" href="a00038_source.html#l00088">PCL_LOCATION_ARGS</a>, <a class="el" href="a01383.html#gae9108f04c47e33c4dfa32c664fe6e075">pcl_strtoll()</a>, and <a class="el" href="a00017_source.html#l00287">R_TRC</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00791_source.html#l00037">ipcl_json_parse_value()</a>.</p>
+
+</div>
+</div>
+<a id="a7ce8fd230485234e556f94fb608416a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ce8fd230485234e556f94fb608416a4">&#9670;&nbsp;</a></span>ipcl_json_skipws()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01500.html">ipcl_json_state_t</a>* ipcl_json_skipws </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01500.html">ipcl_json_state_t</a> *&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="a00800_source.html#l00036">36</a> of file <a class="el" href="a00800_source.html">json_skipws.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00605_source.html#l00053">ipcl_json_state_t::end</a>, <a class="el" href="a00605_source.html#l00039">JSON_THROW</a>, <a class="el" href="a00605_source.html#l00055">ipcl_json_state_t::line</a>, and <a class="el" href="a00605_source.html#l00052">ipcl_json_state_t::next</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00779_source.html#l00035">ipcl_json_parse_array()</a>, <a class="el" href="a00785_source.html#l00037">ipcl_json_parse_object()</a>, and <a class="el" href="a00791_source.html#l00037">ipcl_json_parse_value()</a>.</p>
+
+</div>
+</div>
+<a id="a5b3d3670d7b39a5c0e895c1f20f1929d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b3d3670d7b39a5c0e895c1f20f1929d">&#9670;&nbsp;</a></span>ipcl_json_utf8check()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ipcl_json_utf8check </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>s</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">s</td><td></td></tr>
+    <tr><td class="paramname">len</td><td>&#x202A;if zero, strlen is used so <em>s</em> must be NUL-terminated in this case </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="a00812_source.html#l00051">51</a> of file <a class="el" href="a00812_source.html">json_utf8check.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00020_source.html#l00074">PCL_EILSEQ</a>, and <a class="el" href="a00017_source.html#l00087">SETERRMSG</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00758_source.html#l00038">pcl_json_objput()</a>, <a class="el" href="a00803_source.html#l00037">pcl_json_str()</a>, and <a class="el" href="a00806_source.html#l00037">pcl_json_strn()</a>.</p>
+
+</div>
+</div>
+<a id="a144473072efa770a318ecec646c3a75b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a144473072efa770a318ecec646c3a75b">&#9670;&nbsp;</a></span>ipcl_json_encode_value()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01364.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a>* ipcl_json_encode_value </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01504.html">ipcl_json_encode_t</a> *&#160;</td>
+          <td class="paramname"><em>enc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a01375.html#gaeac2d6aabbad66c70676fbe7ab909176">pcl_json_t</a> *&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="a00695_source.html#l00036">36</a> of file <a class="el" href="a00695_source.html">json_encode_value.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00068_source.html#l00205">tag_pcl_json::array</a>, <a class="el" href="a00605_source.html#l00062">ipcl_json_encode_t::b</a>, <a class="el" href="a00068_source.html#l00191">tag_pcl_json::boolean</a>, <a class="el" href="a00068_source.html#l00199">tag_pcl_json::integer</a>, <a class="el" href="a00686_source.html#l00036">ipcl_json_encode_array()</a>, <a class="el" href="a00689_source.html#l00036">ipcl_json_encode_object()</a>, <a class="el" href="a00692_source.html#l00035">ipcl_json_encode_string()</a>, <a class="el" href="a00068_source.html#l00208">tag_pcl_json::object</a>, <a class="el" href="a00221_source.html#l00035">pcl_buf_putf()</a>, <a class="el" href="a00236_source.html#l00036">pcl_buf_putstr()</a>, <a class="el" href="a00020_source.html#l00142">PCL_ETYPE</a>, <a class="el" href="a00017_source.html#l00174">R_SETERRMSG</a>, <a class="el" href="a00068_source.html#l00196">tag_pcl_json::real</a>, <a class="el" href="a00068_source.html#l00202">tag_pcl_json::string</a>, and <a class="el" href="a00068_source.html#l00181">tag_pcl_json::type</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00686_source.html#l00036">ipcl_json_encode_array()</a>, <a class="el" href="a00689_source.html#l00036">ipcl_json_encode_object()</a>, and <a class="el" href="a00683_source.html#l00037">pcl_json_encode()</a>.</p>
+
+</div>
+</div>
+<a id="ad4ede11f1568f4e08698a9df82672ed9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4ede11f1568f4e08698a9df82672ed9">&#9670;&nbsp;</a></span>ipcl_json_encode_string()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01364.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a>* ipcl_json_encode_string </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01504.html">ipcl_json_encode_t</a> *&#160;</td>
+          <td class="paramname"><em>enc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>string</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="a00692_source.html#l00035">35</a> of file <a class="el" href="a00692_source.html">json_encode_string.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00605_source.html#l00062">ipcl_json_encode_t::b</a>, <a class="el" href="a00218_source.html#l00035">pcl_buf_putchar()</a>, <a class="el" href="a00221_source.html#l00035">pcl_buf_putf()</a>, and <a class="el" href="a00236_source.html#l00036">pcl_buf_putstr()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00689_source.html#l00036">ipcl_json_encode_object()</a>, and <a class="el" href="a00695_source.html#l00036">ipcl_json_encode_value()</a>.</p>
+
+</div>
+</div>
+<a id="a0aff3994d4de1080a80cfebcf4b07d45"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0aff3994d4de1080a80cfebcf4b07d45">&#9670;&nbsp;</a></span>ipcl_json_encode_array()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01364.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a>* ipcl_json_encode_array </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01504.html">ipcl_json_encode_t</a> *&#160;</td>
+          <td class="paramname"><em>enc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a00113.html#a157296b59a693af5c94886de7d036223">pcl_array_t</a> *&#160;</td>
+          <td class="paramname"><em>array</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="a00686_source.html#l00036">36</a> of file <a class="el" href="a00686_source.html">json_encode_array.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00605_source.html#l00062">ipcl_json_encode_t::b</a>, <a class="el" href="a00026_source.html#l00081">tag_pcl_array::count</a>, <a class="el" href="a00026_source.html#l00085">tag_pcl_array::elements</a>, <a class="el" href="a00605_source.html#l00061">ipcl_json_encode_t::format</a>, <a class="el" href="a00695_source.html#l00036">ipcl_json_encode_value()</a>, <a class="el" href="a00218_source.html#l00035">pcl_buf_putchar()</a>, <a class="el" href="a00605_source.html#l00042">PRINT_TABS</a>, and <a class="el" href="a00605_source.html#l00060">ipcl_json_encode_t::tabs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00695_source.html#l00036">ipcl_json_encode_value()</a>.</p>
+
+</div>
+</div>
+<a id="adf4ee0a22ff5a29f86536a2663f5b304"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf4ee0a22ff5a29f86536a2663f5b304">&#9670;&nbsp;</a></span>ipcl_json_encode_object()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01364.html#gaeaa2d03b07aa775cfd1986f0f303151b">pcl_buf_t</a>* ipcl_json_encode_object </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01504.html">ipcl_json_encode_t</a> *&#160;</td>
+          <td class="paramname"><em>enc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a00113.html#a837674424510bcf55b9b1eaa8acf639f">pcl_htable_t</a> *&#160;</td>
+          <td class="paramname"><em>obj</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="a00689_source.html#l00036">36</a> of file <a class="el" href="a00689_source.html">json_encode_object.c</a>.</p>
+
+<p class="reference">References <a class="el" href="a00605_source.html#l00062">ipcl_json_encode_t::b</a>, <a class="el" href="a00059_source.html#l00250">tag_pcl_htable::count</a>, <a class="el" href="a00605_source.html#l00061">ipcl_json_encode_t::format</a>, <a class="el" href="a00692_source.html#l00035">ipcl_json_encode_string()</a>, <a class="el" href="a00695_source.html#l00036">ipcl_json_encode_value()</a>, <a class="el" href="a00059_source.html#l00237">tag_pcl_htable_entry::key</a>, <a class="el" href="a00218_source.html#l00035">pcl_buf_putchar()</a>, <a class="el" href="a00536_source.html#l00035">pcl_htable_iter()</a>, <a class="el" href="a00605_source.html#l00042">PRINT_TABS</a>, <a class="el" href="a00605_source.html#l00060">ipcl_json_encode_t::tabs</a>, and <a class="el" href="a00059_source.html#l00240">tag_pcl_htable_entry::value</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00695_source.html#l00036">ipcl_json_encode_value()</a>.</p>
+
+</div>
+</div>
 </div><!-- contents -->
+<div class="ttc" id="aa01364_html_ga48e936cee3defdf5fcb6e9904aff0d75"><div class="ttname"><a href="a01364.html#ga48e936cee3defdf5fcb6e9904aff0d75">pcl_buf_putchar</a></div><div class="ttdeci">PCL_EXPORT int pcl_buf_putchar(pcl_buf_t *b, uint32_t c)</div><div class="ttdoc">Put a character into a buffer.</div><div class="ttdef"><b>Definition:</b> <a href="a00218_source.html#l00035">buf_putchar.c:35</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/error/win32_oserrno.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/error/msgmap.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,12 +67,12 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">win32_oserrno.c</div>  </div>
+<div class="title">msgmap.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00422.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2021 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,22 +101,26 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00329.html">_error.h</a>&quot;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00335.html">_error.h</a>&quot;</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor"># include &lt;windows.h&gt;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor"># include &lt;stdlib.h&gt;</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment">/* pcl error name and message mapping */</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">static</span> <a class="code" href="a01480.html">ipcl_err_msgmap_t</a> error_msgmap[] = {</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00332.html">_errmsg.h</a>&quot;</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;};</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="a00422.html#a364c5ccdb90cb93c34f33f8d39858ce4">   39</a></span>&#160;uint32_t <a class="code" href="a00422.html#a364c5ccdb90cb93c34f33f8d39858ce4">pcl_win32_oserrno</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  DWORD e = GetLastError(); <span class="comment">/* preferred but not always set by CRT calls */</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordflow">return</span> (uint32_t)(e ? e : _doserrno ? _doserrno : <a class="code" href="a00419.html#a4c357e9c33e3ffa2fab31c76adc1eb03">pcl_err_crt2os</a>(errno));</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;}</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<a class="code" href="a01480.html">ipcl_err_msgmap_t</a> *</div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="a00422.html#a3dc06ff40b369fcec40911b141ff88cf">   40</a></span>&#160;<a class="code" href="a00422.html#a3dc06ff40b369fcec40911b141ff88cf">ipcl_err_msgmap</a>(<span class="keywordtype">int</span> *count)</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;{</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  *count = <a class="code" href="a00038.html#a9941e62482da843b972636008fd80e56">countof</a>(error_msgmap);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordflow">return</span> error_msgmap;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;}</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00419_html_a4c357e9c33e3ffa2fab31c76adc1eb03"><div class="ttname"><a href="a00419.html#a4c357e9c33e3ffa2fab31c76adc1eb03">pcl_err_crt2os</a></div><div class="ttdeci">unsigned long pcl_err_crt2os(int err)</div><div class="ttdef"><b>Definition:</b> <a href="a00419_source.html#l00043">win32_err_crt2os.c:43</a></div></div>
-<div class="ttc" id="aa00329_html"><div class="ttname"><a href="a00329.html">_error.h</a></div></div>
-<div class="ttc" id="aa00422_html_a364c5ccdb90cb93c34f33f8d39858ce4"><div class="ttname"><a href="a00422.html#a364c5ccdb90cb93c34f33f8d39858ce4">pcl_win32_oserrno</a></div><div class="ttdeci">uint32_t pcl_win32_oserrno(void)</div><div class="ttdef"><b>Definition:</b> <a href="a00422_source.html#l00039">win32_oserrno.c:39</a></div></div>
+<div class="ttc" id="aa01480_html"><div class="ttname"><a href="a01480.html">ipcl_err_msgmap_t</a></div><div class="ttdef"><b>Definition:</b> <a href="a00335_source.html#l00041">_error.h:42</a></div></div>
+<div class="ttc" id="aa00038_html_a9941e62482da843b972636008fd80e56"><div class="ttname"><a href="a00038.html#a9941e62482da843b972636008fd80e56">countof</a></div><div class="ttdeci">#define countof(buffer)</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00127">defs.h:127</a></div></div>
+<div class="ttc" id="aa00332_html"><div class="ttname"><a href="a00332.html">_errmsg.h</a></div></div>
+<div class="ttc" id="aa00335_html"><div class="ttname"><a href="a00335.html">_error.h</a></div></div>
+<div class="ttc" id="aa00422_html_a3dc06ff40b369fcec40911b141ff88cf"><div class="ttname"><a href="a00422.html#a3dc06ff40b369fcec40911b141ff88cf">ipcl_err_msgmap</a></div><div class="ttdeci">ipcl_err_msgmap_t * ipcl_err_msgmap(int *count)</div><div class="ttdef"><b>Definition:</b> <a href="a00422_source.html#l00040">msgmap.c:40</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

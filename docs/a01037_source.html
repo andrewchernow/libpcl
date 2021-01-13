@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/string/hex_decode.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/ssl/ssl_percert.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,17 +62,17 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_6cc8961f7f77054fb84f95c9f23f5ca0.html">&#x202A;string</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_d2a61888f140676dde113ce903a488e2.html">&#x202A;ssl</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">hex_decode.c</div>  </div>
+<div class="title">ssl_percert.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a01037.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2021 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,71 +101,18 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00092.html">pcl/string.h</a>&gt;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/error.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">static</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keywordtype">int</span> chr2bin(<span class="keyword">const</span> <span class="keywordtype">char</span> hex, <span class="keywordtype">char</span> *out)</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">if</span>(!out)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">if</span>(hex &gt;= <span class="charliteral">&#39;0&#39;</span> &amp;&amp; hex &lt;= <span class="charliteral">&#39;9&#39;</span>)</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    *out = hex - <span class="charliteral">&#39;0&#39;</span>;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordflow">else</span> <span class="keywordflow">if</span>(hex &gt;= <span class="charliteral">&#39;A&#39;</span> &amp;&amp; hex &lt;= <span class="charliteral">&#39;F&#39;</span>)</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    *out = hex - <span class="charliteral">&#39;A&#39;</span> + 10;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordflow">else</span> <span class="keywordflow">if</span>(hex &gt;= <span class="charliteral">&#39;a&#39;</span> &amp;&amp; hex &lt;= <span class="charliteral">&#39;f&#39;</span>)</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    *out = hex - <span class="charliteral">&#39;a&#39;</span> + 10;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="keywordflow">return</span> 1;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;}</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="a01317.html#gafd8a5e2efd41dabad7002955280b004b">   54</a></span>&#160;<a class="code" href="a01317.html#gafd8a5e2efd41dabad7002955280b004b">pcl_hex_decode</a>(<span class="keywordtype">void</span> *buf, <span class="keywordtype">size_t</span> size, <span class="keyword">const</span> <span class="keywordtype">char</span> *hex)</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;{</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordtype">size_t</span> len;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  uint8_t *b = (uint8_t *) buf;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  <span class="keywordflow">if</span>(!hex || !b || size &lt; 2)</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  *b = 0;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  len = strlen(hex);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  <span class="keywordflow">if</span>(len &lt; 2 || (len % 2) != 0)</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01306.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a>();</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <span class="keywordflow">if</span>(*hex == <span class="charliteral">&#39;0&#39;</span> &amp;&amp; hex[1] == <span class="charliteral">&#39;x&#39;</span>)</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    hex += 2, len -= 2;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  len /= 2;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  <span class="keywordflow">if</span>(size &lt; len)</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01306.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a>(<a class="code" href="a01305.html#gaa07a6ea59d3098bdd4a7c95e24bca530">PCL_EBUF</a>);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  <span class="keywordflow">for</span>(<span class="keywordtype">size_t</span> i = 0; i &lt; len; i++)</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  {</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordtype">char</span> b1, b2;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordflow">if</span>(!chr2bin(hex[i * 2], &amp;b1) || !chr2bin(hex[i * 2 + 1], &amp;b2))</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01306.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a>(<a class="code" href="a01305.html#gaabcacad5961b86d237c9b660d2032e5f">PCL_EFORMAT</a>);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    b[i] = (uint8_t) ((b1 &lt;&lt; 4) | b2);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  }</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  <span class="keywordflow">return</span> (<span class="keywordtype">int</span>) len;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;}</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00998.html">_ssl.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;X509 *</div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01037.html#a54672c759153706ccedea17aeab5011f">   35</a></span>&#160;<a class="code" href="a01037.html#a54672c759153706ccedea17aeab5011f">pcl_ssl_peercert</a>(<a class="code" href="a01532.html">pcl_ssl_t</a> *ssl)</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordflow">return</span> ssl ? SSL_get_peer_certificate(ssl-&gt;<a class="code" href="a01532.html#ae7c0417fa2881f3546920311fee80311">ssl</a>) : NULL;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01317_html_gafd8a5e2efd41dabad7002955280b004b"><div class="ttname"><a href="a01317.html#gafd8a5e2efd41dabad7002955280b004b">pcl_hex_decode</a></div><div class="ttdeci">int pcl_hex_decode(void *buf, size_t size, const char *hex)</div><div class="ttdoc">Decode a hexadecimal string.</div><div class="ttdef"><b>Definition:</b> <a href="a01037_source.html#l00054">hex_decode.c:54</a></div></div>
-<div class="ttc" id="aa01305_html_gaabcacad5961b86d237c9b660d2032e5f"><div class="ttname"><a href="a01305.html#gaabcacad5961b86d237c9b660d2032e5f">PCL_EFORMAT</a></div><div class="ttdeci">#define PCL_EFORMAT</div><div class="ttdoc">Invalid or corrupt format.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00140">_errno.h:140</a></div></div>
-<div class="ttc" id="aa01306_html_gab052d4faa8fd25e1a13e86ecd4aafa38"><div class="ttname"><a href="a01306.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a></div><div class="ttdeci">#define BADARG()</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00306">_errdefs.h:306</a></div></div>
-<div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">error.h</a></div></div>
-<div class="ttc" id="aa01305_html_gaa07a6ea59d3098bdd4a7c95e24bca530"><div class="ttname"><a href="a01305.html#gaa07a6ea59d3098bdd4a7c95e24bca530">PCL_EBUF</a></div><div class="ttdeci">#define PCL_EBUF</div><div class="ttdoc">Buffer too small.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00138">_errno.h:138</a></div></div>
-<div class="ttc" id="aa00092_html"><div class="ttname"><a href="a00092.html">string.h</a></div></div>
-<div class="ttc" id="aa01306_html_ga82adf6365b61d9a32021e559d9c31497"><div class="ttname"><a href="a01306.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a></div><div class="ttdeci">#define SETERR(_pclerr)</div><div class="ttdoc">Sets the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00065">_errdefs.h:65</a></div></div>
+<div class="ttc" id="aa01532_html_ae7c0417fa2881f3546920311fee80311"><div class="ttname"><a href="a01532.html#ae7c0417fa2881f3546920311fee80311">tag_pcl_ssl::ssl</a></div><div class="ttdeci">SSL * ssl</div><div class="ttdef"><b>Definition:</b> <a href="a00998_source.html#l00055">_ssl.h:55</a></div></div>
+<div class="ttc" id="aa01037_html_a54672c759153706ccedea17aeab5011f"><div class="ttname"><a href="a01037.html#a54672c759153706ccedea17aeab5011f">pcl_ssl_peercert</a></div><div class="ttdeci">X509 * pcl_ssl_peercert(pcl_ssl_t *ssl)</div><div class="ttdef"><b>Definition:</b> <a href="a01037_source.html#l00035">ssl_percert.c:35</a></div></div>
+<div class="ttc" id="aa01532_html"><div class="ttname"><a href="a01532.html">tag_pcl_ssl</a></div><div class="ttdef"><b>Definition:</b> <a href="a00998_source.html#l00046">_ssl.h:47</a></div></div>
+<div class="ttc" id="aa00998_html"><div class="ttname"><a href="a00998.html">_ssl.h</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

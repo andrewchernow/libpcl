@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['dynamic_20buffer_3177',['Dynamic Buffer',['../a01301.html',1,'']]],
-  ['directory_20management_3178',['Directory Management',['../a01303.html',1,'']]]
+  ['dynamic_20buffer_3270',['Dynamic Buffer',['../a01364.html',1,'']]],
+  ['directory_20management_3271',['Directory Management',['../a01366.html',1,'']]]
 ];

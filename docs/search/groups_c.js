@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['vector_3193',['Vector',['../a01320.html',1,'']]]
+  ['tchar_20functions_3286',['TCHAR Functions',['../a01382.html',1,'']]]
 ];

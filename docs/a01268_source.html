@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/win32/win32_process_token.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/time/win32_utimes.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,17 +62,17 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_7dc28ed10c1e0aa99689948e6211576b.html">&#x202A;win32</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_798ee6f4f5cd9c6410c07a649b7662ec.html">&#x202A;time</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">win32_process_token.c</div>  </div>
+<div class="title">win32_utimes.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a01268.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2021 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,31 +101,61 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a01250.html">_win32.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01268.html#aa2e6fad1f9cae00b92f120929499825c">   35</a></span>&#160;<a class="code" href="a01268.html#aa2e6fad1f9cae00b92f120929499825c">ipcl_win32_process_token</a>(HANDLE *htok)</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordflow">if</span>(!OpenThreadToken(GetCurrentThread(), TOKEN_QUERY, <span class="keyword">true</span>, htok))</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="comment">/* no_token means there is no impersonation token for the calling</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="comment">     * thread, fallback to process token.</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="comment">     */</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">if</span>(<a class="code" href="a01304.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a> != ERROR_NO_TOKEN)</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01306.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="comment">/* try process token */</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordflow">if</span>(!OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, htok))</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01306.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  }</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a01235.html">_time.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &quot;../file/_file.h&quot;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/error.h</a>&gt;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="a01268.html#a82abe623927a1213ec94ed66d6384425">   37</a></span>&#160;<a class="code" href="a01268.html#a82abe623927a1213ec94ed66d6384425">pcl_utimes</a>(<span class="keyword">const</span> <a class="code" href="a00113.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *path, <a class="code" href="a01452.html">pcl_time_t</a> *atime, <a class="code" href="a01452.html">pcl_time_t</a> *mtime, <a class="code" href="a01452.html">pcl_time_t</a> *btime)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  FILETIME filetimes[3];</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  FILETIME *ft_btime = NULL, *ft_atime = NULL, *ft_mtime = NULL;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <a class="code" href="a01492.html">pcl_file_t</a> *file = <a class="code" href="a00056.html#a5390df939f5b1f699b946b1e2a2349b6">pcl_file_open</a>(path, <a class="code" href="a00056.html#af42b9ead2f95720ebfa86a3249bbe21b">PCL_O_BACKUP</a> | <a class="code" href="a00056.html#a82e58361b57c3faf5eb9058810b5efc2">PCL_O_WRONLY</a>);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordflow">if</span>(!file)</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01369.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a>();</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordflow">if</span>(btime)</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  {</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    ft_btime = &amp;filetimes[0];</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    *ft_btime = <a class="code" href="a01265.html#aa22495bcf1c21126bb3b7de9af99eb9a">ipcl_win32_pcl_to_ftime</a>(*btime);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  }</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="keywordflow">if</span>(atime)</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  {</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    ft_atime = &amp;filetimes[1];</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    *ft_atime = <a class="code" href="a01265.html#aa22495bcf1c21126bb3b7de9af99eb9a">ipcl_win32_pcl_to_ftime</a>(*atime);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  }</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <span class="keywordflow">if</span>(mtime)</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  {</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    ft_mtime = &amp;filetimes[2];</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    *ft_mtime = <a class="code" href="a01265.html#aa22495bcf1c21126bb3b7de9af99eb9a">ipcl_win32_pcl_to_ftime</a>(*mtime);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  }</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  BOOL b = SetFileTime(file-&gt;<a class="code" href="a01492.html#aea2da8bf318182f7770734b14f9202b2">fd</a>, ft_btime, ft_atime, ft_mtime);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  <a class="code" href="a00056.html#a4e888a5a186ccc8fff3176665d01720a">pcl_file_close</a>(file);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  <span class="keywordflow">if</span>(!b)</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01369.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01306_html_ga89b8bfbe17595305872551a1caaa5702"><div class="ttname"><a href="a01306.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a></div><div class="ttdeci">#define SETLASTERR()</div><div class="ttdoc">Sets the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00125">_errdefs.h:125</a></div></div>
-<div class="ttc" id="aa01268_html_aa2e6fad1f9cae00b92f120929499825c"><div class="ttname"><a href="a01268.html#aa2e6fad1f9cae00b92f120929499825c">ipcl_win32_process_token</a></div><div class="ttdeci">int ipcl_win32_process_token(HANDLE *htok)</div><div class="ttdef"><b>Definition:</b> <a href="a01268_source.html#l00035">win32_process_token.c:35</a></div></div>
-<div class="ttc" id="aa01304_html_ga3646b2825d51326a06f25e597f883555"><div class="ttname"><a href="a01304.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a></div><div class="ttdeci">#define pcl_oserrno</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00185">error.h:185</a></div></div>
-<div class="ttc" id="aa01250_html"><div class="ttname"><a href="a01250.html">_win32.h</a></div></div>
+<div class="ttc" id="aa00113_html_ac114b2b1527c8ae241d37cc15ca7d122"><div class="ttname"><a href="a00113.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a></div><div class="ttdeci">char pchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00113_source.html#l00053">types.h:53</a></div></div>
+<div class="ttc" id="aa01492_html"><div class="ttname"><a href="a01492.html">tag_pcl_file</a></div><div class="ttdef"><b>Definition:</b> <a href="a00449_source.html#l00061">_file.h:62</a></div></div>
+<div class="ttc" id="aa01492_html_aea2da8bf318182f7770734b14f9202b2"><div class="ttname"><a href="a01492.html#aea2da8bf318182f7770734b14f9202b2">tag_pcl_file::fd</a></div><div class="ttdeci">pcl_fd_t fd</div><div class="ttdef"><b>Definition:</b> <a href="a00449_source.html#l00064">_file.h:64</a></div></div>
+<div class="ttc" id="aa01369_html_ga9ad3ef2339f58a873bc7bace5ad9c9df"><div class="ttname"><a href="a01369.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a></div><div class="ttdeci">#define TRC()</div><div class="ttdoc">Adds a stack trace to the current thread's error.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00262">_errdefs.h:262</a></div></div>
+<div class="ttc" id="aa01452_html"><div class="ttname"><a href="a01452.html">tag_pcl_time</a></div><div class="ttdef"><b>Definition:</b> <a href="a00110_source.html#l00057">time.h:58</a></div></div>
+<div class="ttc" id="aa01265_html_aa22495bcf1c21126bb3b7de9af99eb9a"><div class="ttname"><a href="a01265.html#aa22495bcf1c21126bb3b7de9af99eb9a">ipcl_win32_pcl_to_ftime</a></div><div class="ttdeci">FILETIME ipcl_win32_pcl_to_ftime(pcl_time_t t)</div><div class="ttdef"><b>Definition:</b> <a href="a01265_source.html#l00035">win32_pcl_to_ftime.c:35</a></div></div>
+<div class="ttc" id="aa00056_html_a82e58361b57c3faf5eb9058810b5efc2"><div class="ttname"><a href="a00056.html#a82e58361b57c3faf5eb9058810b5efc2">PCL_O_WRONLY</a></div><div class="ttdeci">#define PCL_O_WRONLY</div><div class="ttdef"><b>Definition:</b> <a href="a00056_source.html#l00059">file.h:59</a></div></div>
+<div class="ttc" id="aa00056_html_a4e888a5a186ccc8fff3176665d01720a"><div class="ttname"><a href="a00056.html#a4e888a5a186ccc8fff3176665d01720a">pcl_file_close</a></div><div class="ttdeci">PCL_EXPORT void pcl_file_close(pcl_file_t *file)</div><div class="ttdef"><b>Definition:</b> <a href="a00458_source.html#l00038">file_close.c:38</a></div></div>
+<div class="ttc" id="aa01268_html_a82abe623927a1213ec94ed66d6384425"><div class="ttname"><a href="a01268.html#a82abe623927a1213ec94ed66d6384425">pcl_utimes</a></div><div class="ttdeci">int pcl_utimes(const pchar_t *path, pcl_time_t *atime, pcl_time_t *mtime, pcl_time_t *btime)</div><div class="ttdoc">Set file times.</div><div class="ttdef"><b>Definition:</b> <a href="a01268_source.html#l00037">win32_utimes.c:37</a></div></div>
+<div class="ttc" id="aa00056_html_a5390df939f5b1f699b946b1e2a2349b6"><div class="ttname"><a href="a00056.html#a5390df939f5b1f699b946b1e2a2349b6">pcl_file_open</a></div><div class="ttdeci">PCL_EXPORT pcl_file_t * pcl_file_open(const pchar_t *path, int oflags,...)</div><div class="ttdef"><b>Definition:</b> <a href="a00467_source.html#l00036">file_open.c:36</a></div></div>
+<div class="ttc" id="aa00056_html_af42b9ead2f95720ebfa86a3249bbe21b"><div class="ttname"><a href="a00056.html#af42b9ead2f95720ebfa86a3249bbe21b">PCL_O_BACKUP</a></div><div class="ttdeci">#define PCL_O_BACKUP</div><div class="ttdef"><b>Definition:</b> <a href="a00056_source.html#l00073">file.h:73</a></div></div>
+<div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">error.h</a></div></div>
+<div class="ttc" id="aa01235_html"><div class="ttname"><a href="a01235.html">_time.h</a></div></div>
+<div class="ttc" id="aa01369_html_ga89b8bfbe17595305872551a1caaa5702"><div class="ttname"><a href="a01369.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a></div><div class="ttdeci">#define SETLASTERR()</div><div class="ttdoc">Sets the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00125">_errdefs.h:125</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

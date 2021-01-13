@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/vector/vector_uninit.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/time/mktime.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,17 +62,17 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_0baa9f3d984dd29d1429171590d769d6.html">&#x202A;vector</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_798ee6f4f5cd9c6410c07a649b7662ec.html">&#x202A;time</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">vector_uninit.c</div>  </div>
+<div class="title">mktime.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a01247.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2021 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,30 +101,50 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00116.html">pcl/vector.h</a>&gt;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00092.html">string.h</a>&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<a class="code" href="a01400.html">pcl_vector_t</a> *</div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="a01320.html#ga5eed3421d6a45258915b1868c402d356">   37</a></span>&#160;<a class="code" href="a01320.html#ga5eed3421d6a45258915b1868c402d356">pcl_vector_uninit</a>(<a class="code" href="a01400.html">pcl_vector_t</a> *v)</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a01320.html#ga7ee744f6d4d0f6db5ce022988e9275a6">pcl_vector_clear</a>(v))</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  {</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    v-&gt;<a class="code" href="a01400.html#a0f959190ef240e958c70d3fd28c3d856">elems</a> = <a class="code" href="a01298.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe</a>(v-&gt;<a class="code" href="a01400.html#a0f959190ef240e958c70d3fd28c3d856">elems</a>);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    memset(v, 0, <span class="keyword">sizeof</span>(<a class="code" href="a01400.html">pcl_vector_t</a>));</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  }</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordflow">return</span> v;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a01235.html">_time.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<a class="code" href="a01452.html">pcl_time_t</a></div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01247.html#a85bbe0d0091130bfd131aa6694508361">   35</a></span>&#160;<a class="code" href="a01247.html#a85bbe0d0091130bfd131aa6694508361">pcl_mktime</a>(<a class="code" href="a01456.html">pcl_tm_t</a> *tu, <span class="keywordtype">bool</span> utc)</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <a class="code" href="a01452.html">pcl_time_t</a> t;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keyword">struct </span>tm tm;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  tm.tm_sec = tu-&gt;<a class="code" href="a01456.html#a18df301c1a10c8d493da86ce5c2aea78">tm_sec</a>;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  tm.tm_min = tu-&gt;<a class="code" href="a01456.html#a987fa9280fe4cd6c6b8f77409f1c1504">tm_min</a>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  tm.tm_hour = tu-&gt;<a class="code" href="a01456.html#a4d171061df9e012fcfbd1172b8440d5f">tm_hour</a>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  tm.tm_mday = tu-&gt;<a class="code" href="a01456.html#a02048604d30b880033311cf542d63f92">tm_mday</a>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  tm.tm_mon = tu-&gt;<a class="code" href="a01456.html#ada983deda100b604bee5716512453658">tm_mon</a>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  tm.tm_year = tu-&gt;<a class="code" href="a01456.html#a994c4f4519ba57e186580d21cc86f9e5">tm_year</a>;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  tm.tm_wday = tu-&gt;<a class="code" href="a01456.html#a4412571b90746a85cae9b8841c44c59c">tm_wday</a>;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  tm.tm_yday = tu-&gt;<a class="code" href="a01456.html#a74938de584345413d1bf87c4d78d697c">tm_yday</a>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  tm.tm_isdst = tu-&gt;<a class="code" href="a01456.html#a7d102a87f898878ebf37ebd87504e099">tm_isdst</a>;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  t.<a class="code" href="a01452.html#a4c17f3941fd29561d689e4e03f18db46">sec</a> = utc ? _mkgmtime64(&amp;tm) : _mktime64(&amp;tm);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  t.<a class="code" href="a01452.html#a4c17f3941fd29561d689e4e03f18db46">sec</a> = utc ? timegm(&amp;tm) : mktime(&amp;tm);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  t.<a class="code" href="a01452.html#a67abf16c44712c2f6eacfce2da5aa5b4">nsec</a> = tu-&gt;<a class="code" href="a01456.html#ace9d15b139822be8f2990e3b05871059">tm_nsec</a>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <span class="keywordflow">return</span> t;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00116_html"><div class="ttname"><a href="a00116.html">vector.h</a></div></div>
-<div class="ttc" id="aa01320_html_ga7ee744f6d4d0f6db5ce022988e9275a6"><div class="ttname"><a href="a01320.html#ga7ee744f6d4d0f6db5ce022988e9275a6">pcl_vector_clear</a></div><div class="ttdeci">PCL_EXPORT pcl_vector_t * pcl_vector_clear(pcl_vector_t *v)</div><div class="ttdoc">Clear/remove all elements from a vector.</div><div class="ttdef"><b>Definition:</b> <a href="a01217_source.html#l00035">vector_clear.c:35</a></div></div>
-<div class="ttc" id="aa01298_html_ga2de1e7abd61febca9d319940c5c2bd1b"><div class="ttname"><a href="a01298.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe</a></div><div class="ttdeci">void * pcl_free_safe(void *p)</div><div class="ttdoc">Safely free memory space.</div></div>
-<div class="ttc" id="aa01400_html_a0f959190ef240e958c70d3fd28c3d856"><div class="ttname"><a href="a01400.html#a0f959190ef240e958c70d3fd28c3d856">tag_pcl_vector::elems</a></div><div class="ttdeci">char * elems</div><div class="ttdoc">Element array.</div><div class="ttdef"><b>Definition:</b> <a href="a00116_source.html#l00102">vector.h:102</a></div></div>
-<div class="ttc" id="aa01320_html_ga5eed3421d6a45258915b1868c402d356"><div class="ttname"><a href="a01320.html#ga5eed3421d6a45258915b1868c402d356">pcl_vector_uninit</a></div><div class="ttdeci">pcl_vector_t * pcl_vector_uninit(pcl_vector_t *v)</div><div class="ttdoc">Release all resources used by a vector.</div><div class="ttdef"><b>Definition:</b> <a href="a01247_source.html#l00037">vector_uninit.c:37</a></div></div>
-<div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
-<div class="ttc" id="aa01400_html"><div class="ttname"><a href="a01400.html">tag_pcl_vector</a></div><div class="ttdoc">Vector object.</div><div class="ttdef"><b>Definition:</b> <a href="a00116_source.html#l00090">vector.h:91</a></div></div>
-<div class="ttc" id="aa00092_html"><div class="ttname"><a href="a00092.html">string.h</a></div></div>
+<div class="ttc" id="aa01456_html_a7d102a87f898878ebf37ebd87504e099"><div class="ttname"><a href="a01456.html#a7d102a87f898878ebf37ebd87504e099">pcl_tm_t::tm_isdst</a></div><div class="ttdeci">int tm_isdst</div><div class="ttdef"><b>Definition:</b> <a href="a00110_source.html#l00073">time.h:73</a></div></div>
+<div class="ttc" id="aa01456_html_a994c4f4519ba57e186580d21cc86f9e5"><div class="ttname"><a href="a01456.html#a994c4f4519ba57e186580d21cc86f9e5">pcl_tm_t::tm_year</a></div><div class="ttdeci">int tm_year</div><div class="ttdef"><b>Definition:</b> <a href="a00110_source.html#l00070">time.h:70</a></div></div>
+<div class="ttc" id="aa01456_html_a18df301c1a10c8d493da86ce5c2aea78"><div class="ttname"><a href="a01456.html#a18df301c1a10c8d493da86ce5c2aea78">pcl_tm_t::tm_sec</a></div><div class="ttdeci">int tm_sec</div><div class="ttdef"><b>Definition:</b> <a href="a00110_source.html#l00065">time.h:65</a></div></div>
+<div class="ttc" id="aa01456_html_a987fa9280fe4cd6c6b8f77409f1c1504"><div class="ttname"><a href="a01456.html#a987fa9280fe4cd6c6b8f77409f1c1504">pcl_tm_t::tm_min</a></div><div class="ttdeci">int tm_min</div><div class="ttdef"><b>Definition:</b> <a href="a00110_source.html#l00066">time.h:66</a></div></div>
+<div class="ttc" id="aa01247_html_a85bbe0d0091130bfd131aa6694508361"><div class="ttname"><a href="a01247.html#a85bbe0d0091130bfd131aa6694508361">pcl_mktime</a></div><div class="ttdeci">pcl_time_t pcl_mktime(pcl_tm_t *tu, bool utc)</div><div class="ttdoc">Converts broken-down time to epoch nanoseconds.</div><div class="ttdef"><b>Definition:</b> <a href="a01247_source.html#l00035">mktime.c:35</a></div></div>
+<div class="ttc" id="aa01452_html"><div class="ttname"><a href="a01452.html">tag_pcl_time</a></div><div class="ttdef"><b>Definition:</b> <a href="a00110_source.html#l00057">time.h:58</a></div></div>
+<div class="ttc" id="aa01456_html_a02048604d30b880033311cf542d63f92"><div class="ttname"><a href="a01456.html#a02048604d30b880033311cf542d63f92">pcl_tm_t::tm_mday</a></div><div class="ttdeci">int tm_mday</div><div class="ttdef"><b>Definition:</b> <a href="a00110_source.html#l00068">time.h:68</a></div></div>
+<div class="ttc" id="aa01456_html_ace9d15b139822be8f2990e3b05871059"><div class="ttname"><a href="a01456.html#ace9d15b139822be8f2990e3b05871059">pcl_tm_t::tm_nsec</a></div><div class="ttdeci">int tm_nsec</div><div class="ttdef"><b>Definition:</b> <a href="a00110_source.html#l00088">time.h:88</a></div></div>
+<div class="ttc" id="aa01452_html_a4c17f3941fd29561d689e4e03f18db46"><div class="ttname"><a href="a01452.html#a4c17f3941fd29561d689e4e03f18db46">tag_pcl_time::sec</a></div><div class="ttdeci">long long sec</div><div class="ttdef"><b>Definition:</b> <a href="a00110_source.html#l00059">time.h:59</a></div></div>
+<div class="ttc" id="aa01456_html_a4d171061df9e012fcfbd1172b8440d5f"><div class="ttname"><a href="a01456.html#a4d171061df9e012fcfbd1172b8440d5f">pcl_tm_t::tm_hour</a></div><div class="ttdeci">int tm_hour</div><div class="ttdef"><b>Definition:</b> <a href="a00110_source.html#l00067">time.h:67</a></div></div>
+<div class="ttc" id="aa01456_html"><div class="ttname"><a href="a01456.html">pcl_tm_t</a></div><div class="ttdef"><b>Definition:</b> <a href="a00110_source.html#l00063">time.h:64</a></div></div>
+<div class="ttc" id="aa01456_html_ada983deda100b604bee5716512453658"><div class="ttname"><a href="a01456.html#ada983deda100b604bee5716512453658">pcl_tm_t::tm_mon</a></div><div class="ttdeci">int tm_mon</div><div class="ttdef"><b>Definition:</b> <a href="a00110_source.html#l00069">time.h:69</a></div></div>
+<div class="ttc" id="aa01456_html_a74938de584345413d1bf87c4d78d697c"><div class="ttname"><a href="a01456.html#a74938de584345413d1bf87c4d78d697c">pcl_tm_t::tm_yday</a></div><div class="ttdeci">int tm_yday</div><div class="ttdef"><b>Definition:</b> <a href="a00110_source.html#l00072">time.h:72</a></div></div>
+<div class="ttc" id="aa01456_html_a4412571b90746a85cae9b8841c44c59c"><div class="ttname"><a href="a01456.html#a4412571b90746a85cae9b8841c44c59c">pcl_tm_t::tm_wday</a></div><div class="ttdeci">int tm_wday</div><div class="ttdef"><b>Definition:</b> <a href="a00110_source.html#l00071">time.h:71</a></div></div>
+<div class="ttc" id="aa01235_html"><div class="ttname"><a href="a01235.html">_time.h</a></div></div>
+<div class="ttc" id="aa01452_html_a67abf16c44712c2f6eacfce2da5aa5b4"><div class="ttname"><a href="a01452.html#a67abf16c44712c2f6eacfce2da5aa5b4">tag_pcl_time::nsec</a></div><div class="ttdeci">int nsec</div><div class="ttdef"><b>Definition:</b> <a href="a00110_source.html#l00060">time.h:60</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

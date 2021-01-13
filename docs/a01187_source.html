@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/time/win32_pcl_to_ftime.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/sysinfo/_sysinfo.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,17 +62,17 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_798ee6f4f5cd9c6410c07a649b7662ec.html">&#x202A;time</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_26dbd9806586482d42b0c20625fee38b.html">&#x202A;sysinfo</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">win32_pcl_to_ftime.c</div>  </div>
+<div class="title">_sysinfo.h</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a01187.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2021 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,24 +101,30 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a01157.html">_time.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;FILETIME</div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01187.html#aa22495bcf1c21126bb3b7de9af99eb9a">   35</a></span>&#160;<a class="code" href="a01187.html#aa22495bcf1c21126bb3b7de9af99eb9a">ipcl_win32_pcl_to_ftime</a>(<a class="code" href="a01388.html">pcl_time_t</a> t)</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  FILETIME ft;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  LARGE_INTEGER li;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  li.QuadPart = ((t.<a class="code" href="a01388.html#a4c17f3941fd29561d689e4e03f18db46">sec</a> + SECS_1601_1970) * 10000000) + (t.<a class="code" href="a01388.html#a67abf16c44712c2f6eacfce2da5aa5b4">nsec</a> / 100);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  ft.dwLowDateTime = (DWORD) li.LowPart;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  ft.dwHighDateTime = (LONG) li.HighPart;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordflow">return</span> ft;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#ifndef LIBPCL__SYSINFO_H</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#define LIBPCL__SYSINFO_H</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00104.html">pcl/sysinfo.h</a>&gt;</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="comment">/** Implemented separately by darwin, linux and windows.</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment"> * @param info pointer to an output buffer, as passed to pcl_sysinfo().</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="comment"> * @param uts struct uts for unixes and unused by windows, uninsitalized int* is passed in.</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keywordtype">void</span> <a class="code" href="a01187.html#a3266b9df64320bcbdc29987710f05696">ipcl_sysinfo</a>(<a class="code" href="a01448.html">pcl_sysinfo_t</a> *info, <span class="keywordtype">void</span> *uts);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">#endif // LIBPCL__SYSINFO_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01388_html_a4c17f3941fd29561d689e4e03f18db46"><div class="ttname"><a href="a01388.html#a4c17f3941fd29561d689e4e03f18db46">tag_pcl_time::sec</a></div><div class="ttdeci">long long sec</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00059">time.h:59</a></div></div>
-<div class="ttc" id="aa01388_html"><div class="ttname"><a href="a01388.html">tag_pcl_time</a></div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00057">time.h:58</a></div></div>
-<div class="ttc" id="aa01187_html_aa22495bcf1c21126bb3b7de9af99eb9a"><div class="ttname"><a href="a01187.html#aa22495bcf1c21126bb3b7de9af99eb9a">ipcl_win32_pcl_to_ftime</a></div><div class="ttdeci">FILETIME ipcl_win32_pcl_to_ftime(pcl_time_t t)</div><div class="ttdef"><b>Definition:</b> <a href="a01187_source.html#l00035">win32_pcl_to_ftime.c:35</a></div></div>
-<div class="ttc" id="aa01388_html_a67abf16c44712c2f6eacfce2da5aa5b4"><div class="ttname"><a href="a01388.html#a67abf16c44712c2f6eacfce2da5aa5b4">tag_pcl_time::nsec</a></div><div class="ttdeci">int nsec</div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00060">time.h:60</a></div></div>
-<div class="ttc" id="aa01157_html"><div class="ttname"><a href="a01157.html">_time.h</a></div></div>
+<div class="ttc" id="aa01448_html"><div class="ttname"><a href="a01448.html">pcl_sysinfo_t</a></div><div class="ttdef"><b>Definition:</b> <a href="a00104_source.html#l00051">sysinfo.h:52</a></div></div>
+<div class="ttc" id="aa01187_html_a3266b9df64320bcbdc29987710f05696"><div class="ttname"><a href="a01187.html#a3266b9df64320bcbdc29987710f05696">ipcl_sysinfo</a></div><div class="ttdeci">void ipcl_sysinfo(pcl_sysinfo_t *info, void *uts)</div><div class="ttdoc">Implemented separately by darwin, linux and windows.</div><div class="ttdef"><b>Definition:</b> <a href="a01190_source.html#l00044">darwin_sysinfo.c:44</a></div></div>
+<div class="ttc" id="aa00104_html"><div class="ttname"><a href="a00104.html">sysinfo.h</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/array/array_create.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/alloc/zalloc_trace.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,17 +62,17 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_c440a0232048a2af23c47d1be7b434ce.html">&#x202A;array</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_2e53991d0abfe4d26476f40debcf47e2.html">&#x202A;alloc</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">array_create.c</div>  </div>
+<div class="title">zalloc_trace.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00140.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (PCL)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2003, 2005-2014, 2017-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2021 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,33 +101,24 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00026.html">pcl/array.h</a>&gt;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;stdlib.h&gt;</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<a class="code" href="a01324.html">pcl_array_t</a> *</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01299.html#ga013c70c68c7946c9086e225100ad67ec">   36</a></span>&#160;<a class="code" href="a01299.html#ga013c70c68c7946c9086e225100ad67ec">pcl_array_create</a>(<span class="keywordtype">int</span> initial_capacity, <a class="code" href="a01299.html#gad8f2532e1ca50c6fc990695cde8b3047">pcl_array_cleanup_t</a> cleanup)</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">void</span> *</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01361.html#gaebc24203e3e1178db5e3e519bdb467b6">   36</a></span>&#160;<a class="code" href="a01361.html#gaebc24203e3e1178db5e3e519bdb467b6">pcl_zalloc_trace</a>(<span class="keywordtype">size_t</span> n, <a class="code" href="a00038.html#acaae4a70e5707a94c3ea8e9da14fcab6">PCL_LOCATION_PARAMS</a>)</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <a class="code" href="a01324.html">pcl_array_t</a> *arr = <a class="code" href="a01298.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a>(<span class="keyword">sizeof</span>(<a class="code" href="a01324.html">pcl_array_t</a>));</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordtype">void</span> *ptr = calloc(n, 1);</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  arr-&gt;<a class="code" href="a01324.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a> = 0;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  arr-&gt;<a class="code" href="a01324.html#adbe66a087ac3fd4a5b0566f64ca2d12b">capacity</a> = <a class="code" href="a00038.html#affe776513b24d84b39af8ab0930fef7f">max</a>(0, initial_capacity);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  arr-&gt;<a class="code" href="a01324.html#ac9f12b76ad26a541c719afaa63efc528">cleanup</a> = cleanup;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  arr-&gt;<a class="code" href="a01324.html#ac1e786e007a7eab82fd04bf2f1118302">elements</a> = arr-&gt;<a class="code" href="a01324.html#adbe66a087ac3fd4a5b0566f64ca2d12b">capacity</a> ? <a class="code" href="a01298.html#ga8f4cbae7a9d6191bceec2d2d1f04eb5d">pcl_zalloc</a>(arr-&gt;<a class="code" href="a01324.html#adbe66a087ac3fd4a5b0566f64ca2d12b">capacity</a> * <span class="keyword">sizeof</span>(<span class="keywordtype">void</span>*)) : NULL;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordflow">return</span> arr;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;}</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordflow">if</span>(!ptr)</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <a class="code" href="a01361.html#ga423e5e1aba1eac6bc6ce929385059a49">pcl_memory_error</a>(<span class="stringliteral">&quot;pcl_zalloc&quot;</span>, NULL, n, <a class="code" href="a00038.html#abd6d80b4c77b949a990416b0ff19ae75">PCL_LOCATION_VALS</a>);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordflow">return</span> ptr;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01324_html_ad43c3812e6d13e0518d9f8b8f463ffcf"><div class="ttname"><a href="a01324.html#ad43c3812e6d13e0518d9f8b8f463ffcf">tag_pcl_array::count</a></div><div class="ttdeci">int count</div><div class="ttdoc">number of elements in the array</div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00090">array.h:90</a></div></div>
-<div class="ttc" id="aa01298_html_ga8f4cbae7a9d6191bceec2d2d1f04eb5d"><div class="ttname"><a href="a01298.html#ga8f4cbae7a9d6191bceec2d2d1f04eb5d">pcl_zalloc</a></div><div class="ttdeci">void * pcl_zalloc(size_t n)</div><div class="ttdoc">Allocate and zero dynamic memory.</div></div>
-<div class="ttc" id="aa00038_html_affe776513b24d84b39af8ab0930fef7f"><div class="ttname"><a href="a00038.html#affe776513b24d84b39af8ab0930fef7f">max</a></div><div class="ttdeci">#define max(a, b)</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00112">defs.h:112</a></div></div>
-<div class="ttc" id="aa01324_html"><div class="ttname"><a href="a01324.html">tag_pcl_array</a></div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00087">array.h:88</a></div></div>
-<div class="ttc" id="aa01298_html_ga1df8575b9ae906470c782db9c26201e8"><div class="ttname"><a href="a01298.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a></div><div class="ttdeci">void * pcl_malloc(size_t n)</div><div class="ttdoc">Allocate dynamic memory.</div></div>
-<div class="ttc" id="aa01299_html_ga013c70c68c7946c9086e225100ad67ec"><div class="ttname"><a href="a01299.html#ga013c70c68c7946c9086e225100ad67ec">pcl_array_create</a></div><div class="ttdeci">pcl_array_t * pcl_array_create(int initial_capacity, pcl_array_cleanup_t cleanup)</div><div class="ttdoc">Create an array.</div><div class="ttdef"><b>Definition:</b> <a href="a00140_source.html#l00036">array_create.c:36</a></div></div>
-<div class="ttc" id="aa01299_html_gad8f2532e1ca50c6fc990695cde8b3047"><div class="ttname"><a href="a01299.html#gad8f2532e1ca50c6fc990695cde8b3047">pcl_array_cleanup_t</a></div><div class="ttdeci">void(* pcl_array_cleanup_t)(pcl_array_t *arr, void *elem)</div><div class="ttdoc">Array element cleanup habndler.</div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00085">array.h:85</a></div></div>
-<div class="ttc" id="aa01324_html_ac9f12b76ad26a541c719afaa63efc528"><div class="ttname"><a href="a01324.html#ac9f12b76ad26a541c719afaa63efc528">tag_pcl_array::cleanup</a></div><div class="ttdeci">pcl_array_cleanup_t cleanup</div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00095">array.h:95</a></div></div>
-<div class="ttc" id="aa00026_html"><div class="ttname"><a href="a00026.html">array.h</a></div></div>
-<div class="ttc" id="aa01324_html_ac1e786e007a7eab82fd04bf2f1118302"><div class="ttname"><a href="a01324.html#ac1e786e007a7eab82fd04bf2f1118302">tag_pcl_array::elements</a></div><div class="ttdeci">void ** elements</div><div class="ttdoc">pointer table of elements.</div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00094">array.h:94</a></div></div>
-<div class="ttc" id="aa01324_html_adbe66a087ac3fd4a5b0566f64ca2d12b"><div class="ttname"><a href="a01324.html#adbe66a087ac3fd4a5b0566f64ca2d12b">tag_pcl_array::capacity</a></div><div class="ttdeci">int capacity</div><div class="ttdoc">internal table size, number of elements</div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00092">array.h:92</a></div></div>
+<div class="ttc" id="aa01361_html_ga423e5e1aba1eac6bc6ce929385059a49"><div class="ttname"><a href="a01361.html#ga423e5e1aba1eac6bc6ce929385059a49">pcl_memory_error</a></div><div class="ttdeci">PCL_EXPORT void pcl_memory_error(const char *type, void *ptr, size_t siz, PCL_LOCATION_PARAMS)</div><div class="ttdoc">Execute process memory error handler.</div><div class="ttdef"><b>Definition:</b> <a href="a00134_source.html#l00057">memory_handler.c:57</a></div></div>
+<div class="ttc" id="aa00038_html_acaae4a70e5707a94c3ea8e9da14fcab6"><div class="ttname"><a href="a00038.html#acaae4a70e5707a94c3ea8e9da14fcab6">PCL_LOCATION_PARAMS</a></div><div class="ttdeci">#define PCL_LOCATION_PARAMS</div><div class="ttdoc">PCL_LOCATION_PARAMS expands to a function/macro declaration's parameter list: ie.</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00097">defs.h:97</a></div></div>
+<div class="ttc" id="aa01361_html_gaebc24203e3e1178db5e3e519bdb467b6"><div class="ttname"><a href="a01361.html#gaebc24203e3e1178db5e3e519bdb467b6">pcl_zalloc_trace</a></div><div class="ttdeci">void * pcl_zalloc_trace(size_t n, PCL_LOCATION_PARAMS)</div><div class="ttdoc">Allocate and zero dynamic memory.</div><div class="ttdef"><b>Definition:</b> <a href="a00140_source.html#l00036">zalloc_trace.c:36</a></div></div>
+<div class="ttc" id="aa00038_html_abd6d80b4c77b949a990416b0ff19ae75"><div class="ttname"><a href="a00038.html#abd6d80b4c77b949a990416b0ff19ae75">PCL_LOCATION_VALS</a></div><div class="ttdeci">#define PCL_LOCATION_VALS</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00099">defs.h:99</a></div></div>
 <div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/process/getenv.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/net/net_dns2pcl.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,17 +62,17 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_c0cd66d8ddae4fc5bc5dc2f24e29763b.html">&#x202A;process</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_c72b25b75abe208498b36a3e44a3726c.html">&#x202A;net</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">getenv.c</div>  </div>
+<div class="title">net_dns2pcl.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00836.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (PCL)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2003, 2005-2014, 2017-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2021 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,50 +101,31 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00833.html">_process.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00092.html">pcl/string.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor"># include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<a class="code" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *</div>
-<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="a01316.html#gaf853825c1435f4a9ff30821a45556d01">   40</a></span>&#160;<a class="code" href="a01316.html#gaf853825c1435f4a9ff30821a45556d01">pcl_getenv</a>(<span class="keyword">const</span> <a class="code" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *name)</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;{</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <a class="code" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *value = NULL;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keywordflow">if</span>(!name)</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  DWORD len = GetEnvironmentVariable(name, NULL, 0);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="keywordflow">if</span>(len)</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  {</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    value = <a class="code" href="a01298.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a>(len * <span class="keyword">sizeof</span>(<a class="code" href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a>));</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordflow">if</span>(GetEnvironmentVariable(name, value, len) == 0)</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      value = <a class="code" href="a01298.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(value);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  }</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  value = getenv(name);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  <span class="keywordflow">if</span>(value)</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    value = <a class="code" href="a01318.html#ga3e9b6b1ba2888cd40bef1185f8c64a93">pcl_pcsdup</a>(value);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  <span class="keywordflow">return</span> value;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00824.html">_net.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a00836.html#a82e8a662e9b4bac96c10a6538d7778aa">   35</a></span>&#160;<a class="code" href="a00836.html#a82e8a662e9b4bac96c10a6538d7778aa">pcl_net_dns2pcl</a>(<span class="keywordtype">int</span> err)</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordflow">switch</span>(err)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  {</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">case</span> HOST_NOT_FOUND: <span class="keywordflow">return</span> <a class="code" href="a01368.html#ga055e984046a3aadd432d343396b9c73a">PCL_EHOSTNOTFOUND</a>;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordflow">case</span> TRY_AGAIN:      <span class="keywordflow">return</span> <a class="code" href="a01368.html#gae8d8c032afaa7fd7fe25abdb520331e2">PCL_EAGAIN</a>;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">case</span> NO_RECOVERY:    <span class="keywordflow">return</span> <a class="code" href="a01368.html#ga61f92b6ed6e604812075f590f28f8f99">PCL_ENORECOVERY</a>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">case</span> NO_DATA:        <span class="keywordflow">return</span> <a class="code" href="a01368.html#gaf558edfaee713005b685551cd684b433">PCL_ENODATA</a>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  }</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="comment">/* likely this is NETDB_INTERNAL on Unixes */</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01367.html#ga3ff5c98b765df74bd305d2e56e9b4f31">pcl_err_os2pcl</a>(<a class="code" href="a01367.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a>);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01316_html_gaf853825c1435f4a9ff30821a45556d01"><div class="ttname"><a href="a01316.html#gaf853825c1435f4a9ff30821a45556d01">pcl_getenv</a></div><div class="ttdeci">pchar_t * pcl_getenv(const pchar_t *name)</div><div class="ttdoc">Get the value of an environment variable.</div><div class="ttdef"><b>Definition:</b> <a href="a00836_source.html#l00040">getenv.c:40</a></div></div>
-<div class="ttc" id="aa00833_html"><div class="ttname"><a href="a00833.html">_process.h</a></div></div>
-<div class="ttc" id="aa00107_html_ac114b2b1527c8ae241d37cc15ca7d122"><div class="ttname"><a href="a00107.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a></div><div class="ttdeci">char pchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00107_source.html#l00053">types.h:53</a></div></div>
-<div class="ttc" id="aa01318_html_ga3e9b6b1ba2888cd40bef1185f8c64a93"><div class="ttname"><a href="a01318.html#ga3e9b6b1ba2888cd40bef1185f8c64a93">pcl_pcsdup</a></div><div class="ttdeci">pchar_t * pcl_pcsdup(const pchar_t *s)</div><div class="ttdoc">Duplicate a string.</div></div>
-<div class="ttc" id="aa01298_html_ga1df8575b9ae906470c782db9c26201e8"><div class="ttname"><a href="a01298.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a></div><div class="ttdeci">void * pcl_malloc(size_t n)</div><div class="ttdoc">Allocate dynamic memory.</div></div>
-<div class="ttc" id="aa01298_html_gab88b901c82e1010555b08ff6d39490f2"><div class="ttname"><a href="a01298.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a></div><div class="ttdeci">void * pcl_free(void *p)</div><div class="ttdoc">Free memory space.</div></div>
-<div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
-<div class="ttc" id="aa00092_html"><div class="ttname"><a href="a00092.html">string.h</a></div></div>
+<div class="ttc" id="aa00836_html_a82e8a662e9b4bac96c10a6538d7778aa"><div class="ttname"><a href="a00836.html#a82e8a662e9b4bac96c10a6538d7778aa">pcl_net_dns2pcl</a></div><div class="ttdeci">int pcl_net_dns2pcl(int err)</div><div class="ttdef"><b>Definition:</b> <a href="a00836_source.html#l00035">net_dns2pcl.c:35</a></div></div>
+<div class="ttc" id="aa01367_html_ga3646b2825d51326a06f25e597f883555"><div class="ttname"><a href="a01367.html#ga3646b2825d51326a06f25e597f883555">pcl_oserrno</a></div><div class="ttdeci">#define pcl_oserrno</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00185">error.h:185</a></div></div>
+<div class="ttc" id="aa00824_html"><div class="ttname"><a href="a00824.html">_net.h</a></div></div>
+<div class="ttc" id="aa01368_html_gaf558edfaee713005b685551cd684b433"><div class="ttname"><a href="a01368.html#gaf558edfaee713005b685551cd684b433">PCL_ENODATA</a></div><div class="ttdeci">#define PCL_ENODATA</div><div class="ttdoc">The requested name is valid but does not have an IP address.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00289">_errno.h:289</a></div></div>
+<div class="ttc" id="aa01368_html_gae8d8c032afaa7fd7fe25abdb520331e2"><div class="ttname"><a href="a01368.html#gae8d8c032afaa7fd7fe25abdb520331e2">PCL_EAGAIN</a></div><div class="ttdeci">#define PCL_EAGAIN</div><div class="ttdoc">Try again.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00048">_errno.h:48</a></div></div>
+<div class="ttc" id="aa01368_html_ga055e984046a3aadd432d343396b9c73a"><div class="ttname"><a href="a01368.html#ga055e984046a3aadd432d343396b9c73a">PCL_EHOSTNOTFOUND</a></div><div class="ttdeci">#define PCL_EHOSTNOTFOUND</div><div class="ttdoc">Authoritative Answer: Host not found.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00283">_errno.h:283</a></div></div>
+<div class="ttc" id="aa01368_html_ga61f92b6ed6e604812075f590f28f8f99"><div class="ttname"><a href="a01368.html#ga61f92b6ed6e604812075f590f28f8f99">PCL_ENORECOVERY</a></div><div class="ttdeci">#define PCL_ENORECOVERY</div><div class="ttdoc">Non recoverable errors, FORMERR, REFUSED, NOTIMP.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00287">_errno.h:287</a></div></div>
+<div class="ttc" id="aa01367_html_ga3ff5c98b765df74bd305d2e56e9b4f31"><div class="ttname"><a href="a01367.html#ga3ff5c98b765df74bd305d2e56e9b4f31">pcl_err_os2pcl</a></div><div class="ttdeci">PCL_EXPORT int pcl_err_os2pcl(uint32_t oserr)</div><div class="ttdef"><b>Definition:</b> <a href="a00377_source.html#l00035">err_os2pcl.c:35</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

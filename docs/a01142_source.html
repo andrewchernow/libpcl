@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/thread/thread_id.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/string/strndup.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,17 +62,17 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_bfedb72b9d87795234454f6223b9ab1e.html">&#x202A;thread</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_6cc8961f7f77054fb84f95c9f23f5ca0.html">&#x202A;string</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">thread_id.c</div>  </div>
+<div class="title">strndup.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a01142.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2021 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,31 +101,51 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00101.html">pcl/thread.h</a>&gt;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor"># include &lt;windows.h&gt;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#elif defined(PCL_LINUX)</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor"># include &lt;unistd.h&gt;</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor"># include &lt;sys/syscall.h&gt;</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;uint64_t</div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="a01142.html#a6789623f9fd6eea04a4cbe42f5fec446">   42</a></span>&#160;<a class="code" href="a01142.html#a6789623f9fd6eea04a4cbe42f5fec446">pcl_thread_id</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;{</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#ifdef PCL_DARWIN</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  uint64_t tid;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  pthread_threadid_np(NULL, &amp;tid);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordflow">return</span> tid;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#elif defined(PCL_WINDOWS)</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="keywordflow">return</span> (uint64_t)GetCurrentThreadId();</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <span class="keywordflow">return</span> (uint64_t)syscall(SYS_gettid);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a01103.html">_string.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#undef XNAME</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#ifdef XWIDE</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">  #define XNAME &quot;pcl_wcsndup&quot;</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="a01142.html#a9f4dda0fb2186ce2f62723dcf0e8ae41">   39</a></span>&#160;<span class="preprocessor">  #define XNAME &quot;pcl_strndup&quot;</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<a class="code" href="a01103.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *</div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="a01142.html#ae76ac08fa7a48bda3fa58ed8651b0bb8">   43</a></span>&#160;<a class="code" href="a01103.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a>(<a class="code" href="a01142.html#ae76ac08fa7a48bda3fa58ed8651b0bb8">ndup</a>)(<span class="keyword">const</span> <a class="code" href="a01103.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *s, <span class="keywordtype">size_t</span> len)</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;{</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordflow">if</span>(!s)</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  {</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <a class="code" href="a01361.html#ga423e5e1aba1eac6bc6ce929385059a49">pcl_memory_error</a>(<a class="code" href="a01142.html#a9f4dda0fb2186ce2f62723dcf0e8ae41">XNAME</a>, (<span class="keywordtype">void</span> *) s, len, <a class="code" href="a00038.html#ac26653ff3959b17bc17e9d32b036493d">PCL_LOCATION_ARGS</a>);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordflow">return</span> NULL; <span class="comment">/* in case error handler doesn&#39;t exit */</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  }</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <span class="keywordflow">if</span>(len == 0)</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    len = <a class="code" href="a01103.html#aee081742fbd47c91e70de0b86a84a1be">xstrlen</a>(s);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <a class="code" href="a01103.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *d = (<a class="code" href="a01103.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *) <a class="code" href="a01361.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a>((len + 1) * <span class="keyword">sizeof</span>(<a class="code" href="a01103.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a>));</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  memcpy(d, s, len * <span class="keyword">sizeof</span>(<a class="code" href="a01103.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a>));</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  d[len] = 0;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <span class="keywordflow">return</span> d;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;}</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">#ifndef XWIDE</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="a01142.html#af3082199ea3ac518b87acdac953cf385">   62</a></span>&#160;<span class="preprocessor">  #define XWIDE</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">  #include &quot;<a class="code" href="a01142.html">strndup.c</a>&quot;</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00101_html"><div class="ttname"><a href="a00101.html">thread.h</a></div></div>
-<div class="ttc" id="aa01142_html_a6789623f9fd6eea04a4cbe42f5fec446"><div class="ttname"><a href="a01142.html#a6789623f9fd6eea04a4cbe42f5fec446">pcl_thread_id</a></div><div class="ttdeci">uint64_t pcl_thread_id(void)</div><div class="ttdef"><b>Definition:</b> <a href="a01142_source.html#l00042">thread_id.c:42</a></div></div>
+<div class="ttc" id="aa00038_html_ac26653ff3959b17bc17e9d32b036493d"><div class="ttname"><a href="a00038.html#ac26653ff3959b17bc17e9d32b036493d">PCL_LOCATION_ARGS</a></div><div class="ttdeci">#define PCL_LOCATION_ARGS</div><div class="ttdoc">A PCL location is the file, func and line where a call occurred.</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00088">defs.h:88</a></div></div>
+<div class="ttc" id="aa01361_html_ga1df8575b9ae906470c782db9c26201e8"><div class="ttname"><a href="a01361.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a></div><div class="ttdeci">void * pcl_malloc(size_t n)</div><div class="ttdoc">Allocate dynamic memory.</div></div>
+<div class="ttc" id="aa01142_html_a9f4dda0fb2186ce2f62723dcf0e8ae41"><div class="ttname"><a href="a01142.html#a9f4dda0fb2186ce2f62723dcf0e8ae41">XNAME</a></div><div class="ttdeci">#define XNAME</div><div class="ttdef"><b>Definition:</b> <a href="a01142_source.html#l00039">strndup.c:39</a></div></div>
+<div class="ttc" id="aa01103_html"><div class="ttname"><a href="a01103.html">_string.h</a></div></div>
+<div class="ttc" id="aa01361_html_ga423e5e1aba1eac6bc6ce929385059a49"><div class="ttname"><a href="a01361.html#ga423e5e1aba1eac6bc6ce929385059a49">pcl_memory_error</a></div><div class="ttdeci">PCL_EXPORT void pcl_memory_error(const char *type, void *ptr, size_t siz, PCL_LOCATION_PARAMS)</div><div class="ttdoc">Execute process memory error handler.</div><div class="ttdef"><b>Definition:</b> <a href="a00134_source.html#l00057">memory_handler.c:57</a></div></div>
+<div class="ttc" id="aa01142_html"><div class="ttname"><a href="a01142.html">strndup.c</a></div></div>
+<div class="ttc" id="aa01103_html_a234f7ec71c9c19ed532c4bf11a9b9b8e"><div class="ttname"><a href="a01103.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a></div><div class="ttdeci">#define xchar</div><div class="ttdef"><b>Definition:</b> <a href="a01103_source.html#l00070">_string.h:70</a></div></div>
+<div class="ttc" id="aa01142_html_ae76ac08fa7a48bda3fa58ed8651b0bb8"><div class="ttname"><a href="a01142.html#ae76ac08fa7a48bda3fa58ed8651b0bb8">ndup</a></div><div class="ttdeci">xchar *XFUNC() ndup(const xchar *s, size_t len)</div><div class="ttdef"><b>Definition:</b> <a href="a01142_source.html#l00043">strndup.c:43</a></div></div>
+<div class="ttc" id="aa01103_html_a5c4b00cbc494339ce63882d7404bad27"><div class="ttname"><a href="a01103.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a></div><div class="ttdeci">#define XFUNC(name)</div><div class="ttdef"><b>Definition:</b> <a href="a01103_source.html#l00068">_string.h:68</a></div></div>
+<div class="ttc" id="aa01103_html_aee081742fbd47c91e70de0b86a84a1be"><div class="ttname"><a href="a01103.html#aee081742fbd47c91e70de0b86a84a1be">xstrlen</a></div><div class="ttdeci">#define xstrlen</div><div class="ttdef"><b>Definition:</b> <a href="a01103_source.html#l00071">_string.h:71</a></div></div>
+<div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

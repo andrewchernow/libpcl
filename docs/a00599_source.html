@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/json/json_arr.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/io/vprintf.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,17 +62,17 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_da4c9dd239018fe26269ba2e1cf7c9a1.html">&#x202A;json</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">&#x202A;src</a></li><li class="navelem"><a class="el" href="dir_c184e51c84f2c3f0345bbc8a0d75d3e1.html">&#x202A;io</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">json_arr.c</div>  </div>
+<div class="title">vprintf.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00599.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (PCL)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2003, 2005-2014, 2017-2020 Andrew Chernow</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2021 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  Redistribution and use in source and binary forms, with or without</span></div>
@@ -101,41 +101,49 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00596.html">_json.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00026.html">pcl/array.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;array_cleanup(<a class="code" href="a01324.html">pcl_array_t</a> *arr, <span class="keywordtype">void</span> *elem)</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <a class="code" href="a00038.html#a9b58a1294d89c976dfbe4dc480e9dfb8">UNUSED</a>(arr);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <a class="code" href="a01312.html#ga52957df8ceda7e9af3a900fa484f0531">pcl_json_free</a>(elem);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;}</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<a class="code" href="a01356.html">pcl_json_t</a> *</div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="a01315.html#ga7aef6a12263ca806e3121f678c6cf0d8">   44</a></span>&#160;<a class="code" href="a01315.html#ga7aef6a12263ca806e3121f678c6cf0d8">pcl_json_arr</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;{</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <a class="code" href="a01356.html">pcl_json_t</a> *val = <a class="code" href="a01298.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a>(<span class="keyword">sizeof</span>(<a class="code" href="a01356.html">pcl_json_t</a>));</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  val-&gt;<a class="code" href="a01356.html#aff17911edc8208aa8ddb1c7c52c78389">type</a> = <span class="charliteral">&#39;a&#39;</span>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  val-&gt;<a class="code" href="a01356.html#a5d44c529cb5afba28ecf7074e544a9b3">nrefs</a> = 1;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  val-&gt;<a class="code" href="a01356.html#aa20605bec5d780e4818ed6b3688c8c31">array</a> = <a class="code" href="a01299.html#ga013c70c68c7946c9086e225100ad67ec">pcl_array_create</a>(8, array_cleanup);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;../string/_string.h&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#undef sys_vprintf</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#undef vxprintf</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#ifdef XWIDE</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">  #define sys_vprintf vwprintf</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">  #define vxprintf pcl_vwprintf</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="a00599.html#afc5e7ad205dd3be0181cdf0f6ee22b2e">   42</a></span>&#160;<span class="preprocessor">  #define sys_vprintf vprintf</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="a00599.html#ac0ec8bb617cda8a9e736511420c4c513">   43</a></span>&#160;<span class="preprocessor">  #define vxprintf pcl_vprintf</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="a00599.html#aac0a0bbc104e971262c26e1a6e6d6946">   47</a></span>&#160;<a class="code" href="a00599.html#ac0ec8bb617cda8a9e736511420c4c513">vxprintf</a>(<span class="keyword">const</span> <a class="code" href="a01103.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *format, va_list ap)</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;{</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="keywordflow">if</span>(!format)</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">return</span> -<a class="code" href="a01368.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>;</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="keywordflow">return</span> val;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;}</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <a class="code" href="a01103.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> buf[4096];</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <a class="code" href="a01103.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *fmt = <a class="code" href="a01103.html#ada9c8738a3452027008d83047b1493e1">xfmtconv</a>(buf, <a class="code" href="a00038.html#a9941e62482da843b972636008fd80e56">countof</a>(buf), format);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="keywordtype">int</span> r = <a class="code" href="a00599.html#afc5e7ad205dd3be0181cdf0f6ee22b2e">sys_vprintf</a>(fmt, ap);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordflow">if</span>(fmt != buf)</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <a class="code" href="a01361.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(fmt);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  <span class="keywordflow">return</span> r;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;}</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor">#ifndef XWIDE</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="a00599.html#af3082199ea3ac518b87acdac953cf385">   63</a></span>&#160;<span class="preprocessor"># define XWIDE</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor"># include &quot;<a class="code" href="a00599.html">vprintf.c</a>&quot;</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01312_html_ga52957df8ceda7e9af3a900fa484f0531"><div class="ttname"><a href="a01312.html#ga52957df8ceda7e9af3a900fa484f0531">pcl_json_free</a></div><div class="ttdeci">PCL_EXPORT void pcl_json_free(pcl_json_t *j)</div><div class="ttdoc">Release all resources used by a json value.</div><div class="ttdef"><b>Definition:</b> <a href="a00686_source.html#l00038">json_free.c:38</a></div></div>
-<div class="ttc" id="aa01324_html"><div class="ttname"><a href="a01324.html">tag_pcl_array</a></div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00087">array.h:88</a></div></div>
-<div class="ttc" id="aa00038_html_a9b58a1294d89c976dfbe4dc480e9dfb8"><div class="ttname"><a href="a00038.html#a9b58a1294d89c976dfbe4dc480e9dfb8">UNUSED</a></div><div class="ttdeci">#define UNUSED(...)</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00102">defs.h:102</a></div></div>
-<div class="ttc" id="aa01298_html_ga1df8575b9ae906470c782db9c26201e8"><div class="ttname"><a href="a01298.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a></div><div class="ttdeci">void * pcl_malloc(size_t n)</div><div class="ttdoc">Allocate dynamic memory.</div></div>
-<div class="ttc" id="aa00596_html"><div class="ttname"><a href="a00596.html">_json.h</a></div></div>
-<div class="ttc" id="aa01356_html_aa20605bec5d780e4818ed6b3688c8c31"><div class="ttname"><a href="a01356.html#aa20605bec5d780e4818ed6b3688c8c31">tag_pcl_json::array</a></div><div class="ttdeci">pcl_array_t * array</div><div class="ttdoc">JSON array value when type is 'a'.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00201">json.h:201</a></div></div>
-<div class="ttc" id="aa01299_html_ga013c70c68c7946c9086e225100ad67ec"><div class="ttname"><a href="a01299.html#ga013c70c68c7946c9086e225100ad67ec">pcl_array_create</a></div><div class="ttdeci">PCL_EXPORT pcl_array_t * pcl_array_create(int initial_capacity, pcl_array_cleanup_t cleanup)</div><div class="ttdoc">Create an array.</div><div class="ttdef"><b>Definition:</b> <a href="a00140_source.html#l00036">array_create.c:36</a></div></div>
-<div class="ttc" id="aa01356_html_a5d44c529cb5afba28ecf7074e544a9b3"><div class="ttname"><a href="a01356.html#a5d44c529cb5afba28ecf7074e544a9b3">tag_pcl_json::nrefs</a></div><div class="ttdeci">int nrefs</div><div class="ttdoc">A JSON object's reference count.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00182">json.h:182</a></div></div>
-<div class="ttc" id="aa00026_html"><div class="ttname"><a href="a00026.html">array.h</a></div></div>
-<div class="ttc" id="aa01356_html"><div class="ttname"><a href="a01356.html">tag_pcl_json</a></div><div class="ttdoc">A JSON value object.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00170">json.h:171</a></div></div>
-<div class="ttc" id="aa01315_html_ga7aef6a12263ca806e3121f678c6cf0d8"><div class="ttname"><a href="a01315.html#ga7aef6a12263ca806e3121f678c6cf0d8">pcl_json_arr</a></div><div class="ttdeci">pcl_json_t * pcl_json_arr(void)</div><div class="ttdoc">Create an array object.</div><div class="ttdef"><b>Definition:</b> <a href="a00599_source.html#l00044">json_arr.c:44</a></div></div>
-<div class="ttc" id="aa01356_html_aff17911edc8208aa8ddb1c7c52c78389"><div class="ttname"><a href="a01356.html#aff17911edc8208aa8ddb1c7c52c78389">tag_pcl_json::type</a></div><div class="ttdeci">char type</div><div class="ttdoc">JSON value type.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00177">json.h:177</a></div></div>
+<div class="ttc" id="aa00599_html"><div class="ttname"><a href="a00599.html">vprintf.c</a></div></div>
+<div class="ttc" id="aa01103_html_ada9c8738a3452027008d83047b1493e1"><div class="ttname"><a href="a01103.html#ada9c8738a3452027008d83047b1493e1">xfmtconv</a></div><div class="ttdeci">#define xfmtconv</div><div class="ttdef"><b>Definition:</b> <a href="a01103_source.html#l00079">_string.h:79</a></div></div>
+<div class="ttc" id="aa00038_html_a9941e62482da843b972636008fd80e56"><div class="ttname"><a href="a00038.html#a9941e62482da843b972636008fd80e56">countof</a></div><div class="ttdeci">#define countof(buffer)</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00127">defs.h:127</a></div></div>
+<div class="ttc" id="aa00599_html_ac0ec8bb617cda8a9e736511420c4c513"><div class="ttname"><a href="a00599.html#ac0ec8bb617cda8a9e736511420c4c513">vxprintf</a></div><div class="ttdeci">#define vxprintf</div><div class="ttdef"><b>Definition:</b> <a href="a00599_source.html#l00043">vprintf.c:43</a></div></div>
+<div class="ttc" id="aa01361_html_gab88b901c82e1010555b08ff6d39490f2"><div class="ttname"><a href="a01361.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a></div><div class="ttdeci">void * pcl_free(void *p)</div><div class="ttdoc">Free memory space.</div></div>
+<div class="ttc" id="aa00599_html_afc5e7ad205dd3be0181cdf0f6ee22b2e"><div class="ttname"><a href="a00599.html#afc5e7ad205dd3be0181cdf0f6ee22b2e">sys_vprintf</a></div><div class="ttdeci">#define sys_vprintf</div><div class="ttdef"><b>Definition:</b> <a href="a00599_source.html#l00042">vprintf.c:42</a></div></div>
+<div class="ttc" id="aa01103_html_a234f7ec71c9c19ed532c4bf11a9b9b8e"><div class="ttname"><a href="a01103.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a></div><div class="ttdeci">#define xchar</div><div class="ttdef"><b>Definition:</b> <a href="a01103_source.html#l00070">_string.h:70</a></div></div>
+<div class="ttc" id="aa01368_html_gae0cd5c5a7fae36cd480176bda17e77ca"><div class="ttname"><a href="a01368.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a></div><div class="ttdeci">#define PCL_EINVAL</div><div class="ttdoc">Invalid argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00078">_errno.h:78</a></div></div>
 <div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
