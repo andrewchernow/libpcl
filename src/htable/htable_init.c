@@ -34,17 +34,17 @@
 #include <string.h>
 
 void
-ipcl_htable_init(int capacity, pcl_htable_entry_t **entries, int **hashidx)
+ipcl_htable_init(int capacity, pcl_htable_entry_t **entries, int **entry_lookup)
 {
 	size_t size = capacity * (sizeof(pcl_htable_entry_t) + sizeof(int));
 	pcl_htable_entry_t *new_entries = pcl_zalloc(size);
 
 	memset(new_entries, 0, capacity * sizeof(pcl_htable_entry_t));
 
-	int *new_hashidx = (int *) (new_entries + capacity);
+	int *new_entry_lookup = (int *) (new_entries + capacity);
 	for(int i = 0; i < capacity; i++)
-		new_hashidx[i] = -1;
+		new_entry_lookup[i] = -1;
 
 	*entries = new_entries;
-	*hashidx = new_hashidx;
+	*entry_lookup = new_entry_lookup;
 }

@@ -34,10 +34,10 @@
 pcl_htable_entry_t *
 pcl_htable_iter(pcl_htable_t *ht, int *index)
 {
-	if(!ht || !index || *index < 0 || *index >= ht->usedCount)
+	if(!ht || !index || *index < 0 || *index >= ht->count_used)
 		return NULL;
 
-	for(int i = *index; i < ht->usedCount; i++)
+	for(int i = *index; i < ht->count_used; i++)
 	{
 		pcl_htable_entry_t *ent = &ht->entries[i];
 

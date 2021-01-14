@@ -38,7 +38,7 @@ pcl_htable_free(pcl_htable_t *ht)
 	if(!ht)
 		return NULL;
 
-	for(int i = 0; i < ht->usedCount; i++)
+	for(int i = 0; i < ht->count_used; i++)
 	{
 		pcl_htable_entry_t *ent = &ht->entries[i];
 

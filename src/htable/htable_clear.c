@@ -39,7 +39,7 @@ pcl_htable_clear(pcl_htable_t *ht, bool shrink)
 	if(!ht)
 		return;
 
-	for(int i = 0; i < ht->usedCount; i++)
+	for(int i = 0; i < ht->count_used; i++)
 	{
 		pcl_htable_entry_t *ent = &ht->entries[i];
 
@@ -51,14 +51,14 @@ pcl_htable_clear(pcl_htable_t *ht, bool shrink)
 	{
 		pcl_free(ht->entries);
 		ht->capacity = MINTBLSIZE;
-		ipcl_htable_init(ht->capacity, &ht->entries, &ht->hashidx);
+		ipcl_htable_init(ht->capacity, &ht->entries, &ht->entry_lookup);
 	}
 	else
 	{
 		memset(ht->entries, 0, ht->capacity * sizeof(pcl_htable_entry_t));
 		for(int i = 0; i < ht->capacity; i++)
-			ht->hashidx[i] = -1;
+			ht->entry_lookup[i] = -1;
 	}
 
-	ht->count = ht->usedCount = 0;
+	ht->count = ht->count_used = 0;
 }

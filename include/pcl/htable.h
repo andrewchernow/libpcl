@@ -42,14 +42,14 @@
  * objects. To handle collisions, the entry objects are a linked list using an integer value
  * that represents the index of the next collision within the entry array. The key is hashed
  * using Google's FarmHash and mod'd with the current table size to get the hashed index value.
- * The hashed index value is an index to a second array (hashidx) of entry array indexes. Thus,
- * looking up a hashed index within the \a hashidx array, will give you the entry array index,
+ * The hashed index value is an index to a second array (entry_lookup) of entry array indexes. Thus,
+ * looking up a hashed index within the \a entry_lookup array, will give you the entry array index,
  * which is the beginning of the entry collision list. This is how the PCL hash table can
  * preserve order: one array using hash index to find the index into the sequential array
  * of entries.
  *
- * @note The hashidx and entry array idea came directly from PHP's new hash table implementation
- * released in 7.0. Just like PHP, PCL allocates the entry and hashidx arrays as one allocation:
+ * @note The entry_lookup and entry array idea came directly from PHP's new hash table implementation
+ * released in 7.0. Just like PHP, PCL allocates the entry and entry_lookup arrays as one allocation:
  * both with \a capacity elements. When an entry is removed, the entry array marks it as deleted
  * but does not adjust the array to close the gap. An entry is marked as deleted by setting its
  * \a key to \c NULL, which PCL treats as an invalid key. On rehash, the entry array is
@@ -61,7 +61,7 @@
  * collisions (on string data since DJBX33A is for string keys). In one test of 470,000
  * english words, Google's FarmHash had no collisions while DJBX33A had 320. Performance wise,
  * they are about the same. Another benifit of Google's FarmHash is that it is not just designed
- * for string keys, which PCL requires since to allow binary and string keys. It is also prefered
+ * for string keys, which PCL requires to allow binary and string keys. It is also prefered
  * to provide a single generalized hash function for both binary and string keys out of the box.
  *
  * ### Customizing
@@ -72,11 +72,12 @@
  * pcl_htable_t.key_equals. All of these customizations can be set after table creation.
  *
  * ### Rehashing
- * Rehashing is implemented by allocating a new entry and hashidx array (single allocation)
+ * Rehashing is implemented by allocating a new entry and entry_lookup array (single allocation)
  * that is either double the current size rounded up to the nearest prime or half the current
- * size rounded up to the nearest prime. When the copy is complete, the old entry and hashidx
+ * size rounded up to the nearest prime. When the copy is complete, the old entry and entry_lookup
  * arrays are freed. No hash codes are recomputed, since each entry caches its own hash code.
- * The entry array is defragmented, meaning all deleted entries are removed.
+ * The entry array is defragmented, meaning all deleted entries are removed; \a count_used will
+ * always be the same as \a count.
  *
  * ### Table Size Limitations
  * The table can grow to ~50 million on 32-bit machines and ~1.6 billion on 64-bit machines. This
@@ -120,7 +121,7 @@
  *
  *   pcl_htable_t *ht = pcl_htable(num);
  *
- *   // let htable know key length
+ *   // let htable know key length, only used by default key_equals and hashcode callbacks
  *   ht->key_len = 16;
  *   ht->remove_entry = remove_entry;
  *
@@ -128,9 +129,13 @@
  *
  *   for(int i = 0; i < num; i++)
  *   {
- *     void *key = memcmp(pcl_malloc(16), uuidtokey(uuid, users[i]->uuid), 16);
+ *     void *key = pcl_malloc(16);
+ *     memcpy(key, uuidtokey(uuid, users[i]->uuid), 16);
  *     pcl_htable_put(ht, key, users[i], true);
  *   }
+ *
+ *   // elements will be freed by hash table's remove_entry
+ *   pcl_free(users);
  *
  *   const char *john = "37462d98-371b-11eb-adc1-0242ac120002";
  *   pcl_user_t *user = pcl_htable_get(ht, uuidtokey(uuid, john));
@@ -149,7 +154,7 @@
  * a custom key_equals (where key1 == key2 could be the implementation) and a custom
  * hashcode callback (where return (uintptr_t) key; could be the implementation). This method
  * is very efficient both in memory and performance, but only works if the numeric bit length is
- * \c <= the number of bits used by pointers. Also, user_id of 0 is invalid, since key's cannot
+ * \c <= the number of bits used by pointers. Also, user_id of 0 is invalid, since keys cannot
  * be \c NULL, but it is uncommon to start sequence values like user_ids with 0. An example of
  * this is below.
  *
@@ -195,17 +200,17 @@
  *   ht->key_equals = key_equals;
  *
  *   // ignored since example sets hashcode and key_equals. Set if your callbacks need it.
- *   //ht->key_len = 0;
+ *   //ht->key_len = sizeof(int64_t);
  *
+ *   // set min and max load factor
  *   //ht->min_loadfac = 0.13f;
  *   //ht->max_loadfac = 0.85f;
- *   //ht->userp = used_by_callbacks;
  *
  *   // set key address to user_id
  *   for(int i = 0; i < num_users; i++)
  *     pcl_htable_put(ht, IDTOKEY(users[i]->id), users[i], true);
  *
- *   pcl_free(users);
+ *   pcl_free(users); // elements freed by remove_entry
  *
  *   app_user_t *user = pcl_htable_get(ht, IDTOKEY(1982734));
  *
@@ -228,7 +233,7 @@ extern "C" {
  * 32 bytes on 64-bit machines. On 64-bit machines, this is really 28 bytes but will be
  * padded to 32.
  */
-typedef struct tag_pcl_htable_entry
+typedef struct
 {
 	/** leave me alone (collision list) */
 	int next;
@@ -247,42 +252,48 @@ struct tag_pcl_htable
 {
 	/* READONLY SECTION */
 
-	/** count of entries. differs from usedCount because this doesn't include deleted entries.
+	/** count of entries. differs from \a count_used because this doesn't include deleted entries.
 	 * @warning treat this as immutable
 	 */
 	int count;
 
-	/** count of used entries (active + deleted). A deleted entry has a NULL key and
+	/** count of used entries (active + deleted). A deleted entry has a \c NULL key and
 	 * should always be skipped.
 	 * @warning treat this as immutable
 	 */
-	int usedCount;
+	int count_used;
 
 	/** current table capacity
 	 * @warning treat this as immutable
 	 */
 	int capacity;
 
-	/** sequential array of entries as they are inserted. This not allows for preserving
+	/** A sequential array of entries as they are inserted. This not allows for preserving
 	 * insertion order, by avoids allocating each individual entry. This always contains
-	 * \a capacity available entries.
-	 * @note allocated in same block of memeory as the \a hashidx member
+	 * \a capacity available entries. The next insert index is bound to \a count_used, not
+	 * \a count. \a count_used is always incremented, unlike \a count. It is reset to 0
+	 * by ::pcl_htable_clear and reset to \a count during an internal rehash.
+	 * @note each entry element is part of a collision list by using its \a next
+	 * member to indicate the index of the next entry in the list. A \a next value of -1 indicates
+	 * the end of the list.
+	 * @note allocated in same block of memeory as \a entry_lookup
 	 */
 	pcl_htable_entry_t *entries;
 
-	/** An array of index values for the \a entries member. The hash index is used to lookup
-	 * the entry index. This always contains \a capacity indexes.
-	 * @note allocated in same block of memeory as the \a entries member
+	/** An entry lookup array where each element is an \a entries index value. When given a key,
+	 * the key's hashcode mod'd with the table's \a capacity, produces the index to this array;
+	 * termed the hashed index or \c hashidx. Elements in this array are set to -1 to indicate they
+	 * are not in use. This always contains \a capacity indexes.
+	 * @note allocated in same block of memeory as \a entries
 	 */
-	int *hashidx;
+	int *entry_lookup;
 
 	/* READ/WRITE SECTION */
 
-	/** Key length in bytes. The default is zero, which means variable-length (strings). When
- 	 * implementing \a key_equals and \a hashcode callbacks, this value is not used by the table.
- 	 * When using the default \a key_equals, \c strcmp is used when this is zero and \c memcmp
- 	 * when non-zero. When using the default \c hashcode, \c strlen is used when this is zero to
- 	 * compute the \a key_len otherwise this value is used directly.
+	/** Key length in bytes. The default is zero, which means variable-length (strings). This value
+	 * is only used by the default \a key_equals and \a hashcode callbacks. If a custom version of
+	 * both callbacks are set, this can remain unset unless the custom implementations require
+	 * this value.
  	 *
  	 * The table should be empty when setting this value: after ::pcl_htable
  	 * or ::pcl_htable_clear.
@@ -308,18 +319,19 @@ struct tag_pcl_htable
 	float max_loadfac;
 
 	/** Called when an entry is being removed from the table. There is no default version, this
-	 * is set to \c NULL on the hash table. When \c NULL, only the entry object itself is freed.
-	 * In most cases, an application will want to set this to free keys and/or values.
+	 * is set to \c NULL on the hash table. When \c NULL, the \a key and \a value are not freed
+	 * which might be the desired behavior. In most cases, an application will want to set this to
+	 * free keys and/or values. In either case, the entry itself is marked as deleted (\c NULL key).
 	 * @param key pointer to the key beign removed
 	 * @param value pointer to the value
 	 */
 	void (*remove_entry)(const void *key, void *value);
 
 	/** Determine if two keys are equal. The default comparator uses \c strcmp when \a key_len
-	 * is zero and \c memcmp otherwise.
+	 * is zero and \c memcmp otherwise. The \a key_len passed is the pcl_htable_t.key_len member.
 	 * @param key1 pointer to a key
 	 * @param key1 pointer to a key to compare against \a key1
-	 * @param key_len key length in bytes
+	 * @param key_len key length in bytes, expected to be the length for both \a key1 and \a key2
 	 * @return true if \a key1 and \a key2 are equal
 	 */
 	bool (*key_equals)(const void *key1, const void *key2, size_t key_len);
@@ -327,6 +339,14 @@ struct tag_pcl_htable
 	/** Compute a hash code for the given key. Google's farmhash is used as the default hashfunc
 	 * for both 32 and 64-bit architectures. On 32-bit machines, a 32-bit code is computed and
 	 * on 64-bit machines, a 64-bit hash code.
+	 *
+	 * For the default hashcode implementation, if \a key_len is zero, it is assumed that \a key is
+	 * a string and \c strlen is used to get the \a key_len. The \a key_len passed is the
+	 * pcl_htable_t.key_len member.
+	 *
+	 * This is only executed once for each entry put into the table. The computed hash code is
+	 * cached within the entry object. This is also executed, on the \a key argument, each time
+	 * either ::pcl_htable_get, ::pcl_htable_lookup or ::pcl_htable_remove are called.
 	 *
 	 * Hash code values use the \c uintptr_t data type. This means the number of bits allowed
 	 * depends on the number of bits within a \c uintptr_t.
@@ -352,11 +372,13 @@ PCL_EXPORT pcl_htable_t *pcl_htable(int capacity);
  */
 PCL_EXPORT pcl_htable_entry_t *pcl_htable_lookup(const pcl_htable_t *ht, const void *key);
 
-/** Lookup an entry and return its value.
+/** Lookup an entry and return its value. This is a convenience function that wraps
+ * ::pcl_htable_lookup.
  * @param ht pointer to hash table object
  * @param key pointer to a key
  * @return value pointer or NULL if not found. values can be NULL. To detect an error verse a
- * NULL value, check pcl_errno: if(value == NULL && pcl_errno == PCL_EOKAY) success;
+ * NULL value, check pcl_errno: if(value == NULL && pcl_errno == PCL_EOKAY) success; Or, use
+ * ::pcl_htable_lookup that never returns \c NULL on success.
  */
 PCL_EXPORT void *pcl_htable_get(const pcl_htable_t *ht, const void *key);
 
@@ -385,24 +407,27 @@ PCL_EXPORT int pcl_htable_remove(pcl_htable_t *ht, const void *key);
  */
 PCL_EXPORT pcl_array_t *pcl_htable_keys(const pcl_htable_t *ht);
 
-/** Iterate through a table's entries. This automatically skips deleted entries.
+/** Iterate through a table's entries. This automatically skips deleted entries, which means
+ * the given \a index pointer can skip indexes during the iteration: like given 1 on input
+ * could produce 5 on output.
  * @code
  * // typical usage
  * int index = 0;
  * pcl_htable_entry_t *ent;
  *
- * // the iteration is always insertion order
+ * // the iteration is always insertion order. the index can skip index values,
+ * // which means it skipped one or more deleted entries.
  * while((ent = pcl_htable_iter(ht, &index)))
- *   printf("%d] %s\n", index - 1, ent->key); // -1 since iter() increments
+ *   printf("entries[%d] %s\n", index - 1, ent->key);
  *
  * // can also use this to retrieve the N-th entry
- * int index = 9; // 10-th entry inserted
+ * int index = 9; // logical 10-th entry inserted, physical depends on num deleted
  * pcl_htable_entry_t *ent = pcl_htable_iter(ht, &index);
  * @endcode
  * @param ht pointer to a hash table
- * @param index pointer to an integer that must be >= 0 on the first call. This is typically
- * set to 0 to iterate through all entries. After the first call, this value shoulod remain
- * unchanged.
+ * @param index pointer to an integer that on input, represents the N-th entry to retrieve. On
+ * output, this represents the next index value. This cannot be less than zero or greater than
+ * \a count_used. This is typically set to zero to iterate through all entries.
  * @return pointer to the next entry or \c NULL when complete.
  */
 PCL_EXPORT pcl_htable_entry_t *pcl_htable_iter(pcl_htable_t *ht, int *index);

@@ -57,7 +57,7 @@ pcl_htable_entry_t *ipcl_htable_lookup(const pcl_htable_t *ht, const void *key,
  */
 int ipcl_htable_rehash(pcl_htable_t *ht, bool grow);
 
-void ipcl_htable_init(int capacity, pcl_htable_entry_t **entries, int **hashidx);
+void ipcl_htable_init(int capacity, pcl_htable_entry_t **entries, int **entry_lookup);
 
 #ifdef __cplusplus
 }

@@ -78,28 +78,28 @@ pcl_htable_put(pcl_htable_t *ht, const void *key, void *value, bool unique)
 		}
 
 		/* next entry */
-		pcl_htable_entry_t *ent = &ht->entries[ht->usedCount];
+		pcl_htable_entry_t *ent = &ht->entries[ht->count_used];
 
 		ent->key = key;
 		ent->value = value;
 		ent->code = code;
 
-		int entidx = ht->hashidx[hashidx];
+		int entidx = ht->entry_lookup[hashidx];
 
 		if(entidx != -1)
 		{
 			pcl_htable_entry_t *head = &ht->entries[entidx];
 			ent->next = head->next;
-			head->next = ht->usedCount;
+			head->next = ht->count_used;
 		}
 		else
 		{
 			ent->next = -1;
-			ht->hashidx[hashidx] = ht->usedCount;
+			ht->entry_lookup[hashidx] = ht->count_used;
 		}
 
 		ht->count++;
-		ht->usedCount++;
+		ht->count_used++;
 	}
 
 	return 0;

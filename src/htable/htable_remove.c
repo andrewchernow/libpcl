@@ -40,7 +40,7 @@ pcl_htable_remove(pcl_htable_t *ht, const void *key)
 
 	uintptr_t code = ht->hashcode(key, ht->key_len);
 	int hashidx = (int) (code % ht->capacity);
-	int entidx = ht->hashidx[hashidx];
+	int entidx = ht->entry_lookup[hashidx];
 	pcl_htable_entry_t *prev = NULL;
 
 	while(entidx != -1)
@@ -52,7 +52,7 @@ pcl_htable_remove(pcl_htable_t *ht, const void *key)
 			if(prev)
 				prev->next = ent->next;
 			else
-				ht->hashidx[hashidx] = ent->next;
+				ht->entry_lookup[hashidx] = ent->next;
 
 			if(ht->remove_entry)
 				ht->remove_entry(ent->key, ent->value);

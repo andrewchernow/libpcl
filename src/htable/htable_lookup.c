@@ -56,7 +56,7 @@ ipcl_htable_lookup(const pcl_htable_t *ht, const void *key, uintptr_t *codep, in
 	if(hashidxp)
 		*hashidxp = hashidx;
 
-	int entidx = ht->hashidx[hashidx];
+	int entidx = ht->entry_lookup[hashidx];
 
 	while(entidx != -1)
 	{

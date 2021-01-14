@@ -63,15 +63,19 @@ pcl_htable(int capacity)
 	if(capacity < 0)
 		return R_TRC(NULL);
 
-	pcl_htable_t *ht = pcl_zalloc(sizeof(pcl_htable_t));
+	pcl_htable_t *ht = pcl_malloc(sizeof(pcl_htable_t));
 
 	ht->key_len = 0;
+	ht->count = 0;
+	ht->count_used = 0;
 	ht->capacity = capacity;
 	ht->min_loadfac = MIN_LOADFAC;
 	ht->max_loadfac = MAX_LOADFAC;
 	ht->key_equals = default_key_equals;
 	ht->hashcode = default_hashcode;
-	ipcl_htable_init(ht->capacity, &ht->entries, &ht->hashidx);
+	ht->remove_entry = NULL;
+
+	ipcl_htable_init(ht->capacity, &ht->entries, &ht->entry_lookup);
 
 	return ht;
 }

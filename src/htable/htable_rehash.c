@@ -42,12 +42,12 @@ ipcl_htable_rehash(pcl_htable_t *ht, bool grow)
 	if(new_capacity < 0)
 		return TRC();
 
-	int *new_hashidx;
+	int *new_entry_lookup;
 	pcl_htable_entry_t *new_entries;
-	ipcl_htable_init(new_capacity, &new_entries, &new_hashidx);
+	ipcl_htable_init(new_capacity, &new_entries, &new_entry_lookup);
 
 	/* recompute all non-deleted entries */
-	for(int count = 0, i = 0; i < ht->usedCount; i++)
+	for(int count = 0, i = 0; i < ht->count_used; i++)
 	{
 		pcl_htable_entry_t *oldent = &ht->entries[i];
 
@@ -61,7 +61,7 @@ ipcl_htable_rehash(pcl_htable_t *ht, bool grow)
 		ent->code = oldent->code;
 
 		int hashidx = (int) (ent->code % new_capacity);
-		int entidx = new_hashidx[hashidx];
+		int entidx = new_entry_lookup[hashidx];
 
 		if(entidx != -1)
 		{
@@ -72,19 +72,19 @@ ipcl_htable_rehash(pcl_htable_t *ht, bool grow)
 		else
 		{
 			ent->next = -1;
-			new_hashidx[hashidx] = count;
+			new_entry_lookup[hashidx] = count;
 		}
 
 		count++;
 	}
 
-	/* frees hashidx[] as well */
-	pcl_free_safe(ht->entries);
+	/* frees entry_lookup[] as well */
+	pcl_free(ht->entries);
 
 	ht->capacity = new_capacity;
 	ht->entries = new_entries;
-	ht->hashidx = new_hashidx;
-	ht->usedCount = ht->count; // reset usedCount, we defrag'd entries array
+	ht->entry_lookup = new_entry_lookup;
+	ht->count_used = ht->count; // reset count_used, we defrag'd entries array
 
 	return 0;
 }
