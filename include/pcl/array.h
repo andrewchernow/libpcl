@@ -105,6 +105,13 @@ PCL_EXPORT pcl_array_t *pcl_array(int initial_capacity, pcl_cleanup_t cleanup);
  */
 PCL_EXPORT void *pcl_array_get(pcl_array_t *arr, int index);
 
+/** Find the index of an array element value.
+ * @param arr pointer to an array object
+ * @param elem pointer to an element value
+ * @return index or -1 if not found
+ */
+PCL_EXPORT int pcl_array_indexof(pcl_array_t *arr, void *elem);
+
 /** Set an element of an array, replacing a possible existing element. When setting elements,
  * the array's \a count is not consulted. Instead, this allows a set operation as long as
  * \a index is less than \a capacity. This will set \c count to `index + 1` if \a count is
@@ -115,6 +122,8 @@ PCL_EXPORT void *pcl_array_get(pcl_array_t *arr, int index);
  *
  * If an element exists at \a index, it is removed and passed to the cleanup handler if both the
  * cleanup handler and element are not \c NULL.
+ *
+ * If setting an element past \a count, all elements between \c count and \c index will be \c NULL.
  *
  * @param arr arr pointer to an array object
  * @param elem pointer to an element
