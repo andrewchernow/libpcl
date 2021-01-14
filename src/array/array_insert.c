@@ -44,6 +44,9 @@ pcl_array_insert(pcl_array_t *arr, void *elem, int index)
 	{
 		arr->capacity = arr->capacity > 0 ? arr->capacity * 2 : 8;
 		arr->elements = pcl_realloc(arr->elements, arr->capacity * sizeof(void*));
+
+		/* this satisfies array_set by ensuring all unused elements are NULL */
+		memset(arr->elements + arr->count, 0, (arr->capacity - arr->count) * sizeof(void*));
 	}
 
 	/* memmove only required when NOT appending: ie. index '<' count */
