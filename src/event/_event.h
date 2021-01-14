@@ -33,6 +33,7 @@
 #define LIBPCL__EVENT_H__
 
 #include <pcl/event.h>
+#include <pcl/array.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -40,11 +41,10 @@ extern "C" {
 
 typedef struct
 {
-	int count;
-	int size;
-	pcl_event_handler_t *handlers;
+	pcl_array_t *handlers;
 } ipcl_event_context_t;
 
+/* only called once from pcl_init. This is not a PCL_EVENT_INIT func */
 void ipcl_event_init(void);
 
 ipcl_event_context_t *ipcl_event_context(void);

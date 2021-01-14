@@ -39,6 +39,7 @@ void
 ipcl_event_init(void)
 {
 	pcl_mutex_init(&event_context_lock);
+	event_context.handlers = pcl_array(4, NULL);
 }
 
 ipcl_event_context_t *

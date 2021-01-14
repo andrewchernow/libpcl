@@ -39,18 +39,10 @@ pcl_event_unregister(pcl_event_handler_t handler)
 		return;
 
 	ipcl_event_context_t *ctx = ipcl_event_context();
+	int index = pcl_array_indexof(ctx->handlers, (void *)(uintptr_t) handler);
 
-	for(int i = 0; i < ctx->count; i++)
-	{
-		pcl_event_handler_t h = ctx->handlers[i];
-
-		if(h == handler)
-		{
-			pcl_event_handler_t *x = ctx->handlers + i;
-			memmove(x, x + 1, (ctx->count - i - 1) * sizeof(h));
-			break;
-		}
-	}
+	if(index != -1)
+		pcl_array_remove(ctx->handlers, index);
 
 	ipcl_event_context_release();
 }

@@ -39,15 +39,6 @@ pcl_event_register(pcl_event_handler_t handler)
 		return;
 
 	ipcl_event_context_t *ctx = ipcl_event_context();
-
-	if(ctx->count == ctx->size)
-	{
-		ctx->size = ctx->size ? ctx->size * 2 : 8;
-		ctx->handlers = (pcl_event_handler_t *) pcl_realloc(ctx->handlers,
-			sizeof(pcl_event_handler_t) * ctx->size);
-	}
-
-	ctx->handlers[ctx->count++] = handler;
-
+	pcl_array_push(ctx->handlers, (void *)(uintptr_t) handler);
 	ipcl_event_context_release();
 }

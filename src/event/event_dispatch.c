@@ -36,8 +36,11 @@ pcl_event_dispatch(uint32_t which, void *data)
 {
 	ipcl_event_context_t *ctx = ipcl_event_context();
 
-	for(int i = 0; i < ctx->count; i++)
-		ctx->handlers[i](which, data);
+	for(int i = 0; i < ctx->handlers->count; i++)
+	{
+		pcl_event_handler_t handler = (pcl_event_handler_t)(uintptr_t) ctx->handlers->elements[i];
+		handler(which, data);
+	}
 
 	ipcl_event_context_release();
 }
