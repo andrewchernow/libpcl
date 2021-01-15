@@ -51,11 +51,11 @@
  *
  * char *file = strdup("some_program");
  *
- * pcl_array_push(arr, file);
- * pcl_array_push(arr, strdup("-a"));
- * pcl_array_push(arr, strdup("--quiet"));
- * pcl_array_push(arr, strdup("--file=\"example/file.txt\""));
- * pcl_array_push(arr, strdup("-t"));
+ * pcl_array_append(arr, file);
+ * pcl_array_append(arr, strdup("-a"));
+ * pcl_array_append(arr, strdup("--quiet"));
+ * pcl_array_append(arr, strdup("--file=\"example/file.txt\""));
+ * pcl_array_append(arr, strdup("-t"));
  *
  * // element 5 already NULL
  *
@@ -123,7 +123,7 @@ PCL_EXPORT int pcl_array_indexof(pcl_array_t *arr, void *elem, pcl_compare_t com
 /** Set an element of an array, replacing a possible existing element. When setting elements,
  * the array's \a count is not consulted. Instead, this allows a set operation as long as
  * \a index is less than \a capacity. This will set \c count to `index + 1` if \a count is
- * less than `index + 1`. This is very different than ::pcl_array_insert or ::pcl_array_push,
+ * less than `index + 1`. This is very different than ::pcl_array_insert or ::pcl_array_append,
  * which always inserts an element, bound to array's current \c count, and growing the array if required.
  * When performing a set operation, the array is never grown. Thus, trying to set an element at
  * an \a index greater than or equal to \a capacity will throw a ::PCL_EINDEX error.
@@ -137,7 +137,7 @@ PCL_EXPORT int pcl_array_indexof(pcl_array_t *arr, void *elem, pcl_compare_t com
  * @param elem pointer to an element
  * @param index element index
  * @return 0 for success and -1 on error.
- * @see pcl_array_push
+ * @see pcl_array_append
  */
 PCL_EXPORT int pcl_array_set(pcl_array_t *arr, void *elem, int index);
 
@@ -174,7 +174,7 @@ PCL_EXPORT pcl_array_t *pcl_array_sort(pcl_array_t *arr, pcl_compare_t compare);
 PCL_EXPORT void pcl_array_free(pcl_array_t *arr);
 
 PCL_INLINE int
-pcl_array_push(pcl_array_t *arr, void *elem)
+pcl_array_append(pcl_array_t *arr, void *elem)
 {
 	return pcl_array_insert(arr, elem, arr ? arr->count : 0);
 }

@@ -41,7 +41,7 @@ pcl_htable_keys(const pcl_htable_t *ht)
 	{
 		for(int i = 0; i < ht->count_used; i++)
 			if(ht->entries[i].key)
-				pcl_array_push(keys, (void *) ht->entries[i].key);
+				pcl_array_append(keys, (void *) ht->entries[i].key);
 	}
 
 	return keys;

@@ -95,7 +95,7 @@ pcl_ssl_certentry(pcl_ssl_t *ssl, int entry_type)
 			ents = pcl_array(X509_NAME_entry_count(name), pcl_cleanup_ptr);
 
 		str = X509_NAME_ENTRY_get_data(X509_NAME_get_entry(name, pos));
-		pcl_array_push(ents, pcl_strndup((const char *)str->data, str->length));
+		pcl_array_append(ents, pcl_strndup((const char *)str->data, str->length));
 	}
 
 	if(!ents)

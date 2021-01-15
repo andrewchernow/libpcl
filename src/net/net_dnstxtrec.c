@@ -62,7 +62,7 @@ pcl_net_dnstxtrec(const char *host)
 	arr = pcl_array(data->dwStringCount, pcl_cleanup_ptr);
 
 	for(DWORD i=0; i < data->dwStringCount; i++)
-		pcl_array_push(arr, pcl_pcs_to_utf8(data->pStringArray[i], 0, NULL));
+		pcl_array_append(arr, pcl_pcs_to_utf8(data->pStringArray[i], 0, NULL));
 
 	DnsRecordListFree(rlist, DnsFreeRecordList);
 
@@ -89,7 +89,7 @@ pcl_net_dnstxtrec(const char *host)
 	for(int n = 0; n < len;)
 	{
 		int q = data[n++]; /* first byte is txt length */
-		pcl_array_push(arr, pcl_strndup((const char *) (data + n), q));
+		pcl_array_append(arr, pcl_strndup((const char *) (data + n), q));
 		n += q;
 	}
 #endif

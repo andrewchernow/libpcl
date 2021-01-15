@@ -58,7 +58,7 @@ XFUNC(strsplit_impl)(const xchar *s, const xchar *delim, int casefold)
 			s = p + delim_len;
 		}
 
-		pcl_array_push(arr, elem);
+		pcl_array_append(arr, elem);
 	}
 
 	return arr;

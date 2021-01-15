@@ -39,6 +39,6 @@ pcl_event_register(pcl_event_handler_t handler)
 		return;
 
 	ipcl_event_context_t *ctx = ipcl_event_context();
-	pcl_array_push(ctx->handlers, (void *)(uintptr_t) handler);
+	pcl_array_append(ctx->handlers, (void *)(uintptr_t) handler);
 	ipcl_event_context_release();
 }

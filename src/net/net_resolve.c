@@ -56,7 +56,7 @@ ipcl_net_resolve(const char *host)
 			if(getnameinfo(ai->ai_addr, (socklen_t)ai->ai_addrlen, ip, (int)sizeof(ip),
 				NULL, 0, NI_NUMERICHOST) == 0)
 			{
-				pcl_array_push(addrs, pcl_strdup(ip));
+				pcl_array_append(addrs, pcl_strdup(ip));
 			}
 		}
 	}

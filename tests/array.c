@@ -46,7 +46,7 @@ TESTCASE(array_add)
 
 	for(int i = 0; i < (int) (sizeof(elements) / sizeof(elements[0])); i++)
 	{
-		ASSERT_INTEQ(pcl_array_push(arr, (void *) elements[i]), i + 1, "wrong return value add");
+		ASSERT_INTEQ(pcl_array_append(arr, (void *) elements[i]), i + 1, "wrong return value add");
 		ASSERT_STREQ(pcl_array_get(arr, i), elements[i], "strings do not match on get");
 	}
 
@@ -68,7 +68,7 @@ TESTCASE(array_get_badidx)
 TESTCASE(array_get)
 {
 	pcl_array_t *arr = pcl_array(0, NULL);
-	ASSERT_INTEQ(pcl_array_push(arr, "value"), 1, "wrong return value");
+	ASSERT_INTEQ(pcl_array_append(arr, "value"), 1, "wrong return value");
 	ASSERT_STREQ(pcl_array_get(arr, 0), "value", "wrong array element value");
 	pcl_array_free(arr);
 	return true;
@@ -78,7 +78,7 @@ TESTCASE(array_get)
 TESTCASE(array_get_null)
 {
 	pcl_array_t *arr = pcl_array(0, NULL);
-	ASSERT_INTEQ(pcl_array_push(arr, NULL), 1, "wrong return value");
+	ASSERT_INTEQ(pcl_array_append(arr, NULL), 1, "wrong return value");
 	ASSERT_NULL(pcl_array_get(arr, 0), "wrong array element value");
 	ASSERT_INTEQ(pcl_errno, PCL_EOKAY, "wrong pcl error value");
 	pcl_array_free(arr);
@@ -89,8 +89,8 @@ TESTCASE(array_get_null)
 TESTCASE(array_set)
 {
 	pcl_array_t *arr = pcl_array(4, NULL);
-	ASSERT_INTEQ(pcl_array_push(arr, "value1"), 1, "wrong return value array_add");
-	ASSERT_INTEQ(pcl_array_push(arr, "value2"), 2, "wrong return value array_add");
+	ASSERT_INTEQ(pcl_array_append(arr, "value1"), 1, "wrong return value array_add");
+	ASSERT_INTEQ(pcl_array_append(arr, "value2"), 2, "wrong return value array_add");
 	ASSERT_INTEQ(pcl_array_set(arr, "value3", 0), 0, "wrong return value array_set");
 	ASSERT_STREQ(pcl_array_get(arr, 0), "value3", "wrong array element value");
 	pcl_array_free(arr);
@@ -113,7 +113,7 @@ TESTCASE(array_set_beyond_count)
 TESTCASE(array_remove)
 {
 	pcl_array_t *arr = pcl_array(2, NULL);
-	ASSERT_INTEQ(pcl_array_push(arr, "value"), 1, "wrong return value array_add");
+	ASSERT_INTEQ(pcl_array_append(arr, "value"), 1, "wrong return value array_add");
 	ASSERT_INTEQ(pcl_array_remove(arr, 0), 0, "wrong return value array_remove");
 	ASSERT_INTEQ(arr->count, 0, "wrong pcl_array_t.count value");
 	pcl_array_free(arr);
