@@ -45,24 +45,30 @@
  *
  * ### Create argv array
  * @code
- * // create an argv array of 4 arguments with a trailing NULL
- * pcl_array_t *arr = pcl_array(5, pcl_cleanup_ptr);
+ * // create an argv array of 4 arguments with a trailing NULL,
+ * // including the file to be executed and trailing NULL.
+ * pcl_array_t *arr = pcl_array(6, pcl_cleanup_ptr);
  *
+ * char *file = strdup("some_program");
+ *
+ * pcl_array_push(arr, file);
  * pcl_array_push(arr, strdup("-a"));
  * pcl_array_push(arr, strdup("--quiet"));
  * pcl_array_push(arr, strdup("--file=\"example/file.txt\""));
  * pcl_array_push(arr, strdup("-t"));
  *
- * // replace element 0 with -b, cleanup handler called for element 0
+ * // element 5 already NULL
+ *
+ * // replace element 4 with -b, cleanup handler called for element 4
  * if(something_is_true)
- *   pcl_array_set(arr, strdup("-b"), 0);
+ *   pcl_array_set(arr, strdup("-b"), 4);
  *
  * // remove quiet if noisey is true, internally does a cleanup and memmove
  * if(noisey)
- *   pcl_array_remove(arr, 1);
+ *   pcl_array_remove(arr, 2);
  *
  * // note, any unset element defaults to NULL.
- * execv("some_program", arr->elements);
+ * execv(file, arr->elements);
  *
  * pcl_array_free(arr);
  * @endcode
@@ -83,6 +89,7 @@ struct tag_pcl_array
 	int capacity;
 	/** pointer table of elements. */
 	void **elements;
+	/** Cleanup handler for array elements */
 	pcl_cleanup_t cleanup;
 };
 
