@@ -64,6 +64,14 @@ typedef long double pcl_clock_t; /* high-res performance counter (nanosecs) */
  */
 typedef void (*pcl_cleanup_t)(void *item);
 
+/** Comparator prototype.
+ * @param a
+ * @param b
+ * @return an integer less than, equal to, or greater than zero if \a a is found, respectively,
+ * to be less than, to match, or be greater than \a b.
+ */
+typedef int (*pcl_compare_t)(const void *a, const void *b);
+
 /* --------------------------------------------------------------------
  * forward declarations
  */
