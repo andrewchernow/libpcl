@@ -153,6 +153,13 @@ PCL_EXPORT int pcl_array_insert(pcl_array_t *arr, void *elem, int index);
  */
 PCL_EXPORT int pcl_array_remove(pcl_array_t *arr, int index);
 
+/** Sort an array using \c qsort.
+ * @param arr pointer to an array object
+ * @param compare pointer to a function comparator whose behavior is identical to \c qsort
+ * @return pointer to the \a arr argument
+ */
+PCL_EXPORT pcl_array_t *pcl_array_sort(pcl_array_t *arr, pcl_compare_t compare);
+
 /** Free an array. This will call the cleanup handler, if not \c NULL, for all elements that
  * are not \c NULL and then free the array object.
  * @param arr pointer to an array object
