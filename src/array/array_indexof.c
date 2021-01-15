@@ -32,14 +32,23 @@
 #include <pcl/array.h>
 
 int
-pcl_array_indexof(pcl_array_t *arr, void *elem)
+pcl_array_indexof(pcl_array_t *arr, void *elem, pcl_compare_t compare)
 {
-	if(!arr)
+	if(!arr || arr->count == 0)
 		return -1;
 
-	for(int i = 0; i < arr->count; i++)
-		if(arr->elements[i] == elem)
-			return i;
+	if(compare)
+	{
+		for(int i = 0; i < arr->count; i++)
+			if(compare(arr->elements[i], elem) == 0)
+				return i;
+	}
+	else
+	{
+		for(int i = 0; i < arr->count; i++)
+			if(arr->elements[i] == elem)
+				return i;
+	}
 
 	return -1;
 }

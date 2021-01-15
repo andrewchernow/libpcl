@@ -108,9 +108,10 @@ PCL_EXPORT void *pcl_array_get(pcl_array_t *arr, int index);
 /** Find the index of an array element value.
  * @param arr pointer to an array object
  * @param elem pointer to an element value
+ * @param compare a comparator function. If \c NULL, pointer addresses are compared directly
  * @return index or -1 if not found
  */
-PCL_EXPORT int pcl_array_indexof(pcl_array_t *arr, void *elem);
+PCL_EXPORT int pcl_array_indexof(pcl_array_t *arr, void *elem, pcl_compare_t compare);
 
 /** Set an element of an array, replacing a possible existing element. When setting elements,
  * the array's \a count is not consulted. Instead, this allows a set operation as long as

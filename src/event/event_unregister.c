@@ -39,7 +39,7 @@ pcl_event_unregister(pcl_event_handler_t handler)
 		return;
 
 	ipcl_event_context_t *ctx = ipcl_event_context();
-	int index = pcl_array_indexof(ctx->handlers, (void *)(uintptr_t) handler);
+	int index = pcl_array_indexof(ctx->handlers, (void *)(uintptr_t) handler, NULL);
 
 	if(index != -1)
 		pcl_array_remove(ctx->handlers, index);
