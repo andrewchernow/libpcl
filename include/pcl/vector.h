@@ -60,7 +60,7 @@
  *   pcl_vector_t *vec = pcl_vector(8, sizeof(int), NULL);
  *
  *   for(int i=0; i < vec->capacity * 2; i++)
- *     pcl_vector_push(vec, &i); // vector will have to expand after 8 appends
+ *     pcl_vector_append(vec, &i); // vector will have to expand after 8 appends
  *
  *   for(int i=0; i < vec->count; i++)
  *   {
@@ -189,13 +189,13 @@ PCL_EXPORT void pcl_vector_free(pcl_vector_t *v);
  */
 PCL_EXPORT pcl_vector_t *pcl_vector_sort(pcl_vector_t *v, pcl_compare_t compare);
 
-/** Push (append) an element.
+/** Append an element.
  * @param v pointer to a vector
  * @param elem pointer to an element
  * @return pointer to the vector element inserted or \c NULL on error
  */
 PCL_INLINE void *
-pcl_vector_push(pcl_vector_t *v, void *elem)
+pcl_vector_append(pcl_vector_t *v, void *elem)
 {
 	return pcl_vector_insert(v, elem, v ? v->count : 0);
 }

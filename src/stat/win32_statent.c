@@ -305,7 +305,7 @@ convstat(pchar_t *path, pcl_stat_t *st, WIN32_FIND_DATA *wfd, int flags, bool is
 
 				elem.root = pcl_pcsdup(path);
 				st->blksize = elem.blksize = (int) (sectors_per_cluster * bytes_per_sec);
-				pcl_vector_push(bsize_cache, &elem);
+				pcl_vector_append(bsize_cache, &elem);
 			}
 		}
 	}
