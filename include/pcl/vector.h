@@ -184,10 +184,10 @@ PCL_EXPORT void pcl_vector_free(pcl_vector_t *v);
 
 /** Sort a vector using \c qsort.
  * @param v ppointer to a vector
- * @param cmp pointer to a function comparator whose behavior is identical to \c qsort
+ * @param compare pointer to a function comparator whose behavior is identical to \c qsort
  * @return pointer to the \a v argument
  */
-PCL_EXPORT pcl_vector_t *pcl_vector_sort(pcl_vector_t *v, int (*cmp)(const void *, const void *));
+PCL_EXPORT pcl_vector_t *pcl_vector_sort(pcl_vector_t *v, pcl_compare_t compare);
 
 /** Push (append) an element.
  * @param v pointer to a vector

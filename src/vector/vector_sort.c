@@ -39,10 +39,10 @@
 #endif
 
 pcl_vector_t *
-pcl_vector_sort(pcl_vector_t *v, int (*cmp)(const void *, const void *))
+pcl_vector_sort(pcl_vector_t *v, pcl_compare_t compare)
 {
-	if(v && v->count > 1)
-		qsort(v->elems, v->count, v->size, cmp);
+	if(v && v->count > 1 && compare)
+		qsort(v->elems, v->count, v->size, compare);
 
 	return v;
 }
