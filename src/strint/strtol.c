@@ -30,6 +30,7 @@
 */
 
 #include "../string/_string.h"
+#include <pcl/strint.h>
 #include <limits.h>
 #include <stdlib.h>
 

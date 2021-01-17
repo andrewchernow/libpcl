@@ -159,6 +159,8 @@ pcl_openssl_errmsg(void)
  */
 PCL_PUBLIC pcl_openssl_error_t *pcl_ssl_error(pcl_ssl_t *ssl);
 
+PCL_PUBLIC int pcl_ssl_flags(pcl_ssl_t *ssl);
+
 #ifdef __cplusplus
 }
 #endif

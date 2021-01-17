@@ -197,6 +197,12 @@ PCL_PUBLIC int pcl_err_last(void);
  */
 PCL_PUBLIC char *pcl_err_lastmsg(void);
 
+/** Get the last OS error code. Note, this is only set if provided when setting the PCL error.
+ * In cases were a PCL error is set directly, w/o mapping OS error => PCL, this will be 0.
+ * @return last OS error code
+ */
+PCL_PUBLIC uint32_t pcl_err_lastos(void);
+
 
 /* -------------------------------------------------------------------------
  * Formatted Output API

@@ -29,6 +29,8 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#include <pcl/file.h>
+
 #ifdef PCL_WINDOWS
 #	include <windows.h>
 #else

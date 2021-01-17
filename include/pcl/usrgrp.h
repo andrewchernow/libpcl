@@ -58,7 +58,7 @@ PCL_PUBLIC int pcl_getuid(const char *name, uid_t *uidp);
  * @return 0 on success and -1 on failure. If the group referenced by name does not exist, the
  * pcl_errno is set to PCL_ENOTFOUND (not PCL_ENOENT, which the OS may set for other reasons).
  */
-int pcl_getgid(const char *name, gid_t *gidp);
+PCL_PUBLIC int pcl_getgid(const char *name, gid_t *gidp);
 
 #ifdef __cplusplus
 }

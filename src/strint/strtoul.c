@@ -30,6 +30,7 @@
 */
 
 #include "../string/_string.h"
+#include <pcl/strint.h>
 #include <stdlib.h>
 
 #undef xstrtoul

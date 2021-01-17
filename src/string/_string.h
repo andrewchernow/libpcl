@@ -87,5 +87,4 @@
 #	endif
 #endif
 
-/* not exported */
-xchar *XFUNC(fmtconv)(xchar *buf, size_t bufsz, const xchar *pcl_format);
+PCL_PRIVATE xchar *XFUNC(fmtconv)(xchar *buf, size_t bufsz, const xchar *pcl_format);

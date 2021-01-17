@@ -29,13 +29,13 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#include <pcl/file.h>
 #include <pcl/io.h>
 #include <pcl/error.h>
 
 #ifdef PCL_WINDOWS
 #	include <pcl/dir.h>
 #	include <pcl/stat.h>
-#	include <pcl/file.h>
 #endif
 
 int pcl_remove(const pchar_t *pathname)

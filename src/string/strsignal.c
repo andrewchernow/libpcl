@@ -29,140 +29,141 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#include <pcl/string.h>
 #include <signal.h>
 
 const char *
 pcl_strsignal(int signum)
 {
-#define _case(name) case name: return #name
+#define CASE(name) case name: return #name
 	switch(signum)
 	{
 #ifdef SIGBREAK
-		_case(SIGBREAK);    /* (Windows) Ctrl-Break sequence */
+		CASE(SIGBREAK);    /* (Windows) Ctrl-Break sequence */
 #endif
 
 #ifdef SIGHUP
-		_case(SIGHUP);      /* Hangup (POSIX).  */
+		CASE(SIGHUP);      /* Hangup (POSIX).  */
 #endif
 
 #ifdef SIGINT
-		_case(SIGINT);      /* Interrupt (ANSI).  */
+		CASE(SIGINT);      /* Interrupt (ANSI).  */
 #endif
 
 #ifdef SIGQUIT
-		_case(SIGQUIT);     /* Quit (POSIX).  */
+		CASE(SIGQUIT);     /* Quit (POSIX).  */
 #endif
 
 #ifdef SIGILL
-		_case(SIGILL);      /* Illegal instruction (ANSI).  */
+		CASE(SIGILL);      /* Illegal instruction (ANSI).  */
 #endif
 
 #ifdef SIGTRAP
-		_case(SIGTRAP);     /* Trace trap (POSIX).  */
+		CASE(SIGTRAP);     /* Trace trap (POSIX).  */
 #endif
 
 #ifdef SIGABRT
-		_case(SIGABRT);     /* Abort (ANSI).  */
+		CASE(SIGABRT);     /* Abort (ANSI).  */
 #endif
 
 #ifdef SIGBUS
-		_case(SIGBUS);      /* BUS error (4.2 BSD).  */
+		CASE(SIGBUS);      /* BUS error (4.2 BSD).  */
 #endif
 
 #ifdef SIGFPE
-		_case(SIGFPE);      /* Floating-point exception (ANSI).  */
+		CASE(SIGFPE);      /* Floating-point exception (ANSI).  */
 #endif
 
 #ifdef SIGKILL
-		_case(SIGKILL);     /* Kill, unblockable (POSIX).  */
+		CASE(SIGKILL);     /* Kill, unblockable (POSIX).  */
 #endif
 
 #ifdef SIGUSR1
-		_case(SIGUSR1);     /* User-defined signal 1 (POSIX).  */
+		CASE(SIGUSR1);     /* User-defined signal 1 (POSIX).  */
 #endif
 
 #ifdef SIGSEGV
-		_case(SIGSEGV);     /* Segmentation violation (ANSI).  */
+		CASE(SIGSEGV);     /* Segmentation violation (ANSI).  */
 #endif
 
 #ifdef SIGUSR2
-		_case(SIGUSR2);     /* User-defined signal 2 (POSIX).  */
+		CASE(SIGUSR2);     /* User-defined signal 2 (POSIX).  */
 #endif
 
 #ifdef SIGPIPE
-		_case(SIGPIPE);     /* Broken pipe (POSIX).  */
+		CASE(SIGPIPE);     /* Broken pipe (POSIX).  */
 #endif
 
 #ifdef SIGALRM
-		_case(SIGALRM);     /* Alarm clock (POSIX).  */
+		CASE(SIGALRM);     /* Alarm clock (POSIX).  */
 #endif
 
 #ifdef SIGTERM
-		_case(SIGTERM);     /* Termination (ANSI).  */
+		CASE(SIGTERM);     /* Termination (ANSI).  */
 #endif
 
 #ifdef SIGSTKFLT
-		_case(SIGSTKFLT);   /* Stack fault.  */
+		CASE(SIGSTKFLT);   /* Stack fault.  */
 #endif
 
 #ifdef SIGCHLD
-		_case(SIGCHLD);     /* Child status has changed (POSIX).  */
+		CASE(SIGCHLD);     /* Child status has changed (POSIX).  */
 #endif
 
 #ifdef SIGCONT
-		_case(SIGCONT);     /* Continue (POSIX).  */
+		CASE(SIGCONT);     /* Continue (POSIX).  */
 #endif
 
 #ifdef SIGSTOP
-		_case(SIGSTOP);     /* Stop, unblockable (POSIX).  */
+		CASE(SIGSTOP);     /* Stop, unblockable (POSIX).  */
 #endif
 
 #ifdef SIGTSTP
-		_case(SIGTSTP);     /* Keyboard stop (POSIX).  */
+		CASE(SIGTSTP);     /* Keyboard stop (POSIX).  */
 #endif
 
 #ifdef SIGTTIN
-		_case(SIGTTIN);     /* Background read from tty (POSIX).  */
+		CASE(SIGTTIN);     /* Background read from tty (POSIX).  */
 #endif
 
 #ifdef SIGTTOU
-		_case(SIGTTOU);     /* Background write to tty (POSIX).  */
+		CASE(SIGTTOU);     /* Background write to tty (POSIX).  */
 #endif
 
 #ifdef SIGURG
-		_case(SIGURG);      /* Urgent condition on socket (4.2 BSD).  */
+		CASE(SIGURG);      /* Urgent condition on socket (4.2 BSD).  */
 #endif
 
 #ifdef SIGXCPU
-		_case(SIGXCPU);     /* CPU limit exceeded (4.2 BSD).  */
+		CASE(SIGXCPU);     /* CPU limit exceeded (4.2 BSD).  */
 #endif
 
 #ifdef SIGXFSZ
-		_case(SIGXFSZ);     /* File size limit exceeded (4.2 BSD).  */
+		CASE(SIGXFSZ);     /* File size limit exceeded (4.2 BSD).  */
 #endif
 
 #ifdef SIGVTALRM
-		_case(SIGVTALRM);   /* Virtual alarm clock (4.2 BSD).  */
+		CASE(SIGVTALRM);   /* Virtual alarm clock (4.2 BSD).  */
 #endif
 
 #ifdef SIGPROF
-		_case(SIGPROF);     /* Profiling alarm clock (4.2 BSD).  */
+		CASE(SIGPROF);     /* Profiling alarm clock (4.2 BSD).  */
 #endif
 
 #ifdef SIGWINCH
-		_case(SIGWINCH);    /* Window size change (4.3 BSD, Sun).  */
+		CASE(SIGWINCH);    /* Window size change (4.3 BSD, Sun).  */
 #endif
 
 #ifdef SIGIO
-		_case(SIGIO);       /* I/O now possible (4.2 BSD). SIGPOLL sysv */
+		CASE(SIGIO);       /* I/O now possible (4.2 BSD). SIGPOLL sysv */
 #endif
 
 #ifdef SIGPWR
-		_case(SIGPWR);      /* Power failure restart (System V).  */
+		CASE(SIGPWR);      /* Power failure restart (System V).  */
 #endif
 
 #ifdef SIGSYS
-		_case(SIGSYS);      /* Bad system call.  */
+		CASE(SIGSYS);      /* Bad system call.  */
 #endif
 
 		/* all sigs missing, avoid empty switch error ... very unlikely! */

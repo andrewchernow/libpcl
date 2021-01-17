@@ -29,10 +29,11 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#include <pcl/unix.h>
 #include <pcl/io.h>
 #include <pcl/string.h>
 #include <signal.h>
-#include <stdio.h>
+
 void
 pcl_unix_siginfo(char *buf, size_t bufl, siginfo_t *info)
 {

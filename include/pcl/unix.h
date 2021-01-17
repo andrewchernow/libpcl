@@ -39,7 +39,7 @@
 extern "C" {
 #endif
 
-void pcl_unix_siginfo(char *buf, size_t bufl, siginfo_t *info);
+PCL_PUBLIC void pcl_unix_siginfo(char *buf, size_t bufl, siginfo_t *info);
 
 #ifdef __cplusplus
 }
