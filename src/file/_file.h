@@ -72,25 +72,25 @@ struct tag_pcl_file
 * backing file descriptor and any file flags: like PCL_FF_NONBLOCK,
 * PCL_FF_APPEND, PCL_FF_LOCKED, etc... These arguments can be zero.
 */
-pcl_file_t *ipcl_file_alloc(pcl_fd_t fd, int fflags);
+PCL_PRIVATE pcl_file_t *ipcl_file_alloc(pcl_fd_t fd, int fflags);
 
-int ipcl_file_open(pcl_file_t *file, const pchar_t *path, int flags, mode_t mode);
+PCL_PRIVATE int ipcl_file_open(pcl_file_t *file, const pchar_t *path, int flags, mode_t mode);
 
 /** Initialize a preallocated file using a set of file-flags.
  * @param file
  * @param fflags
  * @return
  */
-pcl_file_t *ipcl_file_init(pcl_file_t *file, int fflags);
+PCL_PRIVATE pcl_file_t *ipcl_file_init(pcl_file_t *file, int fflags);
 
 /* You cannot set PCL_FF_OLOCK or PCL_FF_FLOCK with this call */
-int ipcl_oflags_to_fflags(int oflags);
+PCL_PRIVATE int ipcl_oflags_to_fflags(int oflags);
 
 /* Convert PCL_O_* open flags to the system's (OS) open flags. There is some
  * lose during the conversion that pcl_file_open() handles internally. If using
  * this outside of pcl_file_open(), be aware of that.
  */
-int ipcl_sysoflags(uint32_t pcl_oflags);
+PCL_PRIVATE int ipcl_sysoflags(uint32_t pcl_oflags);
 
 #ifdef __cplusplus
 }

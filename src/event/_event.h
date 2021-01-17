@@ -45,11 +45,11 @@ typedef struct
 } ipcl_event_context_t;
 
 /* only called once from pcl_init. This is not a PCL_EVENT_INIT func */
-void ipcl_event_init(void);
+PCL_PRIVATE void ipcl_event_init(void);
 
-ipcl_event_context_t *ipcl_event_context(void);
+PCL_PRIVATE ipcl_event_context_t *ipcl_event_context(void);
 
-void ipcl_event_context_release(void);
+PCL_PRIVATE void ipcl_event_context_release(void);
 
 #ifdef __cplusplus
 }

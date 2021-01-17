@@ -38,10 +38,10 @@
 extern "C" {
 #endif
 
-int ipcl_statent(const pchar_t *path, int fd, pcl_stat_t *buf, int flags);
+PCL_PRIVATE int ipcl_statent(const pchar_t *path, int fd, pcl_stat_t *buf, int flags);
 
 #ifdef PCL_WINDOWS
-void ipcl_win32_stat_handler(uint32_t which, void *data);
+PCL_PRIVATE void ipcl_win32_stat_handler(uint32_t which, void *data);
 #endif
 
 #ifdef __cplusplus

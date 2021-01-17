@@ -66,13 +66,13 @@ typedef struct
 #endif
 } ipcl_time_context_t;
 
-ipcl_time_context_t *ipcl_time_context(void);
+PCL_PRIVATE ipcl_time_context_t *ipcl_time_context(void);
 
-void ipcl_time_handler(uint32_t which, void *data);
+PCL_PRIVATE void ipcl_time_handler(uint32_t which, void *data);
 
 #ifdef PCL_WINDOWS
-pcl_time_t ipcl_win32_ftime_to_pcl(FILETIME *ft); /* FILETIME to pcl_time_t */
-FILETIME ipcl_win32_pcl_to_ftime(pcl_time_t t);   /* pcl_time_t to FILETIME */
+PCL_PRIVATE pcl_time_t ipcl_win32_ftime_to_pcl(FILETIME *ft); /* FILETIME to pcl_time_t */
+PCL_PRIVATE FILETIME ipcl_win32_pcl_to_ftime(pcl_time_t t);   /* pcl_time_t to FILETIME */
 #endif
 
 #ifdef __cplusplus

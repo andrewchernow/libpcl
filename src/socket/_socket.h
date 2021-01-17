@@ -71,10 +71,10 @@ struct tag_pcl_socket
 	struct sockaddr *addr;
 };
 
-pcl_socket_t *ipcl_socket_alloc(void);
+PCL_PRIVATE pcl_socket_t *ipcl_socket_alloc(void);
 
 #ifdef PCL_WINDOWS
-void ipcl_win32_socket_handler(uint32_t which, void *data);
+PCL_PRIVATE void ipcl_win32_socket_handler(uint32_t which, void *data);
 #endif
 
 #ifdef __cplusplus

@@ -56,7 +56,7 @@ struct tag_pcl_ssl
 	pcl_openssl_error_t err;
 };
 
-int ipcl_ssl_configure_socket(pcl_ssl_t *ssl, const char *host, int port);
+PCL_PRIVATE int ipcl_ssl_configure_socket(pcl_ssl_t *ssl, const char *host, int port);
 
 #ifdef __cplusplus
 }

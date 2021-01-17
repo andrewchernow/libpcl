@@ -42,7 +42,7 @@ extern "C" {
  * @param info pointer to an output buffer, as passed to pcl_sysinfo().
  * @param uts struct uts for unixes and unused by windows, uninsitalized int* is passed in.
  */
-void ipcl_sysinfo(pcl_sysinfo_t *info, void *uts);
+PCL_PRIVATE void ipcl_sysinfo(pcl_sysinfo_t *info, void *uts);
 
 #ifdef __cplusplus
 }

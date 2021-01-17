@@ -52,11 +52,11 @@ typedef struct
 	const char *osname;   /* The OS error code name. */
 } ipcl_err_map_t;
 
-ipcl_err_msgmap_t *ipcl_err_msgmap(int *count);
-ipcl_err_map_t *ipcl_err_map(int *count);
-pcl_buf_t *ipcl_err_serialize(int indent, const char *format, va_list ap);
-void ipcl_err_handler(uint32_t which, void *data);
-pcl_err_trace_t *ipcl_err_trace_free(pcl_err_trace_t *head);
+PCL_PRIVATE ipcl_err_msgmap_t *ipcl_err_msgmap(int *count);
+PCL_PRIVATE ipcl_err_map_t *ipcl_err_map(int *count);
+PCL_PRIVATE pcl_buf_t *ipcl_err_serialize(int indent, const char *format, va_list ap);
+PCL_PRIVATE void ipcl_err_handler(uint32_t which, void *data);
+PCL_PRIVATE pcl_err_trace_t *ipcl_err_trace_free(pcl_err_trace_t *head);
 
 #ifdef __cplusplus
 }

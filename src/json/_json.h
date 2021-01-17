@@ -94,12 +94,12 @@ struct tag_pcl_json_path
 };
 
 
-pcl_json_t *ipcl_json_parse_value(ipcl_json_state_t *s);
-char *ipcl_json_parse_string(ipcl_json_state_t *s);
-pcl_json_t *ipcl_json_parse_array(ipcl_json_state_t *s);
-pcl_json_t *ipcl_json_parse_object(ipcl_json_state_t *s);
-pcl_json_t *ipcl_json_parse_number(ipcl_json_state_t *s);
-ipcl_json_state_t *ipcl_json_skipws(ipcl_json_state_t *s);
+PCL_PRIVATE pcl_json_t *ipcl_json_parse_value(ipcl_json_state_t *s);
+PCL_PRIVATE char *ipcl_json_parse_string(ipcl_json_state_t *s);
+PCL_PRIVATE pcl_json_t *ipcl_json_parse_array(ipcl_json_state_t *s);
+PCL_PRIVATE pcl_json_t *ipcl_json_parse_object(ipcl_json_state_t *s);
+PCL_PRIVATE pcl_json_t *ipcl_json_parse_number(ipcl_json_state_t *s);
+PCL_PRIVATE ipcl_json_state_t *ipcl_json_skipws(ipcl_json_state_t *s);
 
 /**
  *
@@ -107,12 +107,12 @@ ipcl_json_state_t *ipcl_json_skipws(ipcl_json_state_t *s);
  * @param len if zero, strlen is used so \a s must be NUL-terminated in this case
  * @return
  */
-int ipcl_json_utf8check(const char *s, size_t len);
+PCL_PRIVATE int ipcl_json_utf8check(const char *s, size_t len);
 
-pcl_buf_t *ipcl_json_encode_value(ipcl_json_encode_t *enc, pcl_json_t *value);
-pcl_buf_t *ipcl_json_encode_string(ipcl_json_encode_t *enc, const char *string);
-pcl_buf_t *ipcl_json_encode_array(ipcl_json_encode_t *enc, pcl_array_t *array);
-pcl_buf_t *ipcl_json_encode_object(ipcl_json_encode_t *enc, pcl_htable_t *obj);
+PCL_PRIVATE pcl_buf_t *ipcl_json_encode_value(ipcl_json_encode_t *enc, pcl_json_t *value);
+PCL_PRIVATE pcl_buf_t *ipcl_json_encode_string(ipcl_json_encode_t *enc, const char *string);
+PCL_PRIVATE pcl_buf_t *ipcl_json_encode_array(ipcl_json_encode_t *enc, pcl_array_t *array);
+PCL_PRIVATE pcl_buf_t *ipcl_json_encode_object(ipcl_json_encode_t *enc, pcl_htable_t *obj);
 
 #ifdef __cplusplus
 }

@@ -42,9 +42,9 @@
 extern "C" {
 #endif
 
-int ipcl_htable_capacity(int capacity);
+PCL_PRIVATE int ipcl_htable_capacity(int capacity);
 
-pcl_htable_entry_t *ipcl_htable_lookup(const pcl_htable_t *ht, const void *key,
+PCL_PRIVATE pcl_htable_entry_t *ipcl_htable_lookup(const pcl_htable_t *ht, const void *key,
 	uintptr_t *codep, int *hashidxp);
 
 /**
@@ -55,9 +55,9 @@ pcl_htable_entry_t *ipcl_htable_lookup(const pcl_htable_t *ht, const void *key,
  * table size is divided in half and then rounded up to the nearest table size.
  * @return
  */
-int ipcl_htable_rehash(pcl_htable_t *ht, bool grow);
+PCL_PRIVATE int ipcl_htable_rehash(pcl_htable_t *ht, bool grow);
 
-void ipcl_htable_init(int capacity, pcl_htable_entry_t **entries, int **entry_lookup);
+PCL_PRIVATE void ipcl_htable_init(int capacity, pcl_htable_entry_t **entries, int **entry_lookup);
 
 #ifdef __cplusplus
 }
