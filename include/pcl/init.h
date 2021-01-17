@@ -154,7 +154,7 @@ typedef struct
 typedef struct tag_pcl_optstate pcl_optstate_t;
 
 /** Initializes the PCL library. This must be called before using the PCL library. */
-PCL_EXPORT void pcl_init(void);
+PCL_PUBLIC void pcl_init(void);
 
 /** Intialize command-line argument parser. This behaves very similar to POSIX \c getopt_long.
  * Some differences are
@@ -188,7 +188,7 @@ PCL_EXPORT void pcl_init(void);
  * @return pointer to an option state structure, that must be freed by caller, or \c NULL on error.
  * An error only occurs if there is an invalid argument.
  */
-PCL_EXPORT pcl_optstate_t *pcl_initopt(int argc, pchar_t **argv, const pchar_t *optstr,
+PCL_PUBLIC pcl_optstate_t *pcl_initopt(int argc, pchar_t **argv, const pchar_t *optstr,
 	pcl_option_t *options, int num_options);
 
 /** Parse command-line arguments.
@@ -206,7 +206,7 @@ PCL_EXPORT pcl_optstate_t *pcl_initopt(int argc, pchar_t **argv, const pchar_t *
  * @return The short option character or long option pcl_option_t.val. When all arguments
  * have been parsed, this returns 0. On error, -1 is returned.
  */
-PCL_EXPORT int pcl_getopt(pcl_optstate_t *state, pchar_t **value, pcl_option_t **longopt);
+PCL_PUBLIC int pcl_getopt(pcl_optstate_t *state, pchar_t **value, pcl_option_t **longopt);
 
 #ifdef __cplusplus
 }

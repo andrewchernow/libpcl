@@ -43,21 +43,21 @@ extern "C" {
 
 typedef void (*pcl_thread_start_t)(void *);
 
-PCL_EXPORT int pcl_thread(pthread_t *t, pcl_thread_start_t routine, void *a);
-PCL_EXPORT uint64_t pcl_thread_id(void);
+PCL_PUBLIC int pcl_thread(pthread_t *t, pcl_thread_start_t routine, void *a);
+PCL_PUBLIC uint64_t pcl_thread_id(void);
 
 /* mutex support */
-PCL_EXPORT int pcl_mutex_init(pthread_mutex_t *m);
-PCL_EXPORT int pcl_mutex_lock(pthread_mutex_t *m);
-PCL_EXPORT int pcl_mutex_trylock(pthread_mutex_t *m);
-PCL_EXPORT int pcl_mutex_unlock(pthread_mutex_t *m);
-PCL_EXPORT int pcl_mutex_destroy(pthread_mutex_t *m);
+PCL_PUBLIC int pcl_mutex_init(pthread_mutex_t *m);
+PCL_PUBLIC int pcl_mutex_lock(pthread_mutex_t *m);
+PCL_PUBLIC int pcl_mutex_trylock(pthread_mutex_t *m);
+PCL_PUBLIC int pcl_mutex_unlock(pthread_mutex_t *m);
+PCL_PUBLIC int pcl_mutex_destroy(pthread_mutex_t *m);
 
 /* TLS support */
-PCL_EXPORT int pcl_tls_alloc(pthread_key_t *key, void (*destructor)(void*));
-PCL_EXPORT int pcl_tls_set(pthread_key_t key, void *value);
-PCL_EXPORT void *pcl_tls_get(pthread_key_t key);
-PCL_EXPORT int pcl_tls_free(pthread_key_t key);
+PCL_PUBLIC int pcl_tls_alloc(pthread_key_t *key, void (*destructor)(void*));
+PCL_PUBLIC int pcl_tls_set(pthread_key_t key, void *value);
+PCL_PUBLIC void *pcl_tls_get(pthread_key_t key);
+PCL_PUBLIC int pcl_tls_free(pthread_key_t key);
 
 #ifdef __cplusplus
 }

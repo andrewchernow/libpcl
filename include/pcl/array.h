@@ -99,7 +99,7 @@ struct tag_pcl_array
  * @return pointer to a new array object
  * @see pcl_cleanup_ptr
  */
-PCL_EXPORT pcl_array_t *pcl_array(int initial_capacity, pcl_cleanup_t cleanup);
+PCL_PUBLIC pcl_array_t *pcl_array(int initial_capacity, pcl_cleanup_t cleanup);
 
 /** Get an element from an array.
  * This is typically not used when iterating over an array, as one can just directly access
@@ -110,7 +110,7 @@ PCL_EXPORT pcl_array_t *pcl_array(int initial_capacity, pcl_cleanup_t cleanup);
  * @return pointer to an element or \c NULL on error. To distinguish between an error and a
  * \c NULL element, check ::pcl_errno. It will be ::PCL_EOKAY if a \c NULL element.
  */
-PCL_EXPORT void *pcl_array_get(pcl_array_t *arr, int index);
+PCL_PUBLIC void *pcl_array_get(pcl_array_t *arr, int index);
 
 /** Find the index of an array element value.
  * @param arr pointer to an array object
@@ -118,7 +118,7 @@ PCL_EXPORT void *pcl_array_get(pcl_array_t *arr, int index);
  * @param compare a comparator function. If \c NULL, pointer addresses are compared directly
  * @return index or -1 if not found
  */
-PCL_EXPORT int pcl_array_indexof(pcl_array_t *arr, void *elem, pcl_compare_t compare);
+PCL_PUBLIC int pcl_array_indexof(pcl_array_t *arr, void *elem, pcl_compare_t compare);
 
 /** Set an element of an array, replacing a possible existing element. When setting elements,
  * the array's \a count is not consulted. Instead, this allows a set operation as long as
@@ -139,7 +139,7 @@ PCL_EXPORT int pcl_array_indexof(pcl_array_t *arr, void *elem, pcl_compare_t com
  * @return 0 for success and -1 on error.
  * @see pcl_array_append
  */
-PCL_EXPORT int pcl_array_set(pcl_array_t *arr, void *elem, int index);
+PCL_PUBLIC int pcl_array_set(pcl_array_t *arr, void *elem, int index);
 
 /** Insert an element.
  * @param arr pointer to an array object
@@ -149,7 +149,7 @@ PCL_EXPORT int pcl_array_set(pcl_array_t *arr, void *elem, int index);
  * @return the new element count or -1 on error.
  * @see pcl_array_set
  */
-PCL_EXPORT int pcl_array_insert(pcl_array_t *arr, void *elem, int index);
+PCL_PUBLIC int pcl_array_insert(pcl_array_t *arr, void *elem, int index);
 
 /** Remove an element from an array. This will call the cleanup handler if both the cleanup
  * handler and element at \a index are not \c NULL.
@@ -158,20 +158,20 @@ PCL_EXPORT int pcl_array_insert(pcl_array_t *arr, void *elem, int index);
  * @param index element index
  * @return the new count of element or -1 on error.
  */
-PCL_EXPORT int pcl_array_remove(pcl_array_t *arr, int index);
+PCL_PUBLIC int pcl_array_remove(pcl_array_t *arr, int index);
 
 /** Sort an array using \c qsort.
  * @param arr pointer to an array object
  * @param compare pointer to a function comparator whose behavior is identical to \c qsort
  * @return pointer to the \a arr argument
  */
-PCL_EXPORT pcl_array_t *pcl_array_sort(pcl_array_t *arr, pcl_compare_t compare);
+PCL_PUBLIC pcl_array_t *pcl_array_sort(pcl_array_t *arr, pcl_compare_t compare);
 
 /** Free an array. This will call the cleanup handler, if not \c NULL, for all elements that
  * are not \c NULL and then free the array object.
  * @param arr pointer to an array object
  */
-PCL_EXPORT void pcl_array_free(pcl_array_t *arr);
+PCL_PUBLIC void pcl_array_free(pcl_array_t *arr);
 
 PCL_INLINE int
 pcl_array_append(pcl_array_t *arr, void *elem)

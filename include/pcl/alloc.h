@@ -92,40 +92,40 @@ typedef void (*pcl_memory_handler_t)(const char *type, void *ptr, size_t siz, PC
  * @param n size in bytes
  * @return address of allocate memory
  */
-PCL_EXPORT void *pcl_malloc_trace(size_t n, PCL_LOCATION_PARAMS);
+PCL_PUBLIC void *pcl_malloc_trace(size_t n, PCL_LOCATION_PARAMS);
 
 /** Allocate and zero dynamic memory.
  * @param n size in bytes
  * @return address of allocate memory
  */
-PCL_EXPORT void *pcl_zalloc_trace(size_t n, PCL_LOCATION_PARAMS);
+PCL_PUBLIC void *pcl_zalloc_trace(size_t n, PCL_LOCATION_PARAMS);
 
 /** Re-allocate dynamic memory.
  * @param p address of allocated memory
  * @param n new size in bytes
  * @return address of allocated memory
  */
-PCL_EXPORT void *pcl_realloc_trace(void *p, size_t n, PCL_LOCATION_PARAMS);
+PCL_PUBLIC void *pcl_realloc_trace(void *p, size_t n, PCL_LOCATION_PARAMS);
 
 /** Free memory space.
  * @param p memory address
  * @return always returns NULL, which is useful for assignments
  */
-PCL_EXPORT void *pcl_free_trace(void *p, PCL_LOCATION_PARAMS);
+PCL_PUBLIC void *pcl_free_trace(void *p, PCL_LOCATION_PARAMS);
 
 /** Implementation of a ::pcl_cleanup_t that passes \a item to free.
  * @param item pointer to a collection item
  */
-PCL_EXPORT void pcl_cleanup_ptr(void *item);
+PCL_PUBLIC void pcl_cleanup_ptr(void *item);
 
 /** Set the process memory error handler.
  * @param handler new memory error handler
  * @return previous memory error handler or \c NULL if it was unset
  */
-PCL_EXPORT pcl_memory_handler_t pcl_set_memory_handler(pcl_memory_handler_t handler);
+PCL_PUBLIC pcl_memory_handler_t pcl_set_memory_handler(pcl_memory_handler_t handler);
 
 /** Execute process memory error handler. */
-PCL_EXPORT void pcl_memory_error(const char *type, void *ptr, size_t siz, PCL_LOCATION_PARAMS);
+PCL_PUBLIC void pcl_memory_error(const char *type, void *ptr, size_t siz, PCL_LOCATION_PARAMS);
 
 #ifdef __doxygen__
 	/** Allocate dynamic memory.

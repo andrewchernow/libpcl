@@ -88,78 +88,78 @@ typedef struct
  * file pathname (limited to 100 characters). Port is not used for AF_UNIX, pcl_socket_port
  * will return 0.
  */
-PCL_EXPORT pcl_socket_t *
+PCL_PUBLIC pcl_socket_t *
 pcl_socket(const char *host, int port);
 
-PCL_EXPORT int
+PCL_PUBLIC int
 pcl_connect(pcl_socket_t *sock);
 
-PCL_EXPORT pcl_socket_t *
+PCL_PUBLIC pcl_socket_t *
 pcl_accept(pcl_socket_t *sock);
 
 /* note: timeval *is* updated, unless timeout occurs (select returns 0) or
  * timeval argument was set to NULL.
  */
-PCL_EXPORT int
+PCL_PUBLIC int
 pcl_select(int fds, fd_set *rset, fd_set *wset, fd_set *eset, struct timeval *tv);
 
-PCL_EXPORT void
+PCL_PUBLIC void
 pcl_shutdown(pcl_socket_t *sock, int how);
 
-PCL_EXPORT ssize_t
+PCL_PUBLIC ssize_t
 pcl_recv(pcl_socket_t *sock, void *buf, size_t count, int flags);
 
-PCL_EXPORT bool
+PCL_PUBLIC bool
 pcl_recvall(pcl_socket_t *sock, void *buf, size_t count);
 
-PCL_EXPORT ssize_t
+PCL_PUBLIC ssize_t
 pcl_send(pcl_socket_t *sock, const void *data, size_t count, int flags);
 
-PCL_EXPORT bool
+PCL_PUBLIC bool
 pcl_sendall(pcl_socket_t *sock, const void *data, size_t count);
 
 /* For AF_UNIX, this will automatically unlink the sun_path before attempting
  * to bind the address.
  */
-PCL_EXPORT int
+PCL_PUBLIC int
 pcl_bind(pcl_socket_t *sock);
 
-PCL_EXPORT int
+PCL_PUBLIC int
 pcl_listen(pcl_socket_t *sock, int backlog);
 
-PCL_EXPORT void
+PCL_PUBLIC void
 pcl_socket_close(pcl_socket_t *sock);
 
-PCL_EXPORT bool
+PCL_PUBLIC bool
 pcl_socket_isalive(pcl_socket_t *sock);
 
 /* Get the last SO_ERROR from the given socket */
-PCL_EXPORT int
+PCL_PUBLIC int
 pcl_socket_error(pcl_socket_t *sock);
 
-PCL_EXPORT pcl_socketfd_t
+PCL_PUBLIC pcl_socketfd_t
 pcl_socket_fd(pcl_socket_t *sock);
 
-PCL_EXPORT char *
+PCL_PUBLIC char *
 pcl_socket_ip(pcl_socket_t *sock);
 
 /* For Unix Domain sockets, this always returns 0. */
-PCL_EXPORT int
+PCL_PUBLIC int
 pcl_socket_port(pcl_socket_t *sock);
 
-PCL_EXPORT int
+PCL_PUBLIC int
 pcl_socket_setrcvtimeo(pcl_socket_t *sock, uint32_t msecs);
 
-PCL_EXPORT int
+PCL_PUBLIC int
 pcl_socket_setsndtimeo(pcl_socket_t *sock, uint32_t msecs);
 
-PCL_EXPORT int
+PCL_PUBLIC int
 pcl_socket_setnonblocking(pcl_socket_t *sock, bool enable);
 
-PCL_EXPORT void
+PCL_PUBLIC void
 pcl_socket_setkeepalive(pcl_socket_t *sock, pcl_keepalive_t *ka);
 
-PCL_EXPORT bool
+PCL_PUBLIC bool
 pcl_ispassive(pcl_socket_t *sock);
 
 #ifdef __cplusplus

@@ -218,7 +218,7 @@ typedef struct
  * @param flags bitmask of \c PROC_EXEC_xxx flags
  * @return 0 on success and -1 on error.
  */
-PCL_EXPORT int pcl_proc_exec(pcl_proc_exec_t *exec, int flags);
+PCL_PUBLIC int pcl_proc_exec(pcl_proc_exec_t *exec, int flags);
 
 /** Creates a pipe pair of pcl_file_t objects using the given read and write
  * open flags (PCL_O_xxx). Note that unlike the unix `pipe2` function, this
@@ -233,19 +233,19 @@ PCL_EXPORT int pcl_proc_exec(pcl_proc_exec_t *exec, int flags);
  * @param wr_oflags a bitmask of PCL_O_xxx flags for the write end of the pipe
  * @return 0 on success and -1 on error
  */
-PCL_EXPORT int pcl_proc_pipe(pcl_file_t *pipes[2], int rd_oflags, int wr_oflags);
+PCL_PUBLIC int pcl_proc_pipe(pcl_file_t *pipes[2], int rd_oflags, int wr_oflags);
 
 /** Gets the Process ID of the calling process (PID).
  * @return process id
  */
-PCL_EXPORT pid_t pcl_proc_self(void);
+PCL_PUBLIC pid_t pcl_proc_self(void);
 
 /** Get a process's path.
  * @param pid process id
  * @return pointer to the allocated process image path or \c NULL on error. This value must
  * be freed.
  */
-PCL_EXPORT pchar_t *pcl_proc_path(pid_t pid);
+PCL_PUBLIC pchar_t *pcl_proc_path(pid_t pid);
 
 /** Enables or disables a process privilege.  'priv' can be any privilege
  * defined in winnt.h and supported by LookupPrivilegeValue on windows.
@@ -256,13 +256,13 @@ PCL_EXPORT pchar_t *pcl_proc_path(pid_t pid);
  * @return 0 on success and -1 on error.  Unix system always return zero
  * and currently provides no functionality.
  */
-PCL_EXPORT int pcl_proc_setpriv(const pchar_t *priv, bool enable);
+PCL_PUBLIC int pcl_proc_setpriv(const pchar_t *priv, bool enable);
 
 /** Close a process handle.
  * @note this does nothing on unixes.
  * @param handle wijndows \c HANDLE and Unix pid.
  */
-PCL_EXPORT void pcl_proc_close(pcl_prochandle_t handle);
+PCL_PUBLIC void pcl_proc_close(pcl_prochandle_t handle);
 
 /** Converts the given shell command to a valid argv array, which is \c NULL terminated.
  * @note a blank shell_cmd, will result in zero being returned which could be an error to an
@@ -271,14 +271,14 @@ PCL_EXPORT void pcl_proc_close(pcl_prochandle_t handle);
  * @return pointer to an array of arguments with a NULL as the last element. One can simply
  * access pcl_array_t.elements for an \c argv style array.
  */
-PCL_EXPORT pcl_array_t *pcl_proc_parsecmd(const pchar_t *shell_cmd);
+PCL_PUBLIC pcl_array_t *pcl_proc_parsecmd(const pchar_t *shell_cmd);
 
 /** Get the value of an environment variable.
  * @param name name of the environment variable
  * @return pointer to the environment variable's value. This is an allocated value that
  * must be freed. If \a name was not found, \c NULL is returned.
  */
-PCL_EXPORT pchar_t *pcl_getenv(const pchar_t *name);
+PCL_PUBLIC pchar_t *pcl_getenv(const pchar_t *name);
 
 /** Set the value of an environment variable.
  * @param name name of the environment variable
@@ -287,13 +287,13 @@ PCL_EXPORT pchar_t *pcl_getenv(const pchar_t *name);
  * false, the value will not be set. If \a name doesn't exist, this argument is ignored.
  * @return o on success and -1 on error
  */
-PCL_EXPORT int pcl_setenv(const pchar_t *name, const pchar_t *value, bool overwrite);
+PCL_PUBLIC int pcl_setenv(const pchar_t *name, const pchar_t *value, bool overwrite);
 
 /** Unset an environment variable.
  * @param name name of the environment variable
  * @return o on success and -1 on error
  */
-PCL_EXPORT int pcl_unsetenv(const pchar_t *name);
+PCL_PUBLIC int pcl_unsetenv(const pchar_t *name);
 
 #ifdef __cplusplus
 }

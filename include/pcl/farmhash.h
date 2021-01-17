@@ -48,7 +48,7 @@ extern "C" {
 * @param data pointer to a NUL-terminated string to hash
 * @return 32-bit hash code
 */
-PCL_EXPORT uint64_t pcl_farmhash32(const char *data);
+PCL_PUBLIC uint64_t pcl_farmhash32(const char *data);
 
 /** Get a 32-bit farmhash hash code.
  * @param data pointer to a NUL-terminated string to hash
@@ -56,13 +56,13 @@ PCL_EXPORT uint64_t pcl_farmhash32(const char *data);
  * @param seed 32-bit seed value
  * @return 32-bit hash code
  */
-PCL_EXPORT uint64_t pcl_farmhash32_seed(const void *data, size_t len, uint32_t seed);
+PCL_PUBLIC uint64_t pcl_farmhash32_seed(const void *data, size_t len, uint32_t seed);
 
 /** Get a 64-bit farmhash hash code.
  * @param data pointer to a NUL-terminated string to hash
  * @return 64-bit hash code
  */
-PCL_EXPORT uint64_t pcl_farmhash64(const char *data);
+PCL_PUBLIC uint64_t pcl_farmhash64(const char *data);
 
 /** Get a 64-bit farmhash hash code.
  * @param data pointer to a NUL-terminated string to hash
@@ -70,13 +70,13 @@ PCL_EXPORT uint64_t pcl_farmhash64(const char *data);
  * @param seed 64-bit seed value
  * @return 64-bit hash code
  */
-PCL_EXPORT uint64_t pcl_farmhash64_seed(const void *data, size_t len, uint64_t seed);
+PCL_PUBLIC uint64_t pcl_farmhash64_seed(const void *data, size_t len, uint64_t seed);
 
 /** Get a 128-bit farmhash hash code.
  * @param data pointer to a NUL-terminated string to hash
  * @return 128-bit hash code
  */
-PCL_EXPORT uint128_t pcl_farmhash128(const char *data);
+PCL_PUBLIC uint128_t pcl_farmhash128(const char *data);
 
 /** Get a 128-bit farmhash hash code.
  * @param data pointer to a NUL-terminated string to hash
@@ -84,7 +84,7 @@ PCL_EXPORT uint128_t pcl_farmhash128(const char *data);
  * @param seed 128-bit seed value
  * @return 128-bit hash code
  */
-PCL_EXPORT uint128_t pcl_farmhash128_seed(const void *data, size_t len, uint128_t seed);
+PCL_PUBLIC uint128_t pcl_farmhash128_seed(const void *data, size_t len, uint128_t seed);
 
 #ifdef __cplusplus
 }

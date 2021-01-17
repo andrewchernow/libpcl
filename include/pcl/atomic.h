@@ -50,21 +50,21 @@ extern "C" {
  * @param val new atomic value for \a dest
  * @return initial value of \a dest
  */
-PCL_EXPORT pcl_atomic_t pcl_atomic_exchange(pcl_atomic_t *dest, pcl_atomic_t val);
+PCL_PUBLIC pcl_atomic_t pcl_atomic_exchange(pcl_atomic_t *dest, pcl_atomic_t val);
 
 /** Performs an add and fetch operation.
  * @param dest pointer to an atomic value
  * @param add value to add to \a dest, which can be negative to subtract
  * @return the result of the addition operation
  */
-PCL_EXPORT pcl_atomic_t pcl_atomic_add_fetch(pcl_atomic_t *dest, pcl_atomic_t add);
+PCL_PUBLIC pcl_atomic_t pcl_atomic_add_fetch(pcl_atomic_t *dest, pcl_atomic_t add);
 
 /** Performs a fetch and add.
  * @param dest pointer to an atomic value
  * @param add value to add to \a dest, which can be negative to subtract
  * @return initial value of \a dest
  */
-PCL_EXPORT pcl_atomic_t pcl_atomic_fetch_add(pcl_atomic_t *dest, pcl_atomic_t add);
+PCL_PUBLIC pcl_atomic_t pcl_atomic_fetch_add(pcl_atomic_t *dest, pcl_atomic_t add);
 
 /** Performs a compare and exhange operation.
  * @param dest pointer to an atomic value
@@ -72,14 +72,14 @@ PCL_EXPORT pcl_atomic_t pcl_atomic_fetch_add(pcl_atomic_t *dest, pcl_atomic_t ad
  * @param desired value to be written to \a dest if \a dest and \a expected are equal
  * @return initial value of \a dest
  */
-PCL_EXPORT pcl_atomic_t pcl_atomic_compare_exchange(pcl_atomic_t *dest, pcl_atomic_t expected,
+PCL_PUBLIC pcl_atomic_t pcl_atomic_compare_exchange(pcl_atomic_t *dest, pcl_atomic_t expected,
 	pcl_atomic_t desired);
 
 /** Performs an atomic fetch (load) operation.
  * @param dest pointer to an atomic
  * @return value of \a dest
  */
-PCL_EXPORT pcl_atomic_t pcl_atomic_fetch(pcl_atomic_t *dest);
+PCL_PUBLIC pcl_atomic_t pcl_atomic_fetch(pcl_atomic_t *dest);
 
 #ifdef __cplusplus
 }

@@ -155,7 +155,7 @@ struct tag_pcl_err
  * @return pointer to the thread error
  * @see FREEZE_ERR
  */
-PCL_EXPORT pcl_err_t *pcl_err_get(void);
+PCL_PUBLIC pcl_err_t *pcl_err_get(void);
 
 /** Freeze or thaw the current thread's error.
  * @note per-thread error cannot be cleared while frozen.
@@ -167,7 +167,7 @@ PCL_EXPORT pcl_err_t *pcl_err_get(void);
  * @param freeze if true, the error is frozen otherwise thawed.
  * @see FREEZE_ERR
  */
-PCL_EXPORT void pcl_err_freeze(bool freeze);
+PCL_PUBLIC void pcl_err_freeze(bool freeze);
 
 /* -------------------------------------------------------------------------
  * Last Error API
@@ -178,7 +178,7 @@ PCL_EXPORT void pcl_err_freeze(bool freeze);
 
 #ifdef PCL_WINDOWS
 #	define pcl_oserrno pcl_win32_oserrno()
-	PCL_EXPORT uint32_t pcl_win32_oserrno(void);
+	PCL_PUBLIC uint32_t pcl_win32_oserrno(void);
 #	define pcl_crterrno errno
 #	define pcl_sockerrno WSAGetLastError()
 #else
@@ -190,12 +190,12 @@ PCL_EXPORT void pcl_err_freeze(bool freeze);
 /** Gets the last PCL err code. This is typically accessed through the pcl_errno macro.
  * @return last PCL error code
  */
-PCL_EXPORT int pcl_err_last(void);
+PCL_PUBLIC int pcl_err_last(void);
 
 /** Get the last error message, stack trace tail.
  * @return pointer to the last error message
  */
-PCL_EXPORT char *pcl_err_lastmsg(void);
+PCL_PUBLIC char *pcl_err_lastmsg(void);
 
 
 /* -------------------------------------------------------------------------
@@ -206,25 +206,25 @@ PCL_EXPORT char *pcl_err_lastmsg(void);
  * @note if indent is -1 and format is provided, the formatted message is prefixed with
  * "PANIC: " rather than the standard "ERROR: ".
  */
-PCL_EXPORT int pcl_err_fprintf(FILE *stream, int indent, const char *format, ...);
+PCL_PUBLIC int pcl_err_fprintf(FILE *stream, int indent, const char *format, ...);
 
 /* va_list version of pcl_err_fprintf
  * @note if indent is -1 and format is provided, the formatted message is prefixed with
  * "PANIC: " rather than the standard "ERROR: ".
  */
-PCL_EXPORT int pcl_err_vfprintf(FILE *stream, int indent, const char *format, va_list args);
+PCL_PUBLIC int pcl_err_vfprintf(FILE *stream, int indent, const char *format, va_list args);
 
 /* Print error info and full stack trace to the given buffer
  * @note if indent is -1 and format is provided, the formatted message is prefixed with
  * "PANIC: " rather than the standard "ERROR: ".
  */
-PCL_EXPORT int pcl_err_sprintf(char *buf, size_t buf_size, int indent, const char *format, ...);
+PCL_PUBLIC int pcl_err_sprintf(char *buf, size_t buf_size, int indent, const char *format, ...);
 
 /* va_list version of pcl_err_sprintf
  * @note if indent is -1 and format is provided, the formatted message is prefixed with
  * "PANIC: " rather than the standard "ERROR: ".
  */
-PCL_EXPORT int pcl_err_vsprintf(char *buf, size_t buf_size, int indent, const char *format,
+PCL_PUBLIC int pcl_err_vsprintf(char *buf, size_t buf_size, int indent, const char *format,
 	va_list args);
 
 /** Format the current thread's error as a JSON string. The returned JSON string
@@ -256,7 +256,7 @@ PCL_EXPORT int pcl_err_vsprintf(char *buf, size_t buf_size, int indent, const ch
  * @param ... variable arguments
  * @return pointer to a JSON object
  */
-PCL_EXPORT pcl_json_t *pcl_err_json(const char *message, ...);
+PCL_PUBLIC pcl_json_t *pcl_err_json(const char *message, ...);
 
 /** Format the current thread's error as a JSON string. The returned JSON string
  * has no spaces or newlines when it comes to the JSON structure itself.
@@ -270,9 +270,9 @@ PCL_EXPORT pcl_json_t *pcl_err_json(const char *message, ...);
  * @return pointer to a json object
  * @see pcl_err_json
  */
-PCL_EXPORT pcl_json_t *pcl_err_vjson(const char *message, va_list ap);
+PCL_PUBLIC pcl_json_t *pcl_err_vjson(const char *message, va_list ap);
 
-PCL_EXPORT int pcl_err_setjson(pcl_json_t *error);
+PCL_PUBLIC int pcl_err_setjson(pcl_json_t *error);
 
 /* -------------------------------------------------------------------------
  * Error Set API
@@ -280,25 +280,25 @@ PCL_EXPORT int pcl_err_setjson(pcl_json_t *error);
 
 #ifdef PCL_WINDOWS
 #	define pcl_setoserrno(e) pcl_win32_setoserrno(e)
-	PCL_EXPORT uint32_t pcl_win32_setoserrno(uint32_t e);
+	PCL_PUBLIC uint32_t pcl_win32_setoserrno(uint32_t e);
 #	define pcl_setcrterrno(e) (_set_errno(e), (e))
 #else
 #	define pcl_setoserrno(e) errno = (int) (e)
 #	define pcl_setcrterrno(e) pcl_setoserrno(e)
 #endif
 
-PCL_EXPORT int pcl_err_clear(void);
+PCL_PUBLIC int pcl_err_clear(void);
 
 #define pcl_err_osclear() (pcl_setoserrno(0), pcl_setcrterrno(0))
 
 /* va_list version of pcl_err_set */
-PCL_EXPORT int pcl_err_vset(PCL_LOCATION_PARAMS, int err, uint32_t oserr,
+PCL_PUBLIC int pcl_err_vset(PCL_LOCATION_PARAMS, int err, uint32_t oserr,
 	const char *format, va_list ap);
 
 /* Sets the PCL error, adds a trace and message.  Returns -1 when error
  * is not PCL_EOKAY.  Normally not called directly, see SETERRxxx macros.
  */
-PCL_EXPORT int pcl_err_set(PCL_LOCATION_PARAMS, int err, uint32_t oserr, const char *format, ...);
+PCL_PUBLIC int pcl_err_set(PCL_LOCATION_PARAMS, int err, uint32_t oserr, const char *format, ...);
 
 
 /* -------------------------------------------------------------------------
@@ -308,10 +308,10 @@ PCL_EXPORT int pcl_err_set(PCL_LOCATION_PARAMS, int err, uint32_t oserr, const c
 /* Adds a trace and a message to the error's stack trace.
  * Returns -1 when the error is not PCL_EOKAY. See TRC* and R_TRC* macros.
  */
-PCL_EXPORT int pcl_err_trace(PCL_LOCATION_PARAMS, const char *format, ...);
+PCL_PUBLIC int pcl_err_trace(PCL_LOCATION_PARAMS, const char *format, ...);
 
 /* va_list version of pcl_err_trace */
-PCL_EXPORT int pcl_err_vtrace(PCL_LOCATION_PARAMS, const char *format, va_list ap);
+PCL_PUBLIC int pcl_err_vtrace(PCL_LOCATION_PARAMS, const char *format, va_list ap);
 
 
 /* -------------------------------------------------------------------------
@@ -319,29 +319,29 @@ PCL_EXPORT int pcl_err_vtrace(PCL_LOCATION_PARAMS, const char *format, va_list a
  */
 
 /** Get the default PCL error message given an PCL error code. */
-PCL_EXPORT const char *pcl_err_msg(int err);
+PCL_PUBLIC const char *pcl_err_msg(int err);
 
 /* Get the PCL error name given an PCL error code. */
-PCL_EXPORT const char *pcl_err_name(int err);
+PCL_PUBLIC const char *pcl_err_name(int err);
 
 /* Get the PCL error code given an PCL error name. */
-PCL_EXPORT int pcl_err_code(const char *pclname);
+PCL_PUBLIC int pcl_err_code(const char *pclname);
 
 /* Get the PCL error code given an OS error code. */
-PCL_EXPORT int pcl_err_os2pcl(uint32_t oserr);
+PCL_PUBLIC int pcl_err_os2pcl(uint32_t oserr);
 
 /* Get the OS error name given an OS error code. */
-PCL_EXPORT const char *pcl_err_osname(uint32_t oserr);
+PCL_PUBLIC const char *pcl_err_osname(uint32_t oserr);
 
 /* Get the default OS error message given an OS error code (like strerror).
  * Returns the number of chars written to the osmsg buffer. If oserr is 0,
  * this returns 0 and terminates buf at index 0.
  */
-PCL_EXPORT int pcl_err_osmsg(uint32_t oserr, char *osmsg, size_t size);
+PCL_PUBLIC int pcl_err_osmsg(uint32_t oserr, char *osmsg, size_t size);
 
 #ifdef PCL_WINDOWS
 	#define pcl_err_crt2pcl(_crt_errno) pcl_err_os2pcl(pcl_err_crt2os(_crt_errno))
-PCL_EXPORT unsigned long pcl_err_crt2os(int err);
+PCL_PUBLIC unsigned long pcl_err_crt2os(int err);
 #else
 	#define pcl_err_crt2pcl(_crt_errno) pcl_err_os2pcl(_crt_errno)
 	#define pcl_err_crt2os(_crt_errno) _crt_errno

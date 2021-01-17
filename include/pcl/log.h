@@ -120,21 +120,21 @@ struct tag_pcl_log_event
 /* Placeholder PCL_LOG_EVENT macro implementation function. Any production app
  * should redefine PCL_LOG_EVENT macro to call an app-specific function.
  */
-PCL_EXPORT int
+PCL_PUBLIC int
 pcl_log_event_default(PCL_LOCATION_PARAMS, uint32_t level, const char *message, ...);
 
 /* Returns the number of bytes written to all possible streams. For a
  * breakdown of bytes written to each possible stream, see the
  * pcl_log_event_t structure. On error, -1 is returned.
  */
-PCL_EXPORT int
+PCL_PUBLIC int
 pcl_log_event(pcl_log_event_t *e, const char *message, ...);
 
 /* Returns the number of bytes written to all possible streams. For a
  * breakdown of bytes written to each possible stream, see the
  * pcl_log_event_t structure. On error, -1 is returned.
  */
-PCL_EXPORT int
+PCL_PUBLIC int
 pcl_log_vevent(pcl_log_event_t *e, const char *message, va_list ap);
 
 /* LOG_EVENT macros, can be disabled via PCL_NO_LOG_EVENT_MACROS */

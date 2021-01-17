@@ -153,7 +153,7 @@ struct tag_pcl_buf
  * @param mode the buffer mode
  * @return pointer to \a b if it was not \c NULL or a pointer to a newly allocated buffer.
  */
-PCL_EXPORT pcl_buf_t *pcl_buf_init(pcl_buf_t *b, size_t size, enum pcl_buf_mode mode);
+PCL_PUBLIC pcl_buf_t *pcl_buf_init(pcl_buf_t *b, size_t size, enum pcl_buf_mode mode);
 
 /** Grow a buffer. Given a \a len, this ensures that writing \a len bytes won't overflow
  * the buffer by reallocating the buffer's internal memory. This is used by all buffer put
@@ -162,34 +162,34 @@ PCL_EXPORT pcl_buf_t *pcl_buf_init(pcl_buf_t *b, size_t size, enum pcl_buf_mode 
  * @param len number of new characters to be added to the buffer
  * @return pointer to \a b or \c NULL on error
  */
-PCL_EXPORT pcl_buf_t *pcl_buf_grow(pcl_buf_t *b, int len);
+PCL_PUBLIC pcl_buf_t *pcl_buf_grow(pcl_buf_t *b, int len);
 
 /** Reset a buffer to its initial state. This sets the buffer's position and length to zero.
  * @param b pointer to a buffer
  * @return pointer to the \a b argument
  */
-PCL_EXPORT pcl_buf_t *pcl_buf_reset(pcl_buf_t *b);
+PCL_PUBLIC pcl_buf_t *pcl_buf_reset(pcl_buf_t *b);
 
 /** Clear a buffer. This is similar to a reset but also releases all resources used by
  * the buffer.
  * @param b pointer to a buffer
  * @return pointer to the \a b argument
  */
-PCL_EXPORT pcl_buf_t *pcl_buf_clear(pcl_buf_t *b);
+PCL_PUBLIC pcl_buf_t *pcl_buf_clear(pcl_buf_t *b);
 
 /** Copy a buffer.
  * @param dest pointer to a buffer or \c NULL in which case this is allocated.
  * @param src pointer to the buffer to copy
  * @return pointer to \a dest or, if \a dest is \c NULL, a newly allocated buffer
  */
-PCL_EXPORT pcl_buf_t *pcl_buf_copy(pcl_buf_t *dest, const pcl_buf_t *src);
+PCL_PUBLIC pcl_buf_t *pcl_buf_copy(pcl_buf_t *dest, const pcl_buf_t *src);
 
 /** Free all buffer resources and the buffer object itself. Do not pass stack memory to this
  * function. Instead, use ::pcl_buf_clear.
  * @param b pointer to a buffer
  * @return always NULL
  */
-PCL_EXPORT pcl_buf_t *pcl_buf_free(pcl_buf_t *b);
+PCL_PUBLIC pcl_buf_t *pcl_buf_free(pcl_buf_t *b);
 
 /** Put a blob into a buffer.
  * @param b pointer to a buffer
@@ -197,21 +197,21 @@ PCL_EXPORT pcl_buf_t *pcl_buf_free(pcl_buf_t *b);
  * @param len number of characters to put
  * @return number of characters written or -1 on error
  */
-PCL_EXPORT int pcl_buf_put(pcl_buf_t *b, const void *data, int len);
+PCL_PUBLIC int pcl_buf_put(pcl_buf_t *b, const void *data, int len);
 
 /** Put a string into a buffer.
  * @param b pointer to a buffer
  * @param s pointer to a string
  * @return number of characters written (including NUL if in binary mode) or -1 on error
  */
-PCL_EXPORT int pcl_buf_putstr(pcl_buf_t *b, const void *s);
+PCL_PUBLIC int pcl_buf_putstr(pcl_buf_t *b, const void *s);
 
 /** Put a character into a buffer. No NUL is added when putting a char.
  * @param b pointer to a buffer
  * @param c character
  * @return number of bytes written or -1 on error
  */
-PCL_EXPORT int pcl_buf_putchar(pcl_buf_t *b, uint32_t c);
+PCL_PUBLIC int pcl_buf_putchar(pcl_buf_t *b, uint32_t c);
 
 /** Put an 8-bit integer into a buffer.
  * @note PclBufBinary mode only
@@ -219,7 +219,7 @@ PCL_EXPORT int pcl_buf_putchar(pcl_buf_t *b, uint32_t c);
  * @param i 8-bit integer to put
  * @return number of bytes written or -1 on error
  */
-PCL_EXPORT int pcl_buf_putint8(pcl_buf_t *b, uint8_t i);
+PCL_PUBLIC int pcl_buf_putint8(pcl_buf_t *b, uint8_t i);
 
 /** Puts a 16-bit integer into a buffer in network-byte order.
  * @note PclBufBinary mode only
@@ -227,7 +227,7 @@ PCL_EXPORT int pcl_buf_putint8(pcl_buf_t *b, uint8_t i);
  * @param i 16-bit integer to put
  * @return number of bytes written or -1 on error
  */
-PCL_EXPORT int pcl_buf_putint16(pcl_buf_t *b, uint16_t i);
+PCL_PUBLIC int pcl_buf_putint16(pcl_buf_t *b, uint16_t i);
 
 /** Puts a 32-bit integer into a buffer in network-byte order.
  * @note PclBufBinary mode only
@@ -235,7 +235,7 @@ PCL_EXPORT int pcl_buf_putint16(pcl_buf_t *b, uint16_t i);
  * @param i 32-bit integer to put
  * @return number of bytes written or -1 on error
  */
-PCL_EXPORT int pcl_buf_putint32(pcl_buf_t *b, uint32_t i);
+PCL_PUBLIC int pcl_buf_putint32(pcl_buf_t *b, uint32_t i);
 
 /** Puts a 64-bit integer into a buffer in network-byte order.
  * @note PclBufBinary mode only
@@ -243,7 +243,7 @@ PCL_EXPORT int pcl_buf_putint32(pcl_buf_t *b, uint32_t i);
  * @param i 64-bit integer to put
  * @return number of bytes written or -1 on error
  */
-PCL_EXPORT int pcl_buf_putint64(pcl_buf_t *b, uint64_t i);
+PCL_PUBLIC int pcl_buf_putint64(pcl_buf_t *b, uint64_t i);
 
 /** Put a formatted string into a buffer.
  * @param b pointer to a buffer
@@ -252,7 +252,7 @@ PCL_EXPORT int pcl_buf_putint64(pcl_buf_t *b, uint64_t i);
  * @param ... variable arguments
  * @return number of characters written (including NUL if in binary mode) or -1 on error
  */
-PCL_EXPORT int pcl_buf_putf(pcl_buf_t *b, const void *format, ...);
+PCL_PUBLIC int pcl_buf_putf(pcl_buf_t *b, const void *format, ...);
 
 /** Put a formatted string into a buffer.
  * @param b pointer to a buffer
@@ -261,7 +261,7 @@ PCL_EXPORT int pcl_buf_putf(pcl_buf_t *b, const void *format, ...);
  * @param ap variable arguments
  * @return number of characters written (including NUL if in binary mode) or -1 on error
  */
-PCL_EXPORT int pcl_buf_vputf(pcl_buf_t *b, const void *format, va_list ap);
+PCL_PUBLIC int pcl_buf_vputf(pcl_buf_t *b, const void *format, va_list ap);
 
 /** Get a blob from a buffer.
  * @note PclBufBinary mode only
@@ -270,7 +270,7 @@ PCL_EXPORT int pcl_buf_vputf(pcl_buf_t *b, const void *format, va_list ap);
  * @param len length in bytes of \a buf if in binary mode, otherwise character length
  * @return number of bytes read or -1 on error
  */
-PCL_EXPORT int pcl_buf_get(pcl_buf_t *b, void *buf, int len);
+PCL_PUBLIC int pcl_buf_get(pcl_buf_t *b, void *buf, int len);
 
 /** Get a string from a buffer.
  * @note PclBufBinary mode only
@@ -279,7 +279,7 @@ PCL_EXPORT int pcl_buf_get(pcl_buf_t *b, void *buf, int len);
  * @param len length in bytes of \a buf
  * @return number of bytes read (including NUL if in binary mode) or -1 on error
  */
-PCL_EXPORT int pcl_buf_getstr(pcl_buf_t *b, char *buf, int len);
+PCL_PUBLIC int pcl_buf_getstr(pcl_buf_t *b, char *buf, int len);
 
 /** Get a character from a buffer.
  * @note PclBufBinary mode only
@@ -287,7 +287,7 @@ PCL_EXPORT int pcl_buf_getstr(pcl_buf_t *b, char *buf, int len);
  * @param[out] c pointer to a character
  * @return number of bytes read  or -1 on error
  */
-PCL_EXPORT int pcl_buf_getchar(pcl_buf_t *b, uint32_t *c);
+PCL_PUBLIC int pcl_buf_getchar(pcl_buf_t *b, uint32_t *c);
 
 /** Get an 8-bit integer a the buffer.
  * @note PclBufBinary mode only
@@ -295,7 +295,7 @@ PCL_EXPORT int pcl_buf_getchar(pcl_buf_t *b, uint32_t *c);
  * @param[out] i pointer to a 8-bit integer
  * @return number of bytes read or -1 on error
  */
-PCL_EXPORT int pcl_buf_getint8(pcl_buf_t *b, uint8_t *i);
+PCL_PUBLIC int pcl_buf_getint8(pcl_buf_t *b, uint8_t *i);
 
 /** Get a 16-bit integer from a buffer in host-byte order.
  * @note PclBufBinary mode only
@@ -303,7 +303,7 @@ PCL_EXPORT int pcl_buf_getint8(pcl_buf_t *b, uint8_t *i);
  * @param[out] i pointer to a 16-bit integer
  * @return number of bytes read or -1 on error
  */
-PCL_EXPORT int pcl_buf_getint16(pcl_buf_t *b, uint16_t *i);
+PCL_PUBLIC int pcl_buf_getint16(pcl_buf_t *b, uint16_t *i);
 
 /** Get a 32-bit integer from a buffer in host-byte order.
  * @note PclBufBinary mode only
@@ -311,7 +311,7 @@ PCL_EXPORT int pcl_buf_getint16(pcl_buf_t *b, uint16_t *i);
  * @param[out] i pointer to a 32-bit integer
  * @return number of bytes read or -1 on error
  */
-PCL_EXPORT int pcl_buf_getint32(pcl_buf_t *b, uint32_t *i);
+PCL_PUBLIC int pcl_buf_getint32(pcl_buf_t *b, uint32_t *i);
 
 /** Get a 64-bit integer from a buffer in host-byte order.
  * @note PclBufBinary mode only
@@ -319,7 +319,7 @@ PCL_EXPORT int pcl_buf_getint32(pcl_buf_t *b, uint32_t *i);
  * @param[out] i pointer to a 64bit integer
  * @return number of bytes read or -1 on error
  */
-PCL_EXPORT int pcl_buf_getint64(pcl_buf_t *b, uint64_t *i);
+PCL_PUBLIC int pcl_buf_getint64(pcl_buf_t *b, uint64_t *i);
 
 #ifdef __cplusplus
 }

@@ -43,48 +43,48 @@ extern "C" {
  * @return pointer to a stack object or \c NULL on error
  * @see pcl_cleanup_ptr
  */
-PCL_EXPORT pcl_stack_t *pcl_stack(pcl_cleanup_t cleanup);
+PCL_PUBLIC pcl_stack_t *pcl_stack(pcl_cleanup_t cleanup);
 
 /** Get the size (number of items) of a stack object.
  * @param s pointer to a stack object
  * @return number of stack items
  */
-PCL_EXPORT int pcl_stack_size(pcl_stack_t *s);
+PCL_PUBLIC int pcl_stack_size(pcl_stack_t *s);
 
 /** Indicates if a stack is empty.
  * @param s pointer to a stack object
  * @return
  */
-PCL_EXPORT bool pcl_stack_empty(pcl_stack_t *s);
+PCL_PUBLIC bool pcl_stack_empty(pcl_stack_t *s);
 
 /** Add an item to the top of the stack.
  * @param s pointer to a stack object
  * @param item
  */
-PCL_EXPORT void pcl_stack_push(pcl_stack_t *s, void *item);
+PCL_PUBLIC void pcl_stack_push(pcl_stack_t *s, void *item);
 
 /** Retrievve an item from the top of the stack without removing it.
  * @param s pointer to a stack object
  * @return
  */
-PCL_EXPORT void *pcl_stack_peek(pcl_stack_t *s);
+PCL_PUBLIC void *pcl_stack_peek(pcl_stack_t *s);
 
 /** Retrieve and remove an item from the top of the stack.
  * @note it is the caller's responsibility to free the returned item.
  * @param s pointer to a stack object
  * @return
  */
-PCL_EXPORT void *pcl_stack_pop(pcl_stack_t *s);
+PCL_PUBLIC void *pcl_stack_pop(pcl_stack_t *s);
 
 /** Remove all items from a stack. This will call the optional cleanup handler.
  * @param s pointer to a stack object
  */
-PCL_EXPORT void pcl_stack_clear(pcl_stack_t *s);
+PCL_PUBLIC void pcl_stack_clear(pcl_stack_t *s);
 
 /** Release all resources used by a stack object.
  * @param s pointer to a stack object
  */
-PCL_EXPORT void pcl_stack_free(pcl_stack_t *s);
+PCL_PUBLIC void pcl_stack_free(pcl_stack_t *s);
 
 #ifdef __cplusplus
 }

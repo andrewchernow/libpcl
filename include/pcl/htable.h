@@ -362,7 +362,7 @@ struct tag_pcl_htable
  * @param capacity initial capacity of hash table. This is rounded up to the nearest prime.
  * @return hash table pointer or NULL on error.
  */
-PCL_EXPORT pcl_htable_t *pcl_htable(int capacity);
+PCL_PUBLIC pcl_htable_t *pcl_htable(int capacity);
 
 /** Lookup and return an entry.
  * @param ht pointer to hash table object
@@ -370,7 +370,7 @@ PCL_EXPORT pcl_htable_t *pcl_htable(int capacity);
  * @return pointer to the key's entry or NULL if not found or an error occurs. If not found,
  * the last PCL error (pcl_errno) is set to PCL_ENOTFOUND.
  */
-PCL_EXPORT pcl_htable_entry_t *pcl_htable_lookup(const pcl_htable_t *ht, const void *key);
+PCL_PUBLIC pcl_htable_entry_t *pcl_htable_lookup(const pcl_htable_t *ht, const void *key);
 
 /** Lookup an entry and return its value. This is a convenience function that wraps
  * ::pcl_htable_lookup.
@@ -380,7 +380,7 @@ PCL_EXPORT pcl_htable_entry_t *pcl_htable_lookup(const pcl_htable_t *ht, const v
  * NULL value, check pcl_errno: if(value == NULL && pcl_errno == PCL_EOKAY) success; Or, use
  * ::pcl_htable_lookup that never returns \c NULL on success.
  */
-PCL_EXPORT void *pcl_htable_get(const pcl_htable_t *ht, const void *key);
+PCL_PUBLIC void *pcl_htable_get(const pcl_htable_t *ht, const void *key);
 
 /** Puts a key/value pair into the table.
  * @param ht pointer to hash table object
@@ -391,21 +391,21 @@ PCL_EXPORT void *pcl_htable_get(const pcl_htable_t *ht, const void *key);
  * with the given key and value; remove_entry called with old key and value.
  * @return 0 on success and -1 on error. For unique puts, pcl_errno is set to PCL_EEXISTS.
  */
-PCL_EXPORT int pcl_htable_put(pcl_htable_t *ht, const void *key, void *value, bool unique);
+PCL_PUBLIC int pcl_htable_put(pcl_htable_t *ht, const void *key, void *value, bool unique);
 
 /** Remove an entry from the table. If the key does not exist, this call is silently ignored.
  * @param ht pointer to hash table object
  * @param key pointer to the entry's key to remove
  * @return new count of entries or -1 on error
  */
-PCL_EXPORT int pcl_htable_remove(pcl_htable_t *ht, const void *key);
+PCL_PUBLIC int pcl_htable_remove(pcl_htable_t *ht, const void *key);
 
 /** Get hash table keys as an array.
  * @param ht pointer to hash table object
  * @return array on success and \c NULL on error. An empty table produces an empty array. This
  * array must be freed by caller.
  */
-PCL_EXPORT pcl_array_t *pcl_htable_keys(const pcl_htable_t *ht);
+PCL_PUBLIC pcl_array_t *pcl_htable_keys(const pcl_htable_t *ht);
 
 /** Iterate through a table's entries. This automatically skips deleted entries, which means
  * the given \a index pointer can skip indexes during the iteration: like given 1 on input
@@ -430,13 +430,13 @@ PCL_EXPORT pcl_array_t *pcl_htable_keys(const pcl_htable_t *ht);
  * \a count_used. This is typically set to zero to iterate through all entries.
  * @return pointer to the next entry or \c NULL when complete.
  */
-PCL_EXPORT pcl_htable_entry_t *pcl_htable_iter(pcl_htable_t *ht, int *index);
+PCL_PUBLIC pcl_htable_entry_t *pcl_htable_iter(pcl_htable_t *ht, int *index);
 
 /** Clear all entries from the table.
  * @param ht pointer to hash table object
  * @param shrink when true, the table will be shrunk down to the smallest table size; 17.
  */
-PCL_EXPORT void pcl_htable_clear(pcl_htable_t *ht, bool shrink);
+PCL_PUBLIC void pcl_htable_clear(pcl_htable_t *ht, bool shrink);
 
 /** Release all resources used by the given hash table.
  * If a remove_entry callback is set on the given hash table, it will be called for each entry.
@@ -444,7 +444,7 @@ PCL_EXPORT void pcl_htable_clear(pcl_htable_t *ht, bool shrink);
  * @return always returns NULL, which is useful as an assignment and free in a single line:
  * `my_obj->ht = pcl_htable_free(my_obj->ht)`
  */
-PCL_EXPORT void *pcl_htable_free(pcl_htable_t *ht);
+PCL_PUBLIC void *pcl_htable_free(pcl_htable_t *ht);
 
 #ifdef __cplusplus
 }

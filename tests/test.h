@@ -35,7 +35,7 @@
 #include <pcl/defs.h>
 #include <pcl/types.h>
 
-#define TESTCASE(name) PCL_EXPORT bool testcase_ ## name(void)
+#define TESTCASE(name) PCL_PUBLIC bool testcase_ ## name(void)
 
 #define ASSERT_INTEQ(actual, expected, message) do{ \
   if(!assert_int_equal(PCL_LOCATION_ARGS, actual, expected, message)) \

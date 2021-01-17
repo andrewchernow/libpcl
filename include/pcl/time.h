@@ -89,11 +89,11 @@ typedef struct
 } pcl_tm_t;
 
 /* Gets the current UTC time in epoch nanoseconds. */
-PCL_EXPORT pcl_time_t pcl_time(void);
+PCL_PUBLIC pcl_time_t pcl_time(void);
 
-PCL_EXPORT int pcl_gmtime(const pcl_time_t *t, pcl_tm_t *result);
+PCL_PUBLIC int pcl_gmtime(const pcl_time_t *t, pcl_tm_t *result);
 
-PCL_EXPORT int pcl_localtime(const pcl_time_t *t, pcl_tm_t *result);
+PCL_PUBLIC int pcl_localtime(const pcl_time_t *t, pcl_tm_t *result);
 
 /**
  * @param out output buffer. Set to NULL to query output length
@@ -103,7 +103,7 @@ PCL_EXPORT int pcl_localtime(const pcl_time_t *t, pcl_tm_t *result);
  * @param tm
  * @return
  */
-PCL_EXPORT size_t pcl_strftime(char *out, size_t len, const char *format, const pcl_tm_t *tm);
+PCL_PUBLIC size_t pcl_strftime(char *out, size_t len, const char *format, const pcl_tm_t *tm);
 
 /** Set file times.
  * @note this function will not follow symlinks. times will be set on link itself.
@@ -113,14 +113,14 @@ PCL_EXPORT size_t pcl_strftime(char *out, size_t len, const char *format, const 
  * @param btime creation/birth time, cannot be set on linux and is silently ignored.
  * @return 0 for success and -1 on error
  */
-PCL_EXPORT int pcl_utimes(const pchar_t *path, pcl_time_t *atime, pcl_time_t *mtime, pcl_time_t *btime);
+PCL_PUBLIC int pcl_utimes(const pchar_t *path, pcl_time_t *atime, pcl_time_t *mtime, pcl_time_t *btime);
 
 /** Converts broken-down time to epoch nanoseconds.
  * @param tu
  * @param utc true to interrupt \a tu as UTC and false for localtime
  * @return
  */
-PCL_EXPORT pcl_time_t pcl_mktime(pcl_tm_t *tu, bool utc);
+PCL_PUBLIC pcl_time_t pcl_mktime(pcl_tm_t *tu, bool utc);
 
 /** Pause execution of the current thread for the given number of nanoseconds.
  *
@@ -134,9 +134,9 @@ PCL_EXPORT pcl_time_t pcl_mktime(pcl_tm_t *tu, bool utc);
  * @return true for success and false otherwise. When cond is not NULL, true can mean the
  * cond returned true or the function slept for the entire nsecs.
  */
-PCL_EXPORT bool pcl_sleep(uint64_t nsecs, bool (*cond)(void), uint32_t cond_interval);
+PCL_PUBLIC bool pcl_sleep(uint64_t nsecs, bool (*cond)(void), uint32_t cond_interval);
 
-PCL_EXPORT pcl_clock_t pcl_clock(void);
+PCL_PUBLIC pcl_clock_t pcl_clock(void);
 
 PCL_INLINE pcl_clock_t
 pcl_secdiff(pcl_clock_t start, pcl_clock_t end)

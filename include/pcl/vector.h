@@ -132,7 +132,7 @@ struct tag_pcl_vector
  * to provide ::pcl_cleanup_ptr for \a cleanup.
  * @see pcl_vector_free
  */
-PCL_EXPORT pcl_vector_t *pcl_vector(int capacity, size_t elemsize, pcl_cleanup_t cleanup);
+PCL_PUBLIC pcl_vector_t *pcl_vector(int capacity, size_t elemsize, pcl_cleanup_t cleanup);
 
 /** Insert an element. To append an element, set \a pos to pcl_vector_t.count
  * @note Starting at \a elem, pcl_vector_t.size bytes are copied into the vector's internal
@@ -144,14 +144,14 @@ PCL_EXPORT pcl_vector_t *pcl_vector(int capacity, size_t elemsize, pcl_cleanup_t
  * @return pointer to the element inserted, which is not the same as \a elem. \c NULL is
  * returned on error.
  */
-PCL_EXPORT void *pcl_vector_insert(pcl_vector_t *v, const void *elem, int pos);
+PCL_PUBLIC void *pcl_vector_insert(pcl_vector_t *v, const void *elem, int pos);
 
 /** Remove an element.
  * @param v pointer to a vector
  * @param pos a zero-based position of the element to remove
  * @return 0 for success and -1 on error.
  */
-PCL_EXPORT int pcl_vector_remove(pcl_vector_t *v, int pos);
+PCL_PUBLIC int pcl_vector_remove(pcl_vector_t *v, int pos);
 
 /** Get an element with bounds checking (safe version of ::pcl_vector_get).
  * @param v pointer to a vector
@@ -159,13 +159,13 @@ PCL_EXPORT int pcl_vector_remove(pcl_vector_t *v, int pos);
  * @return pointer to the element or \c NULL on error
  * @see pcl_vector_get
  */
-PCL_EXPORT void *pcl_vector_get_safe(pcl_vector_t *v, int pos);
+PCL_PUBLIC void *pcl_vector_get_safe(pcl_vector_t *v, int pos);
 
 /** Compact a vector such that its element capacity matches its element count.
  * @param v pointer to a vector
  * @return pointer to \a v argument
  */
-PCL_EXPORT pcl_vector_t *pcl_vector_compact(pcl_vector_t *v);
+PCL_PUBLIC pcl_vector_t *pcl_vector_compact(pcl_vector_t *v);
 
 /** Clear/remove all elements from a vector. This doesn't adjust the vector's capacity. To
  * adjust its capacity, call ::pcl_vector_compact after this.
@@ -173,21 +173,21 @@ PCL_EXPORT pcl_vector_t *pcl_vector_compact(pcl_vector_t *v);
  * @return pointer to the \a v argument
  * @see pcl_vector_compact
  */
-PCL_EXPORT pcl_vector_t *pcl_vector_clear(pcl_vector_t *v);
+PCL_PUBLIC pcl_vector_t *pcl_vector_clear(pcl_vector_t *v);
 
 /** Release all resources used by a vector as well as the vector itself.
  * @param v pointer to a vector that is unusable after this call. If this is \c NULL, the
  * function silently ignores the request.
  * @see pcl_vector
  */
-PCL_EXPORT void pcl_vector_free(pcl_vector_t *v);
+PCL_PUBLIC void pcl_vector_free(pcl_vector_t *v);
 
 /** Sort a vector using \c qsort.
  * @param v ppointer to a vector
  * @param compare pointer to a function comparator whose behavior is identical to \c qsort
  * @return pointer to the \a v argument
  */
-PCL_EXPORT pcl_vector_t *pcl_vector_sort(pcl_vector_t *v, pcl_compare_t compare);
+PCL_PUBLIC pcl_vector_t *pcl_vector_sort(pcl_vector_t *v, pcl_compare_t compare);
 
 /** Append an element.
  * @param v pointer to a vector

@@ -134,7 +134,7 @@ typedef struct
  * retreived using ::pcl_dir_path
  * @return pointer to a directory handle or \c NULL on error
  */
-PCL_EXPORT pcl_dir_t *pcl_opendir(const pchar_t *path);
+PCL_PUBLIC pcl_dir_t *pcl_opendir(const pchar_t *path);
 
 /** Get a directory handle's path.
  * @note the returned path is always absolute.
@@ -142,7 +142,7 @@ PCL_EXPORT pcl_dir_t *pcl_opendir(const pchar_t *path);
  * @param lenp If not \c NULL, the path character length will be written here (excluding NUL)
  * @return directory handle's path or \c NULL on error
  */
-PCL_EXPORT const pchar_t *pcl_dir_path(pcl_dir_t *dir, int *lenp);
+PCL_PUBLIC const pchar_t *pcl_dir_path(pcl_dir_t *dir, int *lenp);
 
 /** Read an entry from a directory handle.
  * @param dir pointer to a directory handle as returned by ::pcl_opendir
@@ -152,12 +152,12 @@ PCL_EXPORT const pchar_t *pcl_dir_path(pcl_dir_t *dir, int *lenp);
  * @return true on success and false on error. When there are no more entries, this returns
  * false and sets the pcl_errno to PCL_ENOMORE.
  */
-PCL_EXPORT bool pcl_readdir(pcl_dir_t *dir, pcl_dirent_t *ent, pcl_stat_t *st);
+PCL_PUBLIC bool pcl_readdir(pcl_dir_t *dir, pcl_dirent_t *ent, pcl_stat_t *st);
 
 /** Close a directory handle.
  * @param dir pointer to a directory handle as returned by ::pcl_opendir
  */
-PCL_EXPORT void pcl_closedir(pcl_dir_t *dir);
+PCL_PUBLIC void pcl_closedir(pcl_dir_t *dir);
 
 /** Remove a directory.
  * @warning The directory must be empty.
@@ -165,34 +165,34 @@ PCL_EXPORT void pcl_closedir(pcl_dir_t *dir);
  * @return 0 for success and -1 on error
  * @see pcl_rmdir_r
  */
-PCL_EXPORT int pcl_rmdir(const pchar_t *path);
+PCL_PUBLIC int pcl_rmdir(const pchar_t *path);
 
 /** Recursively remove a directory
  * @param path directory to remove
  * @return 0 for success and -1 on error
  * @see pcl_rmdir
  */
-PCL_EXPORT int pcl_rmdir_r(const pchar_t *path);
+PCL_PUBLIC int pcl_rmdir_r(const pchar_t *path);
 
 /** Change the current working directory.
  * @param path new working directory
  * @return 0 for success and -1 on error
  */
-PCL_EXPORT int pcl_chdir(const pchar_t *path);
+PCL_PUBLIC int pcl_chdir(const pchar_t *path);
 
 /** Create a directory.
  * @param path directory path
  * @param mode permission bits
  * @return 0 on success and -1 on error
  */
-PCL_EXPORT int pcl_mkdir(const pchar_t *path, mode_t mode);
+PCL_PUBLIC int pcl_mkdir(const pchar_t *path, mode_t mode);
 
 /** Create a directory including any absent parents. Same as unix `mkdir -p /path/to/dir`
  * @param path directory path
  * @param mode permission bits, which are also applied to any parent created
  * @return 0 on success and -1 on error
  */
-PCL_EXPORT int pcl_mkdirs(const pchar_t *path, mode_t mode);
+PCL_PUBLIC int pcl_mkdirs(const pchar_t *path, mode_t mode);
 
 #ifdef __cplusplus
 }

@@ -50,7 +50,7 @@ extern "C" {
 	* @param num number of bytes to generate
 	* @return number of bytes generated
 	*/
-PCL_EXPORT int pcl_rand(void *buf, int num);
+PCL_PUBLIC int pcl_rand(void *buf, int num);
 
 /** Create a cipher object.
  * @param algo cipher algorithm: supports "aes-128-gcm", "aes-256-gcm", "aes-128-cbc",
@@ -65,7 +65,7 @@ PCL_EXPORT int pcl_rand(void *buf, int num);
  * @return pointer to a cipher object or \c NULL on error
  * @see PCL_MAXIVLEN, enum pcl_cipher_algo
  */
-PCL_EXPORT pcl_cipher_t *pcl_cipher(const char *algo, const void *key,
+PCL_PUBLIC pcl_cipher_t *pcl_cipher(const char *algo, const void *key,
 	const void *iv, const void *aad, uint32_t aad_len, bool enc);
 
 /** Reset a cipher so it can be reused.
@@ -87,20 +87,20 @@ PCL_EXPORT pcl_cipher_t *pcl_cipher(const char *algo, const void *key,
  * @param aad_len number of \a aad bytes. If zero, \a aad parameter is ignored.
  * @return 0 for success and -1 on error.
  */
-PCL_EXPORT int pcl_cipher_reset(pcl_cipher_t *ciph, const void *iv,
+PCL_PUBLIC int pcl_cipher_reset(pcl_cipher_t *ciph, const void *iv,
 	const void *aad, uint32_t aad_len);
 
 /** Get cipher name.
  * @param ciph pointer to a cipher object
  * @return pointer to cipher name or \c NULL on error
  */
-PCL_EXPORT const char *pcl_cipher_name(pcl_cipher_t *ciph);
+PCL_PUBLIC const char *pcl_cipher_name(pcl_cipher_t *ciph);
 
 /** I this an AEAD cipher.
  * @param ciph pointer to a cipher
  * @return true if AEAD supported, false if not
  */
-PCL_EXPORT bool pcl_cipher_isaead(pcl_cipher_t *ciph);
+PCL_PUBLIC bool pcl_cipher_isaead(pcl_cipher_t *ciph);
 
 /** Encrypt or dercypt more bytes.
  * @param ciph pointer to a cipher object
@@ -109,7 +109,7 @@ PCL_EXPORT bool pcl_cipher_isaead(pcl_cipher_t *ciph);
  * @param in_len number of bytes within \a in
  * @return number of bytes written to \a out or -1 on error
  */
-PCL_EXPORT int pcl_cipher_update(pcl_cipher_t *ciph, char *out, const void *in, int in_len);
+PCL_PUBLIC int pcl_cipher_update(pcl_cipher_t *ciph, char *out, const void *in, int in_len);
 
 /** Finalize encrypt or decrypt process.
  * @param ciph pointer to a cipher object
@@ -122,19 +122,19 @@ PCL_EXPORT int pcl_cipher_update(pcl_cipher_t *ciph, char *out, const void *in, 
  * plaintext is not trustworthy and should be discarded.
  * @see PCL_AEAD_TAGLEN
  */
-PCL_EXPORT int pcl_cipher_final(pcl_cipher_t *ciph, char *out, char *tag);
+PCL_PUBLIC int pcl_cipher_final(pcl_cipher_t *ciph, char *out, char *tag);
 
 /** Release all resources used by a cipher object.
  * @param ciph pointer to a cipher object.
  * @see pcl_cipher_reset
  */
-PCL_EXPORT void pcl_cipher_free(pcl_cipher_t *ciph);
+PCL_PUBLIC void pcl_cipher_free(pcl_cipher_t *ciph);
 
 /** Create a message digest object.
  * @param algo message digest algorithm: supports "md5", "sha1", "sha256", "sha512"
  * @return pointer to a message digest object
  */
-PCL_EXPORT pcl_digest_t *pcl_digest(const char *algo);
+PCL_PUBLIC pcl_digest_t *pcl_digest(const char *algo);
 
 /** Update the data of a digest operation.
  * @param d pointer to a message digest object
@@ -142,7 +142,7 @@ PCL_EXPORT pcl_digest_t *pcl_digest(const char *algo);
  * @param len number of \a data bytes
  * @return 0 for success and -1 on error
  */
-PCL_EXPORT int pcl_digest_update(pcl_digest_t *d, const void *data, size_t len);
+PCL_PUBLIC int pcl_digest_update(pcl_digest_t *d, const void *data, size_t len);
 
 /** Finalize a digest operation. After this call, the digest object can be reused by calling
  * ::pcl_digest_update and ::pcl_digest_final again.
@@ -150,7 +150,7 @@ PCL_EXPORT int pcl_digest_update(pcl_digest_t *d, const void *data, size_t len);
  * @param[out] lenp if not \c NULL, the digest length will be written here
  * @return pointer to the message digest
  */
-PCL_EXPORT void *pcl_digest_final(pcl_digest_t *d, int *lenp);
+PCL_PUBLIC void *pcl_digest_final(pcl_digest_t *d, int *lenp);
 
 /** Create a message digest.
  * @param algo message digest algorithm: supports "md5", "sha1", "sha256", "sha512"
@@ -159,25 +159,25 @@ PCL_EXPORT void *pcl_digest_final(pcl_digest_t *d, int *lenp);
  * the number of bytes written to the returned digest.
  * @return pointer to a digest or \c NULL on error
  */
-PCL_EXPORT void *pcl_digest_value(const char *algo, const void *data, size_t *len);
+PCL_PUBLIC void *pcl_digest_value(const char *algo, const void *data, size_t *len);
 
 /** Get digest length.
  * @param d pointer to a message digest object
  * @return digest length or -1 on error
  */
-PCL_EXPORT int pcl_digest_len(pcl_digest_t *d);
+PCL_PUBLIC int pcl_digest_len(pcl_digest_t *d);
 
 /** Get digest algorithm name.
  * @param d pointer to a message digest object
  * @return pointer to digest algorithm name
  */
-PCL_EXPORT const char *pcl_digest_name(pcl_digest_t *d);
+PCL_PUBLIC const char *pcl_digest_name(pcl_digest_t *d);
 
 /** Free a message digest.
  * @param d pointer to a message digest object
  * @return always returns \c NULL
  */
-PCL_EXPORT void *pcl_digest_free(pcl_digest_t *d);
+PCL_PUBLIC void *pcl_digest_free(pcl_digest_t *d);
 
 #ifdef __cplusplus
 }

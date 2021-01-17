@@ -259,10 +259,10 @@ struct tag_pcl_stat
  * @param flags PCL_STAT_xxx flags such as PCL_STAT_LINK incicates this should perform an lstat.
  * @return on success 0 and -1 on error
  */
-PCL_EXPORT int pcl_statent(const pchar_t *path, int fd, pcl_stat_t *buf, int flags);
+PCL_PUBLIC int pcl_statent(const pchar_t *path, int fd, pcl_stat_t *buf, int flags);
 
-PCL_EXPORT char *pcl_strmode(char *out, size_t out_size, mode_t mode);
-PCL_EXPORT char *pcl_strflags(char *out, size_t len, uint32_t flags);
+PCL_PUBLIC char *pcl_strmode(char *out, size_t out_size, mode_t mode);
+PCL_PUBLIC char *pcl_strflags(char *out, size_t len, uint32_t flags);
 
 #ifdef __cplusplus
 }

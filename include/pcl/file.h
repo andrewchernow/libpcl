@@ -90,26 +90,26 @@
 extern "C" {
 #endif
 
-PCL_EXPORT pcl_file_t *pcl_file_open(const pchar_t *path, int oflags, ...);
+PCL_PUBLIC pcl_file_t *pcl_file_open(const pchar_t *path, int oflags, ...);
 
-PCL_EXPORT int pcl_file_read(pcl_file_t *file, void *buf, size_t count);
+PCL_PUBLIC int pcl_file_read(pcl_file_t *file, void *buf, size_t count);
 
-PCL_EXPORT int pcl_file_write(pcl_file_t *file, const void *data, size_t count);
+PCL_PUBLIC int pcl_file_write(pcl_file_t *file, const void *data, size_t count);
 
-PCL_EXPORT int pcl_file_tryread(pcl_file_t *file, void *buf, size_t count, int ms_timeout);
+PCL_PUBLIC int pcl_file_tryread(pcl_file_t *file, void *buf, size_t count, int ms_timeout);
 
-PCL_EXPORT int pcl_file_trywrite(pcl_file_t *file, const void *data, size_t count, int ms_timeout);
+PCL_PUBLIC int pcl_file_trywrite(pcl_file_t *file, const void *data, size_t count, int ms_timeout);
 
-PCL_EXPORT off_t pcl_file_seek(pcl_file_t *file, off_t offset, int whence);
+PCL_PUBLIC off_t pcl_file_seek(pcl_file_t *file, off_t offset, int whence);
 
-PCL_EXPORT void pcl_file_close(pcl_file_t *file);
+PCL_PUBLIC void pcl_file_close(pcl_file_t *file);
 
 /** Lock a file with exclusive or shared access or unlock a file.
  * @param file
  * @param operation PCL_WRLOCK exclusive, PCL_RDLOCK shared, PCL_UNLOCK unlock
  * @return 0 for success and -1 on error
  */
-PCL_EXPORT int pcl_file_lock(pcl_file_t *file, int operation);
+PCL_PUBLIC int pcl_file_lock(pcl_file_t *file, int operation);
 
 /* Get the absolute path for a file descriptor.
  * @param fd file descriptor. For windows, this is a CRT fd, not a HANDLE.
@@ -117,35 +117,35 @@ PCL_EXPORT int pcl_file_lock(pcl_file_t *file, int operation);
  * by caller.
  * @return -1 on error number of characters written to out on success
  */
-PCL_EXPORT int pcl_fdpath(int fd, pchar_t **out);
+PCL_PUBLIC int pcl_fdpath(int fd, pchar_t **out);
 
 /** Gets the canonicalized absolute pathname.
  * @param path path to convert
  * @param[out] lenp If not \c NULL, character length (excluding NUL) is written here
  * @return an allocated absolute path or NULL on error
  */
-PCL_EXPORT pchar_t *pcl_realpath(const pchar_t *path, int *lenp);
+PCL_PUBLIC pchar_t *pcl_realpath(const pchar_t *path, int *lenp);
 
 /** Change the name or location of a file
  * @param oldname The old name/path of the file
  * @param newname if this exists, it will be replaced
  * @return 0 on success and -1 on error
  */
-PCL_EXPORT int pcl_rename(const pchar_t *oldname, const pchar_t *newname);
+PCL_PUBLIC int pcl_rename(const pchar_t *oldname, const pchar_t *newname);
 
 /** Delete a file or directory. The directory must be empty. File can be a link, socket, FIFO
  * or device.
  * @param pathname
  * @return 0 on success or -1 on error
  */
-PCL_EXPORT int pcl_remove(const pchar_t *pathname);
+PCL_PUBLIC int pcl_remove(const pchar_t *pathname);
 
 /** Delete a file.
  * @param path file to delete
  * @return 0 on success and -1 on error
  * @see pcl_remove
  */
-PCL_EXPORT int pcl_unlink(const pchar_t *path);
+PCL_PUBLIC int pcl_unlink(const pchar_t *path);
 
 #ifdef __cplusplus
 }

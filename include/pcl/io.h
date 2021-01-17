@@ -56,7 +56,7 @@ extern "C" {
  * @param mode Can be 'r', 'r+', 'w', 'w+', 'a', 'a+', see any unix man page. Supports 'b'.
  * @return a valid stream or NULL on error
  */
-PCL_EXPORT FILE *pcl_fopen(const pchar_t *path, const pchar_t *mode);
+PCL_PUBLIC FILE *pcl_fopen(const pchar_t *path, const pchar_t *mode);
 
 /** Pipe a stream to or from a process. This differs from the POSIX popen in that there is
  * no type argument. Instead, this uses redirection symbols like a Unix shell.
@@ -86,13 +86,13 @@ PCL_EXPORT FILE *pcl_fopen(const pchar_t *path, const pchar_t *mode);
  * @param ... variable arguments
  * @return stream pointer or \c NULL on error
  */
-PCL_EXPORT FILE *pcl_popen(const pchar_t *command, ...);
+PCL_PUBLIC FILE *pcl_popen(const pchar_t *command, ...);
 
 /** Get a file descriptor from a stream
  * @param stream pointer to a \c FILE stream
  * @return file descriptor or -1 on error
  */
-PCL_EXPORT int pcl_fileno(FILE *stream);
+PCL_PUBLIC int pcl_fileno(FILE *stream);
 
 /** Open a file handle as a stream.
  * On success, a file stream is returned that must be closed via \c fclose.  The provided file
@@ -116,7 +116,7 @@ PCL_EXPORT int pcl_fileno(FILE *stream);
  * @param file pointer to a file handle
  * @return a file stream that must be closed with \c fclose
  */
-PCL_EXPORT FILE *pcl_fdopen(pcl_file_t *file);
+PCL_PUBLIC FILE *pcl_fdopen(pcl_file_t *file);
 
 /** Create and open a unique temporary file.
  * This function will make several attempts to create the unique temporary file. The below is
@@ -134,7 +134,7 @@ PCL_EXPORT FILE *pcl_fdopen(pcl_file_t *file);
  * When true, the file will persist after file close.
  * @return
  */
-PCL_EXPORT FILE *pcl_tmpfile(const pchar_t *dir, const pchar_t *prefix,
+PCL_PUBLIC FILE *pcl_tmpfile(const pchar_t *dir, const pchar_t *prefix,
 	const pchar_t *suffix, pchar_t **pathp, bool keep);
 
 /** Write a formatted character string to \c stdout.
@@ -144,9 +144,9 @@ PCL_EXPORT FILE *pcl_tmpfile(const pchar_t *dir, const pchar_t *prefix,
  * @param ... variable arguments matching format
  * @return number of characters written to \c stdout or a negative PCL error code.
  */
-PCL_EXPORT int pcl_printf(const char *format, ...);
+PCL_PUBLIC int pcl_printf(const char *format, ...);
 /** @copydoc pcl_printf */
-PCL_EXPORT int pcl_wprintf(const wchar_t *format, ...);
+PCL_PUBLIC int pcl_wprintf(const wchar_t *format, ...);
 
 /** Write a formatted character string to \c stdout.
  * @param format format specifier string. PCL includes extensions: \c "%/" is the platform-specific
@@ -155,9 +155,9 @@ PCL_EXPORT int pcl_wprintf(const wchar_t *format, ...);
  * @param ap variable argument list
  * @return number of characters written to \c stdout or a negative PCL error code.
  */
-PCL_EXPORT int pcl_vprintf(const char *format, va_list ap);
+PCL_PUBLIC int pcl_vprintf(const char *format, va_list ap);
 /** @copydoc pcl_vprintf */
-PCL_EXPORT int pcl_vwprintf(const wchar_t *format, va_list ap);
+PCL_PUBLIC int pcl_vwprintf(const wchar_t *format, va_list ap);
 
 /** Write a formatted character string to a stream.
  * @param stream file stream to write to
@@ -167,9 +167,9 @@ PCL_EXPORT int pcl_vwprintf(const wchar_t *format, va_list ap);
  * @param ... variable arguments matching format
  * @return number of characters written to the stream or a negative PCL error code.
  */
-PCL_EXPORT int pcl_fprintf(FILE *stream, const char *format, ...);
+PCL_PUBLIC int pcl_fprintf(FILE *stream, const char *format, ...);
 /** @copydoc pcl_fprintf */
-PCL_EXPORT int pcl_fwprintf(FILE *stream, const wchar_t *format, ...);
+PCL_PUBLIC int pcl_fwprintf(FILE *stream, const wchar_t *format, ...);
 
 /** Write a formatted character string to the given stream.
  * @param stream file stream to write to
@@ -179,9 +179,9 @@ PCL_EXPORT int pcl_fwprintf(FILE *stream, const wchar_t *format, ...);
  * @param ap variable argument list
  * @return number of characters written to the stream or a negative PCL error code.
  */
-PCL_EXPORT int pcl_vfprintf(FILE *stream, const char *format, va_list ap);
+PCL_PUBLIC int pcl_vfprintf(FILE *stream, const char *format, va_list ap);
 /** @copydoc pcl_vfprintf */
-PCL_EXPORT int pcl_vfwprintf(FILE *stream, const wchar_t *format, va_list ap);
+PCL_PUBLIC int pcl_vfwprintf(FILE *stream, const wchar_t *format, va_list ap);
 
 /** Write a formatted character string to a buffer.
  * @param buf pointer to a buffer, set to \c NULL to query output length (excluding NUL)
@@ -194,9 +194,9 @@ PCL_EXPORT int pcl_vfwprintf(FILE *stream, const wchar_t *format, va_list ap);
  * characters that would have been written to \a buf. On error, a negative PCL error code is
  * returned.
  */
-PCL_EXPORT int pcl_sprintf(char *buf, size_t size, const char *format, ...);
+PCL_PUBLIC int pcl_sprintf(char *buf, size_t size, const char *format, ...);
 /** @copydoc pcl_sprintf */
-PCL_EXPORT int pcl_swprintf(wchar_t *buf, size_t size, const wchar_t *format, ...);
+PCL_PUBLIC int pcl_swprintf(wchar_t *buf, size_t size, const wchar_t *format, ...);
 
 /** Write a formatted character string to a buffer.
  * @param buf pointer to a buffer, set to \c NULL to query output length (excluding NUL)
@@ -209,9 +209,9 @@ PCL_EXPORT int pcl_swprintf(wchar_t *buf, size_t size, const wchar_t *format, ..
  * characters that would have been written to \a buf. On error, a negative PCL error code is
  * returned.
  */
-PCL_EXPORT int pcl_vsprintf(char *buf, size_t size, const char *format, va_list ap);
+PCL_PUBLIC int pcl_vsprintf(char *buf, size_t size, const char *format, va_list ap);
 /** @copydoc pcl_vsprintf */
-PCL_EXPORT int pcl_vswprintf(wchar_t *buf, size_t size, const wchar_t *format, va_list ap);
+PCL_PUBLIC int pcl_vswprintf(wchar_t *buf, size_t size, const wchar_t *format, va_list ap);
 
 /** Write a formatted character string to an allocated buffer.
  * @param[out] out pointer to an output pointer, this must be freed by caller. set to \c NULL
@@ -224,9 +224,9 @@ PCL_EXPORT int pcl_vswprintf(wchar_t *buf, size_t size, const wchar_t *format, v
  * characters that would have been written to \a out. On error, a negative PCL error code is
  * returned.
  */
-PCL_EXPORT int pcl_asprintf(char **out, const char *format, ...);
+PCL_PUBLIC int pcl_asprintf(char **out, const char *format, ...);
 /** @copydoc pcl_asprintf */
-PCL_EXPORT int pcl_aswprintf(wchar_t **out, const wchar_t *format, ...);
+PCL_PUBLIC int pcl_aswprintf(wchar_t **out, const wchar_t *format, ...);
 
 /** Write a formatted character string to an allocated buffer.
  * @param[out] out pointer to an output pointer, this must be freed by caller. set to \c NULL to
@@ -239,9 +239,9 @@ PCL_EXPORT int pcl_aswprintf(wchar_t **out, const wchar_t *format, ...);
  * characters that would have been written to \a out. On error, a negative PCL error code is
  * returned.
  */
-PCL_EXPORT int pcl_vasprintf(char **out, const char *format, va_list ap);
+PCL_PUBLIC int pcl_vasprintf(char **out, const char *format, va_list ap);
 /** @copydoc pcl_vasprintf */
-PCL_EXPORT int pcl_vaswprintf(wchar_t **out, const wchar_t *format, va_list ap);
+PCL_PUBLIC int pcl_vaswprintf(wchar_t **out, const wchar_t *format, va_list ap);
 
 #ifdef __doxygen__
 	/** @copydoc pcl_printf

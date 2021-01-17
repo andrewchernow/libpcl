@@ -51,7 +51,7 @@ extern "C" {
  * AF_INET is specified and sizeof(struct in6_addr) if AF_INET6 is specified.
  * Supports AF_INET, AF_INET6.
  */
-PCL_EXPORT int pcl_net_ip2inet(int af, const char *ipstr, void *inaddr);
+PCL_PUBLIC int pcl_net_ip2inet(int af, const char *ipstr, void *inaddr);
 
 /* Converts a binary inet addr (in_addr or in6_addr) to a string.  Same as
  * inet_ntop, which is not always available. If af is AF_INET,
@@ -59,7 +59,7 @@ PCL_EXPORT int pcl_net_ip2inet(int af, const char *ipstr, void *inaddr);
  * Returns NULL on error.  NOTE: this wraps pcl_net_addr2ip().
  * Supports AF_INET, AF_INET6 and AF_UNIX.
  */
-PCL_EXPORT char *pcl_net_inet2ip(int af, const void *inaddr, char *ipbuf, size_t len);
+PCL_PUBLIC char *pcl_net_inet2ip(int af, const void *inaddr, char *ipbuf, size_t len);
 
 /* Converts an IP or hostname to a binary socket address.  It is
  * recommended that if 'sa' is not NULL, is should be wide enough for an
@@ -67,44 +67,44 @@ PCL_EXPORT char *pcl_net_inet2ip(int af, const void *inaddr, char *ipbuf, size_t
  * verify the host. Returns zero on success and -1 on error.
  * Supports AF_INET, AF_INET6 and AF_UNIX.
  */
-PCL_EXPORT int pcl_net_host2addr(const char *host, struct sockaddr *sa);
+PCL_PUBLIC int pcl_net_host2addr(const char *host, struct sockaddr *sa);
 
 /* Converts a sockaddr to its string representation and stores the
  * result at the address pointed to by ipbuf, which is len bytes
  * wide.  Returns a pointer to ipbuf on success and NULL on error.
  * Supports AF_INET, AF_INET6 and AF_UNIX.
  */
-PCL_EXPORT char *pcl_net_addr2ip(struct sockaddr *sa, char *ipbuf, size_t len);
+PCL_PUBLIC char *pcl_net_addr2ip(struct sockaddr *sa, char *ipbuf, size_t len);
 
 /* Convert an AddrInfo (AI) error code to an PCL code */
-PCL_EXPORT int pcl_net_ai2pcl(int ai_retval);
+PCL_PUBLIC int pcl_net_ai2pcl(int ai_retval);
 
 /* Convert a DNS resolution error to an PCL error code */
-PCL_EXPORT int pcl_net_dns2pcl(int err);
+PCL_PUBLIC int pcl_net_dns2pcl(int err);
 
 /* performs reverse DNS on the give IPv4 or IPv6 address.  The resulting
  * hostname is written to host, no more than len bytes will be written.
  * return 0 on success and -1 on error, check pcl_errno.
  */
-PCL_EXPORT int pcl_net_reverse(const char *ipaddr, char *host, size_t len);
+PCL_PUBLIC int pcl_net_reverse(const char *ipaddr, char *host, size_t len);
 
 /** Resolve a hostname to an array of IPv4 and/or IPv6 addresses.
  * @param host pointer to a hostname
  * @return pointer to an array of IP addresses or \c NULL on error.
  */
-PCL_EXPORT pcl_array_t *pcl_net_resolve(const char *host);
+PCL_PUBLIC pcl_array_t *pcl_net_resolve(const char *host);
 
 /** Retrieve the DNS TXT records for a given host.
  * @param host pointer to a host
  * @return pointer to an array where each element is a TXT record or \c NULL on error.
  */
-PCL_EXPORT pcl_array_t *pcl_net_dnstxtrec(const char *host);
+PCL_PUBLIC pcl_array_t *pcl_net_dnstxtrec(const char *host);
 
 /* Gets the length in bytes of the given socket address.  Returns zero
  * if addr is NULL or the address family is not supported.  Supported
  * families are: AF_INET, AF_INET6 and AF_UNIX (non-windows systems only).
  */
-PCL_EXPORT socklen_t pcl_net_addrlen(const struct sockaddr *addr);
+PCL_PUBLIC socklen_t pcl_net_addrlen(const struct sockaddr *addr);
 
 #ifdef __cplusplus
 }

@@ -38,9 +38,9 @@
 extern "C" {
 #endif
 
-PCL_EXPORT int pcl_getuser(const uid_t uid, char *out, size_t len);
+PCL_PUBLIC int pcl_getuser(const uid_t uid, char *out, size_t len);
 
-PCL_EXPORT int pcl_getgroup(const gid_t gid, char *out, size_t len);
+PCL_PUBLIC int pcl_getgroup(const gid_t gid, char *out, size_t len);
 
 /** Gets the user identifier for the given account user name.
  * @param name account user name
@@ -49,7 +49,7 @@ PCL_EXPORT int pcl_getgroup(const gid_t gid, char *out, size_t len);
  * @return 0 on success and -1 on failure. If the user referenced by name does not exist, the
  * pcl_errno is set to PCL_ENOTFOUND (not PCL_ENOENT, which the OS may set for other reasons).
  */
-PCL_EXPORT int pcl_getuid(const char *name, uid_t *uidp);
+PCL_PUBLIC int pcl_getuid(const char *name, uid_t *uidp);
 
 /** Gets the group identifier for the given group name.
  * @param name group name

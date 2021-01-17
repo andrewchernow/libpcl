@@ -54,29 +54,29 @@ extern "C" {
 * @param r pointer to the result of the conversion
 * @return 0 on success and -1 on error.
 */
-PCL_EXPORT int pcl_strtoi(const char *nptr, char **end, int base, int *r);
+PCL_PUBLIC int pcl_strtoi(const char *nptr, char **end, int base, int *r);
 /**  @copydoc pcl_strtoi */
-PCL_EXPORT int pcl_wcstoi(const wchar_t *nptr, wchar_t **end, int base, int *r);
+PCL_PUBLIC int pcl_wcstoi(const wchar_t *nptr, wchar_t **end, int base, int *r);
 /**  @copydoc pcl_strtoi */
-PCL_EXPORT int pcl_strtoui(const char *nptr, char **end, int base, unsigned int *r);
+PCL_PUBLIC int pcl_strtoui(const char *nptr, char **end, int base, unsigned int *r);
 /**  @copydoc pcl_strtoi */
-PCL_EXPORT int pcl_wcstoui(const wchar_t *nptr, wchar_t **end, int base, unsigned int *r);
+PCL_PUBLIC int pcl_wcstoui(const wchar_t *nptr, wchar_t **end, int base, unsigned int *r);
 /**  @copydoc pcl_strtoi */
-PCL_EXPORT int pcl_strtol(const char *nptr, char **end, int base, long *r);
+PCL_PUBLIC int pcl_strtol(const char *nptr, char **end, int base, long *r);
 /**  @copydoc pcl_strtoi */
-PCL_EXPORT int pcl_wcstol(const wchar_t *nptr, wchar_t **end, int base, long *r);
+PCL_PUBLIC int pcl_wcstol(const wchar_t *nptr, wchar_t **end, int base, long *r);
 /**  @copydoc pcl_strtoi */
-PCL_EXPORT int pcl_strtoul(const char *nptr, char **end, int base, unsigned long *r);
+PCL_PUBLIC int pcl_strtoul(const char *nptr, char **end, int base, unsigned long *r);
 /**  @copydoc pcl_strtoi */
-PCL_EXPORT int pcl_wcstoul(const wchar_t *nptr, wchar_t **end, int base, unsigned long *r);
+PCL_PUBLIC int pcl_wcstoul(const wchar_t *nptr, wchar_t **end, int base, unsigned long *r);
 /**  @copydoc pcl_strtoi */
-PCL_EXPORT int pcl_strtoll(const char *nptr, char **end, int base, long long *r);
+PCL_PUBLIC int pcl_strtoll(const char *nptr, char **end, int base, long long *r);
 /**  @copydoc pcl_strtoi */
-PCL_EXPORT int pcl_wcstoll(const wchar_t *nptr, wchar_t **end, int base, long long *r);
+PCL_PUBLIC int pcl_wcstoll(const wchar_t *nptr, wchar_t **end, int base, long long *r);
 /**  @copydoc pcl_strtoi */
-PCL_EXPORT int pcl_strtoull(const char *nptr, char **end, int base, unsigned long long *r);
+PCL_PUBLIC int pcl_strtoull(const char *nptr, char **end, int base, unsigned long long *r);
 /**  @copydoc pcl_strtoi */
-PCL_EXPORT int pcl_wcstoull(const wchar_t *nptr, wchar_t **end, int base, unsigned long long *r);
+PCL_PUBLIC int pcl_wcstoull(const wchar_t *nptr, wchar_t **end, int base, unsigned long long *r);
 
 #ifdef __doxygen__
 /** @copydoc pcl_strtoi

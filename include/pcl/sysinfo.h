@@ -66,7 +66,7 @@ typedef struct
 	pcl_langrp_t langrp_type;
 } pcl_sysinfo_t;
 
-PCL_EXPORT void pcl_sysinfo(pcl_sysinfo_t *info);
+PCL_PUBLIC void pcl_sysinfo(pcl_sysinfo_t *info);
 
 #ifdef __cplusplus
 }

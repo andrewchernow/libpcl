@@ -71,17 +71,17 @@ typedef void (*pcl_event_handler_t)(uint32_t event, void *data);
  * and respond accordingly.
  * @param data event data. PCL_EVENT_INIT and PCL_EVENT_THREADINIT do not use event data
  */
-PCL_EXPORT void pcl_event_dispatch(uint32_t event, void *data);
+PCL_PUBLIC void pcl_event_dispatch(uint32_t event, void *data);
 
 /** Registers a new event handler.
  * @param handler event handler
  */
-PCL_EXPORT void pcl_event_register(pcl_event_handler_t handler);
+PCL_PUBLIC void pcl_event_register(pcl_event_handler_t handler);
 
 /** Unregisters a previously registered event handler.
  * @param handler event handler
  */
-PCL_EXPORT void pcl_event_unregister(pcl_event_handler_t handler);
+PCL_PUBLIC void pcl_event_unregister(pcl_event_handler_t handler);
 
 #ifdef __cplusplus
 }

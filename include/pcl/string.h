@@ -72,9 +72,9 @@ extern "C" {
  * @param decimal number of decimal places to include in the formatted value.
  * @return number of character written to \a buf or -1 on error.
  */
-PCL_EXPORT int pcl_strfbytes(char *buf, size_t bufl, uint64_t nbytes, int decimal);
+PCL_PUBLIC int pcl_strfbytes(char *buf, size_t bufl, uint64_t nbytes, int decimal);
 /** @copydoc pcl_strfbytes */
-PCL_EXPORT int pcl_wcsfbytes(wchar_t *buf, size_t bufl, uint64_t nbytes, int decimal);
+PCL_PUBLIC int pcl_wcsfbytes(wchar_t *buf, size_t bufl, uint64_t nbytes, int decimal);
 
 /** Encode data as a hexadecimal string.
  * @param buf pointer to a buffer
@@ -83,7 +83,7 @@ PCL_EXPORT int pcl_wcsfbytes(wchar_t *buf, size_t bufl, uint64_t nbytes, int dec
  * @param len number of \a data bytes to encode
  * @return number of characters written to \a buf or -1 on error
  */
-PCL_EXPORT int pcl_hex_encode(char *buf, size_t size, const void *data, size_t len);
+PCL_PUBLIC int pcl_hex_encode(char *buf, size_t size, const void *data, size_t len);
 
 /** Decode a hexadecimal string.
  * @warning This does not add a NUL to \a buf
@@ -92,7 +92,7 @@ PCL_EXPORT int pcl_hex_encode(char *buf, size_t size, const void *data, size_t l
  * @param hex pointer to the hexadecimal string
  * @return number of bytes written to \a buf or -1 on error
  */
-PCL_EXPORT int pcl_hex_decode(void *buf, size_t size, const char *hex);
+PCL_PUBLIC int pcl_hex_decode(void *buf, size_t size, const char *hex);
 
 /** Encode data as a base64 string.
  * @param buf pointer to a buffer
@@ -101,7 +101,7 @@ PCL_EXPORT int pcl_hex_decode(void *buf, size_t size, const char *hex);
  * @param len number of \a data bytes to encode
  * @return number of characters written to \a buf or -1 on error
  */
-PCL_EXPORT int pcl_base64_encode(char *buf, size_t size, const void *data, size_t len);
+PCL_PUBLIC int pcl_base64_encode(char *buf, size_t size, const void *data, size_t len);
 
 /** Decode a base64 string.
  * @param buf pointer to a buffer
@@ -109,7 +109,7 @@ PCL_EXPORT int pcl_base64_encode(char *buf, size_t size, const void *data, size_
  * @param b64 pointer to the base64 string
  * @return number of bytes written to \a buf or -1 on error
  */
-PCL_EXPORT int pcl_base64_decode(void *buf, size_t size, const char *b64);
+PCL_PUBLIC int pcl_base64_decode(void *buf, size_t size, const char *b64);
 
 /* ------------------------------------------------------------------------------
  * pcl_stricmp, pcl_strnicmp, pcl_wcsicmp, pcl_wcsnicmp
@@ -177,9 +177,9 @@ PCL_EXPORT int pcl_base64_decode(void *buf, size_t size, const char *b64);
  * @param len number of characters in \a src to copy
  * @return pointer to \a dest or \c NULL on error.
  */
-PCL_EXPORT char *pcl_strncpy(char *dest, size_t size, const char *src, size_t len);
+PCL_PUBLIC char *pcl_strncpy(char *dest, size_t size, const char *src, size_t len);
 /** @copydoc pcl_strncpy */
-PCL_EXPORT wchar_t *pcl_wcsncpy(wchar_t *dest, size_t size, const wchar_t *src, size_t len);
+PCL_PUBLIC wchar_t *pcl_wcsncpy(wchar_t *dest, size_t size, const wchar_t *src, size_t len);
 
 
 /* ------------------------------------------------------------------------------
@@ -198,9 +198,9 @@ PCL_EXPORT wchar_t *pcl_wcsncpy(wchar_t *dest, size_t size, const wchar_t *src, 
 #elif defined(PCL_UNIX)
 #	define pcl_stristr strcasestr
 #else
-	PCL_EXPORT char *pcl_stristr(const char *haystack, const char *needle);
+	PCL_PUBLIC char *pcl_stristr(const char *haystack, const char *needle);
 #endif
-PCL_EXPORT wchar_t *pcl_wcsistr(const wchar_t *haystack, const wchar_t *needle);
+PCL_PUBLIC wchar_t *pcl_wcsistr(const wchar_t *haystack, const wchar_t *needle);
 
 /* ------------------------------------------------------------------------------
  * pcl_strdup, pcl_strndup, pcl_wcsdup, pcl_wcsndup
@@ -225,9 +225,9 @@ PCL_EXPORT wchar_t *pcl_wcsistr(const wchar_t *haystack, const wchar_t *needle);
  * @param len number of characters to duplicate
  * @return pointer to allocated duplicate
  */
-PCL_EXPORT char *pcl_strndup(const char *s, size_t len);
+PCL_PUBLIC char *pcl_strndup(const char *s, size_t len);
 /** @copydoc pcl_strndup */
-PCL_EXPORT wchar_t *pcl_wcsndup(const wchar_t *s, size_t len);
+PCL_PUBLIC wchar_t *pcl_wcsndup(const wchar_t *s, size_t len);
 
 /* ------------------------------------------------------------------------------
  * pcl_strcat family
@@ -256,9 +256,9 @@ PCL_EXPORT wchar_t *pcl_wcsndup(const wchar_t *s, size_t len);
  * @param len character length of \a src to copy
  * @return pointer to \a dest
  */
-PCL_EXPORT char *pcl_strncat(char *dest, size_t size, const char *src, size_t len);
+PCL_PUBLIC char *pcl_strncat(char *dest, size_t size, const char *src, size_t len);
 /** @copydoc pcl_strncat */
-PCL_EXPORT wchar_t *pcl_wcsncat(wchar_t *dest, size_t size, const wchar_t *src, size_t len);
+PCL_PUBLIC wchar_t *pcl_wcsncat(wchar_t *dest, size_t size, const wchar_t *src, size_t len);
 
 /** Concatenate two strings using a format.
  * @param dest pointer to a buffer to append to
@@ -267,9 +267,9 @@ PCL_EXPORT wchar_t *pcl_wcsncat(wchar_t *dest, size_t size, const wchar_t *src, 
  * @param ... variable arguments
  * @return pointer to \a dest
  */
-PCL_EXPORT char *pcl_strcatf(char *dest, size_t size, const char *format, ...);
+PCL_PUBLIC char *pcl_strcatf(char *dest, size_t size, const char *format, ...);
 /** @copydoc pcl_strcatf */
-PCL_EXPORT wchar_t *pcl_wcscatf(wchar_t *dest, size_t size, const wchar_t *format, ...);
+PCL_PUBLIC wchar_t *pcl_wcscatf(wchar_t *dest, size_t size, const wchar_t *format, ...);
 
 /** Concatenate two strings using a format.
  * @param dest pointer to a buffer to append to
@@ -278,9 +278,9 @@ PCL_EXPORT wchar_t *pcl_wcscatf(wchar_t *dest, size_t size, const wchar_t *forma
  * @param ap variable argument list
  * @return pointer to \a dest
  */
-PCL_EXPORT char *pcl_vstrcatf(char *dest, size_t size, const char *format, va_list ap);
+PCL_PUBLIC char *pcl_vstrcatf(char *dest, size_t size, const char *format, va_list ap);
 /** @copydoc pcl_vstrcatf */
-PCL_EXPORT wchar_t *pcl_vwcscatf(wchar_t *dest, size_t size, const wchar_t *format, va_list ap);
+PCL_PUBLIC wchar_t *pcl_vwcscatf(wchar_t *dest, size_t size, const wchar_t *format, va_list ap);
 
 /** Allocate and concatenate two strings using a format.
  * @param src pointer to a string to to use as the first set of characters. This can be \c NULL.
@@ -289,9 +289,9 @@ PCL_EXPORT wchar_t *pcl_vwcscatf(wchar_t *dest, size_t size, const wchar_t *form
  * @return pointer to an allocated string starting with \a src, if not \c NULL, and ending
  * with the formatted results.
  */
-PCL_EXPORT char *pcl_astrcatf(const char *src, const char *format, ...);
+PCL_PUBLIC char *pcl_astrcatf(const char *src, const char *format, ...);
 /** @copydoc pcl_astrcatf */
-PCL_EXPORT wchar_t *pcl_awcscatf(const wchar_t *src, const wchar_t *format, ...);
+PCL_PUBLIC wchar_t *pcl_awcscatf(const wchar_t *src, const wchar_t *format, ...);
 
 /** Allocate and concatenate two strings using a format.
  * @param src pointer to a string to use as the first set of characters. This can be \c NULL.
@@ -300,9 +300,9 @@ PCL_EXPORT wchar_t *pcl_awcscatf(const wchar_t *src, const wchar_t *format, ...)
  * @return pointer to an allocated string starting with \a src, if not \c NULL, and ending
  * with the formatted results.
  */
-PCL_EXPORT char *pcl_vastrcatf(const char *src, const char *format, va_list ap);
+PCL_PUBLIC char *pcl_vastrcatf(const char *src, const char *format, va_list ap);
 /** @copydoc pcl_vastrcatf */
-PCL_EXPORT wchar_t *pcl_vawcscatf(const wchar_t *src, const wchar_t *format, va_list ap);
+PCL_PUBLIC wchar_t *pcl_vawcscatf(const wchar_t *src, const wchar_t *format, va_list ap);
 
 /* ------------------------------------------------------------------------------
  * pcl_strtrim family
@@ -352,9 +352,9 @@ PCL_EXPORT wchar_t *pcl_vawcscatf(const wchar_t *src, const wchar_t *format, va_
  * @param right true to trim from the back (right) of \a s
  * @return pointer to \a s
  */
-PCL_EXPORT char *pcl_strtrimset(char *s, const char *set, bool left, bool right);
+PCL_PUBLIC char *pcl_strtrimset(char *s, const char *set, bool left, bool right);
 /** @copydoc pcl_strtrimset */
-PCL_EXPORT wchar_t *pcl_wcstrimset(wchar_t *s, const wchar_t *set, bool left, bool right);
+PCL_PUBLIC wchar_t *pcl_wcstrimset(wchar_t *s, const wchar_t *set, bool left, bool right);
 
 /* ------------------------------------------------------------------------------
  * pcl_strreplace family
@@ -366,9 +366,9 @@ PCL_EXPORT wchar_t *pcl_wcstrimset(wchar_t *s, const wchar_t *set, bool left, bo
  * @param to pointer to the replacement string
  * @return an allocated string with all occurances of \a from replaced with \a to
  */
-PCL_EXPORT char *pcl_strreplace(const char *subject, const char *from, const char *to);
+PCL_PUBLIC char *pcl_strreplace(const char *subject, const char *from, const char *to);
 /** @copydoc pcl_strreplace */
-PCL_EXPORT wchar_t *pcl_wcsreplace(const wchar_t *subject, const wchar_t *from, const wchar_t *to);
+PCL_PUBLIC wchar_t *pcl_wcsreplace(const wchar_t *subject, const wchar_t *from, const wchar_t *to);
 
 /** Replace all occurances of a search string with a replacement string ignoring case.
  * @param subject pointer to source string
@@ -376,9 +376,9 @@ PCL_EXPORT wchar_t *pcl_wcsreplace(const wchar_t *subject, const wchar_t *from, 
  * @param to pointer to the replacement string
  * @return an allocated string with all occurances of \a from replaced with \a to
  */
-PCL_EXPORT char *pcl_strireplace(const char *subject, const char *from, const char *to);
+PCL_PUBLIC char *pcl_strireplace(const char *subject, const char *from, const char *to);
 /** @copydoc pcl_strireplace */
-PCL_EXPORT wchar_t *pcl_wcsireplace(const wchar_t *subject, const wchar_t *from, const wchar_t *to);
+PCL_PUBLIC wchar_t *pcl_wcsireplace(const wchar_t *subject, const wchar_t *from, const wchar_t *to);
 
 /* ------------------------------------------------------------------------------
  * pcl_strsplit family
@@ -391,9 +391,9 @@ PCL_EXPORT wchar_t *pcl_wcsireplace(const wchar_t *subject, const wchar_t *from,
  * included in part elements. This never returns \c NULL, however the array can be empty if
  * \a s is \c NULL or \c "".
  */
-PCL_EXPORT pcl_array_t *pcl_strsplit(const char *s, const char *delim);
+PCL_PUBLIC pcl_array_t *pcl_strsplit(const char *s, const char *delim);
 /** @copydoc pcl_strsplit */
-PCL_EXPORT pcl_array_t *pcl_wcssplit(const wchar_t *s, const wchar_t *delim);
+PCL_PUBLIC pcl_array_t *pcl_wcssplit(const wchar_t *s, const wchar_t *delim);
 
 /** Split a string into an array ignoring case.
  * @param s pointer to a string
@@ -402,25 +402,25 @@ PCL_EXPORT pcl_array_t *pcl_wcssplit(const wchar_t *s, const wchar_t *delim);
  * included in part elements. This never returns \c NULL, however the array can be empty if
  * \a s is \c NULL or \c "".
  */
-PCL_EXPORT pcl_array_t *pcl_strisplit(const char *s, const char *delim);
+PCL_PUBLIC pcl_array_t *pcl_strisplit(const char *s, const char *delim);
 /** @copydoc pcl_strisplit */
-PCL_EXPORT pcl_array_t *pcl_wcsisplit(const wchar_t *s, const wchar_t *delim);
+PCL_PUBLIC pcl_array_t *pcl_wcsisplit(const wchar_t *s, const wchar_t *delim);
 
 /** Lowercase a string.
  * @param s pointer to a string
  * @return pointer to \a s in lowercase
  */
-PCL_EXPORT char *pcl_strlower(char *s);
+PCL_PUBLIC char *pcl_strlower(char *s);
 /** @copydoc pcl_strlower */
-PCL_EXPORT wchar_t *pcl_wcslower(wchar_t *s);
+PCL_PUBLIC wchar_t *pcl_wcslower(wchar_t *s);
 
 /** Uppercase a string.
  * @param s pointer to a string
  * @return pointer to \a s in uppercase
  */
-PCL_EXPORT char *pcl_strupper(char *s);
+PCL_PUBLIC char *pcl_strupper(char *s);
 /** @copydoc pcl_strupper */
-PCL_EXPORT wchar_t *pcl_wcsupper(wchar_t *s);
+PCL_PUBLIC wchar_t *pcl_wcsupper(wchar_t *s);
 
 /** Copy and truncate a string. This will copy as much as possible. If \a dest is not
  * large enough, this will truncate \a src to fit within \a dest.
@@ -429,9 +429,9 @@ PCL_EXPORT wchar_t *pcl_wcsupper(wchar_t *s);
  * @param src pointer to string to copy
  * @return pointer to \a dest
  */
-PCL_EXPORT char *pcl_strtrunc(char *dest, size_t size, const char *src);
+PCL_PUBLIC char *pcl_strtrunc(char *dest, size_t size, const char *src);
 /** @copydoc pcl_strtrunc */
-PCL_EXPORT wchar_t *pcl_wcstrunc(wchar_t *dest, size_t size, const wchar_t *src);
+PCL_PUBLIC wchar_t *pcl_wcstrunc(wchar_t *dest, size_t size, const wchar_t *src);
 
 /** Extract a slice of a string. This is also known as \c substr.
  * @param s pointer to a string
@@ -439,15 +439,15 @@ PCL_EXPORT wchar_t *pcl_wcstrunc(wchar_t *dest, size_t size, const wchar_t *src)
  * @param len number of characters to extract
  * @return pointer to an allocated slice of \a s
  */
-PCL_EXPORT char *pcl_strslice(const char *s, size_t pos, size_t len);
+PCL_PUBLIC char *pcl_strslice(const char *s, size_t pos, size_t len);
 /** @copydoc pcl_strslice */
-PCL_EXPORT wchar_t *pcl_wcsslice(const wchar_t *s, size_t pos, size_t len);
+PCL_PUBLIC wchar_t *pcl_wcsslice(const wchar_t *s, size_t pos, size_t len);
 
 /** Convert a signal number to a string.
  * @param signum signal number
  * @return pointer to a string
  */
-PCL_EXPORT const char *pcl_strsignal(int signum);
+PCL_PUBLIC const char *pcl_strsignal(int signum);
 
 /** Replace all occurance of a character in a string.
  * @param s pointer to a string
@@ -500,7 +500,7 @@ pcl_wcsskipws(const wchar_t *s)
  * @param lenp If not \c NULL, character length will be written here
  * @return pointer to the result of conversion. This must be freed.
  */
-PCL_EXPORT char *pcl_pcs_to_utf8(const pchar_t *src, size_t src_len, size_t *lenp);
+PCL_PUBLIC char *pcl_pcs_to_utf8(const pchar_t *src, size_t src_len, size_t *lenp);
 
 /** Convert a UTF-8 string to a pchar_t string. Internally, this is just a strdup on Unix
  * machines since a Unix pchar_t represents UTF-8.
@@ -509,7 +509,7 @@ PCL_EXPORT char *pcl_pcs_to_utf8(const pchar_t *src, size_t src_len, size_t *len
  * @param[out] lenp If not \c NULL, character length will be written here
  * @return pointer to the result of conversion. This must be freed.
  */
-PCL_EXPORT pchar_t *pcl_utf8_to_pcs(const char *src, size_t src_len, size_t *lenp);
+PCL_PUBLIC pchar_t *pcl_utf8_to_pcs(const char *src, size_t src_len, size_t *lenp);
 
 #ifdef __doxygen__
 /** @defgroup tstring TCHAR Functions

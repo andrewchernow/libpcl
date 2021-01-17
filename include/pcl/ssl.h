@@ -75,42 +75,42 @@ enum tag_ssl_cert
  *   const char *listen_host, int listen_port
  * Note: use PCL_SOCK_NONBLOCK from socket API within flags for nonblocking.
  */
-PCL_EXPORT pcl_ssl_t *pcl_ssl(int flags, ...);
+PCL_PUBLIC pcl_ssl_t *pcl_ssl(int flags, ...);
 
 /* Connects to the server's host and port.  If want_io is provided,
  * it will point to PCL_SSL_WANTREAD or PCL_SSL_WANTWRITE when the SSL socket
  * is non-blocking and the operation would block if continued.
  */
-PCL_EXPORT int pcl_ssl_connect(pcl_ssl_t *ssl, const char *host, int port, int *want_io);
+PCL_PUBLIC int pcl_ssl_connect(pcl_ssl_t *ssl, const char *host, int port, int *want_io);
 
-PCL_EXPORT pcl_ssl_t *pcl_ssl_accept(pcl_ssl_t *server);
+PCL_PUBLIC pcl_ssl_t *pcl_ssl_accept(pcl_ssl_t *server);
 
 /* Performs the SSL handshake with a client.  If want_io is provided,
  * it will point to PCL_SSL_WANTREAD or PCL_SSL_WANTWRITE when the SSL socket
  * is non-blocking and the operation would block if continued.
  */
-PCL_EXPORT int pcl_ssl_handshake(pcl_ssl_t *ssl, int *want_io);
+PCL_PUBLIC int pcl_ssl_handshake(pcl_ssl_t *ssl, int *want_io);
 
 /* Returns the number of bytes actually received.  On error,
  * PCL_EAGAIN is returned for non-blocking sockets that could not
  * make any progress.
  */
-PCL_EXPORT int pcl_ssl_recv(pcl_ssl_t *ssl, void *buf, size_t len);
+PCL_PUBLIC int pcl_ssl_recv(pcl_ssl_t *ssl, void *buf, size_t len);
 
 /* Returns the number of bytes actually sent, or -1 on error.  On error,
  * PCL_EAGAIN is returned for non-blocking sockets that could not
  * make any progress.
  */
-PCL_EXPORT int pcl_ssl_send(pcl_ssl_t *ssl, const void *data, size_t len);
+PCL_PUBLIC int pcl_ssl_send(pcl_ssl_t *ssl, const void *data, size_t len);
 
 /* closes the connection and does some reseting, but can be reused.
  * use pcl_ssl_free() to completely wipe out an pcl_ssl_t object.
  */
-PCL_EXPORT void pcl_ssl_close(pcl_ssl_t *ssl);
+PCL_PUBLIC void pcl_ssl_close(pcl_ssl_t *ssl);
 
-PCL_EXPORT void pcl_ssl_free(pcl_ssl_t *ssl);
+PCL_PUBLIC void pcl_ssl_free(pcl_ssl_t *ssl);
 
-PCL_EXPORT X509 *pcl_ssl_peercert(pcl_ssl_t *ssl);
+PCL_PUBLIC X509 *pcl_ssl_peercert(pcl_ssl_t *ssl);
 
 /** Get all certificate entries of the given entry type.
  * @param ssl pointer to a ssl object
@@ -118,30 +118,30 @@ PCL_EXPORT X509 *pcl_ssl_peercert(pcl_ssl_t *ssl);
  * @return pointer to an array or \c NULL if ann error occurs or no entries were found. In the
  * latter case, PCL_ENOTFOUND is set.
  */
-PCL_EXPORT pcl_array_t *pcl_ssl_certentry(pcl_ssl_t *ssl, int entry_type);
+PCL_PUBLIC pcl_array_t *pcl_ssl_certentry(pcl_ssl_t *ssl, int entry_type);
 
 /* Sets the cipher list if something other than PCL_SSL_DEFCIPHLIST is desired.
  * For format of 'ciph_list', see openssl documentation.
  */
-PCL_EXPORT int pcl_ssl_setciphlist(pcl_ssl_t *ssl, const char *ciph_list);
+PCL_PUBLIC int pcl_ssl_setciphlist(pcl_ssl_t *ssl, const char *ciph_list);
 
 /* Sets the peer's CA certificate, so we can verify the peer. */
-PCL_EXPORT int pcl_ssl_setpeerca(pcl_ssl_t *ssl, const char *peer_ca_path, int peer_depth);
+PCL_PUBLIC int pcl_ssl_setpeerca(pcl_ssl_t *ssl, const char *peer_ca_path, int peer_depth);
 
 /* Sets the caller's (either client or server) certificate and
  * RSA private key pair, both expected to be in PEM format.  This allows
  * our peer to verify us.
  */
-PCL_EXPORT int pcl_ssl_setpair(pcl_ssl_t *ssl, const char *cert_path, const char *key_path);
+PCL_PUBLIC int pcl_ssl_setpair(pcl_ssl_t *ssl, const char *cert_path, const char *key_path);
 
-PCL_EXPORT bool pcl_ssl_isalive(pcl_ssl_t *ssl);
+PCL_PUBLIC bool pcl_ssl_isalive(pcl_ssl_t *ssl);
 
-PCL_EXPORT pcl_socket_t *pcl_ssl_socket(pcl_ssl_t *ssl);
+PCL_PUBLIC pcl_socket_t *pcl_ssl_socket(pcl_ssl_t *ssl);
 
 /* This builds an OpenSSL error message and stores it within the given err.
  * Returns 0 on success and -1 on error. Must free err->msg.
  */
-PCL_EXPORT int pcl_openssl_error(pcl_openssl_error_t *err);
+PCL_PUBLIC int pcl_openssl_error(pcl_openssl_error_t *err);
 
 /* returned msg must be freed */
 PCL_INLINE char *
@@ -157,7 +157,7 @@ pcl_openssl_errmsg(void)
  * pcl_openssl_error(). No need to free anything as the returned error structure is
  * managed by the given ssl object.
  */
-PCL_EXPORT pcl_openssl_error_t *pcl_ssl_error(pcl_ssl_t *ssl);
+PCL_PUBLIC pcl_openssl_error_t *pcl_ssl_error(pcl_ssl_t *ssl);
 
 #ifdef __cplusplus
 }
