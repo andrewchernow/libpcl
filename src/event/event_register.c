@@ -32,7 +32,7 @@
 #include "_event.h"
 #include <pcl/alloc.h>
 
-PCL_EXPORT void
+void
 pcl_event_register(pcl_event_handler_t handler)
 {
 	if(!handler)
