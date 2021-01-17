@@ -92,7 +92,7 @@ PCL_EXPORT int pcl_net_reverse(const char *ipaddr, char *host, size_t len);
  * @param host pointer to a hostname
  * @return pointer to an array of IP addresses or \c NULL on error.
  */
-PCL_EXPORT pcl_array_t *ipcl_net_resolve(const char *host);
+PCL_EXPORT pcl_array_t *pcl_net_resolve(const char *host);
 
 /** Retrieve the DNS TXT records for a given host.
  * @param host pointer to a host

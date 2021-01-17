@@ -35,7 +35,7 @@
 #include <pcl/alloc.h>
 
 pcl_array_t *
-ipcl_net_resolve(const char *host)
+pcl_net_resolve(const char *host)
 {
 	int r;
 	pcl_array_t *addrs;
