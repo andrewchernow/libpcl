@@ -33,7 +33,10 @@ elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
 	set(WINDOWS 1)
 	set(OBJEXT obj)
 	set(PLAT "windows-${ARCH}")
-	add_compile_definitions(PCL_WINDOWS "PCL_EXPORT=__declspec(dllexport)" PCL_INLINE=__inline
+	add_compile_definitions(PCL_WINDOWS
+		"PCL_PUBLIC=__declspec(dllexport)"
+		PCL_PRIVATE=
+		PCL_INLINE=__inline
 		_UNICODE UNICODE WIN32_LEAN_AND_MEAN VC_EXTRALEAN)
 
 elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
@@ -54,7 +57,10 @@ endif()
 
 if(UNIX)
 	set(OBJEXT o)
-	add_compile_definitions(PCL_UNIX PCL_EXPORT=extern PCL_INLINE=__inline__)
+	add_compile_definitions(PCL_UNIX
+		"PCL_PUBLIC=__attribute__ ((visibility (\"default\")))"
+		"PCL_PRIVATE=__attribute__ ((visibility (\"hidden\")))"
+		PCL_INLINE=__inline__)
 
 	# available in Linux Kernel 2.6.22 and Darwin 10.13, normally not needed on Darwin
 	# since setattrlist() is tried first
@@ -68,14 +74,15 @@ endif()
 if(UNIX)
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Wpedantic -Wpointer-arith -O2 -g0 \
 		-Wno-unused-result -fsigned-char -Winline -Wsign-compare -fPIC -fno-strict-aliasing \
-		-fomit-frame-pointer -funit-at-a-time")
+		-fomit-frame-pointer -funit-at-a-time -fms-extensions -Wno-microsoft-anon-tag -fvisibility=hidden")
 
 else()
-	set(CMAKE_C_FLAGS "/Wall /O2 /utf-8 /wd4201 /wd4710 /wd4668 /wd4255 /wd5045 /wd4464 /wd4820 /wd4996 /wd4214")
+	set(CMAKE_C_FLAGS "/Wall /O2 /utf-8 /wd4201 /wd4710 /wd4668 /wd4255 /wd5045 \
+		/wd4464 /wd4820 /wd4996 /wd4214")
 endif()
 
 if(DARWIN)
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=default")
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
 endif()
 
 # CPPFLAGS
@@ -92,6 +99,7 @@ if(UNIX)
 	include_directories(/usr/local/include)
 endif()
 
+add_subdirectory(oo)
 add_subdirectory(src)
 add_subdirectory(examples)
 add_subdirectory(tests)
