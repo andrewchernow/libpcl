@@ -32,10 +32,6 @@
 #ifndef LIBPCL_DEFS_H
 #define LIBPCL_DEFS_H
 
-#ifdef PCL_HAVE_CONFIG
-#	include "pcl/config.h"
-#endif
-
 #if defined(_M_X64) || \
     defined(_M_IA64) || \
     defined(__x86_64) || \

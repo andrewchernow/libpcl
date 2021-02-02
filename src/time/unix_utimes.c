@@ -43,6 +43,10 @@
 
 #include <sys/time.h>
 
+#ifdef PCL_HAVE_CONFIG
+#	include "config.h"
+#endif
+
 int
 pcl_utimes(const pchar_t *path, pcl_time_t *atime, pcl_time_t *mtime, pcl_time_t *btime)
 {

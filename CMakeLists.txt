@@ -13,8 +13,8 @@ set(CMAKE_C_STANDARD 11)
 
 include(CheckSymbolExists)
 
-file(REMOVE include/pcl/config.h)
-file(APPEND include/pcl/config.h "#ifndef PCL_CONFIG_H\n#define PCL_CONFIG_H\n\n")
+file(REMOVE config.h)
+file(APPEND config.h "#ifndef PCL_CONFIG_H\n#define PCL_CONFIG_H\n\n")
 
 if(${CMAKE_SYSTEM_PROCESSOR} STREQUAL "x86_64" OR
 		${CMAKE_SYSTEM_PROCESSOR} STREQUAL "AMD64" OR ${CMAKE_SYSTEM_PROCESSOR} STREQUAL "IA64")
@@ -44,7 +44,7 @@ elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
 	set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
 	check_symbol_exists(statx "sys/stat.h" HAVE_STATX)
 	if(HAVE_STATX)
-		file(APPEND include/pcl/config.h "#define HAVE_STATX\n")
+		file(APPEND config.h "#define HAVE_STATX\n")
 	endif()
 
 else()
@@ -58,11 +58,11 @@ if(UNIX)
 	# since setattrlist() is tried first
 	check_symbol_exists(utimensat "sys/stat.h" HAVE_UTIMENSAT)
 	if(HAVE_UTIMENSAT)
-		file(APPEND include/pcl/config.h "#define HAVE_UTIMENSAT\n")
+		file(APPEND config.h "#define HAVE_UTIMENSAT\n")
 	endif()
 endif()
 
-file(APPEND include/pcl/config.h "\n#endif\n")
+file(APPEND config.h "\n#endif\n")
 add_compile_definitions(PCL_HAVE_CONFIG)
 
 # CFLAGS
@@ -87,6 +87,7 @@ endif()
 
 # INC
 include_directories(
+	${PROJECT_SOURCE_DIR}
 	${PROJECT_SOURCE_DIR}/include
 	${PROJECT_SOURCE_DIR}/libs/${PLAT}/include)
 

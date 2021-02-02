@@ -35,6 +35,10 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+#ifdef PCL_HAVE_CONFIG
+#	include "config.h"
+#endif
+
 #if defined(HAVE_STATX) && defined(PCL_LINUX)
 #	include <sys/sysmacros.h> // makedev
 #else
