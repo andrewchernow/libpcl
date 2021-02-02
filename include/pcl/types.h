@@ -32,6 +32,7 @@
 #ifndef LIBPCL_TYPES_H
 #define LIBPCL_TYPES_H
 
+#include <pcl/defs.h>
 #include <stdint.h>
 #include <sys/types.h>
 #include <wchar.h>

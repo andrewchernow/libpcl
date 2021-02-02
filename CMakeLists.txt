@@ -13,6 +13,9 @@ set(CMAKE_C_STANDARD 11)
 
 include(CheckSymbolExists)
 
+file(REMOVE include/pcl/config.h)
+file(APPEND include/pcl/config.h "#ifndef PCL_CONFIG_H\n#define PCL_CONFIG_H\n\n")
+
 if(${CMAKE_SYSTEM_PROCESSOR} STREQUAL "x86_64" OR
 		${CMAKE_SYSTEM_PROCESSOR} STREQUAL "AMD64" OR ${CMAKE_SYSTEM_PROCESSOR} STREQUAL "IA64")
 	set(ARCH "x86_64")
@@ -27,28 +30,21 @@ endif()
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
 	set(DARWIN 1)
 	set(PLAT "darwin-${ARCH}")
-	add_compile_definitions(PCL_DARWIN)
 
 elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
 	set(WINDOWS 1)
 	set(OBJEXT obj)
 	set(PLAT "windows-${ARCH}")
-	add_compile_definitions(PCL_WINDOWS
-		"PCL_PUBLIC=__declspec(dllexport)"
-		PCL_PRIVATE=
-		PCL_INLINE=__inline
-		_UNICODE UNICODE WIN32_LEAN_AND_MEAN VC_EXTRALEAN)
 
 elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
 	set(LINUX 1)
 	set(PLAT "linux-${ARCH}")
-	add_compile_definitions(PCL_LINUX)
 
 	# statx available since kernel 4.11. Note: _GNU_SOURCE must be set
 	set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
 	check_symbol_exists(statx "sys/stat.h" HAVE_STATX)
 	if(HAVE_STATX)
-		add_compile_definitions(HAVE_STATX)
+		file(APPEND include/pcl/config.h "#define HAVE_STATX\n")
 	endif()
 
 else()
@@ -57,18 +53,17 @@ endif()
 
 if(UNIX)
 	set(OBJEXT o)
-	add_compile_definitions(PCL_UNIX
-		"PCL_PUBLIC=__attribute__ ((visibility (\"default\")))"
-		"PCL_PRIVATE=__attribute__ ((visibility (\"hidden\")))"
-		PCL_INLINE=__inline__)
 
 	# available in Linux Kernel 2.6.22 and Darwin 10.13, normally not needed on Darwin
 	# since setattrlist() is tried first
 	check_symbol_exists(utimensat "sys/stat.h" HAVE_UTIMENSAT)
 	if(HAVE_UTIMENSAT)
-		add_compile_definitions(HAVE_UTIMENSAT)
+		file(APPEND include/pcl/config.h "#define HAVE_UTIMENSAT\n")
 	endif()
 endif()
+
+file(APPEND include/pcl/config.h "\n#endif\n")
+add_compile_definitions(PCL_HAVE_CONFIG)
 
 # CFLAGS
 if(UNIX)
@@ -99,7 +94,6 @@ if(UNIX)
 	include_directories(/usr/local/include)
 endif()
 
-add_subdirectory(oo)
 add_subdirectory(src)
 add_subdirectory(examples)
 add_subdirectory(tests)

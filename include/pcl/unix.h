@@ -33,6 +33,7 @@
 #ifndef LIBPCL_UNIX_H
 #define LIBPCL_UNIX_H
 
+#include <pcl/types.h>
 #include <signal.h>
 
 #ifdef __cplusplus

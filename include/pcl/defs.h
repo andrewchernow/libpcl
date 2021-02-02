@@ -32,6 +32,10 @@
 #ifndef LIBPCL_DEFS_H
 #define LIBPCL_DEFS_H
 
+#ifdef PCL_HAVE_CONFIG
+#	include "pcl/config.h"
+#endif
+
 #if defined(_M_X64) || \
     defined(_M_IA64) || \
     defined(__x86_64) || \
@@ -50,7 +54,26 @@
 	#define PCL_64BIT
 #endif
 
+#if defined(_WIN32) || defined(_WIN64)
+#	define PCL_WINDOWS
+#elif defined(__APPLE__) || defined(__MACH__)
+#	define PCL_DARWIN
+#	define PCL_UNIX
+#elif defined(__linux__)
+#	define PCL_LINUX
+#	define PCL_UNIX
+#else
+#	error Unsupported operating system: Windows, Mac OS X or Linux
+#endif
+
 #ifdef PCL_WINDOWS
+#	define PCL_PUBLIC __declspec(dllexport)
+#	define PCL_PRIVATE
+#	define PCL_INLINE __inline
+#	define _UNICODE
+#	define UNICODE
+#	define WIN32_LEAN_AND_MEAN
+#	define VC_EXTRALEAN
 #	pragma warning( disable : 4204 4710 4214 4706 4710 4711 4100 4820 )
 #	undef WINVER
 #	undef _WIN32_WINNT
@@ -70,6 +93,9 @@
 #	define pcl_ftell _ftelli64
 #	define _P(quote) L##quote
 #else
+#	define PCL_PUBLIC __attribute__ ((visibility ("default")))
+#	define PCL_PRIVATE __attribute__ ((visibility ("hidden")))
+#	define PCL_INLINE __inline__
 #	define PCL_WPATHSEP L"/"
 #	define PCL_WPATHSEPCHR L'/'
 #	define PCL_PATHSEP "/"

@@ -33,7 +33,7 @@
 #ifndef LIBPCL_THREAD_H
 #define LIBPCL_THREAD_H
 
-#include <stdint.h>
+#include <pcl/types.h>
 #define _TIMESPEC_DEFINED
 #include <pthread.h>
 

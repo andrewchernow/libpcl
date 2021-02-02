@@ -36,7 +36,7 @@
  * Definitions for managing synchronous events.
  * @{
  */
-#include <stdint.h>
+#include <pcl/types.h>
 
 /** Passed to a pcl_event_handler_t function to indicate that the PCL library is being initialized.
  * @internal only used by builtin event handlers
