@@ -20,5 +20,5 @@ add_library(string OBJECT
 	strtrimset.c
 	strtrunc.c
 	strupper.c
-	utf8_to_pcs.c)
+	utf8_to_pcs.c utf8_from_code.c)
 

@@ -111,6 +111,8 @@ PCL_PUBLIC int pcl_base64_encode(char *buf, size_t size, const void *data, size_
  */
 PCL_PUBLIC int pcl_base64_decode(void *buf, size_t size, const char *b64);
 
+PCL_PUBLIC int pcl_utf8_from_code(uint32_t code, char *utf8buf);
+
 /* ------------------------------------------------------------------------------
  * pcl_stricmp, pcl_strnicmp, pcl_wcsicmp, pcl_wcsnicmp
  */
