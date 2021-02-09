@@ -206,18 +206,11 @@
 #define PCL_EBADH                             92
 /** Database query error */
 #define PCL_EDBQUERY                          93
+/** Invalid unicode codepoint */
+#define PCL_EINVCODEPT                        94
 
 /** Start code for network error */
 #define PCL_ERR_NETSTART 200
-/** End code for network error */
-#define PCL_ERR_NETSTOP 300
-
-/* Indicates if a given error code is a network error. Excludes EAGAIN */
-PCL_INLINE bool
-pcl_err_isnet(int e)
-{
-	return (e >= PCL_ERR_NETSTART && e < PCL_ERR_NETSTOP) || e == PCL_EPIPE;
-}
 
 /** The internet address is already in use. */
 #define PCL_EADDRINUSE                        (PCL_ERR_NETSTART + 0)
@@ -299,6 +292,16 @@ pcl_err_isnet(int e)
 #define PCL_EREMCHG                           (PCL_ERR_NETSTART + 38)
 /** Remote I/O error */
 #define PCL_EREMOTEIO                         (PCL_ERR_NETSTART + 39)
+
+/** End code for network error */
+#define PCL_ERR_NETSTOP (PCL_ERR_NETSTART + 40)
+
+/* Indicates if a given error code is a network error. Excludes EAGAIN */
+PCL_INLINE bool
+pcl_err_isnet(int e)
+{
+	return (e >= PCL_ERR_NETSTART && e < PCL_ERR_NETSTOP) || e == PCL_EPIPE;
+}
 
 /** @} */
 #endif // LIBPCL__ERRNO_H

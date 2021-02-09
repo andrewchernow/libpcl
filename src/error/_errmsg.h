@@ -116,6 +116,7 @@ mkmsg(PCL_ESEQ,               "Out of sequence."),
 mkmsg(PCL_ESYNTAX,            "Syntax error."),
 mkmsg(PCL_EBADH,              "Bad handle value."),
 mkmsg(PCL_EDBQUERY,           "Database query error."),
+mkmsg(PCL_EINVCODEPT,          "Invalid unicode codepoint."),
 
 /* NETWORK ERRORS */
 mkmsg(PCL_EADDRINUSE,         "The internet address is already in use."),
