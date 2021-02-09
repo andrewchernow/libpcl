@@ -29,8 +29,8 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "_json.h"
-#include <string.h>
+#include <pcl/string.h>
+#include <pcl/error.h>
 
 /* Table found here:
  * https://lemire.me/blog/2018/05/09/how-quickly-can-you-check-that-a-string-is-valid-unicode-utf-8/
@@ -48,7 +48,7 @@
  */
 
 int
-ipcl_json_utf8check(const char *s, size_t len)
+pcl_utf8_check(const char *s, size_t len)
 {
 	if(len == 0)
 		len = strlen(s);

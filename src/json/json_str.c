@@ -46,7 +46,7 @@ pcl_json_str(char *str, uint32_t flags)
 
 	size_t len = strlen(str);
 
-	if(!(flags & PCL_JSON_SKIPUTF8CHK) && ipcl_json_utf8check(str, len) < 0)
+	if(!(flags & PCL_JSON_SKIPUTF8CHK) && pcl_utf8_check(str, len) < 0)
 		return R_TRC(NULL);
 
 	if((flags & PCL_JSON_EMPTYASNULL) && len == 0)

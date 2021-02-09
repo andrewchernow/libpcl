@@ -55,7 +55,7 @@ pcl_json_objput(pcl_json_t *obj, char *key, pcl_json_t *value, uint32_t flags)
 		return SETERRMSG(PCL_ETYPE, "expected type 'o', got '%c'", obj->type);
 	}
 
-	if(!(flags & PCL_JSON_SKIPUTF8CHK) && ipcl_json_utf8check(key, 0) < 0)
+	if(!(flags & PCL_JSON_SKIPUTF8CHK) && pcl_utf8_check(key, 0) < 0)
 	{
 		if(freeval)
 			pcl_json_free(value);

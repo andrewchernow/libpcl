@@ -33,7 +33,7 @@
 #include <pcl/error.h>
 
 int
-pcl_utf8_from_code(uint32_t code, char *utf8buf)
+pcl_utf8_encode(uint32_t code, char *utf8buf)
 {
 	if(!utf8buf)
 		return BADARG();
@@ -68,5 +68,5 @@ pcl_utf8_from_code(uint32_t code, char *utf8buf)
 		return 4;
 	}
 
-	return SETERRMSG(PCL_EINVAL, "invalid codepoint %08x\n", code);
+	return SETERRMSG(PCL_EINVCODEPT, "invalid codepoint 0x%08x", code);
 }

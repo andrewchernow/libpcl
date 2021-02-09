@@ -31,7 +31,7 @@
 
 #include "_json.h"
 #include <pcl/strint.h>
-#include <string.h>
+#include <pcl/string.h>
 
 static ipcl_json_state_t *
 hex2num(ipcl_json_state_t *s, uint32_t *codepoint)
@@ -98,33 +98,13 @@ utf16_to_utf8(ipcl_json_state_t *s, pcl_buf_t *b)
 		code = pair[0];
 	}
 
-	/* convert to utf-8 */
-	if(code <= 0x7F) /* ascii */
-	{
-		pcl_buf_putchar(b, (char) code);
-	}
-	else if(code <= 0x07FF) /* 2-byte sequence */
-	{
-		pcl_buf_putchar(b, (char) (((code >> 6) & 0x1F) | 0xC0));
-		pcl_buf_putchar(b, (char) (((code >> 0) & 0x3F) | 0x80));
-	}
-	else if(code <= 0xFFFF) /* 3-byte sequence */
-	{
-		pcl_buf_putchar(b, (char) (((code >> 12) & 0x0F) | 0xE0));
-		pcl_buf_putchar(b, (((code >> 6) & 0x3F) | 0x80));
-		pcl_buf_putchar(b, (char) (((code >> 0) & 0x3F) | 0x80));
-	}
-	else if(code <= 0x10FFFF) /* 4-byte sequence */
-	{
-		pcl_buf_putchar(b, (char) (((code >> 18) & 0x07) | 0xF0));
-		pcl_buf_putchar(b, (char) (((code >> 12) & 0x3F) | 0x80));
-		pcl_buf_putchar(b, (char) (((code >> 6) & 0x3F) | 0x80));
-		pcl_buf_putchar(b, (char) (((code >> 0) & 0x3F) | 0x80));
-	}
-	else
-	{
-		JSON_THROW("invalid unicode character: 0x%08x", code);
-	}
+	int n = pcl_utf8_encode(code, b->data + b->pos);
+
+	if(n == -1)
+		return R_TRC(NULL);
+
+	b->pos += n;
+	b->len += n;
 
 	return s;
 }
@@ -210,7 +190,7 @@ ipcl_json_parse_string(ipcl_json_state_t *s)
 	s->next++;
 
 	/* now check that the string is valid utf8, which the above unescaping did not do */
-	if(ipcl_json_utf8check(b->data, b->len) < 0)
+	if(pcl_utf8_check(b->data, b->len) < 0)
 		return R_TRC(NULL);
 
 	return b->data;

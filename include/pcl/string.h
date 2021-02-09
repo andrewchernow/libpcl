@@ -111,7 +111,19 @@ PCL_PUBLIC int pcl_base64_encode(char *buf, size_t size, const void *data, size_
  */
 PCL_PUBLIC int pcl_base64_decode(void *buf, size_t size, const char *b64);
 
-PCL_PUBLIC int pcl_utf8_from_code(uint32_t code, char *utf8buf);
+/** UTF-8 encode a unicode codepoint.
+ * @param code
+ * @param utf8buf output buffer, must be at least 4 bytes wide.
+ * @return number of bytes written to \a utf8buf or -1 on error.
+ */
+PCL_PUBLIC int pcl_utf8_encode(uint32_t code, char *utf8buf);
+
+/** Check that a string is valid UTF-8.
+ * @param s pointer to a string
+ * @param len number of bytes to check. If 0, \a s must be NUL-terminated.
+ * @return 0 if valid and -1 if not.
+ */
+PCL_PUBLIC int pcl_utf8_check(const char *s, size_t len);
 
 /* ------------------------------------------------------------------------------
  * pcl_stricmp, pcl_strnicmp, pcl_wcsicmp, pcl_wcsnicmp
