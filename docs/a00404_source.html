@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/error/err_vfprintf.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/error/err_trace.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">err_vfprintf.c</div>  </div>
+<div class="title">err_trace.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00404.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,43 +101,23 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00335.html">_error.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00032.html">pcl/buf.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01367.html#gae5822fbf0ae8754ffb680d04146d1f8a">   36</a></span>&#160;<a class="code" href="a01367.html#gae5822fbf0ae8754ffb680d04146d1f8a">pcl_err_vfprintf</a>(FILE *stream, <span class="keywordtype">int</span> indent, <span class="keyword">const</span> <span class="keywordtype">char</span> *format, va_list ap)</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordtype">int</span> r = 0;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <a class="code" href="a01404.html">pcl_err_t</a> *err = <a class="code" href="a01367.html#gaefd22094c926adb72077ca72f907a318">pcl_err_get</a>();</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="comment">/* always freeze so any calls made during serialize operation don&#39;t mutate err */</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordtype">bool</span> was_frozen = err-&gt;<a class="code" href="a01404.html#a9ec42de702ac1fcf2d7307c5a2415b94">frozen</a>;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  err-&gt;<a class="code" href="a01404.html#a9ec42de702ac1fcf2d7307c5a2415b94">frozen</a> = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <a class="code" href="a01392.html">pcl_buf_t</a> *b = <a class="code" href="a00335.html#a14a4bac48e126724a36ae47515901275">ipcl_err_serialize</a>(indent, format, ap);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  err-&gt;<a class="code" href="a01404.html#a9ec42de702ac1fcf2d7307c5a2415b94">frozen</a> = was_frozen;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keywordflow">if</span>(b)</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  {</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    r = b-&gt;<a class="code" href="a01392.html#afed088663f8704004425cdae2120b9b3">len</a>;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">if</span>(fwrite(b-&gt;<a class="code" href="a01392.html#a91a70b77df95bd8b0830b49a094c2acb">data</a>, 1, r, stream) != (<span class="keywordtype">size_t</span>) r)</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      <span class="keywordflow">return</span> -1;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  }</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordflow">return</span> r;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00341.html">_error.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01376.html#ga2d47987c3306dda0d99bfc2041917507">   35</a></span>&#160;<a class="code" href="a01376.html#ga2d47987c3306dda0d99bfc2041917507">pcl_err_trace</a>(<a class="code" href="a00038.html#acaae4a70e5707a94c3ea8e9da14fcab6">PCL_LOCATION_PARAMS</a>, <span class="keyword">const</span> <span class="keywordtype">char</span> *format, ...)</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  va_list ap;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  va_start(ap, format);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordtype">int</span> n = <a class="code" href="a01376.html#ga0686e8a8cdb1b0d81d0f9a497fba96fb">pcl_err_vtrace</a>(<a class="code" href="a00038.html#abd6d80b4c77b949a990416b0ff19ae75">PCL_LOCATION_VALS</a>, format, ap);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  va_end(ap);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">return</span> n;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01392_html"><div class="ttname"><a href="a01392.html">tag_pcl_buf</a></div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00127">buf.h:128</a></div></div>
-<div class="ttc" id="aa01404_html_a9ec42de702ac1fcf2d7307c5a2415b94"><div class="ttname"><a href="a01404.html#a9ec42de702ac1fcf2d7307c5a2415b94">tag_pcl_err::frozen</a></div><div class="ttdeci">bool frozen</div><div class="ttdoc">Freezes error, making it immutable.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00131">error.h:131</a></div></div>
-<div class="ttc" id="aa01404_html"><div class="ttname"><a href="a01404.html">tag_pcl_err</a></div><div class="ttdoc">Represents a PCL error, with optional stack trace.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00121">error.h:122</a></div></div>
-<div class="ttc" id="aa00032_html"><div class="ttname"><a href="a00032.html">buf.h</a></div></div>
-<div class="ttc" id="aa01367_html_gaefd22094c926adb72077ca72f907a318"><div class="ttname"><a href="a01367.html#gaefd22094c926adb72077ca72f907a318">pcl_err_get</a></div><div class="ttdeci">PCL_EXPORT pcl_err_t * pcl_err_get(void)</div><div class="ttdoc">Gets the calling thread's error.</div><div class="ttdef"><b>Definition:</b> <a href="a00350_source.html#l00057">err_ctx.c:57</a></div></div>
-<div class="ttc" id="aa00335_html_a14a4bac48e126724a36ae47515901275"><div class="ttname"><a href="a00335.html#a14a4bac48e126724a36ae47515901275">ipcl_err_serialize</a></div><div class="ttdeci">pcl_buf_t * ipcl_err_serialize(int indent, const char *format, va_list ap)</div><div class="ttdef"><b>Definition:</b> <a href="a00386_source.html#l00037">err_serialize.c:37</a></div></div>
-<div class="ttc" id="aa01392_html_a91a70b77df95bd8b0830b49a094c2acb"><div class="ttname"><a href="a01392.html#a91a70b77df95bd8b0830b49a094c2acb">tag_pcl_buf::data</a></div><div class="ttdeci">char * data</div><div class="ttdoc">buffer bytes, always chrsize * size wide.</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00147">buf.h:147</a></div></div>
-<div class="ttc" id="aa00335_html"><div class="ttname"><a href="a00335.html">_error.h</a></div></div>
-<div class="ttc" id="aa01392_html_afed088663f8704004425cdae2120b9b3"><div class="ttname"><a href="a01392.html#afed088663f8704004425cdae2120b9b3">tag_pcl_buf::len</a></div><div class="ttdeci">int len</div><div class="ttdoc">number of characters in the buffer</div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00141">buf.h:141</a></div></div>
-<div class="ttc" id="aa01367_html_gae5822fbf0ae8754ffb680d04146d1f8a"><div class="ttname"><a href="a01367.html#gae5822fbf0ae8754ffb680d04146d1f8a">pcl_err_vfprintf</a></div><div class="ttdeci">int pcl_err_vfprintf(FILE *stream, int indent, const char *format, va_list ap)</div><div class="ttdef"><b>Definition:</b> <a href="a00404_source.html#l00036">err_vfprintf.c:36</a></div></div>
+<div class="ttc" id="aa00038_html_acaae4a70e5707a94c3ea8e9da14fcab6"><div class="ttname"><a href="a00038.html#acaae4a70e5707a94c3ea8e9da14fcab6">PCL_LOCATION_PARAMS</a></div><div class="ttdeci">#define PCL_LOCATION_PARAMS</div><div class="ttdoc">PCL_LOCATION_PARAMS expands to a function/macro declaration's parameter list: ie.</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00119">defs.h:119</a></div></div>
+<div class="ttc" id="aa01376_html_ga0686e8a8cdb1b0d81d0f9a497fba96fb"><div class="ttname"><a href="a01376.html#ga0686e8a8cdb1b0d81d0f9a497fba96fb">pcl_err_vtrace</a></div><div class="ttdeci">PCL_PUBLIC int pcl_err_vtrace(PCL_LOCATION_PARAMS, const char *format, va_list ap)</div><div class="ttdef"><b>Definition:</b> <a href="a00422_source.html#l00038">err_vtrace.c:38</a></div></div>
+<div class="ttc" id="aa00341_html"><div class="ttname"><a href="a00341.html">_error.h</a></div></div>
+<div class="ttc" id="aa00038_html_abd6d80b4c77b949a990416b0ff19ae75"><div class="ttname"><a href="a00038.html#abd6d80b4c77b949a990416b0ff19ae75">PCL_LOCATION_VALS</a></div><div class="ttdeci">#define PCL_LOCATION_VALS</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00121">defs.h:121</a></div></div>
+<div class="ttc" id="aa01376_html_ga2d47987c3306dda0d99bfc2041917507"><div class="ttname"><a href="a01376.html#ga2d47987c3306dda0d99bfc2041917507">pcl_err_trace</a></div><div class="ttdeci">int pcl_err_trace(PCL_LOCATION_PARAMS, const char *format,...)</div><div class="ttdef"><b>Definition:</b> <a href="a00404_source.html#l00035">err_trace.c:35</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

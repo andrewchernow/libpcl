@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/string/strtrimset.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/string/strsplit.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">strtrimset.c</div>  </div>
+<div class="title">strsplit.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a01157.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,46 +101,75 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a01103.html">_string.h</a>&quot;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a01106.html">_string.h</a>&quot;</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<a class="code" href="a01103.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *</div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01157.html#ac45187c89c1c524fc31276f5f878431d">   35</a></span>&#160;<a class="code" href="a01103.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a>(<a class="code" href="a01157.html#ac45187c89c1c524fc31276f5f878431d">trimset</a>)(<a class="code" href="a01103.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *s, <span class="keyword">const</span> <a class="code" href="a01103.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *set, <span class="keywordtype">bool</span> ltrim, <span class="keywordtype">bool</span> rtrim)</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <a class="code" href="a01103.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *p;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keyword">static</span> <span class="keyword">const</span> <a class="code" href="a01103.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *default_set = <a class="code" href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a>(<span class="stringliteral">&quot; \t\n\v\f\r&quot;</span>);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordflow">if</span>(!set)</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    set = default_set;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordflow">if</span>(ltrim)</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  {</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordflow">for</span>(p = s; *p &amp;&amp; <a class="code" href="a01103.html#a7a8bf915c494f805721c2f231822e181">xstrchr</a>(set, *p); ++p);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordflow">if</span>(p - s)</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      memmove (s, p, (<a class="code" href="a01103.html#aee081742fbd47c91e70de0b86a84a1be">xstrlen</a>(p) + 1) * <span class="keyword">sizeof</span>(<a class="code" href="a01103.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a>));</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  }</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#ifndef XWIDE</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor"># include &lt;<a class="code" href="a00026.html">pcl/array.h</a>&gt;</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor"># include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">static</span> <a class="code" href="a01397.html">pcl_array_t</a> *</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<a class="code" href="a01106.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a>(strsplit_impl)(<span class="keyword">const</span> <a class="code" href="a01106.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *s, <span class="keyword">const</span> <a class="code" href="a01106.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *delim, <span class="keywordtype">int</span> casefold)</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;{</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordtype">size_t</span> delim_len = <a class="code" href="a01106.html#aee081742fbd47c91e70de0b86a84a1be">xstrlen</a>(delim);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <a class="code" href="a01397.html">pcl_array_t</a> *arr = <a class="code" href="a01371.html#ga6e206185213691e0b824f0de6961d579">pcl_array</a>(4, <a class="code" href="a01370.html#gae25ada83b80464d6aab60bd481b4dfce">pcl_cleanup_ptr</a>);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <a class="code" href="a01106.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *(*fn_strstr)(<span class="keyword">const</span> <a class="code" href="a01106.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *, <span class="keyword">const</span> <a class="code" href="a01106.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *) = casefold ? <a class="code" href="a01106.html#a5e4a75f8f96f6437439d7c4589debbdb">xstristr</a> : <a class="code" href="a01106.html#a9434e97fdc309472ff44b32ad9817ad2">xstrstr</a>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordflow">while</span>(s &amp;&amp; *s)</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  {</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="a01106.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *elem, *p = fn_strstr(s, delim);</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="keywordflow">if</span>(rtrim)</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  {</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">for</span>(p = s + <a class="code" href="a01103.html#aee081742fbd47c91e70de0b86a84a1be">xstrlen</a>(s) - 1; p &gt;= s &amp;&amp; <a class="code" href="a01103.html#a7a8bf915c494f805721c2f231822e181">xstrchr</a>(set, *p); --p);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    *++p = 0;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  }</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordflow">return</span> s;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;}</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#ifndef XWIDE</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="a01157.html#af3082199ea3ac518b87acdac953cf385">   60</a></span>&#160;<span class="preprocessor">  #define XWIDE</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">  #include &quot;<a class="code" href="a01157.html">strtrimset.c</a>&quot;</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">if</span>(!p)</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    {</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;      elem = <a class="code" href="a01106.html#a0c95d4478127582b31e380e5043d5237">xstrdup</a>(s);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      s = NULL;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    }</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    {</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      elem = <a class="code" href="a01106.html#a9d17cf03330b1d6492341e039f8edd64">xstrndup</a>(s, p - s);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      s = p + delim_len;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    }</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <a class="code" href="a01371.html#gaac90e92600ec4242ff368eace0b6bb84">pcl_array_append</a>(arr, elem);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  }</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  <span class="keywordflow">return</span> arr;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;}</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<a class="code" href="a01397.html">pcl_array_t</a> *</div>
+<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="a01157.html#a96f9c6426cbac0b0cb98a412fb453246">   68</a></span>&#160;<a class="code" href="a01106.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a>(<a class="code" href="a01157.html#a96f9c6426cbac0b0cb98a412fb453246">split</a>)(<span class="keyword">const</span> <a class="code" href="a01106.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *s, <span class="keyword">const</span> <a class="code" href="a01106.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *d)</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;{</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01106.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a>(strsplit_impl)(s, d, 0);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;}</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<a class="code" href="a01397.html">pcl_array_t</a> *</div>
+<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="a01157.html#a657ff21b90dba809633b8a7ca4f65859">   74</a></span>&#160;<a class="code" href="a01106.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a>(<a class="code" href="a01157.html#a657ff21b90dba809633b8a7ca4f65859">isplit</a>)(<span class="keyword">const</span> <a class="code" href="a01106.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *s, <span class="keyword">const</span> <a class="code" href="a01106.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a> *d)</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;{</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01106.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a>(strsplit_impl)(s, d, 1);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;}</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="preprocessor">#ifndef XWIDE</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="a01157.html#af3082199ea3ac518b87acdac953cf385">   80</a></span>&#160;<span class="preprocessor"># define XWIDE</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="preprocessor"># include &quot;<a class="code" href="a01157.html">strsplit.c</a>&quot;</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01103_html"><div class="ttname"><a href="a01103.html">_string.h</a></div></div>
-<div class="ttc" id="aa01103_html_a8dcd542ddaaeda0037a8839d90497b1a"><div class="ttname"><a href="a01103.html#a8dcd542ddaaeda0037a8839d90497b1a">X</a></div><div class="ttdeci">#define X(s)</div><div class="ttdef"><b>Definition:</b> <a href="a01103_source.html#l00069">_string.h:69</a></div></div>
-<div class="ttc" id="aa01103_html_a234f7ec71c9c19ed532c4bf11a9b9b8e"><div class="ttname"><a href="a01103.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a></div><div class="ttdeci">#define xchar</div><div class="ttdef"><b>Definition:</b> <a href="a01103_source.html#l00070">_string.h:70</a></div></div>
-<div class="ttc" id="aa01103_html_a5c4b00cbc494339ce63882d7404bad27"><div class="ttname"><a href="a01103.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a></div><div class="ttdeci">#define XFUNC(name)</div><div class="ttdef"><b>Definition:</b> <a href="a01103_source.html#l00068">_string.h:68</a></div></div>
-<div class="ttc" id="aa01103_html_aee081742fbd47c91e70de0b86a84a1be"><div class="ttname"><a href="a01103.html#aee081742fbd47c91e70de0b86a84a1be">xstrlen</a></div><div class="ttdeci">#define xstrlen</div><div class="ttdef"><b>Definition:</b> <a href="a01103_source.html#l00071">_string.h:71</a></div></div>
-<div class="ttc" id="aa01103_html_a7a8bf915c494f805721c2f231822e181"><div class="ttname"><a href="a01103.html#a7a8bf915c494f805721c2f231822e181">xstrchr</a></div><div class="ttdeci">#define xstrchr</div><div class="ttdef"><b>Definition:</b> <a href="a01103_source.html#l00076">_string.h:76</a></div></div>
-<div class="ttc" id="aa01157_html"><div class="ttname"><a href="a01157.html">strtrimset.c</a></div></div>
-<div class="ttc" id="aa01157_html_ac45187c89c1c524fc31276f5f878431d"><div class="ttname"><a href="a01157.html#ac45187c89c1c524fc31276f5f878431d">trimset</a></div><div class="ttdeci">xchar *XFUNC() trimset(xchar *s, const xchar *set, bool ltrim, bool rtrim)</div><div class="ttdef"><b>Definition:</b> <a href="a01157_source.html#l00035">strtrimset.c:35</a></div></div>
+<div class="ttc" id="aa01157_html_a96f9c6426cbac0b0cb98a412fb453246"><div class="ttname"><a href="a01157.html#a96f9c6426cbac0b0cb98a412fb453246">split</a></div><div class="ttdeci">pcl_array_t *XFUNC() split(const xchar *s, const xchar *d)</div><div class="ttdef"><b>Definition:</b> <a href="a01157_source.html#l00068">strsplit.c:68</a></div></div>
+<div class="ttc" id="aa01106_html_a5e4a75f8f96f6437439d7c4589debbdb"><div class="ttname"><a href="a01106.html#a5e4a75f8f96f6437439d7c4589debbdb">xstristr</a></div><div class="ttdeci">#define xstristr</div><div class="ttdef"><b>Definition:</b> <a href="a01106_source.html#l00073">_string.h:73</a></div></div>
+<div class="ttc" id="aa01371_html_ga6e206185213691e0b824f0de6961d579"><div class="ttname"><a href="a01371.html#ga6e206185213691e0b824f0de6961d579">pcl_array</a></div><div class="ttdeci">PCL_PUBLIC pcl_array_t * pcl_array(int initial_capacity, pcl_cleanup_t cleanup)</div><div class="ttdoc">Create an array.</div><div class="ttdef"><b>Definition:</b> <a href="a00143_source.html#l00036">array.c:36</a></div></div>
+<div class="ttc" id="aa01370_html_gae25ada83b80464d6aab60bd481b4dfce"><div class="ttname"><a href="a01370.html#gae25ada83b80464d6aab60bd481b4dfce">pcl_cleanup_ptr</a></div><div class="ttdeci">PCL_PUBLIC void pcl_cleanup_ptr(void *item)</div><div class="ttdoc">Implementation of a pcl_cleanup_t that passes item to free.</div><div class="ttdef"><b>Definition:</b> <a href="a00125_source.html#l00035">cleanup_ptr.c:35</a></div></div>
+<div class="ttc" id="aa01371_html_gaac90e92600ec4242ff368eace0b6bb84"><div class="ttname"><a href="a01371.html#gaac90e92600ec4242ff368eace0b6bb84">pcl_array_append</a></div><div class="ttdeci">PCL_INLINE int pcl_array_append(pcl_array_t *arr, void *elem)</div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00177">array.h:177</a></div></div>
+<div class="ttc" id="aa01106_html_a9d17cf03330b1d6492341e039f8edd64"><div class="ttname"><a href="a01106.html#a9d17cf03330b1d6492341e039f8edd64">xstrndup</a></div><div class="ttdeci">#define xstrndup</div><div class="ttdef"><b>Definition:</b> <a href="a01106_source.html#l00075">_string.h:75</a></div></div>
+<div class="ttc" id="aa01106_html_a234f7ec71c9c19ed532c4bf11a9b9b8e"><div class="ttname"><a href="a01106.html#a234f7ec71c9c19ed532c4bf11a9b9b8e">xchar</a></div><div class="ttdeci">#define xchar</div><div class="ttdef"><b>Definition:</b> <a href="a01106_source.html#l00070">_string.h:70</a></div></div>
+<div class="ttc" id="aa01106_html_aee081742fbd47c91e70de0b86a84a1be"><div class="ttname"><a href="a01106.html#aee081742fbd47c91e70de0b86a84a1be">xstrlen</a></div><div class="ttdeci">#define xstrlen</div><div class="ttdef"><b>Definition:</b> <a href="a01106_source.html#l00071">_string.h:71</a></div></div>
+<div class="ttc" id="aa01157_html_a657ff21b90dba809633b8a7ca4f65859"><div class="ttname"><a href="a01157.html#a657ff21b90dba809633b8a7ca4f65859">isplit</a></div><div class="ttdeci">pcl_array_t *XFUNC() isplit(const xchar *s, const xchar *d)</div><div class="ttdef"><b>Definition:</b> <a href="a01157_source.html#l00074">strsplit.c:74</a></div></div>
+<div class="ttc" id="aa01106_html_a0c95d4478127582b31e380e5043d5237"><div class="ttname"><a href="a01106.html#a0c95d4478127582b31e380e5043d5237">xstrdup</a></div><div class="ttdeci">#define xstrdup(s)</div><div class="ttdef"><b>Definition:</b> <a href="a01106_source.html#l00074">_string.h:74</a></div></div>
+<div class="ttc" id="aa00026_html"><div class="ttname"><a href="a00026.html">array.h</a></div></div>
+<div class="ttc" id="aa01106_html_a9434e97fdc309472ff44b32ad9817ad2"><div class="ttname"><a href="a01106.html#a9434e97fdc309472ff44b32ad9817ad2">xstrstr</a></div><div class="ttdeci">#define xstrstr</div><div class="ttdef"><b>Definition:</b> <a href="a01106_source.html#l00072">_string.h:72</a></div></div>
+<div class="ttc" id="aa01397_html"><div class="ttname"><a href="a01397.html">tag_pcl_array</a></div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00084">array.h:85</a></div></div>
+<div class="ttc" id="aa01106_html"><div class="ttname"><a href="a01106.html">_string.h</a></div></div>
+<div class="ttc" id="aa01106_html_a5c4b00cbc494339ce63882d7404bad27"><div class="ttname"><a href="a01106.html#a5c4b00cbc494339ce63882d7404bad27">XFUNC</a></div><div class="ttdeci">#define XFUNC(name)</div><div class="ttdef"><b>Definition:</b> <a href="a01106_source.html#l00068">_string.h:68</a></div></div>
+<div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
+<div class="ttc" id="aa01157_html"><div class="ttname"><a href="a01157.html">strsplit.c</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

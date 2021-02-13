@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/error/err_sprintf.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/error/err_set.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">err_sprintf.c</div>  </div>
+<div class="title">err_set.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00395.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,21 +101,23 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00335.html">_error.h</a>&quot;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00341.html">_error.h</a>&quot;</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01367.html#ga1d7837205ac9632ff7f63034f901d85c">   35</a></span>&#160;<a class="code" href="a01367.html#ga1d7837205ac9632ff7f63034f901d85c">pcl_err_sprintf</a>(<span class="keywordtype">char</span> *buf, <span class="keywordtype">size_t</span> size, <span class="keywordtype">int</span> indent, <span class="keyword">const</span> <span class="keywordtype">char</span> *format, ...)</div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01376.html#ga03fef16097a66e7b5d7984b6b484c46d">   35</a></span>&#160;<a class="code" href="a01376.html#ga03fef16097a66e7b5d7984b6b484c46d">pcl_err_set</a>(<a class="code" href="a00038.html#acaae4a70e5707a94c3ea8e9da14fcab6">PCL_LOCATION_PARAMS</a>, <span class="keywordtype">int</span> err, uint32_t oserr, <span class="keyword">const</span> <span class="keywordtype">char</span> *format, ...)</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  va_list args;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  va_start(args, format);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordtype">int</span> r = <a class="code" href="a01367.html#ga831abab4c892fe6f99eb8a39174119c8">pcl_err_vsprintf</a>(buf, size, indent, format, args);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  va_end(args);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  va_list ap;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  va_start(ap, format);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordtype">int</span> r = <a class="code" href="a01376.html#ga69876eea714428f61f07df9e7a9bb1fe">pcl_err_vset</a>(<a class="code" href="a00038.html#abd6d80b4c77b949a990416b0ff19ae75">PCL_LOCATION_VALS</a>, err, oserr, format, ap);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  va_end(ap);</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">return</span> r;</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01367_html_ga831abab4c892fe6f99eb8a39174119c8"><div class="ttname"><a href="a01367.html#ga831abab4c892fe6f99eb8a39174119c8">pcl_err_vsprintf</a></div><div class="ttdeci">PCL_EXPORT int pcl_err_vsprintf(char *buf, size_t buf_size, int indent, const char *format, va_list args)</div><div class="ttdef"><b>Definition:</b> <a href="a00413_source.html#l00037">err_vsprintf.c:37</a></div></div>
-<div class="ttc" id="aa00335_html"><div class="ttname"><a href="a00335.html">_error.h</a></div></div>
-<div class="ttc" id="aa01367_html_ga1d7837205ac9632ff7f63034f901d85c"><div class="ttname"><a href="a01367.html#ga1d7837205ac9632ff7f63034f901d85c">pcl_err_sprintf</a></div><div class="ttdeci">int pcl_err_sprintf(char *buf, size_t size, int indent, const char *format,...)</div><div class="ttdef"><b>Definition:</b> <a href="a00395_source.html#l00035">err_sprintf.c:35</a></div></div>
+<div class="ttc" id="aa01376_html_ga69876eea714428f61f07df9e7a9bb1fe"><div class="ttname"><a href="a01376.html#ga69876eea714428f61f07df9e7a9bb1fe">pcl_err_vset</a></div><div class="ttdeci">PCL_PUBLIC int pcl_err_vset(PCL_LOCATION_PARAMS, int err, uint32_t oserr, const char *format, va_list ap)</div><div class="ttdef"><b>Definition:</b> <a href="a00416_source.html#l00035">err_vset.c:35</a></div></div>
+<div class="ttc" id="aa00038_html_acaae4a70e5707a94c3ea8e9da14fcab6"><div class="ttname"><a href="a00038.html#acaae4a70e5707a94c3ea8e9da14fcab6">PCL_LOCATION_PARAMS</a></div><div class="ttdeci">#define PCL_LOCATION_PARAMS</div><div class="ttdoc">PCL_LOCATION_PARAMS expands to a function/macro declaration's parameter list: ie.</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00119">defs.h:119</a></div></div>
+<div class="ttc" id="aa01376_html_ga03fef16097a66e7b5d7984b6b484c46d"><div class="ttname"><a href="a01376.html#ga03fef16097a66e7b5d7984b6b484c46d">pcl_err_set</a></div><div class="ttdeci">int pcl_err_set(PCL_LOCATION_PARAMS, int err, uint32_t oserr, const char *format,...)</div><div class="ttdef"><b>Definition:</b> <a href="a00395_source.html#l00035">err_set.c:35</a></div></div>
+<div class="ttc" id="aa00341_html"><div class="ttname"><a href="a00341.html">_error.h</a></div></div>
+<div class="ttc" id="aa00038_html_abd6d80b4c77b949a990416b0ff19ae75"><div class="ttname"><a href="a00038.html#abd6d80b4c77b949a990416b0ff19ae75">PCL_LOCATION_VALS</a></div><div class="ttdeci">#define PCL_LOCATION_VALS</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00121">defs.h:121</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

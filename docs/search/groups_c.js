@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['tchar_20functions_3286',['TCHAR Functions',['../a01382.html',1,'']]]
+  ['tchar_20functions_3305',['TCHAR Functions',['../a01391.html',1,'']]]
 ];

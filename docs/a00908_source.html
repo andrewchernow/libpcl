@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/queue/queue_empty.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/queue/queue_clear.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">queue_empty.c</div>  </div>
+<div class="title">queue_clear.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00908.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,18 +101,44 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00896.html">_queue.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">bool</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01380.html#ga265830a68f18354d8a8d78c8389363f9">   35</a></span>&#160;<a class="code" href="a01380.html#ga265830a68f18354d8a8d78c8389363f9">pcl_queue_empty</a>(<a class="code" href="a01524.html">pcl_queue_t</a> *q)</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01380.html#ga12243e6e8bb8e941e481e6031373a7b2">pcl_queue_size</a>(q) == 0;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00899.html">_queue.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">void</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01389.html#ga347c337e2ff202783dfdf0ee458f3a01">   36</a></span>&#160;<a class="code" href="a01389.html#ga347c337e2ff202783dfdf0ee458f3a01">pcl_queue_clear</a>(<a class="code" href="a01533.html">pcl_queue_t</a> *q)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">if</span>(!q)</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keyword">struct </span><a class="code" href="a01529.html">queue_item</a> *node = q-&gt;<a class="code" href="a01533.html#a30ea0b30eb0ba6e1b04c893795b0f8f3">head</a>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordflow">while</span>(node)</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">struct </span><a class="code" href="a01529.html">queue_item</a> *<a class="code" href="a01529.html#a39d75fa237832367d6ed91fc522f8f8e">next</a> = node-&gt;<a class="code" href="a01529.html#a39d75fa237832367d6ed91fc522f8f8e">next</a>;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">if</span>(q-&gt;<a class="code" href="a01533.html#a80a40ed3d506df054470368571d3c9ed">cleanup</a>)</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;      q-&gt;<a class="code" href="a01533.html#a80a40ed3d506df054470368571d3c9ed">cleanup</a>(node-&gt;<a class="code" href="a01529.html#a0f61d63b009d0880a89c843bd50d8d76">value</a>);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="a01370.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(node);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    node = <a class="code" href="a01529.html#a39d75fa237832367d6ed91fc522f8f8e">next</a>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  }</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  q-&gt;<a class="code" href="a01533.html#a439227feff9d7f55384e8780cfc2eb82">size</a> = 0;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  q-&gt;<a class="code" href="a01533.html#a30ea0b30eb0ba6e1b04c893795b0f8f3">head</a> = q-&gt;<a class="code" href="a01533.html#a28a001367587be220714b3f03117ab92">tail</a> = NULL;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01524_html"><div class="ttname"><a href="a01524.html">tag_pcl_queue</a></div><div class="ttdef"><b>Definition:</b> <a href="a00896_source.html#l00047">_queue.h:48</a></div></div>
-<div class="ttc" id="aa00896_html"><div class="ttname"><a href="a00896.html">_queue.h</a></div></div>
-<div class="ttc" id="aa01380_html_ga12243e6e8bb8e941e481e6031373a7b2"><div class="ttname"><a href="a01380.html#ga12243e6e8bb8e941e481e6031373a7b2">pcl_queue_size</a></div><div class="ttdeci">PCL_EXPORT int pcl_queue_size(pcl_queue_t *q)</div><div class="ttdoc">Get the size (number of items) of a queue.</div><div class="ttdef"><b>Definition:</b> <a href="a00920_source.html#l00035">queue_size.c:35</a></div></div>
-<div class="ttc" id="aa01380_html_ga265830a68f18354d8a8d78c8389363f9"><div class="ttname"><a href="a01380.html#ga265830a68f18354d8a8d78c8389363f9">pcl_queue_empty</a></div><div class="ttdeci">bool pcl_queue_empty(pcl_queue_t *q)</div><div class="ttdoc">Indicates if a queue is empty.</div><div class="ttdef"><b>Definition:</b> <a href="a00908_source.html#l00035">queue_empty.c:35</a></div></div>
+<div class="ttc" id="aa00899_html"><div class="ttname"><a href="a00899.html">_queue.h</a></div></div>
+<div class="ttc" id="aa01370_html_gab88b901c82e1010555b08ff6d39490f2"><div class="ttname"><a href="a01370.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a></div><div class="ttdeci">void * pcl_free(void *p)</div><div class="ttdoc">Free memory space.</div></div>
+<div class="ttc" id="aa01533_html_a30ea0b30eb0ba6e1b04c893795b0f8f3"><div class="ttname"><a href="a01533.html#a30ea0b30eb0ba6e1b04c893795b0f8f3">tag_pcl_queue::head</a></div><div class="ttdeci">struct queue_item * head</div><div class="ttdef"><b>Definition:</b> <a href="a00899_source.html#l00050">_queue.h:50</a></div></div>
+<div class="ttc" id="aa01529_html"><div class="ttname"><a href="a01529.html">queue_item</a></div><div class="ttdef"><b>Definition:</b> <a href="a00899_source.html#l00041">_queue.h:42</a></div></div>
+<div class="ttc" id="aa01533_html"><div class="ttname"><a href="a01533.html">tag_pcl_queue</a></div><div class="ttdef"><b>Definition:</b> <a href="a00899_source.html#l00047">_queue.h:48</a></div></div>
+<div class="ttc" id="aa01533_html_a28a001367587be220714b3f03117ab92"><div class="ttname"><a href="a01533.html#a28a001367587be220714b3f03117ab92">tag_pcl_queue::tail</a></div><div class="ttdeci">struct queue_item * tail</div><div class="ttdef"><b>Definition:</b> <a href="a00899_source.html#l00051">_queue.h:51</a></div></div>
+<div class="ttc" id="aa01533_html_a80a40ed3d506df054470368571d3c9ed"><div class="ttname"><a href="a01533.html#a80a40ed3d506df054470368571d3c9ed">tag_pcl_queue::cleanup</a></div><div class="ttdeci">pcl_cleanup_t cleanup</div><div class="ttdef"><b>Definition:</b> <a href="a00899_source.html#l00052">_queue.h:52</a></div></div>
+<div class="ttc" id="aa01389_html_ga347c337e2ff202783dfdf0ee458f3a01"><div class="ttname"><a href="a01389.html#ga347c337e2ff202783dfdf0ee458f3a01">pcl_queue_clear</a></div><div class="ttdeci">void pcl_queue_clear(pcl_queue_t *q)</div><div class="ttdoc">Remove all items from a queue.</div><div class="ttdef"><b>Definition:</b> <a href="a00908_source.html#l00036">queue_clear.c:36</a></div></div>
+<div class="ttc" id="aa01529_html_a0f61d63b009d0880a89c843bd50d8d76"><div class="ttname"><a href="a01529.html#a0f61d63b009d0880a89c843bd50d8d76">queue_item::value</a></div><div class="ttdeci">void * value</div><div class="ttdef"><b>Definition:</b> <a href="a00899_source.html#l00044">_queue.h:44</a></div></div>
+<div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
+<div class="ttc" id="aa01529_html_a39d75fa237832367d6ed91fc522f8f8e"><div class="ttname"><a href="a01529.html#a39d75fa237832367d6ed91fc522f8f8e">queue_item::next</a></div><div class="ttdeci">struct queue_item * next</div><div class="ttdef"><b>Definition:</b> <a href="a00899_source.html#l00043">_queue.h:43</a></div></div>
+<div class="ttc" id="aa01533_html_a439227feff9d7f55384e8780cfc2eb82"><div class="ttname"><a href="a01533.html#a439227feff9d7f55384e8780cfc2eb82">tag_pcl_queue::size</a></div><div class="ttdeci">int size</div><div class="ttdef"><b>Definition:</b> <a href="a00899_source.html#l00049">_queue.h:49</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

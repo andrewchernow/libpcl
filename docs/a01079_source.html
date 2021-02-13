@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/stack/stack_push.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/stack/stack_pop.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">stack_push.c</div>  </div>
+<div class="title">stack_pop.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a01079.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,34 +101,38 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a01058.html">_stack.h</a>&quot;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a01061.html">_stack.h</a>&quot;</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">void</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01079.html#a30a45fbcd4d0df79263008b95c6066d4">   36</a></span>&#160;<a class="code" href="a01079.html#a30a45fbcd4d0df79263008b95c6066d4">pcl_stack_push</a>(<a class="code" href="a01540.html">pcl_stack_t</a> *s, <span class="keywordtype">void</span> *item)</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">void</span> *</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01079.html#a94684f2d94cc0403f43b51077e63a243">   36</a></span>&#160;<a class="code" href="a01079.html#a94684f2d94cc0403f43b51077e63a243">pcl_stack_pop</a>(<a class="code" href="a01549.html">pcl_stack_t</a> *s)</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">if</span>(!s)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a00092.html#a3252d0bf87af094520ab40bb797a18c5">pcl_stack_empty</a>(s))</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">return</span> NULL;</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keyword">struct </span><a class="code" href="a01536.html">stack_item</a> *sitem = <a class="code" href="a01361.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a>(<span class="keyword">sizeof</span>(<span class="keyword">struct</span> <a class="code" href="a01536.html">stack_item</a>));</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keyword">struct </span><a class="code" href="a01536.html">stack_item</a> *head = s-&gt;<a class="code" href="a01540.html#a9cbb0a4b4d9c0a8d98f628f76b3020c3">head</a>;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keyword">struct </span><a class="code" href="a01545.html">stack_item</a> *sitem = s-&gt;<a class="code" href="a01549.html#a9cbb0a4b4d9c0a8d98f628f76b3020c3">head</a>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordtype">void</span> *<a class="code" href="a01545.html#a0f61d63b009d0880a89c843bd50d8d76">value</a> = sitem-&gt;<a class="code" href="a01545.html#a0f61d63b009d0880a89c843bd50d8d76">value</a>;</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  s-&gt;<a class="code" href="a01540.html#a439227feff9d7f55384e8780cfc2eb82">size</a>++;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  s-&gt;<a class="code" href="a01540.html#a9cbb0a4b4d9c0a8d98f628f76b3020c3">head</a> = sitem;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  sitem-&gt;<a class="code" href="a01536.html#a0bd53e44edb84db0a4f76ab6d57b7a18">next</a> = head;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  sitem-&gt;<a class="code" href="a01536.html#a0f61d63b009d0880a89c843bd50d8d76">value</a> = item;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  s-&gt;<a class="code" href="a01549.html#a9cbb0a4b4d9c0a8d98f628f76b3020c3">head</a> = sitem-&gt;<a class="code" href="a01545.html#a0bd53e44edb84db0a4f76ab6d57b7a18">next</a>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  s-&gt;<a class="code" href="a01549.html#a439227feff9d7f55384e8780cfc2eb82">size</a>--;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <a class="code" href="a01370.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(sitem);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01545.html#a0f61d63b009d0880a89c843bd50d8d76">value</a>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;}</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01361_html_ga1df8575b9ae906470c782db9c26201e8"><div class="ttname"><a href="a01361.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a></div><div class="ttdeci">void * pcl_malloc(size_t n)</div><div class="ttdoc">Allocate dynamic memory.</div></div>
-<div class="ttc" id="aa01536_html"><div class="ttname"><a href="a01536.html">stack_item</a></div><div class="ttdef"><b>Definition:</b> <a href="a01058_source.html#l00041">_stack.h:42</a></div></div>
-<div class="ttc" id="aa01058_html"><div class="ttname"><a href="a01058.html">_stack.h</a></div></div>
-<div class="ttc" id="aa01540_html_a439227feff9d7f55384e8780cfc2eb82"><div class="ttname"><a href="a01540.html#a439227feff9d7f55384e8780cfc2eb82">tag_pcl_stack::size</a></div><div class="ttdeci">int size</div><div class="ttdef"><b>Definition:</b> <a href="a01058_source.html#l00050">_stack.h:50</a></div></div>
-<div class="ttc" id="aa01536_html_a0bd53e44edb84db0a4f76ab6d57b7a18"><div class="ttname"><a href="a01536.html#a0bd53e44edb84db0a4f76ab6d57b7a18">stack_item::next</a></div><div class="ttdeci">struct stack_item * next</div><div class="ttdef"><b>Definition:</b> <a href="a01058_source.html#l00043">_stack.h:43</a></div></div>
-<div class="ttc" id="aa01079_html_a30a45fbcd4d0df79263008b95c6066d4"><div class="ttname"><a href="a01079.html#a30a45fbcd4d0df79263008b95c6066d4">pcl_stack_push</a></div><div class="ttdeci">void pcl_stack_push(pcl_stack_t *s, void *item)</div><div class="ttdoc">Add an item to the top of the stack.</div><div class="ttdef"><b>Definition:</b> <a href="a01079_source.html#l00036">stack_push.c:36</a></div></div>
-<div class="ttc" id="aa01540_html_a9cbb0a4b4d9c0a8d98f628f76b3020c3"><div class="ttname"><a href="a01540.html#a9cbb0a4b4d9c0a8d98f628f76b3020c3">tag_pcl_stack::head</a></div><div class="ttdeci">struct stack_item * head</div><div class="ttdef"><b>Definition:</b> <a href="a01058_source.html#l00049">_stack.h:49</a></div></div>
-<div class="ttc" id="aa01540_html"><div class="ttname"><a href="a01540.html">tag_pcl_stack</a></div><div class="ttdef"><b>Definition:</b> <a href="a01058_source.html#l00047">_stack.h:48</a></div></div>
-<div class="ttc" id="aa01536_html_a0f61d63b009d0880a89c843bd50d8d76"><div class="ttname"><a href="a01536.html#a0f61d63b009d0880a89c843bd50d8d76">stack_item::value</a></div><div class="ttdeci">void * value</div><div class="ttdef"><b>Definition:</b> <a href="a01058_source.html#l00044">_stack.h:44</a></div></div>
+<div class="ttc" id="aa01370_html_gab88b901c82e1010555b08ff6d39490f2"><div class="ttname"><a href="a01370.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a></div><div class="ttdeci">void * pcl_free(void *p)</div><div class="ttdoc">Free memory space.</div></div>
+<div class="ttc" id="aa01549_html"><div class="ttname"><a href="a01549.html">tag_pcl_stack</a></div><div class="ttdef"><b>Definition:</b> <a href="a01061_source.html#l00047">_stack.h:48</a></div></div>
+<div class="ttc" id="aa01545_html_a0f61d63b009d0880a89c843bd50d8d76"><div class="ttname"><a href="a01545.html#a0f61d63b009d0880a89c843bd50d8d76">stack_item::value</a></div><div class="ttdeci">void * value</div><div class="ttdef"><b>Definition:</b> <a href="a01061_source.html#l00044">_stack.h:44</a></div></div>
+<div class="ttc" id="aa01545_html_a0bd53e44edb84db0a4f76ab6d57b7a18"><div class="ttname"><a href="a01545.html#a0bd53e44edb84db0a4f76ab6d57b7a18">stack_item::next</a></div><div class="ttdeci">struct stack_item * next</div><div class="ttdef"><b>Definition:</b> <a href="a01061_source.html#l00043">_stack.h:43</a></div></div>
+<div class="ttc" id="aa01079_html_a94684f2d94cc0403f43b51077e63a243"><div class="ttname"><a href="a01079.html#a94684f2d94cc0403f43b51077e63a243">pcl_stack_pop</a></div><div class="ttdeci">void * pcl_stack_pop(pcl_stack_t *s)</div><div class="ttdoc">Retrieve and remove an item from the top of the stack.</div><div class="ttdef"><b>Definition:</b> <a href="a01079_source.html#l00036">stack_pop.c:36</a></div></div>
+<div class="ttc" id="aa01545_html"><div class="ttname"><a href="a01545.html">stack_item</a></div><div class="ttdef"><b>Definition:</b> <a href="a01061_source.html#l00041">_stack.h:42</a></div></div>
+<div class="ttc" id="aa01549_html_a439227feff9d7f55384e8780cfc2eb82"><div class="ttname"><a href="a01549.html#a439227feff9d7f55384e8780cfc2eb82">tag_pcl_stack::size</a></div><div class="ttdeci">int size</div><div class="ttdef"><b>Definition:</b> <a href="a01061_source.html#l00050">_stack.h:50</a></div></div>
+<div class="ttc" id="aa00092_html_a3252d0bf87af094520ab40bb797a18c5"><div class="ttname"><a href="a00092.html#a3252d0bf87af094520ab40bb797a18c5">pcl_stack_empty</a></div><div class="ttdeci">PCL_PUBLIC bool pcl_stack_empty(pcl_stack_t *s)</div><div class="ttdoc">Indicates if a stack is empty.</div><div class="ttdef"><b>Definition:</b> <a href="a01070_source.html#l00035">stack_empty.c:35</a></div></div>
+<div class="ttc" id="aa01061_html"><div class="ttname"><a href="a01061.html">_stack.h</a></div></div>
 <div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
+<div class="ttc" id="aa01549_html_a9cbb0a4b4d9c0a8d98f628f76b3020c3"><div class="ttname"><a href="a01549.html#a9cbb0a4b4d9c0a8d98f628f76b3020c3">tag_pcl_stack::head</a></div><div class="ttdeci">struct stack_item * head</div><div class="ttdef"><b>Definition:</b> <a href="a01061_source.html#l00049">_stack.h:49</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

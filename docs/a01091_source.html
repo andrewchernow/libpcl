@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/stat/strflags.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/stat/statent.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">strflags.c</div>  </div>
+<div class="title">statent.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a01091.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,59 +101,56 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00095.html">pcl/stat.h</a>&gt;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00098.html">pcl/string.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">char</span> *</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01091.html#a71b0ef090f1500cda641b1f0d52b6a8d">   36</a></span>&#160;<a class="code" href="a01091.html#a71b0ef090f1500cda641b1f0d52b6a8d">pcl_strflags</a>(<span class="keywordtype">char</span> *out, <span class="keywordtype">size_t</span> len, uint32_t flags)</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">if</span>(!out || len == 0)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">return</span> out;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#define catflag(f) if((flags &amp; (f)) &amp;&amp; !pcl_strcat(out, len, *out ? &quot;,&quot; #f : #f)) return out</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a01088.html">_stat.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00056.html">pcl/file.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/error.h</a>&gt;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00098.html">pcl/string.h</a>&gt;</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="a01091.html#acd7f080661e895e217e22ab67e9d0f77">   39</a></span>&#160;<a class="code" href="a01091.html#acd7f080661e895e217e22ab67e9d0f77">pcl_statent</a>(<span class="keyword">const</span> <a class="code" href="a00113.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *path, <span class="keywordtype">int</span> fd, <a class="code" href="a01453.html">pcl_stat_t</a> *buf, <span class="keywordtype">int</span> flags)</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <a class="code" href="a00113.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *fdpath = NULL;</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  *out = 0;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <a class="code" href="a01091.html#a2bde7fc6d35c3089294bec0621a108ff">catflag</a>(<a class="code" href="a00095.html#a20f3a5e6da903beb45eab886c0064810">UF_NODUMP</a>);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <a class="code" href="a01091.html#a2bde7fc6d35c3089294bec0621a108ff">catflag</a>(<a class="code" href="a00095.html#afe6f592dade8fc031927cd296d9defe3">UF_IMMUTABLE</a>);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <a class="code" href="a01091.html#a2bde7fc6d35c3089294bec0621a108ff">catflag</a>(<a class="code" href="a00095.html#a84bdddf45c9aa271db9dacade1dda791">UF_APPEND</a>);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <a class="code" href="a01091.html#a2bde7fc6d35c3089294bec0621a108ff">catflag</a>(<a class="code" href="a00095.html#a4532bc0763830b1f6592b564e45e039c">UF_OPAQUE</a>);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <a class="code" href="a01091.html#a2bde7fc6d35c3089294bec0621a108ff">catflag</a>(<a class="code" href="a00095.html#a69b485c23350c496674e864e85841d57">UF_NOUNLINK</a>);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <a class="code" href="a01091.html#a2bde7fc6d35c3089294bec0621a108ff">catflag</a>(<a class="code" href="a00095.html#afd7c17a86e2ff32feb30bb539971b4a7">UF_COMPRESSED</a>);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <a class="code" href="a01091.html#a2bde7fc6d35c3089294bec0621a108ff">catflag</a>(<a class="code" href="a00095.html#a136f99b05f9a78aebde7bc633b8879d5">UF_TRACKED</a>);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <a class="code" href="a01091.html#a2bde7fc6d35c3089294bec0621a108ff">catflag</a>(<a class="code" href="a00095.html#a0f0a064cf2642002c09fe112719ae218">UF_ENCRYPTED</a>);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <a class="code" href="a01091.html#a2bde7fc6d35c3089294bec0621a108ff">catflag</a>(<a class="code" href="a00095.html#a9a06bad258bfc2b385fef5eb93aa481e">UF_SPARSE</a>);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <a class="code" href="a01091.html#a2bde7fc6d35c3089294bec0621a108ff">catflag</a>(<a class="code" href="a00095.html#afa05f5da4548f0e39d835277a055db66">UF_SYSTEM</a>);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <a class="code" href="a01091.html#a2bde7fc6d35c3089294bec0621a108ff">catflag</a>(<a class="code" href="a00095.html#a3140c5d226d0222f0040b3c15b8c65f8">UF_HIDDEN</a>);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <a class="code" href="a01091.html#a2bde7fc6d35c3089294bec0621a108ff">catflag</a>(<a class="code" href="a00095.html#a1e44d0609ddacaee438936be02f3eedb">SF_ARCHIVED</a>);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <a class="code" href="a01091.html#a2bde7fc6d35c3089294bec0621a108ff">catflag</a>(<a class="code" href="a00095.html#a1e9534cb0a63c1cabf4726e88cf2236c">SF_IMMUTABLE</a>);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <a class="code" href="a01091.html#a2bde7fc6d35c3089294bec0621a108ff">catflag</a>(<a class="code" href="a00095.html#a9ed9b3676b48663c6d4b94bab1de7025">SF_APPEND</a>);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <a class="code" href="a01091.html#a2bde7fc6d35c3089294bec0621a108ff">catflag</a>(<a class="code" href="a00095.html#ad0a66eb28ba8bcd98eaca7fe3c39b7ad">SF_NOUNLINK</a>);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  <a class="code" href="a01091.html#a2bde7fc6d35c3089294bec0621a108ff">catflag</a>(<a class="code" href="a00095.html#a546bb4b585fdd55e68d5829a5e291d6b">SF_SNAPSHOT</a>);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  <span class="keywordflow">return</span> out;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a00038.html#a8278668d120afdd0e47def881845559d">strempty</a>(path) &amp;&amp; fd &lt; 0)</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01378.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a>();</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordflow">if</span>(buf)</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  {</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    memset(buf, 0, <span class="keyword">sizeof</span>(*buf));</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="comment">/* only get path when buf is provided and path is empty. If path empty, fd IS valid */</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordflow">if</span>(<a class="code" href="a00038.html#a8278668d120afdd0e47def881845559d">strempty</a>(path))</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      <span class="keywordflow">if</span>(<a class="code" href="a00056.html#a0bd4d686df4c82bfe0ee5085559146ed">pcl_fdpath</a>(fd, &amp;fdpath) &lt; 0)</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="a01378.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a>();</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      path = fdpath;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    }</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  }</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  <span class="keywordtype">int</span> r = <a class="code" href="a01088.html#a85fb39b96a98b47da9d63206ee9e49d1">ipcl_statent</a>(path, fd, buf, flags);</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor">#undef catflag</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;}</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  <span class="keywordflow">if</span>(path == fdpath)</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <a class="code" href="a01370.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe</a>(fdpath);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  <span class="keywordflow">return</span> r ? <a class="code" href="a01378.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a>() : 0;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00095_html_a4532bc0763830b1f6592b564e45e039c"><div class="ttname"><a href="a00095.html#a4532bc0763830b1f6592b564e45e039c">UF_OPAQUE</a></div><div class="ttdeci">#define UF_OPAQUE</div><div class="ttdef"><b>Definition:</b> <a href="a00095_source.html#l00179">stat.h:179</a></div></div>
-<div class="ttc" id="aa00095_html"><div class="ttname"><a href="a00095.html">stat.h</a></div></div>
-<div class="ttc" id="aa00095_html_a9ed9b3676b48663c6d4b94bab1de7025"><div class="ttname"><a href="a00095.html#a9ed9b3676b48663c6d4b94bab1de7025">SF_APPEND</a></div><div class="ttdeci">#define SF_APPEND</div><div class="ttdef"><b>Definition:</b> <a href="a00095_source.html#l00205">stat.h:205</a></div></div>
-<div class="ttc" id="aa00095_html_a9a06bad258bfc2b385fef5eb93aa481e"><div class="ttname"><a href="a00095.html#a9a06bad258bfc2b385fef5eb93aa481e">UF_SPARSE</a></div><div class="ttdeci">#define UF_SPARSE</div><div class="ttdef"><b>Definition:</b> <a href="a00095_source.html#l00192">stat.h:192</a></div></div>
-<div class="ttc" id="aa00095_html_afa05f5da4548f0e39d835277a055db66"><div class="ttname"><a href="a00095.html#afa05f5da4548f0e39d835277a055db66">UF_SYSTEM</a></div><div class="ttdeci">#define UF_SYSTEM</div><div class="ttdef"><b>Definition:</b> <a href="a00095_source.html#l00193">stat.h:193</a></div></div>
-<div class="ttc" id="aa00095_html_a0f0a064cf2642002c09fe112719ae218"><div class="ttname"><a href="a00095.html#a0f0a064cf2642002c09fe112719ae218">UF_ENCRYPTED</a></div><div class="ttdeci">#define UF_ENCRYPTED</div><div class="ttdef"><b>Definition:</b> <a href="a00095_source.html#l00191">stat.h:191</a></div></div>
-<div class="ttc" id="aa01091_html_a2bde7fc6d35c3089294bec0621a108ff"><div class="ttname"><a href="a01091.html#a2bde7fc6d35c3089294bec0621a108ff">catflag</a></div><div class="ttdeci">#define catflag(f)</div></div>
-<div class="ttc" id="aa00095_html_a84bdddf45c9aa271db9dacade1dda791"><div class="ttname"><a href="a00095.html#a84bdddf45c9aa271db9dacade1dda791">UF_APPEND</a></div><div class="ttdeci">#define UF_APPEND</div><div class="ttdef"><b>Definition:</b> <a href="a00095_source.html#l00176">stat.h:176</a></div></div>
-<div class="ttc" id="aa00095_html_a136f99b05f9a78aebde7bc633b8879d5"><div class="ttname"><a href="a00095.html#a136f99b05f9a78aebde7bc633b8879d5">UF_TRACKED</a></div><div class="ttdeci">#define UF_TRACKED</div><div class="ttdef"><b>Definition:</b> <a href="a00095_source.html#l00188">stat.h:188</a></div></div>
-<div class="ttc" id="aa00095_html_a69b485c23350c496674e864e85841d57"><div class="ttname"><a href="a00095.html#a69b485c23350c496674e864e85841d57">UF_NOUNLINK</a></div><div class="ttdeci">#define UF_NOUNLINK</div><div class="ttdef"><b>Definition:</b> <a href="a00095_source.html#l00182">stat.h:182</a></div></div>
-<div class="ttc" id="aa00095_html_a546bb4b585fdd55e68d5829a5e291d6b"><div class="ttname"><a href="a00095.html#a546bb4b585fdd55e68d5829a5e291d6b">SF_SNAPSHOT</a></div><div class="ttdeci">#define SF_SNAPSHOT</div><div class="ttdef"><b>Definition:</b> <a href="a00095_source.html#l00211">stat.h:211</a></div></div>
-<div class="ttc" id="aa00095_html_a3140c5d226d0222f0040b3c15b8c65f8"><div class="ttname"><a href="a00095.html#a3140c5d226d0222f0040b3c15b8c65f8">UF_HIDDEN</a></div><div class="ttdeci">#define UF_HIDDEN</div><div class="ttdef"><b>Definition:</b> <a href="a00095_source.html#l00196">stat.h:196</a></div></div>
-<div class="ttc" id="aa00095_html_afd7c17a86e2ff32feb30bb539971b4a7"><div class="ttname"><a href="a00095.html#afd7c17a86e2ff32feb30bb539971b4a7">UF_COMPRESSED</a></div><div class="ttdeci">#define UF_COMPRESSED</div><div class="ttdef"><b>Definition:</b> <a href="a00095_source.html#l00185">stat.h:185</a></div></div>
-<div class="ttc" id="aa00095_html_a1e9534cb0a63c1cabf4726e88cf2236c"><div class="ttname"><a href="a00095.html#a1e9534cb0a63c1cabf4726e88cf2236c">SF_IMMUTABLE</a></div><div class="ttdeci">#define SF_IMMUTABLE</div><div class="ttdef"><b>Definition:</b> <a href="a00095_source.html#l00202">stat.h:202</a></div></div>
-<div class="ttc" id="aa00095_html_afe6f592dade8fc031927cd296d9defe3"><div class="ttname"><a href="a00095.html#afe6f592dade8fc031927cd296d9defe3">UF_IMMUTABLE</a></div><div class="ttdeci">#define UF_IMMUTABLE</div><div class="ttdef"><b>Definition:</b> <a href="a00095_source.html#l00173">stat.h:173</a></div></div>
-<div class="ttc" id="aa00095_html_a1e44d0609ddacaee438936be02f3eedb"><div class="ttname"><a href="a00095.html#a1e44d0609ddacaee438936be02f3eedb">SF_ARCHIVED</a></div><div class="ttdeci">#define SF_ARCHIVED</div><div class="ttdef"><b>Definition:</b> <a href="a00095_source.html#l00199">stat.h:199</a></div></div>
+<div class="ttc" id="aa00113_html_ac114b2b1527c8ae241d37cc15ca7d122"><div class="ttname"><a href="a00113.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a></div><div class="ttdeci">char pchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00113_source.html#l00054">types.h:54</a></div></div>
+<div class="ttc" id="aa01453_html"><div class="ttname"><a href="a01453.html">tag_pcl_stat</a></div><div class="ttdef"><b>Definition:</b> <a href="a00095_source.html#l00219">stat.h:220</a></div></div>
+<div class="ttc" id="aa01370_html_ga2de1e7abd61febca9d319940c5c2bd1b"><div class="ttname"><a href="a01370.html#ga2de1e7abd61febca9d319940c5c2bd1b">pcl_free_safe</a></div><div class="ttdeci">void * pcl_free_safe(void *p)</div><div class="ttdoc">Safely free memory space.</div></div>
+<div class="ttc" id="aa00038_html_a8278668d120afdd0e47def881845559d"><div class="ttname"><a href="a00038.html#a8278668d120afdd0e47def881845559d">strempty</a></div><div class="ttdeci">#define strempty(str)</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00146">defs.h:146</a></div></div>
+<div class="ttc" id="aa01091_html_acd7f080661e895e217e22ab67e9d0f77"><div class="ttname"><a href="a01091.html#acd7f080661e895e217e22ab67e9d0f77">pcl_statent</a></div><div class="ttdeci">int pcl_statent(const pchar_t *path, int fd, pcl_stat_t *buf, int flags)</div><div class="ttdoc">Get file or directory status.</div><div class="ttdef"><b>Definition:</b> <a href="a01091_source.html#l00039">statent.c:39</a></div></div>
+<div class="ttc" id="aa01088_html_a85fb39b96a98b47da9d63206ee9e49d1"><div class="ttname"><a href="a01088.html#a85fb39b96a98b47da9d63206ee9e49d1">ipcl_statent</a></div><div class="ttdeci">PCL_PRIVATE int ipcl_statent(const pchar_t *path, int fd, pcl_stat_t *buf, int flags)</div><div class="ttdef"><b>Definition:</b> <a href="a01100_source.html#l00092">unix_statent.c:92</a></div></div>
+<div class="ttc" id="aa01378_html_ga9ad3ef2339f58a873bc7bace5ad9c9df"><div class="ttname"><a href="a01378.html#ga9ad3ef2339f58a873bc7bace5ad9c9df">TRC</a></div><div class="ttdeci">#define TRC()</div><div class="ttdoc">Adds a stack trace to the current thread's error.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00262">_errdefs.h:262</a></div></div>
+<div class="ttc" id="aa00056_html"><div class="ttname"><a href="a00056.html">file.h</a></div></div>
+<div class="ttc" id="aa01088_html"><div class="ttname"><a href="a01088.html">_stat.h</a></div></div>
+<div class="ttc" id="aa00056_html_a0bd4d686df4c82bfe0ee5085559146ed"><div class="ttname"><a href="a00056.html#a0bd4d686df4c82bfe0ee5085559146ed">pcl_fdpath</a></div><div class="ttdeci">PCL_PUBLIC int pcl_fdpath(int fd, pchar_t **out)</div><div class="ttdef"><b>Definition:</b> <a href="a00458_source.html#l00051">fdpath.c:51</a></div></div>
+<div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">error.h</a></div></div>
 <div class="ttc" id="aa00098_html"><div class="ttname"><a href="a00098.html">string.h</a></div></div>
-<div class="ttc" id="aa00095_html_ad0a66eb28ba8bcd98eaca7fe3c39b7ad"><div class="ttname"><a href="a00095.html#ad0a66eb28ba8bcd98eaca7fe3c39b7ad">SF_NOUNLINK</a></div><div class="ttdeci">#define SF_NOUNLINK</div><div class="ttdef"><b>Definition:</b> <a href="a00095_source.html#l00208">stat.h:208</a></div></div>
-<div class="ttc" id="aa00095_html_a20f3a5e6da903beb45eab886c0064810"><div class="ttname"><a href="a00095.html#a20f3a5e6da903beb45eab886c0064810">UF_NODUMP</a></div><div class="ttdeci">#define UF_NODUMP</div><div class="ttdef"><b>Definition:</b> <a href="a00095_source.html#l00170">stat.h:170</a></div></div>
-<div class="ttc" id="aa01091_html_a71b0ef090f1500cda641b1f0d52b6a8d"><div class="ttname"><a href="a01091.html#a71b0ef090f1500cda641b1f0d52b6a8d">pcl_strflags</a></div><div class="ttdeci">char * pcl_strflags(char *out, size_t len, uint32_t flags)</div><div class="ttdef"><b>Definition:</b> <a href="a01091_source.html#l00036">strflags.c:36</a></div></div>
+<div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
+<div class="ttc" id="aa01378_html_gab052d4faa8fd25e1a13e86ecd4aafa38"><div class="ttname"><a href="a01378.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a></div><div class="ttdeci">#define BADARG()</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00306">_errdefs.h:306</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

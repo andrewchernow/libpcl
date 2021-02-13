@@ -117,137 +117,166 @@ $(function() {
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment"> *</span></div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment"> * ### Create argv array</span></div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment"> * @code</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment"> * // create an argv array of 4 arguments with a trailing NULL</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment"> * pcl_array_t *arr = pcl_array(5, pcl_cleanup_ptr);</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment"> * pcl_array_push(arr, strdup(&quot;-a&quot;));</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment"> * pcl_array_push(arr, strdup(&quot;--quiet&quot;));</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment"> * pcl_array_push(arr, strdup(&quot;--file=\&quot;example/file.txt\&quot;&quot;));</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment"> * pcl_array_push(arr, strdup(&quot;-t&quot;));</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="comment"> * // replace element 0 with -b, cleanup handler called for element 0</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment"> * if(something_is_true)</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment"> *   pcl_array_set(arr, strdup(&quot;-b&quot;), 0);</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment"> * // create an argv array of 4 arguments with a trailing NULL,</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment"> * // including the file to be executed and trailing NULL.</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment"> * pcl_array_t *arr = pcl_array(6, pcl_cleanup_ptr);</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment"> * char *file = strdup(&quot;some_program&quot;);</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment"> * pcl_array_append(arr, file);</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment"> * pcl_array_append(arr, strdup(&quot;-a&quot;));</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="comment"> * pcl_array_append(arr, strdup(&quot;--quiet&quot;));</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment"> * pcl_array_append(arr, strdup(&quot;--file=\&quot;example/file.txt\&quot;&quot;));</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment"> * pcl_array_append(arr, strdup(&quot;-t&quot;));</span></div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment"> * // remove quiet if noisey is true, internally does a cleanup and memmove</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment"> * if(noisey)</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment"> *   pcl_array_remove(arr, 1);</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="comment"> * // note, any unset element defaults to NULL.</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment"> * execv(&quot;some_program&quot;, arr-&gt;elements);</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment"> * pcl_array_free(arr);</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment"> * @endcode</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment"> * // element 5 already NULL</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment"> * // replace element 4 with -b, cleanup handler called for element 4</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment"> * if(something_is_true)</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="comment"> *   pcl_array_set(arr, strdup(&quot;-b&quot;), 4);</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment"> * // remove quiet if noisey is true, internally does a cleanup and memmove</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment"> * if(noisey)</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment"> *   pcl_array_remove(arr, 2);</span></div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="comment"> * @{</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00113.html">pcl/types.h</a>&gt;</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
-<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="a01388.html">   78</a></span>&#160;<span class="keyword">struct </span><a class="code" href="a01388.html">tag_pcl_array</a></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;{<span class="comment"></span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="comment">  /** number of elements in the array */</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="a01388.html#ad43c3812e6d13e0518d9f8b8f463ffcf">   81</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="a01388.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a>;<span class="comment"></span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="comment">  /** internal table size, number of elements */</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="a01388.html#adbe66a087ac3fd4a5b0566f64ca2d12b">   83</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="a01388.html#adbe66a087ac3fd4a5b0566f64ca2d12b">capacity</a>;<span class="comment"></span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="comment">  /** pointer table of elements. */</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno"><a class="line" href="a01388.html#ac1e786e007a7eab82fd04bf2f1118302">   85</a></span>&#160;  <span class="keywordtype">void</span> **<a class="code" href="a01388.html#ac1e786e007a7eab82fd04bf2f1118302">elements</a>;</div>
-<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="a01388.html#a80a40ed3d506df054470368571d3c9ed">   86</a></span>&#160;  <a class="code" href="a00113.html#a9b33b80464fd6cd77a2479df3ec3fe92">pcl_cleanup_t</a> <a class="code" href="a01388.html#a80a40ed3d506df054470368571d3c9ed">cleanup</a>;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;};</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="comment">/** Create an array.</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="comment"> * @param initial_capacity initial size of array</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="comment"> * @param cleanup pointer to a cleanup routine.</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="comment"> * @return pointer to a new array object</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="comment"> * @see pcl_cleanup_ptr</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;PCL_EXPORT <a class="code" href="a01388.html">pcl_array_t</a> *<a class="code" href="a01362.html#ga0ae9d5163488d59e59641fca7510920a">pcl_array</a>(<span class="keywordtype">int</span> initial_capacity, <a class="code" href="a00113.html#a9b33b80464fd6cd77a2479df3ec3fe92">pcl_cleanup_t</a> cleanup);</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="comment">/** Get an element from an array.</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="comment"> * This is typically not used when iterating over an array, as one can just directly access</span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="comment"> * the element via the \a elements member. However, this is useful for cases when not looping</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="comment"> * an array as it performs bounds checking of index.</span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="comment"> * @param arr pointer to an array object</span></div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="comment"> * @param index element index</span></div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="comment"> * @return pointer to an element or \c NULL on error. To distinguish between an error and a</span></div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="comment"> * \c NULL element, check ::pcl_errno. It will be ::PCL_EOKAY if a \c NULL element.</span></div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;PCL_EXPORT <span class="keywordtype">void</span> *<a class="code" href="a01362.html#ga117a316d1a225a36ae11830c1b02a32b">pcl_array_get</a>(<a class="code" href="a01388.html">pcl_array_t</a> *arr, <span class="keywordtype">int</span> index);</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="comment">/** Set an element of an array, replacing a possible existing element. When setting elements,</span></div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="comment"> * the array&#39;s \a count is not consulted. Instead, this allows a set operation as long as</span></div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="comment"> * \a index is less than \a capacity. This will set \c count to `index + 1` if \a count is</span></div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="comment"> * less than `index + 1`. This is very different than ::pcl_array_insert or ::pcl_array_push,</span></div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="comment"> * which always inserts an element, bound to array&#39;s current \c count, and growing the array if required.</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="comment"> * When performing a set operation, the array is never grown. Thus, trying to set an element at</span></div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="comment"> * an \a index greater than or equal to \a capacity will throw a ::PCL_EINDEX error.</span></div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="comment"> * If an element exists at \a index, it is removed and passed to the cleanup handler if both the</span></div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="comment"> * cleanup handler and element are not \c NULL.</span></div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="comment"> * @param arr arr pointer to an array object</span></div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="comment"> * @param elem pointer to an element</span></div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="comment"> * @param index element index</span></div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="comment"> * @return 0 for success and -1 on error.</span></div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="comment"> * @see pcl_array_push</span></div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a01362.html#gaf499f69616fe2fe20573aa051c2477ec">pcl_array_set</a>(<a class="code" href="a01388.html">pcl_array_t</a> *arr, <span class="keywordtype">void</span> *elem, <span class="keywordtype">int</span> index);</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="comment">/** Insert an element.</span></div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="comment"> * @param arr pointer to an array object</span></div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="comment"> * @param elem pointer to an element</span></div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="comment"> * @param index the insertion index. this can be equal to the array&#39;s current count, in which</span></div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="comment"> * case \a elem is appended</span></div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="comment"> * @return the new element count or -1 on error.</span></div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="comment"> * @see pcl_array_set</span></div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a01362.html#gaadaf91d725b9dc9e49fc204f9ca6a58b">pcl_array_insert</a>(<a class="code" href="a01388.html">pcl_array_t</a> *arr, <span class="keywordtype">void</span> *elem, <span class="keywordtype">int</span> index);</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;<span class="comment">/** Remove an element from an array. This will call the cleanup handler if both the cleanup</span></div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;<span class="comment"> * handler and element at \a index are not \c NULL.</span></div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;<span class="comment"> * @param arr pointer to an array object</span></div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;<span class="comment"> * @param index element index</span></div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;<span class="comment"> * @return the new count of element or -1 on error.</span></div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;PCL_EXPORT <span class="keywordtype">int</span> <a class="code" href="a01362.html#gae719887c67da38c7c761a512047c0fe3">pcl_array_remove</a>(<a class="code" href="a01388.html">pcl_array_t</a> *arr, <span class="keywordtype">int</span> index);</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<span class="comment">/** Free an array. This will call the cleanup handler, if not \c NULL, for all elements that</span></div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="comment"> * are not \c NULL and then free the array object.</span></div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="comment"> * @param arr pointer to an array object</span></div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;PCL_EXPORT <span class="keywordtype">void</span> <a class="code" href="a01362.html#gae105de3db98cd6c7456a6264e090b562">pcl_array_free</a>(<a class="code" href="a01388.html">pcl_array_t</a> *arr);</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160; </div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;PCL_INLINE <span class="keywordtype">int</span></div>
-<div class="line"><a name="l00153"></a><span class="lineno"><a class="line" href="a01362.html#gad6c08ff5aab4db10b61c3f2dae73af22">  153</a></span>&#160;<a class="code" href="a01362.html#gad6c08ff5aab4db10b61c3f2dae73af22">pcl_array_push</a>(<a class="code" href="a01388.html">pcl_array_t</a> *arr, <span class="keywordtype">void</span> *elem)</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;{</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01362.html#gaadaf91d725b9dc9e49fc204f9ca6a58b">pcl_array_insert</a>(arr, elem, arr ? arr-&gt;<a class="code" href="a01388.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a> : 0);</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;}</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160; </div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;}</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;<span class="comment">/** @} */</span></div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;<span class="preprocessor">#endif // LIBPCL_ARRAY_H</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="comment"> * // note, any unset element defaults to NULL.</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment"> * execv(file, arr-&gt;elements);</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="comment"> * pcl_array_free(arr);</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="comment"> * @endcode</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment"> * @{</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00113.html">pcl/types.h</a>&gt;</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="a01397.html">   84</a></span>&#160;<span class="keyword">struct </span><a class="code" href="a01397.html">tag_pcl_array</a></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;{<span class="comment"></span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="comment">  /** number of elements in the array */</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="a01397.html#ad43c3812e6d13e0518d9f8b8f463ffcf">   87</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="a01397.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a>;<span class="comment"></span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="comment">  /** internal table size, number of elements */</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="a01397.html#adbe66a087ac3fd4a5b0566f64ca2d12b">   89</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="a01397.html#adbe66a087ac3fd4a5b0566f64ca2d12b">capacity</a>;<span class="comment"></span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="comment">  /** pointer table of elements. */</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno"><a class="line" href="a01397.html#ac1e786e007a7eab82fd04bf2f1118302">   91</a></span>&#160;  <span class="keywordtype">void</span> **<a class="code" href="a01397.html#ac1e786e007a7eab82fd04bf2f1118302">elements</a>;<span class="comment"></span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="comment">  /** Cleanup handler for array elements */</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno"><a class="line" href="a01397.html#a80a40ed3d506df054470368571d3c9ed">   93</a></span>&#160;  <a class="code" href="a00113.html#a9b33b80464fd6cd77a2479df3ec3fe92">pcl_cleanup_t</a> <a class="code" href="a01397.html#a80a40ed3d506df054470368571d3c9ed">cleanup</a>;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;};</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="comment">/** Create an array.</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="comment"> * @param initial_capacity initial size of array</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="comment"> * @param cleanup pointer to a cleanup routine.</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="comment"> * @return pointer to a new array object</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="comment"> * @see pcl_cleanup_ptr</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<a class="code" href="a00038.html#af51b10412004b8f639fc2541fe770377">PCL_PUBLIC</a> <a class="code" href="a01397.html">pcl_array_t</a> *<a class="code" href="a01371.html#ga6e206185213691e0b824f0de6961d579">pcl_array</a>(<span class="keywordtype">int</span> initial_capacity, <a class="code" href="a00113.html#a9b33b80464fd6cd77a2479df3ec3fe92">pcl_cleanup_t</a> cleanup);</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="comment">/** Get an element from an array.</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="comment"> * This is typically not used when iterating over an array, as one can just directly access</span></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="comment"> * the element via the \a elements member. However, this is useful for cases when not looping</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="comment"> * an array as it performs bounds checking of index.</span></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="comment"> * @param arr pointer to an array object</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="comment"> * @param index element index</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="comment"> * @return pointer to an element or \c NULL on error. To distinguish between an error and a</span></div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="comment"> * \c NULL element, check ::pcl_errno. It will be ::PCL_EOKAY if a \c NULL element.</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<a class="code" href="a00038.html#af51b10412004b8f639fc2541fe770377">PCL_PUBLIC</a> <span class="keywordtype">void</span> *<a class="code" href="a01371.html#ga18d769895cbda0150edb38b89da6e9c5">pcl_array_get</a>(<a class="code" href="a01397.html">pcl_array_t</a> *arr, <span class="keywordtype">int</span> index);</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="comment">/** Find the index of an array element value.</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="comment"> * @param arr pointer to an array object</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="comment"> * @param elem pointer to an element value</span></div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="comment"> * @param compare a comparator function. If \c NULL, pointer addresses are compared directly</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="comment"> * @return index or -1 if not found</span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<a class="code" href="a00038.html#af51b10412004b8f639fc2541fe770377">PCL_PUBLIC</a> <span class="keywordtype">int</span> <a class="code" href="a01371.html#ga55bd0cd37deeb642506f9a1a69729417">pcl_array_indexof</a>(<a class="code" href="a01397.html">pcl_array_t</a> *arr, <span class="keywordtype">void</span> *elem, <a class="code" href="a00113.html#ad5a67bcd5c766d9ce29f5580b2a81d47">pcl_compare_t</a> compare);</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="comment">/** Set an element of an array, replacing a possible existing element. When setting elements,</span></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="comment"> * the array&#39;s \a count is not consulted. Instead, this allows a set operation as long as</span></div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="comment"> * \a index is less than \a capacity. This will set \c count to `index + 1` if \a count is</span></div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="comment"> * less than `index + 1`. This is very different than ::pcl_array_insert or ::pcl_array_append,</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="comment"> * which always inserts an element, bound to array&#39;s current \c count, and growing the array if required.</span></div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="comment"> * When performing a set operation, the array is never grown. Thus, trying to set an element at</span></div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="comment"> * an \a index greater than or equal to \a capacity will throw a ::PCL_EINDEX error.</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="comment"> * If an element exists at \a index, it is removed and passed to the cleanup handler if both the</span></div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="comment"> * cleanup handler and element are not \c NULL.</span></div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="comment"> * If setting an element past \a count, all elements between \c count and \c index will be \c NULL.</span></div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<span class="comment"> * @param arr arr pointer to an array object</span></div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;<span class="comment"> * @param elem pointer to an element</span></div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;<span class="comment"> * @param index element index</span></div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;<span class="comment"> * @return 0 for success and -1 on error.</span></div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;<span class="comment"> * @see pcl_array_append</span></div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;<a class="code" href="a00038.html#af51b10412004b8f639fc2541fe770377">PCL_PUBLIC</a> <span class="keywordtype">int</span> <a class="code" href="a01371.html#ga6a1ac11b0b4b35e0af6d1318488bb8fc">pcl_array_set</a>(<a class="code" href="a01397.html">pcl_array_t</a> *arr, <span class="keywordtype">void</span> *elem, <span class="keywordtype">int</span> index);</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="comment">/** Insert an element.</span></div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<span class="comment"> * @param arr pointer to an array object</span></div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<span class="comment"> * @param elem pointer to an element</span></div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="comment"> * @param index the insertion index. this can be equal to the array&#39;s current count, in which</span></div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="comment"> * case \a elem is appended</span></div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;<span class="comment"> * @return the new element count or -1 on error.</span></div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;<span class="comment"> * @see pcl_array_set</span></div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;<a class="code" href="a00038.html#af51b10412004b8f639fc2541fe770377">PCL_PUBLIC</a> <span class="keywordtype">int</span> <a class="code" href="a01371.html#ga071ae1fe2af458fd1bfc024c34574f38">pcl_array_insert</a>(<a class="code" href="a01397.html">pcl_array_t</a> *arr, <span class="keywordtype">void</span> *elem, <span class="keywordtype">int</span> index);</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;<span class="comment">/** Remove an element from an array. This will call the cleanup handler if both the cleanup</span></div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;<span class="comment"> * handler and element at \a index are not \c NULL.</span></div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;<span class="comment"> * @param arr pointer to an array object</span></div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="comment"> * @param index element index</span></div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;<span class="comment"> * @return the new count of element or -1 on error.</span></div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;<a class="code" href="a00038.html#af51b10412004b8f639fc2541fe770377">PCL_PUBLIC</a> <span class="keywordtype">int</span> <a class="code" href="a01371.html#ga80e45950d99f91f948ee31ab4300be65">pcl_array_remove</a>(<a class="code" href="a01397.html">pcl_array_t</a> *arr, <span class="keywordtype">int</span> index);</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;<span class="comment">/** Sort an array using \c qsort.</span></div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;<span class="comment"> * @param arr pointer to an array object</span></div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;<span class="comment"> * @param compare pointer to a function comparator whose behavior is identical to \c qsort</span></div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;<span class="comment"> * @return pointer to the \a arr argument</span></div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;<a class="code" href="a00038.html#af51b10412004b8f639fc2541fe770377">PCL_PUBLIC</a> <a class="code" href="a01397.html">pcl_array_t</a> *<a class="code" href="a01371.html#gae90d4564804e35844729a68d0ab4fa9c">pcl_array_sort</a>(<a class="code" href="a01397.html">pcl_array_t</a> *arr, <a class="code" href="a00113.html#ad5a67bcd5c766d9ce29f5580b2a81d47">pcl_compare_t</a> compare);</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;<span class="comment">/** Free an array. This will call the cleanup handler, if not \c NULL, for all elements that</span></div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;<span class="comment"> * are not \c NULL and then free the array object.</span></div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="comment"> * @param arr pointer to an array object</span></div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<a class="code" href="a00038.html#af51b10412004b8f639fc2541fe770377">PCL_PUBLIC</a> <span class="keywordtype">void</span> <a class="code" href="a01371.html#gad4b09f64dc64d85e70c7eb332dba4d4d">pcl_array_free</a>(<a class="code" href="a01397.html">pcl_array_t</a> *arr);</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160; </div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;<a class="code" href="a00038.html#a8136ed8021252e91aa7c44390879d8ea">PCL_INLINE</a> <span class="keywordtype">int</span></div>
+<div class="line"><a name="l00177"></a><span class="lineno"><a class="line" href="a01371.html#gaac90e92600ec4242ff368eace0b6bb84">  177</a></span>&#160;<a class="code" href="a01371.html#gaac90e92600ec4242ff368eace0b6bb84">pcl_array_append</a>(<a class="code" href="a01397.html">pcl_array_t</a> *arr, <span class="keywordtype">void</span> *elem)</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;{</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="a01371.html#ga071ae1fe2af458fd1bfc024c34574f38">pcl_array_insert</a>(arr, elem, arr ? arr-&gt;<a class="code" href="a01397.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a> : 0);</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;}</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160; </div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;}</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;<span class="comment">/** @} */</span></div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="preprocessor">#endif // LIBPCL_ARRAY_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01362_html_ga117a316d1a225a36ae11830c1b02a32b"><div class="ttname"><a href="a01362.html#ga117a316d1a225a36ae11830c1b02a32b">pcl_array_get</a></div><div class="ttdeci">PCL_EXPORT void * pcl_array_get(pcl_array_t *arr, int index)</div><div class="ttdoc">Get an element from an array.</div><div class="ttdef"><b>Definition:</b> <a href="a00149_source.html#l00037">array_get.c:37</a></div></div>
-<div class="ttc" id="aa01362_html_gaf499f69616fe2fe20573aa051c2477ec"><div class="ttname"><a href="a01362.html#gaf499f69616fe2fe20573aa051c2477ec">pcl_array_set</a></div><div class="ttdeci">PCL_EXPORT int pcl_array_set(pcl_array_t *arr, void *elem, int index)</div><div class="ttdoc">Set an element of an array, replacing a possible existing element.</div><div class="ttdef"><b>Definition:</b> <a href="a00158_source.html#l00036">array_set.c:36</a></div></div>
-<div class="ttc" id="aa01362_html_gae105de3db98cd6c7456a6264e090b562"><div class="ttname"><a href="a01362.html#gae105de3db98cd6c7456a6264e090b562">pcl_array_free</a></div><div class="ttdeci">PCL_EXPORT void pcl_array_free(pcl_array_t *arr)</div><div class="ttdoc">Free an array.</div><div class="ttdef"><b>Definition:</b> <a href="a00146_source.html#l00036">array_free.c:36</a></div></div>
-<div class="ttc" id="aa00113_html_a9b33b80464fd6cd77a2479df3ec3fe92"><div class="ttname"><a href="a00113.html#a9b33b80464fd6cd77a2479df3ec3fe92">pcl_cleanup_t</a></div><div class="ttdeci">void(* pcl_cleanup_t)(void *item)</div><div class="ttdoc">Cleanup handler used by most PCL collections.</div><div class="ttdef"><b>Definition:</b> <a href="a00113_source.html#l00065">types.h:65</a></div></div>
-<div class="ttc" id="aa01362_html_gad6c08ff5aab4db10b61c3f2dae73af22"><div class="ttname"><a href="a01362.html#gad6c08ff5aab4db10b61c3f2dae73af22">pcl_array_push</a></div><div class="ttdeci">PCL_INLINE int pcl_array_push(pcl_array_t *arr, void *elem)</div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00153">array.h:153</a></div></div>
+<div class="ttc" id="aa01397_html_a80a40ed3d506df054470368571d3c9ed"><div class="ttname"><a href="a01397.html#a80a40ed3d506df054470368571d3c9ed">tag_pcl_array::cleanup</a></div><div class="ttdeci">pcl_cleanup_t cleanup</div><div class="ttdoc">Cleanup handler for array elements.</div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00093">array.h:93</a></div></div>
+<div class="ttc" id="aa00038_html_a8136ed8021252e91aa7c44390879d8ea"><div class="ttname"><a href="a00038.html#a8136ed8021252e91aa7c44390879d8ea">PCL_INLINE</a></div><div class="ttdeci">#define PCL_INLINE</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00094">defs.h:94</a></div></div>
+<div class="ttc" id="aa01371_html_ga6e206185213691e0b824f0de6961d579"><div class="ttname"><a href="a01371.html#ga6e206185213691e0b824f0de6961d579">pcl_array</a></div><div class="ttdeci">PCL_PUBLIC pcl_array_t * pcl_array(int initial_capacity, pcl_cleanup_t cleanup)</div><div class="ttdoc">Create an array.</div><div class="ttdef"><b>Definition:</b> <a href="a00143_source.html#l00036">array.c:36</a></div></div>
+<div class="ttc" id="aa01397_html_ad43c3812e6d13e0518d9f8b8f463ffcf"><div class="ttname"><a href="a01397.html#ad43c3812e6d13e0518d9f8b8f463ffcf">tag_pcl_array::count</a></div><div class="ttdeci">int count</div><div class="ttdoc">number of elements in the array</div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00087">array.h:87</a></div></div>
+<div class="ttc" id="aa01397_html_adbe66a087ac3fd4a5b0566f64ca2d12b"><div class="ttname"><a href="a01397.html#adbe66a087ac3fd4a5b0566f64ca2d12b">tag_pcl_array::capacity</a></div><div class="ttdeci">int capacity</div><div class="ttdoc">internal table size, number of elements</div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00089">array.h:89</a></div></div>
+<div class="ttc" id="aa01371_html_gaac90e92600ec4242ff368eace0b6bb84"><div class="ttname"><a href="a01371.html#gaac90e92600ec4242ff368eace0b6bb84">pcl_array_append</a></div><div class="ttdeci">PCL_INLINE int pcl_array_append(pcl_array_t *arr, void *elem)</div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00177">array.h:177</a></div></div>
+<div class="ttc" id="aa00113_html_a9b33b80464fd6cd77a2479df3ec3fe92"><div class="ttname"><a href="a00113.html#a9b33b80464fd6cd77a2479df3ec3fe92">pcl_cleanup_t</a></div><div class="ttdeci">void(* pcl_cleanup_t)(void *item)</div><div class="ttdoc">Cleanup handler used by most PCL collections.</div><div class="ttdef"><b>Definition:</b> <a href="a00113_source.html#l00066">types.h:66</a></div></div>
+<div class="ttc" id="aa01397_html_ac1e786e007a7eab82fd04bf2f1118302"><div class="ttname"><a href="a01397.html#ac1e786e007a7eab82fd04bf2f1118302">tag_pcl_array::elements</a></div><div class="ttdeci">void ** elements</div><div class="ttdoc">pointer table of elements.</div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00091">array.h:91</a></div></div>
 <div class="ttc" id="aa00113_html"><div class="ttname"><a href="a00113.html">types.h</a></div></div>
-<div class="ttc" id="aa01362_html_gaadaf91d725b9dc9e49fc204f9ca6a58b"><div class="ttname"><a href="a01362.html#gaadaf91d725b9dc9e49fc204f9ca6a58b">pcl_array_insert</a></div><div class="ttdeci">PCL_EXPORT int pcl_array_insert(pcl_array_t *arr, void *elem, int index)</div><div class="ttdoc">Insert an element.</div><div class="ttdef"><b>Definition:</b> <a href="a00152_source.html#l00038">array_insert.c:38</a></div></div>
-<div class="ttc" id="aa01388_html_ad43c3812e6d13e0518d9f8b8f463ffcf"><div class="ttname"><a href="a01388.html#ad43c3812e6d13e0518d9f8b8f463ffcf">tag_pcl_array::count</a></div><div class="ttdeci">int count</div><div class="ttdoc">number of elements in the array</div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00081">array.h:81</a></div></div>
-<div class="ttc" id="aa01388_html_ac1e786e007a7eab82fd04bf2f1118302"><div class="ttname"><a href="a01388.html#ac1e786e007a7eab82fd04bf2f1118302">tag_pcl_array::elements</a></div><div class="ttdeci">void ** elements</div><div class="ttdoc">pointer table of elements.</div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00085">array.h:85</a></div></div>
-<div class="ttc" id="aa01388_html_a80a40ed3d506df054470368571d3c9ed"><div class="ttname"><a href="a01388.html#a80a40ed3d506df054470368571d3c9ed">tag_pcl_array::cleanup</a></div><div class="ttdeci">pcl_cleanup_t cleanup</div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00086">array.h:86</a></div></div>
-<div class="ttc" id="aa01362_html_gae719887c67da38c7c761a512047c0fe3"><div class="ttname"><a href="a01362.html#gae719887c67da38c7c761a512047c0fe3">pcl_array_remove</a></div><div class="ttdeci">PCL_EXPORT int pcl_array_remove(pcl_array_t *arr, int index)</div><div class="ttdoc">Remove an element from an array.</div><div class="ttdef"><b>Definition:</b> <a href="a00155_source.html#l00037">array_remove.c:37</a></div></div>
-<div class="ttc" id="aa01388_html"><div class="ttname"><a href="a01388.html">tag_pcl_array</a></div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00078">array.h:79</a></div></div>
-<div class="ttc" id="aa01388_html_adbe66a087ac3fd4a5b0566f64ca2d12b"><div class="ttname"><a href="a01388.html#adbe66a087ac3fd4a5b0566f64ca2d12b">tag_pcl_array::capacity</a></div><div class="ttdeci">int capacity</div><div class="ttdoc">internal table size, number of elements</div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00083">array.h:83</a></div></div>
-<div class="ttc" id="aa01362_html_ga0ae9d5163488d59e59641fca7510920a"><div class="ttname"><a href="a01362.html#ga0ae9d5163488d59e59641fca7510920a">pcl_array</a></div><div class="ttdeci">PCL_EXPORT pcl_array_t * pcl_array(int initial_capacity, pcl_cleanup_t cleanup)</div><div class="ttdoc">Create an array.</div><div class="ttdef"><b>Definition:</b> <a href="a00143_source.html#l00036">array.c:36</a></div></div>
+<div class="ttc" id="aa01371_html_ga071ae1fe2af458fd1bfc024c34574f38"><div class="ttname"><a href="a01371.html#ga071ae1fe2af458fd1bfc024c34574f38">pcl_array_insert</a></div><div class="ttdeci">PCL_PUBLIC int pcl_array_insert(pcl_array_t *arr, void *elem, int index)</div><div class="ttdoc">Insert an element.</div><div class="ttdef"><b>Definition:</b> <a href="a00155_source.html#l00038">array_insert.c:38</a></div></div>
+<div class="ttc" id="aa01371_html_ga80e45950d99f91f948ee31ab4300be65"><div class="ttname"><a href="a01371.html#ga80e45950d99f91f948ee31ab4300be65">pcl_array_remove</a></div><div class="ttdeci">PCL_PUBLIC int pcl_array_remove(pcl_array_t *arr, int index)</div><div class="ttdoc">Remove an element from an array.</div><div class="ttdef"><b>Definition:</b> <a href="a00158_source.html#l00037">array_remove.c:37</a></div></div>
+<div class="ttc" id="aa01371_html_ga55bd0cd37deeb642506f9a1a69729417"><div class="ttname"><a href="a01371.html#ga55bd0cd37deeb642506f9a1a69729417">pcl_array_indexof</a></div><div class="ttdeci">PCL_PUBLIC int pcl_array_indexof(pcl_array_t *arr, void *elem, pcl_compare_t compare)</div><div class="ttdoc">Find the index of an array element value.</div><div class="ttdef"><b>Definition:</b> <a href="a00152_source.html#l00035">array_indexof.c:35</a></div></div>
+<div class="ttc" id="aa01371_html_ga18d769895cbda0150edb38b89da6e9c5"><div class="ttname"><a href="a01371.html#ga18d769895cbda0150edb38b89da6e9c5">pcl_array_get</a></div><div class="ttdeci">PCL_PUBLIC void * pcl_array_get(pcl_array_t *arr, int index)</div><div class="ttdoc">Get an element from an array.</div><div class="ttdef"><b>Definition:</b> <a href="a00149_source.html#l00037">array_get.c:37</a></div></div>
+<div class="ttc" id="aa01371_html_gae90d4564804e35844729a68d0ab4fa9c"><div class="ttname"><a href="a01371.html#gae90d4564804e35844729a68d0ab4fa9c">pcl_array_sort</a></div><div class="ttdeci">PCL_PUBLIC pcl_array_t * pcl_array_sort(pcl_array_t *arr, pcl_compare_t compare)</div><div class="ttdoc">Sort an array using qsort.</div><div class="ttdef"><b>Definition:</b> <a href="a00164_source.html#l00042">array_sort.c:42</a></div></div>
+<div class="ttc" id="aa01397_html"><div class="ttname"><a href="a01397.html">tag_pcl_array</a></div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00084">array.h:85</a></div></div>
+<div class="ttc" id="aa01371_html_gad4b09f64dc64d85e70c7eb332dba4d4d"><div class="ttname"><a href="a01371.html#gad4b09f64dc64d85e70c7eb332dba4d4d">pcl_array_free</a></div><div class="ttdeci">PCL_PUBLIC void pcl_array_free(pcl_array_t *arr)</div><div class="ttdoc">Free an array.</div><div class="ttdef"><b>Definition:</b> <a href="a00146_source.html#l00036">array_free.c:36</a></div></div>
+<div class="ttc" id="aa01371_html_ga6a1ac11b0b4b35e0af6d1318488bb8fc"><div class="ttname"><a href="a01371.html#ga6a1ac11b0b4b35e0af6d1318488bb8fc">pcl_array_set</a></div><div class="ttdeci">PCL_PUBLIC int pcl_array_set(pcl_array_t *arr, void *elem, int index)</div><div class="ttdoc">Set an element of an array, replacing a possible existing element.</div><div class="ttdef"><b>Definition:</b> <a href="a00161_source.html#l00036">array_set.c:36</a></div></div>
+<div class="ttc" id="aa00113_html_ad5a67bcd5c766d9ce29f5580b2a81d47"><div class="ttname"><a href="a00113.html#ad5a67bcd5c766d9ce29f5580b2a81d47">pcl_compare_t</a></div><div class="ttdeci">int(* pcl_compare_t)(const void *a, const void *b)</div><div class="ttdoc">Comparator prototype.</div><div class="ttdef"><b>Definition:</b> <a href="a00113_source.html#l00074">types.h:74</a></div></div>
+<div class="ttc" id="aa00038_html_af51b10412004b8f639fc2541fe770377"><div class="ttname"><a href="a00038.html#af51b10412004b8f639fc2541fe770377">PCL_PUBLIC</a></div><div class="ttdeci">#define PCL_PUBLIC</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00092">defs.h:92</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

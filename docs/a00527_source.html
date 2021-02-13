@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/htable/htable_free.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/htable/htable_chkcapacity.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">htable_free.c</div>  </div>
+<div class="title">htable_chkcapacity.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00527.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,41 +101,64 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00515.html">_htable.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00521.html">_htable.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/error.h</a>&gt;</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">void</span> *</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01372.html#ga8b9f6df4376aac1c35a5d87ebcff93dc">   36</a></span>&#160;<a class="code" href="a01372.html#ga8b9f6df4376aac1c35a5d87ebcff93dc">pcl_htable_free</a>(<a class="code" href="a01412.html">pcl_htable_t</a> *ht)</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a00527.html#ae5a60127d190844eda950e5c78a3d314">   36</a></span>&#160;<a class="code" href="a00527.html#ae5a60127d190844eda950e5c78a3d314">ipcl_htable_chkcapacity</a>(uint64_t capacity)</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">if</span>(!ht)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; ht-&gt;<a class="code" href="a01412.html#a8d9c830e3ebb625b6705db8c75ad018e">usedCount</a>; i++)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  capacity = <a class="code" href="a00038.html#affe776513b24d84b39af8ab0930fef7f">max</a>(capacity, <a class="code" href="a00521.html#addd80abc79630fe12daba185aeb2bc60">MINTBLSIZE</a>);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="comment">/* if not a power of 2, round up to next power of 2 */</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">if</span>((capacity &amp; (capacity - 1)) != 0)</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  {</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <a class="code" href="a01408.html">pcl_htable_entry_t</a> *ent = &amp;ht-&gt;<a class="code" href="a01412.html#af062aaf8b03d3d4e39fe1fcc6f731533">entries</a>[i];</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    uint64_t x = capacity;</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordflow">if</span>(ent-&gt;<a class="code" href="a01408.html#a9eb073a4e7f31790de2c4f6b2ea74081">key</a> &amp;&amp; ht-&gt;<a class="code" href="a01412.html#a671a5819f733f2c3de67d78b2f118ac1">remove_entry</a>)</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;      ht-&gt;<a class="code" href="a01412.html#a671a5819f733f2c3de67d78b2f118ac1">remove_entry</a>(ent-&gt;<a class="code" href="a01408.html#a9eb073a4e7f31790de2c4f6b2ea74081">key</a>, ent-&gt;<a class="code" href="a01408.html#a0f61d63b009d0880a89c843bd50d8d76">value</a>, ht-&gt;<a class="code" href="a01412.html#a7b5ec388916c74aa0010ca29022c72d2">userp</a>);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  }</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <a class="code" href="a01361.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(ht-&gt;<a class="code" href="a01412.html#af062aaf8b03d3d4e39fe1fcc6f731533">entries</a>);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <a class="code" href="a01361.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(ht);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;}</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    x |= x &gt;&gt; 1;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    x |= x &gt;&gt; 2;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    x |= x &gt;&gt; 4;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    x |= x &gt;&gt; 8;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    x |= x &gt;&gt; 16;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    capacity = x + 1;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  }</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#ifndef PCL_64BIT</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="comment">/* 32-bit machines are limited to 1&lt;&lt;25 (33,554,432) buckets. Each entry is 16 bytes so</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="comment">   * the table will be using 500M (536,870,912 bytes) at this number of buckets. This doesn&#39;t</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment">   * account for entry data (keys + values). Also, the current table size is 1&lt;&lt;24 (16,777,216)</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment">   * which means there are 16,777,216 * .75 (default loadfac) entries (12,582,912). If each</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment">   * entry&#39;s data (key + value) is 32 bytes (kind of low), then another 384M is used for entry</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment">   * data; making a table of 1&lt;&lt;24 256M + 384M or 640M. Growing the table to 1&lt;&lt;25 adds another</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment">   * 256M in buckets totaling 896M. As entries are added, the number grows from here. If we</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment">   * allowed 1&lt;&lt;26, the table size alone would require 1G of memory (no entry data). Thus, 1&lt;&lt;25</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment">   * was chosen as the maximum on 32-bit machines. Also considered was whatever the operating</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="comment">   * system already has in use. It is very unlikely there is anywhere near 2-4G of RAM for a</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment">   * hash table ... upgrade to a 64-bit machine.</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment">   */</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  <span class="keywordflow">if</span>(capacity &gt; (1U &lt;&lt; 25))</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01378.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a>(<a class="code" href="a01377.html#ga44aeabecb95194eba27e79cc1863111f">PCL_ERANGE</a>);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  <span class="comment">/* 64-bit machines allow for 1&lt;&lt;30 (1,073,741,824) buckets. Entries are 32 bytes so right</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment">   * away 32G of memory is required for a capacity of 1&lt;&lt;30. Adding in entry data, this maximum</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="comment">   * value is plenty. Even machines with 64G of memory would probably barf on a table size</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="comment">   * of 1&lt;&lt;30: accounting for entry data + operating system.</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="comment">   */</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  <span class="keywordflow">if</span>(capacity &gt; (1U &lt;&lt; 30))</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01378.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a>(<a class="code" href="a01377.html#ga44aeabecb95194eba27e79cc1863111f">PCL_ERANGE</a>);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  <span class="keywordflow">return</span> (<span class="keywordtype">int</span>) capacity;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;}</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01372_html_ga8b9f6df4376aac1c35a5d87ebcff93dc"><div class="ttname"><a href="a01372.html#ga8b9f6df4376aac1c35a5d87ebcff93dc">pcl_htable_free</a></div><div class="ttdeci">void * pcl_htable_free(pcl_htable_t *ht)</div><div class="ttdoc">Release all resources used by the given hash table.</div><div class="ttdef"><b>Definition:</b> <a href="a00527_source.html#l00036">htable_free.c:36</a></div></div>
-<div class="ttc" id="aa01408_html"><div class="ttname"><a href="a01408.html">tag_pcl_htable_entry</a></div><div class="ttdoc">Hash table entry object.</div><div class="ttdef"><b>Definition:</b> <a href="a00059_source.html#l00228">htable.h:229</a></div></div>
-<div class="ttc" id="aa01361_html_gab88b901c82e1010555b08ff6d39490f2"><div class="ttname"><a href="a01361.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a></div><div class="ttdeci">void * pcl_free(void *p)</div><div class="ttdoc">Free memory space.</div></div>
-<div class="ttc" id="aa01408_html_a9eb073a4e7f31790de2c4f6b2ea74081"><div class="ttname"><a href="a01408.html#a9eb073a4e7f31790de2c4f6b2ea74081">tag_pcl_htable_entry::key</a></div><div class="ttdeci">const void * key</div><div class="ttdoc">entry key</div><div class="ttdef"><b>Definition:</b> <a href="a00059_source.html#l00237">htable.h:237</a></div></div>
-<div class="ttc" id="aa01412_html_a7b5ec388916c74aa0010ca29022c72d2"><div class="ttname"><a href="a01412.html#a7b5ec388916c74aa0010ca29022c72d2">tag_pcl_htable::userp</a></div><div class="ttdeci">void * userp</div><div class="ttdoc">User pointer passed to callbacks.</div><div class="ttdef"><b>Definition:</b> <a href="a00059_source.html#l00299">htable.h:299</a></div></div>
-<div class="ttc" id="aa01408_html_a0f61d63b009d0880a89c843bd50d8d76"><div class="ttname"><a href="a01408.html#a0f61d63b009d0880a89c843bd50d8d76">tag_pcl_htable_entry::value</a></div><div class="ttdeci">void * value</div><div class="ttdoc">entry value</div><div class="ttdef"><b>Definition:</b> <a href="a00059_source.html#l00240">htable.h:240</a></div></div>
-<div class="ttc" id="aa01412_html"><div class="ttname"><a href="a01412.html">tag_pcl_htable</a></div><div class="ttdef"><b>Definition:</b> <a href="a00059_source.html#l00243">htable.h:244</a></div></div>
-<div class="ttc" id="aa01412_html_a671a5819f733f2c3de67d78b2f118ac1"><div class="ttname"><a href="a01412.html#a671a5819f733f2c3de67d78b2f118ac1">tag_pcl_htable::remove_entry</a></div><div class="ttdeci">void(* remove_entry)(const void *key, void *value, void *userp)</div><div class="ttdoc">Called when an entry is being removed from the table.</div><div class="ttdef"><b>Definition:</b> <a href="a00059_source.html#l00308">htable.h:308</a></div></div>
-<div class="ttc" id="aa00515_html"><div class="ttname"><a href="a00515.html">_htable.h</a></div></div>
-<div class="ttc" id="aa01412_html_af062aaf8b03d3d4e39fe1fcc6f731533"><div class="ttname"><a href="a01412.html#af062aaf8b03d3d4e39fe1fcc6f731533">tag_pcl_htable::entries</a></div><div class="ttdeci">pcl_htable_entry_t * entries</div><div class="ttdef"><b>Definition:</b> <a href="a00059_source.html#l00263">htable.h:263</a></div></div>
-<div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
-<div class="ttc" id="aa01412_html_a8d9c830e3ebb625b6705db8c75ad018e"><div class="ttname"><a href="a01412.html#a8d9c830e3ebb625b6705db8c75ad018e">tag_pcl_htable::usedCount</a></div><div class="ttdeci">int usedCount</div><div class="ttdoc">count of used entries (active + deleted).</div><div class="ttdef"><b>Definition:</b> <a href="a00059_source.html#l00256">htable.h:256</a></div></div>
+<div class="ttc" id="aa00521_html_addd80abc79630fe12daba185aeb2bc60"><div class="ttname"><a href="a00521.html#addd80abc79630fe12daba185aeb2bc60">MINTBLSIZE</a></div><div class="ttdeci">#define MINTBLSIZE</div><div class="ttdef"><b>Definition:</b> <a href="a00521_source.html#l00039">_htable.h:39</a></div></div>
+<div class="ttc" id="aa01377_html_ga44aeabecb95194eba27e79cc1863111f"><div class="ttname"><a href="a01377.html#ga44aeabecb95194eba27e79cc1863111f">PCL_ERANGE</a></div><div class="ttdeci">#define PCL_ERANGE</div><div class="ttdoc">Math result not representable.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00124">_errno.h:124</a></div></div>
+<div class="ttc" id="aa00038_html_affe776513b24d84b39af8ab0930fef7f"><div class="ttname"><a href="a00038.html#affe776513b24d84b39af8ab0930fef7f">max</a></div><div class="ttdeci">#define max(a, b)</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00134">defs.h:134</a></div></div>
+<div class="ttc" id="aa01378_html_ga82adf6365b61d9a32021e559d9c31497"><div class="ttname"><a href="a01378.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a></div><div class="ttdeci">#define SETERR(_pclerr)</div><div class="ttdoc">Sets the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00065">_errdefs.h:65</a></div></div>
+<div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">error.h</a></div></div>
+<div class="ttc" id="aa00521_html"><div class="ttname"><a href="a00521.html">_htable.h</a></div></div>
+<div class="ttc" id="aa00527_html_ae5a60127d190844eda950e5c78a3d314"><div class="ttname"><a href="a00527.html#ae5a60127d190844eda950e5c78a3d314">ipcl_htable_chkcapacity</a></div><div class="ttdeci">int ipcl_htable_chkcapacity(uint64_t capacity)</div><div class="ttdef"><b>Definition:</b> <a href="a00527_source.html#l00036">htable_chkcapacity.c:36</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

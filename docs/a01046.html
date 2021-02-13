@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/ssl/ssl_setciphlist.c File Reference</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/ssl/ssl_send.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -69,27 +69,28 @@ $(function() {
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">ssl_setciphlist.c File Reference</div>  </div>
+<div class="title">ssl_send.c File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="a00998_source.html">_ssl.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a01001_source.html">_ssl.h</a>&quot;</code><br />
+<code>#include &lt;openssl/err.h&gt;</code><br />
 </div>
 <p><a href="a01046_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a0b6ac085bbd013922765d3d3f460ca51"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01046.html#a0b6ac085bbd013922765d3d3f460ca51">pcl_ssl_setciphlist</a> (<a class="el" href="a00113.html#a975758072468e41b0896e8b5f2ff0987">pcl_ssl_t</a> *ssl, const char *ciph_list)</td></tr>
-<tr class="separator:a0b6ac085bbd013922765d3d3f460ca51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ea866830ebfb6c6b49df01c77497ef0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01046.html#a1ea866830ebfb6c6b49df01c77497ef0">pcl_ssl_send</a> (<a class="el" href="a00113.html#a975758072468e41b0896e8b5f2ff0987">pcl_ssl_t</a> *ssl, const void *data, size_t len)</td></tr>
+<tr class="separator:a1ea866830ebfb6c6b49df01c77497ef0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a0b6ac085bbd013922765d3d3f460ca51"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0b6ac085bbd013922765d3d3f460ca51">&#9670;&nbsp;</a></span>pcl_ssl_setciphlist()</h2>
+<a id="a1ea866830ebfb6c6b49df01c77497ef0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ea866830ebfb6c6b49df01c77497ef0">&#9670;&nbsp;</a></span>pcl_ssl_send()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int pcl_ssl_setciphlist </td>
+          <td class="memname">int pcl_ssl_send </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="a00113.html#a975758072468e41b0896e8b5f2ff0987">pcl_ssl_t</a> *&#160;</td>
           <td class="paramname"><em>ssl</em>, </td>
@@ -97,8 +98,14 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>ciph_list</em>&#160;</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>len</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -108,9 +115,9 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="a01046_source.html#l00035">35</a> of file <a class="el" href="a01046_source.html">ssl_setciphlist.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a01046_source.html#l00036">36</a> of file <a class="el" href="a01046_source.html">ssl_send.c</a>.</p>
 
-<p class="reference">References <a class="el" href="a00998_source.html#l00054">tag_pcl_ssl::ctx</a>, <a class="el" href="a00020_source.html#l00078">PCL_EINVAL</a>, <a class="el" href="a00020_source.html#l00114">PCL_ENOTSUP</a>, <a class="el" href="a00017_source.html#l00065">SETERR</a>, <a class="el" href="a00017_source.html#l00087">SETERRMSG</a>, and <a class="el" href="a00038_source.html#l00124">strempty</a>.</p>
+<p class="reference">References <a class="el" href="a00020_source.html#l00048">PCL_EAGAIN</a>, <a class="el" href="a00020_source.html#l00222">PCL_ECONNABORTED</a>, <a class="el" href="a00020_source.html#l00226">PCL_ECONNRESET</a>, <a class="el" href="a00350_source.html#l00035">pcl_err_clear()</a>, <a class="el" href="a00020_source.html#l00200">PCL_ESSL</a>, <a class="el" href="a01016_source.html#l00037">pcl_ssl_close()</a>, <a class="el" href="a00017_source.html#l00065">SETERR</a>, <a class="el" href="a00017_source.html#l00087">SETERRMSG</a>, <a class="el" href="a00017_source.html#l00132">SETLASTERRMSG</a>, <a class="el" href="a01001_source.html#l00055">tag_pcl_ssl::ssl</a>, and <a class="el" href="a01001_source.html#l00040">sslerror</a>.</p>
 
 </div>
 </div>

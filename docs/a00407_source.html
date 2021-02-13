@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/error/err_vjson.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/error/err_trace_free.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,11 +67,11 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">err_vjson.c</div>  </div>
+<div class="title">err_trace_free.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00407.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (PCL)</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  Portable C Library (&quot;PCL&quot;)</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  Copyright (c) 1999-2021 Andrew Chernow</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  All rights reserved.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"></span> </div>
@@ -101,123 +101,28 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00335.html">_error.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00032.html">pcl/buf.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00065.html">pcl/io.h</a>&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00068.html">pcl/json.h</a>&gt;</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="a00407.html#a681680feae4df4182d532564c42fa1fc">   38</a></span>&#160;<span class="preprocessor">#define FAILED do{ \</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">  pcl_json_free(root); \</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">  return R_TRC(NULL); \</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">}while(0)</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<a class="code" href="a01420.html">pcl_json_t</a> *</div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="a01367.html#gacfdf94d7f22f457181a08210ecae18d5">   44</a></span>&#160;<a class="code" href="a01367.html#gacfdf94d7f22f457181a08210ecae18d5">pcl_err_vjson</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *message, va_list ap)</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;{</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <a class="code" href="a01404.html">pcl_err_t</a> *err = <a class="code" href="a01367.html#gaefd22094c926adb72077ca72f907a318">pcl_err_get</a>();</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <a class="code" href="a01420.html">pcl_json_t</a> *root = <a class="code" href="a01377.html#gaeaf0b68de7dab397962f745017efea98">pcl_json_obj</a>();</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  uint32_t keyflags = <a class="code" href="a01376.html#ga93241fc744b23f871f23a05d0685068f">PCL_JSON_SKIPUTF8CHK</a>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  uint32_t strflags = <a class="code" href="a01376.html#ga0989486942da6abf93563f71bcacc4f1">PCL_JSON_EMPTYASNULL</a> | <a class="code" href="a01376.html#ga27c64ca537563de18ee8a410880fa8b1">PCL_JSON_ALLOWNULL</a>;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a01377.html#gaa1f246e4dc26a47a4ffb40f9ad727bcf">pcl_json_objputint</a>(root, <span class="stringliteral">&quot;err&quot;</span>, err-&gt;<a class="code" href="a01404.html#a6ce68847c12434f60d1b2654a3dc3409">err</a>, keyflags) &lt; 0)</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <a class="code" href="a00407.html#a681680feae4df4182d532564c42fa1fc">FAILED</a>;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="keywordtype">char</span> *name = (<span class="keywordtype">char</span> *) (err-&gt;<a class="code" href="a01404.html#a6ce68847c12434f60d1b2654a3dc3409">err</a> ? <a class="code" href="a01367.html#gad0fee080b336ed7ff879b61e72e0b8a9">pcl_err_name</a>(err-&gt;<a class="code" href="a01404.html#a6ce68847c12434f60d1b2654a3dc3409">err</a>) : NULL);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a01377.html#ga18257e443e181e83a0c620410eb5af9f">pcl_json_objputstr</a>(root, <span class="stringliteral">&quot;name&quot;</span>, name, keyflags | strflags) &lt; 0)</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <a class="code" href="a00407.html#a681680feae4df4182d532564c42fa1fc">FAILED</a>;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a01377.html#gaa1f246e4dc26a47a4ffb40f9ad727bcf">pcl_json_objputint</a>(root, <span class="stringliteral">&quot;oserr&quot;</span>, err-&gt;<a class="code" href="a01404.html#a99097cbbdd873a91579ae1e543195926">oserr</a>, keyflags) &lt; 0)</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <a class="code" href="a00407.html#a681680feae4df4182d532564c42fa1fc">FAILED</a>;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  name = (<span class="keywordtype">char</span> *) (err-&gt;<a class="code" href="a01404.html#a99097cbbdd873a91579ae1e543195926">oserr</a> ? <a class="code" href="a01367.html#ga95d80f184621efe0108ec35ca590cd84">pcl_err_osname</a>(err-&gt;<a class="code" href="a01404.html#a99097cbbdd873a91579ae1e543195926">oserr</a>) : NULL);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a01377.html#ga18257e443e181e83a0c620410eb5af9f">pcl_json_objputstr</a>(root, <span class="stringliteral">&quot;osname&quot;</span>, name, keyflags | strflags) &lt; 0)</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <a class="code" href="a00407.html#a681680feae4df4182d532564c42fa1fc">FAILED</a>;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  <span class="keywordtype">char</span> *msg = NULL;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  <span class="keywordflow">if</span>(!<a class="code" href="a00038.html#a8278668d120afdd0e47def881845559d">strempty</a>(message))</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <a class="code" href="a01374.html#gabd252f8aab48f550e7018f8b0378b798">pcl_vasprintf</a>(&amp;msg, message, ap);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  <a class="code" href="a01420.html">pcl_json_t</a> *jmsg = <a class="code" href="a01375.html#ga40603731b574a6b88e40365b1c116704">pcl_json_str</a>(msg, strflags | <a class="code" href="a01376.html#ga8e0e1d42b45f580263ecef865b1fbf5e">PCL_JSON_SHALLOW</a>);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a01377.html#ga05e340e2279e826f57798c55837afb9c">pcl_json_objput</a>(root, <span class="stringliteral">&quot;msg&quot;</span>, jmsg, keyflags | <a class="code" href="a01376.html#ga1c22c051d944c223e1b3790bf454c02e">PCL_JSON_FREEVALONERR</a>) &lt; 0)</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <a class="code" href="a00407.html#a681680feae4df4182d532564c42fa1fc">FAILED</a>;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  <a class="code" href="a01420.html">pcl_json_t</a> *strace = <a class="code" href="a01378.html#ga7aef6a12263ca806e3121f678c6cf0d8">pcl_json_arr</a>();</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  <span class="keywordflow">if</span>(<a class="code" href="a01377.html#ga05e340e2279e826f57798c55837afb9c">pcl_json_objput</a>(root, <span class="stringliteral">&quot;strace&quot;</span>, strace, keyflags | <a class="code" href="a01376.html#ga1c22c051d944c223e1b3790bf454c02e">PCL_JSON_FREEVALONERR</a>) &lt; 0)</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <a class="code" href="a00407.html#a681680feae4df4182d532564c42fa1fc">FAILED</a>;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  <span class="keywordflow">for</span>(<a class="code" href="a01400.html">pcl_err_trace_t</a> *t = err-&gt;<a class="code" href="a01404.html#af22b89a25236c26e197118ca1652019a">strace</a>; t; t = t-&gt;<a class="code" href="a01400.html#a365f8bd3193b20fc56c910edb668a93b">next</a>)</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  {</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <a class="code" href="a01420.html">pcl_json_t</a> *jtrace = <a class="code" href="a01377.html#gaeaf0b68de7dab397962f745017efea98">pcl_json_obj</a>();</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">if</span>(<a class="code" href="a01377.html#ga18257e443e181e83a0c620410eb5af9f">pcl_json_objputstr</a>(jtrace, <span class="stringliteral">&quot;file&quot;</span>, t-&gt;file, keyflags | strflags) &lt; 0)</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    {</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;      <a class="code" href="a01375.html#ga52957df8ceda7e9af3a900fa484f0531">pcl_json_free</a>(jtrace);</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;      <a class="code" href="a00407.html#a681680feae4df4182d532564c42fa1fc">FAILED</a>;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    }</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordflow">if</span>(<a class="code" href="a01377.html#ga18257e443e181e83a0c620410eb5af9f">pcl_json_objputstr</a>(jtrace, <span class="stringliteral">&quot;func&quot;</span>, t-&gt;func, keyflags | strflags) &lt; 0)</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    {</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;      <a class="code" href="a01375.html#ga52957df8ceda7e9af3a900fa484f0531">pcl_json_free</a>(jtrace);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;      <a class="code" href="a00407.html#a681680feae4df4182d532564c42fa1fc">FAILED</a>;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    }</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordflow">if</span>(<a class="code" href="a01377.html#gaa1f246e4dc26a47a4ffb40f9ad727bcf">pcl_json_objputint</a>(jtrace, <span class="stringliteral">&quot;line&quot;</span>, t-&gt;line, keyflags) &lt; 0)</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    {</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;      <a class="code" href="a01375.html#ga52957df8ceda7e9af3a900fa484f0531">pcl_json_free</a>(jtrace);</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;      <a class="code" href="a00407.html#a681680feae4df4182d532564c42fa1fc">FAILED</a>;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    }</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordflow">if</span>(<a class="code" href="a01377.html#ga18257e443e181e83a0c620410eb5af9f">pcl_json_objputstr</a>(jtrace, <span class="stringliteral">&quot;msg&quot;</span>, t-&gt;msg, keyflags | strflags) &lt; 0)</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    {</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;      <a class="code" href="a01375.html#ga52957df8ceda7e9af3a900fa484f0531">pcl_json_free</a>(jtrace);</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;      <a class="code" href="a00407.html#a681680feae4df4182d532564c42fa1fc">FAILED</a>;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    }</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keywordflow">if</span>(<a class="code" href="a01378.html#ga030f9e29946b6f467440a1cb2417a003">pcl_json_arradd</a>(strace, jtrace, keyflags | <a class="code" href="a01376.html#ga1c22c051d944c223e1b3790bf454c02e">PCL_JSON_FREEVALONERR</a>) &lt; 0)</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;      <a class="code" href="a00407.html#a681680feae4df4182d532564c42fa1fc">FAILED</a>;</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;  }</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;  <span class="keywordflow">return</span> root;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00341.html">_error.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<a class="code" href="a01409.html">pcl_err_trace_t</a> *</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a00407.html#adaad0e5b8cc5c1c78dcac87e53624b00">   36</a></span>&#160;<a class="code" href="a00407.html#adaad0e5b8cc5c1c78dcac87e53624b00">ipcl_err_trace_free</a>(<a class="code" href="a01409.html">pcl_err_trace_t</a> *head)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">while</span>(head)</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  {</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="a01409.html">pcl_err_trace_t</a> *node = head;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    head = node-&gt;<a class="code" href="a01409.html#a365f8bd3193b20fc56c910edb668a93b">next</a>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="a01370.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(node);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  }</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordflow">return</span> head;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01377_html_gaa1f246e4dc26a47a4ffb40f9ad727bcf"><div class="ttname"><a href="a01377.html#gaa1f246e4dc26a47a4ffb40f9ad727bcf">pcl_json_objputint</a></div><div class="ttdeci">PCL_EXPORT int pcl_json_objputint(pcl_json_t *obj, char *key, long long value, uint32_t flags)</div><div class="ttdoc">Put an integer value into an object.</div><div class="ttdef"><b>Definition:</b> <a href="a00764_source.html#l00035">json_objputint.c:35</a></div></div>
-<div class="ttc" id="aa01374_html_gabd252f8aab48f550e7018f8b0378b798"><div class="ttname"><a href="a01374.html#gabd252f8aab48f550e7018f8b0378b798">pcl_vasprintf</a></div><div class="ttdeci">PCL_EXPORT int pcl_vasprintf(char **out, const char *format, va_list ap)</div><div class="ttdoc">Write a formatted character string to an allocated buffer.</div></div>
-<div class="ttc" id="aa01376_html_ga0989486942da6abf93563f71bcacc4f1"><div class="ttname"><a href="a01376.html#ga0989486942da6abf93563f71bcacc4f1">PCL_JSON_EMPTYASNULL</a></div><div class="ttdeci">#define PCL_JSON_EMPTYASNULL</div><div class="ttdoc">Treat empty strings as a JSON null.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00065">json.h:65</a></div></div>
-<div class="ttc" id="aa01376_html_ga27c64ca537563de18ee8a410880fa8b1"><div class="ttname"><a href="a01376.html#ga27c64ca537563de18ee8a410880fa8b1">PCL_JSON_ALLOWNULL</a></div><div class="ttdeci">#define PCL_JSON_ALLOWNULL</div><div class="ttdoc">Treat NULL string pointers as a JSON null.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00071">json.h:71</a></div></div>
-<div class="ttc" id="aa01376_html_ga1c22c051d944c223e1b3790bf454c02e"><div class="ttname"><a href="a01376.html#ga1c22c051d944c223e1b3790bf454c02e">PCL_JSON_FREEVALONERR</a></div><div class="ttdeci">#define PCL_JSON_FREEVALONERR</div><div class="ttdoc">Free a json value being added when the operation fails.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00089">json.h:89</a></div></div>
-<div class="ttc" id="aa00038_html_a8278668d120afdd0e47def881845559d"><div class="ttname"><a href="a00038.html#a8278668d120afdd0e47def881845559d">strempty</a></div><div class="ttdeci">#define strempty(str)</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00124">defs.h:124</a></div></div>
-<div class="ttc" id="aa01404_html"><div class="ttname"><a href="a01404.html">tag_pcl_err</a></div><div class="ttdoc">Represents a PCL error, with optional stack trace.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00121">error.h:122</a></div></div>
-<div class="ttc" id="aa01377_html_gaeaf0b68de7dab397962f745017efea98"><div class="ttname"><a href="a01377.html#gaeaf0b68de7dab397962f745017efea98">pcl_json_obj</a></div><div class="ttdeci">PCL_EXPORT pcl_json_t * pcl_json_obj(void)</div><div class="ttdoc">Create an object.</div><div class="ttdef"><b>Definition:</b> <a href="a00716_source.html#l00045">json_obj.c:45</a></div></div>
-<div class="ttc" id="aa01376_html_ga8e0e1d42b45f580263ecef865b1fbf5e"><div class="ttname"><a href="a01376.html#ga8e0e1d42b45f580263ecef865b1fbf5e">PCL_JSON_SHALLOW</a></div><div class="ttdeci">#define PCL_JSON_SHALLOW</div><div class="ttdoc">Shallow copy string.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00060">json.h:60</a></div></div>
-<div class="ttc" id="aa01400_html_a365f8bd3193b20fc56c910edb668a93b"><div class="ttname"><a href="a01400.html#a365f8bd3193b20fc56c910edb668a93b">tag_pcl_err_trace::next</a></div><div class="ttdeci">pcl_err_trace_t * next</div><div class="ttdoc">next trace in stack trace or NULL to indicate the end.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00104">error.h:104</a></div></div>
-<div class="ttc" id="aa01404_html_a99097cbbdd873a91579ae1e543195926"><div class="ttname"><a href="a01404.html#a99097cbbdd873a91579ae1e543195926">tag_pcl_err::oserr</a></div><div class="ttdeci">uint32_t oserr</div><div class="ttdoc">Platform-specific error code: Unix errno, Windows Error (ie: GetLastError, _dos_errno),...</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00140">error.h:140</a></div></div>
-<div class="ttc" id="aa00032_html"><div class="ttname"><a href="a00032.html">buf.h</a></div></div>
-<div class="ttc" id="aa01367_html_ga95d80f184621efe0108ec35ca590cd84"><div class="ttname"><a href="a01367.html#ga95d80f184621efe0108ec35ca590cd84">pcl_err_osname</a></div><div class="ttdeci">PCL_EXPORT const char * pcl_err_osname(uint32_t oserr)</div><div class="ttdef"><b>Definition:</b> <a href="a00383_source.html#l00035">err_osname.c:35</a></div></div>
-<div class="ttc" id="aa01375_html_ga40603731b574a6b88e40365b1c116704"><div class="ttname"><a href="a01375.html#ga40603731b574a6b88e40365b1c116704">pcl_json_str</a></div><div class="ttdeci">PCL_EXPORT pcl_json_t * pcl_json_str(char *str, uint32_t flags)</div><div class="ttdoc">Create a string object.</div><div class="ttdef"><b>Definition:</b> <a href="a00803_source.html#l00037">json_str.c:37</a></div></div>
-<div class="ttc" id="aa00068_html"><div class="ttname"><a href="a00068.html">json.h</a></div></div>
-<div class="ttc" id="aa01367_html_gaefd22094c926adb72077ca72f907a318"><div class="ttname"><a href="a01367.html#gaefd22094c926adb72077ca72f907a318">pcl_err_get</a></div><div class="ttdeci">PCL_EXPORT pcl_err_t * pcl_err_get(void)</div><div class="ttdoc">Gets the calling thread's error.</div><div class="ttdef"><b>Definition:</b> <a href="a00350_source.html#l00057">err_ctx.c:57</a></div></div>
-<div class="ttc" id="aa01378_html_ga030f9e29946b6f467440a1cb2417a003"><div class="ttname"><a href="a01378.html#ga030f9e29946b6f467440a1cb2417a003">pcl_json_arradd</a></div><div class="ttdeci">PCL_EXPORT int pcl_json_arradd(pcl_json_t *arr, pcl_json_t *elem, uint32_t flags)</div><div class="ttdoc">Add an element to an array.</div><div class="ttdef"><b>Definition:</b> <a href="a00611_source.html#l00036">json_arradd.c:36</a></div></div>
-<div class="ttc" id="aa01367_html_gacfdf94d7f22f457181a08210ecae18d5"><div class="ttname"><a href="a01367.html#gacfdf94d7f22f457181a08210ecae18d5">pcl_err_vjson</a></div><div class="ttdeci">pcl_json_t * pcl_err_vjson(const char *message, va_list ap)</div><div class="ttdoc">Format the current thread's error as a JSON string.</div><div class="ttdef"><b>Definition:</b> <a href="a00407_source.html#l00044">err_vjson.c:44</a></div></div>
-<div class="ttc" id="aa01376_html_ga93241fc744b23f871f23a05d0685068f"><div class="ttname"><a href="a01376.html#ga93241fc744b23f871f23a05d0685068f">PCL_JSON_SKIPUTF8CHK</a></div><div class="ttdeci">#define PCL_JSON_SKIPUTF8CHK</div><div class="ttdoc">Skip UTF-8 validation.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00052">json.h:52</a></div></div>
-<div class="ttc" id="aa01377_html_ga05e340e2279e826f57798c55837afb9c"><div class="ttname"><a href="a01377.html#ga05e340e2279e826f57798c55837afb9c">pcl_json_objput</a></div><div class="ttdeci">PCL_EXPORT int pcl_json_objput(pcl_json_t *obj, char *key, pcl_json_t *value, uint32_t flags)</div><div class="ttdoc">Put a json value into an object.</div><div class="ttdef"><b>Definition:</b> <a href="a00758_source.html#l00038">json_objput.c:38</a></div></div>
-<div class="ttc" id="aa01375_html_ga52957df8ceda7e9af3a900fa484f0531"><div class="ttname"><a href="a01375.html#ga52957df8ceda7e9af3a900fa484f0531">pcl_json_free</a></div><div class="ttdeci">PCL_EXPORT void pcl_json_free(pcl_json_t *j)</div><div class="ttdoc">Release all resources used by a json value.</div><div class="ttdef"><b>Definition:</b> <a href="a00701_source.html#l00038">json_free.c:38</a></div></div>
-<div class="ttc" id="aa00335_html"><div class="ttname"><a href="a00335.html">_error.h</a></div></div>
-<div class="ttc" id="aa01378_html_ga7aef6a12263ca806e3121f678c6cf0d8"><div class="ttname"><a href="a01378.html#ga7aef6a12263ca806e3121f678c6cf0d8">pcl_json_arr</a></div><div class="ttdeci">PCL_EXPORT pcl_json_t * pcl_json_arr(void)</div><div class="ttdoc">Create an array object.</div><div class="ttdef"><b>Definition:</b> <a href="a00608_source.html#l00043">json_arr.c:43</a></div></div>
-<div class="ttc" id="aa01367_html_gad0fee080b336ed7ff879b61e72e0b8a9"><div class="ttname"><a href="a01367.html#gad0fee080b336ed7ff879b61e72e0b8a9">pcl_err_name</a></div><div class="ttdeci">PCL_EXPORT const char * pcl_err_name(int err)</div><div class="ttdef"><b>Definition:</b> <a href="a00374_source.html#l00035">err_name.c:35</a></div></div>
-<div class="ttc" id="aa00407_html_a681680feae4df4182d532564c42fa1fc"><div class="ttname"><a href="a00407.html#a681680feae4df4182d532564c42fa1fc">FAILED</a></div><div class="ttdeci">#define FAILED</div><div class="ttdef"><b>Definition:</b> <a href="a00407_source.html#l00038">err_vjson.c:38</a></div></div>
-<div class="ttc" id="aa01420_html"><div class="ttname"><a href="a01420.html">tag_pcl_json</a></div><div class="ttdoc">A JSON value object.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00174">json.h:175</a></div></div>
-<div class="ttc" id="aa01377_html_ga18257e443e181e83a0c620410eb5af9f"><div class="ttname"><a href="a01377.html#ga18257e443e181e83a0c620410eb5af9f">pcl_json_objputstr</a></div><div class="ttdeci">PCL_EXPORT int pcl_json_objputstr(pcl_json_t *obj, char *key, char *value, uint32_t flags)</div><div class="ttdoc">Put a string value into an object.</div><div class="ttdef"><b>Definition:</b> <a href="a00773_source.html#l00035">json_objputstr.c:35</a></div></div>
+<div class="ttc" id="aa01370_html_gab88b901c82e1010555b08ff6d39490f2"><div class="ttname"><a href="a01370.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a></div><div class="ttdeci">void * pcl_free(void *p)</div><div class="ttdoc">Free memory space.</div></div>
+<div class="ttc" id="aa01409_html_a365f8bd3193b20fc56c910edb668a93b"><div class="ttname"><a href="a01409.html#a365f8bd3193b20fc56c910edb668a93b">tag_pcl_err_trace::next</a></div><div class="ttdeci">pcl_err_trace_t * next</div><div class="ttdoc">next trace in stack trace or NULL to indicate the end.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00104">error.h:104</a></div></div>
+<div class="ttc" id="aa01409_html"><div class="ttname"><a href="a01409.html">tag_pcl_err_trace</a></div><div class="ttdoc">Stack trace object implemented as a linked list.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00101">error.h:102</a></div></div>
+<div class="ttc" id="aa00341_html"><div class="ttname"><a href="a00341.html">_error.h</a></div></div>
+<div class="ttc" id="aa00407_html_adaad0e5b8cc5c1c78dcac87e53624b00"><div class="ttname"><a href="a00407.html#adaad0e5b8cc5c1c78dcac87e53624b00">ipcl_err_trace_free</a></div><div class="ttdeci">pcl_err_trace_t * ipcl_err_trace_free(pcl_err_trace_t *head)</div><div class="ttdef"><b>Definition:</b> <a href="a00407_source.html#l00036">err_trace_free.c:36</a></div></div>
 <div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
-<div class="ttc" id="aa00065_html"><div class="ttname"><a href="a00065.html">io.h</a></div></div>
-<div class="ttc" id="aa01400_html"><div class="ttname"><a href="a01400.html">tag_pcl_err_trace</a></div><div class="ttdoc">Stack trace object implemented as a linked list.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00101">error.h:102</a></div></div>
-<div class="ttc" id="aa01404_html_af22b89a25236c26e197118ca1652019a"><div class="ttname"><a href="a01404.html#af22b89a25236c26e197118ca1652019a">tag_pcl_err::strace</a></div><div class="ttdeci">pcl_err_trace_t * strace</div><div class="ttdoc">Stack trace implemented as a linked list.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00143">error.h:143</a></div></div>
-<div class="ttc" id="aa01404_html_a6ce68847c12434f60d1b2654a3dc3409"><div class="ttname"><a href="a01404.html#a6ce68847c12434f60d1b2654a3dc3409">tag_pcl_err::err</a></div><div class="ttdeci">int err</div><div class="ttdoc">PCL error code: PCL_EXXX.</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00134">error.h:134</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

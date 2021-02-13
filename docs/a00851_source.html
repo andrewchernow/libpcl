@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/net/net_resolve.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/net/net_ip2inet.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">net_resolve.c</div>  </div>
+<div class="title">net_ip2inet.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00851.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,55 +101,40 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00824.html">_net.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00026.html">pcl/array.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00098.html">pcl/string.h</a>&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<a class="code" href="a01388.html">pcl_array_t</a> *</div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="a00851.html#a7cca1841bd40e049fd7ac73068d030f2">   38</a></span>&#160;<a class="code" href="a00851.html#a7cca1841bd40e049fd7ac73068d030f2">ipcl_net_resolve</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *host)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordtype">int</span> r;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <a class="code" href="a01388.html">pcl_array_t</a> *addrs;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keyword">struct </span>addrinfo *info = NULL, *ai, hints = {0};</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00827.html">_net.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00098.html">string.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a00851.html#ac541061e42d23be65e50cd437aea35e2">   36</a></span>&#160;<a class="code" href="a00851.html#ac541061e42d23be65e50cd437aea35e2">pcl_net_ip2inet</a>(<span class="keywordtype">int</span> af, <span class="keyword">const</span> <span class="keywordtype">char</span> *ipstr, <span class="keywordtype">void</span> *inaddr)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordtype">int</span> r;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keyword">struct </span>addrinfo *info = NULL, hints = {0};</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">if</span>(!inaddr)</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01378.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a>();</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  hints.ai_socktype = SOCK_STREAM;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordflow">if</span>((r = getaddrinfo(host, NULL, &amp;hints, &amp;info)))</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01369.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a>(NULL, <a class="code" href="a00077.html#a50b8574eff9768351e9d99282d65dda3">pcl_net_ai2pcl</a>(r));</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  hints.ai_family = af;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordflow">if</span>((r = getaddrinfo(ipstr, NULL, &amp;hints, &amp;info)))</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01378.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a>(<a class="code" href="a00077.html#ab25b7afffbcd31ebd490c706b47fb37c">pcl_net_ai2pcl</a>(r));</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  addrs = <a class="code" href="a01362.html#ga0ae9d5163488d59e59641fca7510920a">pcl_array</a>(3, <a class="code" href="a01361.html#ga23cf9b86e4d86efcc8c79a40fa6a8e79">pcl_cleanup_ptr</a>);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="keywordflow">for</span>(ai=info; ai; ai=ai-&gt;ai_next)</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  {</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">if</span>(ai-&gt;ai_family == AF_INET || ai-&gt;ai_family == AF_INET6)</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    {</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      <span class="keywordtype">char</span> ip[100];</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      <span class="keywordflow">if</span>(getnameinfo(ai-&gt;ai_addr, (socklen_t)ai-&gt;ai_addrlen, ip, (<span class="keywordtype">int</span>)<span class="keyword">sizeof</span>(ip),</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        NULL, 0, NI_NUMERICHOST) == 0)</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      {</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <a class="code" href="a01362.html#gad6c08ff5aab4db10b61c3f2dae73af22">pcl_array_push</a>(addrs, <a class="code" href="a01381.html#ga046608776c880d7d3bf39943e692f064">pcl_strdup</a>(ip));</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      }</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    }</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  }</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  freeaddrinfo(info);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <span class="keywordflow">return</span> addrs;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;}</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keywordflow">if</span>(info-&gt;ai_family != af)</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  {</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    freeaddrinfo(info);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01378.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a>(<a class="code" href="a01377.html#ga4416795bd50c57cfad774c42154bbc9f">PCL_ETYPE</a>);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  }</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  memcpy(inaddr, info-&gt;ai_addr, info-&gt;ai_addrlen);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  freeaddrinfo(info);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01381_html_ga046608776c880d7d3bf39943e692f064"><div class="ttname"><a href="a01381.html#ga046608776c880d7d3bf39943e692f064">pcl_strdup</a></div><div class="ttdeci">char * pcl_strdup(const char *s)</div><div class="ttdoc">Duplicate a string.</div></div>
-<div class="ttc" id="aa00824_html"><div class="ttname"><a href="a00824.html">_net.h</a></div></div>
-<div class="ttc" id="aa00851_html_a7cca1841bd40e049fd7ac73068d030f2"><div class="ttname"><a href="a00851.html#a7cca1841bd40e049fd7ac73068d030f2">ipcl_net_resolve</a></div><div class="ttdeci">pcl_array_t * ipcl_net_resolve(const char *host)</div><div class="ttdoc">Resolve a hostname to an array of IPv4 and/or IPv6 addresses.</div><div class="ttdef"><b>Definition:</b> <a href="a00851_source.html#l00038">net_resolve.c:38</a></div></div>
-<div class="ttc" id="aa00077_html_a50b8574eff9768351e9d99282d65dda3"><div class="ttname"><a href="a00077.html#a50b8574eff9768351e9d99282d65dda3">pcl_net_ai2pcl</a></div><div class="ttdeci">PCL_EXPORT int pcl_net_ai2pcl(int ai_retval)</div><div class="ttdef"><b>Definition:</b> <a href="a00833_source.html#l00035">net_ai2pcl.c:35</a></div></div>
-<div class="ttc" id="aa01369_html_gae8eaed12aa57a2870ad8e45cc2306318"><div class="ttname"><a href="a01369.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a></div><div class="ttdeci">#define R_SETERR(_retval, _pclerr)</div><div class="ttdoc">Sets the return value and the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00145">_errdefs.h:145</a></div></div>
-<div class="ttc" id="aa01362_html_gad6c08ff5aab4db10b61c3f2dae73af22"><div class="ttname"><a href="a01362.html#gad6c08ff5aab4db10b61c3f2dae73af22">pcl_array_push</a></div><div class="ttdeci">PCL_INLINE int pcl_array_push(pcl_array_t *arr, void *elem)</div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00153">array.h:153</a></div></div>
-<div class="ttc" id="aa00026_html"><div class="ttname"><a href="a00026.html">array.h</a></div></div>
-<div class="ttc" id="aa01388_html"><div class="ttname"><a href="a01388.html">tag_pcl_array</a></div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00078">array.h:79</a></div></div>
+<div class="ttc" id="aa00851_html_ac541061e42d23be65e50cd437aea35e2"><div class="ttname"><a href="a00851.html#ac541061e42d23be65e50cd437aea35e2">pcl_net_ip2inet</a></div><div class="ttdeci">int pcl_net_ip2inet(int af, const char *ipstr, void *inaddr)</div><div class="ttdef"><b>Definition:</b> <a href="a00851_source.html#l00036">net_ip2inet.c:36</a></div></div>
+<div class="ttc" id="aa01377_html_ga4416795bd50c57cfad774c42154bbc9f"><div class="ttname"><a href="a01377.html#ga4416795bd50c57cfad774c42154bbc9f">PCL_ETYPE</a></div><div class="ttdeci">#define PCL_ETYPE</div><div class="ttdoc">Invalid type.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00142">_errno.h:142</a></div></div>
+<div class="ttc" id="aa01378_html_ga82adf6365b61d9a32021e559d9c31497"><div class="ttname"><a href="a01378.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a></div><div class="ttdeci">#define SETERR(_pclerr)</div><div class="ttdoc">Sets the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00065">_errdefs.h:65</a></div></div>
+<div class="ttc" id="aa00827_html"><div class="ttname"><a href="a00827.html">_net.h</a></div></div>
+<div class="ttc" id="aa00077_html_ab25b7afffbcd31ebd490c706b47fb37c"><div class="ttname"><a href="a00077.html#ab25b7afffbcd31ebd490c706b47fb37c">pcl_net_ai2pcl</a></div><div class="ttdeci">PCL_PUBLIC int pcl_net_ai2pcl(int ai_retval)</div><div class="ttdef"><b>Definition:</b> <a href="a00836_source.html#l00035">net_ai2pcl.c:35</a></div></div>
 <div class="ttc" id="aa00098_html"><div class="ttname"><a href="a00098.html">string.h</a></div></div>
-<div class="ttc" id="aa01362_html_ga0ae9d5163488d59e59641fca7510920a"><div class="ttname"><a href="a01362.html#ga0ae9d5163488d59e59641fca7510920a">pcl_array</a></div><div class="ttdeci">PCL_EXPORT pcl_array_t * pcl_array(int initial_capacity, pcl_cleanup_t cleanup)</div><div class="ttdoc">Create an array.</div><div class="ttdef"><b>Definition:</b> <a href="a00143_source.html#l00036">array.c:36</a></div></div>
-<div class="ttc" id="aa01361_html_ga23cf9b86e4d86efcc8c79a40fa6a8e79"><div class="ttname"><a href="a01361.html#ga23cf9b86e4d86efcc8c79a40fa6a8e79">pcl_cleanup_ptr</a></div><div class="ttdeci">PCL_EXPORT void pcl_cleanup_ptr(void *item)</div><div class="ttdoc">Implementation of a pcl_cleanup_t that passes item to free.</div><div class="ttdef"><b>Definition:</b> <a href="a00125_source.html#l00035">cleanup_ptr.c:35</a></div></div>
-<div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
+<div class="ttc" id="aa01378_html_gab052d4faa8fd25e1a13e86ecd4aafa38"><div class="ttname"><a href="a01378.html#gab052d4faa8fd25e1a13e86ecd4aafa38">BADARG</a></div><div class="ttdeci">#define BADARG()</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00306">_errdefs.h:306</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

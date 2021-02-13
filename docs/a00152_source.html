@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/array/array_insert.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/array/array_indexof.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">array_insert.c</div>  </div>
+<div class="title">array_indexof.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00152.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -102,44 +102,35 @@ $(function() {
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00026.html">pcl/array.h</a>&gt;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/error.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00098.html">string.h</a>&gt;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="a01362.html#gaadaf91d725b9dc9e49fc204f9ca6a58b">   38</a></span>&#160;<a class="code" href="a01362.html#gaadaf91d725b9dc9e49fc204f9ca6a58b">pcl_array_insert</a>(<a class="code" href="a01388.html">pcl_array_t</a> *arr, <span class="keywordtype">void</span> *elem, <span class="keywordtype">int</span> index)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordflow">if</span>(!arr)</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01369.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a>(<a class="code" href="a01368.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordflow">if</span>(arr-&gt;<a class="code" href="a01388.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a> == arr-&gt;<a class="code" href="a01388.html#adbe66a087ac3fd4a5b0566f64ca2d12b">capacity</a>)</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  {</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    arr-&gt;<a class="code" href="a01388.html#adbe66a087ac3fd4a5b0566f64ca2d12b">capacity</a> = arr-&gt;<a class="code" href="a01388.html#adbe66a087ac3fd4a5b0566f64ca2d12b">capacity</a> &gt; 0 ? arr-&gt;<a class="code" href="a01388.html#adbe66a087ac3fd4a5b0566f64ca2d12b">capacity</a> * 2 : 8;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    arr-&gt;<a class="code" href="a01388.html#ac1e786e007a7eab82fd04bf2f1118302">elements</a> = <a class="code" href="a01361.html#ga8ed2d8a28dde302fa8eac0d2e9ce8ea4">pcl_realloc</a>(arr-&gt;<a class="code" href="a01388.html#ac1e786e007a7eab82fd04bf2f1118302">elements</a>, arr-&gt;<a class="code" href="a01388.html#adbe66a087ac3fd4a5b0566f64ca2d12b">capacity</a> * <span class="keyword">sizeof</span>(<span class="keywordtype">void</span>*));</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  }</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="comment">/* memmove only required when NOT appending: ie. index &#39;&lt;&#39; count */</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="keywordflow">if</span>(index &lt; arr-&gt;count)</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    memmove(arr-&gt;<a class="code" href="a01388.html#ac1e786e007a7eab82fd04bf2f1118302">elements</a> + index + 1, arr-&gt;<a class="code" href="a01388.html#ac1e786e007a7eab82fd04bf2f1118302">elements</a> + index,</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;      (arr-&gt;<a class="code" href="a01388.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a> - index) * <span class="keyword">sizeof</span>(<span class="keywordtype">void</span> *));</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  arr-&gt;<a class="code" href="a01388.html#ac1e786e007a7eab82fd04bf2f1118302">elements</a>[index] = elem;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordflow">return</span> ++arr-&gt;<a class="code" href="a01388.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a>;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;}</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01371.html#ga55bd0cd37deeb642506f9a1a69729417">   35</a></span>&#160;<a class="code" href="a01371.html#ga55bd0cd37deeb642506f9a1a69729417">pcl_array_indexof</a>(<a class="code" href="a01397.html">pcl_array_t</a> *arr, <span class="keywordtype">void</span> *elem, <a class="code" href="a00113.html#ad5a67bcd5c766d9ce29f5580b2a81d47">pcl_compare_t</a> compare)</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordflow">if</span>(!arr || arr-&gt;<a class="code" href="a01397.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a> == 0)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">return</span> -1;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordflow">if</span>(compare)</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  {</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; arr-&gt;<a class="code" href="a01397.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a>; i++)</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;      <span class="keywordflow">if</span>(compare(arr-&gt;<a class="code" href="a01397.html#ac1e786e007a7eab82fd04bf2f1118302">elements</a>[i], elem) == 0)</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordflow">return</span> i;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  }</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  {</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; arr-&gt;<a class="code" href="a01397.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a>; i++)</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;      <span class="keywordflow">if</span>(arr-&gt;<a class="code" href="a01397.html#ac1e786e007a7eab82fd04bf2f1118302">elements</a>[i] == elem)</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordflow">return</span> i;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  }</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <span class="keywordflow">return</span> -1;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01361_html_ga8ed2d8a28dde302fa8eac0d2e9ce8ea4"><div class="ttname"><a href="a01361.html#ga8ed2d8a28dde302fa8eac0d2e9ce8ea4">pcl_realloc</a></div><div class="ttdeci">void * pcl_realloc(void *p, size_t n)</div><div class="ttdoc">Re-allocate dynamic memory.</div></div>
-<div class="ttc" id="aa01362_html_gaadaf91d725b9dc9e49fc204f9ca6a58b"><div class="ttname"><a href="a01362.html#gaadaf91d725b9dc9e49fc204f9ca6a58b">pcl_array_insert</a></div><div class="ttdeci">int pcl_array_insert(pcl_array_t *arr, void *elem, int index)</div><div class="ttdoc">Insert an element.</div><div class="ttdef"><b>Definition:</b> <a href="a00152_source.html#l00038">array_insert.c:38</a></div></div>
-<div class="ttc" id="aa01388_html_ad43c3812e6d13e0518d9f8b8f463ffcf"><div class="ttname"><a href="a01388.html#ad43c3812e6d13e0518d9f8b8f463ffcf">tag_pcl_array::count</a></div><div class="ttdeci">int count</div><div class="ttdoc">number of elements in the array</div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00081">array.h:81</a></div></div>
-<div class="ttc" id="aa01388_html_ac1e786e007a7eab82fd04bf2f1118302"><div class="ttname"><a href="a01388.html#ac1e786e007a7eab82fd04bf2f1118302">tag_pcl_array::elements</a></div><div class="ttdeci">void ** elements</div><div class="ttdoc">pointer table of elements.</div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00085">array.h:85</a></div></div>
+<div class="ttc" id="aa01397_html_ad43c3812e6d13e0518d9f8b8f463ffcf"><div class="ttname"><a href="a01397.html#ad43c3812e6d13e0518d9f8b8f463ffcf">tag_pcl_array::count</a></div><div class="ttdeci">int count</div><div class="ttdoc">number of elements in the array</div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00087">array.h:87</a></div></div>
+<div class="ttc" id="aa01397_html_ac1e786e007a7eab82fd04bf2f1118302"><div class="ttname"><a href="a01397.html#ac1e786e007a7eab82fd04bf2f1118302">tag_pcl_array::elements</a></div><div class="ttdeci">void ** elements</div><div class="ttdoc">pointer table of elements.</div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00091">array.h:91</a></div></div>
 <div class="ttc" id="aa00026_html"><div class="ttname"><a href="a00026.html">array.h</a></div></div>
-<div class="ttc" id="aa01388_html"><div class="ttname"><a href="a01388.html">tag_pcl_array</a></div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00078">array.h:79</a></div></div>
-<div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">error.h</a></div></div>
-<div class="ttc" id="aa01388_html_adbe66a087ac3fd4a5b0566f64ca2d12b"><div class="ttname"><a href="a01388.html#adbe66a087ac3fd4a5b0566f64ca2d12b">tag_pcl_array::capacity</a></div><div class="ttdeci">int capacity</div><div class="ttdoc">internal table size, number of elements</div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00083">array.h:83</a></div></div>
-<div class="ttc" id="aa00098_html"><div class="ttname"><a href="a00098.html">string.h</a></div></div>
-<div class="ttc" id="aa01369_html_ga82adf6365b61d9a32021e559d9c31497"><div class="ttname"><a href="a01369.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a></div><div class="ttdeci">#define SETERR(_pclerr)</div><div class="ttdoc">Sets the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00065">_errdefs.h:65</a></div></div>
-<div class="ttc" id="aa01368_html_gae0cd5c5a7fae36cd480176bda17e77ca"><div class="ttname"><a href="a01368.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a></div><div class="ttdeci">#define PCL_EINVAL</div><div class="ttdoc">Invalid argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00078">_errno.h:78</a></div></div>
-<div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
+<div class="ttc" id="aa01371_html_ga55bd0cd37deeb642506f9a1a69729417"><div class="ttname"><a href="a01371.html#ga55bd0cd37deeb642506f9a1a69729417">pcl_array_indexof</a></div><div class="ttdeci">int pcl_array_indexof(pcl_array_t *arr, void *elem, pcl_compare_t compare)</div><div class="ttdoc">Find the index of an array element value.</div><div class="ttdef"><b>Definition:</b> <a href="a00152_source.html#l00035">array_indexof.c:35</a></div></div>
+<div class="ttc" id="aa01397_html"><div class="ttname"><a href="a01397.html">tag_pcl_array</a></div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00084">array.h:85</a></div></div>
+<div class="ttc" id="aa00113_html_ad5a67bcd5c766d9ce29f5580b2a81d47"><div class="ttname"><a href="a00113.html#ad5a67bcd5c766d9ce29f5580b2a81d47">pcl_compare_t</a></div><div class="ttdeci">int(* pcl_compare_t)(const void *a, const void *b)</div><div class="ttdoc">Comparator prototype.</div><div class="ttdef"><b>Definition:</b> <a href="a00113_source.html#l00074">types.h:74</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

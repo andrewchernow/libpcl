@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/json/json_encode_value.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/json/json_encode_object.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">json_encode_value.c</div>  </div>
+<div class="title">json_encode_object.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00695.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,80 +101,76 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00605.html">_json.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;math.h&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00611.html">_json.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00059.html">pcl/htable.h</a>&gt;</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<a class="code" href="a01392.html">pcl_buf_t</a> *</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a00695.html#a144473072efa770a318ecec646c3a75b">   36</a></span>&#160;<a class="code" href="a00695.html#a144473072efa770a318ecec646c3a75b">ipcl_json_encode_value</a>(<a class="code" href="a01504.html">ipcl_json_encode_t</a> *enc, <a class="code" href="a01420.html">pcl_json_t</a> *value)</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<a class="code" href="a01401.html">pcl_buf_t</a> *</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a00695.html#adf4ee0a22ff5a29f86536a2663f5b304">   36</a></span>&#160;<a class="code" href="a00695.html#adf4ee0a22ff5a29f86536a2663f5b304">ipcl_json_encode_object</a>(<a class="code" href="a01513.html">ipcl_json_encode_t</a> *enc, <a class="code" href="a01421.html">pcl_htable_t</a> *obj)</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <a class="code" href="a01392.html">pcl_buf_t</a> *b = enc-&gt;<a class="code" href="a01504.html#a4e398ddea4ffc3f4ec0ce30e6bcfa8f8">b</a>;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <a class="code" href="a01401.html">pcl_buf_t</a> *b = enc-&gt;<a class="code" href="a01513.html#a4e398ddea4ffc3f4ec0ce30e6bcfa8f8">b</a>;</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordflow">switch</span>(value-&gt;<a class="code" href="a01420.html#aff17911edc8208aa8ddb1c7c52c78389">type</a>)</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  {</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">case</span> 0:</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;      <a class="code" href="a01364.html#gaf5543b8db978f1e0726bad5725b09e38">pcl_buf_putstr</a>(b, <span class="stringliteral">&quot;null&quot;</span>);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;      <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordflow">case</span> <span class="charliteral">&#39;o&#39;</span>:</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      <span class="keywordflow">if</span>(!<a class="code" href="a00605.html#adf4ee0a22ff5a29f86536a2663f5b304">ipcl_json_encode_object</a>(enc, value-&gt;<a class="code" href="a01420.html#a926796bc0ae65775bd2a503ab54823cf">object</a>))</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;      <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  enc-&gt;<a class="code" href="a01513.html#adfec708e66dc104a322d8ec8edf7530d">tabs</a>++;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <a class="code" href="a01373.html#ga45ac2cc7485772bc92cc225b5d9b452c">pcl_buf_putchar</a>(b, <span class="charliteral">&#39;{&#39;</span>);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keywordflow">if</span>(enc-&gt;<a class="code" href="a01513.html#a5eba86123523ed35aa48ccbd19d1b77a">format</a> &amp;&amp; obj-&gt;<a class="code" href="a01421.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a>)</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <a class="code" href="a01373.html#ga45ac2cc7485772bc92cc225b5d9b452c">pcl_buf_putchar</a>(b, <span class="charliteral">&#39;\n&#39;</span>);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordtype">int</span> index = 0;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <a class="code" href="a01417.html">pcl_htable_entry_t</a> *ent;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="keywordtype">int</span> count = obj-&gt;<a class="code" href="a01421.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a>;</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordflow">case</span> <span class="charliteral">&#39;a&#39;</span>:</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;      <span class="keywordflow">if</span>(!<a class="code" href="a00605.html#a0aff3994d4de1080a80cfebcf4b07d45">ipcl_json_encode_array</a>(enc, value-&gt;<a class="code" href="a01420.html#aa20605bec5d780e4818ed6b3688c8c31">array</a>))</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <span class="keywordflow">while</span>((ent = <a class="code" href="a01381.html#ga0c0e446d70b2fa00e5c2823ed3b7de27">pcl_htable_iter</a>(obj, &amp;index)))</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordflow">if</span>(enc-&gt;<a class="code" href="a01513.html#a5eba86123523ed35aa48ccbd19d1b77a">format</a>)</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      <a class="code" href="a00611.html#abde2c460f0ea2ce24bd7c1444b108161">PRINT_TABS</a>(enc);</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">case</span> <span class="charliteral">&#39;b&#39;</span>:</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      <a class="code" href="a01364.html#gaf5543b8db978f1e0726bad5725b09e38">pcl_buf_putstr</a>(b, value-&gt;<a class="code" href="a01420.html#a857e4e5a2613b7cf584dbf12dae00525">boolean</a> ? <span class="stringliteral">&quot;true&quot;</span> : <span class="stringliteral">&quot;false&quot;</span>);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordflow">case</span> <span class="charliteral">&#39;s&#39;</span>:</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      <span class="keywordflow">if</span>(!<a class="code" href="a00605.html#ad4ede11f1568f4e08698a9df82672ed9">ipcl_json_encode_string</a>(enc, value-&gt;<a class="code" href="a01420.html#aed1cfb225a5fb77461e7972691e68a72">string</a>))</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordflow">case</span> <span class="charliteral">&#39;i&#39;</span>:</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;      <a class="code" href="a01364.html#ga2ba3b09bc046d8c5af670b8e73697087">pcl_buf_putf</a>(b, <span class="stringliteral">&quot;%lld&quot;</span>, value-&gt;<a class="code" href="a01420.html#a83220f2ab005ec8b1908e6f82876b856">integer</a>);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;      <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordflow">case</span> <span class="charliteral">&#39;r&#39;</span>:</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    {</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      <span class="keywordflow">if</span>(isnan(value-&gt;<a class="code" href="a01420.html#a51c821fcf95975271abfc49311e983d4">real</a>) || isinf(value-&gt;<a class="code" href="a01420.html#a51c821fcf95975271abfc49311e983d4">real</a>))</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <a class="code" href="a01364.html#gaf5543b8db978f1e0726bad5725b09e38">pcl_buf_putstr</a>(b, <span class="stringliteral">&quot;null&quot;</span>);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <a class="code" href="a01364.html#ga2ba3b09bc046d8c5af670b8e73697087">pcl_buf_putf</a>(b, <span class="stringliteral">&quot;%1.15g&quot;</span>, value-&gt;<a class="code" href="a01420.html#a51c821fcf95975271abfc49311e983d4">real</a>);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">if</span>(!<a class="code" href="a00611.html#a773afe8bdf04bec1d05b1e8eb524d59e">ipcl_json_encode_string</a>(enc, ent-&gt;<a class="code" href="a01417.html#a9eb073a4e7f31790de2c4f6b2ea74081">key</a>))</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <a class="code" href="a01373.html#ga45ac2cc7485772bc92cc225b5d9b452c">pcl_buf_putchar</a>(b, <span class="charliteral">&#39;:&#39;</span>);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">if</span>(enc-&gt;<a class="code" href="a01513.html#a5eba86123523ed35aa48ccbd19d1b77a">format</a>)</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      <a class="code" href="a01373.html#ga45ac2cc7485772bc92cc225b5d9b452c">pcl_buf_putchar</a>(b, <span class="charliteral">&#39; &#39;</span>);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordflow">if</span>(!<a class="code" href="a00611.html#a234e0352066bded42599f5140fe08573">ipcl_json_encode_value</a>(enc, ent-&gt;<a class="code" href="a01417.html#a0f61d63b009d0880a89c843bd50d8d76">value</a>))</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordflow">if</span>(--count &gt; 0)</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      <a class="code" href="a01373.html#ga45ac2cc7485772bc92cc225b5d9b452c">pcl_buf_putchar</a>(b, <span class="charliteral">&#39;,&#39;</span>);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">if</span>(enc-&gt;<a class="code" href="a01513.html#a5eba86123523ed35aa48ccbd19d1b77a">format</a>)</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      <a class="code" href="a01373.html#ga45ac2cc7485772bc92cc225b5d9b452c">pcl_buf_putchar</a>(b, <span class="charliteral">&#39;\n&#39;</span>);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  }</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  enc-&gt;<a class="code" href="a01513.html#adfec708e66dc104a322d8ec8edf7530d">tabs</a>--;</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;      <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    }</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  <span class="keywordflow">if</span>(enc-&gt;<a class="code" href="a01513.html#a5eba86123523ed35aa48ccbd19d1b77a">format</a> &amp;&amp; obj-&gt;<a class="code" href="a01421.html#ad43c3812e6d13e0518d9f8b8f463ffcf">count</a>)</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <a class="code" href="a00611.html#abde2c460f0ea2ce24bd7c1444b108161">PRINT_TABS</a>(enc);</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordflow">default</span>:</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01369.html#ga275b0cc5367d35bf8d2873fe5e15878b">R_SETERRMSG</a>(NULL, <a class="code" href="a01368.html#ga4416795bd50c57cfad774c42154bbc9f">PCL_ETYPE</a>, <span class="stringliteral">&quot;invalid json type &#39;%c&#39;&quot;</span>, value-&gt;<a class="code" href="a01420.html#aff17911edc8208aa8ddb1c7c52c78389">type</a>);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  }</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  <span class="keywordflow">return</span> b;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;}</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  <a class="code" href="a01373.html#ga45ac2cc7485772bc92cc225b5d9b452c">pcl_buf_putchar</a>(b, <span class="charliteral">&#39;}&#39;</span>);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  <span class="keywordflow">return</span> b;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01504_html_a4e398ddea4ffc3f4ec0ce30e6bcfa8f8"><div class="ttname"><a href="a01504.html#a4e398ddea4ffc3f4ec0ce30e6bcfa8f8">ipcl_json_encode_t::b</a></div><div class="ttdeci">pcl_buf_t * b</div><div class="ttdef"><b>Definition:</b> <a href="a00605_source.html#l00062">_json.h:62</a></div></div>
-<div class="ttc" id="aa01420_html_a926796bc0ae65775bd2a503ab54823cf"><div class="ttname"><a href="a01420.html#a926796bc0ae65775bd2a503ab54823cf">tag_pcl_json::object</a></div><div class="ttdeci">pcl_htable_t * object</div><div class="ttdoc">JSON object value when type is 'o'.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00208">json.h:208</a></div></div>
-<div class="ttc" id="aa01392_html"><div class="ttname"><a href="a01392.html">tag_pcl_buf</a></div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00127">buf.h:128</a></div></div>
-<div class="ttc" id="aa01420_html_aa20605bec5d780e4818ed6b3688c8c31"><div class="ttname"><a href="a01420.html#aa20605bec5d780e4818ed6b3688c8c31">tag_pcl_json::array</a></div><div class="ttdeci">pcl_array_t * array</div><div class="ttdoc">JSON array value when type is 'a'.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00205">json.h:205</a></div></div>
-<div class="ttc" id="aa00605_html_ad4ede11f1568f4e08698a9df82672ed9"><div class="ttname"><a href="a00605.html#ad4ede11f1568f4e08698a9df82672ed9">ipcl_json_encode_string</a></div><div class="ttdeci">pcl_buf_t * ipcl_json_encode_string(ipcl_json_encode_t *enc, const char *string)</div><div class="ttdef"><b>Definition:</b> <a href="a00692_source.html#l00035">json_encode_string.c:35</a></div></div>
-<div class="ttc" id="aa01420_html_a51c821fcf95975271abfc49311e983d4"><div class="ttname"><a href="a01420.html#a51c821fcf95975271abfc49311e983d4">tag_pcl_json::real</a></div><div class="ttdeci">double real</div><div class="ttdoc">JSON real (number) value when type is 'r'.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00196">json.h:196</a></div></div>
-<div class="ttc" id="aa01504_html"><div class="ttname"><a href="a01504.html">ipcl_json_encode_t</a></div><div class="ttdef"><b>Definition:</b> <a href="a00605_source.html#l00058">_json.h:59</a></div></div>
-<div class="ttc" id="aa00605_html_a0aff3994d4de1080a80cfebcf4b07d45"><div class="ttname"><a href="a00605.html#a0aff3994d4de1080a80cfebcf4b07d45">ipcl_json_encode_array</a></div><div class="ttdeci">pcl_buf_t * ipcl_json_encode_array(ipcl_json_encode_t *enc, pcl_array_t *array)</div><div class="ttdef"><b>Definition:</b> <a href="a00686_source.html#l00036">json_encode_array.c:36</a></div></div>
-<div class="ttc" id="aa00605_html"><div class="ttname"><a href="a00605.html">_json.h</a></div></div>
-<div class="ttc" id="aa01369_html_ga275b0cc5367d35bf8d2873fe5e15878b"><div class="ttname"><a href="a01369.html#ga275b0cc5367d35bf8d2873fe5e15878b">R_SETERRMSG</a></div><div class="ttdeci">#define R_SETERRMSG(_retval, _pclerr, _msgfmt,...)</div><div class="ttdoc">Sets the return value and the current thread's PCL error code and error message.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00174">_errdefs.h:174</a></div></div>
-<div class="ttc" id="aa01364_html_gaf5543b8db978f1e0726bad5725b09e38"><div class="ttname"><a href="a01364.html#gaf5543b8db978f1e0726bad5725b09e38">pcl_buf_putstr</a></div><div class="ttdeci">PCL_EXPORT int pcl_buf_putstr(pcl_buf_t *b, const void *s)</div><div class="ttdoc">Put a string into a buffer.</div><div class="ttdef"><b>Definition:</b> <a href="a00236_source.html#l00036">buf_putstr.c:36</a></div></div>
-<div class="ttc" id="aa01420_html_a857e4e5a2613b7cf584dbf12dae00525"><div class="ttname"><a href="a01420.html#a857e4e5a2613b7cf584dbf12dae00525">tag_pcl_json::boolean</a></div><div class="ttdeci">bool boolean</div><div class="ttdoc">JSON boolean value when type is 'b'.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00191">json.h:191</a></div></div>
-<div class="ttc" id="aa00695_html_a144473072efa770a318ecec646c3a75b"><div class="ttname"><a href="a00695.html#a144473072efa770a318ecec646c3a75b">ipcl_json_encode_value</a></div><div class="ttdeci">pcl_buf_t * ipcl_json_encode_value(ipcl_json_encode_t *enc, pcl_json_t *value)</div><div class="ttdef"><b>Definition:</b> <a href="a00695_source.html#l00036">json_encode_value.c:36</a></div></div>
-<div class="ttc" id="aa01420_html_aff17911edc8208aa8ddb1c7c52c78389"><div class="ttname"><a href="a01420.html#aff17911edc8208aa8ddb1c7c52c78389">tag_pcl_json::type</a></div><div class="ttdeci">char type</div><div class="ttdoc">JSON value type.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00181">json.h:181</a></div></div>
-<div class="ttc" id="aa01368_html_ga4416795bd50c57cfad774c42154bbc9f"><div class="ttname"><a href="a01368.html#ga4416795bd50c57cfad774c42154bbc9f">PCL_ETYPE</a></div><div class="ttdeci">#define PCL_ETYPE</div><div class="ttdoc">Invalid type.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00142">_errno.h:142</a></div></div>
-<div class="ttc" id="aa01420_html_aed1cfb225a5fb77461e7972691e68a72"><div class="ttname"><a href="a01420.html#aed1cfb225a5fb77461e7972691e68a72">tag_pcl_json::string</a></div><div class="ttdeci">char * string</div><div class="ttdoc">JSON string value when type is 's'.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00202">json.h:202</a></div></div>
-<div class="ttc" id="aa01420_html"><div class="ttname"><a href="a01420.html">tag_pcl_json</a></div><div class="ttdoc">A JSON value object.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00174">json.h:175</a></div></div>
-<div class="ttc" id="aa00605_html_adf4ee0a22ff5a29f86536a2663f5b304"><div class="ttname"><a href="a00605.html#adf4ee0a22ff5a29f86536a2663f5b304">ipcl_json_encode_object</a></div><div class="ttdeci">pcl_buf_t * ipcl_json_encode_object(ipcl_json_encode_t *enc, pcl_htable_t *obj)</div><div class="ttdef"><b>Definition:</b> <a href="a00689_source.html#l00036">json_encode_object.c:36</a></div></div>
-<div class="ttc" id="aa01364_html_ga2ba3b09bc046d8c5af670b8e73697087"><div class="ttname"><a href="a01364.html#ga2ba3b09bc046d8c5af670b8e73697087">pcl_buf_putf</a></div><div class="ttdeci">PCL_EXPORT int pcl_buf_putf(pcl_buf_t *b, const void *format,...)</div><div class="ttdoc">Put a formatted string into a buffer.</div><div class="ttdef"><b>Definition:</b> <a href="a00221_source.html#l00035">buf_putf.c:35</a></div></div>
-<div class="ttc" id="aa01420_html_a83220f2ab005ec8b1908e6f82876b856"><div class="ttname"><a href="a01420.html#a83220f2ab005ec8b1908e6f82876b856">tag_pcl_json::integer</a></div><div class="ttdeci">long long integer</div><div class="ttdoc">JSON integer (number) value when type is 'i'.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00199">json.h:199</a></div></div>
+<div class="ttc" id="aa01421_html"><div class="ttname"><a href="a01421.html">tag_pcl_htable</a></div><div class="ttdef"><b>Definition:</b> <a href="a00059_source.html#l00251">htable.h:252</a></div></div>
+<div class="ttc" id="aa01401_html"><div class="ttname"><a href="a01401.html">tag_pcl_buf</a></div><div class="ttdef"><b>Definition:</b> <a href="a00032_source.html#l00127">buf.h:128</a></div></div>
+<div class="ttc" id="aa00059_html"><div class="ttname"><a href="a00059.html">htable.h</a></div></div>
+<div class="ttc" id="aa01417_html"><div class="ttname"><a href="a01417.html">pcl_htable_entry_t</a></div><div class="ttdoc">Hash table entry object.</div><div class="ttdef"><b>Definition:</b> <a href="a00059_source.html#l00236">htable.h:237</a></div></div>
+<div class="ttc" id="aa01513_html_adfec708e66dc104a322d8ec8edf7530d"><div class="ttname"><a href="a01513.html#adfec708e66dc104a322d8ec8edf7530d">ipcl_json_encode_t::tabs</a></div><div class="ttdeci">int tabs</div><div class="ttdef"><b>Definition:</b> <a href="a00611_source.html#l00060">_json.h:60</a></div></div>
+<div class="ttc" id="aa00611_html"><div class="ttname"><a href="a00611.html">_json.h</a></div></div>
+<div class="ttc" id="aa01373_html_ga45ac2cc7485772bc92cc225b5d9b452c"><div class="ttname"><a href="a01373.html#ga45ac2cc7485772bc92cc225b5d9b452c">pcl_buf_putchar</a></div><div class="ttdeci">PCL_PUBLIC int pcl_buf_putchar(pcl_buf_t *b, uint32_t c)</div><div class="ttdoc">Put a character into a buffer.</div><div class="ttdef"><b>Definition:</b> <a href="a00224_source.html#l00035">buf_putchar.c:35</a></div></div>
+<div class="ttc" id="aa01421_html_ad43c3812e6d13e0518d9f8b8f463ffcf"><div class="ttname"><a href="a01421.html#ad43c3812e6d13e0518d9f8b8f463ffcf">tag_pcl_htable::count</a></div><div class="ttdeci">int count</div><div class="ttdoc">count of entries.</div><div class="ttdef"><b>Definition:</b> <a href="a00059_source.html#l00258">htable.h:258</a></div></div>
+<div class="ttc" id="aa01513_html_a4e398ddea4ffc3f4ec0ce30e6bcfa8f8"><div class="ttname"><a href="a01513.html#a4e398ddea4ffc3f4ec0ce30e6bcfa8f8">ipcl_json_encode_t::b</a></div><div class="ttdeci">pcl_buf_t * b</div><div class="ttdef"><b>Definition:</b> <a href="a00611_source.html#l00062">_json.h:62</a></div></div>
+<div class="ttc" id="aa00611_html_abde2c460f0ea2ce24bd7c1444b108161"><div class="ttname"><a href="a00611.html#abde2c460f0ea2ce24bd7c1444b108161">PRINT_TABS</a></div><div class="ttdeci">#define PRINT_TABS(_enc)</div><div class="ttdef"><b>Definition:</b> <a href="a00611_source.html#l00042">_json.h:42</a></div></div>
+<div class="ttc" id="aa01513_html"><div class="ttname"><a href="a01513.html">ipcl_json_encode_t</a></div><div class="ttdef"><b>Definition:</b> <a href="a00611_source.html#l00058">_json.h:59</a></div></div>
+<div class="ttc" id="aa01417_html_a9eb073a4e7f31790de2c4f6b2ea74081"><div class="ttname"><a href="a01417.html#a9eb073a4e7f31790de2c4f6b2ea74081">pcl_htable_entry_t::key</a></div><div class="ttdeci">const void * key</div><div class="ttdoc">entry key</div><div class="ttdef"><b>Definition:</b> <a href="a00059_source.html#l00245">htable.h:245</a></div></div>
+<div class="ttc" id="aa00611_html_a234e0352066bded42599f5140fe08573"><div class="ttname"><a href="a00611.html#a234e0352066bded42599f5140fe08573">ipcl_json_encode_value</a></div><div class="ttdeci">PCL_PRIVATE pcl_buf_t * ipcl_json_encode_value(ipcl_json_encode_t *enc, pcl_json_t *value)</div><div class="ttdef"><b>Definition:</b> <a href="a00701_source.html#l00036">json_encode_value.c:36</a></div></div>
+<div class="ttc" id="aa00695_html_adf4ee0a22ff5a29f86536a2663f5b304"><div class="ttname"><a href="a00695.html#adf4ee0a22ff5a29f86536a2663f5b304">ipcl_json_encode_object</a></div><div class="ttdeci">pcl_buf_t * ipcl_json_encode_object(ipcl_json_encode_t *enc, pcl_htable_t *obj)</div><div class="ttdef"><b>Definition:</b> <a href="a00695_source.html#l00036">json_encode_object.c:36</a></div></div>
+<div class="ttc" id="aa01417_html_a0f61d63b009d0880a89c843bd50d8d76"><div class="ttname"><a href="a01417.html#a0f61d63b009d0880a89c843bd50d8d76">pcl_htable_entry_t::value</a></div><div class="ttdeci">void * value</div><div class="ttdoc">entry value</div><div class="ttdef"><b>Definition:</b> <a href="a00059_source.html#l00248">htable.h:248</a></div></div>
+<div class="ttc" id="aa01513_html_a5eba86123523ed35aa48ccbd19d1b77a"><div class="ttname"><a href="a01513.html#a5eba86123523ed35aa48ccbd19d1b77a">ipcl_json_encode_t::format</a></div><div class="ttdeci">bool format</div><div class="ttdef"><b>Definition:</b> <a href="a00611_source.html#l00061">_json.h:61</a></div></div>
+<div class="ttc" id="aa01381_html_ga0c0e446d70b2fa00e5c2823ed3b7de27"><div class="ttname"><a href="a01381.html#ga0c0e446d70b2fa00e5c2823ed3b7de27">pcl_htable_iter</a></div><div class="ttdeci">PCL_PUBLIC pcl_htable_entry_t * pcl_htable_iter(pcl_htable_t *ht, int *index)</div><div class="ttdoc">Iterate through a table's entries.</div><div class="ttdef"><b>Definition:</b> <a href="a00542_source.html#l00035">htable_iter.c:35</a></div></div>
+<div class="ttc" id="aa00611_html_a773afe8bdf04bec1d05b1e8eb524d59e"><div class="ttname"><a href="a00611.html#a773afe8bdf04bec1d05b1e8eb524d59e">ipcl_json_encode_string</a></div><div class="ttdeci">PCL_PRIVATE pcl_buf_t * ipcl_json_encode_string(ipcl_json_encode_t *enc, const char *string)</div><div class="ttdef"><b>Definition:</b> <a href="a00698_source.html#l00035">json_encode_string.c:35</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

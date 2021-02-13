@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/json/json_skipws.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/json/json_query.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">json_skipws.c</div>  </div>
+<div class="title">json_query.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00800.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,41 +101,38 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00605.html">_json.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;ctype.h&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<a class="code" href="a01500.html">ipcl_json_state_t</a> *</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a00800.html#a7ce8fd230485234e556f94fb608416a4">   36</a></span>&#160;<a class="code" href="a00800.html#a7ce8fd230485234e556f94fb608416a4">ipcl_json_skipws</a>(<a class="code" href="a01500.html">ipcl_json_state_t</a> *s)</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">for</span>(; s-&gt;<a class="code" href="a01500.html#aea37660d73e9a421394b12cca4288917">next</a> &lt; s-&gt;<a class="code" href="a01500.html#aa0c4bdeda46c4ae639e086c22fe5eed6">end</a>; s-&gt;<a class="code" href="a01500.html#aea37660d73e9a421394b12cca4288917">next</a>++)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordflow">if</span>(!isspace((<span class="keywordtype">int</span>) *s-&gt;<a class="code" href="a01500.html#aea37660d73e9a421394b12cca4288917">next</a>))</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;      <span class="keywordflow">return</span> s;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordflow">if</span>(*s-&gt;<a class="code" href="a01500.html#aea37660d73e9a421394b12cca4288917">next</a> == <span class="charliteral">&#39;\r&#39;</span>)</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    {</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;      <span class="keywordflow">if</span>(s-&gt;<a class="code" href="a01500.html#aea37660d73e9a421394b12cca4288917">next</a>[1] == <span class="charliteral">&#39;\n&#39;</span>)</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;      {</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        s-&gt;<a class="code" href="a01500.html#aea37660d73e9a421394b12cca4288917">next</a>++;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        s-&gt;<a class="code" href="a01500.html#a41ebd28ef1d7c6ade45642cb6acc1039">line</a>++;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;      }</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    }</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span>(*s-&gt;<a class="code" href="a01500.html#aea37660d73e9a421394b12cca4288917">next</a> == <span class="charliteral">&#39;\n&#39;</span>)</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    {</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      s-&gt;<a class="code" href="a01500.html#a41ebd28ef1d7c6ade45642cb6acc1039">line</a>++;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    }</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  }</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <a class="code" href="a00605.html#ab7b7bb456a60280dffb95071148e54f1">JSON_THROW</a>(<span class="stringliteral">&quot;unexpected end of input&quot;</span>, 0);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00611.html">_json.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<a class="code" href="a01397.html">pcl_array_t</a> *</div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01384.html#ga1b1ed20dfab926df2dee98754baae54a">   35</a></span>&#160;<a class="code" href="a01384.html#ga1b1ed20dfab926df2dee98754baae54a">pcl_json_query</a>(<a class="code" href="a01429.html">pcl_json_t</a> *j, <span class="keyword">const</span> <span class="keywordtype">char</span> *path)</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordflow">if</span>(!j || !path)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01378.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a>(NULL, <a class="code" href="a01377.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <a class="code" href="a01517.html">pcl_json_path_t</a> *p = <a class="code" href="a01384.html#ga47ae717108222af9318d4dea4193f1de">pcl_json_compile</a>(path);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordflow">if</span>(!p)</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01378.html#gaa978c8c7faa5fc2f69a6641e054e519d">R_TRC</a>(NULL);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <a class="code" href="a01397.html">pcl_array_t</a> *arr = <a class="code" href="a01384.html#gac2777a03f5aab0f89e0fdd2b0c539970">pcl_json_match</a>(j, p);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <a class="code" href="a01384.html#ga8c5e0e8975a4196a3658e2b175f98f9c">pcl_json_freepath</a>(p);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="keywordflow">return</span> arr ? arr : <a class="code" href="a01378.html#gaa978c8c7faa5fc2f69a6641e054e519d">R_TRC</a>(NULL);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01500_html_aea37660d73e9a421394b12cca4288917"><div class="ttname"><a href="a01500.html#aea37660d73e9a421394b12cca4288917">ipcl_json_state_t::next</a></div><div class="ttdeci">const char * next</div><div class="ttdef"><b>Definition:</b> <a href="a00605_source.html#l00052">_json.h:52</a></div></div>
-<div class="ttc" id="aa01500_html_aa0c4bdeda46c4ae639e086c22fe5eed6"><div class="ttname"><a href="a01500.html#aa0c4bdeda46c4ae639e086c22fe5eed6">ipcl_json_state_t::end</a></div><div class="ttdeci">const char * end</div><div class="ttdef"><b>Definition:</b> <a href="a00605_source.html#l00053">_json.h:53</a></div></div>
-<div class="ttc" id="aa01500_html_a41ebd28ef1d7c6ade45642cb6acc1039"><div class="ttname"><a href="a01500.html#a41ebd28ef1d7c6ade45642cb6acc1039">ipcl_json_state_t::line</a></div><div class="ttdeci">int line</div><div class="ttdef"><b>Definition:</b> <a href="a00605_source.html#l00055">_json.h:55</a></div></div>
-<div class="ttc" id="aa00800_html_a7ce8fd230485234e556f94fb608416a4"><div class="ttname"><a href="a00800.html#a7ce8fd230485234e556f94fb608416a4">ipcl_json_skipws</a></div><div class="ttdeci">ipcl_json_state_t * ipcl_json_skipws(ipcl_json_state_t *s)</div><div class="ttdef"><b>Definition:</b> <a href="a00800_source.html#l00036">json_skipws.c:36</a></div></div>
-<div class="ttc" id="aa00605_html"><div class="ttname"><a href="a00605.html">_json.h</a></div></div>
-<div class="ttc" id="aa00605_html_ab7b7bb456a60280dffb95071148e54f1"><div class="ttname"><a href="a00605.html#ab7b7bb456a60280dffb95071148e54f1">JSON_THROW</a></div><div class="ttdeci">#define JSON_THROW(message,...)</div><div class="ttdef"><b>Definition:</b> <a href="a00605_source.html#l00039">_json.h:39</a></div></div>
-<div class="ttc" id="aa01500_html"><div class="ttname"><a href="a01500.html">ipcl_json_state_t</a></div><div class="ttdef"><b>Definition:</b> <a href="a00605_source.html#l00050">_json.h:51</a></div></div>
+<div class="ttc" id="aa01384_html_ga47ae717108222af9318d4dea4193f1de"><div class="ttname"><a href="a01384.html#ga47ae717108222af9318d4dea4193f1de">pcl_json_compile</a></div><div class="ttdeci">PCL_PUBLIC pcl_json_path_t * pcl_json_compile(const char *path)</div><div class="ttdoc">Compile a json path.</div><div class="ttdef"><b>Definition:</b> <a href="a00680_source.html#l00039">json_compile.c:39</a></div></div>
+<div class="ttc" id="aa01384_html_gac2777a03f5aab0f89e0fdd2b0c539970"><div class="ttname"><a href="a01384.html#gac2777a03f5aab0f89e0fdd2b0c539970">pcl_json_match</a></div><div class="ttdeci">PCL_PUBLIC pcl_array_t * pcl_json_match(pcl_json_t *j, const pcl_json_path_t *path)</div><div class="ttdoc">Match a JSON value against a compiled JSON Path.</div><div class="ttdef"><b>Definition:</b> <a href="a00716_source.html#l00228">json_match.c:228</a></div></div>
+<div class="ttc" id="aa01429_html"><div class="ttname"><a href="a01429.html">tag_pcl_json</a></div><div class="ttdoc">A JSON value object.</div><div class="ttdef"><b>Definition:</b> <a href="a00068_source.html#l00174">json.h:175</a></div></div>
+<div class="ttc" id="aa01377_html_gae0cd5c5a7fae36cd480176bda17e77ca"><div class="ttname"><a href="a01377.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a></div><div class="ttdeci">#define PCL_EINVAL</div><div class="ttdoc">Invalid argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00078">_errno.h:78</a></div></div>
+<div class="ttc" id="aa01517_html"><div class="ttname"><a href="a01517.html">tag_pcl_json_path</a></div><div class="ttdef"><b>Definition:</b> <a href="a00611_source.html#l00077">_json.h:78</a></div></div>
+<div class="ttc" id="aa00611_html"><div class="ttname"><a href="a00611.html">_json.h</a></div></div>
+<div class="ttc" id="aa01378_html_gaa978c8c7faa5fc2f69a6641e054e519d"><div class="ttname"><a href="a01378.html#gaa978c8c7faa5fc2f69a6641e054e519d">R_TRC</a></div><div class="ttdeci">#define R_TRC(_retval)</div><div class="ttdoc">Sets the return value and adds a stack trace to the current thread's error.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00287">_errdefs.h:287</a></div></div>
+<div class="ttc" id="aa01378_html_gae8eaed12aa57a2870ad8e45cc2306318"><div class="ttname"><a href="a01378.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a></div><div class="ttdeci">#define R_SETERR(_retval, _pclerr)</div><div class="ttdoc">Sets the return value and the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00145">_errdefs.h:145</a></div></div>
+<div class="ttc" id="aa01397_html"><div class="ttname"><a href="a01397.html">tag_pcl_array</a></div><div class="ttdef"><b>Definition:</b> <a href="a00026_source.html#l00084">array.h:85</a></div></div>
+<div class="ttc" id="aa01384_html_ga8c5e0e8975a4196a3658e2b175f98f9c"><div class="ttname"><a href="a01384.html#ga8c5e0e8975a4196a3658e2b175f98f9c">pcl_json_freepath</a></div><div class="ttdeci">PCL_PUBLIC void pcl_json_freepath(pcl_json_path_t *path)</div><div class="ttdoc">Release all resources used by a json path object.</div><div class="ttdef"><b>Definition:</b> <a href="a00710_source.html#l00037">json_freepath.c:37</a></div></div>
+<div class="ttc" id="aa01384_html_ga1b1ed20dfab926df2dee98754baae54a"><div class="ttname"><a href="a01384.html#ga1b1ed20dfab926df2dee98754baae54a">pcl_json_query</a></div><div class="ttdeci">pcl_array_t * pcl_json_query(pcl_json_t *j, const char *path)</div><div class="ttdoc">Query a json object with a path.</div><div class="ttdef"><b>Definition:</b> <a href="a00800_source.html#l00035">json_query.c:35</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

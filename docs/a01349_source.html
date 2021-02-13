@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/win32/win32_sid_dup.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/win32/win32_sd_create.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">win32_sid_dup.c</div>  </div>
+<div class="title">win32_sd_create.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a01349.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,29 +101,208 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a01313.html">_win32.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;PSID</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01349.html#a3320e31561fb1072aa4a29b54ad140ba">   36</a></span>&#160;<a class="code" href="a01349.html#a3320e31561fb1072aa4a29b54ad140ba">ipcl_win32_sid_dup</a>(PSID sid)</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  DWORD len;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  PSID dupsid;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">if</span>(!sid || !IsValidSid(sid))</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="a01369.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a>(NULL, <a class="code" href="a01368.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a01322.html">_win32.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00095.html">pcl/stat.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01349.html#a922674bf1f621eb8d7cfc67d2fc870b3">   36</a></span>&#160;<span class="preprocessor">#define CLEANUP do{ \</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">  pcl_free_safe(owner_sid); \</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">  pcl_free_safe(group_sid); \</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">  if(world_sid) \</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">    FreeSid(world_sid); \</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">  pcl_free_safe(dacl); \</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">}while(0)</span></div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  len = GetLengthSid(sid);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  dupsid = (PSID) <a class="code" href="a01361.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a>(len);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  CopySid(len, dupsid, sid);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordflow">return</span> dupsid;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="a01349.html#a44ab90e27a8598bcd51f8151200fa8a9">   45</a></span>&#160;<a class="code" href="a01349.html#a44ab90e27a8598bcd51f8151200fa8a9">ipcl_win32_sd_create</a>(SECURITY_DESCRIPTOR *sd, <span class="keyword">const</span> <a class="code" href="a00113.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *owner,</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keyword">const</span> <a class="code" href="a00113.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a> *group, mode_t mode)</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;{</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  DWORD acl_len;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  PACL dacl = NULL;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  PSID owner_sid = NULL;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  PSID group_sid = NULL;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  PSID world_sid = NULL;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <a class="code" href="a01322.html#a379d9f6bc80fb111d5f7a2cdb211b171">ipcl_win32_sd_init</a>(sd);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordflow">if</span>(mode &amp; <a class="code" href="a00095.html#afe3da42e762f6362c93454682fad5eb5">S_IRWXU</a>)</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  {</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordflow">if</span>(!<a class="code" href="a00038.html#a8278668d120afdd0e47def881845559d">strempty</a>(owner))</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    {</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      <span class="keywordtype">int</span> type;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      <span class="keywordflow">if</span>((owner_sid = <a class="code" href="a01322.html#a514ea3c8d8b523c664dd6758ee790dc9">ipcl_win32_name_to_sid</a>(owner, &amp;type)) &amp;&amp; type != SidTypeUser)</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      {</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <a class="code" href="a01370.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(owner_sid);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        owner_sid = NULL;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;      }</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    }</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="comment">/* no owner provided or it was not found, use process owner */</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">if</span>(!owner_sid)</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    {</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      HANDLE htok;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      <span class="keywordflow">if</span>(<a class="code" href="a01322.html#aa2e6fad1f9cae00b92f120929499825c">ipcl_win32_process_token</a>(&amp;htok) == 0)</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      {</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        TOKEN_USER *tokUser;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="keywordflow">if</span>(<a class="code" href="a01322.html#a81f5bfccc512aca872b44048311449f8">ipcl_win32_token_into</a>(htok, TokenUser, &amp;tokUser) == 0)</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        {</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;          owner_sid = <a class="code" href="a01322.html#a3320e31561fb1072aa4a29b54ad140ba">ipcl_win32_sid_dup</a>(tokUser-&gt;User.Sid);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;          <a class="code" href="a01370.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(tokUser);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        }</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        CloseHandle(htok);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;      }</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    }</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordflow">if</span>(owner_sid &amp;&amp; !SetSecurityDescriptorOwner(sd, owner_sid, <span class="keyword">false</span>))</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    {</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;      <a class="code" href="a01370.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(owner_sid);</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01378.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    }</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;  }</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  <span class="keywordflow">if</span>(mode &amp; <a class="code" href="a00095.html#a230c642d2bb81f15f85c122b1883de5c">S_IRWXG</a>)</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;  {</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keywordflow">if</span>(!<a class="code" href="a00038.html#a8278668d120afdd0e47def881845559d">strempty</a>(group))</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    {</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;      <span class="keywordtype">int</span> type;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;      <span class="keywordflow">if</span>((group_sid = <a class="code" href="a01322.html#a514ea3c8d8b523c664dd6758ee790dc9">ipcl_win32_name_to_sid</a>(group, &amp;type)) &amp;&amp; !<a class="code" href="a01322.html#a0fc72cb6cef7d8a7f054e69c99b94069">SID_ISGROUP</a>(type))</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;      {</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <a class="code" href="a01370.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(group_sid);</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        group_sid = NULL;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;      }</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    }</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="comment">/* no group provided or it was not found, use process group */</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keywordflow">if</span>(!group_sid)</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    {</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;      HANDLE htok;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;      <span class="keywordflow">if</span>(<a class="code" href="a01322.html#aa2e6fad1f9cae00b92f120929499825c">ipcl_win32_process_token</a>(&amp;htok) == 0)</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;      {</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        TOKEN_PRIMARY_GROUP *tokGroup;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        <span class="keywordflow">if</span>(<a class="code" href="a01322.html#a81f5bfccc512aca872b44048311449f8">ipcl_win32_token_into</a>(htok, TokenPrimaryGroup, &amp;tokGroup) == 0)</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        {</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;          group_sid = <a class="code" href="a01322.html#a3320e31561fb1072aa4a29b54ad140ba">ipcl_win32_sid_dup</a>(tokGroup-&gt;PrimaryGroup);</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;          <a class="code" href="a01370.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(tokGroup);</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        }</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160; </div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        CloseHandle(htok);</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;      }</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    }</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160; </div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="keywordflow">if</span>(group_sid &amp;&amp; !SetSecurityDescriptorGroup(sd, group_sid, <span class="keyword">false</span>))</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    {</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;      SetSecurityDescriptorOwner(sd, NULL, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;      <a class="code" href="a01370.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(owner_sid);</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;      <a class="code" href="a01370.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a>(group_sid);</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01378.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    }</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;  }</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160; </div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;  <span class="keywordflow">if</span>(mode &amp; <a class="code" href="a00095.html#a5b93e0da7fe32bbd4926626bffad96b1">S_IRWXO</a>)</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    world_sid = <a class="code" href="a01322.html#ac8cb5ee599a078a60049ce49c8e720a4">ipcl_win32_world_sid</a>();</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160; </div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;  acl_len = <span class="keyword">sizeof</span>(ACL);</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160; </div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;  <span class="keywordflow">if</span>(owner_sid)</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    acl_len += (<span class="keyword">sizeof</span>(ACCESS_ALLOWED_ACE) - <span class="keyword">sizeof</span>(DWORD) + GetLengthSid(owner_sid));</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160; </div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;  <span class="keywordflow">if</span>(group_sid)</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    acl_len += (<span class="keyword">sizeof</span>(ACCESS_ALLOWED_ACE) - <span class="keyword">sizeof</span>(DWORD) + GetLengthSid(group_sid));</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160; </div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;  <span class="keywordflow">if</span>(world_sid)</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    acl_len += (<span class="keyword">sizeof</span>(ACCESS_ALLOWED_ACE) - <span class="keyword">sizeof</span>(DWORD) + GetLengthSid(world_sid));</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160; </div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;  dacl = (PACL) <a class="code" href="a01370.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a>(acl_len);</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160; </div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;  <span class="keywordflow">if</span>(!InitializeAcl(dacl, acl_len, ACL_REVISION))</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;  {</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <a class="code" href="a01349.html#a922674bf1f621eb8d7cfc67d2fc870b3">CLEANUP</a>;</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01378.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;  }</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160; </div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;  <span class="keywordflow">if</span>(owner_sid)</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;  {</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <span class="keywordflow">if</span>(!AddAccessAllowedAceEx(dacl, ACL_REVISION, OBJECT_INHERIT_ACE | CONTAINER_INHERIT_ACE,</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;      <a class="code" href="a01322.html#a682300daf248a65f2ebff3b03b2db924">ipcl_win32_mode_to_rights</a>(mode, <a class="code" href="a00095.html#a84c7dbf5cf2fdfb690f76348b60a8cb7">S_IRUSR</a>), owner_sid))</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    {</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;      <a class="code" href="a01349.html#a922674bf1f621eb8d7cfc67d2fc870b3">CLEANUP</a>;</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01378.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    }</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;  }</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160; </div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;  <span class="keywordflow">if</span>(group_sid)</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;  {</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    <span class="keywordflow">if</span>(!AddAccessAllowedAceEx(dacl, ACL_REVISION, OBJECT_INHERIT_ACE | CONTAINER_INHERIT_ACE,</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;      <a class="code" href="a01322.html#a682300daf248a65f2ebff3b03b2db924">ipcl_win32_mode_to_rights</a>(mode, <a class="code" href="a00095.html#a4f5f280b929768113739fb34d6f7be8a">S_IRGRP</a>), group_sid))</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    {</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;      <a class="code" href="a01349.html#a922674bf1f621eb8d7cfc67d2fc870b3">CLEANUP</a>;</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01378.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    }</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;  }</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160; </div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;  <span class="keywordflow">if</span>(world_sid)</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;  {</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    <span class="keywordflow">if</span>(!AddAccessAllowedAceEx(dacl, ACL_REVISION, OBJECT_INHERIT_ACE | CONTAINER_INHERIT_ACE,</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;      <a class="code" href="a01322.html#a682300daf248a65f2ebff3b03b2db924">ipcl_win32_mode_to_rights</a>(mode, <a class="code" href="a00095.html#a071147a0cb995036967c80f64b1f74b9">S_IROTH</a>), world_sid))</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    {</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;      <a class="code" href="a01349.html#a922674bf1f621eb8d7cfc67d2fc870b3">CLEANUP</a>;</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01378.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    }</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;  }</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160; </div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;  <span class="keywordflow">if</span>(!SetSecurityDescriptorDacl(sd, <span class="keyword">true</span>, dacl, <span class="keyword">false</span>))</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;  {</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    <a class="code" href="a01349.html#a922674bf1f621eb8d7cfc67d2fc870b3">CLEANUP</a>;</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01378.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a>();</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;  }</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160; </div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;  <span class="comment">/* NO CLEANUP HERE! Note that SetSecurityDescriptorDacl is specifically documented to require</span></div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;<span class="comment">   * an &quot;absolute&quot; descriptor, meaning its members are pointers to structures rather than</span></div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;<span class="comment">   * being self-referencing (offsets to contiguous data). This is why each SID is allocated.</span></div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;<span class="comment">   * For the security descriptor to be usable after this call, we can&#39;t free any *_sid or the</span></div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;<span class="comment">   * DACL. Again SetSecurityDescriptorDacl docs state &quot;The DACL is referenced by, not copied</span></div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;<span class="comment">   * into, the security descriptor&quot;. One must call ipcl_win32_sd_clear to cleanup properly.</span></div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;<span class="comment">   *</span></div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;<span class="comment">   * The exception: world_sid is only used by AddAccessAllowedAceEx and is not referenced by the</span></div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;<span class="comment">   * created SECURITY_DESCRIPTOR.</span></div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;<span class="comment">   */</span></div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160; </div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;  <span class="keywordflow">if</span>(world_sid)</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    FreeSid(world_sid);</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160; </div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;  <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01361_html_ga1df8575b9ae906470c782db9c26201e8"><div class="ttname"><a href="a01361.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a></div><div class="ttdeci">void * pcl_malloc(size_t n)</div><div class="ttdoc">Allocate dynamic memory.</div></div>
-<div class="ttc" id="aa01369_html_gae8eaed12aa57a2870ad8e45cc2306318"><div class="ttname"><a href="a01369.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a></div><div class="ttdeci">#define R_SETERR(_retval, _pclerr)</div><div class="ttdoc">Sets the return value and the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00145">_errdefs.h:145</a></div></div>
-<div class="ttc" id="aa01313_html"><div class="ttname"><a href="a01313.html">_win32.h</a></div></div>
-<div class="ttc" id="aa01349_html_a3320e31561fb1072aa4a29b54ad140ba"><div class="ttname"><a href="a01349.html#a3320e31561fb1072aa4a29b54ad140ba">ipcl_win32_sid_dup</a></div><div class="ttdeci">PSID ipcl_win32_sid_dup(PSID sid)</div><div class="ttdoc">Duplicates the given SID.</div><div class="ttdef"><b>Definition:</b> <a href="a01349_source.html#l00036">win32_sid_dup.c:36</a></div></div>
-<div class="ttc" id="aa01368_html_gae0cd5c5a7fae36cd480176bda17e77ca"><div class="ttname"><a href="a01368.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a></div><div class="ttdeci">#define PCL_EINVAL</div><div class="ttdoc">Invalid argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00078">_errno.h:78</a></div></div>
+<div class="ttc" id="aa01322_html_a3320e31561fb1072aa4a29b54ad140ba"><div class="ttname"><a href="a01322.html#a3320e31561fb1072aa4a29b54ad140ba">ipcl_win32_sid_dup</a></div><div class="ttdeci">PSID ipcl_win32_sid_dup(PSID sid)</div><div class="ttdoc">Duplicates the given SID.</div><div class="ttdef"><b>Definition:</b> <a href="a01358_source.html#l00036">win32_sid_dup.c:36</a></div></div>
+<div class="ttc" id="aa00113_html_ac114b2b1527c8ae241d37cc15ca7d122"><div class="ttname"><a href="a00113.html#ac114b2b1527c8ae241d37cc15ca7d122">pchar_t</a></div><div class="ttdeci">char pchar_t</div><div class="ttdef"><b>Definition:</b> <a href="a00113_source.html#l00054">types.h:54</a></div></div>
+<div class="ttc" id="aa01370_html_gab88b901c82e1010555b08ff6d39490f2"><div class="ttname"><a href="a01370.html#gab88b901c82e1010555b08ff6d39490f2">pcl_free</a></div><div class="ttdeci">void * pcl_free(void *p)</div><div class="ttdoc">Free memory space.</div></div>
+<div class="ttc" id="aa00095_html_a4f5f280b929768113739fb34d6f7be8a"><div class="ttname"><a href="a00095.html#a4f5f280b929768113739fb34d6f7be8a">S_IRGRP</a></div><div class="ttdeci">#define S_IRGRP</div><div class="ttdef"><b>Definition:</b> <a href="a00095_source.html#l00126">stat.h:126</a></div></div>
+<div class="ttc" id="aa00095_html_afe3da42e762f6362c93454682fad5eb5"><div class="ttname"><a href="a00095.html#afe3da42e762f6362c93454682fad5eb5">S_IRWXU</a></div><div class="ttdeci">#define S_IRWXU</div><div class="ttdef"><b>Definition:</b> <a href="a00095_source.html#l00111">stat.h:111</a></div></div>
+<div class="ttc" id="aa00095_html"><div class="ttname"><a href="a00095.html">stat.h</a></div></div>
+<div class="ttc" id="aa01378_html_ga89b8bfbe17595305872551a1caaa5702"><div class="ttname"><a href="a01378.html#ga89b8bfbe17595305872551a1caaa5702">SETLASTERR</a></div><div class="ttdeci">#define SETLASTERR()</div><div class="ttdoc">Sets the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00125">_errdefs.h:125</a></div></div>
+<div class="ttc" id="aa01322_html_aa2e6fad1f9cae00b92f120929499825c"><div class="ttname"><a href="a01322.html#aa2e6fad1f9cae00b92f120929499825c">ipcl_win32_process_token</a></div><div class="ttdeci">int ipcl_win32_process_token(HANDLE *htok)</div><div class="ttdef"><b>Definition:</b> <a href="a01340_source.html#l00035">win32_process_token.c:35</a></div></div>
+<div class="ttc" id="aa01349_html_a44ab90e27a8598bcd51f8151200fa8a9"><div class="ttname"><a href="a01349.html#a44ab90e27a8598bcd51f8151200fa8a9">ipcl_win32_sd_create</a></div><div class="ttdeci">int ipcl_win32_sd_create(SECURITY_DESCRIPTOR *sd, const pchar_t *owner, const pchar_t *group, mode_t mode)</div><div class="ttdef"><b>Definition:</b> <a href="a01349_source.html#l00045">win32_sd_create.c:45</a></div></div>
+<div class="ttc" id="aa01322_html"><div class="ttname"><a href="a01322.html">_win32.h</a></div></div>
+<div class="ttc" id="aa00038_html_a8278668d120afdd0e47def881845559d"><div class="ttname"><a href="a00038.html#a8278668d120afdd0e47def881845559d">strempty</a></div><div class="ttdeci">#define strempty(str)</div><div class="ttdef"><b>Definition:</b> <a href="a00038_source.html#l00146">defs.h:146</a></div></div>
+<div class="ttc" id="aa01322_html_ac8cb5ee599a078a60049ce49c8e720a4"><div class="ttname"><a href="a01322.html#ac8cb5ee599a078a60049ce49c8e720a4">ipcl_win32_world_sid</a></div><div class="ttdeci">PSID ipcl_win32_world_sid(void)</div><div class="ttdoc">Allocates a new world SID.</div><div class="ttdef"><b>Definition:</b> <a href="a01367_source.html#l00035">win32_world_sid.c:35</a></div></div>
+<div class="ttc" id="aa01349_html_a922674bf1f621eb8d7cfc67d2fc870b3"><div class="ttname"><a href="a01349.html#a922674bf1f621eb8d7cfc67d2fc870b3">CLEANUP</a></div><div class="ttdeci">#define CLEANUP</div><div class="ttdef"><b>Definition:</b> <a href="a01349_source.html#l00036">win32_sd_create.c:36</a></div></div>
+<div class="ttc" id="aa01322_html_a81f5bfccc512aca872b44048311449f8"><div class="ttname"><a href="a01322.html#a81f5bfccc512aca872b44048311449f8">ipcl_win32_token_into</a></div><div class="ttdeci">int ipcl_win32_token_into(HANDLE htok, TOKEN_INFORMATION_CLASS type, void **data)</div><div class="ttdef"><b>Definition:</b> <a href="a01364_source.html#l00036">win32_token_info.c:36</a></div></div>
+<div class="ttc" id="aa00095_html_a230c642d2bb81f15f85c122b1883de5c"><div class="ttname"><a href="a00095.html#a230c642d2bb81f15f85c122b1883de5c">S_IRWXG</a></div><div class="ttdeci">#define S_IRWXG</div><div class="ttdef"><b>Definition:</b> <a href="a00095_source.html#l00123">stat.h:123</a></div></div>
+<div class="ttc" id="aa01322_html_a0fc72cb6cef7d8a7f054e69c99b94069"><div class="ttname"><a href="a01322.html#a0fc72cb6cef7d8a7f054e69c99b94069">SID_ISGROUP</a></div><div class="ttdeci">#define SID_ISGROUP(_sid_type)</div><div class="ttdef"><b>Definition:</b> <a href="a01322_source.html#l00057">_win32.h:57</a></div></div>
+<div class="ttc" id="aa00095_html_a071147a0cb995036967c80f64b1f74b9"><div class="ttname"><a href="a00095.html#a071147a0cb995036967c80f64b1f74b9">S_IROTH</a></div><div class="ttdeci">#define S_IROTH</div><div class="ttdef"><b>Definition:</b> <a href="a00095_source.html#l00138">stat.h:138</a></div></div>
+<div class="ttc" id="aa01322_html_a379d9f6bc80fb111d5f7a2cdb211b171"><div class="ttname"><a href="a01322.html#a379d9f6bc80fb111d5f7a2cdb211b171">ipcl_win32_sd_init</a></div><div class="ttdeci">void ipcl_win32_sd_init(SECURITY_DESCRIPTOR *sd)</div><div class="ttdef"><b>Definition:</b> <a href="a01355_source.html#l00035">win32_sd_init.c:35</a></div></div>
+<div class="ttc" id="aa01322_html_a514ea3c8d8b523c664dd6758ee790dc9"><div class="ttname"><a href="a01322.html#a514ea3c8d8b523c664dd6758ee790dc9">ipcl_win32_name_to_sid</a></div><div class="ttdeci">PSID ipcl_win32_name_to_sid(const pchar_t *name, int *type)</div><div class="ttdef"><b>Definition:</b> <a href="a01334_source.html#l00036">win32_name_to_sid.c:36</a></div></div>
+<div class="ttc" id="aa01322_html_a682300daf248a65f2ebff3b03b2db924"><div class="ttname"><a href="a01322.html#a682300daf248a65f2ebff3b03b2db924">ipcl_win32_mode_to_rights</a></div><div class="ttdeci">DWORD ipcl_win32_mode_to_rights(mode_t mode, int type)</div><div class="ttdoc">Convert the user, group or other unix mode bits to Windows NT access rights.</div><div class="ttdef"><b>Definition:</b> <a href="a01331_source.html#l00036">win32_mode_to_rights.c:36</a></div></div>
+<div class="ttc" id="aa01370_html_ga1df8575b9ae906470c782db9c26201e8"><div class="ttname"><a href="a01370.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a></div><div class="ttdeci">void * pcl_malloc(size_t n)</div><div class="ttdoc">Allocate dynamic memory.</div></div>
+<div class="ttc" id="aa00095_html_a5b93e0da7fe32bbd4926626bffad96b1"><div class="ttname"><a href="a00095.html#a5b93e0da7fe32bbd4926626bffad96b1">S_IRWXO</a></div><div class="ttdeci">#define S_IRWXO</div><div class="ttdef"><b>Definition:</b> <a href="a00095_source.html#l00135">stat.h:135</a></div></div>
+<div class="ttc" id="aa00095_html_a84c7dbf5cf2fdfb690f76348b60a8cb7"><div class="ttname"><a href="a00095.html#a84c7dbf5cf2fdfb690f76348b60a8cb7">S_IRUSR</a></div><div class="ttdeci">#define S_IRUSR</div><div class="ttdef"><b>Definition:</b> <a href="a00095_source.html#l00114">stat.h:114</a></div></div>
 <div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/htable/htable_iter.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/htable/htable_get.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">htable_iter.c</div>  </div>
+<div class="title">htable_get.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00536.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,36 +101,34 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00515.html">_htable.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<a class="code" href="a01408.html">pcl_htable_entry_t</a> *</div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01372.html#gafceee6b86686728ca4833d3ad127a339">   35</a></span>&#160;<a class="code" href="a01372.html#gafceee6b86686728ca4833d3ad127a339">pcl_htable_iter</a>(<a class="code" href="a01412.html">pcl_htable_t</a> *ht, <span class="keywordtype">int</span> *index)</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordflow">if</span>(!ht || !index || *index &lt; 0 || *index &gt;= ht-&gt;<a class="code" href="a01412.html#a8d9c830e3ebb625b6705db8c75ad018e">usedCount</a>)</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00521.html">_htable.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/error.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">void</span> *</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01381.html#ga00324aa197254805fd247819cf95164d">   36</a></span>&#160;<a class="code" href="a01381.html#ga00324aa197254805fd247819cf95164d">pcl_htable_get</a>(<span class="keyword">const</span> <a class="code" href="a01421.html">pcl_htable_t</a> *ht, <span class="keyword">const</span> <span class="keywordtype">void</span> *key)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keyword">const</span> <a class="code" href="a01417.html">pcl_htable_entry_t</a> *e = <a class="code" href="a01381.html#gaf673faae1ea3f2d1d49538121f4b150e">pcl_htable_lookup</a>(ht, key);</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = *index; i &lt; ht-&gt;<a class="code" href="a01412.html#a8d9c830e3ebb625b6705db8c75ad018e">usedCount</a>; i++)</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  {</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="a01408.html">pcl_htable_entry_t</a> *ent = &amp;ht-&gt;<a class="code" href="a01412.html#af062aaf8b03d3d4e39fe1fcc6f731533">entries</a>[i];</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">if</span>(ent-&gt;<a class="code" href="a01408.html#a9eb073a4e7f31790de2c4f6b2ea74081">key</a>)</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    {</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;      *index = i + 1;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      <span class="keywordflow">return</span> ent;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    }</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  }</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  *index = -1;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;}</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordflow">if</span>(!e)</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01378.html#gaa978c8c7faa5fc2f69a6641e054e519d">R_TRC</a>(NULL);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="comment">/* must clear error so caller knows if the function failed or the entry&#39;s value is NULL.</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="comment">   * If value == NULL &amp;&amp; pcl_errno == PCL_EOKAY, then call was successful.</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment">   */</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <a class="code" href="a01376.html#ga3e8220c72c3cd57f3cee1158a508f402">pcl_err_clear</a>();</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keywordflow">return</span> e-&gt;<a class="code" href="a01417.html#a0f61d63b009d0880a89c843bd50d8d76">value</a>;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01372_html_gafceee6b86686728ca4833d3ad127a339"><div class="ttname"><a href="a01372.html#gafceee6b86686728ca4833d3ad127a339">pcl_htable_iter</a></div><div class="ttdeci">pcl_htable_entry_t * pcl_htable_iter(pcl_htable_t *ht, int *index)</div><div class="ttdoc">Iterate through a table's entries.</div><div class="ttdef"><b>Definition:</b> <a href="a00536_source.html#l00035">htable_iter.c:35</a></div></div>
-<div class="ttc" id="aa01408_html"><div class="ttname"><a href="a01408.html">tag_pcl_htable_entry</a></div><div class="ttdoc">Hash table entry object.</div><div class="ttdef"><b>Definition:</b> <a href="a00059_source.html#l00228">htable.h:229</a></div></div>
-<div class="ttc" id="aa01408_html_a9eb073a4e7f31790de2c4f6b2ea74081"><div class="ttname"><a href="a01408.html#a9eb073a4e7f31790de2c4f6b2ea74081">tag_pcl_htable_entry::key</a></div><div class="ttdeci">const void * key</div><div class="ttdoc">entry key</div><div class="ttdef"><b>Definition:</b> <a href="a00059_source.html#l00237">htable.h:237</a></div></div>
-<div class="ttc" id="aa01412_html"><div class="ttname"><a href="a01412.html">tag_pcl_htable</a></div><div class="ttdef"><b>Definition:</b> <a href="a00059_source.html#l00243">htable.h:244</a></div></div>
-<div class="ttc" id="aa00515_html"><div class="ttname"><a href="a00515.html">_htable.h</a></div></div>
-<div class="ttc" id="aa01412_html_af062aaf8b03d3d4e39fe1fcc6f731533"><div class="ttname"><a href="a01412.html#af062aaf8b03d3d4e39fe1fcc6f731533">tag_pcl_htable::entries</a></div><div class="ttdeci">pcl_htable_entry_t * entries</div><div class="ttdef"><b>Definition:</b> <a href="a00059_source.html#l00263">htable.h:263</a></div></div>
-<div class="ttc" id="aa01412_html_a8d9c830e3ebb625b6705db8c75ad018e"><div class="ttname"><a href="a01412.html#a8d9c830e3ebb625b6705db8c75ad018e">tag_pcl_htable::usedCount</a></div><div class="ttdeci">int usedCount</div><div class="ttdoc">count of used entries (active + deleted).</div><div class="ttdef"><b>Definition:</b> <a href="a00059_source.html#l00256">htable.h:256</a></div></div>
+<div class="ttc" id="aa01421_html"><div class="ttname"><a href="a01421.html">tag_pcl_htable</a></div><div class="ttdef"><b>Definition:</b> <a href="a00059_source.html#l00251">htable.h:252</a></div></div>
+<div class="ttc" id="aa01381_html_ga00324aa197254805fd247819cf95164d"><div class="ttname"><a href="a01381.html#ga00324aa197254805fd247819cf95164d">pcl_htable_get</a></div><div class="ttdeci">void * pcl_htable_get(const pcl_htable_t *ht, const void *key)</div><div class="ttdoc">Lookup an entry and return its value.</div><div class="ttdef"><b>Definition:</b> <a href="a00536_source.html#l00036">htable_get.c:36</a></div></div>
+<div class="ttc" id="aa01417_html"><div class="ttname"><a href="a01417.html">pcl_htable_entry_t</a></div><div class="ttdoc">Hash table entry object.</div><div class="ttdef"><b>Definition:</b> <a href="a00059_source.html#l00236">htable.h:237</a></div></div>
+<div class="ttc" id="aa01381_html_gaf673faae1ea3f2d1d49538121f4b150e"><div class="ttname"><a href="a01381.html#gaf673faae1ea3f2d1d49538121f4b150e">pcl_htable_lookup</a></div><div class="ttdeci">PCL_PUBLIC pcl_htable_entry_t * pcl_htable_lookup(const pcl_htable_t *ht, const void *key)</div><div class="ttdoc">Lookup and return an entry.</div><div class="ttdef"><b>Definition:</b> <a href="a00548_source.html#l00036">htable_lookup.c:36</a></div></div>
+<div class="ttc" id="aa01378_html_gaa978c8c7faa5fc2f69a6641e054e519d"><div class="ttname"><a href="a01378.html#gaa978c8c7faa5fc2f69a6641e054e519d">R_TRC</a></div><div class="ttdeci">#define R_TRC(_retval)</div><div class="ttdoc">Sets the return value and adds a stack trace to the current thread's error.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00287">_errdefs.h:287</a></div></div>
+<div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">error.h</a></div></div>
+<div class="ttc" id="aa01417_html_a0f61d63b009d0880a89c843bd50d8d76"><div class="ttname"><a href="a01417.html#a0f61d63b009d0880a89c843bd50d8d76">pcl_htable_entry_t::value</a></div><div class="ttdeci">void * value</div><div class="ttdoc">entry value</div><div class="ttdef"><b>Definition:</b> <a href="a00059_source.html#l00248">htable.h:248</a></div></div>
+<div class="ttc" id="aa01376_html_ga3e8220c72c3cd57f3cee1158a508f402"><div class="ttname"><a href="a01376.html#ga3e8220c72c3cd57f3cee1158a508f402">pcl_err_clear</a></div><div class="ttdeci">PCL_PUBLIC int pcl_err_clear(void)</div><div class="ttdef"><b>Definition:</b> <a href="a00350_source.html#l00035">err_clear.c:35</a></div></div>
+<div class="ttc" id="aa00521_html"><div class="ttname"><a href="a00521.html">_htable.h</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/win32/win32_world_sid.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/win32/win32_sid_dup.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">win32_world_sid.c</div>  </div>
+<div class="title">win32_sid_dup.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a01358.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,24 +101,30 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a01313.html">_win32.h</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;PSID</div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="a01358.html#ac8cb5ee599a078a60049ce49c8e720a4">   35</a></span>&#160;<a class="code" href="a01358.html#ac8cb5ee599a078a60049ce49c8e720a4">ipcl_win32_world_sid</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  PSID world_sid = NULL;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  SID_IDENTIFIER_AUTHORITY WorldAuth = SECURITY_WORLD_SID_AUTHORITY;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="comment">/* this should never fail */</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">if</span>(!AllocateAndInitializeSid(&amp;WorldAuth, 1, SECURITY_WORLD_RID, 0,0,0,0,0,0,0, &amp;world_sid))</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01369.html#gad08a56aa55af3716a251ced9f780686d">R_SETLASTERR</a>(NULL);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a01322.html">_win32.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00023.html">pcl/alloc.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;PSID</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a01358.html#a3320e31561fb1072aa4a29b54ad140ba">   36</a></span>&#160;<a class="code" href="a01358.html#a3320e31561fb1072aa4a29b54ad140ba">ipcl_win32_sid_dup</a>(PSID sid)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  DWORD len;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  PSID dupsid;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">if</span>(!sid || !IsValidSid(sid))</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="a01378.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a>(NULL, <a class="code" href="a01377.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>);</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keywordflow">return</span> world_sid;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;}</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  len = GetLengthSid(sid);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  dupsid = (PSID) <a class="code" href="a01370.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a>(len);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  CopySid(len, dupsid, sid);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordflow">return</span> dupsid;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa01369_html_gad08a56aa55af3716a251ced9f780686d"><div class="ttname"><a href="a01369.html#gad08a56aa55af3716a251ced9f780686d">R_SETLASTERR</a></div><div class="ttdeci">#define R_SETLASTERR(_retval)</div><div class="ttdoc">Sets the return value and the current thread's last OS error code and maps code to PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00235">_errdefs.h:235</a></div></div>
-<div class="ttc" id="aa01358_html_ac8cb5ee599a078a60049ce49c8e720a4"><div class="ttname"><a href="a01358.html#ac8cb5ee599a078a60049ce49c8e720a4">ipcl_win32_world_sid</a></div><div class="ttdeci">PSID ipcl_win32_world_sid(void)</div><div class="ttdoc">Allocates a new world SID.</div><div class="ttdef"><b>Definition:</b> <a href="a01358_source.html#l00035">win32_world_sid.c:35</a></div></div>
-<div class="ttc" id="aa01313_html"><div class="ttname"><a href="a01313.html">_win32.h</a></div></div>
+<div class="ttc" id="aa01322_html"><div class="ttname"><a href="a01322.html">_win32.h</a></div></div>
+<div class="ttc" id="aa01377_html_gae0cd5c5a7fae36cd480176bda17e77ca"><div class="ttname"><a href="a01377.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a></div><div class="ttdeci">#define PCL_EINVAL</div><div class="ttdoc">Invalid argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00078">_errno.h:78</a></div></div>
+<div class="ttc" id="aa01358_html_a3320e31561fb1072aa4a29b54ad140ba"><div class="ttname"><a href="a01358.html#a3320e31561fb1072aa4a29b54ad140ba">ipcl_win32_sid_dup</a></div><div class="ttdeci">PSID ipcl_win32_sid_dup(PSID sid)</div><div class="ttdoc">Duplicates the given SID.</div><div class="ttdef"><b>Definition:</b> <a href="a01358_source.html#l00036">win32_sid_dup.c:36</a></div></div>
+<div class="ttc" id="aa01378_html_gae8eaed12aa57a2870ad8e45cc2306318"><div class="ttname"><a href="a01378.html#gae8eaed12aa57a2870ad8e45cc2306318">R_SETERR</a></div><div class="ttdeci">#define R_SETERR(_retval, _pclerr)</div><div class="ttdoc">Sets the return value and the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00145">_errdefs.h:145</a></div></div>
+<div class="ttc" id="aa01370_html_ga1df8575b9ae906470c782db9c26201e8"><div class="ttname"><a href="a01370.html#ga1df8575b9ae906470c782db9c26201e8">pcl_malloc</a></div><div class="ttdeci">void * pcl_malloc(size_t n)</div><div class="ttdoc">Allocate dynamic memory.</div></div>
+<div class="ttc" id="aa00023_html"><div class="ttname"><a href="a00023.html">alloc.h</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

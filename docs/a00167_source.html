@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/atomic/atomic_exchange.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/atomic/atomic_add_fetch.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">atomic_exchange.c</div>  </div>
+<div class="title">atomic_add_fetch.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00167.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -108,18 +108,18 @@ $(function() {
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<a class="code" href="a00113.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a></div>
-<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="a01363.html#gadc542702390a36078c857f2de6aa18d4">   39</a></span>&#160;<a class="code" href="a01363.html#gadc542702390a36078c857f2de6aa18d4">pcl_atomic_exchange</a>(<a class="code" href="a00113.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a> *dest, <a class="code" href="a00113.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a> val)</div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="a01372.html#gafb86ea1f79ce8a8350fd58ceeee6c66d">   39</a></span>&#160;<a class="code" href="a01372.html#gafb86ea1f79ce8a8350fd58ceeee6c66d">pcl_atomic_add_fetch</a>(<a class="code" href="a00113.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a> *dest, <a class="code" href="a00113.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a> add)</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordflow">return</span> (<a class="code" href="a00113.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a>)InterlockedExchange64((LONGLONG *)dest, (LONGLONG)val);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#ifdef _WIN32</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordflow">return</span> (<a class="code" href="a00113.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a>)InterlockedAdd64((LONGLONG <span class="keyword">volatile</span> *)dest, add);</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keywordflow">return</span> (<a class="code" href="a00113.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a>)__atomic_exchange_n(dest, val, __ATOMIC_SEQ_CST);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keywordflow">return</span> (<a class="code" href="a00113.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a>)__atomic_add_fetch((<span class="keywordtype">long</span> <span class="keywordtype">long</span> *)dest, add, __ATOMIC_SEQ_CST);</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aa00029_html"><div class="ttname"><a href="a00029.html">atomic.h</a></div></div>
-<div class="ttc" id="aa01363_html_gadc542702390a36078c857f2de6aa18d4"><div class="ttname"><a href="a01363.html#gadc542702390a36078c857f2de6aa18d4">pcl_atomic_exchange</a></div><div class="ttdeci">pcl_atomic_t pcl_atomic_exchange(pcl_atomic_t *dest, pcl_atomic_t val)</div><div class="ttdoc">Performs an atomic exchange operation.</div><div class="ttdef"><b>Definition:</b> <a href="a00167_source.html#l00039">atomic_exchange.c:39</a></div></div>
-<div class="ttc" id="aa00113_html_a74a9f3e3e5163485365adb35c5030f65"><div class="ttname"><a href="a00113.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a></div><div class="ttdeci">int64_t pcl_atomic_t</div><div class="ttdef"><b>Definition:</b> <a href="a00113_source.html#l00059">types.h:59</a></div></div>
+<div class="ttc" id="aa00113_html_a74a9f3e3e5163485365adb35c5030f65"><div class="ttname"><a href="a00113.html#a74a9f3e3e5163485365adb35c5030f65">pcl_atomic_t</a></div><div class="ttdeci">int64_t pcl_atomic_t</div><div class="ttdef"><b>Definition:</b> <a href="a00113_source.html#l00060">types.h:60</a></div></div>
+<div class="ttc" id="aa01372_html_gafb86ea1f79ce8a8350fd58ceeee6c66d"><div class="ttname"><a href="a01372.html#gafb86ea1f79ce8a8350fd58ceeee6c66d">pcl_atomic_add_fetch</a></div><div class="ttdeci">pcl_atomic_t pcl_atomic_add_fetch(pcl_atomic_t *dest, pcl_atomic_t add)</div><div class="ttdoc">Performs an add and fetch operation.</div><div class="ttdef"><b>Definition:</b> <a href="a00167_source.html#l00039">atomic_add_fetch.c:39</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>

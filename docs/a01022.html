@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/ssl/ssl_error.c File Reference</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/ssl/ssl_connect.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -69,38 +69,62 @@ $(function() {
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">ssl_error.c File Reference</div>  </div>
+<div class="title">ssl_connect.c File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="a00998_source.html">_ssl.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="a01001_source.html">_ssl.h</a>&quot;</code><br />
+<code>#include &lt;<a class="el" href="a00086_source.html">pcl/socket.h</a>&gt;</code><br />
+<code>#include &lt;openssl/err.h&gt;</code><br />
 </div>
 <p><a href="a01022_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aadce17fa2121c035eed8288a232a17a4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01440.html">pcl_openssl_error_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01022.html#aadce17fa2121c035eed8288a232a17a4">pcl_ssl_error</a> (<a class="el" href="a00113.html#a975758072468e41b0896e8b5f2ff0987">pcl_ssl_t</a> *ssl)</td></tr>
-<tr class="separator:aadce17fa2121c035eed8288a232a17a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ceac1356c1973ee7b4e6f0e5002c9cd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01022.html#a5ceac1356c1973ee7b4e6f0e5002c9cd">pcl_ssl_connect</a> (<a class="el" href="a00113.html#a975758072468e41b0896e8b5f2ff0987">pcl_ssl_t</a> *ssl, const char *host, int port, int *want_io)</td></tr>
+<tr class="separator:a5ceac1356c1973ee7b4e6f0e5002c9cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="aadce17fa2121c035eed8288a232a17a4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aadce17fa2121c035eed8288a232a17a4">&#9670;&nbsp;</a></span>pcl_ssl_error()</h2>
+<a id="a5ceac1356c1973ee7b4e6f0e5002c9cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ceac1356c1973ee7b4e6f0e5002c9cd">&#9670;&nbsp;</a></span>pcl_ssl_connect()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="a01440.html">pcl_openssl_error_t</a>* pcl_ssl_error </td>
+          <td class="memname">int pcl_ssl_connect </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="a00113.html#a975758072468e41b0896e8b5f2ff0987">pcl_ssl_t</a> *&#160;</td>
-          <td class="paramname"><em>ssl</em></td><td>)</td>
+          <td class="paramname"><em>ssl</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>host</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>port</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>want_io</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="a01022_source.html#l00035">35</a> of file <a class="el" href="a01022_source.html">ssl_error.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a01022_source.html#l00037">37</a> of file <a class="el" href="a01022_source.html">ssl_connect.c</a>.</p>
 
-<p class="reference">References <a class="el" href="a00998_source.html#l00056">tag_pcl_ssl::err</a>, <a class="el" href="a00020_source.html#l00078">PCL_EINVAL</a>, <a class="el" href="a01001_source.html#l00054">pcl_openssl_error()</a>, <a class="el" href="a00017_source.html#l00145">R_SETERR</a>, and <a class="el" href="a00017_source.html#l00287">R_TRC</a>.</p>
+<p class="reference">References <a class="el" href="a01001_source.html#l00054">tag_pcl_ssl::ctx</a>, <a class="el" href="a01001_source.html#l00052">tag_pcl_ssl::flags</a>, <a class="el" href="a01019_source.html#l00036">ipcl_ssl_configure_socket()</a>, <a class="el" href="a00935_source.html#l00036">pcl_connect()</a>, <a class="el" href="a00020_source.html#l00048">PCL_EAGAIN</a>, <a class="el" href="a00020_source.html#l00226">PCL_ECONNRESET</a>, <a class="el" href="a00020_source.html#l00078">PCL_EINVAL</a>, <a class="el" href="a00020_source.html#l00152">PCL_ENOTFOUND</a>, <a class="el" href="a00047_source.html#l00177">pcl_errno</a>, <a class="el" href="a00020_source.html#l00200">PCL_ESSL</a>, <a class="el" href="a00971_source.html#l00036">pcl_socket_fd()</a>, <a class="el" href="a00977_source.html#l00035">pcl_socket_isalive()</a>, <a class="el" href="a01016_source.html#l00037">pcl_ssl_close()</a>, <a class="el" href="a00089_source.html#l00050">PCL_SSL_PASSIVE</a>, <a class="el" href="a00089_source.html#l00049">PCL_SSL_SERVER</a>, <a class="el" href="a00089_source.html#l00051">PCL_SSL_VERIFY_PEER</a>, <a class="el" href="a00089_source.html#l00046">PCL_SSL_WANTREAD</a>, <a class="el" href="a00089_source.html#l00047">PCL_SSL_WANTWRITE</a>, <a class="el" href="a00017_source.html#l00065">SETERR</a>, <a class="el" href="a00017_source.html#l00087">SETERRMSG</a>, <a class="el" href="a00017_source.html#l00125">SETLASTERR</a>, <a class="el" href="a00017_source.html#l00132">SETLASTERRMSG</a>, <a class="el" href="a01001_source.html#l00053">tag_pcl_ssl::sock</a>, <a class="el" href="a01001_source.html#l00055">tag_pcl_ssl::ssl</a>, <a class="el" href="a01001_source.html#l00040">sslerror</a>, <a class="el" href="a00038_source.html#l00146">strempty</a>, and <a class="el" href="a00017_source.html#l00262">TRC</a>.</p>
 
 </div>
 </div>

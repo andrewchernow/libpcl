@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/socket/sendall.c Source File</title>
+<title>&#x202A;libpcl: &#x202A;/Users/andrew/projects/libpcl/src/socket/send.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">sendall.c</div>  </div>
+<div class="title">send.c</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="a00950.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
@@ -101,40 +101,60 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00923.html">_socket.h</a>&quot;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="a00926.html">_socket.h</a>&quot;</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="a00047.html">pcl/error.h</a>&gt;</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">bool</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a00950.html#ac92d595007c528c2ffb335322c308016">   36</a></span>&#160;<a class="code" href="a00950.html#ac92d595007c528c2ffb335322c308016">pcl_sendall</a>(<a class="code" href="a01528.html">pcl_socket_t</a> *sock, <span class="keyword">const</span> <span class="keywordtype">void</span> *data, <span class="keywordtype">size_t</span> count)</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;ssize_t</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="a00950.html#a837d3bfddf6d84b1e9a57ae9cb5c6320">   36</a></span>&#160;<a class="code" href="a00950.html#a837d3bfddf6d84b1e9a57ae9cb5c6320">pcl_send</a>(<a class="code" href="a01537.html">pcl_socket_t</a> *sock, <span class="keyword">const</span> <span class="keywordtype">void</span> *data, <span class="keywordtype">size_t</span> count, <span class="keywordtype">int</span> flags)</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  ssize_t tot = 0, r;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#ifdef PCL_WINDOWS</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordtype">int</span> r;</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordtype">int</span> cnt = (int)count;</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordtype">size_t</span> cnt = count;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">char</span> *d = (<span class="keyword">const</span> <span class="keywordtype">char</span> *) data;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  ssize_t r;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordtype">size_t</span> cnt = count;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordflow">do</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  {</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    r = <a class="code" href="a00086.html#af0202e0f54398d92480ad7c8970d14f8">pcl_send</a>(sock, d + tot, cnt - tot, 0);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">if</span>(r == -1)</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01369.html#gaa978c8c7faa5fc2f69a6641e054e519d">R_TRC</a>(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    tot += r;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  }</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keywordflow">while</span>((<span class="keywordtype">unsigned</span>) tot &lt; (<span class="keywordtype">unsigned</span>) cnt);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordflow">if</span>(!<a class="code" href="a00086.html#ae8e4631660627fb702ab57ebebf7648e">pcl_socket_isalive</a>(sock) || !data)</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="a01378.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a>(<a class="code" href="a01377.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a>);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  r = send(sock-&gt;<a class="code" href="a01537.html#a8a04492110d683cd4b6119648e1584d6">fd</a>, data, cnt, flags);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <span class="keywordflow">if</span>(r == -1)</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">int</span> err = <a class="code" href="a01376.html#gad1d64c1bd916eadfd657b8da02b0396d">pcl_err_os2pcl</a>(<a class="code" href="a01376.html#ga4926f863ec8fe31588c707f0b69bbe9a">pcl_sockerrno</a>);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="comment">/* give an interrupt one more try */</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">if</span>(err == <a class="code" href="a01377.html#gabd98a45fef9d002ccb21c347b2c0b4e0">PCL_EINTR</a>)</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      r = send(sock-&gt;<a class="code" href="a01537.html#a8a04492110d683cd4b6119648e1584d6">fd</a>, data, cnt, flags);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordflow">if</span>(r == -1)</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    {</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      err = <a class="code" href="a01376.html#gad1d64c1bd916eadfd657b8da02b0396d">pcl_err_os2pcl</a>(<a class="code" href="a01376.html#ga4926f863ec8fe31588c707f0b69bbe9a">pcl_sockerrno</a>);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      <span class="keywordflow">if</span>(err == <a class="code" href="a01377.html#gabbf93e7bd6f72d5368f28212a4db207d">PCL_EWOULDBLOCK</a> || err == <a class="code" href="a01377.html#gabd98a45fef9d002ccb21c347b2c0b4e0">PCL_EINTR</a>)</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        err = <a class="code" href="a01377.html#gae8d8c032afaa7fd7fe25abdb520331e2">PCL_EAGAIN</a>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="a01378.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a>(err);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    }</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  }</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  <span class="keywordflow">return</span> r;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aa00086_html_af0202e0f54398d92480ad7c8970d14f8"><div class="ttname"><a href="a00086.html#af0202e0f54398d92480ad7c8970d14f8">pcl_send</a></div><div class="ttdeci">PCL_EXPORT ssize_t pcl_send(pcl_socket_t *sock, const void *data, size_t count, int flags)</div><div class="ttdef"><b>Definition:</b> <a href="a00947_source.html#l00036">send.c:36</a></div></div>
-<div class="ttc" id="aa01528_html"><div class="ttname"><a href="a01528.html">tag_pcl_socket</a></div><div class="ttdef"><b>Definition:</b> <a href="a00923_source.html#l00047">_socket.h:48</a></div></div>
-<div class="ttc" id="aa01369_html_gaa978c8c7faa5fc2f69a6641e054e519d"><div class="ttname"><a href="a01369.html#gaa978c8c7faa5fc2f69a6641e054e519d">R_TRC</a></div><div class="ttdeci">#define R_TRC(_retval)</div><div class="ttdoc">Sets the return value and adds a stack trace to the current thread's error.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00287">_errdefs.h:287</a></div></div>
+<div class="ttc" id="aa01377_html_gae8d8c032afaa7fd7fe25abdb520331e2"><div class="ttname"><a href="a01377.html#gae8d8c032afaa7fd7fe25abdb520331e2">PCL_EAGAIN</a></div><div class="ttdeci">#define PCL_EAGAIN</div><div class="ttdoc">Try again.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00048">_errno.h:48</a></div></div>
+<div class="ttc" id="aa01537_html"><div class="ttname"><a href="a01537.html">tag_pcl_socket</a></div><div class="ttdef"><b>Definition:</b> <a href="a00926_source.html#l00047">_socket.h:48</a></div></div>
+<div class="ttc" id="aa01377_html_gabd98a45fef9d002ccb21c347b2c0b4e0"><div class="ttname"><a href="a01377.html#gabd98a45fef9d002ccb21c347b2c0b4e0">PCL_EINTR</a></div><div class="ttdeci">#define PCL_EINTR</div><div class="ttdoc">Interrupted system call.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00076">_errno.h:76</a></div></div>
+<div class="ttc" id="aa01377_html_gae0cd5c5a7fae36cd480176bda17e77ca"><div class="ttname"><a href="a01377.html#gae0cd5c5a7fae36cd480176bda17e77ca">PCL_EINVAL</a></div><div class="ttdeci">#define PCL_EINVAL</div><div class="ttdoc">Invalid argument.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00078">_errno.h:78</a></div></div>
+<div class="ttc" id="aa01376_html_gad1d64c1bd916eadfd657b8da02b0396d"><div class="ttname"><a href="a01376.html#gad1d64c1bd916eadfd657b8da02b0396d">pcl_err_os2pcl</a></div><div class="ttdeci">PCL_PUBLIC int pcl_err_os2pcl(uint32_t oserr)</div><div class="ttdef"><b>Definition:</b> <a href="a00383_source.html#l00035">err_os2pcl.c:35</a></div></div>
+<div class="ttc" id="aa00926_html"><div class="ttname"><a href="a00926.html">_socket.h</a></div></div>
+<div class="ttc" id="aa01376_html_ga4926f863ec8fe31588c707f0b69bbe9a"><div class="ttname"><a href="a01376.html#ga4926f863ec8fe31588c707f0b69bbe9a">pcl_sockerrno</a></div><div class="ttdeci">#define pcl_sockerrno</div><div class="ttdef"><b>Definition:</b> <a href="a00047_source.html#l00187">error.h:187</a></div></div>
+<div class="ttc" id="aa01378_html_ga82adf6365b61d9a32021e559d9c31497"><div class="ttname"><a href="a01378.html#ga82adf6365b61d9a32021e559d9c31497">SETERR</a></div><div class="ttdeci">#define SETERR(_pclerr)</div><div class="ttdoc">Sets the current thread's PCL error code.</div><div class="ttdef"><b>Definition:</b> <a href="a00017_source.html#l00065">_errdefs.h:65</a></div></div>
+<div class="ttc" id="aa00086_html_ae8e4631660627fb702ab57ebebf7648e"><div class="ttname"><a href="a00086.html#ae8e4631660627fb702ab57ebebf7648e">pcl_socket_isalive</a></div><div class="ttdeci">PCL_PUBLIC bool pcl_socket_isalive(pcl_socket_t *sock)</div><div class="ttdef"><b>Definition:</b> <a href="a00977_source.html#l00035">socket_isalive.c:35</a></div></div>
 <div class="ttc" id="aa00047_html"><div class="ttname"><a href="a00047.html">error.h</a></div></div>
-<div class="ttc" id="aa00950_html_ac92d595007c528c2ffb335322c308016"><div class="ttname"><a href="a00950.html#ac92d595007c528c2ffb335322c308016">pcl_sendall</a></div><div class="ttdeci">bool pcl_sendall(pcl_socket_t *sock, const void *data, size_t count)</div><div class="ttdef"><b>Definition:</b> <a href="a00950_source.html#l00036">sendall.c:36</a></div></div>
-<div class="ttc" id="aa00923_html"><div class="ttname"><a href="a00923.html">_socket.h</a></div></div>
+<div class="ttc" id="aa01537_html_a8a04492110d683cd4b6119648e1584d6"><div class="ttname"><a href="a01537.html#a8a04492110d683cd4b6119648e1584d6">tag_pcl_socket::fd</a></div><div class="ttdeci">pcl_socketfd_t fd</div><div class="ttdef"><b>Definition:</b> <a href="a00926_source.html#l00053">_socket.h:53</a></div></div>
+<div class="ttc" id="aa00950_html_a837d3bfddf6d84b1e9a57ae9cb5c6320"><div class="ttname"><a href="a00950.html#a837d3bfddf6d84b1e9a57ae9cb5c6320">pcl_send</a></div><div class="ttdeci">ssize_t pcl_send(pcl_socket_t *sock, const void *data, size_t count, int flags)</div><div class="ttdef"><b>Definition:</b> <a href="a00950_source.html#l00036">send.c:36</a></div></div>
+<div class="ttc" id="aa01377_html_gabbf93e7bd6f72d5368f28212a4db207d"><div class="ttname"><a href="a01377.html#gabbf93e7bd6f72d5368f28212a4db207d">PCL_EWOULDBLOCK</a></div><div class="ttdeci">#define PCL_EWOULDBLOCK</div><div class="ttdoc">Try again.</div><div class="ttdef"><b>Definition:</b> <a href="a00020_source.html#l00130">_errno.h:130</a></div></div>
 <!-- HTML footer for doxygen 1.8.20-->
 <!-- start footer part -->
 </body>
