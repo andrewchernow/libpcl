@@ -41,19 +41,19 @@
  * Whenever an entry is put, it is added sequentially to an array of entry
  * objects. To handle collisions, the entry objects are a linked list using an integer value
  * that represents the index of the next collision within the entry array. The key is hashed
- * using Google's FarmHash and mod'd with the current table size to get the hashed index value.
- * The hashed index value is an index to a second array (entry_lookup) of entry array indexes. Thus,
- * looking up a hashed index within the \a entry_lookup array, will give you the entry array index,
- * which is the beginning of the entry collision list. This is how the PCL hash table can
- * preserve order: one array using hash index to find the index into the sequential array
- * of entries.
+ * using Google's FarmHash and bitwise AND'd with the current table size minus 1 to get the
+ * hashed index value. The hashed index value is an index to a second array (entry_lookup) of
+ * entry array indexes. Thus, looking up a hashed index within the \a entry_lookup array, will
+ * give you the entry array index, which is the beginning of the entry collision list. This is how
+ * the PCL hash table can preserve insertion order: one array using hash index to find the index
+ * into the sequential array of entries.
  *
- * @note The entry_lookup and entry array idea came directly from PHP's new hash table implementation
- * released in 7.0. Just like PHP, PCL allocates the entry and entry_lookup arrays as one allocation:
- * both with \a capacity elements. When an entry is removed, the entry array marks it as deleted
- * but does not adjust the array to close the gap. An entry is marked as deleted by setting its
- * \a key to \c NULL, which PCL treats as an invalid key. On rehash, the entry array is
- * defragmented.
+ * @note The entry_lookup and entry array idea came directly from PHP's new hash table
+ * implementation released in 7.0. Just like PHP, PCL allocates the entry and entry_lookup arrays
+ * as one allocation: both with \a capacity elements. When an entry is removed, the entry array
+ * marks it as deleted but does not adjust the array to close the gap. An entry is marked as
+ * deleted by setting its \a key to \c NULL, which PCL treats as an invalid key. On rehash, the
+ * entry array is defragmented.
  *
  * ### Default Hash Function
  * Unlike PHP's implementation, PCL does not use the DJBX33A hash as its default, which stands
@@ -73,15 +73,15 @@
  *
  * ### Rehashing
  * Rehashing is implemented by allocating a new entry and entry_lookup array (single allocation)
- * that is either double the current size rounded up to the nearest prime or half the current
- * size rounded up to the nearest prime. When the copy is complete, the old entry and entry_lookup
- * arrays are freed. No hash codes are recomputed, since each entry caches its own hash code.
- * The entry array is defragmented, meaning all deleted entries are removed; \a count_used will
- * always be the same as \a count.
+ * that is either double the current size or half the current size (uses powers of 2). When the
+ * copy is complete, the old entry and entry_lookup arrays are freed. No hash codes are recomputed,
+ * since each entry caches its own hash code. The entry array is defragmented, meaning all deleted
+ * entries are removed; \a count_used will always be the same as \a count.
  *
  * ### Table Size Limitations
- * The table can grow to ~50 million on 32-bit machines and ~1.6 billion on 64-bit machines. This
+ * The table can grow to 33,554,432 on 32-bit machines and 1,073,741,824 on 64-bit machines. This
  * table expands and contracts based on a max and min load factor -- 0.75 and 0.20 respectively.
+ * Table capacity is always powers of two.
  *
  * ### String and Binary Keys
  * The PCL hash table supports binary keys, which are fixed-length and normally do not change for
@@ -268,6 +268,11 @@ struct tag_pcl_htable
 	 */
 	int capacity;
 
+	/** mask used to find buckets, table \a capacity \c - \c 1.
+	 * @warning treat this as immutable
+	 */
+	int table_mask;
+
 	/** A sequential array of entries as they are inserted. This not allows for preserving
 	 * insertion order, by avoids allocating each individual entry. This always contains
 	 * \a capacity available entries. The next insert index is bound to \a count_used, not
@@ -281,9 +286,9 @@ struct tag_pcl_htable
 	pcl_htable_entry_t *entries;
 
 	/** An entry lookup array where each element is an \a entries index value. When given a key,
-	 * the key's hashcode mod'd with the table's \a capacity, produces the index to this array;
-	 * termed the hashed index or \c hashidx. Elements in this array are set to -1 to indicate they
-	 * are not in use. This always contains \a capacity indexes.
+	 * the key's hashcode is bitwise AND'd with the table's \a capacity minus 1, which produces the
+	 * index to this array; termed the hashed index or \c hashidx. Elements in this array are set
+	 * to -1 to indicate they are not in use. This always contains \a capacity indexes.
 	 * @note allocated in same block of memeory as \a entries
 	 */
 	int *entry_lookup;

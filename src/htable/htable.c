@@ -58,7 +58,7 @@ default_hashcode(const void *key, size_t key_len)
 pcl_htable_t *
 pcl_htable(int capacity)
 {
-	capacity = ipcl_htable_capacity(max(capacity, 0));
+	capacity = ipcl_htable_chkcapacity(capacity < 0 ? 0 : capacity);
 
 	if(capacity < 0)
 		return R_TRC(NULL);
@@ -69,6 +69,7 @@ pcl_htable(int capacity)
 	ht->count = 0;
 	ht->count_used = 0;
 	ht->capacity = capacity;
+	ht->table_mask = capacity - 1;
 	ht->min_loadfac = MIN_LOADFAC;
 	ht->max_loadfac = MAX_LOADFAC;
 	ht->key_equals = default_key_equals;

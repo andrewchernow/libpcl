@@ -74,7 +74,7 @@ pcl_htable_put(pcl_htable_t *ht, const void *key, void *value, bool unique)
 				return TRC();
 
 			/* regenerate, current value is based off old capacity */
-			hashidx = (int) (code % ht->capacity);
+			hashidx = (int) (code & ht->table_mask);
 		}
 
 		/* next entry */

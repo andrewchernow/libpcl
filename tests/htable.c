@@ -58,7 +58,7 @@ TESTCASE(htable_rehash)
 	pcl_htable_t *ht = pcl_htable(0);
 
 	ASSERT_NOTNULL(ht, "faield to create hash table");
-	ASSERT_INTEQ(ht->capacity, 17, "wrong initial table size");
+	ASSERT_INTEQ(ht->capacity, 8, "wrong initial table size");
 
 	/* these are the defaults NOW, but if they change this test would break.
 	 * So manually set them.
@@ -66,36 +66,36 @@ TESTCASE(htable_rehash)
 	ht->min_loadfac = .20f;
 	ht->max_loadfac = .75f;
 
-	/* capacity of 0 means it will be initially set to 17. max_loadfac is .75 so a rehash
-	 * should not occur until there are more than 12 entries (17 * .75).
+	/* capacity of 0 means it will be initially set to 8. max_loadfac is .75 so a rehash
+	 * should not occur until there are more than 6 entries (8 * .75).
 	 */
-	for(int i = 0; i < 12; i++)
+	for(int i = 0; i < 6; i++)
 	{
 		person_t *p = &people[i];
 		ASSERT_INTEQ(pcl_htable_put(ht, p->name, p, true), 0, "failed to put entry");
 	}
 
-	ASSERT_INTEQ(ht->capacity, 17, "unexpected rehash occurred");
-	ASSERT_INTEQ(ht->count, 12, "wrong entry count");
+	ASSERT_INTEQ(ht->capacity, 8, "unexpected rehash occurred");
+	ASSERT_INTEQ(ht->count, 6, "wrong entry count");
 
-	/* Putting one more entry should cause a rehash */
+	/* Putting one more entry should cause a rehash, next power of 2 is 16 */
 	int r = pcl_htable_put(ht, people[12].name, &people[12], true);
 	ASSERT_INTEQ(r, 0, "failed to put entry");
-	ASSERT_INTEQ(ht->count, 13, "wrong entry count");
-	ASSERT_INTEQ(ht->capacity, 53, "expected rehash did not occur");
+	ASSERT_INTEQ(ht->count, 7, "wrong entry count");
+	ASSERT_INTEQ(ht->capacity, 16, "expected rehash did not occur");
 
-	/* test a rehash that shrinks the table. 53 * .2 = 10 so we need to remove
-	 * 4 before a rehash will occur that shrimks the table. table size should be 31.
+	/* test a rehash that shrinks the table. 16 * .2 = 3 so we need to remove
+	 * 5 (7 - 5 = 2) before a rehash will occur that shrimks the table. table size should be 8.
 	 */
-	for(int i = 0; i < 4; i++)
+	for(int i = 0; i < 5; i++)
 	{
-		ASSERT_INTEQ(pcl_htable_remove(ht, people[i].name), 13 - i - 1, "wrong return value for remove");
+		ASSERT_INTEQ(pcl_htable_remove(ht, people[i].name), 7 - i - 1, "wrong return value for remove");
 
-		/* rehash should occur after removing 4 entries, table size will be 31 */
-		if(i == 3 && ht->count == 9)
-			ASSERT_INTEQ(ht->capacity, 31, "expected shrink rehash");
+		/* rehash should occur after removing 5 entries, table size will be 8 */
+		if(i == 4 && ht->count == 2)
+			ASSERT_INTEQ(ht->capacity, 8, "expected shrink rehash");
 		else
-			ASSERT_INTEQ(ht->capacity, 53, "unexpected rehash occurred");
+			ASSERT_INTEQ(ht->capacity, 16, "unexpected rehash occurred");
 	}
 
 	pcl_htable_free(ht);

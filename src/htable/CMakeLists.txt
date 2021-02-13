@@ -1,6 +1,6 @@
 
 add_library(htable OBJECT
-	htable_capacity.c
+	htable_chkcapacity.c
 	htable_clear.c
 	htable.c
 	htable_free.c

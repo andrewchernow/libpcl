@@ -51,6 +51,7 @@ pcl_htable_clear(pcl_htable_t *ht, bool shrink)
 	{
 		pcl_free(ht->entries);
 		ht->capacity = MINTBLSIZE;
+		ht->table_mask = ht->capacity - 1;
 		ipcl_htable_init(ht->capacity, &ht->entries, &ht->entry_lookup);
 	}
 	else

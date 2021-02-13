@@ -37,7 +37,10 @@
 int
 ipcl_htable_rehash(pcl_htable_t *ht, bool grow)
 {
-	int new_capacity = ipcl_htable_capacity(grow ? ht->capacity * 2 : ht->capacity / 2);
+	int new_capacity = ipcl_htable_chkcapacity(
+		grow ? (uint64_t) ht->capacity << 1U : (uint64_t) ht->capacity >> 1U);
+
+	int new_table_mask = new_capacity - 1;
 
 	if(new_capacity < 0)
 		return TRC();
@@ -60,7 +63,7 @@ ipcl_htable_rehash(pcl_htable_t *ht, bool grow)
 		ent->value = oldent->value;
 		ent->code = oldent->code;
 
-		int hashidx = (int) (ent->code % new_capacity);
+		int hashidx = (int) (ent->code & new_table_mask);
 		int entidx = new_entry_lookup[hashidx];
 
 		if(entidx != -1)
@@ -82,6 +85,7 @@ ipcl_htable_rehash(pcl_htable_t *ht, bool grow)
 	pcl_free(ht->entries);
 
 	ht->capacity = new_capacity;
+	ht->table_mask = new_table_mask;
 	ht->entries = new_entries;
 	ht->entry_lookup = new_entry_lookup;
 	ht->count_used = ht->count; // reset count_used, we defrag'd entries array

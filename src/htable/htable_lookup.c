@@ -51,7 +51,7 @@ ipcl_htable_lookup(const pcl_htable_t *ht, const void *key, uintptr_t *codep, in
 	if(codep)
 		*codep = code;
 
-	int hashidx = (int) (code % ht->capacity);
+	int hashidx = (int) (code & ht->table_mask);
 
 	if(hashidxp)
 		*hashidxp = hashidx;

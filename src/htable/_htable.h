@@ -36,13 +36,13 @@
 
 #define MAX_LOADFAC 0.75f
 #define MIN_LOADFAC 0.2f
-#define MINTBLSIZE 17
+#define MINTBLSIZE 8
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-PCL_PRIVATE int ipcl_htable_capacity(int capacity);
+PCL_PRIVATE int ipcl_htable_chkcapacity(uint64_t capacity);
 
 PCL_PRIVATE pcl_htable_entry_t *ipcl_htable_lookup(const pcl_htable_t *ht, const void *key,
 	uintptr_t *codep, int *hashidxp);
