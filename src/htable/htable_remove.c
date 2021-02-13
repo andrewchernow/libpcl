@@ -39,7 +39,7 @@ pcl_htable_remove(pcl_htable_t *ht, const void *key)
 		return BADARG();
 
 	uintptr_t code = ht->hashcode(key, ht->key_len);
-	int hashidx = (int) (code % ht->capacity);
+	int hashidx = (int) (code & ht->table_mask);
 	int entidx = ht->entry_lookup[hashidx];
 	pcl_htable_entry_t *prev = NULL;
 
