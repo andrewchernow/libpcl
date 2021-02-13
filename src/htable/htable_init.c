@@ -37,7 +37,7 @@ void
 ipcl_htable_init(int capacity, pcl_htable_entry_t **entries, int **entry_lookup)
 {
 	size_t size = capacity * (sizeof(pcl_htable_entry_t) + sizeof(int));
-	pcl_htable_entry_t *new_entries = pcl_zalloc(size);
+	pcl_htable_entry_t *new_entries = pcl_malloc(size);
 
 	memset(new_entries, 0, capacity * sizeof(pcl_htable_entry_t));
 
