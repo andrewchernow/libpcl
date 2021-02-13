@@ -98,7 +98,7 @@ utf16_to_utf8(ipcl_json_state_t *s, pcl_buf_t *b)
 		code = pair[0];
 	}
 
-	int n = pcl_utf8_encode(code, b->data + b->pos);
+	int n = pcl_utf8_encode(code, pcl_buf_grow(b, 4)->data + b->pos);
 
 	if(n == -1)
 		return R_TRC(NULL);

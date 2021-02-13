@@ -36,12 +36,6 @@
 #include <string.h>
 #include <stdio.h>
 
-/* PCL json object uses the PCL hashtable, which does not store insertion order or provide any
- * kind of sorting mechanism. However, the below is predicatble since the same hash func is
- * used for any json parsing. So, the below is the output of a pcl_json_encode. This means
- * any json object created with the correct keys and values, will encode to the same value as
- * below. Double-quote and unicode chars were manually escaped.
- */
 #define ENCODED_TEST_FILE "{\"str-ascii-escape\":\"Unit \\u001f Separator\",\"false\":false,\"true\":true,\"null\":null,\"integer\":9223372036854775807,\"negative-integer\":-9223372036854775807,\"real\":83765523.234874,\"negative-real\":-83765523.234874,\"real-exp\":19999390000,\"negative-real-exp\":-19999390000,\"empty-object\":{},\"empty-array\":[],\"array\":[\"אָדוֹם\",\"အပြာ\",\"zelená\",\"黄\",\"purple\"],\"object\":{\"math symbols\":\"∮ E⋅da = Q,  n → ∞, ∑ f(i) = ∏ g(i), ∀x∈ℝ: ⌈x⌉ = −⌊−x⌋, α ∧ ¬β = ¬(¬α ∨ β)\",\"array\":[12,-1273.273,\"string\",true,null,{},[]]},\"array-objects\":[{\"str-utf16\":\"CJK UNIFIED IDEOGRAPH 阳 and 好\",\"str-utf16-surrogate\":\"MUSICAL SYMBOL G CLEF (1D11E) 𝄞\",\"real\":909374653.6736,\"array\":[0,false,\"string\",[1,2,3],{\"a\":\"b\"}]},{\"key\":\"string\"},{\"key\":null}]}"
 
 static char *loadjson(int *lenp)
