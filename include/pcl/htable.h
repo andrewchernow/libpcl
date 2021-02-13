@@ -268,7 +268,7 @@ struct tag_pcl_htable
 	 */
 	int capacity;
 
-	/** mask used to find buckets, table \a capacity \c - \c 1.
+	/** mask used to find buckets, table `capacity - 1`
 	 * @warning treat this as immutable
 	 */
 	int table_mask;
@@ -297,7 +297,7 @@ struct tag_pcl_htable
 
 	/** Key length in bytes. The default is zero, which means variable-length (strings). This value
 	 * is only used by the default \a key_equals and \a hashcode callbacks. If a custom version of
-	 * both callbacks are set, this can remain unset unless the custom implementations require
+	 * both callbacks are set, this can remain unset unless the custom implementation requires
 	 * this value.
  	 *
  	 * The table should be empty when setting this value: after ::pcl_htable
@@ -307,7 +307,7 @@ struct tag_pcl_htable
 
 	/** The minimun load factor of the table. When the number of entries in the table
 	 * falls below the product of this value and current capacity, the table is shrunk to
-	 * half its capacity rounded up to the nearest prime. The default value is \c 0.20f.
+	 * half its capacity (always a power of 2). The default value is \c 0.20f.
 	 *
  	 * The table should be empty when setting this value: after ::pcl_htable
  	 * or ::pcl_htable_clear.
@@ -316,7 +316,7 @@ struct tag_pcl_htable
 
 	/** The maximum load factor of the table. When the number of entries in the table
  	 * exceeds the product of this value and current capacity, the table is grown to
- 	 * double its capacity rounded up to the nearest prime. The default is \c 0.75f.
+ 	 * double its capacity (always a power of 2). The default is \c 0.75f.
  	 *
  	 * The table should be empty when setting this value: after ::pcl_htable
  	 * or ::pcl_htable_clear.
@@ -364,7 +364,8 @@ struct tag_pcl_htable
 
 /** Creates a new hash table object. All hash table callbacks are set to the default
  * implementations as documented. After creating a hash table, you can assign callbacks.
- * @param capacity initial capacity of hash table. This is rounded up to the nearest prime.
+ * @param capacity initial capacity of hash table. If this is not a power of 2, it is rounded
+ * up to the next power of 2. A value less than 8, will set capacity to 8 (smallest table size).
  * @return hash table pointer or NULL on error.
  */
 PCL_PUBLIC pcl_htable_t *pcl_htable(int capacity);
